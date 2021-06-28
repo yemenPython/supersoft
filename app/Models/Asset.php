@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Traits\ColumnTranslation;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -15,8 +17,14 @@ class Asset extends Model
      */
     protected $table = 'assets_tb';
 
+    /**
+     * @var string[]
+     */
     protected $dates = ['deleted_at'];
 
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         'id',
         'name_ar',
@@ -38,8 +46,12 @@ class Asset extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+        'user_id',
     ];
 
+    /**
+     * @var string[]
+     */
     protected static $logAttributes = [
         'name_ar',
         'name_en',
@@ -59,21 +71,49 @@ class Asset extends Model
         'book_value',
     ];
 
+    /**
+     * @var bool
+     */
     protected static $logOnlyDirty = true;
 
+    /**
+     * @param string $eventName
+     * @return string
+     */
     public function getDescriptionForEvent(string $eventName): string
     {
         return "This model has been {$eventName}";
     }
-    function group() {
+
+    /**
+     * @return BelongsTo
+     */
+    function group(): BelongsTo
+    {
         return $this->belongsTo(AssetGroup::class ,'asset_group_id');
     }
 
-    function branch() {
+    /**
+     * @return BelongsTo
+     */
+    function branch(): BelongsTo
+    {
         return $this->belongsTo(Branch::class ,'branch_id');
     }
-    public function asset_employees() {
+
+    /**
+     * @return HasMany
+     */
+    public function asset_employees(): HasMany
+    {
         return $this->hasMany(AssetEmployee::class ,'asset_id');
     }
 
+    /**
+     * @return BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 }

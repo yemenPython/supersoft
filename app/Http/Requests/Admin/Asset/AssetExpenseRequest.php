@@ -26,7 +26,8 @@ class AssetExpenseRequest extends FormRequest
     {
         return $this->appendBranchRule() + [
                 'number' => 'required',
-                'dateTime' => 'required',
+                'date' => 'required',
+                'time' => 'required',
                 'status' => 'required|in:accept,pending,cancel',
                 'notes' => 'max:300',
                 'total' => 'required',

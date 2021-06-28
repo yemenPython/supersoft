@@ -18,6 +18,7 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 /**
@@ -32,7 +33,9 @@ class AssetExpenseController extends Controller
     public function index(): View
     {
         $assetExpenses = AssetExpense::query();
-        return view('admin.assets_expenses.index', ['assetsExpenses' => $assetExpenses->orderBy('id', 'desc')->get()]);
+        return view('admin.assets_expenses.index', [
+            'assetsExpenses' => $assetExpenses->orderBy('id', 'desc')->get()
+        ]);
     }
 
     public function create(Request $request): View
@@ -51,6 +54,10 @@ class AssetExpenseController extends Controller
     {
         try {
             $data = $request->all();
+            $data['user_id'] = Auth::id();
+            if (!$request->notes) {
+                $data['notes'] = ' ';
+            }
             if (!authIsSuperAdmin()) {
                 $data['branch_id'] = auth()->user()->branch_id;
             }
@@ -93,6 +100,10 @@ class AssetExpenseController extends Controller
         try {
             $assetExpense = AssetExpense::findOrFail($id);
             $data = $request->all();
+            if (!$request->notes) {
+                $data['notes'] = ' ';
+            }
+            $data['user_id'] = Auth::id();
             $assetExpenseUpdated = $assetExpense->update($data);
             $assetExpense->assetExpensesItems()->delete();
             if ($assetExpenseUpdated) {

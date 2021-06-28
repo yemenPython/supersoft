@@ -76,11 +76,11 @@
                 swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
                 return false;
             }
-            let assetsGroups = $('#assetsGroups').find(":selected").val();
-            if (!assetsGroups) {
-                swal({text: '{{__('sorry, please select assets Groups')}}', icon: "error"});
-                return false;
-            }
+            {{--let assetsGroups = $('#assetsGroups').find(":selected").val();--}}
+            {{--if (!assetsGroups) {--}}
+            {{--    swal({text: '{{__('sorry, please select assets Groups')}}', icon: "error"});--}}
+            {{--    return false;--}}
+            {{--}--}}
 
             if (checkIfAssetExists( $(this).val())) {
                 swal({text: '{{__('sorry, you have already add this asset before')}}', icon: "warning"});

@@ -34,7 +34,7 @@
                         @csrf
                         @method('post')
 
-                    
+
                             <div class="row">
                                 <div class="col-xs-12">
 
@@ -50,8 +50,15 @@
 </table>
 </div>
 @endif
-
-<div class="col-md-4">
+    <div class="col-md-3">
+        <table class="table table-bordered">
+            <tbody>
+            <th style="width:50%;background:#ddd !important;color:black !important">{{__('Added By')}}</th>
+            <td>{{optional($openingBalance->user)->name}}</td>
+            </tbody>
+        </table>
+    </div>
+<div class="col-md-3">
 <table class="table table-bordered">
   <tbody>
     <th style="width:50%;background:#ddd !important;color:black !important">{{ __('opening-balance.serial-number') }}</th>
@@ -61,7 +68,7 @@
 </div>
 
 
-<div class="col-md-4">
+<div class="col-md-3">
 <table class="table table-bordered">
   <tbody>
     <th style="width:50%;background:#ddd !important;color:black !important">{{ __('opening-balance.operation-date') }}</th>
@@ -70,7 +77,7 @@
 </table>
 </div>
 
-<div class="col-md-4">
+<div class="col-md-3">
 <table class="table table-bordered">
   <tbody>
     <th style="width:50%;background:#ddd !important;color:black !important">{{ __('opening-balance.operation-time') }}</th>
@@ -200,7 +207,7 @@
 </table>
 
                         </div>
-                        
+
                         <a href="{{route('admin:opening-balance.index')}}"
                            class="btn btn-danger waves-effect waves-light">
                             <i class=" fa fa-reply"></i> {{__('Back')}}

@@ -15,6 +15,7 @@ use App\Models\Branch;
 use App\Models\EmployeeData;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class AssetsController extends Controller
@@ -129,6 +130,7 @@ class AssetsController extends Controller
             'purchase_date' => $request->purchase_date,
             'date_of_work' => $request->date_of_work,
             'purchase_cost' => $request->purchase_cost,
+            'user_id' => Auth::id(),
         ] );
         return redirect()->to( 'admin/assets' )
             ->with( ['message' => __( 'words.asset-created' ), 'alert-type' => 'success'] );
@@ -163,6 +165,7 @@ class AssetsController extends Controller
             'purchase_date' => $request->purchase_date,
             'date_of_work' => $request->date_of_work,
             'purchase_cost' => $request->purchase_cost,
+            'user_id' => auth()->id(),
         ] );
         return redirect()->to( 'admin/assets' )
             ->with( ['message' => __( 'words.asset-updated' ), 'alert-type' => 'success'] );

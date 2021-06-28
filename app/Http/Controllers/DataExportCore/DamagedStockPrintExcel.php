@@ -28,11 +28,12 @@ class DamagedStockPrintExcel
             'number' => 'number',
             'total' => 'total',
             'status' => 'status',
+            'add_by' => 'add_by',
             'created_at' => 'created_at',
             'updated_at' => 'updated_at'
         ];
         $this->columns = [
-            'id' ,'branch', 'date', 'number', 'total', 'status', 'created_at', 'updated_at'
+            'id' ,'branch', 'date', 'number', 'total', 'status', 'add_by', 'created_at', 'updated_at'
         ];
         $this->header = [
             'id' => __('#'),
@@ -41,6 +42,7 @@ class DamagedStockPrintExcel
             'number' => __('opening-balance.serial-number'),
             'total' => __('Total'),
             'status' => __('Concession Status'),
+            'add_by' => __('Added By'),
             'created_at' => __('Created At'),
             'updated_at' => __('Updated At')
         ];
@@ -82,6 +84,9 @@ class DamagedStockPrintExcel
                         case 'branch':
                             $value =  optional($record->branch)->name;
                             break;
+                        case 'add_by':
+                            $value =  optional($record->user)->name;
+                            break;
                         default:
                             $value = $record[$key];
                             break;
@@ -115,6 +120,9 @@ class DamagedStockPrintExcel
                         break;
                     case 'branch':
                         $value =  optional($record->branch)->name;
+                        break;
+                    case 'add_by':
+                        $value =  optional($record->user)->name;
                         break;
                     default:
                         $value = $record[$key];
