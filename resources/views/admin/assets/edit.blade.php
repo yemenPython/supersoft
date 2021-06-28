@@ -164,7 +164,8 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-money"></i></span>
                                         <input class="form-control" value="{{ $asset->annual_consumtion_rate }}"
-                                               name="annual_consumtion_rate" id="annual_consumtion_rate"/>
+                                               name="annual_consumtion_rate"
+                                               id="annual_consumtion_rate" onchange="annual_consumtion_rate_value();"/>
                                     </div>
                                     {{input_error($errors,'annual_consumetion_rate')}}
                                 </div>
@@ -184,7 +185,8 @@
                                     <label> {{ __('asset age') }} </label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input class="form-control" value="{{ $asset->asset_age }}" disabled type="text" name="asset_age"/>
+                                        <input class="form-control" id="asset_age" value="{{ $asset->asset_age }}" disabled type="text"
+                                               name="asset_age"/>
                                     </div>
                                     {{input_error($errors,'asset_age')}}
                                 </div>
@@ -219,56 +221,61 @@
                                     <label> {{ __('cost of purchase') }} </label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                                        <input class="form-control " value="{{ $asset->purchase_cost }}" type="text"
+                                        <input class="form-control" id="purchase_cost" onchange="annual_consumtion_rate_value();"
+                                               value="{{ $asset->purchase_cost }}" type="text"
                                                name="purchase_cost"/>
                                     </div>
                                     {{input_error($errors,'purchase_cost')}}
                                 </div>
                             </div>
 
-                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label> {{ __('previous consumption') }} </label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-hashed">#</i></span>
-                                    <input class="form-control " value="{{$asset->past_consumtion}}" disabled type="text" name="past_consumtion"/>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label> {{ __('previous consumption') }} </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-hashed">#</i></span>
+                                        <input class="form-control " value="{{$asset->past_consumtion}}" disabled
+                                               type="text" name="past_consumtion"/>
+                                    </div>
+                                    {{input_error($errors,'past_consumtion')}}
                                 </div>
-                                {{input_error($errors,'past_consumtion')}}
                             </div>
-                        </div>
 
-                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label> {{ __('current consumption') }} </label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-hashed">#</i></span>
-                                    <input class="form-control" value="{{$asset->current_consumtion}}" disabled type="text" name="current_consumtion"/>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label> {{ __('current consumption') }} </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-hashed">#</i></span>
+                                        <input class="form-control" value="{{$asset->current_consumtion}}" disabled
+                                               type="text" name="current_consumtion"/>
+                                    </div>
+                                    {{input_error($errors,'current_consumtion')}}
                                 </div>
-                                {{input_error($errors,'current_consumtion')}}
                             </div>
-                        </div>
 
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label> {{ __('total current consumption') }} </label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-hashed">#</i></span>
-                                    <input class="form-control " value="{{$asset->total_current_consumtion}}" disabled type="text" name="total_current_consumtion"/>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label> {{ __('total current consumption') }} </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-hashed">#</i></span>
+                                        <input class="form-control " value="{{$asset->total_current_consumtion}}"
+                                               disabled type="text" name="total_current_consumtion"/>
+                                    </div>
+                                    {{input_error($errors,'total_current_consumtion')}}
                                 </div>
-                                {{input_error($errors,'total_current_consumtion')}}
                             </div>
-                        </div>
 
-                       <div class="col-md-4">
-                            <div class="form-group">
-                                <label> {{ __('book value') }} </label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-hashed">#</i></span>
-                                    <input class="form-control" value="{{$asset->booko_value}}" disabled type="text" name="booko_value"/>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label> {{ __('book value') }} </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-hashed">#</i></span>
+                                        <input class="form-control" value="{{$asset->booko_value}}" disabled type="text"
+                                               name="booko_value"/>
+                                    </div>
+                                    {{input_error($errors,'book_value')}}
                                 </div>
-                                {{input_error($errors,'book_value')}}
                             </div>
-                        </div>
                             <div class="col-md-12">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -360,8 +367,18 @@
                     swal({text: errors, icon: "error"})
                 }
             });
+        });
 
+        function annual_consumtion_rate_value() {
+            var annual_consumtion_rate = $('#annual_consumtion_rate').val();
 
-        })
+            var purchase_cost = $('#purchase_cost').val();
+
+            if (annual_consumtion_rate !='' && purchase_cost !=''){
+
+                var asset_age = ( purchase_cost / annual_consumtion_rate) / 100;
+                $('#asset_age').val(asset_age);
+            }
+        }
     </script>
 @stop
