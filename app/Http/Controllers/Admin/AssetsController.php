@@ -74,7 +74,7 @@ class AssetsController extends Controller
 
         $assetsGroups = AssetGroup::select( ['id', 'name_ar', 'name_en'] )->get();
         $assetsTypes = AssetType::select( ['id', 'name_ar', 'name_en'] )->get();
-//dd($request->all());
+        $assetEmployees = EmployeeData::select( ['id', 'name_ar', 'name_en'] )->get();
         whereBetween( $assets, 'DATE(purchase_date)', $request->purchase_date1, $request->purchase_date2 );
         whereBetween( $assets, 'DATE(date_of_work)', $request->date_of_work1, $request->date_of_work2 );
         whereBetween( $assets, 'asset_age', $request->asset_age1, $request->asset_age2 );
@@ -82,7 +82,7 @@ class AssetsController extends Controller
         whereBetween( $assets, 'annual_consumtion_rate', $request->annual_consumtion_rate1, $request->annual_consumtion_rate2 );
 
         $assets = $assets->get();
-        return view( 'admin.assets.index', compact( 'assets', 'branches', 'assetsGroups', 'assetsTypes' ) );
+        return view( 'admin.assets.index', compact( 'assets', 'branches', 'assetsGroups', 'assetsTypes','assetEmployees' ) );
     }
 
     public function show(Request $request)
@@ -246,6 +246,46 @@ class AssetsController extends Controller
             ] );
         }
     }
+    public function getEmployeesByBranchId(Request $request): JsonResponse
+    {
+//        if (is_null( $request->branch_id )) {
+//            return response()->json( __( 'please select valid Branch' ), 400 );
+//        }
+        if ($assetEmployees = EmployeeData::where( 'branch_id', $request->branch_id )->get()) {
+            $employees_data = view( 'admin.assets.employees_by_branch_id', compact( 'assetEmployees' ) )->render();
+            return response()->json( [
+                'data' => $employees_data,
+            ] );
+        }
+    }
+    public function getAssetsByBranchId(Request $request): JsonResponse
+    {
+        if ($assets = Asset::where( 'branch_id', $request->branch_id )->get()) {
+            $assets_data = view( 'admin.assets.asset_by_branch_id', compact( 'assets' ) )->render();
+            return response()->json( [
+                'data' => $assets_data,
+            ] );
+        }
+    }
+    public function getAssetsByAssetsType(Request $request): JsonResponse
+    {
+        if ($assets = Asset::where( 'asset_type_id', $request->asset_type_id )->get()) {
+            $assets_data = view( 'admin.assets.asset_by_branch_id', compact( 'assets' ) )->render();
+            return response()->json( [
+                'data' => $assets_data,
+            ] );
+        }
+    }
+    public function getAssetsByAssetsGroup(Request $request): JsonResponse
+    {
+        if ($assets = Asset::where( 'asset_group_id', $request->asset_group_id )->get()) {
+            $assets_data = view( 'admin.assets.asset_by_branch_id', compact( 'assets' ) )->render();
+            return response()->json( [
+                'data' => $assets_data,
+            ] );
+        }
+    }
+
 
     public function getAssetsGroupsAnnualConsumtionRate(Request $request)
     {
