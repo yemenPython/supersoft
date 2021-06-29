@@ -1,4 +1,9 @@
 <div class="row">
+<div class="col-xs-12">
+
+<div class="row top-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+
+
 
     @if(authIsSuperAdmin())
 
@@ -213,6 +218,14 @@
             </div>
         </div>
 
+        </div>
+        </div>
+ 
+     
+
+
+        <div class="row center-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+
         <div class="col-md-4 out_purchase_request_type"
              style="{{isset($purchaseQuotation) && $purchaseQuotation->type == 'from_purchase_request'? 'display:none':''}}
              {{!isset($purchaseQuotation) ? 'display:none':''}}">
@@ -284,9 +297,18 @@
             </div>
         </div>
 
-    </div>
+   
 
     @include('admin.purchase_quotations.table_items')
+
+    </div>
+    </div>
+           </div>
+
+    <div class="row center-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+
     @include('admin.purchase_quotations.financial_details')
 
 </div>
+</div>
+

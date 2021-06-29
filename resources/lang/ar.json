@@ -333,7 +333,7 @@
     "Services Package" : "باكيدج الخدمات",
     "Service Package" : "باكيدج خدمات",
     "Select Package Name" : "إختيار باكيدج الخدمات",
-    "Total Before Discount" : "إجمالي الباكيدج",
+    "Total Before Discount" : "الإجمالي قبل الخصم",
     "Total After Discount" : "الإجمالي بعد الخصم",
     "Create Services Package" : "إضافة باكيدج خدمات",
     "Edit Services Package" : "تعديل باكيدج الخدمات",
@@ -1925,6 +1925,11 @@
     "Expense Cost" : "تكلفة المصروف",
     "Assets Groups" : "مجموعات الأصول",
     "Select Assets Groups" : "أختر مجموعات الأصول",
-    "Select Assets" : "أختر الأصول"
+    "Select Assets" : "أختر الأصول",
+    "Parts Types" : "أنواع الأصناف",
+    "Purchase Request Number" : "رقم طلب الشراء",
+    "Purchase Quotation Number" : "رقم عرض السعر",
+    "Supplier name" : "اسم المورد",
+    "The Tax" : "الضريبة"
 
 }

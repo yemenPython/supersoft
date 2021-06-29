@@ -119,14 +119,14 @@
 
     </td>
 
-    <td>
+    <td style="background:#FBE3E6 !important">
         <input style="width: 150px !important;" type="number" class="form-control" id="discount_{{$index}}"
                value="{{isset($update_item) ? $update_item->discount : 0 }}" min="0"
                name="items[{{$index}}][discount]"
                onkeyup="calculateItem('{{$index}}')" onchange="calculateItem('{{$index}}')">
     </td>
 
-    <td>
+    <td style="background:#E3FBEA !important">
         <input style="width: 150px !important;" type="number" class="form-control" id="total_before_discount_{{$index}}"
                value="{{isset($update_item) ? $update_item->sub_total : 0 }}" min="0"
                name="items[{{$index}}][total_before_discount]" disabled>
@@ -134,14 +134,14 @@
         {{input_error($errors, 'items['.$index.'][total_before_discount]')}}
     </td>
 
-    <td>
+    <td style="background:#E3E3FB !important">
         <input style="width: 150px !important;" type="number" class="form-control" id="total_after_discount_{{$index}}"
                value="{{isset($update_item) ? $update_item->total_after_discount : 0 }}" min="0"
                name="items[{{$index}}][total_after_discount]" disabled>
         {{input_error($errors, 'items['.$index.'][total_after_discount]')}}
     </td>
 
-    <td>
+    <td style="background:#E3F6FB !important">
         <div class="btn-group ">
             <span type="button" class="fa fa-usd  dropdown-toggle" data-toggle="dropdown"
                   style="background-color: rgb(244, 67, 54); color: white; padding: 3px; border-radius: 5px; cursor: pointer"
@@ -168,7 +168,7 @@
                                     {{isset($update_item) && in_array($tax->id, $update_item->taxes->pluck('id')->toArray()) ? 'checked':''}}
                                 >
                                 <span>
-                                    {{$tax->name}} - {{$tax->tax_type == 'amount' ? '$':'%'}} - {{ $tax->value }} -
+                                    {{$tax->name}} ( {{ $tax->value }} {{$tax->tax_type == 'amount' ? '$':'%'}} ) =
                                     <span id="calculated_tax_value_{{$tax_index}}_{{$index}}">
                                          {{isset($update_item) ? taxValueCalculated($update_item->total_after_discount, $update_item->sub_total, $tax ) : 0}}
                                     </span>
@@ -194,7 +194,7 @@
         </div>
     </td>
 
-    <td>
+    <td style="background:#FBFBE3 !important">
         <input style="width: 150px !important;" type="number" class="form-control" id="total_{{$index}}"
                value="{{isset($update_item) ? $update_item->total : 0}}" min="0"
                name="items[{{$index}}][total]" disabled>
@@ -212,13 +212,14 @@
     </td>
 
     <td>
-        <div>
+      
             <button type="button" class="btn btn-danger fa fa-trash" onclick="removeItem('{{$index}}')"></button>
 
-            <a data-toggle="modal" data-target="#part_types_{{$index}}" title="Part Types" class="btn btn-primary">
-                <i class="fa fa-adjust"> </i> {{__('Types')}}
+            <div style="padding:5px !important;">
+            <a data-toggle="modal" data-target="#part_types_{{$index}}" title="Part Types" class="btn btn-info">
+            <i class="fa fa-check-circle"> </i> {{__('Types')}}
             </a>
-        </div>
+            </div>
     </td>
 
     <td style="display: none;">

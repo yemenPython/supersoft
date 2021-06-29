@@ -78,7 +78,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-2">
                                 <label> {{ __('Quotation Number') }} </label>
                                 <div class="input-group">
                                     <span class="input-group-addon fa fa-file"></span>
@@ -93,7 +93,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-2">
                                 <label> {{ __('Purchase Request Number') }} </label>
                                 <div class="input-group">
                                     <span class="input-group-addon fa fa-file"></span>

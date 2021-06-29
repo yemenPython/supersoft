@@ -54,9 +54,9 @@
 
                         @include('admin.purchase_quotations.form')
 
-                        <div class="form-group col-sm-12">
+                 
                             @include('admin.buttons._save_buttons')
-                        </div>
+                     
 
                     </form>
                 </div>

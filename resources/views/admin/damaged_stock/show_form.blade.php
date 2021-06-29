@@ -122,14 +122,14 @@
                         </span>
                         </td>
 
-                        <td>
+                        <td style="background:#FBE3E6 !important">
                         <span> 
                         {{isset($item) ? $item->quantity : 0}}
                         </span>
 
                         </td>
 
-                        <td>
+                        <td style="background:#E3FBEA !important">
                         <span> 
                         {{isset($item) ? $item->price : 0}}
                         </span>

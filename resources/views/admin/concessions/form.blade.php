@@ -186,7 +186,7 @@
 
 <table class="table table-bordered">
   <tbody>
-    <th style="width:30%;background:#FFC5D7 !important;color:black !important">{{__('Total quantity')}}</label>
+    <th style="width:30%;background:#FFC5D7 !important;color:black !important">{{__('Total quantity')}}</th>
     <td style="background:#FFC5D7">
                 <input type="text" disabled id="item_quantity" style="background:#FFC5D7; border:none;text-align:center !important;" class="form-control"
                        value="{{isset($concession->total_quantity) ? $concession->total_quantity : 0}}" >

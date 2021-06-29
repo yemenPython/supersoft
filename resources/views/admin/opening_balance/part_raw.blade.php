@@ -83,7 +83,6 @@
             <select style="width: 150px !important; " class="form-control js-example-basic-single" name="items[{{$index}}][store_id]" id="store_part_{{$index}}">
 
                 @foreach($part->stores as $store)
-
                     <option value="{{$store->id}}" data-quantity="{{ $store->pivot ? $store->pivot->quantity : 0 }}"
                         {{isset($item) && $item->store_id == $store->id ? 'selected':'' }}>
                         {{$store->name}}
@@ -93,14 +92,15 @@
         </div>
     </td>
 
-    <td>
+ 
+    <td style="background:#FBE3E6 !important">
         <input style="width: 120px !important;" type="number" class="form-control" id="quantity_{{$index}}"
                onkeyup="calculateItem('{{$index}}'); "
                onchange="calculateItem('{{$index}}');"
                value="{{isset($item) ? $item->quantity : 0}}" min="0" name="items[{{$index}}][quantity]">
     </td>
 
-    <td>
+    <td style="background:#E3FBEA !important">
         <input style="width: 150px !important;" type="text" id="price_{{$index}}" class="form-control" onkeyup="calculateItem('{{$index}}')"
                value="{{isset($item) ? $item->buy_price : $part->default_purchase_price}}" name="items[{{$index}}][buy_price]">
     </td>

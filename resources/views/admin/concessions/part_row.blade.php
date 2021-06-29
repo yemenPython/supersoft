@@ -31,13 +31,14 @@
 
         </td>
 
-        <td>
+      
+    <td style="background:#FBE3E6 !important">
         <span>
         {{$item->quantity}}
         </span>
         </td>
 
-        <td>
+        <td style="background:#E3FBEA !important">
         <span>
         {{ $item->price}}
         </span>

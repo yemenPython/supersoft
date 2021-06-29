@@ -1,6 +1,6 @@
 <div class="col-md-12">
     <div class="table-responsive scroll-table">
-    <table class="table table-responsive table-bordered table-striped">
+    <table class="table table-responsive table-bordered table-hover">
         <thead>
         <tr>
             <th width="2%"> # </th>
@@ -48,7 +48,7 @@
             <th width="7%"> {{ __('Quantity') }} </th>
             <th width="4%"> {{ __('Discount Type') }} </th>
             <th width="5%"> {{ __('Discount') }} </th>
-            <th width="8%"> {{ __('Total Before Discount') }} </th>
+            <th width="8%"> {{ __('Total') }} </th>
             <th width="8%"> {{ __('Total After Discount') }} </th>
             <th width="8%"> {{ __('Taxes') }} </th>
             <th width="8%"> {{ __('Total') }} </th>

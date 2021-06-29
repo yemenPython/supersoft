@@ -93,14 +93,14 @@
         </div>
     </td>
 
-    <td>
+    <td style="background:#FBE3E6 !important">
         <input style="width: 120px !important;" type="number" class="form-control" id="quantity_{{$index}}"
                onkeyup="calculateItem('{{$index}}'); checkPartQuantity('{{$index}}');"
                onchange="calculateItem('{{$index}}'); checkPartQuantity('{{$index}}');"
                value="{{isset($item) ? $item->quantity : 0}}" min="0" name="items[{{$index}}][quantity]">
     </td>
 
-    <td>
+    <td style="background:#E3FBEA !important">
         <input style="width: 150px !important;" type="text" id="price_{{$index}}" class="form-control" onkeyup="calculateItem('{{$index}}')"
                value="{{isset($item) ? $item->price : $part->default_purchase_price}}" name="items[{{$index}}][price]">
     </td>

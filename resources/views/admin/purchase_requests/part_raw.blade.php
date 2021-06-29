@@ -35,7 +35,7 @@
         {{input_error($errors, 'items['.$index.'][part_price_id]')}}
     </td>
 
-    <td>
+    <td style="background:#FBE3E6 !important">
         <input style="width: 130px !important;margin:0 auto;display:block" type="number" class="form-control" id="quantity_{{$index}}"
                value="{{isset($item) ? $item->quantity : 0}}" min="0"
                name="items[{{$index}}][quantity]" {{isset($request_type) && $request_type == 'approval' ? 'disabled' : ''}}>
@@ -44,11 +44,11 @@
     </td>
 
     @if(isset($request_type) && $request_type == 'approval')
-        <td>
+    <td style="background:#E3FBEA !important">
             <input style="width: 150px !important;" type="number" class="form-control" value="{{isset($item) ? $item->part->quantity : 0}}" disabled>
         </td>
 
-        <td>
+        <td style="background:#FBFAD4 !important">
             <input style="width: 150px !important;" type="number" class="form-control" id="quantity_{{$index}}"
                    value="{{isset($item) ? $item->approval_quantity : 0}}"
                    min="0" name="items[{{$index}}][approval_quantity]">
@@ -57,7 +57,7 @@
 
     <td>
      
-        <a data-toggle="modal" data-target="#part_types_{{$index}}" title="Part Types" class="btn btn-primary">
+        <a data-toggle="modal" data-target="#part_types_{{$index}}" title="Part Types" class="btn btn-info">
                 <i class="fa fa-check-circle"> </i> {{__('Types')}}
             </a>
 
@@ -68,7 +68,7 @@
             <div style="padding:5px !important;">
             @if(isset($request_type) && $request_type == 'approval')
                 <a data-toggle="modal" data-target="#part_quantity_{{$index}}"
-                   title="Part quantity" class="btn btn-info">
+                   title="Part quantity" class="btn btn-primary">
                     <li class="fa fa-cubes"></li> {{__('Stores Qty')}}
                 </a>
             @endif

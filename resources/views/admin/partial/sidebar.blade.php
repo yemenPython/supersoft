@@ -221,6 +221,12 @@ route('admin:purchase-receipts.index'),
                                 <span>{{__('Purchase Receipts')}}</span></a>
                         </li>
 
+                        <li class="{{setActivationClass(route('admin:purchase-invoices.index'))}}">
+                            <a href="{{route('admin:purchase-invoices.index')}}">
+                                {{__('Purchase Invoices')}}
+                            </a>
+                        </li>
+
                     </ul>
                 </li>
                 <li class="{{setActivationClass([
@@ -471,11 +477,7 @@ route('admin:purchase-quotations.index'),
                     </a>
                     <ul class="sub-menu js__content">
 
-                        <li class="{{setActivationClass(route('admin:purchase-invoices.index'))}}">
-                            <a href="{{route('admin:purchase-invoices.index')}}">
-                                {{__('Purchase Invoices')}}
-                            </a>
-                        </li>
+
 
                         <li class="{{setActivationClass(route('admin:purchase_returns.index'))}}">
                             <a href="{{route('admin:purchase_returns.index')}}">
