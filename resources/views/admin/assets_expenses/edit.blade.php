@@ -47,10 +47,12 @@
         function checkBranchValidation() {
             let branch_id = $('#branch_id').find(":selected").val();
             let isSuperAdmin = '{{authIsSuperAdmin()}}';
-            if (!isSuperAdmin) {
+            if (isSuperAdmin && !branch_id) {
                 return true;
             }
-            return !!branch_id;
+            if (!isSuperAdmin && !branch_id) {
+                return false;
+            }
         }
         function changeBranch () {
             let branch_id = $('#branch_id').find(":selected").val();
@@ -58,7 +60,7 @@
         }
 
         $('#assetsGroups').on('change', function () {
-            if (!checkBranchValidation()) {
+            if (checkBranchValidation()) {
                 swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
                 return false;
             }
@@ -72,13 +74,8 @@
         });
 
         $('#assetsOptions').on('change', function () {
-            if (!checkBranchValidation()) {
+            if (checkBranchValidation()) {
                 swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
-                return false;
-            }
-            let assetsGroups = $('#assetsGroups').find(":selected").val();
-            if (!assetsGroups) {
-                swal({text: '{{__('sorry, please select assets Groups')}}', icon: "error"});
                 return false;
             }
 
@@ -125,7 +122,11 @@
         function addPriceToTotal() {
             var total = 0;
             $(".priceItem").each(function(index, item){
-                total = (parseInt(total) + parseInt($(this).val())).toFixed();
+                var v =  parseInt($(this).val());
+                if (isNaN( parseInt($(this).val()))) {
+                    v  = 0
+                }
+                total = (parseInt(total) + v).toFixed();
             })
             $('#total_price').val(total);
             $('#total_price_hidden').val(total);

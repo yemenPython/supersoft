@@ -48,7 +48,6 @@
                         <th scope="col">{!! __('Time') !!}</th>
                         <th scope="col">{!! __('Status') !!}</th>
                         <th scope="col">{!! __('Total') !!}</th>
-                        <th scope="col"> {{ __('Added By') }} </th>
                         <th scope="col">{!! __('Created at') !!}</th>
                         <th scope="col">{!! __('Updated at') !!}</th>
                         <th scope="col">{!! __('Options') !!}</th>
@@ -67,7 +66,6 @@
                         <th scope="col">{!! __('Time') !!}</th>
                         <th scope="col">{!! __('Status') !!}</th>
                         <th scope="col">{!! __('Total') !!}</th>
-                        <th scope="col"> {{ __('Added By') }} </th>
                         <th scope="col">{!! __('Created at') !!}</th>
                         <th scope="col">{!! __('Updated at') !!}</th>
                         <th scope="col">{!! __('Options') !!}</th>
@@ -92,7 +90,6 @@
 
                             </td>
                             <td> <span class="label label-warning wg-label"> {!! number_format($item->total, 2) !!} </span></td>
-                            <td> {{ optional($item->user)->name }} </td>
                             <td>{!! $item->created_at->format('y-m-d h:i:s A') !!}</td>
                             <td>{!! $item->updated_at->format('y-m-d h:i:s A') !!}</td>
                             <td>

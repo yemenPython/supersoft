@@ -55,7 +55,7 @@
                         </td>
 
                         <td>
-                            <input type="number" class="priceItem" name="items[{{$index}}][price]" value="{{$item->price}}" onkeyup="addPriceToTotal('{{$index}}')">
+                            <input type="number" class="priceItem" name="items[{{$index}}][price]" value="{{$item->price ?? 0}}" onkeyup="addPriceToTotal('{{$index}}')">
                         </td>
                         <td>
                             <div class="input-group" id="stores">
