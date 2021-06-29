@@ -16,7 +16,7 @@ class AssetController extends Controller
 //        $this->middleware('permission:delete_assets',['only'=>['destroy','deleteSelected']]);
     }
 
-    
+
 
     public function index() {
 
@@ -24,7 +24,7 @@ class AssetController extends Controller
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
-        
+
         return view(self::view . 'index' ,compact('assets' ,'__assets'));
     }
 

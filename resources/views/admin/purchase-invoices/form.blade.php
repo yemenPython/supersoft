@@ -1,4 +1,7 @@
 <div class="row">
+<div class="col-xs-12">
+
+<div class="row top-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
     @if(authIsSuperAdmin())
         <div class="col-md-12">
@@ -68,7 +71,7 @@
 
                         <option value="normal"
                             {{isset($purchaseInvoice) && $purchaseInvoice->type == 'normal'? 'selected':'' }}>
-                            {{ __('Normal') }}
+                            {{ __('Normal purchase invoice') }}
                         </option>
 
                     </select>
@@ -126,7 +129,7 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-6">
             <div class="form-group has-feedback">
                 <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
                 <div class="input-group">
@@ -172,7 +175,7 @@
         </div>
 
         <div class="col-md-1">
-            <div class="radio primary " style="margin-top: 37px;">
+            <div class="radio primary ">
                 <input type="radio" name="type" value="cash" id="cash"
                     {{ !isset($purchaseInvoice) ? 'checked':'' }}
                     {{isset($purchaseInvoice) && $purchaseInvoice->type == 'cash' ? 'checked':''}} >
@@ -181,16 +184,13 @@
         </div>
 
         <div class="col-md-1">
-            <div class="radio primary " style="margin-top: 37px;">
+            <div class="radio primary ">
                 <input type="radio" name="type" id="credit" value="credit"
                     {{isset($purchaseInvoice) && $purchaseInvoice->type == 'credit' ? 'checked':''}} >
                 <label for="credit">{{__('Credit')}}</label>
             </div>
         </div>
 
-        <div class="col-md-1"></div>
-
-        <div class="clearfix"></div>
 
         <div class="col-md-3">
             <div class="form-group has-feedback">
@@ -222,7 +222,13 @@
             </div>
         </div>
 
-        <div class="col-md-3 out_purchase_request_type"
+
+        </div>
+        </div>
+
+        <div class="row center-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+
+        <div class="col-md-4 out_purchase_request_type"
              style="{{isset($purchaseInvoice) && $purchaseInvoice->invoice_type == 'from_supply_order'? 'display:none':''}}
              {{!isset($purchaseInvoice) ? 'display:none':''}}">
             <div class="form-group has-feedback">
@@ -246,7 +252,7 @@
             </div>
         </div>
 
-        <div class="col-md-3 out_purchase_request_type"
+        <div class="col-md-4 out_purchase_request_type"
              style="{{isset($purchaseInvoice) && $purchaseInvoice->invoice_type == 'from_supply_order'? 'display:none':''}}
              {{!isset($purchaseInvoice) ? 'display:none':''}}">
             <div class="form-group has-feedback">
@@ -270,7 +276,7 @@
             </div>
         </div>
 
-        <div class="col-md-3 out_purchase_request_type"
+        <div class="col-md-4 out_purchase_request_type"
              style="{{isset($purchaseInvoice) && $purchaseInvoice->invoice_type == 'from_supply_order'? 'display:none':''}}
              {{!isset($purchaseInvoice) ? 'display:none':''}}">
             <div class="form-group has-feedback">
@@ -292,9 +298,17 @@
                 </div>
             </div>
         </div>
-    </div>
+   
+
+
 
     @include('admin.purchase-invoices.table_items')
+
+    </div>
+
+
+    <div class="row buttom-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+
 
     @include('admin.purchase-invoices.financial_details')
 
@@ -307,4 +321,6 @@
 
         </table>
 
+</div>
+</div>
 </div>

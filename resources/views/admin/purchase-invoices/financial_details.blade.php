@@ -1,4 +1,4 @@
-<div class="form-group has-feedback col-sm-12" style="margin-top:30px">
+<div class="form-group has-feedback col-sm-12">
     <table class="table table-bordered" style="width:100%">
         <thead>
         <tr>

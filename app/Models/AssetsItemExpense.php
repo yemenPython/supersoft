@@ -34,4 +34,9 @@ class AssetsItemExpense extends Model
     {
         return $this->belongsTo(AssetsTypeExpense::class, 'assets_type_expenses_id');
     }
+
+    public function assetExpenseItems(): HasMany
+    {
+        return $this->hasMany(AssetExpenseItem::class, 'asset_expense_item_id');
+    }
 }

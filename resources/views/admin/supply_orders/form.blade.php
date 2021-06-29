@@ -1,4 +1,8 @@
 <div class="row">
+<div class="col-xs-12">
+
+<div class="row top-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+
 
     @if(authIsSuperAdmin())
         <div class="col-md-12">
@@ -68,7 +72,7 @@
 
                         <option value="normal"
                             {{isset($supplyOrder) && $supplyOrder->type == 'normal'? 'selected':'' }}>
-                            {{ __('Normal') }}
+                            {{ __('Normal Purchase Request') }}
                         </option>
 
                     </select>
@@ -128,7 +132,7 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-6">
             <div class="form-group has-feedback">
                 <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
                 <div class="input-group">
@@ -155,7 +159,7 @@
 
         <div class="col-md-3 purchase_request_type">
             <div class="form-group">
-                <label for="date" class="control-label">{{__('Purchase Quotations')}}</label>
+         
 
                 <div class="input-group">
                     <button type="button" onclick="getPurchaseQuotations(); quotationType()"
@@ -204,7 +208,15 @@
             </div>
         </div>
 
-        <div class="col-md-3 out_purchase_request_type"
+        
+        </div>
+        </div>
+ 
+
+        <div class="row center-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+
+
+        <div class="col-md-4 out_purchase_request_type"
              style="{{isset($supplyOrder) && $supplyOrder->type == 'from_purchase_request'? 'display:none':''}}
              {{!isset($supplyOrder) ? 'display:none':''}}">
             <div class="form-group has-feedback">
@@ -228,7 +240,7 @@
             </div>
         </div>
 
-        <div class="col-md-3 out_purchase_request_type"
+        <div class="col-md-4 out_purchase_request_type"
              style="{{isset($supplyOrder) && $supplyOrder->type == 'from_purchase_request'? 'display:none':''}}
              {{!isset($supplyOrder) ? 'display:none':''}}">
             <div class="form-group has-feedback">
@@ -252,7 +264,7 @@
             </div>
         </div>
 
-        <div class="col-md-3 out_purchase_request_type"
+        <div class="col-md-4 out_purchase_request_type"
              style="{{isset($supplyOrder) && $supplyOrder->type == 'from_purchase_request'? 'display:none':''}}
              {{!isset($supplyOrder) ? 'display:none':''}}">
             <div class="form-group has-feedback">
@@ -274,11 +286,20 @@
                 </div>
             </div>
         </div>
-    </div>
+
 
     @include('admin.supply_orders.table_items')
 
+    </div>
+
+
+    <div class="row center-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+
     @include('admin.supply_orders.financial_details')
+
+    </div>
+    </div>
+    
 
     <table id="purchase_quotations_selected" style="display: none">
 

@@ -5827,13 +5827,15 @@ label {
 }
 
 .top-search {
-    background-image: linear-gradient(to right, #6a97be 0%, #5369aa 100%);
+    /* background-image: linear-gradient(to right, #6a97be 0%, #5369aa 100%); */
+    background-image: linear-gradient(to right, #94b5f0, #769ee7);
+
     color: white !important;
 }
 
 .top-search .box-title {
     background: none;
-    background-image: linear-gradient(to right, #6a97be 0%, #5369aa 100%);
+    background-image: linear-gradient(to right, #94b5f0, #769ee7);
     box-shadow: none !important;
     color: white !important
 }

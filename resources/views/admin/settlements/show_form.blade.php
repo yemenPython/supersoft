@@ -16,6 +16,19 @@
 @endif
 
 <div class="col-md-6">
+               <table class="table table-bordered">
+               <tbody>
+               <th style="width:50%;background:#ddd !important;color:black !important">{{__('Added By')}}</th>
+                <td>{{isset($settlement) ? optional($settlement->user)->name : auth()->user()->name}}</td>
+            </tbody>
+            </table>
+            {{input_error($errors,'user')}}
+
+            </div>
+
+
+
+<div class="col-md-6">
 <table class="table table-bordered">
   <tbody>
     <th style="width:50%;background:#ddd !important;color:black !important">{{__('Number')}}</th>
@@ -49,17 +62,6 @@
 </table>
 </div>
 
-<div class="col-md-6">
-               <table class="table table-bordered">
-               <tbody>
-               <th style="width:50%;background:#ddd !important;color:black !important">{{__('Username')}}</th>
-                <td>{{isset($settlement) ? optional($settlement->user)->name : auth()->user()->name}}</td>
-            </tbody>
-            </table>
-            {{input_error($errors,'user')}}
-
-            </div>
-
 
             <div class="col-md-6">
                <table class="table table-bordered">
@@ -68,9 +70,9 @@
                <td>
 
                @if($settlement->type == 'positive' )
-                                        <span class="label label-primary wg-label"> {{__('Positive')}} </span>
+                                        <span> {{__('Positive')}} </span>
                                         @else
-                                        <span class="label label-danger wg-label"> {{__('Negative')}} </span>
+                                        <span> {{__('Negative')}} </span>
                 @endif
 
             </div>

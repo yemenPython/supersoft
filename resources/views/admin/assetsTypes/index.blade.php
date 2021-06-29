@@ -1,13 +1,13 @@
 @extends('admin.layouts.app')
 @section('title')
-<title>{{ __('assetsType') }} </title>
+<title>{{ __('Assets Types') }} </title>
 @endsection
 @section('content')
     <div class="row small-spacing">
         <nav>
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
             <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
-                <li class="breadcrumb-item">  {{__('assetsType')}}</li>
+                <li class="breadcrumb-item">  {{__('Assets Types')}}</li>
             </ol>
         </nav>
 
@@ -15,7 +15,7 @@
 
             <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control">
-                <i class="fa fa-money"></i>   {{__('Assets Type')}}
+                <i class="fa fa-money"></i>   {{__('Assets Types')}}
                  </h4>
 
 
@@ -45,7 +45,7 @@
                     <tr>
                         <th scope="col">{!! __('#') !!}</th>
                         <th scope="col"> {{ __('Branch') }} </th>
-                        <th scope="col">{!! __('Name') !!}</th>
+                        <th scope="col">{!! __('Type name') !!}</th>
                         <th scope="col">{!! __('Options') !!}</th>
                         <th scope="col">
                         <div class="checkbox danger">
@@ -67,21 +67,33 @@
                     @foreach($assetsTypes as $index=>$assetType)
                         <tr>
                             <td>{!! $loop->iteration !!}</td>
-                            <td> {{ optional($assetType->branch)->name }} </td>
+                            <td class="text-danger"> {{ optional($assetType->branch)->name }} </td>
                             <td>{!! $assetType->name !!}</td>
                             <td>
-
-
+                            <div class="btn-group margin-top-10"> 
+                                        
+                                        <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="ico fa fa-bars"></i>
+                                        {{__('Options')}} <span class="caret"></span>
+                                     
+                                    </button> 
+                                    <ul class="dropdown-menu dropdown-wg">
+                                            <li>
                                             @component('admin.buttons._edit_button',[
                                             'id'=>$assetType->id,
                                             'route' => 'admin:assetsType.edit',
                                              ])
                                 @endcomponent
+
+                                </li>
+                                            <li class="btn-style-drop">
+
                                             @component('admin.buttons._delete_button',[
                                             'id'=> $assetType->id,
                                             'route' => 'admin:assetsType.destroy',
                                              ])
                                 @endcomponent
+                                </li>
 
                             </td>
                             <td>

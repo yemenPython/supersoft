@@ -74,7 +74,7 @@
 
     <div class="modal fade" id="purchase_quotations" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
+        <div class="modal-content wg-content">
                 <div class="modal-header">
 
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -93,8 +93,8 @@
                                 <thead>
                                 <tr>
                                     <th scope="col">{!! __('Check') !!}</th>
-                                    <th scope="col">{!! __('Purchase quotations') !!}</th>
-                                    <th scope="col">{!! __('Supplier') !!}</th>
+                                    <th scope="col">{!! __('Purchase Quotation num.') !!}</th>
+                                    <th scope="col">{!! __('Supplier name') !!}</th>
                                 </tr>
                                 </thead>
 
@@ -120,14 +120,14 @@
 
                 <div class="modal-footer">
 
-                    <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"
-                            data-dismiss="modal">
-                        {{__('Close')}}
-                    </button>
-
                     <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
                             onclick="addSelectedPurchaseQuotations()">
                         {{__('Add Item')}}
+                    </button>
+
+                    <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"
+                            data-dismiss="modal">
+                        {{__('Close')}}
                     </button>
                 </div>
             </div>

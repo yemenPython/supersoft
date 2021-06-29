@@ -71,16 +71,6 @@
         </div>
     </td>
 
-
-
-    <td>
-        <input style="width: 150px !important;" type="number" class="form-control" id="price_{{$index}}"
-               value="{{isset($update_item) ? $update_item->price : $part->default_purchase_price}}"
-               min="0" name="items[{{$index}}][price]"
-               onchange="calculateItem('{{$index}}')" onkeyup="calculateItem('{{$index}}')">
-        {{input_error($errors, 'items['.$index.'][price]')}}
-    </td>
-
     <td>
 
         @if(isset($item))
@@ -100,6 +90,16 @@
 
         {{input_error($errors, 'items['.$index.'][quantity]')}}
     </td>
+
+    <td>
+        <input style="width: 150px !important;" type="number" class="form-control" id="price_{{$index}}"
+               value="{{isset($update_item) ? $update_item->price : $part->default_purchase_price}}"
+               min="0" name="items[{{$index}}][price]"
+               onchange="calculateItem('{{$index}}')" onkeyup="calculateItem('{{$index}}')">
+        {{input_error($errors, 'items['.$index.'][price]')}}
+    </td>
+
+
 
     <td>
         <div class="radio primary">

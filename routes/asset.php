@@ -32,6 +32,11 @@ Route::post('/assets/delete-selected', 'AssetsController@deleteSelected')->name(
 Route::post('assets/AssetsGroupsByBranchId', 'AssetsController@getAssetsGroupsByBranchId')->name('assets.getAssetsGroupsByBranchId');
 Route::post('assets/AssetsTypesByBranchId', 'AssetsController@getAssetsTypesByBranchId')->name('assets.getAssetsTypesByBranchId');
 Route::post('assets/AssetsGroupsAnnualConsumtionRate', 'AssetsController@getAssetsGroupsAnnualConsumtionRate')->name('assets.getAssetsGroupsAnnualConsumtionRate');
+Route::post('assets/EmployeesByBranchId', 'AssetsController@getEmployeesByBranchId')->name('assets.getEmployeesByBranchId');
+Route::post('assets/AssetsByBranchId', 'AssetsController@getAssetsByBranchId')->name('assets.getAssetsByBranchId');
+
+Route::post('assets/AssetsByAssetsType', 'AssetsController@getAssetsByAssetsType')->name('assets.getAssetsByAssetsType');
+Route::post('assets/AssetsByAssetsGroup', 'AssetsController@getAssetsByAssetsGroup')->name('assets.getAssetsByAssetsGroup');
 //assets Employees
 Route::get('/assets-employees/{asset}', 'AssetsEmployeesController@index')->name('assetsEmployees.index');
 Route::post('/assets-employees/store', 'AssetsEmployeesController@store')->name('assetsEmployees.store');

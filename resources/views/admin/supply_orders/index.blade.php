@@ -101,34 +101,35 @@
 
                                     <td>
                                         @if($item->status == 'pending' )
-                                            <span class="label label-info wg-label"> {{__('pending')}}</span>
+                                        <span class="label label-info wg-label"> {{__('processing')}}</span>
                                         @elseif($item->status == 'accept' )
-                                            <span
-                                                class="label label-primary wg-label"> {{__('Accept')}} </span>
+                                        <span class="label label-primary wg-label"> {{__('Accept Approval')}} </span>
                                         @else
-                                            <span class="label label-danger wg-label"> {{__('Reject')}} </span>
+                                        <span class="label label-danger wg-label"> {{__('Reject Approval')}} </span>
                                         @endif
 
                                     </td>
 
-                                    <td style="background:#f1f2f3 !important">{{ __($item->total) }}</td>
+                                    <td style="background:#FBFAD4 !important">{{ __($item->total) }}</td>
 
                                     <td class="text-center column-date">
 
                                         @if($item->execution)
 
                                             @if($item->execution ->status == 'pending' )
-                                                <span class="label label-info wg-label"> {{__('Processing')}}</span>
-
+                                            <span class="label label-info wg-label"> {{__('Processing')}}</span>
                                             @elseif($item->execution ->status == 'finished' )
-                                                <span class="label label-success wg-label"> {{__('Finished')}} </span>
+                                            <span class="label label-success wg-label"> {{__('Finished')}} </span>
 
                                             @elseif($item->execution ->status == 'late' )
-                                                <span class="label label-danger wg-label"> {{__('Late')}} </span>
+                                            <span class="label label-danger wg-label"> {{__('Late')}} </span>
                                             @endif
 
                                         @else
-                                            {{__('Not determined')}}
+                                        <span class="label label-warning wg-label">
+      {{__('Not determined')}}
+</span>
+
                                         @endif
 
                                     </td>

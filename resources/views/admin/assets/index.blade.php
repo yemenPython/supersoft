@@ -76,7 +76,11 @@
 
                                     <div class="form-group col-md-4">
                                         <label> {{ __('Name') }} </label>
-                                        {!! drawSelect2ByAjax('name','Asset','name_'.app()->getLocale(),'name_'.app()->getLocale(),__('Select Name'),request()->name) !!}
+                                        <select class="form-control select2" id="name"
+                                                name="name">
+                                            <option value="0"> {{ __('Select Name') }} </option>
+                                        </select>
+{{--                                        {!! drawSelect2ByAjax('name','Asset','name_'.app()->getLocale(),'name_'.app()->getLocale(),__('Select Name'),request()->name) !!}--}}
                                     </div>
 
                                     <div class="col-md-4">
@@ -162,7 +166,16 @@
 
                                         <div class="form-group col-md-12">
                                             <label> {{ __('Employee Name') }} </label>
-                                            {!! drawSelect2ByAjax('employee_id','EmployeeData', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('opening-balance.select-one'),request()->employee) !!}
+                                            <select class="form-control select2" id="employee_id"
+                                                    name="employee_id">
+                                                <option value="0"> {{ __('Select Employee Name') }} </option>
+                                            @foreach($assetEmployees as $assetEmployee)
+                                                <option
+                                                    {{ old('employee_id') == $assetEmployee->id ? 'selected' : '' }}
+                                                    value="{{ $assetEmployee->id }}"> {{ $assetEmployee->name_ar }} </option>
+                                            @endforeach
+                                            </select>
+{{--                                            {!! drawSelect2ByAjax('employee_id','EmployeeData', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('opening-balance.select-one'),request()->employee) !!}--}}
                                         </div>
 
                             </div>
@@ -223,6 +236,7 @@
                                 <th scope="col"> {{ __('consumtion rate') }} </th>
 
                                 <th scope="col"> {{ __('asset age') }} </th>
+                                <th scope="col"> {{ __('Added By') }} </th>
 
                                 <th scope="col">{!! __('Created at') !!}</th>
                                 <th scope="col">{!! __('Updated at') !!}</th>
@@ -246,7 +260,7 @@
                                 <th scope="col"> {{ __('consumtion rate') }} </th>
 
                                 <th scope="col"> {{ __('asset age') }} </th>
-
+                                <th scope="col"> {{ __('Added By') }} </th>
                                 <th scope="col">{!! __('Created at') !!}</th>
                                 <th scope="col">{!! __('Updated at') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -275,6 +289,7 @@
                                     <td> {{ $asset->annual_consumtion_rate }} </td>
 
                                     <td> {{ $asset->asset_age }} </td>
+                                    <td> {{ optional($asset->user)->name }} </td>
 
                                     <td> {{ $asset->created_at }} </td>
                                     <td> {{ $asset->updated_at }} </td>
@@ -439,6 +454,98 @@
                 },
                 success: function (data) {
                     $('#asset_type_id').each(function () {
+                        $(this).html(data.data)
+                    });
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
+
+        });
+        $('#branch_id').on('change', function () {
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            const branch_id = $(this).val();
+            $.ajax({
+                type: 'post',
+                url: "{{ route('admin:assets.getEmployeesByBranchId')}}",
+                data: {
+                    branch_id: branch_id,
+                    _token: CSRF_TOKEN,
+                },
+                success: function (data) {
+                    $('#employee_id').each(function () {
+                        $(this).html(data.data)
+                    });
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
+
+        });
+        $('#branch_id').on('change', function () {
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            const branch_id = $(this).val();
+            $.ajax({
+                type: 'post',
+                url: "{{ route('admin:assets.getAssetsByBranchId')}}",
+                data: {
+                    branch_id: branch_id,
+                    _token: CSRF_TOKEN,
+                },
+                success: function (data) {
+                    $('#name').each(function () {
+                        $(this).html(data.data)
+                    });
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
+
+        });
+        $('#asset_group_id').on('change', function () {
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            const asset_group_id = $(this).val();
+            $.ajax({
+                type: 'post',
+                url: "{{ route('admin:assets.getAssetsByAssetsGroup')}}",
+                data: {
+                    asset_group_id: asset_group_id,
+                    _token: CSRF_TOKEN,
+                },
+                success: function (data) {
+                    $('#name').each(function () {
+                        $(this).html(data.data)
+                    });
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
+
+        });
+        $('#asset_type_id').on('change', function () {
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            const asset_type_id = $(this).val();
+            $.ajax({
+                type: 'post',
+                url: "{{ route('admin:assets.getAssetsByAssetsType')}}",
+                data: {
+                    asset_type_id: asset_type_id,
+                    _token: CSRF_TOKEN,
+                },
+                success: function (data) {
+                    $('#name').each(function () {
                         $(this).html(data.data)
                     });
                 },

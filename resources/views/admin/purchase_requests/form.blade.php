@@ -245,7 +245,7 @@
     
 
     
-    <div class="row center-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+    <div class="row buttom-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
     <div class="col-md-6">
             <div class="form-group">

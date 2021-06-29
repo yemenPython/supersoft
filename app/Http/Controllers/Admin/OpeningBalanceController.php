@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Filters\OpeningBalanceFilter;
 use App\Http\Controllers\DataExportCore\OpeningBalancePrintExcel;
-use App\Http\Controllers\DataExportCore\SpareParts;
 use App\Http\Controllers\ExportPrinterFactory;
 use App\Http\Requests\Admin\OpeningBalance\CreateRequest;
 use App\Models\Branch;

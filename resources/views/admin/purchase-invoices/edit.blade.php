@@ -16,7 +16,7 @@
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
                 <li class="breadcrumb-item active">
-                    <a href="{{route('admin:purchase-invoices.index')}}"> {{__('purchase Invoice')}}</a></li>
+                    <a href="{{route('admin:purchase-invoices.index')}}"> {{__('Purchase Invoices')}}</a></li>
                 <li class="breadcrumb-item active"> {{__('Edit Purchase Invoice')}}</li>
             </ol>
         </nav>
@@ -30,22 +30,20 @@
                 <h4 class="box-title with-control" style="text-align: initial"><i class="fa fa-file-text-o"></i>
                     {{__('Edit Purchase Invoice')}}
                     <span class="controls hidden-sm hidden-xs pull-left">
-                      <button class="control text-white" style="background:none;border:none;font-size:12px">{{__('Save')}}
-                          <img class="img-fluid" style="width:50px;height:50px;margin-top:-20px;margin-bottom:-13px"
-                               src="{{asset('assets/images/f1.png')}}">=
-                      </button>
-                        <button class="control text-white" style="background:none;border:none;font-size:12px">
+                      <button class="control text-white"
+                              style="background:none;border:none;font-size:14px;font-weight:normal !important;">{{__('Save')}}
+                      <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
+                           src="{{asset('assets/images/f1.png')}}">
+                  </button>
+                        <button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;">
                             {{__('Reset')}}
-
-                            <img class="img-fluid" style="width:50px;height:50px;margin-top:-20px;margin-bottom:-13px"
+                            <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                                  src="{{asset('assets/images/f2.png')}}"></button>
-
-							<button class="control text-white" style="background:none;border:none;font-size:12px"> {{__('Back')}}
-                                <img class="img-fluid"
-                                     style="width:50px;height:50px;margin-top:-20px;margin-bottom:-13px"
-                                     src="{{asset('assets/images/f3.png')}}">
-                            </button>
-                    </span>
+							<button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
+                                    class="img-fluid"
+                                    style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
+                                    src="{{asset('assets/images/f3.png')}}"></button>
+						</span>
                 </h4>
 
                 <div class="box-content">
@@ -83,7 +81,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
 
-                    <h4 class="modal-title" id="myModalLabel-1">{{__('Supply Orders')}}</h4>
+                    <h4 class="modal-title" id="myModalLabel-1">{{__('Purchase Receipts')}}</h4>
                 </div>
 
                 <div class="modal-body">
@@ -96,7 +94,7 @@
                                 <tr>
                                     <th scope="col">{!! __('Check') !!}</th>
                                     <th scope="col">{!! __('Purchase Receipt Number') !!}</th>
-                                    <th scope="col">{!! __('Supplier') !!}</th>
+                                    <th scope="col">{!! __('Supplier name') !!}</th>
                                 </tr>
                                 </thead>
 

@@ -28,6 +28,7 @@ class OpeningBalancePrintExcel
             'serial_number' => 'serial_number',
             'total_money' => 'total_money',
             'status' => 'status',
+            'add_by' => 'add_by',
             'created_at' => 'created_at',
             'updated_at' => 'updated_at'
         ];
@@ -39,6 +40,7 @@ class OpeningBalancePrintExcel
             'serial_number',
             'total_money',
             'status',
+            'add_by',
             'created_at',
             'updated_at'
         ];
@@ -50,6 +52,7 @@ class OpeningBalancePrintExcel
             'serial_number' => __('opening-balance.serial-number'),
             'total_money' =>__('opening-balance.total'),
             'status' => __('opening-balance.status'),
+            'add_by' => __('Added By'),
             'created_at' => __('Created At'),
             'updated_at' => __('Updated At')
         ];
@@ -99,6 +102,9 @@ class OpeningBalancePrintExcel
                     if ($key == 'status') {
                         $value =$record->concession ? $record->concession->status : '---';
                     }
+                    if ($key == 'add_by') {
+                        $value =$record->user ? $record->user->name : '---';
+                    }
                     echo "<td class='text-center'> $value </td>";
                 }
                 echo '</tr>';
@@ -133,6 +139,9 @@ class OpeningBalancePrintExcel
                 }
                 if ($col == 'status') {
                     $value =$row->concession ? $row->concession->status : '---';
+                }
+                if ($col == 'add_by') {
+                    $value =$row->user ? $row->user->name : '---';
                 }
                 $data[] = $value;
             }

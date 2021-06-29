@@ -50,10 +50,22 @@
                         <label for="date" class="control-label">{{__('Date And Time')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                            <input type="datetime-local" name="dateTime" class="form-control" id="date"
-                                   value="{{old('dateTime', isset($assetExpense)? $assetExpense->dateTime : \Carbon\Carbon::now()->format('Y-m-d H:i:s'))}}">
+                            <input type="date" name="date" class="form-control" id="date"
+                                   value="{{old('date', isset($assetExpense)? $assetExpense->date : \Carbon\Carbon::now()->format('Y-m-d'))}}">
                         </div>
                         {{input_error($errors,'dateTime')}}
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="date" class="control-label">{{__('Time')}}</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><li class="fa fa-clock-o"></li></span>
+                            <input type="time" name="time" class="form-control" id="time"
+                                   value="{{old('time', isset($assetExpense)? $assetExpense->time : \Carbon\Carbon::now()->format('H:i:s'))}}">
+                        </div>
+                        {{input_error($errors,'operation_time')}}
                     </div>
                 </div>
 

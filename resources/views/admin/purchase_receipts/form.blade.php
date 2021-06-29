@@ -1,4 +1,7 @@
 <div class="row">
+<div class="col-xs-12">
+
+<div class="row top-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
     @if(authIsSuperAdmin())
         <div class="col-md-12">
@@ -38,7 +41,7 @@
 
     <div class="col-md-12">
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="inputNameAr" class="control-label">{{__('Number')}}</label>
                 <div class="input-group">
@@ -52,7 +55,7 @@
         </div>
 
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="date" class="control-label">{{__('Date')}}</label>
                 <div class="input-group">
@@ -64,7 +67,7 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="date" class="control-label">{{__('Time')}}</label>
                 <div class="input-group">
@@ -76,7 +79,7 @@
             </div>
         </div>
 
-        <div class="col-md-3 purchase_request_type"
+        <div class="col-md-4 purchase_request_type"
              style="{{isset($purchaseQuotation) && $purchaseQuotation->type != 'from_purchase_request'? 'display:none':''}}">
             <div class="form-group has-feedback">
                 <label for="inputStore" class="control-label">{{__('Supply Orders')}}</label>
@@ -102,19 +105,29 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-8">
             <div class="form-group has-feedback">
-                <label for="inputStore" class="control-label">{{__('Supplier')}}</label>
+                <label for="inputStore" class="control-label">{{__('Supplier name')}}</label>
                 <div class="input-group">
                     <span class="input-group-addon fa fa-user"></span>
                     <input type="text" id="supplier_id" disabled class="form-control"
-                           value="{{isset($purchaseReceipt) && $purchaseReceipt->supplier ? $purchaseReceipt->supplier->name : '---'}}">
+                           value="{{isset($purchaseReceipt) && $purchaseReceipt->supplier ? $purchaseReceipt->supplier->name : __('Not determined')}}">
                 </div>
             </div>
         </div>
+ 
+
+    
     </div>
+        </div>
+
+        <div class="row center-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
     @include('admin.purchase_receipts.table_items')
+
+    </div>
+
+    <div class="row center-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
         <div class="col-md-12">
             <div class="form-group">
@@ -125,4 +138,6 @@
             </div>
         </div>
 
+</div>
+</div>
 </div>

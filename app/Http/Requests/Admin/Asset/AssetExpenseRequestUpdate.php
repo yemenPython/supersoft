@@ -21,7 +21,7 @@ class AssetExpenseRequestUpdate extends FormRequest
     {
         return [
                 'number' => 'required',
-                'dateTime' => 'required',
+                'date' => 'required',
                 'status' => 'required|in:accept,pending,cancel',
                 'notes' => 'max:300',
                 'total' => 'required',

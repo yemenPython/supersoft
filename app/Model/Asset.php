@@ -40,6 +40,7 @@ class Asset extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+        'user_id',
     ];
 
     protected static $logAttributes = [
@@ -82,5 +83,10 @@ class Asset extends Model
     }
     public function asset_employees() {
         return $this->hasMany(AssetEmployee::class ,'asset_id');
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

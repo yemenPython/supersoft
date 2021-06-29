@@ -18,6 +18,17 @@
 <div class="col-md-6">
 <table class="table table-bordered">
   <tbody>
+    <th style="width:50%;background:#ddd !important;color:black !important">{{__('Added By')}}</th>
+                <td>{{isset($storeTransfer) ? optional($storeTransfer->user)->name : auth()->user()->name}}</td>
+            </tbody>
+            {{input_error($errors,'user')}}
+            </tbody>
+</table>
+</div>
+
+<div class="col-md-6">
+<table class="table table-bordered">
+  <tbody>
     <th style="width:50%;background:#ddd !important;color:black !important">{{ __('opening-balance.serial-number') }}</th>
                 <td>{{old('number', isset($storeTransfer)? $storeTransfer->number :'')}}</td>
                 </tbody>
@@ -42,16 +53,6 @@
 </table>
 </div>
 
-<div class="col-md-6">
-<table class="table table-bordered">
-  <tbody>
-    <th style="width:50%;background:#ddd !important;color:black !important">{{__('Username')}}</th>
-                <td>{{isset($storeTransfer) ? optional($storeTransfer->user)->name : auth()->user()->name}}</td>
-            </tbody>
-            {{input_error($errors,'user')}}
-            </tbody>
-</table>
-</div>
 
 <div class="col-md-6">
 <table class="table table-bordered">

@@ -87,7 +87,7 @@ ol.breadcrumb {
 }
 
 .btn-options {
-    background: linear-gradient(to right, #6a97be 0%, #5369aa 100%);
+    background-image: linear-gradient(to right, #94b5f0, #769ee7);
     color: white;
     font-size: 14px;
 }

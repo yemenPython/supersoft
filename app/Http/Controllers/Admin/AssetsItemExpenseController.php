@@ -77,6 +77,9 @@ class AssetsItemExpenseController extends Controller
     public function destroy(int $id): RedirectResponse
     {
         $expensesItem = AssetsItemExpense::findOrFail($id);
+        if (count($expensesItem->assetExpenseItems)  > 0) {
+            return redirect()->back()->with(['message' => __('words.can-not-delete-this-data-cause-there-is-related-data'), 'alert-type' => 'error']);
+        }
         $expensesItem->delete();
         return redirect()->to('admin/assets_expenses_items')
             ->with(['message' => __('words.expense-type-deleted'), 'alert-type' => 'success']);
@@ -85,7 +88,13 @@ class AssetsItemExpenseController extends Controller
     public function deleteSelected(Request $request): RedirectResponse
     {
         if (isset($request->ids)) {
-            AssetsItemExpense::whereIn('id', $request->ids)->delete();
+            $items = AssetsItemExpense::whereIn('id', $request->ids)->get();
+            foreach ($items as $item) {
+                if (count($item->assetExpenseItems)  > 0) {
+                    return redirect()->back()->with(['message' => __('words.can-not-delete-this-data-cause-there-is-related-data'), 'alert-type' => 'error']);
+                }
+                $item->delete();
+            }
             return redirect()->to('admin/assets_expenses_items')
                 ->with(['message' => __('words.selected-row-deleted'), 'alert-type' => 'success']);
         }

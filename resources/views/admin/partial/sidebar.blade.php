@@ -229,78 +229,63 @@ route('admin:purchase-receipts.index'),
 
                     </ul>
                 </li>
+
+
                 <li class="{{setActivationClass([
-route('admin:services-types.index'),
-route('admin:services.index'),
-route('admin:services_packages.index'),
+route('admin:assetsType.index'),
+route('admin:assetsGroup.index'),
+route('admin:assets.index'),
+route('admin:assets_expenses_types.index'),
+route('admin:assets_expenses_items.index'),
+route('admin:assets_expenses.index'),
                      ])}}">
-                    <a class="  parent-item js__control" href="#"><i style="color:#5DA971 !important"
-                                                                     class="menu-icon fa fa-cogs"></i>
-                        <span>{{__('Services and sections')}}</span>
+                    <a class="parent-item js__control" href="#">
+                        <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
+                        <span>{{__('Assets')}}</span>
                         <span class="menu-arrow fa fa-angle-down"></span>
                     </a>
                     <ul class="sub-menu js__content">
 
-
-                        <li class="{{setActivationClass(route('admin:services-types.index'))}}">
-                            <a href="{{route('admin:services-types.index')}}">{{__('Services Types')}}</a>
+                    <li class="{{setActivationClass(route('admin:assetsType.index'))}}">
+                            <a href="{{route('admin:assetsType.index')}}">
+                                {{__('Assets Types')}}
+                            </a>
                         </li>
 
-                        <li class="{{setActivationClass(route('admin:services.index'))}}">
-                            <a href="{{route('admin:services.index')}}">{{__('Services')}}</a>
+                        <li class="{{setActivationClass(route('admin:assetsGroup.index'))}}">
+                            <a href="{{route('admin:assetsGroup.index')}}">
+                                {{__('Assets Groups')}}
+                            </a>
                         </li>
 
-                        <li class="{{setActivationClass(route('admin:services_packages.index'))}}">
-                            <a href="{{route('admin:services_packages.index')}}">{{__('Services Packages')}}</a>
+                        <li class="{{setActivationClass(route('admin:assets.index'))}}">
+                            <a href="{{route('admin:assets.index')}}">
+                                {{__('Assets data')}}
+                            </a>
                         </li>
 
-                    </ul>
-                </li>
-                <li class="{{setActivationClass([
-url('admin/companies'),
-url('admin/carModels'),
-url('admin/carTypes'),
-route('admin:maintenance-detection-types.index'),
-route('admin:maintenance-detections.index'),
-                     ])}}">
-                    <a class="  parent-item js__control" href="#"><i style="color:#A95D62 !important"
-                                                                     class="menu-icon fa fa-server"></i>
-                        <span>{{__('Maintenance')}}</span>
-                        <span class="menu-arrow fa fa-angle-down"></span>
-                    </a>
-                    <ul class="sub-menu js__content">
-
-
-                        <li class="{{setActivationClass(url('admin/companies'))}}">
-                            <a href="{{url('admin/companies')}}">{{__('Companies')}}</a>
+                        <li class="{{setActivationClass(route('admin:assets_expenses_types.index'))}}">
+                            <a href="{{route('admin:assets_expenses_types.index')}}">
+                                {{__('Assets Expenses Types')}}
+                            </a>
                         </li>
-
-
-                        <li class="{{setActivationClass(url('admin/carModels'))}}">
-                            <a href="{{url('admin/carModels')}}">{{__('Cars Models')}}</a>
-                        </li>
-
-
-                        <li class="{{setActivationClass(url('admin/carTypes'))}}">
-                            <a href="{{url('admin/carTypes')}}">{{__('Cars Types')}}</a>
-                        </li>
-
-
-                        <li class="{{setActivationClass(route('admin:maintenance-detection-types.index'))}}">
-                            <a href="{{route('admin:maintenance-detection-types.index')}}">
-                                {{__('Maintenance Types')}}
+                        <li class="{{setActivationClass(route('admin:assets_expenses_items.index'))}}">
+                            <a href="{{route('admin:assets_expenses_items.index')}}">
+                                {{__('Assets Expenses Items')}}
                             </a>
                         </li>
 
 
-                        <li class="{{setActivationClass(route('admin:maintenance-detections.index'))}}">
-                            <a href="{{route('admin:maintenance-detections.index')}}">
-                                {{__('Maintenance Detection')}}
+                        <li class="{{setActivationClass(route('admin:assets_expenses.index'))}}">
+                            <a href="{{route('admin:assets_expenses.index')}}">
+                                {{__('Assets Expenses')}}
                             </a>
                         </li>
 
                     </ul>
                 </li>
+
+
                 <li class="{{setActivationClass([
 route('admin:supplier-group-tree'),
 route('admin:suppliers.index'),
@@ -346,6 +331,83 @@ route('admin:customers.requests.index'),
 
                     </ul>
                 </li>
+
+
+                <li class="{{setActivationClass([
+url('admin/companies'),
+url('admin/carModels'),
+url('admin/carTypes'),
+route('admin:maintenance-detection-types.index'),
+route('admin:maintenance-detections.index'),
+                     ])}}">
+                    <a class="  parent-item js__control" href="#"><i style="color:#A95D62 !important"
+                                                                     class="menu-icon fa fa-server"></i>
+                        <span>{{__('Maintenance')}}</span>
+                        <span class="menu-arrow fa fa-angle-down"></span>
+                    </a>
+                    <ul class="sub-menu js__content">
+
+
+                        <li class="{{setActivationClass(url('admin/companies'))}}">
+                            <a href="{{url('admin/companies')}}">{{__('Companies')}}</a>
+                        </li>
+
+
+                        <li class="{{setActivationClass(url('admin/carModels'))}}">
+                            <a href="{{url('admin/carModels')}}">{{__('Cars Models')}}</a>
+                        </li>
+
+
+                        <li class="{{setActivationClass(url('admin/carTypes'))}}">
+                            <a href="{{url('admin/carTypes')}}">{{__('Cars Types')}}</a>
+                        </li>
+
+
+                        <li class="{{setActivationClass(route('admin:maintenance-detection-types.index'))}}">
+                            <a href="{{route('admin:maintenance-detection-types.index')}}">
+                                {{__('Maintenance Types')}}
+                            </a>
+                        </li>
+
+
+                        <li class="{{setActivationClass(route('admin:maintenance-detections.index'))}}">
+                            <a href="{{route('admin:maintenance-detections.index')}}">
+                                {{__('Maintenance Detection')}}
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+
+                <li class="{{setActivationClass([
+route('admin:services-types.index'),
+route('admin:services.index'),
+route('admin:services_packages.index'),
+                     ])}}">
+                    <a class="  parent-item js__control" href="#"><i style="color:#5DA971 !important"
+                                                                     class="menu-icon fa fa-cogs"></i>
+                        <span>{{__('Services and sections')}}</span>
+                        <span class="menu-arrow fa fa-angle-down"></span>
+                    </a>
+                    <ul class="sub-menu js__content">
+
+
+                        <li class="{{setActivationClass(route('admin:services-types.index'))}}">
+                            <a href="{{route('admin:services-types.index')}}">{{__('Services Types')}}</a>
+                        </li>
+
+                        <li class="{{setActivationClass(route('admin:services.index'))}}">
+                            <a href="{{route('admin:services.index')}}">{{__('Services')}}</a>
+                        </li>
+
+                        <li class="{{setActivationClass(route('admin:services_packages.index'))}}">
+                            <a href="{{route('admin:services_packages.index')}}">{{__('Services Packages')}}</a>
+                        </li>
+
+                    </ul>
+                </li>
+               
                 <li class="{{setActivationClass([
 route('admin:lockers.index'),
 route('admin:accounts.index'),
@@ -539,57 +601,7 @@ route('admin:reservations.index'),
                         </li>
                     </ul>
                 </li>
-                <li class="{{setActivationClass([
-route('admin:assetsType.index'),
-route('admin:assetsGroup.index'),
-route('admin:assets.index'),
-route('admin:assets_expenses_types.index'),
-route('admin:assets_expenses_items.index'),
-route('admin:assets_expenses.index'),
-                     ])}}">
-                    <a class="parent-item js__control" href="#">
-                        <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
-                        <span>{{__('Assets')}}</span>
-                        <span class="menu-arrow fa fa-angle-down"></span>
-                    </a>
-                    <ul class="sub-menu js__content">
-                        <li class="{{setActivationClass(route('admin:assets_expenses_types.index'))}}">
-                            <a href="{{route('admin:assets_expenses_types.index')}}">
-                                {{__('Expenses Types')}}
-                            </a>
-                        </li>
-                        <li class="{{setActivationClass(route('admin:assets_expenses_items.index'))}}">
-                            <a href="{{route('admin:assets_expenses_items.index')}}">
-                                {{__('Expenses Items')}}
-                            </a>
-                        </li>
-                        <li class="{{setActivationClass(route('admin:assetsGroup.index'))}}">
-                            <a href="{{route('admin:assetsGroup.index')}}">
-                                {{__('AssetsGroups')}}
-                            </a>
-                        </li>
-
-                        <li class="{{setActivationClass(route('admin:assetsType.index'))}}">
-                            <a href="{{route('admin:assetsType.index')}}">
-                                {{__('AssetsTypes')}}
-                            </a>
-                        </li>
-
-                        <li class="{{setActivationClass(route('admin:assets.index'))}}">
-                            <a href="{{route('admin:assets.index')}}">
-                                {{__('Assets')}}
-                            </a>
-                        </li>
-
-                        <li class="{{setActivationClass(route('admin:assets_expenses.index'))}}">
-                            <a href="{{route('admin:assets_expenses.index')}}">
-                                {{__('Assets Expenses')}}
-                            </a>
-                        </li>
-
-                    </ul>
-                </li>
-
+              
 
 
                 <li class="{{setActivationClass([

@@ -48,7 +48,9 @@
                             <tfoot>
                             <tr>
                                 <th scope="col" class="column-id">{!! __('#') !!}</th>
+                                @if(authIsSuperAdmin())
                                 <th scope="col" class="column-branch">{!! __('Branch') !!}</th>
+                                @endif
                                 <th scope="col" class="column-date">{!! __('Date') !!}</th>
                                 <th scope="col" class="column-number">{{ __('opening-balance.serial-number') }}</th>
                                 <th scope="col" class="column-total">{{__('damage type')}}</th>
@@ -64,7 +66,9 @@
                             @foreach($data as $index=>$item)
                                 <tr>
                                     <td class="column-id">{!! $index +1 !!}</td>
+                                    @if(authIsSuperAdmin())
                                     <td class="text-danger column-branch">{!! optional($item->branch)->name !!}</td>
+                                   @endif
                                     <td class="text-danger column-date">{{ $item->date }}</td>
                                     <td class="column-number">{{ $item->number }}</td>
                                     <td class="column-number">

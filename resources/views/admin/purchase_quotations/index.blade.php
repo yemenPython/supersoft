@@ -97,7 +97,7 @@
                                     @endif
 
                                     <td>{{ $item->number }}</td>
-                                  
+                                
                                     <td>
                                     @if($item->status == 'pending' )
                                         <span class="label label-info wg-label"> {{__('processing')}}</span>

@@ -62,7 +62,7 @@
                                     <td  class="column-total_money" style="background:#FBFAD4 !important"> {{ $c->total_money }} </td>
 
                                     <td class="column-status">
-                                    @if( $c->concession )                 
+                                    @if( $c->concession )
 
 @if( $c->concession->status == 'pending' )
 <span class="label label-info wg-label"> {{__('Pending')}}</span>
@@ -76,7 +76,7 @@
 <span class="label label-warning wg-label">  {{__('Not determined')}} </span>
 @endif
 
-                                    
+
                                     </td>
 
                                     <td class="column-created_at"> {{ $c->created_at }} </td>
