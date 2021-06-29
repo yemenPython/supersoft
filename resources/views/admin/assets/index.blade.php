@@ -236,7 +236,6 @@
                                 <th scope="col"> {{ __('consumtion rate') }} </th>
 
                                 <th scope="col"> {{ __('asset age') }} </th>
-                                <th scope="col"> {{ __('Added By') }} </th>
 
                                 <th scope="col">{!! __('Created at') !!}</th>
                                 <th scope="col">{!! __('Updated at') !!}</th>
@@ -260,7 +259,6 @@
                                 <th scope="col"> {{ __('consumtion rate') }} </th>
 
                                 <th scope="col"> {{ __('asset age') }} </th>
-                                <th scope="col"> {{ __('Added By') }} </th>
                                 <th scope="col">{!! __('Created at') !!}</th>
                                 <th scope="col">{!! __('Updated at') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -289,7 +287,6 @@
                                     <td> {{ $asset->annual_consumtion_rate }} </td>
 
                                     <td> {{ $asset->asset_age }} </td>
-                                    <td> {{ optional($asset->user)->name }} </td>
 
                                     <td> {{ $asset->created_at }} </td>
                                     <td> {{ $asset->updated_at }} </td>

@@ -95,6 +95,15 @@ class AssetExpenseController extends Controller
             compact('assets', 'assetsGroups', 'branches', 'number', 'assetExpense', 'assetExpensesItems', 'assetExpensesTypes'));
     }
 
+    public function show(int $id): JsonResponse
+    {
+        $assetExpense = AssetExpense::findOrFail($id);
+        $view =  view('admin.assets_expenses.show', compact('assetExpense'))->render();
+        return response()->json([
+            'view' => $view
+        ]);
+    }
+
     public function update(AssetExpenseRequestUpdate $request, int $id): RedirectResponse
     {
         try {

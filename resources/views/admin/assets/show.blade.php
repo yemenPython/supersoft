@@ -150,6 +150,11 @@
                         <td>{{$asset->total_current_consumtion}}</td>
                     </tr>
 
+                    <tr>
+                        <th style="background:#CCC !important;color:black" scope="row">{{__('Added By')}}</th>
+                        <td>{{optional($asset->user)->name}}</td>
+                    </tr>
+
 
 
 
