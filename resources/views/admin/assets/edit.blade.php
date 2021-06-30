@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Super Car') }} - {{ __('words.edit-asset') }} </title>
+    <title>{{ __('update assets') }} </title>
 @endsection
 
 
@@ -11,24 +11,26 @@
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
                 <li class="breadcrumb-item"><a href="{{ route('admin:assets.index') }}"> {{__('words.assets')}}</a></li>
-                <li class="breadcrumb-item active"> {{__('words.edit-asset')}}</li>
+                <li class="breadcrumb-item active"> {{__('update assets')}}</li>
             </ol>
         </nav>
         <div class="col-xs-12">
             <div class=" card box-content-wg-new bordered-all primary">
                 <h4 class="box-title with-control" style="text-align: initial"><i
-                        class="fa fa-cubes"></i> {{__('words.edit-asset')}}
-                    <span class="controls hidden-sm hidden-xs pull-left">
-            <button class="control text-white" style="background:none;border:none;font-size:12px">{{__('Save')}}<img
-                    class="img-fluid" style="width:50px;height:50px;margin-top:-20px;margin-bottom:-13px"
-                    src="{{asset('assets/images/f1.png')}}"></button>
-							<button class="control text-white" style="background:none;border:none;font-size:12px">{{__('Reset')}}<img
+                        class="fa fa-cubes"></i> {{__('update assets')}}
+                        <span class="controls hidden-sm hidden-xs pull-left">
+                      <button class="control text-white"
+                              style="background:none;border:none;font-size:14px;font-weight:normal !important;">{{__('Save')}}
+                      <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
+                           src="{{asset('assets/images/f1.png')}}">
+                  </button>
+                        <button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;">
+                            {{__('Reset')}}
+                            <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
+                                 src="{{asset('assets/images/f2.png')}}"></button>
+							<button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
                                     class="img-fluid"
-                                    style="width:50px;height:50px;margin-top:-20px;margin-bottom:-13px"
-                                    src="{{asset('assets/images/f2.png')}}"></button>
-							<button class="control text-white" style="background:none;border:none;font-size:12px"> {{__('Back')}} <img
-                                    class="img-fluid"
-                                    style="width:50px;height:50px;margin-top:-20px;margin-bottom:-13px"
+                                    style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                                     src="{{asset('assets/images/f3.png')}}"></button>
 						</span>
                 </h4>
@@ -40,7 +42,7 @@
                             @if (authIsSuperAdmin())
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label> {{ __('Branch') }} </label>
+                                        <label> {{ __('Branches') }} </label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
                                             <select class="form-control select2" name="branch_id" id="branch_id">
@@ -58,10 +60,10 @@
                             @else
                                 <input type="hidden" name="branch_id" value="{{ auth()->user()->branch_id }}"/>
                             @endif
-                            <div class="col-md-12">
+                        
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label> {{ __('Asset Group') }} </label>
+                                        <label> {{ __('Assets Groups') }} </label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
                                             <select class="form-control select2" id="asset_group_id"
@@ -82,7 +84,7 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label> {{ __('Asset Type') }} </label>
+                                        <label> {{ __('Assets Types') }} </label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
                                             <select class="form-control select2" name="asset_type_id"
@@ -135,10 +137,10 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                       
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label> {{ __('words.asset-name-ar') }} </label>
+                                    <label> {{ __('asset name ar') }} </label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-cube"></i></span>
                                         <input class="form-control" value="{{ $asset->name_ar }}" name="name_ar"/>
@@ -149,7 +151,7 @@
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label> {{ __('words.asset-name-en') }} </label>
+                                    <label> {{ __('asset name en') }} </label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-cube"></i></span>
                                         <input class="form-control" value="{{ $asset->name_en }}" name="name_en"/>
@@ -158,29 +160,20 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <label> {{ __('annual_consumtion_rate') }} </label>
+                                    <label> {{ __('annual consumption rate') }} </label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-money"></i></span>
                                         <input class="form-control" value="{{ $asset->annual_consumtion_rate }}"
                                                name="annual_consumtion_rate"
                                                id="annual_consumtion_rate" onchange="annual_consumtion_rate_value();"/>
                                     </div>
-                                    {{input_error($errors,'annual_consumetion_rate')}}
+                                    {{input_error($errors,'annual consumption rate')}}
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label> {{ __('Notes') }} </label>
-                                    <textarea class="form-control" name="asset_details"
-                                              placeholder="{{ __('Notes') }}">{{ $asset->asset_details }}</textarea>
-                                </div>
-                                {{input_error($errors,'asset_details')}}
-                            </div>
 
-
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label> {{ __('asset age') }} </label>
                                     <div class="input-group">
@@ -194,7 +187,7 @@
 
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label> {{ __('purchase date') }} </label>
+                                    <label> {{ __('asset purchase date') }} </label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                         <input class="form-control datepicker" value="{{ $asset->purchase_date }}"
@@ -216,11 +209,11 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label> {{ __('cost of purchase') }} </label>
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
+                                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
                                         <input class="form-control" id="purchase_cost" onchange="annual_consumtion_rate_value();"
                                                value="{{ $asset->purchase_cost }}" type="text"
                                                name="purchase_cost"/>
@@ -229,11 +222,11 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label> {{ __('previous consumption') }} </label>
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-hashed">#</i></span>
+                                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
                                         <input class="form-control " value="{{$asset->past_consumtion}}" disabled
                                                type="text" name="past_consumtion"/>
                                     </div>
@@ -245,7 +238,7 @@
                                 <div class="form-group">
                                     <label> {{ __('current consumption') }} </label>
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-hashed">#</i></span>
+                                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
                                         <input class="form-control" value="{{$asset->current_consumtion}}" disabled
                                                type="text" name="current_consumtion"/>
                                     </div>
@@ -257,7 +250,7 @@
                                 <div class="form-group">
                                     <label> {{ __('total current consumption') }} </label>
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-hashed">#</i></span>
+                                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
                                         <input class="form-control " value="{{$asset->total_current_consumtion}}"
                                                disabled type="text" name="total_current_consumtion"/>
                                     </div>
@@ -269,13 +262,25 @@
                                 <div class="form-group">
                                     <label> {{ __('book value') }} </label>
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-hashed">#</i></span>
+                                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
                                         <input class="form-control" value="{{$asset->booko_value}}" disabled type="text"
                                                name="booko_value"/>
                                     </div>
                                     {{input_error($errors,'book_value')}}
                                 </div>
                             </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label> {{ __('Notes') }} </label>
+                                    <textarea class="form-control" name="asset_details"
+                                              placeholder="{{ __('Notes') }}">{{ $asset->asset_details }}</textarea>
+                                </div>
+                                {{input_error($errors,'asset_details')}}
+                            </div>
+
+
+
                             <div class="col-md-12">
                                 <div class="col-md-12">
                                     <div class="form-group">

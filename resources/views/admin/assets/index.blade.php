@@ -344,6 +344,17 @@
 
                                                 <li>
 
+<a style="cursor:pointer" class="btn btn-print-wg text-white  "
+   data-toggle="modal"
+
+   onclick="getPrintData({{$asset->id}})"
+   data-target="#boostrapModal" title="{{__('print')}}">
+    <i class="fa fa-print"></i> {{__('Print')}}
+</a>
+</li>
+
+                                                <li>
+
                                                     @component('admin.buttons._show_with_text_button',[
                                                     'id'=> $asset->id,
                                                     'route' => 'admin:assetsEmployees.index',
@@ -384,16 +395,7 @@
                                                     @endcomponent
 
                                                 </li>
-                                                <li>
 
-                                                    <a style="cursor:pointer" class="btn btn-print-wg text-white  "
-                                                       data-toggle="modal"
-
-                                                       onclick="getPrintData({{$asset->id}})"
-                                                       data-target="#boostrapModal" title="{{__('print')}}">
-                                                        <i class="fa fa-print"></i> {{__('Print')}}
-                                                    </a>
-                                                </li>
 
                                             </ul>
                                         </div>
