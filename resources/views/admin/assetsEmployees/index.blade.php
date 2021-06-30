@@ -1,31 +1,30 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Super Car') }} - {{ __('Assets Employees') }} </title>
+    <title>{{ __('Assets Employees') }} </title>
 @endsection
 
 <!-- Modal -->
-<div class="modal fade text-xs-left" id="add-employee-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
-     aria-hidden="true">
+<div class="modal fade" id="add-employee-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+    <div class="modal-content wg-content">
+    <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel-1">{{__('Add new asset employee')}}</h4>
+                </div>
+
             <form id="newAssetEmployee-form" method="post" action="{{ route('admin:assetsEmployees.store') }}">
                 <div class="modal-body">
 
                     <div class="col-xs-12">
-                        <div class="box-content card bordered-all js__card">
-                            <div class="card-content js__card_content">
+        
 
                                 <div class="row">
                                     @csrf
                                     <input type="hidden" value="{{$asset->id}}" name="asset_id">
                                     <input type="hidden" value="" name="asset_employee_id" id="asset_employee_id">
-                                    <div class="col-md-12">
+                                 
                                         <div class="form-group col-md-12">
                                             <label>{{ __('name') }} </label>
                                             <div class="input-group">
@@ -57,7 +56,7 @@
                                                        class="form-control date js-example-basic-single" type="date"/>
                                             </div>
                                         </div>
-                                    </div>
+                               
 
 
                                     <div class="form-group col-md-12">
@@ -82,14 +81,16 @@
 
 
                             </div>
-                        </div>
-                    </div>
-
+          
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary waves-effect waves-light" type="submit">
-                        <i class="ico ico-left fa fa-save"></i>
+                   
                         {{__('save')}}
+                    </button>
+                    <button type="button" class="btn btn-danger btn-sm waves-effect waves-light" data-dismiss="modal">
+
+                        {{__('Close')}}
                     </button>
                 </div>
             </form>
@@ -103,7 +104,7 @@
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
                 <li class="breadcrumb-item"><a href="{{route('admin:assets.index')}}"> {{__('words.assets')}}</a></li>
-                <li class="breadcrumb-item active"> {{ __('add employee') }}</li>
+                <li class="breadcrumb-item active"> {{ __('Assets Employees') }}</li>
             </ol>
         </nav>
 
@@ -123,12 +124,12 @@
                     <div class="card-content js__card_content">
                         <form action="{{route('admin:assetsEmployees.index',$asset->id)}}" method="get">
                             <div class="list-inline margin-bottom-0 row">
-                                <div class="form-group col-md-4">
-                                    <label> {{ __('Name') }} </label>
+                                <div class="form-group col-md-3">
+                                    <label> {{ __('Employee name') }} </label>
                                     {!! drawSelect2ByAjax('employee_id','EmployeeData', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('opening-balance.select-one'),request()->employee) !!}
                                 </div>
 
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-3">
                                     <label> {{ __('words.date-from') }} </label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
@@ -137,7 +138,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-3">
                                     <label> {{ __('words.date-to') }} </label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
@@ -147,11 +148,11 @@
                                 </div>
 
 
-                                <div class="switch primary col-md-4">
+                                <div class="switch primary col-md-1">
                                     <input type="checkbox" id="switch-slam" name="active">
                                     <label for="switch-slam">{{__('Active')}}</label>
                                 </div>
-                                <div class="switch primary col-md-4">
+                                <div class="switch primary col-md-2">
                                     <input type="checkbox" id="switch-ali" name="inactive">
                                     <label for="switch-ali">{{__('inActive')}}</label>
                                 </div>
@@ -177,7 +178,7 @@
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control">
-                    <i class="fa fa-cubes"></i> {{ $asset->name. " " .__('employee') }}
+                    <i class="fa fa-cubes"></i> {{ __('Asset employees'). " " .$asset->name }}
                 </h4>
 
                 <div class="card-content js__card_content" style="">
@@ -187,7 +188,7 @@
                                type="button"
                                data-toggle="modal" data-target="#add-employee-modal"
                                class="btn btn-icon btn-icon-left btn-create-wg waves-effect waves-light hvr-bounce-to-left">
-                                {{__('Create')}}
+                                {{__('Add new')}}
                                 <i class="ico fa fa-plus"></i>
 
                             </a>

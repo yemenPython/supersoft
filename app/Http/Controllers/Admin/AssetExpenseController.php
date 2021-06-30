@@ -95,6 +95,15 @@ class AssetExpenseController extends Controller
             compact('assets', 'assetsGroups', 'branches', 'number', 'assetExpense', 'assetExpensesItems', 'assetExpensesTypes'));
     }
 
+    public function show(int $id): JsonResponse
+    {
+        $assetExpense = AssetExpense::findOrFail($id);
+        $view =  view('admin.assets_expenses.show', compact('assetExpense'))->render();
+        return response()->json([
+            'view' => $view
+        ]);
+    }
+
     public function update(AssetExpenseRequestUpdate $request, int $id): RedirectResponse
     {
         try {
@@ -136,7 +145,11 @@ class AssetExpenseController extends Controller
     public function deleteSelected(Request $request): RedirectResponse
     {
         if (isset($request->ids)) {
-            AssetExpense::whereIn('id', $request->ids)->delete();
+            $assets = AssetExpense::whereIn('id', $request->ids)->get();
+            foreach ($assets as $asset) {
+                $asset->assetExpensesItems()->delete();
+                $asset->delete();
+            }
             return redirect()->to('admin/assets_expenses')
                 ->with(['message' => __('words.selected-row-deleted'), 'alert-type' => 'success']);
         }
@@ -161,14 +174,15 @@ class AssetExpenseController extends Controller
         if (is_null($request->asset_id)) {
             return response()->json(__('please select valid Asset'), 400);
         }
-        if (is_null($request->branch_id)) {
+        if (authIsSuperAdmin() && is_null($request->branch_id)) {
             return response()->json(__('please select valid branch'), 400);
         }
+        $branchId = $request->branch_id ??auth()->user()->branch_id;
         $index = rand(1,900000);
         $asset = Asset::with('group')->find($request->asset_id);
         $assetGroup = $asset->group;
-        $assetExpensesTypes = AssetsTypeExpense::where('branch_id', $request->branch_id)->get();
-        $assetExpensesItems = AssetsItemExpense::where('branch_id', $request->branch_id)->get();
+        $assetExpensesTypes = AssetsTypeExpense::where('branch_id', $branchId)->get();
+        $assetExpensesItems = AssetsItemExpense::where('branch_id', $branchId)->get();
         $view = view('admin.assets_expenses.row',
             compact('asset', 'assetGroup', 'assetExpensesTypes', 'assetExpensesItems', 'index')
         )->render();

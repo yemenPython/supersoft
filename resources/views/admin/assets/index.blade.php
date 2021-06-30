@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Super Car') }} - {{ __('words.assets') }} </title>
+    <title>{{ __('words.assets') }} </title>
 @endsection
 
 @section('content')
@@ -38,9 +38,9 @@
                                             </div>
                                         </div>
                                     @endif
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div class="form-group">
-                                            <label> {{ __('Asset Group') }} </label>
+                                            <label> {{ __('Assets Groups') }} </label>
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
                                                 <select class="form-control select2" id="asset_group_id"
@@ -56,9 +56,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div class="form-group">
-                                            <label> {{ __('Asset Type') }} </label>
+                                            <label> {{ __('Assets Types') }} </label>
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
                                                 <select class="form-control select2" name="asset_type_id"
@@ -74,16 +74,85 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group col-md-4">
-                                        <label> {{ __('Name') }} </label>
+                                    <div class="form-group col-md-6">
+                                        <label> {{ __('Asset name') }} </label>
+                                        <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                                               
                                         <select class="form-control select2" id="name"
                                                 name="name">
                                             <option value="0"> {{ __('Select Name') }} </option>
                                         </select>
 {{--                                        {!! drawSelect2ByAjax('name','Asset','name_'.app()->getLocale(),'name_'.app()->getLocale(),__('Select Name'),request()->name) !!}--}}
                                     </div>
+                                    </div>
 
-                                    <div class="col-md-4">
+                                    <div class="form-group col-md-6">
+                                            <label> {{ __('Assets employees') }} </label>
+                                            <select class="form-control select2" id="employee_id"
+                                                    name="employee_id">
+                                                <option value="0"> {{ __('Select Employee Name') }} </option>
+                                            @foreach($assetEmployees as $assetEmployee)
+                                                <option
+                                                    {{ old('employee_id') == $assetEmployee->id ? 'selected' : '' }}
+                                                    value="{{ $assetEmployee->id }}"> {{ $assetEmployee->name_ar }} </option>
+                                            @endforeach
+                                            </select>
+{{--                                            {!! drawSelect2ByAjax('employee_id','EmployeeData', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('opening-balance.select-one'),request()->employee) !!}--}}
+                                        </div>
+
+
+                              
+
+
+                                    <div class="form-group col-md-2">
+                                        <label> {{ __('consumtion rate From') }}</label>
+                                        <input type="text" class="form-control" name="annual_consumtion_rate1">
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label> {{ __('consumtion rate To') }}</label>
+                                        <input type="text" class="form-control" name="annual_consumtion_rate2">
+                                    </div>
+
+                                    <div class="form-group col-md-2">
+                                        <label> {{ __('asset age From') }}</label>
+                                        <input type="text" class="form-control" name="asset_age1">
+                                    </div>
+
+                                    <div class="form-group col-md-2">
+                                        <label> {{ __('asset age To') }}</label>
+                                        <input type="text" class="form-control" name="asset_age2">
+                                    </div>
+
+                                    <div class="form-group col-md-2">
+                                        <label> {{ __('cost of purchase From') }}</label>
+                                        <input type="text" class="form-control" name="purchase_cost1">
+                                    </div>
+
+                                        <div class="form-group col-md-2">
+                                        <label> {{ __('cost of purchase To') }}</label>
+                                        <input type="text" class="form-control" name="purchase_cost2">
+                                    </div>
+
+                                    <div class="form-group col-md-2">
+                                        <label> {{ __('purchase date From') }}</label>
+                                        <input type="date" class="form-control" name="purchase_date1">
+                                    </div>
+                                        <div class="form-group col-md-2">
+                                        <label> {{ __('purchase date To') }}</label>
+                                        <input type="date" class="form-control" name="purchase_date2">
+                                    </div>
+
+                                        <div class="form-group col-md-2">
+                                            <label> {{ __('work date From') }}</label>
+                                            <input type="date" class="form-control" name="date_of_work1">
+                                        </div>
+                                        <div class="form-group col-md-2">
+                                            <label> {{ __('work date To') }}</label>
+                                            <input type="date" class="form-control" name="date_of_work2">
+                                        </div>
+
+                                        <div class="col-md-4">
                                         <div class="form-group">
                                             <label> {{ __('Asset Status') }} </label>
                                             <div class="input-group">
@@ -116,67 +185,8 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group col-md-4">
-                                        <label> {{ __('consumtion rate From') }}</label>
-                                        <input type="text" class="form-control" name="annual_consumtion_rate1">
-                                    </div>
-                                    <div class="form-group col-md-4">
-                                        <label> {{ __('consumtion rate To') }}</label>
-                                        <input type="text" class="form-control" name="annual_consumtion_rate2">
-                                    </div>
-
-                                    <div class="form-group col-md-4">
-                                        <label> {{ __('asset age From') }}</label>
-                                        <input type="text" class="form-control" name="asset_age1">
-                                    </div>
-
-                                    <div class="form-group col-md-4">
-                                        <label> {{ __('asset age To') }}</label>
-                                        <input type="text" class="form-control" name="asset_age2">
-                                    </div>
-
-                                    <div class="form-group col-md-4">
-                                        <label> {{ __('cost of purchase From') }}</label>
-                                        <input type="text" class="form-control" name="purchase_cost1">
-                                    </div>
-
-                                        <div class="form-group col-md-4">
-                                        <label> {{ __('cost of purchase To') }}</label>
-                                        <input type="text" class="form-control" name="purchase_cost2">
-                                    </div>
-
-                                    <div class="form-group col-md-4">
-                                        <label> {{ __('purchase date From') }}</label>
-                                        <input type="date" class="form-control" name="purchase_date1">
-                                    </div>
-                                        <div class="form-group col-md-4">
-                                        <label> {{ __('purchase date To') }}</label>
-                                        <input type="date" class="form-control" name="purchase_date2">
-                                    </div>
-
-                                        <div class="form-group col-md-4">
-                                            <label> {{ __('work date From') }}</label>
-                                            <input type="date" class="form-control" name="date_of_work1">
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label> {{ __('work date To') }}</label>
-                                            <input type="date" class="form-control" name="date_of_work2">
-                                        </div>
 
 
-                                        <div class="form-group col-md-12">
-                                            <label> {{ __('Employee Name') }} </label>
-                                            <select class="form-control select2" id="employee_id"
-                                                    name="employee_id">
-                                                <option value="0"> {{ __('Select Employee Name') }} </option>
-                                            @foreach($assetEmployees as $assetEmployee)
-                                                <option
-                                                    {{ old('employee_id') == $assetEmployee->id ? 'selected' : '' }}
-                                                    value="{{ $assetEmployee->id }}"> {{ $assetEmployee->name_ar }} </option>
-                                            @endforeach
-                                            </select>
-{{--                                            {!! drawSelect2ByAjax('employee_id','EmployeeData', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('opening-balance.select-one'),request()->employee) !!}--}}
-                                        </div>
 
                             </div>
 
@@ -223,20 +233,19 @@
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
-                        <table id="datatable-with-btns" class="table table-striped table-bordered display"
+                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover"
                                style="width:100%">
                             <thead>
                             <tr>
                                 <th>#</th>
                                 <th scope="col"> {{ __('Branch') }} </th>
-                                <th scope="col"> {{ __('Name') }} </th>
+                                <th scope="col"> {{ __('Asset name') }} </th>
                             <!-- <th scope="col"> {{ __('type') }} </th> -->
-                                <th scope="col"> {{ __('group') }} </th>
-                                <th scope="col"> {{ __('status') }} </th>
-                                <th scope="col"> {{ __('consumtion rate') }} </th>
+                                <th scope="col"> {{ __('Asset group') }} </th>
+                                <th scope="col"> {{ __('Asset Status') }} </th>
+                                <th scope="col"> {{ __('annual consumption rate') }} </th>
 
                                 <th scope="col"> {{ __('asset age') }} </th>
-                                <th scope="col"> {{ __('Added By') }} </th>
 
                                 <th scope="col">{!! __('Created at') !!}</th>
                                 <th scope="col">{!! __('Updated at') !!}</th>
@@ -253,14 +262,13 @@
                             <tr>
                                 <th>#</th>
                                 <th scope="col"> {{ __('Branch') }} </th>
-                                <th scope="col"> {{ __('Name') }} </th>
+                                <th scope="col"> {{ __('Asset name') }} </th>
                             <!-- <th scope="col"> {{ __('type') }} </th> -->
-                                <th scope="col"> {{ __('group') }} </th>
-                                <th scope="col"> {{ __('status') }} </th>
-                                <th scope="col"> {{ __('consumtion rate') }} </th>
+                                <th scope="col"> {{ __('Asset group') }} </th>
+                                <th scope="col"> {{ __('Asset Status') }} </th>
+                                <th scope="col"> {{ __('annual consumption rate') }} </th>
 
                                 <th scope="col"> {{ __('asset age') }} </th>
-                                <th scope="col"> {{ __('Added By') }} </th>
                                 <th scope="col">{!! __('Created at') !!}</th>
                                 <th scope="col">{!! __('Updated at') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -271,38 +279,50 @@
                             @foreach($assets as $asset)
                                 <tr>
                                     <td>{{$loop->iteration}}</td>
-                                    <td> {{ $asset->branch->name }} </td>
+                                    <td class="text-danger"> {{ $asset->branch->name }} </td>
                                     <td> {{ $asset->name }} </td>
 
                                     <td> {{ $asset->group->name }} </td>
 
                                     <td>
                                         @if($asset->asset_status == 1)
+                                        <span class="label label-info wg-label">
                                             {{ __('continues') }}
+                                        </span>
                                         @elseif($asset->asset_status == 2)
+                                        <span class="label label-primary wg-label">
                                             {{ __('sell') }}
+                                            </span>
                                         @else
+                                        <span class="label label-danger wg-label"> 
                                             {{ __('ignore') }}
+                                            </span>
                                         @endif
                                     </td>
-                                    <td> {{ $asset->annual_consumtion_rate }} </td>
+                                    <td>
+                                    <span class="price-span">
+                                     {{ $asset->annual_consumtion_rate }} %
+                                    </span>
+                                    </td>
 
-                                    <td> {{ $asset->asset_age }} </td>
-                                    <td> {{ optional($asset->user)->name }} </td>
+                                    <td>
+                                    <span class="part-unit-span">
+                                     {{ $asset->asset_age }} {{__('year')}}
+                                     </span>
+                                      </td>
 
                                     <td> {{ $asset->created_at }} </td>
                                     <td> {{ $asset->updated_at }} </td>
                                     <td>
-                                        <div class="btn-group margin-top-10">
-
-                                            <button type="button" class="btn btn-options dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="ico fa fa-bars"></i>
-                                                {{__('Options')}} <span class="caret"></span>
-
-                                            </button>
-                                            <ul class="dropdown-menu">
-                                                <li>
+                                    <div class="btn-group margin-top-10">
+                                        
+                                        <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="ico fa fa-bars"></i>
+                                        {{__('Options')}} <span class="caret"></span>
+                                     
+                                    </button> 
+                                        <ul class="dropdown-menu dropdown-wg">
+                                            <li>
 
                                                     @component('admin.buttons._edit_button',[
                                                     'id'=>$asset->id,
@@ -310,8 +330,8 @@
                                                      ])
                                                     @endcomponent
 
-                                                </li>
-                                                <li>
+                                                    </li>
+                                            <li class="btn-style-drop">
 
                                                     @component('admin.buttons._delete_button',[
                                                     'id'=> $asset->id,
@@ -323,10 +343,21 @@
 
                                                 <li>
 
+<a style="cursor:pointer" class="btn btn-print-wg text-white  "
+   data-toggle="modal"
+
+   onclick="getPrintData({{$asset->id}})"
+   data-target="#boostrapModal" title="{{__('print')}}">
+    <i class="fa fa-print"></i> {{__('Print')}}
+</a>
+</li>
+
+                                                <li>
+
                                                     @component('admin.buttons._show_with_text_button',[
                                                     'id'=> $asset->id,
                                                     'route' => 'admin:assetsEmployees.index',
-                                                    'text' => __('employees'),
+                                                    'text' => __('employees history'),
                                                      ])
                                                     @endcomponent
 
@@ -363,16 +394,7 @@
                                                     @endcomponent
 
                                                 </li>
-                                                <li>
 
-                                                    <a style="cursor:pointer" class="btn btn-print-wg text-white  "
-                                                       data-toggle="modal"
-
-                                                       onclick="getPrintData({{$asset->id}})"
-                                                       data-target="#boostrapModal" title="{{__('print')}}">
-                                                        <i class="fa fa-print"></i> {{__('Print')}}
-                                                    </a>
-                                                </li>
 
                                             </ul>
                                         </div>
