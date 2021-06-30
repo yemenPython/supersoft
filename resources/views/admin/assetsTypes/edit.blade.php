@@ -13,7 +13,7 @@
         </nav>
         <div class="col-xs-12">
             <div class=" card box-content-wg-new bordered-all primary">
-                <h1 class="box-title bg-info" style="text-align: initial"><i class="fa fa-dollar"></i>{{__('Edit Asset Type')}}
+                <h1 class="box-title bg-info" style="text-align: initial"><i class="fa fa-folder-o"></i>{{__('Edit Asset Type')}}
                 <span class="controls hidden-sm hidden-xs pull-left">
                       <button class="control text-white"
                               style="background:none;border:none;font-size:14px;font-weight:normal !important;">{{__('Save')}}
@@ -72,7 +72,7 @@
                                 <div class="form-group has-feedback">
                                     <label for="inputNameEN" class="control-file-o">{{__('Type English name')}}</label>
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
+                                        <span class="input-group-addon"><i class="fa fa-file-o"></i></span>
                                         <input type="text" name="name_en" class="form-control" id="inputNameEN" value="{{$assetType->name_en}}" placeholder="{{__('Name in English')}}">
                                     </div>
                                     {{input_error($errors,'name_en')}}

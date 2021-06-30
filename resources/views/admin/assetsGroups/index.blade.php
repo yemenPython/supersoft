@@ -15,7 +15,7 @@
 
             <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control">
-                <i class="fa fa-money"></i>   {{__('assets Groups')}}
+                <i class="fa fa-folder-o"></i>   {{__('assets Groups')}}
                  </h4>
 
 
@@ -73,20 +73,32 @@
                             <td>{!! $index +1 !!}</td>
                             <td> {{ $assetGroup->branch->name }} </td>
                             <td>{!! $assetGroup->name !!}</td>
-                            <td>{!! $assetGroup->total_consumtion !!}</td>
-                            <td>{!! $assetGroup->annual_consumtion_rate !!}</td>
+                            <td> <span class="part-unit-span">{!! $assetGroup->total_consumtion !!} </span> </td>
+                            <td> <span class="price-span">{!! $assetGroup->annual_consumtion_rate !!} %</td>
                             <td>
+                            <div class="btn-group margin-top-10"> 
+                                        
+                                        <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="ico fa fa-bars"></i>
+                                        {{__('Options')}} <span class="caret"></span>
+                                     
+                                    </button> 
+                                    <ul class="dropdown-menu dropdown-wg">
+                                            <li>
 
                                             @component('admin.buttons._edit_button',[
                                             'id'=>$assetGroup->id,
                                             'route' => 'admin:assetsGroup.edit',
                                              ])
                                 @endcomponent
+                                </li>
+                                            <li class="btn-style-drop">
                                             @component('admin.buttons._delete_button',[
                                             'id'=> $assetGroup->id,
                                             'route' => 'admin:assetsGroup.destroy',
                                              ])
                                 @endcomponent
+                                </li>
 
 
                             </td>
