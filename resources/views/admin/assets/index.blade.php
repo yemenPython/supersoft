@@ -274,7 +274,6 @@
                                     <td> {{ $asset->branch->name }} </td>
                                     <td> {{ $asset->name }} </td>
 
-                                <!-- <td > {{ $asset->type }} </td> -->
                                     <td> {{ $asset->group->name }} </td>
 
                                     <td>
