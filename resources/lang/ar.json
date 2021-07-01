@@ -1200,7 +1200,16 @@
     "Assets Employees" : "مسؤولين الأصول",
     "Employee name" : "اسم الموظف",
     "Asset employees" : "المسؤولين عن",
-    "Add new asset employee" : "إضافة مسؤول عن الأصل",
+
+    "status" : "الحالة",
+    "start date" : "تاريخ البداية",
+    "end date" : "تاريخ النهاية",
+    "Asset insurances" : "تأمينات الأصول",
+    "details" : "التفاصيل",
+
+    "Assets Examinations" : "سجل فحوصات الأصول",
+    "Assets Licenses" : "سجل تراخيص الأصول",
+
 
     "capital-balance" : "رأس المال",
     "view_capital-balance" : "عرض رأس المال",

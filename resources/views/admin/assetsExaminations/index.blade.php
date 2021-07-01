@@ -1,25 +1,24 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Super Car') }} - {{ __('Assets Examinations') }} </title>
+    <title>{{ __('Assets Examinations') }} </title>
 @endsection
 <!-- Modal -->
-<div class="modal fade text-xs-left" id="add-employee-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
+<div class="modal fade" id="add-employee-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33">
+<div class="modal-dialog" role="document">
+    <div class="modal-content wg-content">
+    <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
-                </button>
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel-1">{{__('Assets Examinations')}}</h4>
+                
             </div>
             <form id="newAssetEmployee-form" method="post" action="{{ route('admin:assetsExaminations.store') }}">
                 <div class="modal-body">
 
                     <div class="col-xs-12">
-                        <div class="box-content card bordered-all js__card">
 
-                            <div class="card-content js__card_content">
 
                                 <div class="row">
                                     @csrf
@@ -28,12 +27,12 @@
                                     <div class="form-group col-md-12">
                                         <label>{{ __('details') }} </label>
                                         <div class="input-group">
-                                            <span class="input-group-addon fa fa-barcode"></span>
+                                            <span class="input-group-addon fa fa-file-o"></span>
                                             <input type="text" name="name" id="name" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <div class="form-group col-md-12">
+                                        <div class="form-group col-md-6">
                                             <label> {{ __('words.date-from') }} </label>
                                             <div class="input-group">
                                                 <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
@@ -41,10 +40,10 @@
                                                        class="form-control date js-example-basic-single" type="date"/>
                                             </div>
                                         </div>
-                                    </div>
+                              
 
 
-                                    <div class="form-group col-md-12">
+                                    <div class="form-group col-md-6">
                                         <label> {{ __('words.date-to') }} </label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
@@ -52,6 +51,7 @@
                                                    class="form-control date js-example-basic-single" type="date"/>
                                         </div>
                                     </div>
+                                </div>
                                 </div>
 
                                 <div class="col-md-2">
@@ -64,16 +64,17 @@
                                 </div>
 
 
-                            </div>
-                        </div>
                     </div>
 
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary waves-effect waves-light" type="submit">
-                        <i class="ico ico-left fa fa-save"></i>
                         {{__('save')}}
                     </button>
+                    <button type="button" class="btn btn-danger btn-sm waves-effect waves-light" data-dismiss="modal">
+
+{{__('Close')}}
+</button>
                 </div>
             </form>
         </div>
@@ -85,7 +86,7 @@
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
                 <li class="breadcrumb-item"><a href="{{route('admin:assets.index')}}"> {{__('words.assets')}}</a></li>
-                <li class="breadcrumb-item active"> {{ __('asset Examinations') }}</li>
+                <li class="breadcrumb-item active"> {{ __('Assets Examinations') }}</li>
             </ol>
         </nav>
 
@@ -104,12 +105,12 @@
                 <div class="card-content js__card_content">
                     <form  method="get">
                         <div class="list-inline margin-bottom-0 row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-3">
                                 <label> {{ __('Name') }} </label>
                                 {!! drawSelect2ByAjax('name','AssetExamination','examination_details',__('Select Name'),request()->name) !!}
                             </div>
 
-                                                            <div class="form-group col-md-6">
+                                                            <div class="form-group col-md-3">
                                                                 <label> {{ __('words.date-from') }} </label>
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
@@ -118,7 +119,7 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="form-group col-md-4">
+                                                            <div class="form-group col-md-3">
                                                                 <label> {{ __('words.date-to') }} </label>
                                                                 <div class="input-group">
                                                                     <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
@@ -128,11 +129,11 @@
                                                             </div>
 
 
-                            <div class="switch primary col-md-4">
+                            <div class="switch primary col-md-1">
                                 <input type="checkbox" id="switch-slam" name="active">
                                 <label for="switch-slam">{{__('Active')}}</label>
                             </div>
-                            <div class="switch primary col-md-4">
+                            <div class="switch primary col-md-2">
                                 <input type="checkbox" id="switch-ali" name="inactive">
                                 <label for="switch-ali">{{__('inActive')}}</label>
                             </div>
@@ -158,7 +159,7 @@
     <div class="col-xs-12">
         <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control">
-                <i class="fa fa-cubes"></i>   {{ $asset->name. " " .__('examinations') }}
+                <i class="fa fa-cubes"></i>   {{ __('Assets Examinations'). " " .$asset->name }}
                  </h4>
 
                  <div class="card-content js__card_content" style="">
@@ -168,7 +169,7 @@
                                type="button"
                                data-toggle="modal" data-target="#add-employee-modal"
                                class="btn btn-icon btn-icon-left btn-create-wg waves-effect waves-light hvr-bounce-to-left">
-                                {{__('Create')}}
+                                {{__('Add new')}}
                                 <i class="ico fa fa-plus"></i>
 
                             </a>
@@ -186,13 +187,13 @@
             </ul>
             <div class="clearfix"></div>
                     <div class="table-responsive">
-                <table id="datatable-with-btns" class="table table-striped table-bordered display" style="width:100%">
+                <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover" style="width:100%">
                     <thead>
                         <tr>
                             <th scope="col"> {{ __('#') }} </th>
                             <th scope="col"> {{ __('status') }} </th>
                             <th scope="col"> {{ __('details') }} </th>
-                            <th scope="col"> {{ __('start dte') }} </th>
+                            <th scope="col"> {{ __('start date') }} </th>
                             <th scope="col"> {{ __('end date') }} </th>
                             <th scope="col">{!! __('Options') !!}</th>
                             <th scope="col">
@@ -225,15 +226,13 @@
                                 <td> {{ $assetExamination->end_date }} </td>
                                 <td>
                                 <div class="btn-group margin-top-10">
-
+                                        
                                         <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="ico fa fa-bars"></i>
                                         {{__('Options')}} <span class="caret"></span>
-
-                                    </button>
-                                        <ul class="dropdown-menu">
-
-
+                                     
+                                    </button> 
+                                        <ul class="dropdown-menu dropdown-wg">
                                             <li>
                                                 <a style=" margin-bottom: 12px; border-radius: 5px"
                                                    type="button"
@@ -243,14 +242,15 @@
                                                    data-start_date="{{ $assetExamination->start_date }}"
                                                    data-end_date="{{ $assetExamination->end_date }}"
                                                    data-status="{{ $assetExamination->status }}"
-                                                   class="btn btn-icon btn-icon-left btn-create-wg waves-effect waves-light hvr-bounce-to-left">
-                                                    {{__('Edit')}}
+                                                   class="btn btn-print-wg text-white">                                                          
+                                                   
                                                     <i class="ico fa fa-edit"></i>
+                                                    {{__('Edit')}}
 
                                                 </a>
 
-                                            </li>
-                                            <li>
+                                                </li>
+                                                    <li class="btn-style-drop">
 
                                             @component('admin.buttons._delete_button',[
                                             'id'=> $assetExamination->id,
