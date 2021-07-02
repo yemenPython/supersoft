@@ -15,7 +15,7 @@
 
             <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control">
-                <i class="fa fa-money"></i>   {{__('Assets Types')}}
+                <i class="fa fa-folder-o"></i>   {{__('Assets Types')}}
                  </h4>
 
 

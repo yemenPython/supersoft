@@ -13,7 +13,7 @@
             </nav>
             <div class="col-xs-12">
                 <div class=" card box-content-wg-new bordered-all primary">
-                    <h1 class="box-title bg-info" style="text-align: initial"><i class="fa fa-file"></i>{{__('Create Asset Type')}}
+                    <h1 class="box-title bg-info" style="text-align: initial"><i class="fa fa-folder-o"></i>{{__('Create Asset Type')}}
                     <span class="controls hidden-sm hidden-xs pull-left">
                       <button class="control text-white"
                               style="background:none;border:none;font-size:14px;font-weight:normal !important;">{{__('Save')}}

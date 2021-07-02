@@ -22,7 +22,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [
         Route::get('autocomplete','AjaxController@AutoComplete');
 
         Route::get('/', 'DashboardController@index')->name('home');
-
+        include 'purchase-assets.php';
         include 'setting.php';
         include 'asset.php';
         include 'items-management.php';
@@ -81,6 +81,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [
         include 'supplier_bank_account.php';
         include 'purchase_request.php';
         include 'store_employee_history.php';
+
 
 
 //      users

@@ -238,6 +238,7 @@ route('admin:assets.index'),
 route('admin:assets_expenses_types.index'),
 route('admin:assets_expenses_items.index'),
 route('admin:assets_expenses.index'),
+route('admin:purchase-assets.index')
                      ])}}">
                     <a class="parent-item js__control" href="#">
                         <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
@@ -279,6 +280,11 @@ route('admin:assets_expenses.index'),
                         <li class="{{setActivationClass(route('admin:assets_expenses.index'))}}">
                             <a href="{{route('admin:assets_expenses.index')}}">
                                 {{__('Assets Expenses')}}
+                            </a>
+                        </li>
+                        <li class="{{setActivationClass(route('admin:purchase-assets.index'))}}">
+                            <a href="{{route('admin:purchase-assets.index')}}">
+                                {{__('Purchase Assets')}}
                             </a>
                         </li>
 
@@ -407,7 +413,7 @@ route('admin:services_packages.index'),
 
                     </ul>
                 </li>
-               
+
                 <li class="{{setActivationClass([
 route('admin:lockers.index'),
 route('admin:accounts.index'),
@@ -601,7 +607,7 @@ route('admin:reservations.index'),
                         </li>
                     </ul>
                 </li>
-              
+
 
 
                 <li class="{{setActivationClass([
