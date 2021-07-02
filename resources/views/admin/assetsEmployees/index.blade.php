@@ -18,13 +18,13 @@
                 <div class="modal-body">
 
                     <div class="col-xs-12">
-        
+
 
                                 <div class="row">
                                     @csrf
                                     <input type="hidden" value="{{$asset->id}}" name="asset_id">
                                     <input type="hidden" value="" name="asset_employee_id" id="asset_employee_id">
-                                 
+
                                         <div class="form-group col-md-12">
                                             <label>{{ __('name') }} </label>
                                             <div class="input-group">
@@ -56,7 +56,7 @@
                                                        class="form-control date js-example-basic-single" type="date"/>
                                             </div>
                                         </div>
-                               
+
 
 
                                     <div class="form-group col-md-12">
@@ -81,11 +81,11 @@
 
 
                             </div>
-          
+
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary waves-effect waves-light" type="submit">
-                   
+
                         {{__('save')}}
                     </button>
                     <button type="button" class="btn btn-danger btn-sm waves-effect waves-light" data-dismiss="modal">
@@ -268,6 +268,7 @@
                                                            data-start_date="{{ $assetEmployee->start_date }}"
                                                            data-end_date="{{ $assetEmployee->end_date }}"
                                                            data-status="{{ $assetEmployee->status }}"
+                                                           data-title="{{__('Edit asset employee')}}"
                                                            class="btn btn-icon btn-icon-left btn-create-wg waves-effect waves-light hvr-bounce-to-left">
                                                             {{__('Edit')}}
                                                             <i class="ico fa fa-edit"></i>
@@ -322,6 +323,7 @@
 
             $('#add-employee-modal').on('show.bs.modal', function (event) {
                 var button = $(event.relatedTarget);
+
                 var asset_employee_id = button.data('asset_employee_id');
                 $('#asset_employee_id').val(asset_employee_id);
                 var employee_id = button.data('employee_id');
@@ -341,6 +343,11 @@
                     $('#employee_id').val(0).trigger('change');
                     $("#employee_id").select2("val", '');
                 }
+                var title = button.data('title');
+                if (title === undefined){
+                    $('#myModalLabel-1').text('{{__('Add new asset employee')}}');
+                }
+                $('#myModalLabel-1').text(title);
             });
 
             $('#employee_id').on('change', function () {

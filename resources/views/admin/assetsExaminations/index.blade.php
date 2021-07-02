@@ -12,6 +12,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
+                <h4 class="modal-title" id="myModalLabel-1">{{__('Add new asset Examination')}}</h4>
             </div>
             <form id="newAssetEmployee-form" method="post" action="{{ route('admin:assetsExaminations.store') }}">
                 <div class="modal-body">
@@ -243,6 +244,7 @@
                                                    data-start_date="{{ $assetExamination->start_date }}"
                                                    data-end_date="{{ $assetExamination->end_date }}"
                                                    data-status="{{ $assetExamination->status }}"
+                                                   data-title="{{__('Edit asset Examination')}}"
                                                    class="btn btn-icon btn-icon-left btn-create-wg waves-effect waves-light hvr-bounce-to-left">
                                                     {{__('Edit')}}
                                                     <i class="ico fa fa-edit"></i>
@@ -305,6 +307,12 @@
             $('#end_date').val(end_date);
             var status = button.data('status');
             $('.status').val(status);
+
+            var title = button.data('title');
+            if (title === undefined){
+                $('#myModalLabel-1').text('{{__('Add new asset Examination')}}');
+            }
+            $('#myModalLabel-1').text(title);
         });
 
 

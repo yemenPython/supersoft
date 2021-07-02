@@ -78,10 +78,15 @@
                                         <label> {{ __('Asset name') }} </label>
                                         <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
-                                               
+
                                         <select class="form-control select2" id="name"
                                                 name="name">
                                             <option value="0"> {{ __('Select Name') }} </option>
+                                            @foreach($assets as $asset)
+                                                <option
+                                                    {{ old('asset_type_id') == $asset->id ? 'selected' : '' }}
+                                                    value="{{ $asset->id }}"> {{ $asset->name }} </option>
+                                            @endforeach
                                         </select>
 {{--                                        {!! drawSelect2ByAjax('name','Asset','name_'.app()->getLocale(),'name_'.app()->getLocale(),__('Select Name'),request()->name) !!}--}}
                                     </div>
@@ -102,7 +107,7 @@
                                         </div>
 
 
-                              
+
 
 
                                     <div class="form-group col-md-2">
@@ -294,7 +299,7 @@
                                             {{ __('sell') }}
                                             </span>
                                         @else
-                                        <span class="label label-danger wg-label"> 
+                                        <span class="label label-danger wg-label">
                                             {{ __('ignore') }}
                                             </span>
                                         @endif
@@ -315,12 +320,12 @@
                                     <td> {{ $asset->updated_at }} </td>
                                     <td>
                                     <div class="btn-group margin-top-10">
-                                        
+
                                         <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="ico fa fa-bars"></i>
                                         {{__('Options')}} <span class="caret"></span>
-                                     
-                                    </button> 
+
+                                    </button>
                                         <ul class="dropdown-menu dropdown-wg">
                                             <li>
 
