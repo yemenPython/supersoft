@@ -5,37 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\Asset\PurchaseAssetRequest;
 use App\Models\Asset;
 use App\Models\AssetGroup;
-use App\Models\PartPrice;
-use App\Models\PartPriceSegment;
 use App\Models\PurchaseAsset;
 use App\Models\PurchaseAssetItem;
-use App\Models\PurchaseReceipt;
-use App\Models\SupplyOrder;
-use App\Traits\SubTypesServices;
 use Exception;
-use App\Models\Part;
-use App\Models\Store;
 use App\Models\Branch;
 use App\Models\Supplier;
-use App\Models\SparePart;
-use App\Models\TaxesFees;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\App;
-use Illuminate\View\View;
 use Illuminate\Http\Request;
-use App\Models\ExpensesReceipt;
-use App\Models\PurchaseInvoice;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
-use App\Models\PurchaseInvoiceItem;
 use App\Http\Controllers\Controller;
-use App\Filters\PurchaseInvoiceFilter;
-use Illuminate\Support\Facades\Response;
-use App\Services\PurchaseInvoiceServices;
-use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\ExportPrinterFactory;
-use App\Http\Controllers\DataExportCore\Invoices\Purchase;
-use App\Http\Requests\Admin\PurchaseInvoice\PurchaseInvoiceRequest;
 
 class PurchaseAssetsController extends Controller
 {
@@ -254,7 +233,7 @@ class PurchaseAssetsController extends Controller
         if (is_null( $request->asset_id )) {
             return response()->json( __( 'please select valid Asset' ), 400 );
         }
-        if (is_null( $request->branch_id )) {
+        if (is_null( $request->branch_id ) && authIsSuperAdmin()) {
             return response()->json( __( 'please select valid branch' ), 400 );
         }
         $index = $request['index'] + 1;

@@ -85,6 +85,7 @@ class AssetsController extends Controller
         whereBetween( $assets, 'annual_consumtion_rate', $request->annual_consumtion_rate1, $request->annual_consumtion_rate2 );
 
         $assets = $assets->get();
+//        dd('ddddddddd');
         return view( 'admin.assets.index', compact( 'assets', 'branches', 'assetsGroups', 'assetsTypes','assetEmployees' ) );
     }
 
@@ -107,7 +108,6 @@ class AssetsController extends Controller
         $branches = Branch::select( ['id', 'name_ar', 'name_en'] )->get();
         $assetsGroups = AssetGroup::select( ['id', 'name_ar', 'name_en'] )->get();
         $assetsTypes = AssetType::select( ['id', 'name_ar', 'name_en'] )->get();
-
         return view( 'admin.assets.create', compact( "assetsGroups", "branches", "assetsTypes" ) );
     }
 
@@ -122,7 +122,7 @@ class AssetsController extends Controller
         Asset::create( [
             'asset_age' => $asset_age,
             'branch_id' => $request->branch_id,
-            'annual_consumtion_rate' => $asset_group->annual_consumtion_rate,
+            'annual_consumtion_rate' => $request->annual_consumtion_rate,
             'name_ar' => $request->name_ar,
             'name_en' => $request->name_en,
             'asset_group_id' => $request->asset_group_id,

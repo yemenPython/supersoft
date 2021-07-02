@@ -18,17 +18,19 @@
             <div class=" card box-content-wg-new bordered-all primary">
                 <h4 class="box-title with-control" style="text-align: initial"><i
                         class="fa fa-cubes"></i> {{__('create assets')}}
-                        <span class="controls hidden-sm hidden-xs pull-left">
+                    <span class="controls hidden-sm hidden-xs pull-left">
                       <button class="control text-white"
                               style="background:none;border:none;font-size:14px;font-weight:normal !important;">{{__('Save')}}
                       <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                            src="{{asset('assets/images/f1.png')}}">
                   </button>
-                        <button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;">
+                        <button class="control text-white"
+                                style="background:none;border:none;font-size:14px;font-weight:normal !important;">
                             {{__('Reset')}}
                             <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                                  src="{{asset('assets/images/f2.png')}}"></button>
-							<button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
+							<button class="control text-white"
+                                    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
                                     class="img-fluid"
                                     style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                                     src="{{asset('assets/images/f3.png')}}"></button>
@@ -39,7 +41,7 @@
                         @csrf
 
                         <div class="row">
-                        
+
                             @if (authIsSuperAdmin())
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -59,79 +61,83 @@
                             @else
                                 <input type="hidden" name="branch_id" value="{{ auth()->user()->branch_id }}"/>
                             @endif
-                         
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label> {{ __('Assets Groups') }} </label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
-                                            <select class="form-control select2" id="asset_group_id"
-                                                    name="asset_group_id">
-                                                <option value=""> {{ __('Select Group') }} </option>
-{{--                                                @foreach($assetsGroups as $assetGroup)--}}
-{{--                                                    <option--}}
-{{--                                                        {{ old('assetsGroups_id') == $assetGroup->id ? 'selected' : '' }}--}}
-{{--                                                        value="{{ $assetGroup->id }}"--}}
-{{--                                                        rate="{{ $assetGroup->annual_consumtion_rate }}"> {{ $assetGroup->name_ar }} </option>--}}
-{{--                                                @endforeach--}}
-                                            </select>
-                                        </div>
-                                        {{input_error($errors,'asset_group_id')}}
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label> {{ __('Assets Groups') }} </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                                        <select class="form-control select2" id="asset_group_id"
+                                                name="asset_group_id">
+                                            <option value=""> {{ __('Select Group') }} </option>
+                                            @if(!authIsSuperAdmin())
+                                                @foreach($assetsGroups as $assetGroup)
+                                                    <option
+                                                        {{ old('assetsGroups_id') == $assetGroup->id ? 'selected' : '' }}
+                                                        value="{{ $assetGroup->id }}"
+                                                        rate="{{ $assetGroup->annual_consumtion_rate }}"> {{ $assetGroup->name_ar }} </option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                    {{input_error($errors,'asset_group_id')}}
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label> {{ __('Assets Types') }} </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                                        <select class="form-control select2" name="asset_type_id"
+                                                id="asset_type_id">
+                                            <option value=""> {{ __('Select Type') }} </option>
+                                            @if(!authIsSuperAdmin())
+                                                @foreach($assetsTypes as $assetType)
+                                                    <option
+                                                        {{ old('asset_type_id') == $assetType->id ? 'selected' : '' }}
+                                                        value="{{ $assetType->id }}"> {{ $assetType->name_ar }} </option>
+                                                @endforeach
+                                            @endif
+                                        </select>
+                                    </div>
+                                    {{input_error($errors,'asset_type_id')}}
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label> {{ __('Asset Status') }} </label>
+                                    <div class="input-group">
+                                        <ul class="list-inline">
+                                            <li>
+                                                <div class="radio info">
+                                                    <input type="radio" id="radio_status_1" name="asset_status"
+                                                           value="1" checked>
+                                                    <label for="radio_status_1">{{ __('continues') }}</label>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="radio info">
+                                                    <input id="radio_status_2" disabled type="radio" name="asset_status"
+                                                           value="2">
+                                                    <label for="radio_status_2">{{ __('sell') }}</label>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="radio info">
+                                                    <input type="radio" disabled id="radio_status_3" name="asset_status"
+                                                           value="3">
+                                                    <label for="radio_status_3">{{ __('ignore') }}</label>
+                                                </div>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
+                            </div>
 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label> {{ __('Assets Types') }} </label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
-                                            <select class="form-control select2" name="asset_type_id"
-                                                    id="asset_type_id">
-                                                <option value=""> {{ __('Select Type') }} </option>
-{{--                                                @foreach($assetsTypes as $assetType)--}}
-{{--                                                    <option--}}
-{{--                                                        {{ old('asset_type_id') == $assetType->id ? 'selected' : '' }}--}}
-{{--                                                        value="{{ $assetType->id }}"> {{ $assetType->name_ar }} </option>--}}
-{{--                                                @endforeach--}}
-                                            </select>
-                                        </div>
-                                        {{input_error($errors,'asset_type_id')}}
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label> {{ __('Asset Status') }} </label>
-                                        <div class="input-group">
-                                            <ul class="list-inline">
-                                                <li>
-                                                    <div class="radio info">
-                                                        <input type="radio" id="radio_status_1" name="asset_status"
-                                                               value="1" checked>
-                                                        <label for="radio_status_1">{{ __('continues') }}</label>
-                                                    </div>
-                                                </li>
-
-                                                <li>
-                                                    <div class="radio info">
-                                                        <input id="radio_status_2" disabled type="radio" name="asset_status"
-                                                               value="2">
-                                                        <label for="radio_status_2">{{ __('sell') }}</label>
-                                                    </div>
-                                                </li>
-
-                                                <li>
-                                                    <div class="radio info">
-                                                        <input type="radio" disabled id="radio_status_3" name="asset_status"
-                                                               value="3">
-                                                        <label for="radio_status_3">{{ __('ignore') }}</label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                   
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label> {{ __('asset name ar') }} </label>
@@ -159,13 +165,12 @@
                                     <label> {{ __('annual consumption rate') }} </label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                        <input class="form-control"  value="0" name="annual_consumtion_rate"
+                                        <input class="form-control" value="0" name="annual_consumtion_rate"
                                                id="annual_consumtion_rate"/>
                                     </div>
                                     {{input_error($errors,'annual consumption rate')}}
                                 </div>
                             </div>
-
 
 
                         <!-- <div class="col-md-4">
@@ -213,7 +218,6 @@
                             </div>
 
 
-
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label> {{ __('Notes') }} </label>
@@ -222,7 +226,7 @@
                                 </div>
                                 {{input_error($errors,'asset_details')}}
                             </div>
-                            
+
                         <!-- <div class="col-md-4">
                             <div class="form-group">
                                 <label> {{ __('previous consumption') }} </label>
@@ -268,9 +272,9 @@
                         </div> -->
 
                         </div>
-                       
-                                    @include('admin.buttons._save_buttons')
-          
+
+                        @include('admin.buttons._save_buttons')
+
                     </form>
                 </div>
             </div>

@@ -37,12 +37,12 @@ class AssetEmployee extends Model
         'start_date',
         'end_date',
     ];
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope(new BranchScope());
-    }
+//    protected static function boot()
+//    {
+//        parent::boot();
+//
+//        static::addGlobalScope(new BranchScope());
+//    }
     protected static $logOnlyDirty = true;
 
     public function getDescriptionForEvent(string $eventName): string
