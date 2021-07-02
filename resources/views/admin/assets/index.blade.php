@@ -269,11 +269,11 @@
                             @foreach($assets as $asset)
                                 <tr>
                                     <td>{{$loop->iteration}}</td>
-                                    <td> {{ $asset->branch->name }} </td>
+                                    <td> {{ optional($asset->branch)->name }} </td>
                                     <td> {{ $asset->name }} </td>
 
                                 <!-- <td > {{ $asset->type }} </td> -->
-                                    <td> {{ $asset->group->name }} </td>
+                                    <td> {{ optional($asset->group)->name }} </td>
 
                                     <td>
                                         @if($asset->asset_status == 1)

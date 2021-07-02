@@ -45,11 +45,11 @@
                     <tbody>
                     <tr>
                         <th style="background:#CCC !important;color:black" scope="row">{{__('branch name')}}</th>
-                        <td>{{$asset->branch->name }}</td>
+                        <td>{{optional($asset->branch)->name }}</td>
                     </tr>
                     <tr>
                         <th style="background:#CCC !important;color:black" scope="row">{{__('group')}}</th>
-                        <td>{{$asset->group->name}}</td>
+                        <td>{{optional($asset->group)->name}}</td>
                     </tr>
 
                     <tr>
