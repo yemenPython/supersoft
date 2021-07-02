@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\BranchScope;
 use App\Traits\ColumnTranslation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -38,6 +39,12 @@ class AssetLicense extends Model
         'end_date',
         'asset_id',
     ];
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope(new BranchScope());
+    }
 
     protected static $logOnlyDirty = true;
 

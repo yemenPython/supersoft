@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\BranchScope;
 use App\Traits\ColumnTranslation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -84,7 +85,12 @@ class Asset extends Model
     {
         return "This model has been {$eventName}";
     }
+    protected static function boot()
+    {
+        parent::boot();
 
+        static::addGlobalScope(new BranchScope());
+    }
     /**
      * @return BelongsTo
      */

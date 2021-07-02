@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\BranchScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -26,7 +27,12 @@ class AssetExpense extends Model
         'user_id',
         'time',
     ];
+    protected static function boot()
+    {
+        parent::boot();
 
+        static::addGlobalScope(new BranchScope());
+    }
     public function assetExpensesItems(): HasMany
     {
         return $this->hasMany(AssetExpenseItem::class, 'asset_expense_id');
