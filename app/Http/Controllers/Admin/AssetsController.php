@@ -75,7 +75,9 @@ class AssetsController extends Controller
 
         $assetsGroups = AssetGroup::select( ['id', 'name_ar', 'name_en'] )->get();
         $assetsTypes = AssetType::select( ['id', 'name_ar', 'name_en'] )->get();
-        $assetEmployees = EmployeeData::select( ['id', 'name_ar', 'name_en'] )->get();
+        $assetEmployees = EmployeeData::select( ['id', 'name_ar', 'name_en'] )
+            ->whereIn('id',AssetEmployee::pluck('employee_id'))
+            ->get();
         whereBetween( $assets, 'DATE(purchase_date)', $request->purchase_date1, $request->purchase_date2 );
         whereBetween( $assets, 'DATE(date_of_work)', $request->date_of_work1, $request->date_of_work2 );
         whereBetween( $assets, 'asset_age', $request->asset_age1, $request->asset_age2 );
