@@ -11,7 +11,7 @@
     <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel-1">{{__('Add new asset employee')}}</h4>
+                    <h4 class="modal-title" id="myModalLabel-1">{{__('Assets Employees')}}</h4>
                 </div>
 
             <form id="newAssetEmployee-form" method="post" action="{{ route('admin:assetsEmployees.store') }}">
@@ -28,7 +28,7 @@
                                         <div class="form-group col-md-12">
                                             <label>{{ __('name') }} </label>
                                             <div class="input-group">
-                                                <span class="input-group-addon fa fa-barcode"></span>
+                                                <span class="input-group-addon fa fa-user"></span>
                                                 <select class="form-control select2" name="employee_id" id="employee_id">
                                                     <option value="0"> {{ __('Select Employee') }} </option>
                                                     @foreach($employees as $employee)
@@ -43,12 +43,12 @@
                                         <div class="form-group col-md-12">
                                             <label> {{ __('phone') }} </label>
                                             <div class="input-group">
-                                                <span class="input-group-addon fa fa-barcode"></span>
+                                                <span class="input-group-addon fa fa-phone"></span>
                                                 <input type="text" name="phone" id="phone" class="form-control" disabled>
                                             </div>
                                         </div>
 
-                                        <div class="form-group col-md-12">
+                                        <div class="form-group col-md-6">
                                             <label> {{ __('words.date-from') }} </label>
                                             <div class="input-group">
                                                 <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
@@ -57,9 +57,7 @@
                                             </div>
                                         </div>
 
-
-
-                                    <div class="form-group col-md-12">
+                                    <div class="form-group col-md-6">
                                         <label> {{ __('words.date-to') }} </label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
@@ -160,11 +158,11 @@
                             </div>
 
                             <button type="submit"
-                                    class="btn sr4-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
-                                    class=" fa fa-search "></i> {{__('Search')}} </button>
+                                    class="btn sr4-wg-btn waves-effect waves-light hvr-rectangle-out"><i
+                                    class=" fa fa-search"></i> {{__('Search')}} </button>
                             <a href="{{\Illuminate\Support\Facades\URL::previous()}}"
-                               class="btn bc-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
-                                    class=" fa fa-reply"></i> {{__('Back')}}
+                               class="btn bc-wg-btn waves-effect waves-light hvr-rectangle-out"><i
+                                    class="fa fa-reply"></i> {{__('Back')}}
                             </a>
 
                         </form>
@@ -205,7 +203,7 @@
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
-                        <table id="datatable-with-btns" class="table table-striped table-bordered display"
+                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover"
                                style="width:100%">
                             <thead>
                             <tr>
@@ -214,7 +212,7 @@
                                 <th scope="col"> {{ __('status') }} </th>
                                 <th scope="col"> {{ __('name') }} </th>
                                 <th scope="col"> {{ __('phone') }} </th>
-                                <th scope="col"> {{ __('start dte') }} </th>
+                                <th scope="col"> {{ __('start date') }} </th>
                                 <th scope="col"> {{ __('end date') }} </th>
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">
@@ -248,17 +246,15 @@
                                         <td> {{ $assetEmployee->start_date }} </td>
                                         <td> {{ $assetEmployee->end_date }} </td>
                                         <td>
-                                            <div class="btn-group margin-top-10">
+                                        <div class="btn-group margin-top-10">
 
-                                                <button type="button" class="btn btn-options dropdown-toggle"
-                                                        data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                    <i class="ico fa fa-bars"></i>
-                                                    {{__('Options')}} <span class="caret"></span>
+                                        <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="ico fa fa-bars"></i>
+                                        {{__('Options')}} <span class="caret"></span>
 
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    <li>
+                                    </button>
+                                        <ul class="dropdown-menu dropdown-wg">
+                                            <li>
                                                         <a style=" margin-bottom: 12px; border-radius: 5px"
                                                            type="button"
                                                            data-toggle="modal" data-target="#add-employee-modal"
@@ -271,12 +267,12 @@
                                                            data-title="{{__('Edit asset employee')}}"
                                                            class="btn btn-icon btn-icon-left btn-create-wg waves-effect waves-light hvr-bounce-to-left">
                                                             {{__('Edit')}}
-                                                            <i class="ico fa fa-edit"></i>
-
                                                         </a>
 
-                                                    </li>
-                                                    <li>
+
+                                                </li>
+                                                    <li class="btn-style-drop">
+
 
                                                         @component('admin.buttons._delete_button',[
                                                         'id'=> $assetEmployee->id,
