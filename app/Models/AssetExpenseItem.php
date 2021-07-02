@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\BranchScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -21,7 +22,12 @@ class AssetExpenseItem extends Model
         'asset_expense_id',
         'asset_expense_item_id',
     ];
+    protected static function boot()
+    {
+        parent::boot();
 
+        static::addGlobalScope(new BranchScope());
+    }
     public function assetExpenseItem(): BelongsTo
     {
         return $this->belongsTo(AssetsItemExpense::class, 'asset_expense_item_id');
