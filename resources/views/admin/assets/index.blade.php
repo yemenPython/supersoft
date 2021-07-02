@@ -78,7 +78,7 @@
                                         <label> {{ __('Asset name') }} </label>
                                         <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
-                                               
+
                                         <select class="form-control select2" id="name"
                                                 name="name">
                                             <option value="0"> {{ __('Select Name') }} </option>
@@ -102,7 +102,7 @@
                                         </div>
 
 
-                              
+
 
 
                                     <div class="form-group col-md-2">
@@ -279,10 +279,11 @@
                             @foreach($assets as $asset)
                                 <tr>
                                     <td>{{$loop->iteration}}</td>
-                                    <td class="text-danger"> {{ $asset->branch->name }} </td>
+                                    <td  class="text-danger"> {{ optional($asset->branch)->name }} </td>
                                     <td> {{ $asset->name }} </td>
 
-                                    <td> {{ $asset->group->name }} </td>
+                                <!-- <td > {{ $asset->type }} </td> -->
+                                    <td> {{ optional($asset->group)->name }} </td>
 
                                     <td>
                                         @if($asset->asset_status == 1)
@@ -294,7 +295,7 @@
                                             {{ __('sell') }}
                                             </span>
                                         @else
-                                        <span class="label label-danger wg-label"> 
+                                        <span class="label label-danger wg-label">
                                             {{ __('ignore') }}
                                             </span>
                                         @endif
@@ -315,12 +316,12 @@
                                     <td> {{ $asset->updated_at }} </td>
                                     <td>
                                     <div class="btn-group margin-top-10">
-                                        
+
                                         <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="ico fa fa-bars"></i>
                                         {{__('Options')}} <span class="caret"></span>
-                                     
-                                    </button> 
+
+                                    </button>
                                         <ul class="dropdown-menu dropdown-wg">
                                             <li>
 
