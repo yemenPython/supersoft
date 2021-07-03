@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Asset\AssetExpenseRequest;
-use App\Http\Requests\Admin\Asset\AssetExpenseRequestUpdate;
+use App\Filters\AssetExpenseFilter;
+use Exception;
 use App\Models\Asset;
+use App\Models\Branch;
+use Illuminate\View\View;
+use App\Models\AssetGroup;
+use App\Traits\LoggerError;
+use Illuminate\Http\Request;
 use App\Models\AssetExpense;
 use App\Models\AssetExpenseItem;
-use App\Models\AssetGroup;
-use App\Models\AssetsItemExpense;
 use App\Models\AssetsTypeExpense;
-use App\Models\Branch;
-use App\Traits\LoggerError;
-use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use App\Models\AssetsItemExpense;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Admin\Asset\AssetExpenseRequest;
+use App\Http\Requests\Admin\Asset\AssetExpenseRequestUpdate;
 
 /**
  * Class AssetExpenseController
@@ -29,11 +30,38 @@ class AssetExpenseController extends Controller
 {
     use LoggerError;
 
-    public function index(): View
+    /**
+     * @var AssetExpenseFilter
+     */
+    protected $assetExpenseFilter;
+
+    /**
+     * AssetExpenseController constructor.
+     * @param AssetExpenseFilter $assetExpenseFilter
+     */
+    public function __construct(AssetExpenseFilter $assetExpenseFilter)
     {
+        $this->assetExpenseFilter = $assetExpenseFilter;
+    }
+
+    public function index(Request $request): View
+    {
+        $branches = Branch::all();
         $assetExpenses = AssetExpense::query();
+        if ($request->hasAny((new AssetExpense())->getFillable())
+            || $request->has('dateFrom')
+            || $request->has('dateTo')
+            || $request->has('store_id')
+            || $request->has('settlement_type')
+            || $request->has('barcode')
+            || $request->has('supplier_barcode')
+            || $request->has('partId')
+        ) {
+            $assetExpenses = $this->assetExpenseFilter->filter($request);
+        }
         return view('admin.assets_expenses.index', [
-            'assetsExpenses' => $assetExpenses->orderBy('id', 'desc')->get()
+            'assetsExpenses' => $assetExpenses->orderBy('id', 'desc')->get(),
+            'branches' => $branches,
         ]);
     }
 

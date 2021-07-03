@@ -79,23 +79,7 @@ class ServicesPackagesController extends Controller
 
             return redirect()->back()->with(['authorization' => 'error']);
         }
-
-        $servicesIds = unserialize($servicePackage->service_id);
-        $qValues = unserialize($servicePackage->q);
-        $servicesData = Service::whereIn('id', $servicesIds)->get()->toArray();
-        $services = array_map(function($q, $service){
-           return [
-               'id' => $service['id'],
-               'q' => $q,
-               'total' => $q * $service['price'],
-               'name' =>  $service['name_ar'],
-               'hours' =>  $service['hours'],
-               'minutes' =>  $service['minutes'],
-               'price' =>  $service['price'],
-               'totalHours' =>   $q * $service['hours'],
-               'totalMin' =>  $q * $service['minutes'],
-           ];
-        }, $qValues, $servicesData );
+        $services = $this->getServicesByPackage($servicePackage);
         return view('admin.services_packages.edit', compact('servicePackage', 'services'));
     }
 
@@ -301,5 +285,35 @@ class ServicesPackagesController extends Controller
         } catch (Exception $exception) {
             return back()->with(['message' => __('words.can-not-forced-deleted'), 'alert-type' => 'error']);
         }
+    }
+
+    public function show(int $id)
+    {
+        $servicePackage = ServicePackage::findOrFail($id);
+        $services = $this->getServicesByPackage($servicePackage);
+        $view = view('admin.services_packages.show', compact('servicePackage', 'services'))->render();
+        return response()->json([
+            'view' => $view
+        ]);
+    }
+
+    public function getServicesByPackage(ServicePackage $servicePackage): array
+    {
+        $servicesIds = unserialize($servicePackage->service_id);
+        $qValues = unserialize($servicePackage->q);
+        $servicesData = Service::whereIn('id', $servicesIds)->get()->toArray();
+        return array_map(function($q, $service){
+            return [
+                'id' => $service['id'],
+                'q' => $q,
+                'total' => $q * $service['price'],
+                'name' =>  $service['name_ar'],
+                'hours' =>  $service['hours'],
+                'minutes' =>  $service['minutes'],
+                'price' =>  $service['price'],
+                'totalHours' =>   $q * $service['hours'],
+                'totalMin' =>  $q * $service['minutes'],
+            ];
+        }, $qValues, $servicesData );
     }
 }

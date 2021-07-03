@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\ServicesTypes\UpdateServiceTypeRequest;
 use App\Models\Branch;
 use App\Models\ServiceType;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\View\View;
@@ -33,9 +34,6 @@ class ServicesTypesController extends Controller
         }
 
         $types = ServiceType::orderBy('id', 'DESC');
-
-//        if(!authIsSuperAdmin())
-//            $types->where('branch_id', auth()->user()->branch_id);
 
         if ($request->has('name') && $request['name'] != '') {
             $types->where('id', $request['name']);
@@ -171,18 +169,14 @@ class ServicesTypesController extends Controller
         if (!auth()->user()->can('delete_services_types')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
-        if (isset($request->ids) && isset($request->archive)) {
-            ServiceType::whereIn('id', $request->ids)->delete();
-            return back()->with(['message' => __('words.selected-row-archived'), 'alert-type' => 'success']);
-        }
-
-        if (isset($request->ids) && isset($request->restore)) {
-            ServiceType::withTrashed()->whereIn('id', $request->ids)->restore();
-            return back()->with(['message' => __('words.selected-row-restored'), 'alert-type' => 'success']);
-        }
-
         if (isset($request->ids) && isset($request->forcDelete)) {
-            ServiceType::withTrashed()->whereIn('id', $request->ids)->forceDelete();
+            $types = ServiceType::withTrashed()->whereIn('id', $request->ids)->get();
+            foreach ($types as $type) {
+                if ($type->services()->exists()) {
+                    return redirect()->back()->with(['message'=> __('sorry, this item has related data'), 'alert-type'=>'error']);
+                }
+                $type->forceDelete();
+            }
             return back()->with(['message' => __('words.selected-row-force-deleted'), 'alert-type' => 'success']);
         }
         return redirect(route('admin:services-types.index'))
@@ -200,10 +194,13 @@ class ServicesTypesController extends Controller
         }
     }
 
-    public function forceDelete(int $id)
+    public function forceDelete(int $id): RedirectResponse
     {
         try {
             $services_type = ServiceType::withTrashed()->findOrFail($id);
+           if ($services_type->services()->exists()) {
+               return redirect()->back()->with(['message'=> __('sorry, this item has related data'), 'alert-type'=>'error']);
+           }
             $services_type->forceDelete();
             return back()->with(['message' => __('words.selected-row-force-deleted'), 'alert-type' => 'success']);
         } catch (Exception $exception) {

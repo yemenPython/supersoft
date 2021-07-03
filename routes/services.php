@@ -48,3 +48,4 @@ Route::delete('services_packages/force-delete/{servicePackage}', 'ServicesPackag
 Route::put('services_packages/restore-delete/{servicePackage}', 'ServicesPackagesController@restoreDelete')->name('services_packages.restore_delete');
 Route::post('services_packages-archiveSelected', 'ServicesPackagesController@archiveSelected')->name('services_packages.archiveSelected');
 Route::post('services_packages-restoreSelected', 'ServicesPackagesController@restoreSelected')->name('services_packages.restoreSelected');
+Route::get('services_packages/{id}', 'ServicesPackagesController@show')->name('services_packages.show');

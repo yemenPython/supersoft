@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Asset;
+use App\Models\AssetExpense;
+use App\Models\AssetGroup;
+use App\Models\AssetsItemExpense;
+use App\Models\AssetsTypeExpense;
 use App\Models\DamagedStock;
 use App\Models\EmployeeData;
 use App\Models\OpeningBalance;
@@ -17,6 +22,8 @@ class AjaxController extends Controller
     protected $storeId;
     protected $partId;
     protected $serialNumber;
+    protected $asset_group_name;
+    protected $asset_expense_type;
 
     public function AutoComplete(Request $request)
     {
@@ -41,6 +48,10 @@ class AjaxController extends Controller
                 && $request->part_name != __('words.select-one')) ? $request->part_name : '';
             $this->serialNumber = ($request->has('serial_number') && !empty($request->serial_number)
                 && $request->serial_number != __('words.select-one')) ? $request->serial_number : '';
+            $this->asset_group_name = ($request->has('asset_group_name') && !empty($request->asset_group_name)
+                && $request->asset_group_name != __('words.select-one')) ? $request->asset_group_name : '';
+            $this->asset_expense_type = ($request->has('asset_expense_type') && !empty($request->asset_expense_type)
+                && $request->asset_expense_type != __('words.select-one')) ? $request->asset_expense_type : '';
 
             switch ($request->model) {
                 case 'User':
@@ -102,6 +113,22 @@ class AjaxController extends Controller
                     break;
                 case 'Supplier':
                     $data = $this->getSuppliers($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+
+                case 'AssetExpense':
+                    $data = $this->getAssetExpenses($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+
+                case 'AssetGroup':
+                    $data = $this->getAssetGroups($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+
+                case 'AssetsTypeExpense':
+                    $data = $this->getAssetsTypeExpenses($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+
+                case 'AssetsItemExpense':
+                    $data = $this->getAssetsItemExpenses($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
                     break;
                 default:
                     break;
@@ -184,33 +211,34 @@ class AjaxController extends Controller
     public function getAsset($searchFields = [], $searchTerm = '', $selectedColumns = '*', $limit = 10)
     {
         $data = [];
-
         $id = ' id ,';
-
         if ($selectedColumns != '' && $selectedColumns != '*') {
             $selectedColumns = $id . ' ' . $selectedColumns;
         }
-
-
-        $resources = DB::table('assets_tb')->whereNull('deleted_at')->select(DB::raw($selectedColumns));
+        $assets = Asset::select(DB::raw($selectedColumns));
 
         if (!empty($searchFields)) {
             foreach ($searchFields as $searchField) {
                 if (!empty($searchTerm) && $searchTerm != '') {
-                    $resources = $resources->where($searchField, 'like', '%' . $searchTerm . '%');
+                    $assets = $assets->where($searchField, 'like', '%' . $searchTerm . '%');
                 }
             }
         }
-        $resources = $resources->limit($limit)->get();
-        foreach ($resources as $resource) {
-            $onItemData = [
-                'id' => $resource->id,
-                'text' => $this->buildSelectedColumnsAsText($resource, $selectedColumns)
-            ];
-
-            $data[] = $onItemData;
+        if (!empty($branchId)) {
+            $assets = $assets->where('branch_id', $branchId);
         }
 
+        if (!empty($this->asset_group_name)) {
+            $assets = $assets->where('asset_group_id', $this->asset_group_name);
+        }
+
+        $assets = $assets->limit($limit)->get();
+        foreach ($assets as $asset) {
+            $data[] = [
+                'id' => $asset->id,
+                'text' => $this->buildSelectedColumnsAsText($asset, $selectedColumns)
+            ];
+        }
         return $data;
     }
     public function getAssetInsurances($searchFields = [], $searchTerm = '', $selectedColumns = '*', $limit = 10)
@@ -691,6 +719,133 @@ class AjaxController extends Controller
         return $data;
     }
 
+    private function getAssetExpenses(array $searchFields, $searchTerm, $selectedColumns, $limit, $branchId): array
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $assetsExpenses = AssetExpense::select(DB::raw($selectedColumns));
+
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $assetsExpenses = $assetsExpenses->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        if (!empty($branchId)) {
+            $assetsExpenses = $assetsExpenses->where('branch_id', $branchId);
+        }
+        $assetsExpenses = $assetsExpenses->limit($limit)->get();
+        foreach ($assetsExpenses as $assetsExpense) {
+            $data[] = [
+                'id' => $assetsExpense->id,
+                'text' => $this->buildSelectedColumnsAsText($assetsExpense, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+
+    private function getAssetGroups(array $searchFields, $searchTerm, $selectedColumns, $limit, $branchId)
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $assetsGroups = AssetGroup::select(DB::raw($selectedColumns));
+
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $assetsGroups = $assetsGroups->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        if (!empty($branchId)) {
+            $assetsGroups = $assetsGroups->where('branch_id', $branchId);
+        }
+
+
+        $assetsGroups = $assetsGroups->limit($limit)->get();
+        foreach ($assetsGroups as $assetsGroup) {
+            $data[] = [
+                'id' => $assetsGroup->id,
+                'text' => $this->buildSelectedColumnsAsText($assetsGroup, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+    private function getAssetsTypeExpenses(array $searchFields, $searchTerm, $selectedColumns, $limit, $branchId): array
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $assetsTypeExpenses = AssetsTypeExpense::select(DB::raw($selectedColumns));
+
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $assetsTypeExpenses = $assetsTypeExpenses->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        if (!empty($branchId)) {
+            $assetsTypeExpenses = $assetsTypeExpenses->where('branch_id', $branchId);
+        }
+
+
+        $assetsTypeExpenses = $assetsTypeExpenses->limit($limit)->get();
+        foreach ($assetsTypeExpenses as $assetsTypeExpense) {
+            $data[] = [
+                'id' => $assetsTypeExpense->id,
+                'text' => $this->buildSelectedColumnsAsText($assetsTypeExpense, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+    private function getAssetsItemExpenses(array $searchFields, $searchTerm, $selectedColumns, $limit, $branchId): array
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $assetsItemExpenses = AssetsItemExpense::select(DB::raw($selectedColumns));
+
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $assetsItemExpenses = $assetsItemExpenses->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        if (!empty($branchId)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('branch_id', $branchId);
+        }
+        if (!empty($this->asset_expense_type)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('assets_type_expenses_id', $this->asset_expense_type);
+        }
+
+
+        $assetsItemExpenses = $assetsItemExpenses->limit($limit)->get();
+        foreach ($assetsItemExpenses as $assetsItemExpense) {
+            $data[] = [
+                'id' => $assetsItemExpense->id,
+                'text' => $this->buildSelectedColumnsAsText($assetsItemExpense, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+
     private function buildSelectedColumnsAsText($resource, $selectedColumns = ['name'])
     {
         $text = '';
@@ -739,5 +894,4 @@ class AjaxController extends Controller
 
         return $data;
     }
-
 }

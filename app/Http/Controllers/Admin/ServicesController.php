@@ -6,8 +6,10 @@ use App\Http\Requests\Admin\Services\CreateRequest;
 use App\Http\Requests\Admin\Services\UpdateServiceRequest;
 use App\Models\Branch;
 use App\Models\Service;
+use App\Models\ServicePackage;
 use App\Models\ServiceType;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\View\View;
@@ -186,6 +188,9 @@ class ServicesController extends Controller
         }
 
         if (isset($request->ids) && isset($request->forcDelete)) {
+            if (count(ServicePackage::all()) > 0) {
+                return redirect()->back()->with(['message'=> __('sorry, this item has related data'), 'alert-type'=>'error']);
+            }
             Service::withTrashed()->whereIn('id', $request->ids)->forceDelete();
             return back()->with(['message' => __('words.selected-row-force-deleted'), 'alert-type' => 'success']);
         }
@@ -225,7 +230,7 @@ class ServicesController extends Controller
         return view('admin.services.archive',compact('services','branches','services_search','types'));
     }
 
-    public function restoreDelete(int $id)
+    public function restoreDelete(int $id): RedirectResponse
     {
         try {
             $Service = Service::withTrashed()->findOrFail($id);
@@ -240,6 +245,9 @@ class ServicesController extends Controller
     {
         try {
             $Service = Service::withTrashed()->findOrFail($id);
+            if (count(ServicePackage::all()) > 0) {
+                return redirect()->back()->with(['message'=> __('sorry, this item has related data'), 'alert-type'=>'error']);
+            }
             $Service->forceDelete();
             return back()->with(['message' => __('words.selected-row-force-deleted'), 'alert-type' => 'success']);
         } catch (Exception $exception) {
