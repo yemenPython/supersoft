@@ -28,11 +28,11 @@
                        value="{{isset($purchaseAsset) ? 0 : 0}}">
             </td>
             <td>
-                <input type="text" class="form-control"  name="remaining_amount" id="remaining_amount"
+                <input type="text" readonly class="form-control"  name="remaining_amount" id="remaining_amount"
                        value="{{isset($purchaseAsset) ? $purchaseAsset->remaining_amount : 0}}">
             </td>
             <td>
-                <input type="text" class="form-control"  name="paid_amount" id="paid_amount"
+                <input type="text" readonly class="form-control"  name="paid_amount" id="paid_amount"
                        value="{{isset($purchaseAsset) ? $purchaseAsset->paid_amount : 0}}">
             </td>
         </tr>

@@ -2011,6 +2011,7 @@
     "Show Purchase Receipt" : "محاضر إستلام المخزون",
     "Assets Expenses Types" : "أنواع مصروفات الأصول",
     "Assets Expenses Items" : "بنود مصروفات الأصول",
+<<<<<<< HEAD
     "Assets Replacements" : "تجديد واحلال الأصول",
     "Operation Date" : "تاريخ التشغيل",
     "Purchase Cost" : "تكلفة الشراء",
@@ -2025,5 +2026,8 @@
 }
 
 
+=======
+    "Purchase Assets" : "مشتريات الأصول"
+>>>>>>> 95fd8bb8c0645f158babfa0421179d8b9e2a8c20
 
 
