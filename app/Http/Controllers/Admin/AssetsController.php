@@ -12,11 +12,13 @@ use App\Models\AssetLicense;
 use App\Models\AssetType;
 use App\Models\Asset;
 use App\Models\Branch;
+use App\Models\Car;
 use App\Models\EmployeeData;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use DataTables;
 
 class AssetsController extends Controller
 {
@@ -78,6 +80,121 @@ class AssetsController extends Controller
         $assetEmployees = EmployeeData::select( ['id', 'name_ar', 'name_en'] )
             ->whereIn('id',AssetEmployee::pluck('employee_id'))
             ->get();
+
+
+//        if ($request->ajax()) {
+//
+//            $assets = Asset::select([
+////                'id',
+//                'branch_id',
+//                'name_'.app()->getLocale(),
+//                'asset_group_id',
+//                'asset_status',
+//                'annual_consumtion_rate',
+//                'asset_age',
+//                'created_at',
+//                'updated_at',
+//            ]);
+//
+//            return DataTables::eloquent($assets)
+//                ->addIndexColumn()
+//                ->addColumn('branch_id', function ($asset) {
+//                    return optional($asset->branch)->name;
+//
+//                })
+//                ->editColumn('name',function ($asset){
+//                    return $asset->{'name_'.app()->getLocale()};
+//                })
+//                ->addColumn('asset_group_id',function ($asset){
+//                    return  optional($asset->group)->name;
+//                })
+//                ->editColumn('asset_status',function ($asset){
+//                    if($asset->asset_status == 1){
+//                        return '<span class="label label-info wg-label">'.__('continues').'</span>';
+//                    }elseif ($asset->asset_status == 1){
+//                        return '<span class="label label-info wg-label">'.__('sell').'</span>';
+//                    }else{
+//                        return '<span class="label label-info wg-label">'.__('ignore').'</span>';
+//                    }
+//                })
+//                ->editColumn('annual_consumtion_rate',function ($asset){
+//                    return $asset->annual_consumtion_rate .'%';
+//                })
+//                ->editColumn('asset_age',function ($asset){
+//                    return $asset->asset_age .__('year');
+//                })
+//                ->editColumn('created_at','{{$created_at}}')
+//                ->editColumn('updated_at','{{$updated_at}}')
+//                ->addColumn('action', function ($row) {
+//                    $btn = "<a type='button' style='cursor:pointer' data-info='$row->id,$row->type_id,$row->model_id,$row->plate_number,$row->Chassis_number,$row->speedometer,$row->barcode,$row->color,$row->image,$row->motor_number,$row->company_id'
+//                  id='editCar'><i class='fa fa-edit fa-2x' style='color:cornflowerblue'></i></a>";
+//                    $btn = $btn . "<a type='button' id='removeCar'  data-id=$row->id style='cursor:pointer'><i class='fa fa-trash fa-2x'  style='color:#F44336'></i></a>";
+//
+//                    return $btn;
+//                })
+//                ->rawColumns(['action'])
+////                ->rawColumns(['actions'])
+//                ->escapeColumns([])
+//                ->removeColumn( 'name_'.app()->getLocale())
+//                ->make(false);
+//        }
+        whereBetween( $assets, 'DATE(purchase_date)', $request->purchase_date1, $request->purchase_date2 );
+        whereBetween( $assets, 'DATE(date_of_work)', $request->date_of_work1, $request->date_of_work2 );
+        whereBetween( $assets, 'asset_age', $request->asset_age1, $request->asset_age2 );
+        whereBetween( $assets, 'purchase_cost', $request->purchase_cost1, $request->purchase_cost2 );
+        whereBetween( $assets, 'annual_consumtion_rate', $request->annual_consumtion_rate1, $request->annual_consumtion_rate2 );
+        $assets = $assets->get();
+        return view( 'admin.assets.index', compact( 'assets', 'branches', 'assetsGroups', 'assetsTypes','assetEmployees' ) );
+    }
+    public function indexnew(Request $request)
+    {
+        $assets = Asset::orderBy( 'id', 'desc' );
+//        dd( $request->all() );
+        if ($request->has( 'name' ) &&  !empty($request['name']))
+            $assets->where( 'id', [$request->name] );
+
+        if ($request->has( 'branch_id' ) && !empty( $request['branch_id']))
+            $assets->where( 'branch_id', $request['branch_id'] );
+
+        if ($request->has( 'asset_group_id' ) && !empty( $request->asset_group_id ))
+            $assets->where( 'asset_group_id', $request['asset_group_id'] );
+
+        if ($request->has( 'asset_type_id' ) && !empty( $request['asset_type_id'] ))
+            $assets->where( 'asset_type_id', $request['asset_type_id'] );
+
+        if ($request->has( 'annual_consumtion_rate' ) && !empty($request['annual_consumtion_rate']))
+            $assets->where( 'annual_consumtion_rate', $request['annual_consumtion_rate'] );
+
+        if ($request->has( 'asset_age' ) &&  !empty($request['asset_age']))
+            $assets->where( 'asset_age', $request['asset_age'] );
+
+        if ($request->has( 'purchase_cost' ) &&  !empty($request['purchase_cost']))
+            $assets->where( 'purchase_cost', $request['purchase_cost'] );
+
+        if ($request->has( 'purchase_date' ) &&  !empty($request['purchase_date']))
+            $assets->where( 'purchase_date', $request['purchase_date'] );
+
+        if ($request->has( 'asset_status' ) &&  !empty($request['asset_status']))
+            $assets->where( 'asset_status', $request['asset_status'] );
+
+        if ($request->has( 'employee_id' ) &&  !empty($request['employee_id'])) {
+//           $asset_ids = AssetEmployee::where('employee_id',$request->employee_id)->pluck('asset_id');
+//            $assets->whereIn( 'id', $asset_ids );
+            $assets->whereHas(
+                'asset_employees',
+                function ($query) use ($request) {
+                    $query->where('employee_id', $request->employee_id);
+                }
+            );
+        }
+
+        $branches = Branch::all()->pluck( 'name', 'id' );
+
+        $assetsGroups = AssetGroup::select( ['id', 'name_ar', 'name_en'] )->get();
+        $assetsTypes = AssetType::select( ['id', 'name_ar', 'name_en'] )->get();
+        $assetEmployees = EmployeeData::select( ['id', 'name_ar', 'name_en'] )
+            ->whereIn('id',AssetEmployee::pluck('employee_id'))
+            ->get();
         whereBetween( $assets, 'DATE(purchase_date)', $request->purchase_date1, $request->purchase_date2 );
         whereBetween( $assets, 'DATE(date_of_work)', $request->date_of_work1, $request->date_of_work2 );
         whereBetween( $assets, 'asset_age', $request->asset_age1, $request->asset_age2 );
@@ -85,7 +202,64 @@ class AssetsController extends Controller
         whereBetween( $assets, 'annual_consumtion_rate', $request->annual_consumtion_rate1, $request->annual_consumtion_rate2 );
 
         $assets = $assets->get();
-//        dd('ddddddddd');
+
+        if ($request->ajax()) {
+
+            $assets = Asset::select([
+//                'id',
+                'branch_id',
+                'name_'.app()->getLocale(),
+                'asset_group_id',
+                'asset_status',
+                'annual_consumtion_rate',
+                'asset_age',
+                'created_at',
+                'updated_at',
+            ]);
+
+            return \DataTables::of($assets)
+
+                ->addColumn('branch_id', function ($asset) {
+                    return optional($asset->branch)->name;
+
+                })
+                ->addColumn('name',function ($asset){
+                    return $asset->{'name_'.app()->getLocale()};
+                })
+                ->addColumn('asset_group_id',function ($asset){
+                    return  optional($asset->group)->name;
+                })
+                ->addColumn('asset_status',function ($asset){
+                    if($asset->asset_status == 1){
+                        return '<span class="label label-info wg-label">'.__('continues').'</span>';
+                    }elseif ($asset->asset_status == 1){
+                        return '<span class="label label-info wg-label">'.__('sell').'</span>';
+                    }else{
+                        return '<span class="label label-info wg-label">'.__('ignore').'</span>';
+                    }
+                })
+                ->editColumn('annual_consumtion_rate',function ($asset){
+                    return $asset->annual_consumtion_rate .'%';
+                })
+                ->editColumn('asset_age',function ($asset){
+                    return $asset->asset_age .__('year');
+                })
+                ->addColumn('created_at','{{$created_at}}')
+                ->addColumn('updated_at','{{$updated_at}}')
+//                ->addColumn('action', function ($row) {
+//                    $btn = "<a type='button' style='cursor:pointer' data-info='$row->id,$row->type_id,$row->model_id,$row->plate_number,$row->Chassis_number,$row->speedometer,$row->barcode,$row->color,$row->image,$row->motor_number,$row->company_id'
+//                  id='editCar'><i class='fa fa-edit fa-2x' style='color:cornflowerblue'></i></a>";
+//                    $btn = $btn . "<a type='button' id='removeCar'  data-id=$row->id style='cursor:pointer'><i class='fa fa-trash fa-2x'  style='color:#F44336'></i></a>";
+//
+//                    return $btn;
+//                })
+//                ->rawColumns(['action'])
+//                ->rawColumns(['actions'])
+                ->escapeColumns([])
+//                ->removeColumn('id', 'name_'.app()->getLocale())
+                ->make(false);
+        }
+
         return view( 'admin.assets.index', compact( 'assets', 'branches', 'assetsGroups', 'assetsTypes','assetEmployees' ) );
     }
 
@@ -274,7 +448,12 @@ class AssetsController extends Controller
     }
     public function getAssetsByAssetsType(Request $request): JsonResponse
     {
-        if ($assets = Asset::where( 'asset_type_id', $request->asset_type_id )->get()) {
+        if (!empty($request->asset_type_id)){
+            $assets = Asset::where( 'asset_type_id', $request->asset_type_id )->get();
+        }else{
+            $assets = Asset::all();
+        }
+        if ($assets ) {
             $assets_data = view( 'admin.assets.asset_by_branch_id', compact( 'assets' ) )->render();
             return response()->json( [
                 'data' => $assets_data,
@@ -283,7 +462,12 @@ class AssetsController extends Controller
     }
     public function getAssetsByAssetsGroup(Request $request): JsonResponse
     {
-        if ($assets = Asset::where( 'asset_group_id', $request->asset_group_id )->get()) {
+        if (!empty($request->asset_group_id)){
+            $assets = Asset::where( 'asset_group_id', $request->asset_group_id )->get();
+        }else{
+            $assets = Asset::all();
+        }
+        if ($assets) {
             $assets_data = view( 'admin.assets.asset_by_branch_id', compact( 'assets' ) )->render();
             return response()->json( [
                 'data' => $assets_data,

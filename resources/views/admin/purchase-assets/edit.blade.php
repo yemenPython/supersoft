@@ -35,11 +35,13 @@
                       <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                            src="{{asset('assets/images/f1.png')}}">
                   </button>
-                        <button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;">
+                        <button class="control text-white"
+                                style="background:none;border:none;font-size:14px;font-weight:normal !important;">
                             {{__('Reset')}}
                             <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                                  src="{{asset('assets/images/f2.png')}}"></button>
-							<button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
+							<button class="control text-white"
+                                    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
                                     class="img-fluid"
                                     style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                                     src="{{asset('assets/images/f3.png')}}"></button>
@@ -47,7 +49,8 @@
                 </h4>
 
                 <div class="box-content">
-                    <form method="post" action="{{route('admin:purchase-assets.update', $purchaseAsset->id)}}" class="form"
+                    <form method="post" action="{{route('admin:purchase-assets.update', $purchaseAsset->id)}}"
+                          class="form"
                           enctype="multipart/form-data">
                         @csrf
                         @method('PATCH')
@@ -88,6 +91,7 @@
             let branch_id = $('#branch_id').find(":selected").val();
             window.location.href = "{{route('admin:purchase-assets.create')}}" + "?branch_id=" + branch_id;
         }
+
         function removeItem(index) {
             swal({
 
@@ -111,7 +115,6 @@
                 }
             });
         }
-
 
 
         function reorderItems() {
@@ -227,40 +230,40 @@
 
         function totalPurchaseCost() {
             let total = '';
-            $(".purchase_cost").each(function(){
-                var value =  $($(this)).val();
-                total = +total +  +value;
+            $(".purchase_cost").each(function () {
+                var value = $($(this)).val();
+                total = +total + +value;
             });
             $('#total_purchase_cost').val(total);
         }
 
         function totalPastConsumtion() {
             let total = '';
-            $(".past_consumtion").each(function(){
-                var value =  $($(this)).val();
-                total = +total +  +value;
+            $(".past_consumtion").each(function () {
+                var value = $($(this)).val();
+                total = +total + +value;
             });
             $('#total_past_consumtion').val(total);
         }
 
         function netTotal() {
             let total = '';
-            $(".current_consumtion").each(function(){
-                var value =  $($(this)).val();
-                total = +total +  +value;
+            $(".current_consumtion").each(function () {
+                var value = $($(this)).val();
+                total = +total + +value;
             });
             $('#net_total').val(total);
         }
 
         function annual_consumtion_rate_value(index) {
-            var annual_consumtion_rate = $('.annual_consumtion_rate_'+index).val();
+            var annual_consumtion_rate = $('.annual_consumtion_rate_' + index).val();
 
-            var purchase_cost = $('.purchase_cost_'+index).val();
+            var purchase_cost = $('.purchase_cost_' + index).val();
 
-            if (annual_consumtion_rate !='' && purchase_cost !=''){
+            if (annual_consumtion_rate != '' && purchase_cost != '') {
 
-                var asset_age = ( purchase_cost / annual_consumtion_rate) / 100;
-                $('.asset_age_'+index).val(asset_age);
+                var asset_age = (purchase_cost / annual_consumtion_rate) / 100;
+                $('.asset_age_'+index).val( asset_age.toFixed(2));
             }
         }
 
@@ -293,6 +296,11 @@
                 swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
                 return false;
             }
+        });
+        $(function (){
+            totalPurchaseCost();
+            totalPastConsumtion();
+            netTotal();
         });
     </script>
 

@@ -187,7 +187,11 @@ class AssetExpenseController extends Controller
 
     public function getAssetsByAssetGroup(Request $request): JsonResponse
     {
-        $assets = Asset::where('asset_group_id', $request->asset_group_id)->get();
+        if (!empty($request->asset_group_id)){
+            $assets = Asset::where('asset_group_id', $request->asset_group_id)->get();
+        }else{
+            $assets = Asset::all();
+        }
         $htmlAssets = '<option value="">'.__('Select Assets').'</option>';
         foreach ($assets as $asset) {
             $htmlAssets .= '<option value="' . $asset->id . '">' . $asset->name . '</option>';

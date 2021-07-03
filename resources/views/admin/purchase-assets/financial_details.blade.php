@@ -13,19 +13,18 @@
         <tr>
             <td>
                 <input type="text" class="form-control" readonly name="total_purchase_cost" id="total_purchase_cost"
-                       value=" {{isset($purchaseAsset) ? 0 : 0}}"
+                       value=" {{isset($purchaseAsset) ? $purchaseAsset->total_purchase_cost : 0}}"
                 >
             </td>
 
             <td>
                 <input type="text" class="form-control" readonly name="total_past_consumtion" id="total_past_consumtion"
-                       value=" {{isset($purchaseAsset) ? 0 : 0}}"
+                       value=" {{isset($purchaseAsset) ? $purchaseAsset->total_past_consumtion : 0}}"
                 >
             </td>
-
             <td>
                 <input type="text" class="form-control" readonly name="net_total" id="net_total"
-                       value="{{isset($purchaseAsset) ? 0 : 0}}">
+                       value="{{isset($purchaseAsset) ? $purchaseAsset->net_total : 0}}">
             </td>
             <td>
                 <input type="text" readonly class="form-control"  name="remaining_amount" id="remaining_amount"

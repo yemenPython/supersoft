@@ -76,7 +76,10 @@ class PurchaseAssetsController extends Controller
                 'supplier_id' => $data['supplier_id'],
                 'paid_amount' => $data['paid_amount'],
                 'remaining_amount' => $data['remaining_amount'],
-                'note' => $data['note']
+                'note' => $data['note'],
+                'total_purchase_cost'=>$request->total_purchase_cost,
+                'total_past_consumtion'=>$request->total_past_consumtion,
+                'net_total'=>$request->net_total
             ];
             $invoice_data['branch_id'] = authIsSuperAdmin() ? $request['branch_id'] : auth()->user()->branch_id;
 
@@ -89,6 +92,8 @@ class PurchaseAssetsController extends Controller
                     'date_of_work' => $item['date_of_work'],
                     'purchase_cost' => $item['purchase_cost'],
                     'past_consumtion' => $item['past_consumtion'],
+                    'annual_consumtion_rate' => $item['annual_consumtion_rate'],
+                    'asset_age' => $item['asset_age'],
                 ] );
                 PurchaseAssetItem::create( [
                     'purchase_asset_id' => $purchaseAsset->id,
@@ -97,7 +102,10 @@ class PurchaseAssetsController extends Controller
                     'purchase_cost' => $item['purchase_cost'],
                     'past_consumtion' => $item['past_consumtion'],
                     'annual_consumtion_rate' => $item['annual_consumtion_rate'],
-                    'asset_age' => $item['asset_age']
+                    'asset_age' => $item['asset_age'],
+                    'total_purchase_cost'=>$request->total_purchase_cost,
+                    'total_past_consumtion'=>$request->total_past_consumtion,
+                    'net_total'=>$request->net_total
                 ] );
             }
 
@@ -159,10 +167,11 @@ class PurchaseAssetsController extends Controller
                 'supplier_id' => $data['supplier_id'],
                 'paid_amount' => $data['paid_amount'],
                 'remaining_amount' => $data['remaining_amount'],
-                'note' => $data['note']
+                'note' => $data['note'],
+                'total_purchase_cost'=>$request->total_purchase_cost,
+                'total_past_consumtion'=>$request->total_past_consumtion,
+                'net_total'=>$request->net_total
             ];
-            // $invoice_data['branch_id'] = authIsSuperAdmin() ? $request['branch_id'] : auth()->user()->branch_id;
-
             $purchaseAsset->update( $invoice_data );
             $purchaseAsset->items()->delete();
             foreach ($data['items'] as $item) {
@@ -171,6 +180,9 @@ class PurchaseAssetsController extends Controller
                     'purchase_date' => $item['purchase_date'],
                     'date_of_work' => $item['date_of_work'],
                     'purchase_cost' => $item['purchase_cost'],
+                    'past_consumtion' => $item['past_consumtion'],
+                    'annual_consumtion_rate' => $item['annual_consumtion_rate'],
+                    'asset_age' => $item['asset_age'],
                 ] );
                 PurchaseAssetItem::create( [
                     'purchase_asset_id' => $purchaseAsset->id,
@@ -179,7 +191,7 @@ class PurchaseAssetsController extends Controller
                     'purchase_cost' => $item['purchase_cost'],
                     'past_consumtion' => $item['past_consumtion'],
                     'annual_consumtion_rate' => $item['annual_consumtion_rate'],
-                    'asset_age' => $item['asset_age']
+                    'asset_age' => $item['asset_age'],
                 ] );
             }
 

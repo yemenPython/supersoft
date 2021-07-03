@@ -263,7 +263,7 @@
             if (annual_consumtion_rate !='' && purchase_cost !=''){
 
                 var asset_age = ( purchase_cost / annual_consumtion_rate) / 100;
-                $('.asset_age_'+index).val(asset_age);
+                $('.asset_age_'+index).val( asset_age.toFixed(2));
             }
         }
 

@@ -39,12 +39,6 @@ class AssetLicense extends Model
         'end_date',
         'asset_id',
     ];
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope(new BranchScope());
-    }
 
     protected static $logOnlyDirty = true;
 
