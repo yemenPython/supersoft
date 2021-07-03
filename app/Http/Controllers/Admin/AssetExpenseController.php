@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Asset\AssetExpenseRequest;
 use App\Http\Requests\Admin\Asset\AssetExpenseRequestUpdate;
-use App\Http\Requests\Admin\Asset\UpdateExpenseItemRequest;
 use App\Models\Asset;
 use App\Models\AssetExpense;
 use App\Models\AssetExpenseItem;
@@ -44,7 +43,7 @@ class AssetExpenseController extends Controller
         $assetsGroups = AssetGroup::where('branch_id', $branch_id)->get();
         $assets = Asset::where('branch_id', $branch_id)->get();
         $branches = Branch::all();
-        $lastNumber = AssetExpense::orderBy('id', 'desc')->first();
+        $lastNumber = AssetExpense::where('branch_id', $branch_id)->orderBy('id', 'desc')->first();
         $number = $lastNumber ? $lastNumber->number + 1 : 1;
         return view('admin.assets_expenses.create',
             compact('assets', 'assetsGroups', 'branches', 'number'));
@@ -97,11 +96,12 @@ class AssetExpenseController extends Controller
 
     public function show(int $id): JsonResponse
     {
-        $assetExpense = AssetExpense::findOrFail($id);
-        $view =  view('admin.assets_expenses.show', compact('assetExpense'))->render();
+        $assetExpense = AssetExpense::with('assetExpensesItems')->findOrFail($id);
+        $view = view('admin.assets_expenses.show', compact('assetExpense'))->render();
         return response()->json([
             'view' => $view
         ]);
+
     }
 
     public function update(AssetExpenseRequestUpdate $request, int $id): RedirectResponse

@@ -61,7 +61,7 @@
                                 <th class="text-center column-invoice-number"
                                     scope="col">{!! __('Invoice Number') !!}</th>
 
-                                <th class="text-center column-invoice-type" scope="col">{!! __('date and time') !!}</th>
+                                <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
 
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
 
@@ -85,7 +85,6 @@
                                     <td class="text-center column-date">{{$invoice->date}}{{$invoice->time}}</td>
 
                                     <td class="text-center column-supplier">{!! optional($invoice->supplier)->name !!}</td>
-
 
                                     <td>
                                         <div class="btn-group margin-top-10">
@@ -140,7 +139,7 @@
                                 <th class="text-center column-invoice-number"
                                     scope="col">{!! __('Invoice Number') !!}</th>
 
-                                <th class="text-center column-invoice-type" scope="col">{!! __('date and time') !!}</th>
+                                <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
 
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
 

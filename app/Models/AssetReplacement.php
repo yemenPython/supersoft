@@ -7,44 +7,46 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class AssetExpense extends Model
+class AssetReplacement extends Model
 {
     /**
      * @var string
      */
-    protected $table = 'asset_expenses';
+    protected $table = 'asset_replacements';
 
     /**
      * @var string[]
      */
     protected $fillable = [
-        'branch_id',
         'number',
         'date',
-        'notes',
-        'status',
-        'total',
-        'user_id',
         'time',
+        'total_after_replacement',
+        'total_before_replacement',
+        'branch_id',
+        'user_id',
     ];
+
+    protected $with = ['assetReplacementItems'];
+
     protected static function boot()
     {
         parent::boot();
-
         static::addGlobalScope(new BranchScope());
-    }
-    public function assetExpensesItems(): HasMany
-    {
-        return $this->hasMany(AssetExpenseItem::class, 'asset_expense_id');
     }
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'branch_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function branch(): BelongsTo
     {
-        return $this->belongsTo(Branch::class, 'user_id');
+        return $this->belongsTo(Branch::class, 'branch_id');
+    }
+
+    public function assetReplacementItems(): HasMany
+    {
+        return $this->hasMany(AssetReplacementItem::class, 'asset_replacement_id');
     }
 }

@@ -50,7 +50,7 @@
 
     <td>
         <div class="input-group">
-            <input type="text"  style="width: 100px !important;" class="asset_age_{{$index}} form-control valid"  value="{{isset($update_item)?$update_item->asset_age:$asset->asset_age}}" name="items[{{$index}}][asset_age]">
+            <input type="text" readonly style="width: 100px !important;" class="asset_age_{{$index}} form-control valid"  value="{{isset($update_item)?$update_item->asset_age:$asset->asset_age}}" name="items[{{$index}}][asset_age]">
         </div>
     </td>
 

@@ -39,7 +39,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [
         include 'quotations.php';
         include 'employee.php';
         include 'work-cards.php';
-        include 'assets.php';
         include 'capital-balance.php';
         include 'companies.php';
         include 'carModles.php';
