@@ -238,7 +238,8 @@ route('admin:assets.index'),
 route('admin:assets_expenses_types.index'),
 route('admin:assets_expenses_items.index'),
 route('admin:assets_expenses.index'),
-route('admin:purchase-assets.index')
+route('admin:purchase-assets.index'),
+route('admin:assets_replacements.index'),
                      ])}}">
                     <a class="parent-item js__control" href="#">
                         <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
@@ -282,9 +283,17 @@ route('admin:purchase-assets.index')
                                 {{__('Assets Expenses')}}
                             </a>
                         </li>
+
+
                         <li class="{{setActivationClass(route('admin:purchase-assets.index'))}}">
                             <a href="{{route('admin:purchase-assets.index')}}">
                                 {{__('Purchase Assets')}}
+                            </a>
+                        </li>
+
+                        <li class="{{setActivationClass(route('admin:assets_replacements.index'))}}">
+                            <a href="{{route('admin:assets_replacements.index')}}">
+                                {{__('Assets Replacements')}}
                             </a>
                         </li>
 
@@ -412,7 +421,7 @@ route('admin:maintenance-detections.index'),
 
 
 
-                       
+
 
                     </ul>
                 </li> -->

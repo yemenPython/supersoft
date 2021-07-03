@@ -33,18 +33,6 @@
                            ])
                             @endcomponent
                         </li>
-                        <li class="list-inline-item">
-                            @component('admin.buttons._confirm_archive_selected',[
-                          'route' => 'admin:services_packages.archiveSelected',
-                           ])
-                            @endcomponent
-                        </li>
-                        <li class="list-inline-item">
-                            @include('admin.buttons._archive', [
-                       'route' => 'admin:services_packages.archive',
-                           'new' => '',
-                          ])
-                        </li>
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
@@ -107,12 +95,6 @@
                                              ])
                                 @endcomponent
 
-                                    @component('admin.buttons._add_to_archive',[
-                                                                  'id'=>$package->id,
-                                                                  'route' => 'admin:services_packages.destroy',
-                                                                  'tooltip' => __('Delete '.$package['name']),
-                                                                   ])
-                                    @endcomponent
                                     @component('admin.buttons._force_delete',[
                                                       'id' => $package->id,
                                                       'route'=>'admin:services_packages.force_delete'

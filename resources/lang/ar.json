@@ -2010,7 +2010,20 @@
     "Purchase Receipt Number" : "رقم محضر الإستلام",
     "Show Purchase Receipt" : "محاضر إستلام المخزون",
     "Assets Expenses Types" : "أنواع مصروفات الأصول",
-    "Assets Expenses Items" : "بنود مصروفات الأصول"
-
-
+    "Assets Expenses Items" : "بنود مصروفات الأصول",
+    "Assets Replacements" : "تجديد واحلال الأصول",
+    "Operation Date" : "تاريخ التشغيل",
+    "Purchase Cost" : "تكلفة الشراء",
+    "Cost Replacement" : "قيمة التجديد/الاحلال",
+    "Cost Before Replacement" : "معدل الاهلاك قبل التجدد",
+    "Cost After Replacement" : "معدل الاهلاك بعد التجدد",
+    "Age" : "العمر",
+    "Assets Data" : "بيانات الاصول",
+    "Please Type Only Number" : "من فضلك ادخل ارقام فقط",
+    "Total Before Replacement" : "اجمالى معدل الاهلاك قبل التجديد",
+    "Total After Replacement" : "اجمالى معدل الاهلاك بعد التجديد"
 }
+
+
+
+

@@ -117,18 +117,6 @@
                             @endcomponent
                         </li>
 
-                        <li class="list-inline-item">
-                            @component('admin.buttons._confirm_archive_selected',[
-                          'route' => 'admin:services.archiveSelected',
-                           ])
-                            @endcomponent
-                        </li>
-                        <li class="list-inline-item">
-                            @include('admin.buttons._archive', [
-                       'route' => 'admin:services.archive',
-                           'new' => '',
-                          ])
-                        </li>
 
                     </ul>
                     <div class="clearfix"></div>
@@ -223,12 +211,6 @@
                                                      ])
                                         @endcomponent
 
-                                            @component('admin.buttons._add_to_archive',[
-                                                                  'id'=>$service->id,
-                                                                  'route' => 'admin:services.destroy',
-                                                                  'tooltip' => __('Delete '.$service['name']),
-                                                                   ])
-                                            @endcomponent
                                             @component('admin.buttons._force_delete',[
                                                               'id' => $service->id,
                                                               'route'=>'admin:services.force_delete'
