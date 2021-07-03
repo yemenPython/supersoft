@@ -125,7 +125,7 @@
                     <div class="input-group" id="main_types">
                         <span class="input-group-addon fa fa-cubes"></span>
                         <select class="form-control js-example-basic-single" id="assetsGroups">
-                            <option value="">{{__('Select Assets Groups')}}</option>
+                            <option value="0">{{__('Select Assets Groups')}}</option>
                             @foreach($assetsGroups as $key => $type)
                                 <option value="{{$type->id}}">
                                     {{$type->name}}

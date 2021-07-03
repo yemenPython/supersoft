@@ -27,12 +27,7 @@ class AssetExpense extends Model
         'user_id',
         'time',
     ];
-    protected static function boot()
-    {
-        parent::boot();
 
-        static::addGlobalScope(new BranchScope());
-    }
     public function assetExpensesItems(): HasMany
     {
         return $this->hasMany(AssetExpenseItem::class, 'asset_expense_id');

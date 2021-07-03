@@ -69,7 +69,7 @@
                                         <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
                                         <select class="form-control select2" id="asset_group_id"
                                                 name="asset_group_id">
-                                            <option value=""> {{ __('Select Group') }} </option>
+                                            <option value="0"> {{ __('Select Group') }} </option>
                                             @if(!authIsSuperAdmin())
                                                 @foreach($assetsGroups as $assetGroup)
                                                     <option
@@ -165,7 +165,7 @@
                                     <label> {{ __('annual consumption rate') }} </label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                        <input class="form-control" value="0" name="annual_consumtion_rate"
+                                        <input class="form-control" value="0" name="annual_consumtion_rate" onchange="annual_consumtion_rate_value();"
                                                id="annual_consumtion_rate"/>
                                     </div>
                                     {{input_error($errors,'annual consumption rate')}}
@@ -173,16 +173,16 @@
                             </div>
 
 
-                        <!-- <div class="col-md-4">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label> {{ __('asset age') }} </label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                    <input class="form-control " disabled type="text" name="asset_age"/>
+                                    <input class="form-control " id="asset_age" disabled type="text" name="asset_age"/>
                                 </div>
                                 {{input_error($errors,'asset_age')}}
                             </div>
-                        </div> -->
+                        </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -200,7 +200,7 @@
                                     <label> {{ __('cost of purchase') }} </label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                        <input class="form-control " type="text" value="0" name="purchase_cost"/>
+                                        <input class="form-control" id="purchase_cost" onchange="annual_consumtion_rate_value();" type="text" value="0" name="purchase_cost"/>
                                     </div>
                                     {{input_error($errors,'purchase_cost')}}
                                 </div>
@@ -287,9 +287,9 @@
     <script type="application/javascript">
         $(document).ready(function () {
             $(".select2").select2();
-            $("#asset_group_id").on('change', function () {
-                $("#annual_consumtion_rate").val($("#asset_group_id option:checked").attr('rate'))
-            });
+            // $("#asset_group_id").on('change', function () {
+            //     $("#annual_consumtion_rate").val($("#asset_group_id option:checked").attr('rate'))
+            // });
         });
 
 
@@ -361,6 +361,17 @@
             });
 
 
-        })
+        });
+        function annual_consumtion_rate_value() {
+            var annual_consumtion_rate = $('#annual_consumtion_rate').val();
+
+            var purchase_cost = $('#purchase_cost').val();
+
+            if (annual_consumtion_rate !='' && purchase_cost !=''){
+
+                var asset_age = ( purchase_cost / annual_consumtion_rate) / 100;
+                $('#asset_age').val(asset_age);
+            }
+        }
     </script>
 @stop

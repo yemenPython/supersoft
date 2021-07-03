@@ -27,7 +27,10 @@ class PurchaseAsset extends Model
         'time',
         'note',
         'remaining_amount',
-        'paid_amount'
+        'paid_amount',
+        'total_purchase_cost',
+        'total_past_consumtion',
+        'net_total'
     ];
 
     protected $table = 'purchase_assets';

@@ -40,12 +40,6 @@ class AssetExamination extends Model
         'asset_id',
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::addGlobalScope(new BranchScope());
-    }
     protected static $logOnlyDirty = true;
 
     public function getDescriptionForEvent(string $eventName): string

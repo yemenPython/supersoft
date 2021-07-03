@@ -3,8 +3,6 @@
     <td>
         <span>{{$index}}</span>
     </td>
-
-
     <td>
         <span style="width: 150px !important;display:block">{{$asset->group->name}}</span>
     </td>
@@ -16,19 +14,19 @@
 
     <td>
         <div class="input-group">
-            <input type="text"  style="width: 100px !important;" class="form-control valid purchase_cost purchase_cost_{{$index}}" value="{{$asset->purchase_cost}}" onchange="annual_consumtion_rate_value('{{$index}}');totalPurchaseCost('{{$index}}')"  onkeyup="totalPurchaseCost('{{$index}}');annual_consumtion_rate_value('{{$index}}')" name="items[{{$index}}][purchase_cost]">
+            <input type="text"  style="width: 100px !important;" class="form-control valid purchase_cost purchase_cost_{{$index}}" value="{{isset($update_item)?$update_item->purchase_cost:$asset->purchase_cost}}" onchange="annual_consumtion_rate_value('{{$index}}');totalPurchaseCost('{{$index}}')"  onkeyup="totalPurchaseCost('{{$index}}');annual_consumtion_rate_value('{{$index}}')" name="items[{{$index}}][purchase_cost]">
         </div>
     </td>
 
     <td>
         <div class="input-group">
-            <input type="text"  style="width: 100px !important;" class="form-control valid past_consumtion " onchange="totalPastConsumtion('{{$index}}')" onkeyup="totalPastConsumtion('{{$index}}')" value="{{$asset->past_consumtion}}" name="items[{{$index}}][past_consumtion]">
+            <input type="text"  style="width: 100px !important;" class="form-control valid past_consumtion " onchange="totalPastConsumtion('{{$index}}')" onkeyup="totalPastConsumtion('{{$index}}')" value="{{isset($update_item)?$update_item->past_consumtion:$asset->past_consumtion}}" name="items[{{$index}}][past_consumtion]">
         </div>
     </td>
 
     <td>
         <div class="input-group">
-            <input type="text" readonly  style="width: 100px !important;" class="form-control valid current_consumtion current_consumtion_{{$index}}" onchange="netTotal('{{$index}}')" onkeyup="netTotal('{{$index}}')" value="{{$asset->purchase_cost - $asset->past_consumtion}}" name="items[{{$index}}][current_consumtion]">
+            <input type="text" readonly  style="width: 100px !important;" class="form-control valid current_consumtion current_consumtion_{{$index}}" onchange="netTotal('{{$index}}')" onkeyup="netTotal('{{$index}}')" value="{{isset($update_item)?$update_item->purchase_cost - $update_item->past_consumtion: $asset->purchase_cost - $asset->past_consumtion}}" name="items[{{$index}}][current_consumtion]">
         </div>
     </td>
 
@@ -46,13 +44,13 @@
 
     <td>
         <div class="input-group">
-            <input type="text"  style="width: 100px !important;" class="annual_consumtion_rate_{{$index}} form-control valid" onchange="annual_consumtion_rate_value('{{$index}}')" onkeyup="annual_consumtion_rate_value('{{$index}}')" value="{{$asset->annual_consumtion_rate}}" name="items[{{$index}}][annual_consumtion_rate]">
+            <input type="text"  style="width: 100px !important;" class="annual_consumtion_rate_{{$index}} form-control valid" onchange="annual_consumtion_rate_value('{{$index}}')" onkeyup="annual_consumtion_rate_value('{{$index}}')" value="{{isset($update_item)?$update_item->annual_consumtion_rate:$asset->annual_consumtion_rate}}" name="items[{{$index}}][annual_consumtion_rate]">
         </div>
     </td>
 
     <td>
         <div class="input-group">
-            <input type="text"  style="width: 100px !important;" class="asset_age_{{$index}} form-control valid"  value="{{$asset->asset_age}}" name="items[{{$index}}][asset_age]">
+            <input type="text"  style="width: 100px !important;" class="asset_age_{{$index}} form-control valid"  value="{{isset($update_item)?$update_item->asset_age:$asset->asset_age}}" name="items[{{$index}}][asset_age]">
         </div>
     </td>
 
