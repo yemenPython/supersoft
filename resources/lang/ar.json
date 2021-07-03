@@ -2010,7 +2010,8 @@
     "Purchase Receipt Number" : "رقم محضر الإستلام",
     "Show Purchase Receipt" : "محاضر إستلام المخزون",
     "Assets Expenses Types" : "أنواع مصروفات الأصول",
-    "Assets Expenses Items" : "بنود مصروفات الأصول"
+    "Assets Expenses Items" : "بنود مصروفات الأصول",
+    "Purchase Assets" : "مشتريات الأصول"
 
 
 }

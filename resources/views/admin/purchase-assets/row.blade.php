@@ -52,7 +52,7 @@
 
     <td>
         <div class="input-group">
-            <input type="text"  style="width: 100px !important;" class="asset_age_{{$index}} form-control valid"  value="{{$asset->asset_age}}" name="items[{{$index}}][asset_age]">
+            <input type="text" readonly style="width: 100px !important;"  class="asset_age_{{$index}} form-control valid"  value="{{$asset->asset_age}}" name="items[{{$index}}][asset_age]">
         </div>
     </td>
 

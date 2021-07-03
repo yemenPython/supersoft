@@ -265,6 +265,12 @@ route('admin:purchase-assets.index')
                             </a>
                         </li>
 
+                        <li class="{{setActivationClass(route('admin:purchase-assets.index'))}}">
+                            <a href="{{route('admin:purchase-assets.index')}}">
+                                {{__('Purchase Assets')}}
+                            </a>
+                        </li>
+
                         <li class="{{setActivationClass(route('admin:assets_expenses_types.index'))}}">
                             <a href="{{route('admin:assets_expenses_types.index')}}">
                                 {{__('Assets Expenses Types')}}
@@ -282,11 +288,7 @@ route('admin:purchase-assets.index')
                                 {{__('Assets Expenses')}}
                             </a>
                         </li>
-                        <li class="{{setActivationClass(route('admin:purchase-assets.index'))}}">
-                            <a href="{{route('admin:purchase-assets.index')}}">
-                                {{__('Purchase Assets')}}
-                            </a>
-                        </li>
+
 
                     </ul>
                 </li>
