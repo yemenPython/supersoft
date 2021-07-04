@@ -25,6 +25,7 @@ class PurchaseAssetRequest extends FormRequest
             ],
             'date' => 'required|date',
             'time' => 'required',
+            'annual_consumtion_rate' => 'nullable|numeric|min:0|max:100',
 //            'asset_id' => 'required|exists:assets_tb,id',
 //            'items' => 'required|array',
             'supplier_id' => 'required|integer|exists:suppliers,id',

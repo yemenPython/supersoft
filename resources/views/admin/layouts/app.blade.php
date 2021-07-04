@@ -75,9 +75,8 @@
     <link rel="stylesheet" href="{{ asset('css/lightbox.min.css') }}">
 
 
-
     {{-- Flatpicker Buttons CSS --}}
-    <!-- <link rel="stylesheet"
+<!-- <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/shortcut-buttons-flatpickr@0.1.0/dist/themes/light.min.css"> -->
 
     @if (app()->getLocale() == "ar")
@@ -99,7 +98,6 @@
         }
 
     </style>
-
 
 
     <!-- Toastr -->
@@ -156,9 +154,6 @@
     </style>
 
 
-
-
-
     @yield('style')
 </head>
 
@@ -180,7 +175,7 @@
         @yield('content')
         <!-- /.row -->
 
-          <!--  BEGIN FOOTER  -->
+            <!--  BEGIN FOOTER  -->
         @include('admin.partial.footer')
         <!--  END FOOTER  -->
         </div>
@@ -189,8 +184,6 @@
 </div>
 @yield('modals')
 @yield('accounting-module-modal-area')
-
-
 
 
 <script type="application/javascript" src="{{asset('js/app.js')}}"></script>
@@ -207,7 +200,8 @@
 <script type="application/javascript" src="{{asset('assets/scripts/jquery.min.js')}}"></script>
 <script type="application/javascript" src="{{asset('assets/scripts/modernizr.min.js')}}"></script>
 <script type="application/javascript" src="{{asset('assets/plugin/bootstrap/js/bootstrap.min.js')}}"></script>
-<script type="application/javascript" src="{{asset('assets/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js')}}"></script>
+<script type="application/javascript"
+        src="{{asset('assets/plugin/mCustomScrollbar/jquery.mCustomScrollbar.concat.min.js')}}"></script>
 <script type="application/javascript" src="{{asset('assets/plugin/nprogress/nprogress.js')}}"></script>
 <script type="application/javascript" src="{{asset('assets/plugin/sweet-alert/sweetalert.min.js')}}"></script>
 <script type="application/javascript" src="{{asset('assets/scripts/sweetalert.init.min.js')}}"></script>
@@ -276,18 +270,26 @@
 
 
 <!-- Data Tables -->
-<script type="application/javascript" src="{{asset('assets/plugin/datatables/media/js/jquery.dataTables.min.js')}}"></script>
-<script type="application/javascript" src="{{asset('assets/plugin/datatables/media/js/dataTables.bootstrap.min.js')}}"></script>
-<script type="application/javascript" src="{{asset('assets/plugin/datatables/extensions/Responsive/js/dataTables.responsive.min.js')}}"></script>
-<script type="application/javascript" src="{{asset('assets/plugin/datatables/extensions/Responsive/js/responsive.bootstrap.min.js')}}"></script>
+<script type="application/javascript"
+        src="{{asset('assets/plugin/datatables/media/js/jquery.dataTables.min.js')}}"></script>
+<script type="application/javascript"
+        src="{{asset('assets/plugin/datatables/media/js/dataTables.bootstrap.min.js')}}"></script>
+<script type="application/javascript"
+        src="{{asset('assets/plugin/datatables/extensions/Responsive/js/dataTables.responsive.min.js')}}"></script>
+<script type="application/javascript"
+        src="{{asset('assets/plugin/datatables/extensions/Responsive/js/responsive.bootstrap.min.js')}}"></script>
 <script type="application/javascript" src="{{asset('assets/scripts/datatables.demo.min.js')}}"></script>
 {{-- <script type="application/javascript" src="{{asset('assets/plugin/datatables/extensions/Buttons/js/buttons.bootstrap.min.js')}}"></script>
  <script type="application/javascript" src="{{asset('assets/plugin/datatables/extensions/Buttons/js/buttons.bootstrap4.min.js')}}"></script> --}}
-<script type="application/javascript" src="{{asset('assets/plugin/datatables/extensions/Buttons/js/buttons.html5.min.js')}}"></script>
-<script type="application/javascript" src="{{asset('assets/plugin/datatables/extensions/Buttons/js/buttons.print.min.js')}}"></script>
-<script type="application/javascript" src="https://cdn.datatables.net/colreorder/1.5.2/js/dataTables.colReorder.min.js"></script>
+<script type="application/javascript"
+        src="{{asset('assets/plugin/datatables/extensions/Buttons/js/buttons.html5.min.js')}}"></script>
+<script type="application/javascript"
+        src="{{asset('assets/plugin/datatables/extensions/Buttons/js/buttons.print.min.js')}}"></script>
+<script type="application/javascript"
+        src="https://cdn.datatables.net/colreorder/1.5.2/js/dataTables.colReorder.min.js"></script>
 <script type="application/javascript" src="https://cdn.datatables.net/buttons/1.6.1/js/buttons.colVis.min.js"></script>
-<script type="application/javascript" src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
+<script type="application/javascript"
+        src="https://cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
 <script type="application/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
 <script type="application/javascript" src="{{asset('js/concat.min.js')}}"></script>
 <script type="application/javascript" src="{{asset('js/new-app.js')}}"></script>
@@ -297,7 +299,8 @@
 </script>
 
 <!-- Validator -->
-<script type="application/javascript" type="text/javascript" src="{{asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
+<script type="application/javascript" type="text/javascript"
+        src="{{asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
 
 <!-- Remodal -->
 <script type="application/javascript" src="{{asset('assets/plugin/modal/remodal/remodal.min.js')}}"></script>
@@ -349,7 +352,7 @@
 <script type="application/javascript" src="{{asset('assets/plugin/print/jQuery.print.min.js')}}"></script>
 <script type="application/javascript" src="{{asset('assets/shortcuts.js')}}"></script>
 <script type="application/javascript">
-    function invoke_datatable(selector ,load_at_end_selector ,last_child_allowed, withSorting = true) {
+    function invoke_datatable(selector, load_at_end_selector, last_child_allowed, withSorting = true) {
         var selector_id = selector.attr("id")
         var page_title = $("title").text()
         $("#" + selector_id).DataTable({
@@ -370,7 +373,7 @@
                     messageTop: `
 
                         @include("admin.layouts.datatable-print")
-                        <h4 class="text-center" style="margin-bottom: 10px">${page_title}</h4>
+                    <h4 class="text-center" style="margin-bottom: 10px">${page_title}</h4>
                     `
 
                     ,
@@ -396,6 +399,90 @@
                     text: '<i class="fa fa-list"></i> {{__('Columns visibility')}}',
                 },
             ],
+        });
+    }
+</script>
+<script type="application/javascript">
+    function server_side_datatable(selector) {
+        var page_title = $("title").text()
+        $datatable = $('#datatable-with-btns').DataTable({
+            processing: false,
+            serverSide: true,
+            responsive: true,
+            searching: true,
+            info: true,
+            bSort: true,
+            lengthChange: true,
+            "iDisplayLength": 2,
+            dom: 'Bfrtip',
+            "ajax": {
+                "url": "{{url()->full()}}",
+                "type": "GET",
+                "data": function (data) {
+                    data.isDataTable = "true";
+                }
+            },
+
+            "language": {
+                "url": "{{app()->isLocale("ar")  ? url("trans/ar.json") :  url("trans/en.json")}}",
+            },
+            buttons: [
+                {
+                    extend: 'print',
+                    text: '<i class="fa fa-print"></i> {{__('Print')}}',
+                    autoPrint: false,
+                    exportOptions: {
+                        columns: ':visible:not(:nth-last-child(-n+2))'
+                    },
+                    messageTop: `
+
+                        @include("admin.layouts.datatable-print")
+                    <h4 class="text-center" style="margin-bottom: 10px">${page_title}</h4>
+                    `
+
+                    ,
+                },
+                {
+                    extend: 'csv',
+                    text: '<i class="fa fa-table"></i> {{__('Excel')}}',
+                    exportOptions: {
+                        columns: ':visible:not(:last-child)'
+                    }
+                },
+                {
+                    extend: 'colvis',
+                    text: '<i class="fa fa-list"></i> {{__('Columns visibility')}}',
+                },
+            ],
+            aoColumns: [
+                    @if(isset($js_columns))
+                    @foreach($js_columns as $key=> $row)
+                    @if($key == 'action' || $key=='DT_RowIndex' || $key=='options')
+                {
+                    mData: "{{$key}}", name: "{{$row}}", orderable: false, searchable: false
+                },
+                    @else
+                {
+                    mData: "{{$key}}", name: "{{$row}}"
+                },
+                @endif
+                @endforeach
+                @endif
+            ],
+            // aoColumns: [
+            //     // { mData: "DT_RowIndex" },
+            //     { data: "DT_RowIndex", name: "DT_RowIndex" , orderable: false, searchable: false},
+            //     { mData: "branch_id" },
+            //     { mData: "name" },
+            //     { mData: "asset_group_id" },
+            //     { mData: "asset_status" },
+            //     { mData: "annual_consumtion_rate" },
+            //     { mData: "asset_age" },
+            //     { mData: "created_at" },
+            //     { mData: "updated_at" },
+            //     { mData: "action" },
+            //     { data: "options", name: "options" , orderable: false, searchable: false},
+            // ],
         });
     }
 </script>
@@ -569,7 +656,7 @@ ${element_html}
     function archiveConfirmation(route, type) {
         console.log(route)
         event.preventDefault()
-        switch(type) {
+        switch (type) {
             case 'deleteSelected':
                 swal({
                     title: "{{__('Delete Selected')}}",
@@ -586,7 +673,7 @@ ${element_html}
                     }
                 }).then(function (isConfirm) {
                     if (isConfirm) {
-                        var ids_inputs = force_delete_selected(route, true,false,false,true)
+                        var ids_inputs = force_delete_selected(route, true, false, false, true)
                         $("#deleteSelected").append(ids_inputs)
                         $("#deleteSelected").submit()
                     }
@@ -608,7 +695,7 @@ ${element_html}
                     }
                 }).then(function (isConfirm) {
                     if (isConfirm) {
-                        var ids_inputs = force_delete_selected(route, true,true)
+                        var ids_inputs = force_delete_selected(route, true, true)
                         $("#deleteSelected").append(ids_inputs)
                         $("#deleteSelected").submit()
                     }
@@ -630,7 +717,7 @@ ${element_html}
                     }
                 }).then(function (isConfirm) {
                     if (isConfirm) {
-                        var ids_inputs = force_delete_selected(route, true,false, true)
+                        var ids_inputs = force_delete_selected(route, true, false, true)
                         $("#deleteSelected").append(ids_inputs)
                         $("#deleteSelected").submit()
                     }
@@ -836,7 +923,6 @@ ${element_html}
         button: "Ok",
     });
     @endif
-
 
 
 </script>
