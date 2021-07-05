@@ -35,8 +35,8 @@
         {{input_error($errors, 'items['.$index.'][part_price_id]')}}
     </td>
 
-    <td style="background:#FBE3E6 !important">
-        <input style="width: 130px !important;margin:0 auto;display:block" type="number" class="form-control" id="quantity_{{$index}}"
+    <td>
+        <input style="width: 130px !important;margin:0 auto;display:block" type="number" class="form-control border1" id="quantity_{{$index}}"
                value="{{isset($item) ? $item->quantity : 0}}" min="0"
                name="items[{{$index}}][quantity]" {{isset($request_type) && $request_type == 'approval' ? 'disabled' : ''}}>
 
@@ -44,12 +44,12 @@
     </td>
 
     @if(isset($request_type) && $request_type == 'approval')
-    <td style="background:#E3FBEA !important">
-            <input style="width: 150px !important;" type="number" class="form-control" value="{{isset($item) ? $item->part->quantity : 0}}" disabled>
+    <td>
+            <input style="width: 150px !important;" type="number" class="form-control border2" value="{{isset($item) ? $item->part->quantity : 0}}" disabled>
         </td>
 
-        <td style="background:#FBFAD4 !important">
-            <input style="width: 150px !important;" type="number" class="form-control" id="quantity_{{$index}}"
+        <td>
+            <input style="width: 150px !important;" type="number" class="form-control border3" id="quantity_{{$index}}"
                    value="{{isset($item) ? $item->approval_quantity : 0}}"
                    min="0" name="items[{{$index}}][approval_quantity]">
         </td>

@@ -1,4 +1,4 @@
-<!-- <?php
+<?php
 
 namespace App\Http\Controllers\Admin;
 
@@ -75,6 +75,8 @@ class AssetController extends Controller
 
     public function update(Request $request, Model $asset) {
 
+        dd($request->all());
+
         if (!auth()->user()->can('update_assets')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
@@ -121,4 +123,4 @@ class AssetController extends Controller
         ]);
     }
 
-} -->
+}

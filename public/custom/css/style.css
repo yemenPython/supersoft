@@ -437,3 +437,27 @@ footer {
 .scroll-table {
     max-height: 650px
 }
+
+.border1 {
+    border: 1px solid #E58885 !important;
+}
+
+.border2 {
+    border: 1px solid #94b5f0 !important;
+}
+
+.border3 {
+    border: 1px solid #769ee7 !important;
+}
+
+.border4 {
+    border: 1px solid #e776c1 !important;
+}
+
+.border5 {
+    border: 1px solid #a776e7 !important;
+}
+
+.border6 {
+    border: 1px solid #e7ba76 !important;
+}

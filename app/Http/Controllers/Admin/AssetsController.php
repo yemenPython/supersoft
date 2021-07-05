@@ -321,12 +321,14 @@ class AssetsController extends Controller
 
     public function update(AssetRequest $request, asset $asset)
     {
+        // dd($request->all(),$asset);
         $asset_group = AssetGroup::find( $request->asset_group_id );
         if ($request->purchase_cost > 0 && $request->annual_consumtion_rate > 0 && ($request->purchase_cost / $request->annual_consumtion_rate) > 0) {
             $asset_age = ($request->purchase_cost / $request->annual_consumtion_rate) / 100;
         } else {
             $asset_age = 0;
         }
+   
         $asset->update( [
             'asset_age' => $asset_age,
             'branch_id' => $request->branch_id,
