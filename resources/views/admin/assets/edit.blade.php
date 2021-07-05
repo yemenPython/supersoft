@@ -177,8 +177,8 @@
                                 <div class="form-group">
                                     <label> {{ __('asset age') }} </label>
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input class="form-control" id="asset_age" value="{{ $asset->asset_age }}" disabled type="text"
+                                        <span class="input-group-addon border4"><i class="fa fa-calendar"></i></span>
+                                        <input class="form-control border4" id="asset_age" value="{{ $asset->asset_age }}" readOnly type="text"
                                                name="asset_age"/>
                                     </div>
                                     {{input_error($errors,'asset_age')}}
@@ -226,8 +226,8 @@
                                 <div class="form-group">
                                     <label> {{ __('previous consumption') }} </label>
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                        <input class="form-control " value="{{$asset->past_consumtion}}" disabled
+                                        <span class="input-group-addon border5"><i class="fa fa-money"></i></span>
+                                        <input class="form-control border5" value="{{$asset->past_consumtion}}" disabled
                                                type="text" name="past_consumtion"/>
                                     </div>
                                     {{input_error($errors,'past_consumtion')}}
@@ -238,8 +238,8 @@
                                 <div class="form-group">
                                     <label> {{ __('current consumption') }} </label>
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                        <input class="form-control" value="{{$asset->current_consumtion}}" disabled
+                                        <span class="input-group-addon border3"><i class="fa fa-money"></i></span>
+                                        <input class="form-control border3" value="{{$asset->current_consumtion}}" disabled
                                                type="text" name="current_consumtion"/>
                                     </div>
                                     {{input_error($errors,'current_consumtion')}}
@@ -250,8 +250,8 @@
                                 <div class="form-group">
                                     <label> {{ __('total current consumption') }} </label>
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                        <input class="form-control " value="{{$asset->total_current_consumtion}}"
+                                        <span class="input-group-addon border3"><i class="fa fa-money"></i></span>
+                                        <input class="form-control border3" value="{{$asset->total_current_consumtion}}"
                                                disabled type="text" name="total_current_consumtion"/>
                                     </div>
                                     {{input_error($errors,'total_current_consumtion')}}
@@ -262,8 +262,8 @@
                                 <div class="form-group">
                                     <label> {{ __('book value') }} </label>
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                        <input class="form-control" value="{{$asset->booko_value}}" disabled type="text"
+                                        <span class="input-group-addon border3"><i class="fa fa-money"></i></span>
+                                        <input class="form-control border3" value="{{$asset->booko_value}}" disabled type="text"
                                                name="booko_value"/>
                                     </div>
                                     {{input_error($errors,'book_value')}}

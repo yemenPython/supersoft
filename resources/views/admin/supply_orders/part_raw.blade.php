@@ -76,13 +76,13 @@
 
         @if(isset($item))
 
-            <input style="width: 100px !important;" type="number" class="form-control" id="quantity_{{$index}}"
+            <input style="width: 100px !important;" type="number" class="form-control border1" id="quantity_{{$index}}"
                    value="{{ $item->quantity}}" min="0"
                    name="items[{{$index}}][quantity]"
                    onchange="calculateItem('{{$index}}')" onkeyup="calculateItem('{{$index}}')">
 
         @else
-            <input style="width: 100px !important;" type="number" class="form-control" id="quantity_{{$index}}"
+            <input style="width: 100px !important;" type="number" class="form-control border1" id="quantity_{{$index}}"
                    value="{{isset($update_item) ? $update_item->quantity : 0}}" min="0"
                    name="items[{{$index}}][quantity]"
                    onchange="calculateItem('{{$index}}')" onkeyup="calculateItem('{{$index}}')">
@@ -120,29 +120,29 @@
 
     </td>
 
-    <td style="background:#FBE3E6 !important">
-        <input style="width: 150px !important;" type="number" class="form-control" id="discount_{{$index}}"
+    <td>
+        <input style="width: 150px !important;" type="number" class="form-control border4" id="discount_{{$index}}"
                value="{{isset($update_item) ? $update_item->discount : 0 }}" min="0"
                name="items[{{$index}}][discount]"
                onkeyup="calculateItem('{{$index}}')" onchange="calculateItem('{{$index}}')">
     </td>
 
-    <td style="background:#E3FBEA !important">
-        <input style="width: 150px !important;" type="number" class="form-control" id="total_before_discount_{{$index}}"
+    <td>
+        <input style="width: 150px !important;" type="number" class="form-control border3" id="total_before_discount_{{$index}}"
                value="{{isset($update_item) ? $update_item->sub_total : 0 }}" min="0"
                name="items[{{$index}}][total_before_discount]" disabled>
 
         {{input_error($errors, 'items['.$index.'][total_before_discount]')}}
     </td>
 
-    <td style="background:#E3E3FB !important">
-        <input style="width: 150px !important;" type="number" class="form-control" id="total_after_discount_{{$index}}"
+    <td>
+        <input style="width: 150px !important;" type="number" class="form-control border3" id="total_after_discount_{{$index}}"
                value="{{isset($update_item) ? $update_item->total_after_discount : 0 }}" min="0"
                name="items[{{$index}}][total_after_discount]" disabled>
         {{input_error($errors, 'items['.$index.'][total_after_discount]')}}
     </td>
 
-    <td style="background:#E3F6FB !important">
+    <td>
         <div class="btn-group ">
             <span type="button" class="fa fa-usd  dropdown-toggle" data-toggle="dropdown"
                   style="background-color: rgb(244, 67, 54); color: white; padding: 3px; border-radius: 5px; cursor: pointer"
@@ -189,14 +189,14 @@
 
             <input type="hidden" id="tax_count_{{$index}}" value="{{$part->taxes->count()}}">
 
-            <input style="width: 150px !important;" type="number" class="form-control" id="tax_{{$index}}"
+            <input style="width: 150px !important;" type="number" class="form-control border5" id="tax_{{$index}}"
                    value="{{isset($update_item) ? $update_item->tax : 0 }}"
                    min="0" name="items[{{$index}}][tax]" disabled>
         </div>
     </td>
 
-    <td style="background:#FBFBE3 !important">
-        <input style="width: 150px !important;" type="number" class="form-control" id="total_{{$index}}"
+    <td>
+        <input style="width: 150px !important;" type="number" class="form-control border3" id="total_{{$index}}"
                value="{{isset($update_item) ? $update_item->total : 0}}" min="0"
                name="items[{{$index}}][total]" disabled>
         {{input_error($errors, 'items['.$index.'][total]')}}
