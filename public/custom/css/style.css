@@ -437,3 +437,19 @@ footer {
 .scroll-table {
     max-height: 650px
 }
+
+.responsible-persons {
+    box-shadow: 0 0 7px 1px #DDD;
+    padding: 20px 10px;
+    margin: 20px 10px 30px;
+    position: relative;
+}
+
+.responsible-persons-show {
+    box-shadow: 0 0 7px 1px #ddd;
+    padding: 20px 10px;
+    margin: 10px auto !important;
+    width: 95%;
+    position: relative;
+    display: table !important;
+}

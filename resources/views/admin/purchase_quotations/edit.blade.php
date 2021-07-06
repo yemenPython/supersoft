@@ -17,7 +17,7 @@
             </ol>
         </nav>
 
-        <div class="col-xs-12">
+        <div class="">
 
             {{--  box-content-wg-new  --}}
 

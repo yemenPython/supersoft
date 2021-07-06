@@ -19,19 +19,19 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="form-group">
 
                 <label for="exampleInputEmail1">{{__('phone 1')}}</label>
-                <input type="text" readonly id="phone1{{$index}}" class="form-control employeeData">
+                <input type="text" readonly id="phone1{{$index}}" class="form-control">
 
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="exampleInputEmail1">{{__('phone 2')}}</label>
-                <input type="text" readonly min="0" id="phone2{{$index}}" class="form-control employeeData">
+                <input type="text" readonly min="0" id="phone2{{$index}}" class="form-control">
             </div>
         </div>
     </div>
@@ -44,27 +44,27 @@
                 <label for="exampleInputEmail1">{{__('Start Date')}}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                <input type="date" name="employees[{{$index}}][startDate]" class="form-control employeeData" value="{{now()}}">
+                <input type="date" name="employees[{{$index}}][startDate]" class="form-control" value="{{now()}}">
             </div>
         </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="exampleInputEmail1">{{__('End Date')}}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                <input type="date" name="employees[{{$index}}][endDate]" class="form-control employeeData">
+                <input type="date" name="employees[{{$index}}][endDate]" class="form-control">
             </div>
         </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="form-group">
-                <button class="btn btn-sm btn-danger" type="button"
+                <button style="margin-top: 25px;font-size:15px;padding:5px 10px;margin-top:29px" class="btn btn-sm btn-danger" type="button"
                         onclick="deleteContact('{{$index}}')"
                         id="delete-div-" style="margin-top: 31px;">
-                    <li class="fa fa-trash"></li>
+                    <i class="fa fa-trash"></i> حذف
                 </button>
             </div>
             </div>

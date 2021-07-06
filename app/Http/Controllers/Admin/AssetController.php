@@ -1,4 +1,4 @@
-<!-- <?php
+<?php
 
 namespace App\Http\Controllers\Admin;
 
@@ -121,4 +121,4 @@ class AssetController extends Controller
         ]);
     }
 
-} -->
+} 
