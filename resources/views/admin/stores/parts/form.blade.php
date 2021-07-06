@@ -98,7 +98,7 @@
             class="btn btn-sm btn-info">
         <li class="fa fa-plus"></li>  {{__('New employee')}}
     </button>
-    <hr>
+
 </div>
 
 

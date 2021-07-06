@@ -134,7 +134,7 @@
             </div>
         
 
-            <div class="row top-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+            <div class="row top-data-wg" style="margin:5px 5px 10px;padding-top:20px">
 
 
             <div class="col-md-12 text-center">
