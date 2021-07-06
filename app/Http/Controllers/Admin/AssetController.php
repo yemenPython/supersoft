@@ -123,4 +123,8 @@ class AssetController extends Controller
         ]);
     }
 
+<<<<<<< HEAD
+} 
+=======
 }
+>>>>>>> 889e85a69bc07b7a5ef2e88b91e994114987f7c7

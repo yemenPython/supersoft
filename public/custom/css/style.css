@@ -438,6 +438,22 @@ footer {
     max-height: 650px
 }
 
+<<<<<<< HEAD
+.responsible-persons {
+    box-shadow: 0 0 7px 1px #DDD;
+    padding: 20px 10px;
+    margin: 20px 10px 30px;
+    position: relative;
+}
+
+.responsible-persons-show {
+    box-shadow: 0 0 7px 1px #ddd;
+    padding: 20px 10px;
+    margin: 10px auto !important;
+    width: 95%;
+    position: relative;
+    display: table !important;
+=======
 .border1 {
     border: 1px solid #E58885 !important;
 }
@@ -460,4 +476,5 @@ footer {
 
 .border6 {
     border: 1px solid #e7ba76 !important;
+>>>>>>> 889e85a69bc07b7a5ef2e88b91e994114987f7c7
 }

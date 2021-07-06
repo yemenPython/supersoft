@@ -62,7 +62,7 @@
                                 @endif
                     
 
-                            <div class="col-md-12">
+                            <div class="">
 
 
                                 <div class="col-md-4">
@@ -109,7 +109,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12">
+                            <div class="">
 
                                 <div class="col-md-4">
                                     <div class="form-group has-feedback">
@@ -155,7 +155,144 @@
 
                                 <div class="row top-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
                   
-                                <div class="col-md-4">
+
+<div class="col-md-4">
+  <table class="table">
+     <tr>
+       <th>{{__('Invoices')}}</th>
+     </tr>
+     <tr>
+       <td>
+       <div class="switch primary" style="margin:0">
+       <input type="hidden" name="active_invoices" VALUE="0">
+                                                <div class="switch primary" style="margin:0">
+                                                    <input type="checkbox" id="switch-1" name="active_invoices"
+                                                           VALUE="1"
+                                                        {{$taxesFees->active_invoices == 1 ? 'checked' : ''}}>
+                                                    <label for="switch-1">{{__('Active')}}</label>
+                                                </div>
+      </div>
+        </td>
+     </tr>
+  </table>
+</div>
+
+<div class="col-md-4">
+  <table class="table">
+     <tr>
+       <th>{{__('Quotations')}}</th>
+     </tr>
+     <tr>
+       <td>
+       <input type="hidden" name="active_offers" VALUE="0">
+                                                <div class="switch primary" style="margin:0">
+                                                    <input type="checkbox" id="switch-2" name="active_offers" VALUE="1"
+                                                        {{$taxesFees->active_offers == 1 ? 'checked' : ''}}>
+                                                    <label for="switch-2">{{__('Active')}}</label>
+                                                </div>
+        </td>
+     </tr>
+  </table>
+</div>
+
+<div class="col-md-4">
+  <table class="table">
+     <tr>
+       <th>{{__('Services')}}</th>
+     </tr>
+     <tr>
+       <td>
+       <input type="hidden" name="active_services" VALUE="0">
+                                                <div class="switch primary" style="margin:0">
+                                                    <input type="checkbox" id="switch-3" name="active_services"
+                                                           VALUE="1"
+                                                        {{$taxesFees->active_services == 1 ? 'checked' : ''}}>
+                                                    <label for="switch-3">{{__('Active')}}</label>
+                                                </div>
+        </td>
+     </tr>
+  </table>
+</div>
+
+<div class="col-md-4">
+  <table class="table">
+     <tr>
+       <th>{{__('Purchase Invoice')}}</th>
+     </tr>
+     <tr>
+       <td>
+       <input type="hidden" name="active_purchase_invoice" VALUE="0">
+                                                <div class="switch primary" style="margin:0">
+                                                    <input type="checkbox" id="switch-4" name="active_purchase_invoice"
+                                                           VALUE="1" {{$taxesFees->active_purchase_invoice == 1 ? 'checked' : ''}}>
+                                                    <label for="switch-4">{{__('Active')}}</label>
+                                                </div>
+        </td>
+     </tr>
+  </table>
+</div>
+
+<div class="col-md-4 for_parts">
+  <table class="table">
+     <tr>
+       <th>{{__('Purchase Quotation')}}</th>
+     </tr>
+     <tr>
+       <td>
+       <div class="switch primary" style="margin:0">
+                                                    <input type="checkbox" id="switch-6" name="purchase_quotation"
+                                                        {{$taxesFees->purchase_quotation == 1 ? 'checked' : ''}}>
+                                                    <label for="switch-6">{{__('Active')}}</label>
+                                                </div>
+        </td>
+     </tr>
+  </table>
+</div>
+
+<div class="col-md-4 for_parts" style="{{$taxesFees->type == 'additional_payments' ? 'display:none':''}}">
+  <table class="table">
+     <tr>
+       <th>{{__('For Parts')}}</th>
+     </tr>
+     <tr>
+       <td>
+       <div class="switch primary" style="margin:0">
+                                                    <input type="checkbox" id="switch-5" name="on_parts" {{$taxesFees->on_parts ? "checked":""}}>
+                                                    <label for="switch-5">{{__('Active')}}</label>
+                                                </div>
+        </td>
+     </tr>
+  </table>
+</div>
+
+<div class="col-md-4" >
+  <table class="table">
+     <tr>
+       <th>{{__('Tax /Execution Time')}}</th>
+     </tr>
+     <tr>
+       <td>
+       <div class="form-group has-feedback">
+
+                                    <div class="radio primary">
+                                        <input type="radio" name="execution_time" value="after_discount"
+                                               id="execution_time_after" {{$taxesFees->execution_time == 'after_discount' ? 'checked':''}}>
+                                        <label for="execution_time_after">{{__('After Discount')}}</label>
+                                    </div>
+
+                                    <div class="radio primary">
+                                        <input type="radio" name="execution_time" value="before_discount"
+                                               id="execution_time_before" {{$taxesFees->execution_time == 'before_discount' ? 'checked':''}}>
+                                        <label for="execution_time_before">{{__('Before Discount')}}</label>
+                                    </div>
+                                </div>
+        </td>
+     </tr>
+  </table>
+</div>
+
+                  
+                                <!-- <div class="col-md-4">
 
                                     <div class="form-group has-feedback">
                                         <ul class="list-inline list-group-ww">
@@ -221,10 +358,10 @@
 
                                         </ul>
                                     </div>
-                                </div>
+                                </div> -->
                              
                      
-
+<!-- 
                             <div class="col-md-4">
                                 <div class="form-group has-feedback">
                                     <label for="inputValue" class="control-label">{{__('Tax /Execution Time')}}</label>
@@ -242,7 +379,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+                             -->
                             </div>
                         </div>
                     
