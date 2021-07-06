@@ -4,12 +4,12 @@
         <span>{{$index}}</span>
     </td>
     <td>
-        <span style="width: 150px !important;display:block">{{$asset->group->name}}</span>
+        <span style="width: 150px !important;display:block">{{$asset?$asset->group->name:''}}</span>
     </td>
 
     <td class="inline-flex-span">
-        <span>{{$asset->name}}</span>
-        <input type="hidden" class="assetExist" value="{{$asset->id}}" name="items[{{$index}}][asset_id]">
+        <span>{{$asset?$asset->name:''}}</span>
+        <input type="hidden" class="assetExist" value="{{$asset?$asset->id:''}}" name="items[{{$index}}][asset_id]">
     </td>
 
     <td>
@@ -32,7 +32,7 @@
 
     <td>
         <div class="input-group">
-            <input type="date" class="form-control valid purchase_date_{{$index}} form-control" value="{{$asset->purchase_date}}" name="items[{{$index}}][purchase_date]">
+            <input type="date" class="form-control valid purchase_date_{{$index}} form-control" value="{{$asset?$asset->purchase_date:''}}" name="items[{{$index}}][purchase_date]">
         </div>
     </td>
 

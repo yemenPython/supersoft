@@ -238,7 +238,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Image' => 'Intervention\Image\Facades\Image',
-        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
+        'Datatables' => Yajra\Datatables\Datatables::class,
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
 
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,

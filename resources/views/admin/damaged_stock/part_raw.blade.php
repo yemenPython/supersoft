@@ -92,20 +92,20 @@
         </div>
     </td>
 
-    <td style="background:#FBE3E6 !important">
-        <input style="width: 120px !important;" type="number" class="form-control" id="quantity_{{$index}}"
+    <td>
+        <input style="width: 120px !important;" type="number" class="form-control border1" id="quantity_{{$index}}"
                onkeyup="checkPartQuantity('{{$index}}'); calculateItem('{{$index}}')"
                onchange="checkPartQuantity('{{$index}}'); calculateItem('{{$index}}');"
                value="{{isset($item) ? $item->quantity : 0}}" min="0" name="items[{{$index}}][quantity]">
     </td>
 
-    <td style="background:#E3FBEA !important">
-        <input style="width: 150px !important;" type="text" id="price_{{$index}}" class="form-control" onkeyup="calculateItem('{{$index}}')"
+    <td>
+        <input style="width: 150px !important;" type="text" id="price_{{$index}}" class="form-control border2" onkeyup="calculateItem('{{$index}}')"
                value="{{isset($item) ? $item->price : $part->first_price_damaged_price}}" name="items[{{$index}}][price]">
     </td>
 
-    <td style="background:#FBFAD4 !important">
-        <input style="width: 150px !important;" type="text" id="total_{{$index}}" disabled class="form-control"
+    <td>
+        <input style="width: 150px !important;" type="text" id="total_{{$index}}" disabled class="form-control border3"
                value="{{isset($item) ? ($item->price * $item->quantity) : 0}}"
                name="items[{{$index}}][total]">
     </td>

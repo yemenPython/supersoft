@@ -1,5 +1,11 @@
 @extends('admin.layouts.app')
-
+@section('style')
+    <style>
+        .dataTables_length{
+            float: left !important;
+        }
+    </style>
+@endsection
 @section('title')
     <title>{{ __('words.assets') }} </title>
 @endsection
@@ -26,7 +32,7 @@
                     </h4>
                     <!-- /.box-title -->
                     <div class="card-content js__card_content" style="padding:30px">
-                        <form action="" method="get">
+                        <form  onsubmit="filterFunction($(this));return false;">
                             <div class="list-inline margin-bottom-0 row">
 
                                     @if(authIsSuperAdmin())
@@ -245,176 +251,37 @@
                                 <th>#</th>
                                 <th scope="col"> {{ __('Branch') }} </th>
                                 <th scope="col"> {{ __('Asset name') }} </th>
-{{--                            <!-- <th scope="col"> {{ __('type') }} </th> -->--}}
                                 <th scope="col"> {{ __('Asset group') }} </th>
                                 <th scope="col"> {{ __('Asset Status') }} </th>
                                 <th scope="col"> {{ __('annual consumption rate') }} </th>
-
                                 <th scope="col"> {{ __('asset age') }} </th>
-
                                 <th scope="col">{!! __('Created at') !!}</th>
                                 <th scope="col">{!! __('Updated at') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
-                                <th scope="col">
-                                    <div class="checkbox danger">
+                                <th scope="col"><div class="checkbox danger">
                                         <input type="checkbox" id="select-all">
                                         <label for="select-all"></label>
                                     </div>{!! __('Select') !!}
                                 </th>
                             </tr>
                             </thead>
+
                             <tfoot>
                             <tr>
                                 <th>#</th>
                                 <th scope="col"> {{ __('Branch') }} </th>
                                 <th scope="col"> {{ __('Asset name') }} </th>
-                            <!-- <th scope="col"> {{ __('type') }} </th> -->
                                 <th scope="col"> {{ __('Asset group') }} </th>
                                 <th scope="col"> {{ __('Asset Status') }} </th>
                                 <th scope="col"> {{ __('annual consumption rate') }} </th>
-
                                 <th scope="col"> {{ __('asset age') }} </th>
                                 <th scope="col">{!! __('Created at') !!}</th>
                                 <th scope="col">{!! __('Updated at') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">{!! __('Select') !!}</th>
+
                             </tr>
                             </tfoot>
-                            <tbody>
-                            @foreach($assets as $asset)
-                                <tr>
-                                    <td>{{$loop->iteration}}</td>
-                                    <td  class="text-danger"> {{ optional($asset->branch)->name }} </td>
-                                    <td> {{ $asset->name }} </td>
-
-                                <!-- <td > {{ $asset->type }} </td> -->
-                                    <td> {{ optional($asset->group)->name }} </td>
-
-                                    <td>
-                                        @if($asset->asset_status == 1)
-                                        <span class="label label-info wg-label">
-                                            {{ __('continues') }}
-                                        </span>
-                                        @elseif($asset->asset_status == 2)
-                                        <span class="label label-primary wg-label">
-                                            {{ __('sell') }}
-                                            </span>
-                                        @else
-                                        <span class="label label-danger wg-label">
-                                            {{ __('ignore') }}
-                                            </span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                    <span class="price-span">
-                                     {{ $asset->annual_consumtion_rate }} %
-                                    </span>
-                                    </td>
-
-                                    <td>
-                                    <span class="part-unit-span">
-                                     {{ $asset->asset_age }} {{__('year')}}
-                                     </span>
-                                      </td>
-
-                                    <td> {{ $asset->created_at }} </td>
-                                    <td> {{ $asset->updated_at }} </td>
-                                    <td>
-                                    <div class="btn-group margin-top-10">
-
-                                        <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="ico fa fa-bars"></i>
-                                        {{__('Options')}} <span class="caret"></span>
-
-                                    </button>
-                                        <ul class="dropdown-menu dropdown-wg">
-                                            <li>
-
-                                                    @component('admin.buttons._edit_button',[
-                                                    'id'=>$asset->id,
-                                                    'route' => 'admin:assets.edit',
-                                                     ])
-                                                    @endcomponent
-
-                                                    </li>
-                                            <li class="btn-style-drop">
-
-                                                    @component('admin.buttons._delete_button',[
-                                                    'id'=> $asset->id,
-                                                    'route' => 'admin:assets.destroy',
-                                                     ])
-                                                    @endcomponent
-
-                                                </li>
-
-                                                <li>
-
-<a style="cursor:pointer" class="btn btn-print-wg text-white  "
-   data-toggle="modal"
-
-   onclick="getPrintData({{$asset->id}})"
-   data-target="#boostrapModal" title="{{__('print')}}">
-    <i class="fa fa-print"></i> {{__('Print')}}
-</a>
-</li>
-
-                                                <li>
-
-                                                    @component('admin.buttons._show_with_text_button',[
-                                                    'id'=> $asset->id,
-                                                    'route' => 'admin:assetsEmployees.index',
-                                                    'text' => __('employees history'),
-                                                     ])
-                                                    @endcomponent
-
-                                                </li>
-
-                                                <li>
-
-                                                    @component('admin.buttons._show_with_text_button',[
-                                                    'id'=> $asset->id,
-                                                    'route' => 'admin:assetsInsurances.index',
-                                                    'text' => __('insurances'),
-                                                     ])
-                                                    @endcomponent
-
-                                                </li>
-                                                <li>
-
-                                                    @component('admin.buttons._show_with_text_button',[
-                                                    'id'=> $asset->id,
-                                                    'route' => 'admin:assetsLicenses.index',
-                                                    'text' => __('licenses'),
-                                                     ])
-                                                    @endcomponent
-
-                                                </li>
-
-                                                <li>
-
-                                                    @component('admin.buttons._show_with_text_button',[
-                                                    'id'=> $asset->id,
-                                                    'route' => 'admin:assetsExaminations.index',
-                                                    'text' => __('examinations'),
-                                                     ])
-                                                    @endcomponent
-
-                                                </li>
-
-
-                                            </ul>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        @component('admin.buttons._delete_selected',[
-                                            'id' =>  $asset->id,
-                                            'route' => 'admin:assets.deleteSelected',
-                                        ])
-                                        @endcomponent
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -425,10 +292,18 @@
 @stop
 
 @section('js')
+{{--    <script src="https://code.jquery.com/jquery-3.5.1.js" type="application/javascript"></script>--}}
+{{--    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js" type="application/javascript"></script>--}}
+{{--    <script src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js" type="application/javascript"></script>--}}
+{{--    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js" type="application/javascript"></script>--}}
+{{--    <script src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js" type="application/javascript"></script>--}}
+{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js" type="application/javascript"></script>--}}
+{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js" type="application/javascript"></script>--}}
+{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js" type="application/javascript"></script>--}}
     <script type="application/javascript">
 
         $(document).ready(function () {
-            invoke_datatable($('#datatable-with-btns'));
+            server_side_datatable('#datatable-with-btns');
             $(".select2").select2();
         });
 
@@ -584,6 +459,13 @@
                 }
             });
         });
+
+        function filterFunction($this) {
+                $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+                $datatable.ajax.url($url).load();
+            $( ".js__card_minus" ).trigger( "click" );
+        }
+
     </script>
 
 

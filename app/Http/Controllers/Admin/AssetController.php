@@ -75,6 +75,8 @@ class AssetController extends Controller
 
     public function update(Request $request, Model $asset) {
 
+        dd($request->all());
+
         if (!auth()->user()->can('update_assets')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
@@ -121,4 +123,8 @@ class AssetController extends Controller
         ]);
     }
 
+<<<<<<< HEAD
 } 
+=======
+}
+>>>>>>> 889e85a69bc07b7a5ef2e88b91e994114987f7c7

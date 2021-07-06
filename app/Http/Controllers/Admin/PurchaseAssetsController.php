@@ -127,7 +127,6 @@ class PurchaseAssetsController extends Controller
     public function show(PurchaseAsset $purchaseAsset)
     {
         $asset = $purchaseAsset;
-//        dd($asset);
         $invoice = view( 'admin.purchase-assets.show', compact( 'asset' ) )->render();
 
         return response()->json( ['invoice' => $invoice] );

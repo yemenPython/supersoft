@@ -95,8 +95,8 @@
                                     <div class="form-group">
                                         <label for="inputNameAR" class="control-label">{{__('total group consumption')}}</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                            <input disabled="disabled" value="{{$assetGroup->total_consumtion}}" type="text" name="name_ar" class="form-control" id="inputNameAR" placeholder="{{__('total consumption')}}">
+                                            <span class="input-group-addon border3"><i class="fa fa-money"></i></span>
+                                            <input disabled="disabled" value="{{$assetGroup->total_consumtion}}" type="text" name="name_ar" class="form-control border3" id="inputNameAR" placeholder="{{__('total consumption')}}">
                                         </div>
                                         {{input_error($errors,'name_ar')}}
                                     </div>
