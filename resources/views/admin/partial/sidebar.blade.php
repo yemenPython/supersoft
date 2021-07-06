@@ -352,7 +352,21 @@ route('admin:services_packages.index'),
                             <a href="{{url('admin/carTypes')}}">{{__('Cars Types')}}</a>
                         </li>
 
+                        <li class="{{setActivationClass(route('admin:work-cards.index'))}}">
+                            <a class=" " href="{{route('admin:work-cards.index')}}">
+                                <span>{{__('Car Maintainance')}}</span></a>
+                        </li>
 
+                         <li class="{{setActivationClass(route('admin:maintenance.status.index.report'))}}">
+                            <a class=" " href="{{route('admin:maintenance.status.index.report')}}">
+                                <span>{{__('Maintenance Status')}}</span>
+                            </a>
+                        </li>
+                        <li class="{{setActivationClass(route('admin:reservations.index'))}}">
+                            <a class=" " href="{{route('admin:reservations.index')}}">
+                                <span>{{__('Services Reservations')}}</span>
+                            </a>
+                        </li>
 
                     </ul>
                 </li>
@@ -595,7 +609,7 @@ route('admin:purchase-quotations.index'),
 
                     </ul>
                 </li>
-                <li class="{{setActivationClass([
+                <!-- <li class="{{setActivationClass([
 route('admin:work-cards.index'),
 route('admin:maintenance.status.index.report'),
 route('admin:reservations.index'),
@@ -605,24 +619,10 @@ route('admin:reservations.index'),
                         <span class="menu-arrow fa fa-angle-down"></span>
                     </a>
                     <ul class="sub-menu js__content">
-                         <li class="{{setActivationClass(route('admin:work-cards.index'))}}">
-                            <a class=" " href="{{route('admin:work-cards.index')}}">
-                                <span>{{__('Car Maintainance')}}</span></a>
-                        </li>
-
-                         <li class="{{setActivationClass(route('admin:maintenance.status.index.report'))}}">
-                            <a class=" " href="{{route('admin:maintenance.status.index.report')}}">
-                                <span>{{__('Maintenance Status')}}</span>
-                            </a>
-                        </li>
-                        <li class="{{setActivationClass(route('admin:reservations.index'))}}">
-                            <a class=" " href="{{route('admin:reservations.index')}}">
-                                <span>{{__('Services Reservations')}}</span>
-                            </a>
-                        </li>
+                        
                     </ul>
                 </li>
-
+ -->
 
 
                 <li class="{{setActivationClass([
