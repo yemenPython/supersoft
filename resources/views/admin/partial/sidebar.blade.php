@@ -442,7 +442,7 @@ route('admin:maintenance-detections.index'),
 
 
 
-<!-- 
+<!--
                 <li class="{{setActivationClass([
 route('admin:lockers.index'),
 route('admin:accounts.index'),
@@ -508,7 +508,7 @@ route('admin:bank-receives.index'),
                     </ul>
                 </li> -->
 
-<!-- 
+<!--
                 <li class="{{setActivationClass([
 route('admin:revenues_types.index'),
 route('admin:revenues_Items.index'),
@@ -623,12 +623,12 @@ route('admin:reservations.index'),
                         <span class="menu-arrow fa fa-angle-down"></span>
                     </a>
                     <ul class="sub-menu js__content">
-                        
+
                     </ul>
                 </li>
  -->
 
-<!-- 
+<!--
                 <li class="{{setActivationClass([
 url('admin/shifts'),
 url('admin/employee_settings'),
@@ -729,15 +729,6 @@ url('admin/service-types/archive').'?archive'
                     <ul class="sub-menu js__content wg-menu" style="">
                         <li class="{{setActivationClass(url('admin/users/archive').'?archive')}}">
                             <a href="{{url('admin/users/archive').'?archive'}}">{{__('Users Archives')}}</a>
-                        </li>
-                        <li class="{{setActivationClass(url('admin/service-types/archive').'?archive')}}">
-                            <a href="{{url('admin/service-types/archive').'archive'}}">{{__('Archive Services Types')}}</a>
-                        </li>
-                        <li class="">
-                            <a href="{{url('admin/services/archive')}}">{{__('Services Archive')}}</a>
-                        </li>
-                        <li class="">
-                            <a href="{{url('admin/services_packages/archive')}}">{{__('Services Package Archive')}}</a>
                         </li>
                     </ul>
                 </li>

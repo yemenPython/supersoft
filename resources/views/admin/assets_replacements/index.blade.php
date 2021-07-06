@@ -46,8 +46,8 @@
                         <th scope="col">{!! __('Number') !!}</th>
                         <th scope="col">{!! __('Date') !!}</th>
                         <th scope="col">{!! __('Time') !!}</th>
-                        <th scope="col">{!! __('Total Before Replacement') !!}</th>
-                        <th scope="col">{!! __('Total After Replacement') !!}</th>
+                        <th scope="col">{!! __('Total Purchase') !!}</th>
+                        <th scope="col">{!! __('Total Value Of Replacement') !!}</th>
                         <th scope="col">{!! __('Created at') !!}</th>
                         <th scope="col">{!! __('Updated at') !!}</th>
                         <th scope="col">{!! __('Options') !!}</th>
