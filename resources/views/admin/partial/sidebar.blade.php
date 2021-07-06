@@ -442,7 +442,7 @@ route('admin:maintenance-detections.index'),
 
 
 
-
+<!-- 
                 <li class="{{setActivationClass([
 route('admin:lockers.index'),
 route('admin:accounts.index'),
@@ -506,7 +506,9 @@ route('admin:bank-receives.index'),
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> -->
+
+<!-- 
                 <li class="{{setActivationClass([
 route('admin:revenues_types.index'),
 route('admin:revenues_Items.index'),
@@ -558,7 +560,9 @@ route('admin:expenseReceipts.index'),
                                 {{__('Expenses Receipts')}}
                             </a>
                     </ul>
-                </li>
+                </li> -->
+
+
                 <li class="{{setActivationClass([
 route('admin:purchase-invoices.index'),
 route('admin:purchase_returns.index'),
@@ -624,7 +628,7 @@ route('admin:reservations.index'),
                 </li>
  -->
 
-
+<!-- 
                 <li class="{{setActivationClass([
 url('admin/shifts'),
 url('admin/employee_settings'),
@@ -682,8 +686,13 @@ url('admin/employees_salaries'),
                         </li>
 
                     </ul>
-                </li>
-                @include('accounting-module.custom-aside')
+                </li> -->
+
+
+                <!-- @include('accounting-module.custom-aside') -->
+
+
+
                 <!-- <li class="{{setActivationClass([
 route('admin:concession-types.index'),
 route('admin:concession-relations.create'),

@@ -85,7 +85,7 @@
             <span class="fa fa-th js__drop_down_button"></span>
             <div class="toggle-content">
                 <ul class="ul-wg-head">
-                    <li><a href="{{route('admin:parts.create')}}" target="_blank"><i class="fa fa-home"></i><span class="txt">{{__('analytics.add-part')}}</span></a></li>
+                    <!-- <li><a href="{{route('admin:parts.create')}}" target="_blank"><i class="fa fa-home"></i><span class="txt">{{__('analytics.add-part')}}</span></a></li>
                     <li><a href="{{route('admin:customers.create')}}" target="_blank"><i class="fa fa-user"></i><span class="txt">{{__('analytics.add-customer')}}</span></a></li>
                     <li><a href="{{route('admin:suppliers.create')}}" target="_blank"><i class="fa fa-user"></i><span class="txt">{{__('analytics.add-supplier')}}</span></a></li>
                     <li><a href="{{route('admin:purchase-invoices.create')}}" target="_blank"><i class="fa fa-file-text-o"></i><span class="txt">{{__('analytics.add-buy-invoice')}}</span></a></li>
@@ -96,7 +96,7 @@
                     <li><a href="{{route('admin:work-cards.index')}}" target="_blank"><i class="fa fa-file-text-o"></i><span class="txt">{{__('analytics.show-services')}}</span></a></li>
                     <li><a href="{{route('admin:quotations.create')}}" target="_blank"><i class="fa fa-file-text-o"></i><span class="txt">{{__('analytics.add-price-offers')}}</span></a></li>
                     <li><a href="{{route('admin:maintenance.status.index.report')}}" target="_blank"><i class="fa fa-file-text-o"></i><span class="txt">{{__('analytics.cars.statusReport')}}</span></a></li>
-                    <li><a href="{{route('admin:reservations.index')}}" target="_blank"><i class="fa fa-file-text-o"></i><span class="txt">{{__('analytics.Tasks')}}</span></a></li>
+                    <li><a href="{{route('admin:reservations.index')}}" target="_blank"><i class="fa fa-file-text-o"></i><span class="txt">{{__('analytics.Tasks')}}</span></a></li> -->
 
                 </ul>
                 <!-- <a href="#" class="read-more">More</a> -->
