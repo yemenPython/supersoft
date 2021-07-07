@@ -503,8 +503,22 @@ footer {
     width: 100%;
 }
 
-
 .wg-inside-table th {
     background-color: #a9c1f5 !important;
     color: #333;
+}
+
+.bg-table1,
+.bg-table1 th {
+    background: red !important
+}
+
+.bg-table2,
+.bg-table2 th {
+    background: #7bdaeb !important
+}
+
+.bg-table3,
+.bg-table3 th {
+    background: #acec58 !important
 }
