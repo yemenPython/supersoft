@@ -107,6 +107,8 @@
                     searchData.store_id  = $("#store_id").val();
                     searchData.part_name  = $("#part_name").val();
                     searchData.serial_number  = $("#serial_number").val();
+                    searchData.asset_group_name  = $("#asset_group_name").val();
+                    searchData.asset_expense_type  = $("#asset_expense_type").val();
                     return searchData;
                 },
                 processResults: function (response) {

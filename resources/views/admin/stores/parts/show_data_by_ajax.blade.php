@@ -5,13 +5,39 @@
         <h4 class="modal-title">{{ __('Show store data') }}</h4>
 
     </div>
-    <div class="modal-body">
+    <div class="" style="margin:20px 0">
 
     <div class="row top-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
         <div class="row">
             <div class="col-md-12">
+              
+            <div class="col-md-6">
+            <table class="table">
+              <tr>
+                <th style="width: 42%;">
+                {{__('Name in Arabic')}}
+                </th>
+                <td>
+                {{$store->name_ar}}
+                </td>
+              </tr>
+            </table>
+            </div>
 
-                <div class="col-md-6">
+            <div class="col-md-6">
+            <table class="table">
+              <tr>
+                <th style="width: 42%;">
+                {{__('Name in English')}}
+                </th>
+                <td>
+                {{$store->name_en}}
+                </td>
+              </tr>
+            </table>
+            </div>
+
+                <!-- <div class="col-md-6">
                     <div class="form-group">
                         <label>{{__('Name in Arabic')}}</label>
                         <div class="input-group">
@@ -19,8 +45,8 @@
                             <input readonly class="form-control" value="{{$store->name_ar}}">
                         </div>
                     </div>
-                </div>
-                <div class="col-md-6">
+                </div> -->
+                <!-- <div class="col-md-6">
                     <div class="form-group">
                         <label>{{__('Name in English')}}</label>
                         <div class="input-group">
@@ -28,11 +54,37 @@
                             <input readonly class="form-control" value="{{$store->name_en}}">
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="col-md-12">
 
-                <div class="col-md-6">
+            <div class="col-md-6">
+            <table class="table">
+              <tr>
+                <th style="width: 42%;">
+                {{__('Store Phone')}}
+                </th>
+                <td>
+                {{$store->store_phone}}
+                </td>
+              </tr>
+            </table>
+            </div>
+
+            <div class="col-md-6">
+            <table class="table">
+              <tr>
+                <th style="width: 42%;">
+                {{__('Store Address')}}
+                </th>
+                <td>
+                {{$store->store_address}}
+                </td>
+              </tr>
+            </table>
+            </div>
+
+                <!-- <div class="col-md-6">
                     <div class="form-group has-feedback">
                         <label for="creator_phone" class="control-label">{{__('Store Phone')}}</label>
                         <div class="input-group">
@@ -40,9 +92,9 @@
                             <input type="text" readonly name="store_phone" class="form-control" value="{{$store->store_phone}}">
                         </div>
                     </div>
-                </div>
+                </div> -->
 
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                     <div class="form-group has-feedback">
                         <label for="creator_phone" class="control-label">{{__('Store Address')}}</label>
                         <div class="input-group">
@@ -50,11 +102,25 @@
                             <input type="text" readonly name="store_address" class="form-control" value="{{$store->store_address}}">
                         </div>
                     </div>
-                </div>
+                </div> -->
                 </div>
 
+
             <div class="col-md-12">
-                <div class="col-md-12">
+
+            <div class="col-md-12">
+            <table class="table">
+              <tr>
+                <th style="width: 30%;">
+                {{__('Notes')}}
+                </th>
+                <td>
+                {{$store->note}}
+                </td>
+              </tr>
+            </table>
+            </div>
+                <!-- <div class="col-md-12">
 
                     <div class="form-group has-feedback">
                         <label for="note" class="control-label">{{__('Notes')}}</label>
@@ -63,28 +129,131 @@
                             <textarea readonly name="note" class="form-control" id="store_address" rows="3">{{$store->note}}</textarea>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             </div>
             </div>
             </div>
         
 
-            <div class="row top-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+
+            <div class="col-md-12">
 
 
-            <div class="col-md-12 text-center">
+
+
+
+            
                
-                <span style="color: black;font-size: 14px;padding:5px 5px 8px !important;border-radius:0px">
-                    {{__('Stores officials')}} </span>
-                    <hr style="width: 100px;border-color:#5685CC;margin-top:0;;margin-bottom:0;">
+                <!-- <span style="color: black;font-size: 14px;padding:5px 5px 8px !important;border-radius:0px">
+                     </span> -->
+                    <div class="ribbon ribbon-r bg-secondary show-ribbon" style="right:-15px;top:10px;background:#5685CC !important">
+                                                    <p class="mb-0" style="color:white;">{{__('Stores officials')}}</p>
+                                                </div>
+                    <!-- <hr style="width: 100px;border-color:#5685CC;margin-top:0;;margin-bottom:0;"> -->
+                <br>
+                <br>
                 <br>
                 <br>
             </div>
+            <div class="for-scroll-wg">
             @if(count($store->storeEmployeeHistories) > 0)
                 @foreach($store->storeEmployeeHistories as $employeeHistory)
-                <div class="col-md-12">
-                    <div class="col-md-6">
+                <div class="responsible-persons-show">
+
+                <div class="col-md-6">
+            <table class="table">
+              <tr>
+                <th style="width: 42%;">
+                {{__('Employee Name In Arabic')}}
+                </th>
+                <td>
+                {{optional($employeeHistory->employee)->name_ar}}
+                </td>
+              </tr>
+            </table>
+            </div>
+
+            <div class="col-md-6">
+            <table class="table">
+              <tr>
+                <th style="width: 42%;">
+                {{__('Employee Name In English')}}
+                </th>
+                <td>
+                {{optional($employeeHistory->employee)->name_en}}
+                </td>
+              </tr>
+            </table>
+            </div>
+
+            <div class="col-md-6">
+            <table class="table">
+              <tr>
+                <th style="width: 42%;">
+                {{__('Phone1')}}
+                </th>
+                <td>
+                {{optional($employeeHistory->employee)->phone1}}
+                </td>
+              </tr>
+            </table>
+            </div>
+
+            <div class="col-md-6">
+            <table class="table">
+              <tr>
+                <th style="width: 42%;">
+                {{__('Phone2')}}
+                </th>
+                <td>
+                {{$employeeHistory->start}}
+                </td>
+              </tr>
+            </table>
+            </div>
+
+            <div class="col-md-6">
+            <table class="table">
+              <tr>
+                <th style="width: 42%;">
+                {{__('Start Date')}}
+                </th>
+                <td>
+                {{$employeeHistory->start}}
+                </td>
+              </tr>
+            </table>
+            </div>
+
+            <div class="col-md-6">
+            <table class="table">
+              <tr>
+                <th style="width: 42%;">
+                {{__('End Date')}}
+                </th>
+                <td>
+                {{$employeeHistory->end}}
+                </td>
+              </tr>
+            </table>
+            </div>
+
+            <div class="col-md-6">
+            <table class="table">
+              <tr>
+                <th style="width: 42%;">
+                {{__('End Date')}}
+                </th>
+                <td>
+                {{$employeeHistory->end}}
+                </td>
+              </tr>
+            </table>
+            </div>
+
+            
+                    <!-- <div class="col-md-6">
                         <div class="form-group">
                             <label>{{__('Employee Name In Arabic')}}</label>
                             <div class="input-group">
@@ -93,8 +262,8 @@
                                        placeholder="{{__('Employee Name In Arabic')}}">
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
+                    </div> -->
+                    <!-- <div class="col-md-6">
                         <div class="form-group">
                             <label> {{__('Employee Name In English')}}</label>
                             <div class="input-group">
@@ -103,9 +272,9 @@
                                        placeholder="{{__('Employee Name In English')}}">
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                         <div class="form-group">
                             <label>{{__('Phone1')}}</label>
                             <div class="input-group">
@@ -114,9 +283,9 @@
                                        placeholder="{{__('Phone1')}}">
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                         <div class="form-group">
                             <label>{{__('Phone2')}}</label>
                             <div class="input-group">
@@ -125,8 +294,9 @@
                                        placeholder="{{__('Phone2')}}">
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
+                    </div> -->
+
+                    <!-- <div class="col-md-6">
                         <div class="form-group">
                             <label>{{__('Start Date')}}</label>
                             <div class="input-group">
@@ -135,8 +305,9 @@
                                        placeholder="{{__('Phone2')}}">
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
+                    </div> -->
+
+                    <!-- <div class="col-md-6">
                         <div class="form-group">
                             <label>{{__('End Date')}}</label>
                             <div class="input-group">
@@ -145,12 +316,13 @@
                                        placeholder="{{__('Phone2')}}">
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <hr style="border-top: 1px solid #2980b9;">
                 </div>
                 @endforeach
             @else
+            </div>
                 <div class="col-md-12">
                   <h3 class="text-center">{{__('No Stores officials')}}</h3>
                 </div>
@@ -158,6 +330,7 @@
         </div>
     </div>
     </div>
+    
     
     <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">{{__('Close')}}</button>

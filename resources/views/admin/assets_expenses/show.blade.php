@@ -17,7 +17,7 @@
             <div class="col-xs-4">
 
                 <img class="text-center center-block" style="width: 100px; height: 100px;margin-top:20px"
-                     src="{{$assetExpense->branch->logo_img}}">
+                     src="{{optional($assetExpense->branch)->logo_img}}">
             </div>
             <div class="col-xs-4">
 
@@ -92,7 +92,7 @@
                         <td>{{optional($assetExpensesItem->asset->group)->name}}</td>
                         <td>{{optional($assetExpensesItem->asset)->name}}</td>
                         <td>{{optional($assetExpensesItem->assetExpenseItem->assetsTypeExpense)->name}}</td>
-                        <td>{{optional($assetExpensesItem->assetExpenseItem)->name}}</td>
+                        <td>{{optional($assetExpensesItem->assetExpenseItem)->item}}</td>
                         <td>{{$assetExpensesItem->price}}</td>
                     </tr>
                 @endforeach

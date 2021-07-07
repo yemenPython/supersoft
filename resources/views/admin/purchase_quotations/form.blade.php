@@ -8,7 +8,7 @@
     @if(authIsSuperAdmin())
 
         <div class="col-md-12">
-            <div class="col-md-12">
+            <div class="">
                 <div class="form-group has-feedback">
                     <label for="inputStore" class="control-label">{{__('Branches')}}</label>
                     <div class="input-group">
@@ -43,7 +43,7 @@
         </div>
     @endif
 
-    <div class="col-md-12">
+    <div class="">
 
         <div class="col-md-3">
             <div class="form-group">

@@ -15,15 +15,17 @@ class PurchaseAssetRequest extends FormRequest
 
     public function rules(): array
     {
+        $branch_id = authIsSuperAdmin() ?  $this->branch_id : auth()->user()->branch_id;
         $rules = [
             'invoice_number' => ['required', 'max:50', 'string',
                 Rule::unique( 'purchase_assets' )
                     ->ignore( $this->purchase_asset )
                     ->whereNull( 'deleted_at' )
-                    ->where( 'branch_id', $this->branch_id )
+                    ->where( 'branch_id', $branch_id )
             ],
             'date' => 'required|date',
             'time' => 'required',
+            'annual_consumtion_rate' => 'nullable|numeric|min:0|max:100',
 //            'asset_id' => 'required|exists:assets_tb,id',
 //            'items' => 'required|array',
             'supplier_id' => 'required|integer|exists:suppliers,id',

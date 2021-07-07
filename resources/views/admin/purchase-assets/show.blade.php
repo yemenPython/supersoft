@@ -90,7 +90,7 @@
                 </table>
             </div>
 
-            <div class="col-xs-12">
+            <div class="col-xs-6">
                 <table class="table table-bordered">
                     <tbody>
                     @if($asset->items->isNotEmpty())
@@ -122,6 +122,30 @@
                             </tr>
                         @endforeach
                     @endif
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-xs-6">
+                <table class="table table-bordered">
+                    <tbody>
+
+                            <tr>
+                                <th style="background:#CCC !important;color:black" scope="row">{{__('total purchase cost')}}</th>
+                                <td>{{$asset->total_purchase_cost}}</td>
+                            </tr>
+
+                            <tr>
+                                <th style="background:#CCC !important;color:black"
+                                    scope="row">{{__('total past consumtion')}}</th>
+                                <td>{{$asset->total_past_consumtion}}</td>
+                            </tr>
+                            <tr>
+                                <th style="background:#CCC !important;color:black"
+                                    scope="row">{{__('net total')}}</th>
+                                <td>{{$asset->net_total}}</td>
+                            </tr>
+
 
                     </tbody>
                 </table>

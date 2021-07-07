@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\BranchScope;
 use App\Traits\ColumnTranslation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -36,7 +37,12 @@ class AssetEmployee extends Model
         'start_date',
         'end_date',
     ];
-
+//    protected static function boot()
+//    {
+//        parent::boot();
+//
+//        static::addGlobalScope(new BranchScope());
+//    }
     protected static $logOnlyDirty = true;
 
     public function getDescriptionForEvent(string $eventName): string

@@ -30,32 +30,32 @@
         </div>
     </td>
 
-    <td style="background:#FBE3E6 !important">
-        <input style="width: 130px !important;" type="number" class="form-control" id="total_quantity_{{$index}}"
+    <td>
+        <input style="width: 130px !important;" type="number" class="form-control border1" id="total_quantity_{{$index}}"
                value="{{isset($update_item) ? $update_item->total_quantity : $item->quantity}}" disabled
                name="items[{{isset($update_item) ? $update_item->supply_order_item_id : $item->id}}][total_quantity]">
     </td>
 
-    <td style="background:#E3FBEA !important">
-        <input style="width: 130px !important;" type="number" class="form-control" id="old_accepted_quantity_{{$index}}"
+    <td>
+        <input style="width: 130px !important;" type="number" class="form-control border5" id="old_accepted_quantity_{{$index}}"
                value="{{ isset($update_item) ? $update_item->old_accepted_quantity : $item->accepted_quantity}}" disabled>
     </td>
 
-    <td style="background:#E3E3FB !important">
-        <input style="width: 130px !important;" type="number" class="form-control" id="remaining_quantity_{{$index}}"
+    <td>
+        <input style="width: 130px !important;" type="number" class="form-control border4" id="remaining_quantity_{{$index}}"
                value="{{isset($update_item) ? $update_item->remaining_quantity : $item->remaining_quantity_for_accept}}" disabled>
     </td>
 
-    <td style="background:#E3F6FB !important">
-        <input style="width: 130px !important;" type="number" class="form-control" id="refused_quantity_{{$index}}"
+    <td>
+        <input style="width: 130px !important;" type="number" class="form-control border2" id="refused_quantity_{{$index}}"
                value="{{isset($update_item) ? $update_item->remaining_quantity - $update_item->accepted_quantity  : 0}}" min="0"
                name="items[{{ isset($update_item) ? $update_item->supply_order_item_id : $item->id}}][refused_quantity]"
                onchange="calculateRefusedQuantity('{{$index}}')" onkeyup="calculateRefusedQuantity('{{$index}}')">
 
     </td>
 
-    <td style="background:#FBFBE3 !important">
-        <input style="width: 130px !important;" type="number" class="form-control" id="accepted_quantity_{{$index}}"
+    <td>
+        <input style="width: 130px !important;" type="number" class="form-control border6" id="accepted_quantity_{{$index}}"
                value="{{ isset($update_item) ? $update_item->accepted_quantity : $item->remaining_quantity_for_accept}}" min="0"
                name="items[{{isset($update_item) ? $update_item->supply_order_item_id : $item->id}}][accepted_quantity]"
                onchange="calculateAcceptedQuantity('{{$index}}')" onkeyup="calculateAcceptedQuantity('{{$index}}')">

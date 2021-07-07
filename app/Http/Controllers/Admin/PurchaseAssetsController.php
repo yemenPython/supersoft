@@ -5,37 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\Asset\PurchaseAssetRequest;
 use App\Models\Asset;
 use App\Models\AssetGroup;
-use App\Models\PartPrice;
-use App\Models\PartPriceSegment;
 use App\Models\PurchaseAsset;
 use App\Models\PurchaseAssetItem;
-use App\Models\PurchaseReceipt;
-use App\Models\SupplyOrder;
-use App\Traits\SubTypesServices;
 use Exception;
-use App\Models\Part;
-use App\Models\Store;
 use App\Models\Branch;
 use App\Models\Supplier;
-use App\Models\SparePart;
-use App\Models\TaxesFees;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\App;
-use Illuminate\View\View;
 use Illuminate\Http\Request;
-use App\Models\ExpensesReceipt;
-use App\Models\PurchaseInvoice;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
-use App\Models\PurchaseInvoiceItem;
 use App\Http\Controllers\Controller;
-use App\Filters\PurchaseInvoiceFilter;
-use Illuminate\Support\Facades\Response;
-use App\Services\PurchaseInvoiceServices;
-use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\ExportPrinterFactory;
-use App\Http\Controllers\DataExportCore\Invoices\Purchase;
-use App\Http\Requests\Admin\PurchaseInvoice\PurchaseInvoiceRequest;
 
 class PurchaseAssetsController extends Controller
 {
@@ -97,7 +76,10 @@ class PurchaseAssetsController extends Controller
                 'supplier_id' => $data['supplier_id'],
                 'paid_amount' => $data['paid_amount'],
                 'remaining_amount' => $data['remaining_amount'],
-                'note' => $data['note']
+                'note' => $data['note'],
+                'total_purchase_cost'=>$request->total_purchase_cost,
+                'total_past_consumtion'=>$request->total_past_consumtion,
+                'net_total'=>$request->net_total
             ];
             $invoice_data['branch_id'] = authIsSuperAdmin() ? $request['branch_id'] : auth()->user()->branch_id;
 
@@ -110,6 +92,8 @@ class PurchaseAssetsController extends Controller
                     'date_of_work' => $item['date_of_work'],
                     'purchase_cost' => $item['purchase_cost'],
                     'past_consumtion' => $item['past_consumtion'],
+                    'annual_consumtion_rate' => $item['annual_consumtion_rate'],
+                    'asset_age' => $item['asset_age'],
                 ] );
                 PurchaseAssetItem::create( [
                     'purchase_asset_id' => $purchaseAsset->id,
@@ -118,7 +102,10 @@ class PurchaseAssetsController extends Controller
                     'purchase_cost' => $item['purchase_cost'],
                     'past_consumtion' => $item['past_consumtion'],
                     'annual_consumtion_rate' => $item['annual_consumtion_rate'],
-                    'asset_age' => $item['asset_age']
+                    'asset_age' => $item['asset_age'],
+                    'total_purchase_cost'=>$request->total_purchase_cost,
+                    'total_past_consumtion'=>$request->total_past_consumtion,
+                    'net_total'=>$request->net_total
                 ] );
             }
 
@@ -140,7 +127,6 @@ class PurchaseAssetsController extends Controller
     public function show(PurchaseAsset $purchaseAsset)
     {
         $asset = $purchaseAsset;
-//        dd($asset);
         $invoice = view( 'admin.purchase-assets.show', compact( 'asset' ) )->render();
 
         return response()->json( ['invoice' => $invoice] );
@@ -180,10 +166,11 @@ class PurchaseAssetsController extends Controller
                 'supplier_id' => $data['supplier_id'],
                 'paid_amount' => $data['paid_amount'],
                 'remaining_amount' => $data['remaining_amount'],
-                'note' => $data['note']
+                'note' => $data['note'],
+                'total_purchase_cost'=>$request->total_purchase_cost,
+                'total_past_consumtion'=>$request->total_past_consumtion,
+                'net_total'=>$request->net_total
             ];
-            // $invoice_data['branch_id'] = authIsSuperAdmin() ? $request['branch_id'] : auth()->user()->branch_id;
-
             $purchaseAsset->update( $invoice_data );
             $purchaseAsset->items()->delete();
             foreach ($data['items'] as $item) {
@@ -192,6 +179,9 @@ class PurchaseAssetsController extends Controller
                     'purchase_date' => $item['purchase_date'],
                     'date_of_work' => $item['date_of_work'],
                     'purchase_cost' => $item['purchase_cost'],
+                    'past_consumtion' => $item['past_consumtion'],
+                    'annual_consumtion_rate' => $item['annual_consumtion_rate'],
+                    'asset_age' => $item['asset_age'],
                 ] );
                 PurchaseAssetItem::create( [
                     'purchase_asset_id' => $purchaseAsset->id,
@@ -200,7 +190,7 @@ class PurchaseAssetsController extends Controller
                     'purchase_cost' => $item['purchase_cost'],
                     'past_consumtion' => $item['past_consumtion'],
                     'annual_consumtion_rate' => $item['annual_consumtion_rate'],
-                    'asset_age' => $item['asset_age']
+                    'asset_age' => $item['asset_age'],
                 ] );
             }
 
@@ -254,7 +244,7 @@ class PurchaseAssetsController extends Controller
         if (is_null( $request->asset_id )) {
             return response()->json( __( 'please select valid Asset' ), 400 );
         }
-        if (is_null( $request->branch_id )) {
+        if (is_null( $request->branch_id ) && authIsSuperAdmin()) {
             return response()->json( __( 'please select valid branch' ), 400 );
         }
         $index = $request['index'] + 1;

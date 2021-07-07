@@ -2,24 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\Asset\AssetExpenseRequest;
-use App\Http\Requests\Admin\Asset\AssetExpenseRequestUpdate;
-use App\Http\Requests\Admin\Asset\UpdateExpenseItemRequest;
+use App\Filters\AssetExpenseFilter;
+use Exception;
 use App\Models\Asset;
+use App\Models\Branch;
+use Illuminate\View\View;
+use App\Models\AssetGroup;
+use App\Traits\LoggerError;
+use Illuminate\Http\Request;
 use App\Models\AssetExpense;
 use App\Models\AssetExpenseItem;
-use App\Models\AssetGroup;
-use App\Models\AssetsItemExpense;
 use App\Models\AssetsTypeExpense;
-use App\Models\Branch;
-use App\Traits\LoggerError;
-use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
+use App\Models\AssetsItemExpense;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Admin\Asset\AssetExpenseRequest;
+use App\Http\Requests\Admin\Asset\AssetExpenseRequestUpdate;
 
 /**
  * Class AssetExpenseController
@@ -30,11 +30,38 @@ class AssetExpenseController extends Controller
 {
     use LoggerError;
 
-    public function index(): View
+    /**
+     * @var AssetExpenseFilter
+     */
+    protected $assetExpenseFilter;
+
+    /**
+     * AssetExpenseController constructor.
+     * @param AssetExpenseFilter $assetExpenseFilter
+     */
+    public function __construct(AssetExpenseFilter $assetExpenseFilter)
     {
+        $this->assetExpenseFilter = $assetExpenseFilter;
+    }
+
+    public function index(Request $request): View
+    {
+        $branches = Branch::all();
         $assetExpenses = AssetExpense::query();
+        if ($request->hasAny((new AssetExpense())->getFillable())
+            || $request->has('dateFrom')
+            || $request->has('dateTo')
+            || $request->has('store_id')
+            || $request->has('settlement_type')
+            || $request->has('barcode')
+            || $request->has('supplier_barcode')
+            || $request->has('partId')
+        ) {
+            $assetExpenses = $this->assetExpenseFilter->filter($request);
+        }
         return view('admin.assets_expenses.index', [
-            'assetsExpenses' => $assetExpenses->orderBy('id', 'desc')->get()
+            'assetsExpenses' => $assetExpenses->orderBy('id', 'desc')->get(),
+            'branches' => $branches,
         ]);
     }
 
@@ -44,7 +71,7 @@ class AssetExpenseController extends Controller
         $assetsGroups = AssetGroup::where('branch_id', $branch_id)->get();
         $assets = Asset::where('branch_id', $branch_id)->get();
         $branches = Branch::all();
-        $lastNumber = AssetExpense::orderBy('id', 'desc')->first();
+        $lastNumber = AssetExpense::where('branch_id', $branch_id)->orderBy('id', 'desc')->first();
         $number = $lastNumber ? $lastNumber->number + 1 : 1;
         return view('admin.assets_expenses.create',
             compact('assets', 'assetsGroups', 'branches', 'number'));
@@ -97,11 +124,12 @@ class AssetExpenseController extends Controller
 
     public function show(int $id): JsonResponse
     {
-        $assetExpense = AssetExpense::findOrFail($id);
-        $view =  view('admin.assets_expenses.show', compact('assetExpense'))->render();
+        $assetExpense = AssetExpense::with('assetExpensesItems')->findOrFail($id);
+        $view = view('admin.assets_expenses.show', compact('assetExpense'))->render();
         return response()->json([
             'view' => $view
         ]);
+
     }
 
     public function update(AssetExpenseRequestUpdate $request, int $id): RedirectResponse
@@ -159,7 +187,11 @@ class AssetExpenseController extends Controller
 
     public function getAssetsByAssetGroup(Request $request): JsonResponse
     {
-        $assets = Asset::where('asset_group_id', $request->asset_group_id)->get();
+        if (!empty($request->asset_group_id)){
+            $assets = Asset::where('asset_group_id', $request->asset_group_id)->get();
+        }else{
+            $assets = Asset::all();
+        }
         $htmlAssets = '<option value="">'.__('Select Assets').'</option>';
         foreach ($assets as $asset) {
             $htmlAssets .= '<option value="' . $asset->id . '">' . $asset->name . '</option>';

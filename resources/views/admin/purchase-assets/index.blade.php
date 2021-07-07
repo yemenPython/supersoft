@@ -61,12 +61,17 @@
                                 <th class="text-center column-invoice-number"
                                     scope="col">{!! __('Invoice Number') !!}</th>
 
-                                <th class="text-center column-invoice-type" scope="col">{!! __('date and time') !!}</th>
+                                <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
 
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
 
                                 <th scope="col">{!! __('Options') !!}</th>
-                                <th scope="col">{!! __('Select') !!}</th>
+                                <th scope="col">
+                                    <div class="checkbox danger">
+                                        <input type="checkbox" id="select-all">
+                                        <label for="select-all"></label>
+                                    </div>{!! __('Select') !!}
+                                </th>
                             </tr>
                             </thead>
 
@@ -80,7 +85,6 @@
                                     <td class="text-center column-date">{{$invoice->date}}{{$invoice->time}}</td>
 
                                     <td class="text-center column-supplier">{!! optional($invoice->supplier)->name !!}</td>
-
 
                                     <td>
                                         <div class="btn-group margin-top-10">
@@ -135,7 +139,7 @@
                                 <th class="text-center column-invoice-number"
                                     scope="col">{!! __('Invoice Number') !!}</th>
 
-                                <th class="text-center column-invoice-type" scope="col">{!! __('date and time') !!}</th>
+                                <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
 
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
 

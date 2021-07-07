@@ -33,18 +33,6 @@
                            ])
                             @endcomponent
                         </li>
-                        <li class="list-inline-item">
-                            @component('admin.buttons._confirm_archive_selected',[
-                          'route' => 'admin:services_packages.archiveSelected',
-                           ])
-                            @endcomponent
-                        </li>
-                        <li class="list-inline-item">
-                            @include('admin.buttons._archive', [
-                       'route' => 'admin:services_packages.archive',
-                           'new' => '',
-                          ])
-                        </li>
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
@@ -107,17 +95,18 @@
                                              ])
                                 @endcomponent
 
-                                    @component('admin.buttons._add_to_archive',[
-                                                                  'id'=>$package->id,
-                                                                  'route' => 'admin:services_packages.destroy',
-                                                                  'tooltip' => __('Delete '.$package['name']),
-                                                                   ])
-                                    @endcomponent
                                     @component('admin.buttons._force_delete',[
                                                       'id' => $package->id,
                                                       'route'=>'admin:services_packages.force_delete'
                                                        ])
                                     @endcomponent
+                                    <a style="cursor:pointer" class="btn btn-print-wg text-white  "
+                                       data-toggle="modal"
+
+                                       onclick="getPrintData({{$package->id}})"
+                                       data-target="#boostrapModal" title="{{__('print')}}">
+                                        <i class="fa fa-print"></i> {{__('Print')}}
+                                    </a>
                             </td>
                             <td>
                                 @component('admin.buttons._delete_selected',[
@@ -139,5 +128,46 @@
 @section('js')
     <script type="application/javascript">
         invoke_datatable($('#services_packages'))
+        function printAsset() {
+            var element_id = 'assetDatatoPrint', page_title = document.title
+            print_element(element_id, page_title)
+        }
+        function getPrintData(id) {
+            $.ajax({
+                url: "{{ url('admin/services_packages/')}}" +'/'+ id,
+                method: 'GET',
+                success: function (data) {
+                    $("#assetDatatoPrint").html(data.view)
+                }
+            });
+        }
     </script>
+@endsection
+
+@section('modals')
+
+    <div class="modal fade" id="boostrapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span>
+                    </button>
+              <h4 class="modal-title text-center" id="myModalLabel-1">{{__('Services Package')}}</h4>
+                </div>
+                <div class="modal-body" id="assetDatatoPrint">
+                </div>
+                <div class="modal-footer" style="text-align:center">
+                    <button type="button" class="btn btn-primary waves-effect waves-light"
+                            onclick="printAsset()" id="print_sales_invoice">
+                        <i class='fa fa-print'></i>
+                        {{__('Print')}}
+                    </button>
+                    <button type="button" class="btn btn-danger waves-effect waves-light"
+                            data-dismiss="modal"><i class='fa fa-close'></i>
+                        {{__('Close')}}</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection

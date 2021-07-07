@@ -437,3 +437,68 @@ footer {
 .scroll-table {
     max-height: 650px
 }
+
+.responsible-persons {
+    box-shadow: 0 0 7px 1px #DDD;
+    padding: 20px 10px;
+    margin: 20px 10px 30px;
+    position: relative;
+}
+
+.responsible-persons-show {
+    box-shadow: 0 0 7px 1px #ddd;
+    padding: 20px 10px;
+    margin: 10px auto !important;
+    width: 95%;
+    position: relative;
+    display: table !important;
+}
+
+.border1 {
+    border: 1px solid #E58885 !important;
+}
+
+.border2 {
+    border: 1px solid #94b5f0 !important;
+}
+
+.border3 {
+    border: 1px solid #769ee7 !important;
+}
+
+.border4 {
+    border: 1px solid #e776c1 !important;
+}
+
+.border5 {
+    border: 1px solid #a776e7 !important;
+}
+
+.border6 {
+    border: 1px solid #e7ba76 !important;
+}
+
+.show-ribbon {
+    padding: 0 20px;
+    height: 40px !important;
+    line-height: 40px !important;
+}
+
+.show-ribbon:before {
+    position: absolute;
+    top: 0;
+    display: block;
+    width: 0;
+    height: 0;
+    content: '';
+    border: 20px solid #5685CC !important;
+    border-left-color: transparent !important;
+    right: 100%;
+    border-right: 20px solid #5685CC !important;
+}
+
+.for-scroll-wg {
+    max-height: 800px;
+    overflow-y: auto;
+    width: fit-content;
+}

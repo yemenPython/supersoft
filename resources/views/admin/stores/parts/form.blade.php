@@ -1,17 +1,17 @@
-<div class="col-md-12">
+<!-- <div class="col-md-12">
     <hr>
     <span style="color: white;font-size: 14px;background:#2980B9;padding:5px 10px;border-radius:3px"> {{__('Stores officials')}} </span>
     <hr>
-</div>
+</div> -->
 
-<div class="container">
+<div class="">
     <div class="form_new_contact">
         @if(isset($store) && $store->storeEmployeeHistories )
             @foreach($store->storeEmployeeHistories as $index=>$employeeHistory)
-                <div class="row contact-{{$index + 1}}" id="employeeHistory_{{$employeeHistory->id}}">
+                <div class="responsible-persons row contact-{{$index + 1}}" id="employeeHistory_{{$employeeHistory->id}}">
 
                    <div class="row">
-                   <div class="col-md-12">
+                   <div class="col-md-12" >
                        <div class="col-md-4">
                            <div class="form-group has-feedback">
                                <label for="inputSymbolAR" class="control-label">{{__('Select Store Creator')}}</label>
@@ -31,7 +31,7 @@
                            </div>
                        </div>
 
-                       <div class="col-md-3">
+                       <div class="col-md-4">
                            <div class="form-group">
 
                                <label for="exampleInputEmail1">{{__('phone 1')}}</label>
@@ -40,7 +40,7 @@
                            </div>
                        </div>
 
-                       <div class="col-md-3">
+                       <div class="col-md-4">
                            <div class="form-group">
                                <label for="exampleInputEmail1">{{__('phone 2')}}</label>
                                <input type="text" readonly
@@ -62,7 +62,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
 
                                 <label for="exampleInputEmail1">{{__('End Date')}}</label>
@@ -74,12 +74,12 @@
                         </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <button class="btn btn-sm btn-danger" type="button"
                                         onclick="destroyEmployeeHistory('{{$employeeHistory->id}}')"
-                                        id="delete-div-" style="margin-top: 31px;">
-                                    <li class="fa fa-trash"></li>
+                                        id="delete-div-" style="margin-top: 25px;font-size:15px;padding:5px 10px;margin-top:29px">
+                                    <li class="fa fa-trash"></li> حذف
                                 </button>
                             </div>
                         </div>
@@ -93,12 +93,12 @@
 </div>
 
 
-<div class="col-md-12">
+<div class="" style="margin-top:25px">
     <button type="button" title="new price" onclick="newEmployee()"
             class="btn btn-sm btn-info">
         <li class="fa fa-plus"></li>  {{__('New employee')}}
     </button>
-    <hr>
+
 </div>
 
 

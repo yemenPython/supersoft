@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Scopes\BranchScope;
 use App\Traits\ColumnTranslation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,7 +24,12 @@ class AssetsTypeExpense extends Model
         'name_en',
         'branch_id',
     ];
+    protected static function boot()
+    {
+        parent::boot();
 
+        static::addGlobalScope(new BranchScope());
+    }
     public function branch(): BelongsTo
     {
         return $this->belongsTo(Branch::class, 'branch_id', 'id');

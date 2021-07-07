@@ -151,7 +151,7 @@
     "percentage" : "نسبه",
     "Invoices" : "المبيعات",
     "Quotations" : "عروض الاسعار",
-    "Services and sections" :  " الأقسام والخدمات",
+    "Services and sections" :  " إدارة الصيانة  ",
     "Services" : "الخدمات والصيانة",
     "Type In Arabic" :  "النوع باللغه العربيه",
     "Type In English" : "النوع باللغه الانجليزيه",
@@ -1200,7 +1200,16 @@
     "Assets Employees" : "مسؤولين الأصول",
     "Employee name" : "اسم الموظف",
     "Asset employees" : "المسؤولين عن",
-    "Add new asset employee" : "إضافة مسؤول عن الأصل",
+
+    "status" : "الحالة",
+    "start date" : "تاريخ البداية",
+    "end date" : "تاريخ النهاية",
+    "Asset insurances" : "تأمينات الأصول",
+    "details" : "التفاصيل",
+
+    "Assets Examinations" : "سجل فحوصات الأصول",
+    "Assets Licenses" : "سجل تراخيص الأصول",
+
 
     "capital-balance" : "رأس المال",
     "view_capital-balance" : "عرض رأس المال",
@@ -2001,7 +2010,25 @@
     "Purchase Receipt Number" : "رقم محضر الإستلام",
     "Show Purchase Receipt" : "محاضر إستلام المخزون",
     "Assets Expenses Types" : "أنواع مصروفات الأصول",
-    "Assets Expenses Items" : "بنود مصروفات الأصول"
-
-
+    "Assets Expenses Items" : "بنود مصروفات الأصول",
+    "Assets Replacements" : "تجديد واحلال الأصول",
+    "Operation Date" : "تاريخ التشغيل",
+    "Purchase Cost" : "تكلفة الشراء",
+    "Cost Replacement" : "قيمة التجديد/الاحلال",
+    "Cost Before Replacement" : "معدل الاهلاك قبل التجدد",
+    "Cost After Replacement" : "معدل الاهلاك بعد التجدد",
+    "Age" : "العمر",
+    "Assets Data" : "بيانات الاصول",
+    "Please Type Only Number" : "من فضلك ادخل ارقام فقط",
+    "Total Before Replacement" : "اجمالى معدل الاهلاك قبل التجديد",
+    "Total After Replacement" : "اجمالى معدل الاهلاك بعد التجديد",
+    "Purchase Assets" : "مشتريات الأصول",
+    "Services Number" : "عدد الخدمات",
+    "Discount Mount" : "قيمة الخصم",
+    "Services Package Details" : "تفاصيل باكيدج الخدمات",
+    "Total Purchase" : "اجمالى تكلفة الشراء",
+    "Total Value Of Replacement" : "اجمالى قيمة التجديد / الاحلال"
 }
+
+
+
