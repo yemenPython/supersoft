@@ -71,6 +71,18 @@ class AssetReplacementController extends Controller
                         'asset_id' => $item['asset_id'],
                         'asset_replacement_id' => $assetReplacement->id,
                     ]);
+                    $asset = Asset::find( $item['asset_id']);
+                    if ($item['purchase_cost'] > 0
+                        && $item['value_after_replacement'] > 0
+                        && ($item['purchase_cost'] / $item['value_after_replacement']) > 0) {
+                        $asset_age = (($item['purchase_cost'] + $item['value_replacement'])/$item['value_after_replacement']) / 100;
+                    } else {
+                        $asset_age = 0;
+                    }
+                    $asset->update([
+                        'asset_age' => $asset_age,
+                        'annual_consumtion_rate' =>  $item['value_after_replacement'],
+                    ]);
                 }
             }
             return redirect()->to('admin/assets_replacements')
@@ -118,6 +130,18 @@ class AssetReplacementController extends Controller
                         'age' => $item['age'],
                         'asset_id' => $item['asset_id'],
                         'asset_replacement_id' => $assetReplacement->id,
+                    ]);
+                    $asset = Asset::find( $item['asset_id']);
+                    if ($item['purchase_cost'] > 0
+                        && $item['value_after_replacement'] > 0
+                        && ($item['purchase_cost'] / $item['value_after_replacement']) > 0) {
+                        $asset_age = (($item['purchase_cost'] + $item['value_replacement'])/$item['value_after_replacement']) / 100;
+                    } else {
+                        $asset_age = 0;
+                    }
+                    $asset->update([
+                        'asset_age' => $asset_age,
+                        'annual_consumtion_rate' =>  $item['value_after_replacement'],
                     ]);
                 }
             }

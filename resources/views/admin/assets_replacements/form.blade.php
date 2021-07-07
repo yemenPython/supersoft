@@ -119,7 +119,7 @@
 
     <table class="table table-bordered">
         <tbody>
-        <th style="width:30%;background:#F9EFB7 !important;color:black !important">{{__('Total Before Replacement')}}</th>
+        <th style="width:30%;background:#F9EFB7 !important;color:black !important">{{__('Total Purchase')}}</th>
         <td style="background:#F9EFB7">
             <input type="text" readonly id="total_before_replacement"
                    style="background:#F9EFB7;border:none;text-align:center !important;"
@@ -132,7 +132,7 @@
 
     <table class="table table-bordered">
         <tbody>
-        <th style="width:30%;background:#F9EFB7 !important;color:black !important">{{__('Total After Replacement')}}</th>
+        <th style="width:30%;background:#F9EFB7 !important;color:black !important">{{__('Total Value Of Replacement')}}</th>
         <td style="background:#F9EFB7">
             <input type="text" readonly id="total_after_replacement"
                    style="background:#F9EFB7;border:none;text-align:center !important;"

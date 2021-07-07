@@ -38,8 +38,7 @@
                         </td>
 
                         <td class="inline-flex-span">
-                            <span>{{optional($item->asset)->purchase_cost}}</span>
-                            <input type="hidden" id="purchase_cost{{$index}}" value="{{optional($item->asset)->purchase_cost}}">
+                            <input type="number" class="purchase_cost" readonly  id="purchase_cost{{$index}}" name="items[{{$index}}][purchase_cost]" value="{{optional($item->asset)->purchase_cost}}" style="width: 100px" >
 
                         </td>
 
@@ -54,12 +53,14 @@
                                    id="value_replacement{{$index}}"
                                    name="items[{{$index}}][value_replacement]"
                                    onkeyup="addReplacementValue('{{$index}}')"
+                                   onchange="addReplacementValue('{{$index}}')"
                                    value="{{$item->value_replacement}}" style="width: 100px">
                         </td>
 
                         <td class="inline-flex-span">
-                            <input type="number" class="replacement_after"
-                                   id="replacement_after{{$index}}"
+                            <input type="number" class="replacement_after" id="replacement_after{{$index}}"
+                                   onkeyup="addReplacementValue('{{$index}}')"
+                                   onchange="addReplacementValue('{{$index}}')"
                                    name="items[{{$index}}][value_after_replacement]"
                                    value="{{$item->value_after_replacement}}" style="width: 100px" >
                         </td>
