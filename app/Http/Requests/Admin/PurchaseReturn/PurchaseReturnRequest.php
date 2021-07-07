@@ -26,31 +26,55 @@ class PurchaseReturnRequest extends FormRequest
     public function rules()
     {
         $id = request()->segment(5);
+
         $invoice = PurchaseReturn::find($id);
+
+        $branch_id = authIsSuperAdmin() ? request()['branch_id'] : auth()->user()->branch_id;
+
         if ($invoice) {
             $validationForInvoiceN = ['required',
                 Rule::unique('purchase_returns', 'invoice_number')->ignore($invoice)
-                    ->where('deleted_at', null)];
+                    ->where('deleted_at', null)->where('branch_id', $branch_id)];
         } else {
             $validationForInvoiceN = "required|unique:purchase_returns,invoice_number,NULL,id,deleted_at,NULL";
         }
 
         $rules = [
-            'purchase_invoice_id' => 'required|exists:purchase_invoices,id',
+
             'invoice_number' => $validationForInvoiceN,
-            'date' => 'required',
+            'date' => 'required|date',
             'time' => 'required',
-            'number_of_items' => 'required',
-            'type' => 'required|in:cash,credit',
-            'discount_group_type' => 'required|string|in:percent,amount',
-            'discount_group_value' => 'required|numeric|min:0',
+            'discount' => 'required|numeric|min:0',
+            'discount_type' => 'required|string|in:amount,percent',
+            'status' => 'required|string|in:pending,processing,finished',
+            'invoice_type' => 'required|string|in:from_supply_order,normal',
+
+            'items.*.part_id' => 'required|integer|exists:parts,id',
+            'items.*.quantity' => 'required|integer|min:1',
+            'items.*.price' => 'required|numeric|min:1',
+            'items.*.discount' => 'required|numeric|min:0',
+            'items.*.discount_type' => 'required|string|in:amount,percent',
+            'items.*.taxes.*' => 'nullable|integer|exists:taxes_fees,id',
+
+            'taxes.*' => 'nullable|integer|exists:taxes_fees,id',
+            'additional_payments.*' => 'nullable|integer|exists:taxes_fees,id',
         ];
 
-        if(authIsSuperAdmin()){
+        if (request()['invoice_type'] == 'normal') {
+
+            $rules['purchase_invoice_id'] = 'required|exists:purchase_invoices,id';
+
+        }else {
+
+            $rules['supply_order_ids'] = 'required';
+            $rules['supply_order_ids.*'] = 'required|integer|exists:supply_orders,id';
+
+            $rules['purchase_receipts'] = 'required';
+            $rules['purchase_receipts.*'] = 'required|integer|exists:purchase_receipts,id';
+        }
+
+        if (authIsSuperAdmin()) {
             $rules['branch_id'] = 'required|integer|exists:branches,id';
-            $branch = request()->branch_id;
-        }else{
-            $branch = auth()->user()->branch_id;
         }
 
         return $rules;

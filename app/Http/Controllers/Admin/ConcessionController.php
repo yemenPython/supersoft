@@ -126,7 +126,7 @@ class ConcessionController extends AbstractController
 
                if (isset($acceptQuantityData['status']) && !$acceptQuantityData['status']) {
 
-                   $message = isset($acceptQuantityData['message']) ? $acceptQuantityData['message'] : '';
+                   $message = isset($acceptQuantityData['message']) ? $acceptQuantityData['message'] : __('sorry, please try later');
                    return redirect()->back()->with(['message' => $message, 'alert-type' => 'error']);
                }
             }

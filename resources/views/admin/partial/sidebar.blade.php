@@ -736,15 +736,6 @@ url('admin/service-types/archive').'?archive'
                         <li class="{{setActivationClass(url('admin/users/archive').'?archive')}}">
                             <a href="{{url('admin/users/archive').'?archive'}}">{{__('Users Archives')}}</a>
                         </li>
-                        <li class="{{setActivationClass(url('admin/service-types/archive').'?archive')}}">
-                            <a href="{{url('admin/service-types/archive').'archive'}}">{{__('Archive Services Types')}}</a>
-                        </li>
-                        <li class="">
-                            <a href="{{url('admin/services/archive')}}">{{__('Services Archive')}}</a>
-                        </li>
-                        <li class="">
-                            <a href="{{url('admin/services_packages/archive')}}">{{__('Services Package Archive')}}</a>
-                        </li>
                     </ul>
                 </li>
 

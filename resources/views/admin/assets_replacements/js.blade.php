@@ -86,7 +86,7 @@
 
     function calculateTotalBeforeReplacement() {
         var total = 0;
-        $(".replacement_before").each(function(index, item){
+        $(".purchase_cost").each(function(index, item){
             var v =  parseInt($(this).val());
             if (isNaN( parseInt($(this).val()))) {
                 v  = 0
@@ -99,7 +99,7 @@
 
     function calculateTotalAfterReplacement() {
         let total = 0;
-        $(".replacement_after").each(function(index, item){
+        $(".value_replacement").each(function(index, item){
             let v = parseInt($(this).val());
             if (isNaN( parseInt($(this).val()))) {
                 v  = 0
@@ -111,15 +111,12 @@
     }
 
     function addReplacementValue(index) {
-        let valueBefore = $("#replacement_before"+index).val();
-        let value = $("#value_replacement"+index).val();
-        let valueAfter = $("#replacement_after"+index);
-        if (false === is_numeric(value)) {
-            swal({text: '{{__('Please Type Only Number')}}', icon: "warning"});
-            return false;
-        }
-        let total = parseInt(valueBefore) + parseInt(value);
-        valueAfter.val(total.toFixed(2));
+        let valueOfReplacement = $("#replacement_after"+index).val();
+       if (valueOfReplacement  > 100) {
+           swal({text: '{{__('The Value Of Replacement must be equal or less than 100')}}', icon: "error"})
+           $("#replacement_after"+index).val($('#replacement_before'+index).val());
+           return false;
+       }
         calculateTotalAfterReplacement();
         calculateAge(index);
     }
@@ -128,9 +125,8 @@
         let purchaseCost = $("#purchase_cost"+index).val();
         let valueReplacement = $("#value_replacement"+index).val();
         let valueReplacementAfter = $("#replacement_after"+index).val();
-        let age = parseInt(purchaseCost) + parseInt(valueReplacement);
-        let age2 = parseInt(valueReplacementAfter)/100;
-        let age3 = age / age2;
+        let total =( parseInt(purchaseCost) + parseInt(valueReplacement)) / parseInt(valueReplacementAfter);
+        let age3 = total / 100;
         $("#age"+index).val(age3.toFixed(2));
     }
 </script>

@@ -63,7 +63,7 @@
                                 @endif
 
 
-                            <div class="col-md-12">
+                            <div class="">
 
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -91,7 +91,7 @@
 
                                 </div>
 
-                            <div class="col-md-12">
+                            <div class="">
 
                                 <div class="col-md-6">
                                     <div class="form-group has-feedback">
@@ -143,17 +143,27 @@
                                 </div>
 
 
-                                <div class="row top-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+                                <div class="row top-data-wg" style="margin:5px 5px 10px;padding-top:20px">
 
-                            <div class="col-xs-12">
-                                <div class="col-md-12">
+
+                                <div class="box-content card bordered-all js__card" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+                                <h4 class="box-title with-control" style="margin:0;text-align:right;background:#5A76B0 !important;color:white !important"><i class="fa fa-users"></i>{{__('Stores officials')}}
+                        <span class="controls">
+                        <button type="button" class="control fa fa-minus js__card_minus"></button> 
+                        <button type="button" class="control fa fa-times js__card_remove"></button>
+                        </span>
+                        </h4>
+                        <div class="col-xs-12 card-content js__card_content" style="max-height:600px;overflow-y:auto;overflow-x:hidden">
+                           
+                        <div class="">
+                                <!-- <div class="col-md-12">
                                     <hr>
                                     <span
                                         style="color: white;font-size: 14px;background:#2980B9;padding:5px 10px;border-radius:3px"> {{__('Stores officials')}} </span>
                                     <hr>
-                                </div>
+                                </div> -->
 
-                                <div class="container">
+                                <div class="">
                                     <div class="form_new_contact">
                                         <input type="hidden" value="0" id="contacts_count">
                                     </div>
@@ -163,9 +173,14 @@
                                             class="btn btn-sm btn-info">
                                         <li class="fa fa-plus"></li> {{__('New employee')}}
                                     </button>
-                                    <hr>
+                                    <!-- <hr> -->
                                 </div>
                             </div>
+                        </div>
+                        </div>
+
+
+                      
 
                             </div>
 
