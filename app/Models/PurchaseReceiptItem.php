@@ -61,4 +61,11 @@ class PurchaseReceiptItem extends Model
     public function getQuantityAttribute () {
         return $this->accepted_quantity;
     }
+
+    public function getPartPriceSegmentIdAttribute () {
+
+        $supplyOrderItem = $this->supplyOrderItem;
+
+        return $supplyOrderItem ? $supplyOrderItem->part_price_segment_id : null;
+    }
 }

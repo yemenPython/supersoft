@@ -53,7 +53,6 @@ class PurchaseReturn {
     static function get_my_view_columns() {
         return [
             'invoice-number' => __('Invoice Number'),
-            'supplier' => __('Supplier Name'),
             'invoice-type' => __('Invoice Type'),
             'payment' => __('Payment status'),
             'paid' => __('Paid'),

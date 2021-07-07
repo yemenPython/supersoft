@@ -6,6 +6,18 @@ Route::get('/purchase-returns/edit/{purchaseReturn}', 'PurchaseReturnsController
 Route::post('/purchase-returns/store', 'PurchaseReturnsController@store')->name('purchase_returns.store');
 Route::put('/purchase-returns/update/{purchaseReturn}', 'PurchaseReturnsController@update')->name('purchase_returns.update');
 Route::delete('/purchase-returns/destroy/{purchaseReturn}', 'PurchaseReturnsController@destroy')->name('purchase_returns.destroy');
+
+//purchase receipt
+Route::post('/purchase-returns/purchase-receipt', 'PurchaseReturnsController@getPurchaseReceipts')->name('purchase.returns.purchase-receipts');
+Route::post('/purchase-returns/add-purchase-receipts', 'PurchaseReturnsController@addPurchaseReceipts')->name('purchase.returns.add.purchase.receipts');
+
+//purchase invoice
+Route::post('/purchase-returns/select-purchase-invoice', 'PurchaseReturnsController@SelectPurchaseInvoice')->name('purchase.returns.select.purchase.invoice');
+
+//part quantity
+Route::post('/purchase-returns/part-quantity', 'PurchaseReturnsController@showPartQuantity')->name('purchase.returns.show.part.quantity');
+
+
 Route::get('/purchase-returns/revenues/{id}', 'PurchaseReturnsController@showRevenues')->name('purchase_returns.revenues');
 Route::post('/purchase-returns/get-Purchase-invoice-by-id', 'PurchaseReturnsController@getPurchaseInvoice')->name('purchase_returns.getPurchaseInvoice');
 Route::get('/purchase-returns/show', 'PurchaseReturnsController@show')->name('purchase_returns.show');

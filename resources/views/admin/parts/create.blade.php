@@ -57,12 +57,12 @@
 
                         @include('admin.parts.units.index')
                         </div>
-                        
+
                         <div class="row top-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
                         @include('admin.parts.suppliers.supplier')
                         </div>
-                        
+
                         <div class="form-group col-sm-12">
                             @include('admin.buttons._save_buttons')
                         </div>

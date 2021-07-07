@@ -7,8 +7,11 @@ use App\Models\Branch;
 use App\Models\Locker;
 use App\Models\Part;
 use App\Models\PurchaseInvoice;
+use App\Models\PurchaseReceipt;
 use App\Models\RevenueReceipt;
 use App\Models\Supplier;
+use App\Models\SupplyOrder;
+use App\Models\TaxesFees;
 use App\Scopes\BranchScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -25,28 +28,27 @@ class PurchaseReturn extends Model
 
     protected $fillable = [
         'invoice_number',
-        'supplier_id',
         'branch_id',
         'purchase_invoice_id',
         'date',
         'time',
         'type',
-        'number_of_items',
         'discount_type',
         'discount',
         'total',
         'total_after_discount',
-        'paid',
-        'remaining',
         'supplier_discount_status',
         'supplier_discount_type',
         'supplier_discount',
         'tax',
+        'invoice_type',
+        'sub_total',
+        'status',
+        'additional_payments',
     ];
 
 
-    protected static $logAttributes = ['invoice_number','date','time','number_of_items','total_after_discount',
-        'is_discount_group_added'];
+    protected static $logAttributes = ['invoice_number', 'date', 'time', 'number_of_items', 'total_after_discount', 'is_discount_group_added'];
 
     protected static $logOnlyDirty = true;
 
@@ -66,36 +68,39 @@ class PurchaseReturn extends Model
         return $this->belongsTo(Branch::class, 'branch_id')->withTrashed();
     }
 
-    public function supplier(){
+    public function supplier()
+    {
         return $this->belongsTo(Supplier::class, 'supplier_id')->withTrashed();
     }
 
-    public function items(){
+    public function items()
+    {
         return $this->hasMany(PurchaseReturnItem::class, 'purchase_returns_id');
     }
 
     public function revenueReceipt(): HasMany
     {
-        return $this->hasMany(RevenueReceipt::class,'purchase_return_id');
+        return $this->hasMany(RevenueReceipt::class, 'purchase_return_id');
     }
 
-    public function getPaidAttribute(){
+    public function getPaidAttribute()
+    {
         return $this->revenueReceipt->sum('cost');
     }
 
-    public function getRemainingAttribute(){
-        return $this->total_after_discount - $this->revenueReceipt->sum('cost');
+    public function getRemainingAttribute()
+    {
+        return $this->total - $this->revenueReceipt->sum('cost');
     }
 
-    public function delete()
+    public function deleteInvoice()
     {
-        DB::transaction(function()
-        {
+        DB::transaction(function () {
             foreach ($this->items()->get() as $item) {
 
                 $part = Part::find($item->part_id);
 
-                if($part) {
+                if ($part) {
 
                     $quantityInPart = $part->quantity;
 
@@ -125,7 +130,6 @@ class PurchaseReturn extends Model
         });
     }
 
-
     public function removeBulkBalance(Collection $collection)
     {
         foreach ($collection as $col) {
@@ -143,7 +147,7 @@ class PurchaseReturn extends Model
         $locker = Locker::find($receipt->locker_id);
         if ($locker) {
             $locker->update([
-                'balance' => ($locker->balance  -  $receipt->cost)
+                'balance' => ($locker->balance - $receipt->cost)
             ]);
         }
 
@@ -154,7 +158,7 @@ class PurchaseReturn extends Model
         $account = Account::find($receipt->account_id);
         if ($account) {
             $account->update([
-                'balance' => ($account->balance  -  $receipt->cost)
+                'balance' => ($account->balance - $receipt->cost)
             ]);
         }
     }
@@ -163,4 +167,20 @@ class PurchaseReturn extends Model
     {
         return $this->belongsTo(PurchaseInvoice::class, 'purchase_invoice_id');
     }
+
+    public function taxes()
+    {
+        return $this->belongsToMany(TaxesFees::class, 'purchase_return_taxes_fees', 'purchase_return_id', 'tax_id');
+    }
+
+    public function supplyOrders()
+    {
+        return $this->belongsToMany(SupplyOrder::class, 'purchase_return_supply_orders');
+    }
+
+    public function purchaseReceipts()
+    {
+        return $this->belongsToMany(PurchaseReceipt::class, 'purchase_return_purchase_receipts');
+    }
+
 }

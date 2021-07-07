@@ -16,7 +16,7 @@
             <div class="col-xs-4">
 
                 <img class="text-center center-block" style="width: 100px; height: 100px;margin-top:20px"
-                     src="{{isset($purchase_invoice->branch->logo) ? asset('storage/images/branches/'.$branchToPrint->logo) : env('DEFAULT_IMAGE_PRINT')}}">
+                     src="{{isset($branchToPrint->logo) ? asset('storage/images/branches/'.$branchToPrint->logo) : env('DEFAULT_IMAGE_PRINT')}}">
             </div>
             <div class="col-xs-4">
 
