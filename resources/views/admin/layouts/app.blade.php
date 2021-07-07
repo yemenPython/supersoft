@@ -413,7 +413,7 @@
             info: true,
             bSort: true,
             lengthChange: true,
-            "iDisplayLength": 2,
+            "iDisplayLength": 25,
             dom: 'Bfrtip',
             "ajax": {
                 "url": "{{url()->full()}}",

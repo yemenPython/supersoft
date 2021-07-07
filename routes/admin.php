@@ -23,6 +23,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [
 
         Route::get('/', 'DashboardController@index')->name('home');
         include 'purchase-assets.php';
+        include 'consumption-assets.php';
         include 'setting.php';
         include 'asset.php';
         include 'items-management.php';
