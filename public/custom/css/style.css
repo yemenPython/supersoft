@@ -500,5 +500,11 @@ footer {
 .for-scroll-wg {
     max-height: 800px;
     overflow-y: auto;
-    width: fit-content;
+    width: 100%;
+}
+
+
+.wg-inside-table th {
+    background-color: #a9c1f5 !important;
+    color: #333;
 }

@@ -265,7 +265,8 @@
                                                            data-end_date="{{ $assetEmployee->end_date }}"
                                                            data-status="{{ $assetEmployee->status }}"
                                                            data-title="{{__('Edit asset employee')}}"
-                                                           class="btn btn-icon btn-icon-left btn-create-wg waves-effect waves-light hvr-bounce-to-left">
+                                                           class="btn btn-print-wg text-white">
+                                                           <i class="fa fa-edit"></i>
                                                             {{__('Edit')}}
                                                         </a>
 

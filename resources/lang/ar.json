@@ -2027,7 +2027,16 @@
     "Discount Mount" : "قيمة الخصم",
     "Services Package Details" : "تفاصيل باكيدج الخدمات",
     "Total Purchase" : "اجمالى تكلفة الشراء",
-    "Total Value Of Replacement" : "اجمالى قيمة التجديد / الاحلال"
+    "Total Value Of Replacement" : "اجمالى قيمة التجديد / الاحلال",
+
+    "Add new asset employee" : "إضافة مسؤول جديد",
+    "Edit asset employee" : "تعديل بيانات المسؤول",
+    "Add new asset Insurance" : "إضافة تأمين جديد",
+    "Edit asset Insurance" : "تعديل بيانات التأمين",
+    "Add new asset License" : "إضافة ترخيص جديد",
+    "Edit asset License" : "تعديل بيانات الترخيص",
+    "Add new asset Examination" : "إضافة فحص جديد",
+    "Edit asset Examination" : "تعديل بيانات الفحص"
 }
 
 

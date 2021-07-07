@@ -146,7 +146,7 @@
                                 </div>
 
                                 <div class="box-content card bordered-all js__card" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
-                                <h4 class="box-title with-control" style="margin:0;text-align:right;background:#5A76B0 !important;color:white !important"><i class="fa fa-users"></i>{{__('Stores officials')}}
+                                <h4 class="box-title with-control" style="margin:0;text-align:right;background:#5A76B0 !important;color:white !important"><i class="fa fa-user"></i>{{__('Stores officials')}}
                         <span class="controls">
                         <button type="button" class="control fa fa-minus js__card_minus"></button> 
                         <button type="button" class="control fa fa-times js__card_remove"></button>

@@ -147,7 +147,7 @@
                                 <div class="col-md-12">
 
                                 
-                                <div class="table-responsive">
+                                <div class="table-responsive wg-inside-table">
                                 <table class="table">
                                     <thead>
                                         <tr>
@@ -161,28 +161,72 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Lorem</td>
-                                            <td>Lorem</td>
-                                            <td>Lorem</td>
-                                            <td>Lorem</td>
-                                            <td>Lorem</td>
-                                            <td>Lorem</td>
+                                            <td>{{__('Invoices')}}</td>
+                                            <td><div class="switch primary" style="margin:0">
+          <input type="checkbox" id="switch-1" name="active_invoices"
+                  VALUE="1">
+          <label for="switch-1">{{__('Active')}}</label>
+      </div></td>
+                                            <td>{{__('Quotations')}}</td>
+                                            <td> <div class="switch primary" style="margin:0">
+       <input type="checkbox" id="switch-2" name="active_offers" VALUE="1">
+                                                  <label for="switch-2">{{__('Active')}}</label>
+      </div></td>
+                                            <td>{{__('Services')}}</td>
+                                            <td>       <div class="switch primary" style="margin:0">
+       <input type="checkbox" id="switch-3" name="active_services"
+                                                         VALUE="1">
+                                                  <label for="switch-3">{{__('Active')}}</label>
+      </div></td>
                                         </tr>
                                         <tr>
-                                            <td>Lorem</td>
-                                            <td>Lorem</td>
-                                            <td>Lorem</td>
-                                            <td>Lorem</td>
-                                            <td>Lorem</td>
-                                            <td>Lorem</td>
+                                            <td>{{__('Purchase Invoice')}} </td>
+                                            <td>       <div class="switch primary" style="margin:0">
+       <input type="checkbox" id="switch-4" name="active_purchase_invoice"
+                                                         VALUE="1">
+                                                  <label for="switch-4">{{__('Active')}}</label>
+      </div></td>
+                                            <td>{{__('Purchase Quotation')}}</td>
+                                            <td>       <div class="switch primary" style="margin:0">
+       <input type="checkbox" id="switch-6" name="purchase_quotation" >
+                                                  <label for="switch-6">{{__('Active')}}</label>
+      </div></td>
+                                            <td>{{__('For Parts')}}</td>
+                                            <td>       <div class="switch primary" style="margin:0">
+       <input type="checkbox" id="switch-5" name="on_parts" >
+                                                  <label for="switch-5">{{__('Active')}}</label>
+      </div></td>
                                         </tr>
                                     </tbody>
                                 </table>
-</div>
 
+
+<div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>{{__('Tax /Execution Time')}}</th>
+                                        <td>
+                                        
+                                        <div class="radio primary">
+                                          <input type="radio" name="execution_time"  id="execution_time_after" value="after_discount" checked>
+                                          <label for="execution_time_after">{{__('After Discount')}}</label>
+                                     
+                                          <input type="radio" name="execution_time" value="before_discount" id="execution_time_before">
+                                          <label for="execution_time_before">{{__('Before Discount')}}</label>
+                                      </div>
+                                        
+                                        </td>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </table>
+</div>
+</div>
                                 <div class="row">
 
-<div class="col-md-4">
+<!-- <div class="col-md-4">
   <table class="table">
      <tr>
        <th>{{__('Invoices')}}</th>
@@ -197,9 +241,9 @@
         </td>
      </tr>
   </table>
-</div>
+</div> -->
 
-<div class="col-md-4">
+<!-- <div class="col-md-4">
   <table class="table">
      <tr>
        <th>{{__('Quotations')}}</th>
@@ -213,9 +257,9 @@
         </td>
      </tr>
   </table>
-</div>
+</div> -->
 
-<div class="col-md-4">
+<!-- <div class="col-md-4">
   <table class="table">
      <tr>
        <th>{{__('Services')}}</th>
@@ -230,9 +274,9 @@
         </td>
      </tr>
   </table>
-</div>
+</div> -->
 
-<div class="col-md-4">
+<!-- <div class="col-md-4">
   <table class="table">
      <tr>
        <th>{{__('Purchase Invoice')}}</th>
@@ -247,9 +291,9 @@
         </td>
      </tr>
   </table>
-</div>
+</div> -->
 
-<div class="col-md-4">
+<!-- <div class="col-md-4">
   <table class="table">
      <tr>
        <th>{{__('Purchase Quotation')}}</th>
@@ -263,9 +307,9 @@
         </td>
      </tr>
   </table>
-</div>
+</div> -->
 
-<div class="col-md-4">
+<!-- <div class="col-md-4">
   <table class="table">
      <tr>
        <th>{{__('For Parts')}}</th>
@@ -279,8 +323,8 @@
         </td>
      </tr>
   </table>
-</div>
-
+</div> -->
+<!-- 
 <div class="col-md-4">
   <table class="table">
      <tr>
@@ -301,9 +345,9 @@
    </td>
      </tr>
   </table>
-</div>
+</div> -->
 
-</div>
+<!-- </div> -->
 
 
                                     <div class="form-group has-feedback">

@@ -11,10 +11,10 @@
         <div class="row">
             <div class="col-md-12">
               
-            <div class="col-md-6">
-            <table class="table">
+            <div class="col-md-12">
+            <table class="table wg-inside-table">
               <tr>
-                <th style="width: 42%;">
+                <th style="width: 30%;">
                 {{__('Name in Arabic')}}
                 </th>
                 <td>
@@ -23,11 +23,14 @@
               </tr>
             </table>
             </div>
+            </div>
 
-            <div class="col-md-6">
-            <table class="table">
+            <div class="col-md-12">
+
+            <div class="col-md-12">
+            <table class="table wg-inside-table">
               <tr>
-                <th style="width: 42%;">
+                <th style="width: 30%;">
                 {{__('Name in English')}}
                 </th>
                 <td>
@@ -36,32 +39,15 @@
               </tr>
             </table>
             </div>
-
-                <!-- <div class="col-md-6">
-                    <div class="form-group">
-                        <label>{{__('Name in Arabic')}}</label>
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
-                            <input readonly class="form-control" value="{{$store->name_ar}}">
-                        </div>
-                    </div>
-                </div> -->
-                <!-- <div class="col-md-6">
-                    <div class="form-group">
-                        <label>{{__('Name in English')}}</label>
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
-                            <input readonly class="form-control" value="{{$store->name_en}}">
-                        </div>
-                    </div>
-                </div> -->
             </div>
-            <div class="col-md-12">
 
-            <div class="col-md-6">
-            <table class="table">
+
+            </div>
+
+            <div class="col-md-12">
+            <table class="table wg-inside-table">
               <tr>
-                <th style="width: 42%;">
+                <th style="width: 30%;">
                 {{__('Store Phone')}}
                 </th>
                 <td>
@@ -70,11 +56,12 @@
               </tr>
             </table>
             </div>
+         
 
-            <div class="col-md-6">
-            <table class="table">
+            <div class="col-md-12">
+            <table class="table wg-inside-table">
               <tr>
-                <th style="width: 42%;">
+                <th style="width: 30%;">
                 {{__('Store Address')}}
                 </th>
                 <td>
@@ -83,33 +70,10 @@
               </tr>
             </table>
             </div>
-
-                <!-- <div class="col-md-6">
-                    <div class="form-group has-feedback">
-                        <label for="creator_phone" class="control-label">{{__('Store Phone')}}</label>
-                        <div class="input-group">
-                            <span class="input-group-addon"><li class="fa fa-phone"></li></span>
-                            <input type="text" readonly name="store_phone" class="form-control" value="{{$store->store_phone}}">
-                        </div>
-                    </div>
-                </div> -->
-
-                <!-- <div class="col-md-6">
-                    <div class="form-group has-feedback">
-                        <label for="creator_phone" class="control-label">{{__('Store Address')}}</label>
-                        <div class="input-group">
-                            <span class="input-group-addon"><li class="fa fa-phone"></li></span>
-                            <input type="text" readonly name="store_address" class="form-control" value="{{$store->store_address}}">
-                        </div>
-                    </div>
-                </div> -->
-                </div>
-
+        
 
             <div class="col-md-12">
-
-            <div class="col-md-12">
-            <table class="table">
+            <table class="table wg-inside-table">
               <tr>
                 <th style="width: 30%;">
                 {{__('Notes')}}
@@ -120,16 +84,7 @@
               </tr>
             </table>
             </div>
-                <!-- <div class="col-md-12">
 
-                    <div class="form-group has-feedback">
-                        <label for="note" class="control-label">{{__('Notes')}}</label>
-                        <div class="input-group">
-                            <span class="input-group-addon"><li class="fa fa-file-text-o"></li></span>
-                            <textarea readonly name="note" class="form-control" id="store_address" rows="3">{{$store->note}}</textarea>
-                        </div>
-                    </div>
-                </div> -->
             </div>
             </div>
             </div>
@@ -139,32 +94,28 @@
 
             <div class="col-md-12">
 
-
-
-
-
-            
-               
-                <!-- <span style="color: black;font-size: 14px;padding:5px 5px 8px !important;border-radius:0px">
-                     </span> -->
-                    <div class="ribbon ribbon-r bg-secondary show-ribbon" style="right:-15px;top:10px;background:#5685CC !important">
-                                                    <p class="mb-0" style="color:white;">{{__('Stores officials')}}</p>
-                                                </div>
-                    <!-- <hr style="width: 100px;border-color:#5685CC;margin-top:0;;margin-bottom:0;"> -->
-                <br>
-                <br>
-                <br>
-                <br>
+            <div class="ribbon ribbon-r bg-secondary show-ribbon" style="right:-15px;top:10px;background:#5685CC !important">
+                <p class="mb-0" style="color:white;">{{__('Stores officials')}}</p>
             </div>
+
+                <br>
+                <br>
+                <br>
+           
+            </div>
+        
+            <div class="row">
+
             <div class="for-scroll-wg">
             @if(count($store->storeEmployeeHistories) > 0)
                 @foreach($store->storeEmployeeHistories as $employeeHistory)
                 <div class="responsible-persons-show">
 
-                <div class="col-md-6">
-            <table class="table">
+                <div class="col-md-12">
+                
+            <table class="table table-bordered wg-inside-table">
               <tr>
-                <th style="width: 42%;">
+                <th style="width: 50%;">
                 {{__('Employee Name In Arabic')}}
                 </th>
                 <td>
@@ -174,10 +125,10 @@
             </table>
             </div>
 
-            <div class="col-md-6">
-            <table class="table">
+            <div class="col-md-12">
+            <table class="table table-bordered wg-inside-table">
               <tr>
-                <th style="width: 42%;">
+                <th style="width: 50%;">
                 {{__('Employee Name In English')}}
                 </th>
                 <td>
@@ -188,9 +139,9 @@
             </div>
 
             <div class="col-md-6">
-            <table class="table">
+            <table class="table table-bordered wg-inside-table">
               <tr>
-                <th style="width: 42%;">
+                <th style="width: 30%;">
                 {{__('Phone1')}}
                 </th>
                 <td>
@@ -201,9 +152,9 @@
             </div>
 
             <div class="col-md-6">
-            <table class="table">
+            <table class="table table-bordered wg-inside-table">
               <tr>
-                <th style="width: 42%;">
+                <th style="width: 30%;">
                 {{__('Phone2')}}
                 </th>
                 <td>
@@ -214,9 +165,9 @@
             </div>
 
             <div class="col-md-6">
-            <table class="table">
+            <table class="table table-bordered wg-inside-table">
               <tr>
-                <th style="width: 42%;">
+                <th style="width: 30%;">
                 {{__('Start Date')}}
                 </th>
                 <td>
@@ -227,9 +178,9 @@
             </div>
 
             <div class="col-md-6">
-            <table class="table">
+            <table class="table table-bordered wg-inside-table">
               <tr>
-                <th style="width: 42%;">
+                <th style="width: 30%;">
                 {{__('End Date')}}
                 </th>
                 <td>
@@ -239,86 +190,6 @@
             </table>
             </div>
 
-            <div class="col-md-6">
-            <table class="table">
-              <tr>
-                <th style="width: 42%;">
-                {{__('End Date')}}
-                </th>
-                <td>
-                {{$employeeHistory->end}}
-                </td>
-              </tr>
-            </table>
-            </div>
-
-            
-                    <!-- <div class="col-md-6">
-                        <div class="form-group">
-                            <label>{{__('Employee Name In Arabic')}}</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
-                                <input readonly class="form-control" name="name_ar" value="{{optional($employeeHistory->employee)->name_ar}}"
-                                       placeholder="{{__('Employee Name In Arabic')}}">
-                            </div>
-                        </div>
-                    </div> -->
-                    <!-- <div class="col-md-6">
-                        <div class="form-group">
-                            <label> {{__('Employee Name In English')}}</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
-                                <input readonly class="form-control" name="name_en" value="{{optional($employeeHistory->employee)->name_en}}"
-                                       placeholder="{{__('Employee Name In English')}}">
-                            </div>
-                        </div>
-                    </div> -->
-
-                    <!-- <div class="col-md-6">
-                        <div class="form-group">
-                            <label>{{__('Phone1')}}</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-                                <input readonly class="form-control" name="phone1" value="{{optional($employeeHistory->employee)->phone1}}"
-                                       placeholder="{{__('Phone1')}}">
-                            </div>
-                        </div>
-                    </div> -->
-
-                    <!-- <div class="col-md-6">
-                        <div class="form-group">
-                            <label>{{__('Phone2')}}</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-phone"></i></span>
-                                <input readonly class="form-control" name="phone2" value="{{optional($employeeHistory->employee)->phone2}}"
-                                       placeholder="{{__('Phone2')}}">
-                            </div>
-                        </div>
-                    </div> -->
-
-                    <!-- <div class="col-md-6">
-                        <div class="form-group">
-                            <label>{{__('Start Date')}}</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input readonly class="form-control" name="phone2" value="{{$employeeHistory->start}}"
-                                       placeholder="{{__('Phone2')}}">
-                            </div>
-                        </div>
-                    </div> -->
-
-                    <!-- <div class="col-md-6">
-                        <div class="form-group">
-                            <label>{{__('End Date')}}</label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                <input readonly class="form-control" name="phone2" value="{{$employeeHistory->end}}"
-                                       placeholder="{{__('Phone2')}}">
-                            </div>
-                        </div>
-                    </div> -->
-
-                    <hr style="border-top: 1px solid #2980b9;">
                 </div>
                 @endforeach
             @else
@@ -328,6 +199,7 @@
                 </div>
             @endif
         </div>
+    </div>
     </div>
     </div>
     

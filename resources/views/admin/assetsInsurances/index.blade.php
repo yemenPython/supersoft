@@ -247,9 +247,8 @@
                                                            data-end_date="{{ $assetInsurance->end_date }}"
                                                            data-status="{{ $assetInsurance->status }}"
                                                            data-title="{{__('Edit asset Insurance')}}"
-                                                           class="btn btn-icon btn-icon-left btn-create-wg waves-effect waves-light hvr-bounce-to-left" >
-
-                                                            <i class="ico fa fa-edit"></i>
+                                                           class="btn btn-print-wg text-white">
+                                                           <i class="fa fa-edit"></i>
                                                             {{__('Edit')}}
                                                         </a>
 

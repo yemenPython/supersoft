@@ -244,7 +244,8 @@
                                                            data-end_date="{{ $assetExamination->end_date }}"
                                                            data-status="{{ $assetExamination->status }}"
                                                            data-title="{{__('Edit asset Examination')}}"
-                                                           class="btn btn-icon btn-icon-left btn-create-wg waves-effect waves-light hvr-bounce-to-left">
+                                                           class="btn btn-print-wg text-white">
+                                                           <i class="fa fa-edit"></i>
                                                             {{__('Edit')}}
 
                                                         </a>

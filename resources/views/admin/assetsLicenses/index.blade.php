@@ -244,11 +244,9 @@
                                                    data-end_date="{{ $assetLicense->end_date }}"
                                                    data-status="{{ $assetLicense->status }}"
                                                    data-title="{{__('Edit asset License')}}"
-                                                   class="btn btn-icon btn-icon-left btn-create-wg waves-effect waves-light hvr-bounce-to-left">
-
-                                                   <i class="ico fa fa-edit"></i>
-
-                                                    {{__('Edit')}}
+                                                   class="btn btn-print-wg text-white">
+                                                           <i class="fa fa-edit"></i>
+                                                            {{__('Edit')}}
 
 
                                                 </a>
