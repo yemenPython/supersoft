@@ -156,6 +156,40 @@
                                 <div class="row top-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
                   
 
+                                <div class="col-md-12 table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                        <th>الإسم</th>
+                                        <th>الحاله</th>
+                                        <th>الإسم</th>
+                                        <th>الحاله</th>
+                                        <th>الإسم</th>
+                                        <th>الحاله</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Lorem</td>
+                                            <td>Lorem</td>
+                                            <td>Lorem</td>
+                                            <td>Lorem</td>
+                                            <td>Lorem</td>
+                                            <td>Lorem</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Lorem</td>
+                                            <td>Lorem</td>
+                                            <td>Lorem</td>
+                                            <td>Lorem</td>
+                                            <td>Lorem</td>
+                                            <td>Lorem</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+</div>
+
+
 <div class="col-md-4">
   <table class="table">
      <tr>
@@ -176,6 +210,7 @@
      </tr>
   </table>
 </div>
+
 
 <div class="col-md-4">
   <table class="table">

@@ -438,7 +438,6 @@ footer {
     max-height: 650px
 }
 
-
 .responsible-persons {
     box-shadow: 0 0 7px 1px #DDD;
     padding: 20px 10px;
@@ -477,5 +476,29 @@ footer {
 
 .border6 {
     border: 1px solid #e7ba76 !important;
+}
 
+.show-ribbon {
+    padding: 0 20px;
+    height: 40px !important;
+    line-height: 40px !important;
+}
+
+.show-ribbon:before {
+    position: absolute;
+    top: 0;
+    display: block;
+    width: 0;
+    height: 0;
+    content: '';
+    border: 20px solid #5685CC !important;
+    border-left-color: transparent !important;
+    right: 100%;
+    border-right: 20px solid #5685CC !important;
+}
+
+.for-scroll-wg {
+    max-height: 800px;
+    overflow-y: auto;
+    width: fit-content;
 }

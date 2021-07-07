@@ -146,6 +146,39 @@
 
                                 <div class="col-md-12">
 
+                                
+                                <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                        <th>الإسم</th>
+                                        <th>الحاله</th>
+                                        <th>الإسم</th>
+                                        <th>الحاله</th>
+                                        <th>الإسم</th>
+                                        <th>الحاله</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Lorem</td>
+                                            <td>Lorem</td>
+                                            <td>Lorem</td>
+                                            <td>Lorem</td>
+                                            <td>Lorem</td>
+                                            <td>Lorem</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Lorem</td>
+                                            <td>Lorem</td>
+                                            <td>Lorem</td>
+                                            <td>Lorem</td>
+                                            <td>Lorem</td>
+                                            <td>Lorem</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+</div>
 
                                 <div class="row">
 

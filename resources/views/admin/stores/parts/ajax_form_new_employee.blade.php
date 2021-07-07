@@ -1,4 +1,4 @@
-<div class="row contact-{{$index}}">
+<div class=" responsible-persons row contact-{{$index}}">
 
     <div class="row">
     <div class="col-md-12">
