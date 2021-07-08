@@ -119,6 +119,7 @@ class ConcessionServiceController extends Controller
             return response()->json(['view' => $view, 'model' => $concessionTypeItem->model], 200);
 
         } catch (\Exception $e) {
+//            dd($e->getMessage());
             return response()->json('sorry, please try later', 400);
         }
     }
@@ -129,12 +130,20 @@ class ConcessionServiceController extends Controller
 
         $model = "\App\Models" . "\\" . $concessionTypeItem->model;
 
+        if ($concessionTypeItem->model == 'PurchaseReturn') {
+            $model = "\App\Model" . "\\" . $concessionTypeItem->model;
+        }
+
         $data = $model::where('branch_id', $branch_id);
+
+        if ($concessionTypeItem->model == 'PurchaseReturn') {
+            $data->where('invoice_type', 'from_supply_order')->where('status', 'finished');
+        }
 
         if ($concessionTypeItem->model == 'StoreTransfer' && $concessionType->type == 'add') {
 
-            $data->whereDoesntHave('concession', function ($q) use ($concession_id){
-                $q->where('type', 'add')->where('id','!=', $concession_id);
+            $data->whereDoesntHave('concession', function ($q) use ($concession_id) {
+                $q->where('type', 'add')->where('id', '!=', $concession_id);
 
             })->whereHas('concession', function ($q) {
 
@@ -143,8 +152,8 @@ class ConcessionServiceController extends Controller
 
         } else {
 
-            $data->WhereDoesntHave('concession', function ($q) use ($concession_id){
-                $q->where('id','!=', $concession_id);
+            $data->WhereDoesntHave('concession', function ($q) use ($concession_id) {
+                $q->where('id', '!=', $concession_id);
             });
         }
 
@@ -157,7 +166,6 @@ class ConcessionServiceController extends Controller
             $data = $data->where('type', 'negative')->select('id', 'number')->get();
 
         } else {
-
             $data = $data->get();
         }
 
@@ -166,7 +174,6 @@ class ConcessionServiceController extends Controller
 
     public function getPartsData(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'concession_item_id' => 'required|integer',
             'model' => 'required|string'
@@ -246,7 +253,7 @@ class ConcessionServiceController extends Controller
             }
 
             $concessionTypes = $concessionTypes->get();
-            $concessions = $concessions->select('id','number')->get();
+            $concessions = $concessions->select('id', 'number')->get();
 
             $view = view('admin.concession_services.ajax_concession_types', compact('concessionTypes'))->render();
 

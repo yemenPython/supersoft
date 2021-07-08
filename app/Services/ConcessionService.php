@@ -13,14 +13,17 @@ class ConcessionService
     public function getModelNameSpace($modelName)
     {
         $model = "App\Models" . "\\" . $modelName;
+
+        if (class_basename($model) == 'PurchaseReturn') {
+            $model = "App\Model\PurchaseReturn";
+        }
+
         return $model;
     }
 
     public function concessionData($data, $actionType)
     {
-
         if (!authIsSuperAdmin()) {
-
             $data['branch_id'] = auth()->user()->branch_id;
         }
 
