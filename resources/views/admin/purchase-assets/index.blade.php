@@ -82,7 +82,7 @@
                                     <td class="text-center">{{$loop->iteration}}</td>
                                     <td class="text-center column-invoice-number">{!! $invoice->invoice_number !!}</td>
 
-                                    <td class="text-center column-date">{{$invoice->date}}{{$invoice->time}}</td>
+                                    <td class="text-center column-date">{{$invoice->date}} {{$invoice->time}}</td>
 
                                     <td class="text-center column-supplier">{!! optional($invoice->supplier)->name !!}</td>
 
