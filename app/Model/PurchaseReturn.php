@@ -4,6 +4,7 @@ namespace App\Model;
 
 use App\Models\Account;
 use App\Models\Branch;
+use App\Models\Concession;
 use App\Models\Locker;
 use App\Models\Part;
 use App\Models\PurchaseInvoice;
@@ -181,6 +182,16 @@ class PurchaseReturn extends Model
     public function purchaseReceipts()
     {
         return $this->belongsToMany(PurchaseReceipt::class, 'purchase_return_purchase_receipts');
+    }
+
+    public function concession()
+    {
+        return $this->morphOne(Concession::class, 'concessionable');
+    }
+
+    public function getNumberAttribute()
+    {
+        return $this->invoice_number ;
     }
 
 }

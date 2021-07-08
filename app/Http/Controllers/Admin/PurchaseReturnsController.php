@@ -342,7 +342,7 @@ class PurchaseReturnsController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
 
-            dd($e->getMessage());
+//            dd($e->getMessage());
 
             return redirect()->back()
                 ->with(['message' => __('words.purchase-invoice-return-cant-updated'), 'alert-type' => 'error']);
@@ -384,10 +384,6 @@ class PurchaseReturnsController extends Controller
         }
 
         $purchase_invoice = PurchaseReturn::find($request->invoiceID);
-
-//        $taxes = TaxesFees::where('active_purchase_invoice', 1)->where('branch_id', $purchase_invoice->branch_id)->get();
-//
-//        $totalTax = TaxesFees::where('active_purchase_invoice', 1)->where('branch_id', $purchase_invoice->branch_id)->sum('value');
 
         $invoice = view('admin.purchase_returns.show', compact('purchase_invoice'))->render();
 

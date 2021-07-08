@@ -122,6 +122,7 @@ class ConcessionController extends AbstractController
             $this->concessionService->createConcessionItems($concession);
 
             if ($concession->status == 'accepted') {
+
                $acceptQuantityData = $this->concessionService->acceptQuantity($concession);
 
                if (isset($acceptQuantityData['status']) && !$acceptQuantityData['status']) {
@@ -144,7 +145,6 @@ class ConcessionController extends AbstractController
     public function edit(Concession $concession)
     {
         if ($concession->status != 'pending') {
-
             return redirect()->back()->with(['message' => 'sorry, you can note update this item', 'alert-type' => 'error']);
         }
 
@@ -177,14 +177,16 @@ class ConcessionController extends AbstractController
         $concessionTypeItems = $model::where('branch_id', $concession->branch_id);
 
         if ($modelName == 'Settlement' && $concession->concessionType->type == 'add') {
-
             $concessionTypeItems->where('type', 'positive');
         }
 
         if ($modelName == 'Settlement' && $concession->concessionType->type == 'withdrawal') {
-
             $concessionTypeItems->where('type', 'negative');
         }
+
+//        if ($modelName == 'PurchaseReturn') {
+//            $concessionTypeItems->where('invoice_type', 'from_supply_order')->where('status', 'finished');
+//        }
 
         if ($modelName == 'StoreTransfer' && $concession->type == 'add') {
 
@@ -193,11 +195,20 @@ class ConcessionController extends AbstractController
                 $q->where('type', 'add')->where('concessionable_id','!=', $concession->concessionable_id);
 
             })->whereHas('concession', function ($q) use ($concession) {
-
                 $q->where('type', 'withdrawal'); // and status accepted
             });
 
-        }else {
+        } elseif ($modelName == 'PurchaseReturn') {
+
+            $concessionTypeItems->where('invoice_type', 'from_supply_order')
+                ->where('status', 'finished')->where(function ($q) use ($concession) {
+
+                    $q->whereHas('concession', function ($q) use ($concession) {
+                        $q->where('concessionable_id', $concession->concessionable_id);
+                    })->orDoesntHave('concession');
+                });
+
+        } else {
 
             $concessionTypeItems->whereHas('concession', function ($q) use ($concession) {
 
@@ -214,7 +225,6 @@ class ConcessionController extends AbstractController
     public function update(CreateRequest $request, Concession $concession)
     {
         if ($concession->status != 'pending') {
-
             return redirect()->back()->with(['message' => 'sorry, you can note update this item', 'alert-type' => 'error']);
         }
 
@@ -223,14 +233,12 @@ class ConcessionController extends AbstractController
             $concessionType = ConcessionType::find($request['concession_type_id']);
 
             if ($concessionType->type != $request['type']) {
-
                 return redirect()->back()->with(['message' => 'sorry, concession type not valid', 'alert-type' => 'error']);
             }
 
             $concessionTypeItem = $concessionType->concessionItem;
 
             if (!$concessionTypeItem) {
-
                 return redirect()->back()->with(['message' => 'sorry, concession type not have item', 'alert-type' => 'error']);
             }
 
@@ -245,7 +253,6 @@ class ConcessionController extends AbstractController
             $concessionData = $this->concessionService->concessionData($data, 'update');
 
             $className = $concession->concessionable ? class_basename($concession->concessionable) : '';
-
 
             if ($concession->concessionable_id != $data['item_id'] &&
                 $this->concessionService->checkItemHasOldConcession($className, $request['item_id'],$concessionType->type)) {
@@ -268,13 +275,17 @@ class ConcessionController extends AbstractController
             if ($concession->status == 'accepted') {
 
                 $this->concessionService->acceptQuantity($concession);
+
+                if (isset($acceptQuantityData['status']) && !$acceptQuantityData['status']) {
+
+                    $message = isset($acceptQuantityData['message']) ? $acceptQuantityData['message'] : __('sorry, please try later');
+                    return redirect()->back()->with(['message' => $message, 'alert-type' => 'error']);
+                }
             }
 
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-
-            dd($e->getMessage());
 
             return redirect()->back()->with(['message' => 'sorry, please try later', 'alert-type' => 'error']);
         }
