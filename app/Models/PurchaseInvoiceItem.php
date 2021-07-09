@@ -24,7 +24,8 @@ class PurchaseInvoiceItem extends Model
         'quantity',
         'part_price_id',
         'part_price_segment_id',
-        'tax'
+        'tax',
+        'spare_part_id'
     ];
 
     protected $table = 'purchase_invoice_items';

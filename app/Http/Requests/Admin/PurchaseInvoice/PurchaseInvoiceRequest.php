@@ -36,6 +36,7 @@ class PurchaseInvoiceRequest extends FormRequest
             'items.*.taxes.*' => 'required|integer|exists:taxes_fees,id',
             'items.*.store_id' => 'required|integer|exists:stores,id',
 
+
             'taxes.*' => 'nullable|integer|exists:taxes_fees,id',
             'additional_payments.*' => 'nullable|integer|exists:taxes_fees,id',
 
@@ -44,6 +45,10 @@ class PurchaseInvoiceRequest extends FormRequest
 
         if (authIsSuperAdmin()) {
             $rules['branch_id'] = 'required|integer|exists:branches,id';
+        }
+
+        if (request()->invoice_type == 'normal') {
+            $rules['items.*.spare_part_id'] = 'required|integer|exists:spare_parts,id';
         }
 
         return $rules;

@@ -732,8 +732,10 @@ src="' . $imageUrl . '" id="output_image"/>
                 $itemsCount += $purchaseReceipt->items()->count();
             }
 
+            $invoiceType = 'from_supply_order';
+
             $view = view('admin.purchase-invoices.purchase_receipt_items',
-                compact('purchaseReceipts'))->render();
+                compact('purchaseReceipts', 'invoiceType'))->render();
 
             return response()->json(['view' => $view, 'index' => $itemsCount], 200);
 
@@ -762,7 +764,9 @@ src="' . $imageUrl . '" id="output_image"/>
 
             $part = Part::find($request['part_id']);
 
-            $view = view('admin.purchase-invoices.part_raw', compact('part', 'index'))->render();
+            $invoiceType = 'normal';
+
+            $view = view('admin.purchase-invoices.part_raw', compact('part', 'index', 'invoiceType'))->render();
 
             return response()->json(['parts' => $view, 'index' => $index], 200);
 

@@ -35,11 +35,13 @@
                       <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                            src="{{asset('assets/images/f1.png')}}">
                   </button>
-                        <button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;">
+                        <button class="control text-white"
+                                style="background:none;border:none;font-size:14px;font-weight:normal !important;">
                             {{__('Reset')}}
                             <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                                  src="{{asset('assets/images/f2.png')}}"></button>
-							<button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
+							<button class="control text-white"
+                                    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
                                     class="img-fluid"
                                     style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                                     src="{{asset('assets/images/f3.png')}}"></button>
@@ -47,16 +49,13 @@
                 </h4>
 
                 <div class="box-content">
-                    <form method="post" action="{{route('admin:purchase-quotations.store')}}" class="form"
-                          enctype="multipart/form-data">
+                    <form method="post" action="{{route('admin:purchase-quotations.store')}}" class="form" enctype="multipart/form-data">
                         @csrf
                         @method('post')
 
                         @include('admin.purchase_quotations.form')
 
-                 
-                            @include('admin.buttons._save_buttons')
-                     
+                        @include('admin.buttons._save_buttons')
 
                     </form>
                 </div>
@@ -80,7 +79,7 @@
 
 @section('js-validation')
 
-    {!! JsValidator::formRequest('App\Http\Requests\Admin\PurchaseQuotation\CreateRequest', '.form'); !!}
+        {!! JsValidator::formRequest('App\Http\Requests\Admin\PurchaseQuotation\CreateRequest', '.form'); !!}
 
     @include('admin.partial.sweet_alert_messages')
 
@@ -92,10 +91,10 @@
 
     <script type="application/javascript">
 
-        function changeBranch () {
+        function changeBranch() {
 
             let branch_id = $('#branch_id').find(":selected").val();
-            window.location.href = "{{route('admin:purchase-quotations.create')}}" + "?branch_id=" + branch_id ;
+            window.location.href = "{{route('admin:purchase-quotations.create')}}" + "?branch_id=" + branch_id;
         }
 
         function dataByMainType() {
@@ -276,7 +275,7 @@
             }
         }
 
-        function ItemTypePrice (index, key) {
+        function ItemTypePrice(index, key) {
 
             var itemTypePrice = $('#item_type_price_' + index + '_' + key).val();
             $('#item_type_real_price_' + index + '_' + key).val(itemTypePrice);
@@ -333,7 +332,7 @@
                 if ($('#price_' + i).length) {
                     $('#item_number_' + i).text(index);
 
-                }else {
+                } else {
                     continue;
                 }
 

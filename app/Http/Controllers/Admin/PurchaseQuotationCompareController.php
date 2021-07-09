@@ -127,6 +127,7 @@ class PurchaseQuotationCompareController extends Controller
                 $item = $item = PurchaseQuotationItem::find($itemId);
 
                 $data['items'][$index]['part_id'] = $item->part_id;
+                $data['items'][$index]['spare_part_id'] = $item->spare_part_id;
                 $data['items'][$index]['part_price_id'] = $item->part_price_id;
                 $data['items'][$index]['quantity'] = $item->quantity;
                 $data['items'][$index]['price'] = $item->price;

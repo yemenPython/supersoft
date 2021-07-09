@@ -6,11 +6,13 @@ function changeType() {
 
         $(".purchase_request_type").show();
         $(".out_purchase_request_type").hide();
+        $(".part_types_head").hide();
 
     } else {
 
         $(".purchase_request_type").hide();
         $(".out_purchase_request_type").show();
+        $(".part_types_head").show();
     }
 
     $(".remove_on_change_branch").remove();

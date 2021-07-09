@@ -14,6 +14,7 @@ class SupplyOrderServices
     {
         $data = [
             'part_id' => $item['part_id'],
+            'spare_part_id' => $item['spare_part_id'],
             'part_price_id' => $item['part_price_id'],
             'part_price_segment_id' => isset($item['part_price_segment_id']) ? $item['part_price_segment_id'] : null,
             'quantity' => $item['quantity'],

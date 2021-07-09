@@ -12,6 +12,23 @@
     <td>
         <div class="input-group">
 
+            <select class="form-control js-example-basic-single" name="items[{{$index}}][spare_part_id]" id="spare_part_id_{{$index}}">
+
+                @foreach($part->part_types_tree as $sparePartId => $sparePartValue)
+                    <option value="{{$sparePartId}}"
+                        {{isset($update_item) && $update_item->spare_part_id == $sparePartId ? 'selected':''}}
+                        {{isset($item) && $item->spare_part_id == $sparePartId ? 'selected':''}}
+                    >
+                        {{$sparePartValue}}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+    </td>
+
+    <td>
+        <div class="input-group">
+
             <select style="width: 150px !important;" class="form-control js-example-basic-single" name="items[{{$index}}][part_price_id]"
                     id="prices_part_{{$index}}"
                     onchange="priceSegments('{{$index}}'); getPurchasePrice('{{$index}}'); calculateItem('{{$index}}')">
@@ -92,7 +109,7 @@
         {{input_error($errors, 'items['.$index.'][quantity]')}}
     </td>
 
-    
+
     <td>
         <input style="width: 150px !important;" type="number" class="form-control" id="price_{{$index}}"
                value="{{isset($update_item) ? $update_item->price : $part->default_purchase_price}}"

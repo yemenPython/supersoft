@@ -5,9 +5,27 @@
     </td>
 
     <td>
-{{--        <input type="text" disabled value="{{$part->name}}" class="form-control" style="text-align: center;">--}}
-        <span style="width: 150px !important;display:block">{{$part->name}}</span> 
-        <input type="hidden" value="{{$part->id}}" name="items[{{$index}}][part_id]" class="form-control" style="text-align: center;">
+        <span style="width: 150px !important;display:block">{{$part->name}}</span>
+        <input type="hidden" value="{{$part->id}}" name="items[{{$index}}][part_id]" class="form-control"
+               style="text-align: center;">
+    </td>
+
+    <td>
+        <div class="input-group">
+
+            <select class="form-control js-example-basic-single" name="items[{{$index}}][spare_part_id]"
+                    id="spare_part_id_{{$index}}">
+
+                @foreach($part->part_types_tree as $sparePartId => $sparePartValue)
+                    <option value="{{$sparePartId}}"
+                        {{isset($update_item) && $update_item->spare_part_id == $sparePartId ? 'selected':''}}
+                        {{isset($itemType) && $itemType->id == $sparePartId ? 'selected':''}}
+                    >
+                        {{$sparePartValue}}
+                    </option>
+                @endforeach
+            </select>
+        </div>
     </td>
 
     <td>
@@ -35,7 +53,8 @@
     <td>
         <div class="input-group" id="price_segments_part_{{$index}}">
 
-            <select style="width: 150px !important;" class="form-control js-example-basic-single" name="items[{{$index}}][part_price_segment_id]"
+            <select style="width: 150px !important;" class="form-control js-example-basic-single"
+                    name="items[{{$index}}][part_price_segment_id]"
                     id="price_segments_part_{{$index}}"
                     onchange="getPurchasePriceFromSegments('{{$index}}'); calculateItem('{{$index}}') ">
 
@@ -58,7 +77,8 @@
                         <option value="">{{__('Select Segment')}}</option>
 
                         @foreach($part->first_price_segments as $priceSegment)
-                            <option value="{{$priceSegment->id}}" data-purchase-price="{{$priceSegment->purchase_price}}"
+                            <option value="{{$priceSegment->id}}"
+                                    data-purchase-price="{{$priceSegment->purchase_price}}"
                                 {{isset($item) && $item->part_price_segment_id == $priceSegment->id  ? 'selected':''}}>
                                 {{$priceSegment->name}}
                             </option>
@@ -100,7 +120,6 @@
     </td>
 
 
-
     <td>
         <div class="radio primary">
             <input type="radio" name="items[{{$index}}][discount_type]" id="discount_type_amount_{{$index}}"
@@ -127,7 +146,8 @@
     </td>
 
     <td>
-        <input style="width: 150px !important;" type="number" class="form-control border2" id="total_before_discount_{{$index}}"
+        <input style="width: 150px !important;" type="number" class="form-control border2"
+               id="total_before_discount_{{$index}}"
                value="{{isset($update_item) ? $update_item->sub_total : 0 }}" min="0"
                name="items[{{$index}}][total_before_discount]" disabled>
 
@@ -135,7 +155,8 @@
     </td>
 
     <td>
-        <input style="width: 150px !important;" type="number" class="form-control border2" id="total_after_discount_{{$index}}"
+        <input style="width: 150px !important;" type="number" class="form-control border2"
+               id="total_after_discount_{{$index}}"
                value="{{isset($update_item) ? $update_item->total_after_discount : 0 }}" min="0"
                name="items[{{$index}}][total_after_discount]" disabled>
         {{input_error($errors, 'items['.$index.'][total_after_discount]')}}
@@ -212,14 +233,14 @@
     </td>
 
     <td>
-      
-            <button type="button" class="btn btn-danger fa fa-trash" onclick="removeItem('{{$index}}')"></button>
 
-            <div style="padding:5px !important;">
-            <a data-toggle="modal" data-target="#part_types_{{$index}}" title="Part Types" class="btn btn-info">
-            <i class="fa fa-check-circle"> </i> {{__('Types')}}
-            </a>
-            </div>
+        <button type="button" class="btn btn-danger fa fa-trash" onclick="removeItem('{{$index}}')"></button>
+
+{{--        <div style="padding:5px !important;">--}}
+{{--            <a data-toggle="modal" data-target="#part_types_{{$index}}" title="Part Types" class="btn btn-info">--}}
+{{--                <i class="fa fa-check-circle"> </i> {{__('Types')}}--}}
+{{--            </a>--}}
+{{--        </div>--}}
     </td>
 
     <td style="display: none;">
@@ -236,7 +257,8 @@
                     {{isset($update_item) && in_array($key, $update_item->spareParts->pluck('id')->toArray()) ? 'checked':''}}
                 >
 
-                <input type="hidden" value="0" class="form-control" name="items[{{$index}}][item_types][{{$key}}][price]"
+                <input type="hidden" value="0" class="form-control"
+                       name="items[{{$index}}][item_types][{{$key}}][price]"
                        id="item_type_real_price_{{$index}}_{{$key}}">
 
                 <label for="item_type_real_checkbox_{{$index}}_{{$key}}"></label>
