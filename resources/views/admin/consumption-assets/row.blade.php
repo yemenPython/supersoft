@@ -56,7 +56,12 @@
                    name="items[{{$index}}][net_purchase_cost]">
         </div>
     </td>
-
+        <input type="hidden" readonly style="width: 100px !important;"
+               class="total_replacements_{{$index}} form-control valid total_replacement"
+               onchange="annual_consumtion_rate_value('{{$index}}')"
+               onkeyup="annual_consumtion_rate_value('{{$index}}')"
+               value="{{$asset->total_replacements }}"
+               name="items[{{$index}}][total_replacements]">
     <td>
         <div class="input-group">
             <input type="text" readonly style="width: 100px !important;"
@@ -71,7 +76,7 @@
 
     <td>
         <div class="input-group">
-            <input type="text" disabled style="width: 100px !important;"
+            <input type="text"  style="width: 100px !important;"
                    class="consumption_amount_{{$index}} form-control valid"
                    onchange="annual_consumtion_rate_value('{{$index}}')"
                    onkeyup="annual_consumtion_rate_value('{{$index}}')"
@@ -80,25 +85,6 @@
         </div>
     </td>
 
-    {{--    <td>--}}
-    {{--        <div class="input-group">--}}
-    {{--            <input type="text" readonly  style="width: 100px !important;" class="form-control valid current_consumtion current_consumtion_{{$index}}" onchange="netTotal('{{$index}}')" onkeyup="netTotal('{{$index}}')" value="{{isset($update_item)?$update_item->purchase_cost - $update_item->past_consumtion: $asset->purchase_cost - $asset->past_consumtion}}" name="items[{{$index}}][current_consumtion]">--}}
-    {{--        </div>--}}
-    {{--    </td>--}}
-
-    {{--    <td>--}}
-    {{--        <div class="input-group">--}}
-    {{--            <input type="date" class="form-control valid purchase_date_{{$index}} form-control"--}}
-    {{--                   value="{{$asset?$asset->purchase_date:''}}" name="items[{{$index}}][purchase_date]">--}}
-    {{--        </div>--}}
-    {{--    </td>--}}
-
-
-    {{--    <td>--}}
-    {{--        <div class="input-group">--}}
-    {{--            <input type="text" readonly style="width: 100px !important;" class="asset_age_{{$index}} form-control valid"  value="{{isset($update_item)?$update_item->asset_age:$asset->asset_age}}" name="items[{{$index}}][asset_age]">--}}
-    {{--        </div>--}}
-    {{--    </td>--}}
 
     <td>
         <div class="input-group" id="stores">

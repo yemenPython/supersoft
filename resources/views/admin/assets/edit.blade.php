@@ -60,7 +60,7 @@
                             @else
                                 <input type="hidden" name="branch_id" value="{{ auth()->user()->branch_id }}"/>
                             @endif
-                        
+
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label> {{ __('Assets Groups') }} </label>
@@ -137,7 +137,7 @@
                                         </div>
                                     </div>
                                 </div>
-                       
+
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label> {{ __('asset name ar') }} </label>
@@ -234,7 +234,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label> {{ __('current consumption') }} </label>
                                     <div class="input-group">
@@ -246,7 +246,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label> {{ __('total current consumption') }} </label>
                                     <div class="input-group">
@@ -258,18 +258,29 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label> {{ __('book value') }} </label>
                                     <div class="input-group">
                                         <span class="input-group-addon border3"><i class="fa fa-money"></i></span>
-                                        <input class="form-control border3" value="{{$asset->booko_value}}" disabled type="text"
+                                        <input class="form-control border3" value="{{$asset->book_value}}" disabled type="text"
                                                name="booko_value"/>
                                     </div>
                                     {{input_error($errors,'book_value')}}
                                 </div>
                             </div>
 
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label> {{ __('total replacements') }} </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon border3"><i class="fa fa-money"></i></span>
+                                            <input class="form-control border3" value="{{$total_replacements}}"
+                                                   readonly type="text" name="total_replacements"/>
+                                        </div>
+                                        {{input_error($errors,'total_replacements')}}
+                                    </div>
+                                </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label> {{ __('Notes') }} </label>

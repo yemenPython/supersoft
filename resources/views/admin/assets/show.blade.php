@@ -131,7 +131,10 @@
                     </tr>
 
 
-
+                    <tr>
+                        <th style="background:#CCC !important;color:black" scope="row">{{__('total replacements')}}</th>
+                        <td>{{$total_replacements}}</td>
+                    </tr>
 
                     </tbody>
                 </table>
