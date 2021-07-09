@@ -163,9 +163,16 @@
     </td>
 
     <td>
-        <div class="btn-group ">
-            <span type="button" class="fa fa-usd dropdown-toggle" data-toggle="dropdown"
-                  style="background-color: rgb(244, 67, 54); color: white; padding: 3px; border-radius: 5px; cursor: pointer"
+        <div class="btn-group " style="display:flex !important;align-items:center">
+            <span type="button" class="fa fa-eye dropdown-toggle" data-toggle="dropdown"
+                  style="
+    color: #a776e7;
+    padding: 6px 10px;
+    border-radius: 0;
+    border: 1px solid #3f3f3f;
+    cursor: pointer;
+    font-size: 20px;
+}"
                   aria-haspopup="true" aria-expanded="false">
             </span>
 
@@ -209,7 +216,8 @@
 
             <input type="hidden" id="tax_count_{{$index}}" value="{{$part->taxes->count()}}">
 
-            <input style="width: 150px !important;" type="number" class="form-control border5" id="tax_{{$index}}"
+            <input style="width: 120px !important;
+    margin: 0 5px;" type="number" class="form-control border5" id="tax_{{$index}}"
                    value="{{isset($update_item) ? $update_item->tax : 0 }}"
                    min="0" name="items[{{$index}}][tax]" disabled>
         </div>

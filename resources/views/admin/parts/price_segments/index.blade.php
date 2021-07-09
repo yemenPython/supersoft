@@ -1,4 +1,4 @@
-<table class="table table-bordered" style="width:100%">
+<table class="table table-bordered wg-inside-table" style="width:100%">
     <thead style="background-color: #ada3a361">
     <tr>
         <th scope="col">{!! __('Check') !!}</th>
