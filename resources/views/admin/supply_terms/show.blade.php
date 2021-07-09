@@ -80,38 +80,66 @@
                             </div>
                             
                             <div class="col-md-4">
-                                <div class="form-group has-feedback">
-                                <label for="inputStore" class="control-label">{{__('Type')}}</label>
-                                @if($supplyTerm->type == 'supply')
+                            <table class="table table-bordered has-feedback">
+                               <tr>
+                                  <th style="width:50%">
+                                  <!-- <label for="inputStore" class="control-label">{{__('Type')}}</label> -->
+                                  {{__('Type')}}
+                                  </th>
+                                  <td>
+                                  @if($supplyTerm->type == 'supply')
                                             <span class="label label-primary wg-label"> {{__('Supply')}} </span>
                                         @else
                                             <span class="label label-warning wg-label"> {{__('Payment')}} </span>
                                         @endif
-                                </div>
+                                  </td>
+                               </tr>
+                            </table>
+                                <!-- <div class="form-group has-feedback">
+                                
+                               
+                                </div> -->
                             </div>
 
                             <div class="col-md-4">
-                                <div class="form-group has-feedback">
-                                <label for="inputStore" class="control-label">{{__('Status')}}</label>
-                                @if($supplyTerm->status)
+                            <table class="table table-bordered has-feedback">
+                               <tr>
+                                  <th style="width:50%">
+                                  <!-- <label for="inputStore" class="control-label">{{__('Status')}}</label> -->
+                                  {{__('Status')}}
+                                  </th>
+                                  <td>
+                                  @if($supplyTerm->status)
                                             <span class="label label-success wg-label"> {{ __('Active') }} </span>
                                         @else
                                             <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
                                         @endif
-                                </div>
+                                  </td>
+                               </tr>
+                            </table>
+                                
                             </div>
 
-                            <div class="col-md-4">
-                                <div class="form-group has-feedback">
-                                <label for="inputStore" class="control-label">{{__('Purchase Quotation')}}</label>
 
-                                @if($supplyTerm->for_purchase_quotation)
+
+                            <div class="col-md-4">
+                            <table class="table table-bordered has-feedback">
+                               <tr>
+                                  <th style="width:50%">
+                                  <!-- <label for="inputStore" class="control-label">{{__('Purchase Quotation')}}</label> -->
+                                  {{__('Purchase Quotation')}}
+                                  </th>
+                                  <td>
+                                  @if($supplyTerm->for_purchase_quotation)
                                             <span class="label label-success wg-label"> {{ __('Active') }} </span>
                                         @else
                                             <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
                                         @endif
-                                </div>
-                            </div>
+                                  </td>
+                               </tr>
+                            </table>
+
+                              
 
                             </div>
                         </div>
