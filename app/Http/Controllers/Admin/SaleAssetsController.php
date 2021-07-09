@@ -43,7 +43,40 @@ class SaleAssetsController extends Controller
     {
         if ($request->isDataTable) {
             $saleAssets = SaleAsset::select( ['*'] );
-            return DataTables::of( $saleAssets )
+            $saleAssets = SaleAsset::select( [
+                'sale_assets.id',
+                'number',
+                'branch_id',
+                'date',
+                'time',
+                'type',
+            ] )
+                ->leftjoin( 'sale_asset_items', 'sale_assets.id', '=', 'sale_asset_items.sale_asset_id' );
+
+            if ($request->has( 'branch_id' ) && !empty( $request['branch_id'] ))
+                $saleAssets->where( 'sale_assets.branch_id', $request['branch_id'] );
+            if ($request->has( 'number' ) && !empty( $request['number'] ))
+                $saleAssets->where( 'sale_assets.number', $request['number'] );
+
+            if ($request->has( 'type' ) && !empty( $request['type'] ))
+                $saleAssets->where( 'sale_assets.type', $request['type'] );
+
+            if ($request->has( 'asset_group_id' ) && !empty( $request->asset_group_id ))
+                $saleAssets->where( 'sale_asset_items.asset_group_id', $request['asset_group_id'] );
+            if ($request->has( 'asset_id' ) && !empty( $request->asset_id ))
+                $saleAssets->where( 'sale_asset_items.asset_id', $request['asset_id'] );
+
+//            if ($request->has( 'date_from' ) && !empty( $request['date_from'] ))
+//                $saleAssets->where( 'sale_assets.date_from', $request['date_from'] );
+//
+//            if ($request->has( 'date_to' ) && !empty( $request['date_to'] ))
+//                $saleAssets->where( 'sale_assets.date_to', $request['date_to'] );
+
+            whereBetween($saleAssets,'DATE(date)',$request->date_from,$request->date_to);
+            whereBetween( $saleAssets, 'sale_asset_items.sale_amount', $request->sale_amount_from, $request->sale_amount_to );
+
+
+            return DataTables::of( $saleAssets->groupBY('sale_assets.id') )
                 ->addIndexColumn()
                 ->addColumn( 'number', function ($saleAsset) {
                     return $saleAsset->number;
@@ -108,7 +141,11 @@ class SaleAssetsController extends Controller
                 'action' => 'action',
                 'options' => 'options'
             ];
-            return view( 'admin.sale-assets.index', compact( 'js_columns' ) );
+            $assets = Asset::all();
+            $branches = Branch::all()->pluck( 'name', 'id' );
+            $assetsGroups = AssetGroup::select( ['id', 'name_ar', 'name_en'] )->get();
+            $numbers = ConsumptionAsset::select( 'number' )->orderBy( 'number', 'asc' )->get();
+            return view( 'admin.sale-assets.index', compact( 'js_columns' ,'assets','assetsGroups','numbers','branches') );
         }
 
     }

@@ -17,7 +17,118 @@
                 <li class="breadcrumb-item active"> {{__('Consumption Assets')}}</li>
             </ol>
         </nav>
+        @if(filterSetting())
+            <div class="col-xs-12">
+                <div class="box-content card bordered-all js__card top-search">
+                    <h4 class="box-title with-control">
+                        <i class="fa fa-search"></i>{{__('Search filters')}}
+                        <span class="controls">
+							<button type="button" class="control fa fa-minus js__card_minus"></button>
+							<button type="button" class="control fa fa-times js__card_remove"></button>
+						</span>
+                        <!-- /.controls -->
+                    </h4>
+                    <!-- /.box-title -->
+                    <div class="card-content js__card_content" style="padding:30px">
+                        <form  onsubmit="filterFunction($(this));return false;">
+                            <div class="list-inline margin-bottom-0 row">
 
+                                @if(authIsSuperAdmin())
+                                    <div class="form-group col-md-12">
+                                        <label> {{ __('Branches') }} </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon fa fa-file"></span>
+                                            {!! drawSelect2ByAjax('branch_id','Branch','name_'.app()->getLocale(),'name_'.app()->getLocale(),__('Select Branch'),request()->branch_id) !!}
+                                        </div>
+                                    </div>
+                                @endif
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label> {{ __('Assets Groups') }} </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                                            <select class="form-control select2" id="asset_group_id"
+                                                    name="asset_group_id">
+                                                <option value="0"> {{ __('Select Group') }} </option>
+                                                @foreach($assetsGroups as $assetGroup)
+                                                    <option
+                                                        {{ old('assetsGroups_id') == $assetGroup->id ? 'selected' : '' }}
+                                                        value="{{ $assetGroup->id }}"
+                                                        rate="{{ $assetGroup->annual_consumtion_rate }}"> {{ $assetGroup->name_ar }} </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label> {{ __('Asset name') }} </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+
+                                        <select class="form-control select2" id="asset_id"
+                                                name="asset_id">
+                                            <option value="0"> {{ __('Select Name') }} </option>
+                                            @foreach($assets as $asset)
+                                                <option
+                                                    {{ old('asset_id') == $asset->id ? 'selected' : '' }}
+                                                    value="{{ $asset->id }}"> {{ $asset->name }} </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                    <div class="form-group col-md-4">
+                                        <label> {{ __('Number') }} </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+
+                                            <select class="form-control select2" id="number"
+                                                    name="number">
+                                                <option value="0"> {{ __('Select Number') }} </option>
+                                                @foreach($numbers as $number)
+                                                    <option value="{{$number->number}}"> {{$number->number}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                <div class="form-group col-md-4">
+                                    <label> {{ __('date From') }}</label>
+                                    <input type="date" class="form-control" name="date_from">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label> {{ __('date To') }}</label>
+                                    <input type="date" class="form-control" name="date_to">
+                                </div>
+                                    <div class="form-group col-md-6">
+                                    <label> {{ __('consumption amount From') }}</label>
+                                    <input type="text" class="form-control" name="consumption_amount_from">
+                                </div>
+                                    <div class="form-group col-md-6">
+                                        <label> {{ __('consumption amount To') }}</label>
+                                        <input type="text" class="form-control" name="consumption_amount_to">
+                                    </div>
+
+
+                            </div>
+
+                            <button type="submit"
+                                    class="btn sr4-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
+                                    class=" fa fa-search "></i> {{__('Search')}} </button>
+                            <a href="{{route('admin:assets.index')}}"
+                               class="btn bc-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
+                                    class=" fa fa-reply"></i> {{__('Back')}}
+                            </a>
+
+                        </form>
+                    </div>
+                    <!-- /.card-content -->
+                </div>
+                <!-- /.box-content -->
+            </div>
+        @endif
 
 {{--                @include('admin.purchase-assets.parts.search')--}}
 
@@ -51,8 +162,8 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th class="text-center column-invoice-number"
-                                    scope="col">{!! __('Number') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Branch') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Number') !!}</th>
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Date From') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Date to') !!}</th>
@@ -68,6 +179,7 @@
                             <tfoot>
                             <tr>
                                 <th>#</th>
+                                <th class="text-center" scope="col">{!! __('Branch') !!}</th>
                                 <th class="text-center"
                                     scope="col">{!! __('Number') !!}</th>
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
@@ -107,6 +219,36 @@
                     $("#assetDatatoPrint").html(data.view)
                 }
             });
+        }
+
+        $('#asset_group_id').on('change', function () {
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            const asset_group_id = $(this).val();
+            $.ajax({
+                type: 'post',
+                url: "{{ route('admin:assets.getAssetsByAssetsGroup')}}",
+                data: {
+                    asset_group_id: asset_group_id,
+                    _token: CSRF_TOKEN,
+                },
+                success: function (data) {
+                    $('#name').each(function () {
+                        $(this).html(data.data)
+                    });
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
+
+        });
+
+        function filterFunction($this) {
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $( ".js__card_minus" ).trigger( "click" );
         }
     </script>
 {{--    <script type="application/javascript" src="{{ asset('accounting-module/options-for-dt.js') }}"></script>--}}

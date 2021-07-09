@@ -39,9 +39,40 @@ class ConsumptionAssetsController extends Controller
     public function index(Request $request)
     {
         if ($request->isDataTable) {
-            $consumptionAssets = ConsumptionAsset::select( ['*'] );
-            return DataTables::of( $consumptionAssets )
+            $consumptionAssets = ConsumptionAsset::select( [
+                'consumption_assets.id', 'number',
+                'branch_id',
+                'date',
+                'time',
+                'note',
+                'date_from',
+                'date_to'] )
+                ->leftjoin( 'consumption_asset_items', 'consumption_assets.id', '=', 'consumption_asset_items.consumption_asset_id' );
+
+            if ($request->has( 'branch_id' ) && !empty( $request['branch_id'] ))
+                $consumptionAssets->where( 'consumption_assets.branch_id', $request['branch_id'] );
+            if ($request->has( 'number' ) && !empty( $request['number'] ))
+                $consumptionAssets->where( 'consumption_assets.number', $request['number'] );
+
+            if ($request->has( 'asset_group_id' ) && !empty( $request->asset_group_id ))
+                $consumptionAssets->where( 'consumption_asset_items.asset_group_id', $request['asset_group_id'] );
+            if ($request->has( 'asset_id' ) && !empty( $request->asset_id ))
+                $consumptionAssets->where( 'consumption_asset_items.asset_id', $request['asset_id'] );
+
+
+            if ($request->has( 'date_from' ) && !empty( $request['date_from'] ))
+                $consumptionAssets->where( 'consumption_assets.date_from', $request['date_from'] );
+
+            if ($request->has( 'date_to' ) && !empty( $request['date_to'] ))
+                $consumptionAssets->where( 'consumption_assets.date_to', $request['date_to'] );
+
+            whereBetween( $consumptionAssets, 'consumption_asset_items.consumption_amount', $request->consumption_amount_from, $request->consumption_amount_to );
+            return DataTables::of( $consumptionAssets->groupBy( 'consumption_assets.id' ) )
                 ->addIndexColumn()
+                ->addColumn( 'branch_id', function ($asset) {
+                    return '<span class="text-danger">' . optional( $asset->branch )->name . '</span>';
+
+                } )
                 ->addColumn( 'number', function ($consumptionAsset) {
                     return $consumptionAsset->number;
 
@@ -98,6 +129,7 @@ class ConsumptionAssetsController extends Controller
         } else {
             $js_columns = [
                 'DT_RowIndex' => 'DT_RowIndex',
+                'branch_id' => 'consumption_assets.branch_id',
                 'number' => 'consumption_assets.number',
                 'date' => 'consumption_assets.date',
                 'date_from' => 'consumption_assets.date_from',
@@ -105,7 +137,11 @@ class ConsumptionAssetsController extends Controller
                 'action' => 'action',
                 'options' => 'options'
             ];
-            return view( 'admin.consumption-assets.index', compact( 'js_columns' ) );
+            $assets = Asset::all();
+            $branches = Branch::all()->pluck( 'name', 'id' );
+            $assetsGroups = AssetGroup::select( ['id', 'name_ar', 'name_en'] )->get();
+            $numbers = ConsumptionAsset::select( 'number' )->orderBy( 'number', 'asc' )->get();
+            return view( 'admin.consumption-assets.index', compact( 'js_columns', 'assets', 'branches', 'assetsGroups', 'numbers' ) );
         }
 
     }
