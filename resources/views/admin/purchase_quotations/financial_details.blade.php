@@ -142,13 +142,11 @@
       <tr>
       <th style="width:40%;height:50px;background:#FFC5D7 !important;color:black !important">
                 <div class="btn-group ">
-<<<<<<< HEAD
-                    <span type="button" class="eye-design-one btn-1 dropdown-toggle" data-toggle="dropdown"
-=======
+
                     <span type="button" class="fa fa-eye eye-design-one dropdown-toggle" data-toggle="dropdown"
->>>>>>> 5efca16f7404c32c8ab4e8a883d053b243cde047
+
                           
-                          aria-haspopup="true" aria-expanded="false">                   <i class="fa fa-eye"></i>
+                          aria-haspopup="true" aria-expanded="false">
 </span>
 
 
