@@ -59,7 +59,7 @@
 <table class="table table-bordered">
       <tr>
       <th style="width:40%;height:50px;background:#D2F4F6 !important;color:black !important">{!! __('Supplier Discount') !!}</th>
-      <td>
+      <td style="background:#D2F4F6 !important;color:black!important">
 <ul class="list-inline flex-div-cen">
   <li>
   <div class="has-feedback">
@@ -72,38 +72,26 @@
 
   <li>
   <input type="number" name="supplier_discount" min="0" readonly="readonly"
-               class="form-control supplier_discount"
-               style="background:#D2F4F6;border:none;text-align:center !important;"
+
+               class="form-control text-center supplier_discount"
+               
                value="{{isset($purchaseQuotation) ? $purchaseQuotation->supplier_discount : 0}}">
   </li>
 
   <li>
   <input type="text" disabled="disabled" 
-  style="background:#D2F4F6;border:none;text-align:center;"
-  class="form-control supplier_discount_type"
+
+  class="form-control text-center supplier_discount_type"
                value="{{isset($purchaseQuotation) && $purchaseQuotation->supplier_discount_type == 'percent' ? '%' : '$'}}"
                style="width: 42px;">
 
         <input type="hidden" name="supplier_discount_type" 
-        style="background:#D2F4F6;border:none;text-align:center;"
+
          class="supplier_discount_type_value"
                value="{{isset($purchaseQuotation) ? $purchaseQuotation->supplier_discount_type : 'amount'}}">
     
   </li>
 </ul>
-
-    <!-- <div class="col-md-2 col-xs-2" style="margin-top: 4px;">
-
-    </div>
-
-    <div class="col-md-2  col-xs-2 top-space">
-
-
-            </div>
-
-    <div class="col-md-8 col-xs-12 top-space">
-     
-    </div> -->
 
 
 </td>
@@ -116,8 +104,9 @@
 <table class="table table-bordered">
       <tr>
       <th style="width:40%;height:50px;background:#D2F4F6 !important;color:black !important">{!! __('Discount') !!}</th>
-      <td>
-                <input type="number" class="form-control"
+      <td style="background:#D2F4F6 !important;color:black!important">
+                <input type="number" class="form-control text-center"
+                
                        value="{{isset($purchaseQuotation) ? $purchaseQuotation->discount : 0}}"
                        id="discount"
                        onchange="calculateInvoiceDiscount()"
