@@ -542,7 +542,7 @@ footer {
 
 .eye-design-one
 {
-    background-color: rgb(255, 197, 215);
+    background-color: #ffffff;
     color: rgb(103, 99, 99);
     padding: 3px 10px;
    
@@ -556,13 +556,13 @@ footer {
 
 .eye-design-two
 {
-    background-color:rgb(86, 133, 204) !important;
-    color: #FFF;
+    background-color:#ffffff !important;
+    color: rgb(103, 99, 99);
     padding: 3px 10px;
   
     cursor: pointer;
     font-size: 20px;
-    border: 1px solid #FFF;
+    border: 1px solid rgb(124, 124, 124);
     position: absolute;
     left: 0px;
     top: -10px;

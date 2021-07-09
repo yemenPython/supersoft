@@ -4,10 +4,10 @@
    
 <table class="table table-bordered">
       <tr>
-      <th style="width:40%;height:50px;background:#FFC5D7 !important;color:black !important">{!! __('Total') !!}</th>
-      <td style="background:#FFC5D7">
+      <th style="width:40%;height:50px;background:#F9EFB7 !important;color:black !important">{!! __('Total') !!}</th>
+      <td style="background:#F9EFB7">
                 <input type="text" class="form-control" readonly name="sub_total" id="sub_total"
-                style="background:#FFC5D7; border:none;text-align:center !important;"
+                style="background:#F9EFB7; border:none;text-align:center !important;"
                        value="{{isset($purchaseQuotation) ? $purchaseQuotation->sub_total : 0}}">
             </td>
       </tr>
@@ -72,7 +72,7 @@
 
   <li>
   <input type="number" name="supplier_discount" min="0" readonly="readonly"
-
+  style="background:#D2F4F6; border:none;text-align:center !important;"
                class="form-control text-center supplier_discount"
                
                value="{{isset($purchaseQuotation) ? $purchaseQuotation->supplier_discount : 0}}">
@@ -127,8 +127,9 @@
 <table class="table table-bordered">
       <tr>
       <th style="width:40%;height:50px;background:#FFC5D7 !important;color:black !important">{!! __('Total After Discount') !!}</th>
-      <td>
+      <td  style="background:#FFC5D7">
                 <input type="text" class="form-control" readonly
+                style="background:#FFC5D7; border:none;text-align:center !important;"
                        value="{{isset($purchaseQuotation) ? $purchaseQuotation->total_after_discount : 0}}"
                        name="total_after_discount" id="total_after_discount">
             </td>
@@ -141,7 +142,7 @@
       <tr>
       <th style="width:40%;height:50px;background:#FFC5D7 !important;color:black !important">
                 <div class="btn-group ">
-                    <span type="button" class="fa fa-eye  eye-design-one dropdown-toggle" data-toggle="dropdown"
+                    <span type="button" class="fa fa-eye eye-design-one dropdown-toggle" data-toggle="dropdown"
                           
                           aria-haspopup="true" aria-expanded="false"> </span>
 
@@ -188,8 +189,10 @@
 
                 {!! __('Taxes') !!}
             </th>
-            <td>
-                <input type="text" class="form-control" readonly name="tax" id="tax"
+            <td  style="background:#FFC5D7">
+                <input type="text" class="form-control"
+                style="background:#FFC5D7; border:none;text-align:center !important;"
+                 readonly name="tax" id="tax"
                        value=" {{isset($purchaseQuotation) ? $purchaseQuotation->tax : 0}}"
                 >
             </td>
@@ -205,7 +208,7 @@
 
 <table class="table table-bordered">
       <tr>
-      <th scope="col" style="width: 40%;height:50px">
+      <th style="width:40%;height:50px;background:#D2CCF8 !important;color:black !important">
                 <div class="btn-group ">
                     <span type="button" class="fa fa-eye eye-design-two  dropdown-toggle" data-toggle="dropdown"
                           
@@ -256,8 +259,10 @@
 
                 {!! __('Additional Payments') !!}
             </th>
-            <td>
-                <input type="text" class="form-control" readonly name="additional_payments_value" id="additional_payments"
+            <td style="background:#D2CCF8 !important">
+                <input type="text" class="form-control" 
+                style="background:#D2CCF8; border:none;text-align:center !important;"
+                readonly name="additional_payments_value" id="additional_payments"
                        value=" {{isset($purchaseQuotation) ? $purchaseQuotation->additional_payments : 0}}"
                 >
             </td>
@@ -268,9 +273,11 @@
 <div class="col-md-6">
 <table class="table table-bordered">
       <tr>
-      <th scope="col" style="width: 40%;height:50px">{!! __('Final Total') !!}</th>
-      <td>
-                <input type="text" class="form-control" readonly name="total" id="total"
+      <th style="width:40%;height:50px;background:#D2CCF8 !important;color:black !important">{!! __('Final Total') !!}</th>
+      <td style="background:#D2CCF8 !important">
+                <input type="text" class="form-control" 
+                style="background:#D2CCF8; border:none;text-align:center !important;"
+                readonly name="total" id="total"
                        value="{{isset($purchaseQuotation) ? $purchaseQuotation->total : 0}}">
             </td>
       </tr>
