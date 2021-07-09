@@ -195,7 +195,14 @@
             @else
             </div>
                 <div class="col-md-12">
-                  <h3 class="text-center">{{__('No Stores officials')}}</h3>
+                  <ul class="list-inline no-officials" style="margin:0;padding:0">
+                    <li class="icon-official">
+                    <h4 ><i class="fa fa-bell"></i></h4>
+                    </li>
+                    <li>
+                    <h4 class="text-for-official">{{__('No Stores officials')}}</h4>
+                    </li>
+                  </ul>
                 </div>
             @endif
         </div>

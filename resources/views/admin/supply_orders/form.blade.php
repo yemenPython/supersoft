@@ -106,6 +106,10 @@
                 {{input_error($errors,'time')}}
             </div>
         </div>
+        </div>
+
+
+        <div class="col-md-12">
 
         <div class="col-md-3 purchase_request_type"
              style="{{isset($purchaseQuotation) && $purchaseQuotation->type != 'from_purchase_request'? 'display:none':''}}">
@@ -132,7 +136,38 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+      
+
+        <div class="col-md-9 purchase_request_type">
+            <div class="form-group">
+         
+
+                <div class="input-group">
+                <label style="opacity:0">CHOOSE</label>
+                <ul class="list-inline" style="display:flex">
+                    <li> <button type="button" onclick="getPurchaseQuotations(); quotationType()"
+                            class="btn btn-primary waves-effect waves-light btn-xs">
+                        {{__('Get Purchase Quotations')}}
+                    </button></li>
+                    <li>
+                    <button type="button" class="btn btn-danger waves-effect waves-light btn-xs"
+                            data-toggle="modal" data-target="#purchase_quotations" style="margin-right: 10px;">
+                        {{__('Show Quotations')}}
+                    </button>
+                    <li>
+                </ul>
+                   
+
+                    
+                </div>
+            </div>
+        </div>
+
+        </div>
+
+<div class="col-md-12">
+
+        <div class="col-md-8">
             <div class="form-group has-feedback">
                 <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
                 <div class="input-group">
@@ -157,26 +192,7 @@
             </div>
         </div>
 
-        <div class="col-md-3 purchase_request_type">
-            <div class="form-group">
-         
-
-                <div class="input-group">
-                    <button type="button" onclick="getPurchaseQuotations(); quotationType()"
-                            class="btn btn-primary waves-effect waves-light btn-xs">
-                        {{__('Get Purchase Quotations')}}
-                    </button>
-
-                    <button type="button" class="btn btn-danger waves-effect waves-light btn-xs"
-                            data-toggle="modal" data-target="#purchase_quotations" style="margin-right: 10px;">
-                        {{__('Show Quotations')}}
-                    </button>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="form-group has-feedback">
                 <label for="inputStore" class="control-label">{{__('Status')}}</label>
                 <div class="input-group">
@@ -208,10 +224,9 @@
             </div>
         </div>
 
-        
         </div>
         </div>
- 
+     
 
         <div class="row center-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
@@ -293,7 +308,7 @@
     </div>
 
 
-    <div class="row center-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+    <div class="row bottom-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
     @include('admin.supply_orders.financial_details')
 

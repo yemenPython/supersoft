@@ -20,8 +20,8 @@
         </div>
     </td>
 
-    <td>
-        <div class="input-group">
+    <td style="background:#FBE3E6 !important">
+        <div class="input-group" >
             @if(isset($update_item))
                 <span>{{isset($update_item) ? $update_item->price : __('Not determined')}}</span>
             @else
