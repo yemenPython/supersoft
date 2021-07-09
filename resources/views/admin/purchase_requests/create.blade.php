@@ -176,6 +176,11 @@
 
             let part_id = $('#parts_select').find(":selected").val();
 
+            if (!checkOldItems(part_id)) {
+                swal({text: '{{__('sorry, this item selected before ')}}', icon: "error"});
+                return false;
+            }
+
             let index = $('#items_count').val();
 
             let branch_id = $('#branch_id').find(":selected").val();
@@ -281,6 +286,26 @@
             }
 
             return false;
+        }
+
+        function checkOldItems(part_id) {
+
+            let items_count = $('#items_count').val();
+
+            let partIds = [];
+
+            for (let i = 1; i <= items_count; i++) {
+
+                if ($('#quantity_' + i).length) {
+                    partIds.push($('#part_id_index_' + i).val());
+                }
+            }
+
+            if (partIds.includes(part_id)) {
+                return false;
+            }
+
+            return true;
         }
 
     </script>

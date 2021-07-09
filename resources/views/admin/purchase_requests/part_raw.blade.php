@@ -5,9 +5,8 @@
     </td>
 
     <td class="text-center">
-        <!-- <input type="text" disabled value="{{$part->name}}" class="form-control" style="text-align: center;"> -->
-        <span>{{$part->name}}</span> 
-        <input type="hidden" value="{{$part->id}}" name="items[{{$index}}][part_id]" class="form-control"
+        <span>{{$part->name}}</span>
+        <input type="hidden" value="{{$part->id}}" name="items[{{$index}}][part_id]" id="part_id_index_{{$index}}" class="form-control"
                style="text-align: center;">
 
         @if(isset($item) && isset($request_type) && $request_type == 'approval')
@@ -56,7 +55,7 @@
     @endif
 
     <td>
-     
+
         <a data-toggle="modal" data-target="#part_types_{{$index}}" title="Part Types" class="btn btn-info">
                 <i class="fa fa-check-circle"> </i> {{__('Types')}}
             </a>
@@ -75,7 +74,7 @@
 </div>
 
 
-  
+
     </td>
 
     <td style="display: none;">

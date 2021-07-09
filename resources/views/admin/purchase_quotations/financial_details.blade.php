@@ -1,22 +1,28 @@
-<div class="form-group has-feedback col-sm-12">
+<div class="col-md-12 input-height">
+
+<div class="col-md-6">
    
-<table class="table table-bordered bg-table1">
+<table class="table table-bordered">
       <tr>
-      <th scope="col" style="width: 250px;">{!! __('Total') !!}</th>
-      <td>
+      <th style="width:40%;height:50px;background:#FFC5D7 !important;color:black !important">{!! __('Total') !!}</th>
+      <td style="background:#FFC5D7">
                 <input type="text" class="form-control" readonly name="sub_total" id="sub_total"
+                style="background:#FFC5D7; border:none;text-align:center !important;"
                        value="{{isset($purchaseQuotation) ? $purchaseQuotation->sub_total : 0}}">
             </td>
       </tr>
 </table>
+</div>
 
-<table class="table table-bordered bg-table2">
+<div class="col-md-6">
+
+<table class="table table-bordered">
       <tr>
-      <th scope="col" style="width: 250px;">{!! __('Discount Type') !!}</th>
-      <td>
+      <th style="width:40%;height:50px;background:#F9EFB7 !important;color:black !important">{!! __('Discount Type') !!}</th>
+      <td style="background:#F9EFB7">
       <ul class="list-inline" style="margin: 0;padding:0">
                         <li>
-                        <div class="radio primary">
+                        <div class="radio primary remove-padd-marg">
                     <input type="radio" name="discount_type" id="discount_type_amount"
                            {{isset($purchaseQuotation) && $purchaseQuotation->discount_type == 'amount' ? 'checked': '' }}
                            value="amount"
@@ -25,7 +31,7 @@
                 </div>
                         </li>
                         <li>
-                        <div class="radio primary">
+                        <div class="radio primary remove-padd-marg">
                     <input type="radio" name="discount_type"
                            {{isset($purchaseQuotation) && $purchaseQuotation->discount_type == 'percent' ? 'checked': '' }}
                            id="discount_type_percent" value="percent"
@@ -41,12 +47,66 @@
             </td>
       </tr>
 </table>
-      
-<table class="table table-bordered bg-table3">
+</div>
+
+</div>
+
+<div class="col-md-12 input-height">
+
+
+<div class="col-md-6">
+
+<table class="table table-bordered">
       <tr>
-      <th scope="col" style="width: 250px;">{!! __('Discount') !!}</th>
-      <td>
-                <input type="number" class="form-control"
+      <th style="width:40%;height:50px;background:#D2F4F6 !important;color:black !important">{!! __('Supplier Discount') !!}</th>
+      <td style="background:#D2F4F6 !important;color:black!important">
+<ul class="list-inline flex-div-cen">
+  <li>
+  <div class="has-feedback">
+            <input type="checkbox" 
+            
+            id="supplier_discount_check" name="supplier_discount_active" onclick="calculateTotal()"
+                {{isset($purchaseQuotation) && $purchaseQuotation->supplier_discount_active ? 'checked' : ''}}>
+        </div>
+  </li>
+
+  <li>
+  <input type="number" name="supplier_discount" min="0" readonly="readonly"
+
+               class="form-control text-center supplier_discount"
+               
+               value="{{isset($purchaseQuotation) ? $purchaseQuotation->supplier_discount : 0}}">
+  </li>
+
+  <li>
+  <input type="text" disabled="disabled" 
+
+  class="form-control text-center supplier_discount_type"
+               value="{{isset($purchaseQuotation) && $purchaseQuotation->supplier_discount_type == 'percent' ? '%' : '$'}}"
+               style="width: 42px;">
+
+        <input type="hidden" name="supplier_discount_type" 
+
+         class="supplier_discount_type_value"
+               value="{{isset($purchaseQuotation) ? $purchaseQuotation->supplier_discount_type : 'amount'}}">
+    
+  </li>
+</ul>
+
+
+</td>
+      </tr>
+</table>
+</div>
+
+<div class="col-md-6">
+      
+<table class="table table-bordered">
+      <tr>
+      <th style="width:40%;height:50px;background:#D2F4F6 !important;color:black !important">{!! __('Discount') !!}</th>
+      <td style="background:#D2F4F6 !important;color:black!important">
+                <input type="number" class="form-control text-center"
+                
                        value="{{isset($purchaseQuotation) ? $purchaseQuotation->discount : 0}}"
                        id="discount"
                        onchange="calculateInvoiceDiscount()"
@@ -55,44 +115,18 @@
             </td>
       </tr>
 </table>
-      
-<table class="table table-bordered bg-table4">
-      <tr>
-      <th scope="col" style="width: 250px;">{!! __('Supplier Discount') !!}</th>
-      <td>
-
-<div class="row">
-    <div class="col-md-1" style="margin-top: 4px;">
-        <div class="form-group has-feedback">
-            <input type="checkbox" id="supplier_discount_check" name="supplier_discount_active" onclick="calculateTotal()"
-                {{isset($purchaseQuotation) && $purchaseQuotation->supplier_discount_active ? 'checked' : ''}}>
-        </div>
-    </div>
-
-    <div class="col-md-1">
-
-        <input type="text" disabled="disabled" class="form-control supplier_discount_type"
-               value="{{isset($purchaseQuotation) && $purchaseQuotation->supplier_discount_type == 'percent' ? '%' : '$'}}"
-               style="width: 42px;">
-
-        <input type="hidden" name="supplier_discount_type"  class="supplier_discount_type_value"
-               value="{{isset($purchaseQuotation) ? $purchaseQuotation->supplier_discount_type : 'amount'}}">
-    </div>
-
-    <div class="col-md-10">
-        <input type="number" name="supplier_discount" min="0" readonly="readonly"
-               class="form-control supplier_discount"
-               value="{{isset($purchaseQuotation) ? $purchaseQuotation->supplier_discount : 0}}">
-    </div>
 </div>
 
-</td>
-      </tr>
-</table>
 
-<table class="table table-bordered bg-table5">
+</div>
+
+
+<div class="col-md-12 input-height">
+
+<div class="col-md-6">
+<table class="table table-bordered">
       <tr>
-      <th scope="col" style="width: 250px;">{!! __('Total After Discount') !!}</th>
+      <th style="width:40%;height:50px;background:#FFC5D7 !important;color:black !important">{!! __('Total After Discount') !!}</th>
       <td>
                 <input type="text" class="form-control" readonly
                        value="{{isset($purchaseQuotation) ? $purchaseQuotation->total_after_discount : 0}}"
@@ -100,13 +134,15 @@
             </td>
       </tr>
 </table>
+</div>
 
-<table class="table table-bordered bg-table6">
+<div class="col-md-6">
+<table class="table table-bordered">
       <tr>
-      <th scope="col" style="width: 250px;">
+      <th style="width:40%;height:50px;background:#FFC5D7 !important;color:black !important">
                 <div class="btn-group ">
-                    <span type="button" class="fa fa-usd  dropdown-toggle" data-toggle="dropdown"
-                          style="background-color: rgb(244, 67, 54); color: white; padding: 3px; border-radius: 5px; cursor: pointer"
+                    <span type="button" class="fa fa-eye  eye-design-one dropdown-toggle" data-toggle="dropdown"
+                          
                           aria-haspopup="true" aria-expanded="false"> </span>
 
                     <ul class="dropdown-menu" style="margin-top: 19px;">
@@ -159,13 +195,20 @@
             </td>
       </tr>
 </table>
+</div>
 
-<table class="table table-bordered bg-table7">
+</div>
+
+
+<div class="col-md-12 input-height">
+<div class="col-md-6">
+
+<table class="table table-bordered">
       <tr>
-      <th scope="col" style="width: 250px;">
+      <th scope="col" style="width: 40%;height:50px">
                 <div class="btn-group ">
-                    <span type="button" class="fa fa-usd  dropdown-toggle" data-toggle="dropdown"
-                          style="background-color: rgb(244, 67, 54); color: white; padding: 3px; border-radius: 5px; cursor: pointer"
+                    <span type="button" class="fa fa-eye eye-design-two  dropdown-toggle" data-toggle="dropdown"
+                          
                           aria-haspopup="true" aria-expanded="false"> </span>
 
                     <ul class="dropdown-menu" style="margin-top: 19px;">
@@ -220,10 +263,12 @@
             </td>
       </tr>
 </table>
-      
-<table class="table table-bordered bg-table8">
+</div>
+
+<div class="col-md-6">
+<table class="table table-bordered">
       <tr>
-      <th scope="col" style="width: 250px;">{!! __('Final Total') !!}</th>
+      <th scope="col" style="width: 40%;height:50px">{!! __('Final Total') !!}</th>
       <td>
                 <input type="text" class="form-control" readonly name="total" id="total"
                        value="{{isset($purchaseQuotation) ? $purchaseQuotation->total : 0}}">
@@ -232,4 +277,5 @@
 
 </table>
 
+</div>
 </div>

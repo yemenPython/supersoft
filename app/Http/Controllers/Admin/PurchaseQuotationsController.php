@@ -128,22 +128,22 @@ class PurchaseQuotationsController extends Controller
                     $purchaseQuotationItem->taxes()->attach($item['taxes']);
                 }
 
-                if (isset($item['item_types'])) {
-
-                    foreach ($item['item_types'] as $item_type) {
-
-                        if (!isset($item_type['id'])) {
-                            continue;
-                        }
-
-                        DB::table('purchase_quotation_items_spare_parts')
-                            ->insert([
-                                'item_id' => $purchaseQuotationItem->id,
-                                'spare_part_id' => $item_type['id'],
-                                'price' => $item_type['price'],
-                            ]);
-                    }
-                }
+//                if (isset($item['item_types'])) {
+//
+//                    foreach ($item['item_types'] as $item_type) {
+//
+//                        if (!isset($item_type['id'])) {
+//                            continue;
+//                        }
+//
+//                        DB::table('purchase_quotation_items_spare_parts')
+//                            ->insert([
+//                                'item_id' => $purchaseQuotationItem->id,
+//                                'spare_part_id' => $item_type['id'],
+//                                'price' => $item_type['price'],
+//                            ]);
+//                    }
+//                }
             }
 
             DB::commit();
@@ -293,29 +293,32 @@ class PurchaseQuotationsController extends Controller
 
             $purchaseRequest = PurchaseRequest::with('items')->find($request['purchase_request_id']);
 
-            $itemsCount = $purchaseRequest->items->count();
-
             $view = view('admin.purchase_quotations.purchase_request_items', compact('purchaseRequest'))->render();
 
             $partTypesViews = [];
 
-            foreach($purchaseRequest->items as $index=>$item) {
+            $index = 0;
 
-                $selectedTypes = $item->spareParts->pluck('id')->toArray();
+            foreach($purchaseRequest->items as $item) {
 
-                $index +=1;
+                foreach ($item->spareParts as $itemType) {
 
-                $part = $item->part;
+                    $index +=1;
 
-                $partMainTypes = $part->spareParts()->where('status', 1)->whereNull('spare_part_id')->orderBy('id', 'ASC')->get();
+                    $selectedTypes = $item->spareParts->pluck('id')->toArray();
 
-                $partTypes = $this->purchaseQuotationServices->getPartTypes($partMainTypes, $part->id);
+                    $part = $item->part;
 
-                $partTypesViews[$index] = view('admin.purchase_quotations.part_types',
-                    compact( 'part','index', 'partTypes', 'selectedTypes'))->render();
+                    $partMainTypes = $part->spareParts()->where('status', 1)->whereNull('spare_part_id')->orderBy('id', 'ASC')->get();
+
+                    $partTypes = $this->purchaseQuotationServices->getPartTypes($partMainTypes, $part->id);
+
+                    $partTypesViews[$index] = view('admin.purchase_quotations.part_types',
+                        compact( 'part','index', 'partTypes', 'selectedTypes'))->render();
+                }
             }
 
-            return response()->json(['view' => $view,  'index' => $itemsCount, 'partTypesViews'=>$partTypesViews], 200);
+            return response()->json(['view' => $view,  'index' => $index, 'partTypesViews'=>$partTypesViews], 200);
 
         } catch (\Exception $e) {
 

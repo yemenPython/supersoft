@@ -65,8 +65,8 @@
 
 <div class="col-md-12">
     <button type="button" title="new price" onclick="newSupplier()"
-            class="btn btn-sm btn-primary">
-        <li class="fa fa-plus"></li>
+            class="btn btn-sm btn-info">
+            <li class="fa fa-plus"></li> {{__('New supplier')}}
     </button>
     <hr>
 </div>

@@ -25,6 +25,7 @@ trait PurchaseInvoiceServices
             'last_purchase_price' => 0,
             'discount_type' => $item['discount_type'],
             'discount' => $item['discount'],
+            'spare_part_id' => $item['spare_part_id'],
 
             'part_price_id' => $item['part_price_id'],
             'part_price_segment_id' => isset($item['part_price_segment_id']) ? $item['part_price_segment_id'] : null,

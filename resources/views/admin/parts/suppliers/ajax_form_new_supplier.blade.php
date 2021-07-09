@@ -17,7 +17,7 @@
         </div>
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-4">
         <div class="form-group">
 
             <label for="exampleInputEmail1">{{__('phone')}}</label>
@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-8">
         <div class="form-group">
             <label for="exampleInputEmail1">{{__('Address')}}</label>
             <input type="text" readonly min="0" name="contacts[{{$index}}][phone_2]" id="address{{$index}}" class="form-control">

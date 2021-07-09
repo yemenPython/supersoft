@@ -5,11 +5,12 @@
         <tr>
             <th width="2%"> # </th>
             <th width="9%"> {{ __('Name') }} </th>
+            <th width="15%"> {{ __('Part Types') }} </th>
             <th width="8%"> {{ __('Unit') }} </th>
             <th width="8%"> {{ __('Price Segments') }} </th>
             <th width="7%"> {{ __('Quantity') }} </th>
             <th width="8%"> {{ __('Price') }} </th>
-          
+
             <th width="4%"> {{ __('Discount Type') }} </th>
             <th width="5%"> {{ __('Discount') }} </th>
             <th width="8%"> {{ __('Total Before Discount') }} </th>
@@ -38,11 +39,12 @@
         <tr>
             <th width="2%"> # </th>
             <th width="9%"> {{ __('Name') }} </th>
+            <th width="15%"> {{ __('Part Types') }} </th>
             <th width="8%"> {{ __('Unit') }} </th>
             <th width="8%"> {{ __('Price Segments') }} </th>
             <th width="7%"> {{ __('Quantity') }} </th>
             <th width="8%"> {{ __('Price') }} </th>
-        
+
             <th width="4%"> {{ __('Discount Type') }} </th>
             <th width="5%"> {{ __('Discount') }} </th>
             <th width="8%"> {{ __('Total Before Discount') }} </th>

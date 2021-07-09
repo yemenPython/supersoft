@@ -78,11 +78,12 @@
                                     <th scope="col">{!! __('Purchase Request Number') !!}</th>
                                     <th scope="col">{!! __('Supplier name') !!}</th>
                                     <th scope="col">{!! __('Part') !!}</th>
+                                    <th scope="col">{!! __('Part Type') !!}</th>
                                     <th scope="col">{!! __('Unit') !!}</th>
                                     <th scope="col">{!! __('Price Segments') !!}</th>
                                     <th scope="col">{!! __('Quantity') !!}</th>
                                     <th scope="col">{!! __('Price') !!}</th>
-                          
+
                                     <th scope="col">{!! __('Discount Type') !!}</th>
                                     <th scope="col">{!! __('Discount') !!}</th>
                                     <th scope="col">{!! __('Total Before Discount') !!}</th>
@@ -107,11 +108,12 @@
                                     <th scope="col">{!! __('Purchase Request Number') !!}</th>
                                     <th scope="col">{!! __('Supplier') !!}</th>
                                     <th scope="col">{!! __('Part') !!}</th>
+                                    <th scope="col">{!! __('Part Type') !!}</th>
                                     <th scope="col">{!! __('Unit') !!}</th>
                                     <th scope="col">{!! __('Price Segments') !!}</th>
                                     <th scope="col">{!! __('Quantity') !!}</th>
                                     <th scope="col">{!! __('Price') !!}</th>
-                        
+
                                     <th scope="col">{!! __('Discount Type') !!}</th>
                                     <th scope="col">{!! __('Discount') !!}</th>
                                     <th scope="col">{!! __('Total Before Discount') !!}</th>
@@ -140,6 +142,7 @@
                                             </td>
                                             <td>{{optional($purchaseQuotation->supplier)->name}}</td>
                                             <td>{{optional($item->part)->name}}</td>
+                                            <td>{{$item->sparePart ? $item->sparePart->type : '---'}}</td>
                                             <td>{{optional($item->partPrice->unit)->unit}}</td>
                                             <td>
                                             <span class="price-span">
@@ -147,27 +150,27 @@
                                             </span>
                                             </td>
                                             <td style="background:#FBE3E6 !important">
-                                            {{$item->quantity}}
+                                                {{$item->quantity}}
                                             </td>
                                             <td style="background:#E3FBEA !important">
-                                            {{$item->price}}
+                                                {{$item->price}}
                                             </td>
 
                                             <td>{{__($item->discount_type)}}</td>
                                             <td style="background:#E3E3FB !important">
-                                            {{$item->discount}}
+                                                {{$item->discount}}
                                             </td>
                                             <td style="background:#FBE3EA !important">
-                                            {{$item->sub_total}}
+                                                {{$item->sub_total}}
                                             </td>
                                             <td style="background:#E3E3FB !important">
-                                            {{$item->total_after_discount}}
+                                                {{$item->total_after_discount}}
                                             </td>
                                             <td style="background:#E3F6FB !important">
-                                            {{$item->tax}}
+                                                {{$item->tax}}
                                             </td>
                                             <td style="background:#FBFAD4 !important">
-                                            {{$item->total}}
+                                                {{$item->total}}
                                             </td>
                                             <td>
                                                 <a style="cursor:pointer" class="btn btn-print-wg text-white  "

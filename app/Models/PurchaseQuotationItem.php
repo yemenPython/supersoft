@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PurchaseQuotationItem extends Model
 {
     protected $fillable = ['purchase_quotation_id', 'part_id', 'part_price_id', 'quantity', 'price', 'sub_total', 'discount',
-        'discount_type', 'total_after_discount', 'tax', 'total', 'active', 'part_price_segment_id'];
+        'discount_type', 'total_after_discount', 'tax', 'total', 'active', 'part_price_segment_id', 'spare_part_id'];
 
 
     protected $table = 'purchase_quotation_items';
@@ -41,5 +41,10 @@ class PurchaseQuotationItem extends Model
     {
         return $this->belongsToMany(SparePart::class, 'purchase_quotation_items_spare_parts', 'item_id', 'spare_part_id')
             ->withPivot('price');
+    }
+
+    public function sparePart()
+    {
+        return $this->belongsTo(SparePart::class, 'spare_part_id');
     }
 }

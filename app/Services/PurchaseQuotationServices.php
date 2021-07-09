@@ -17,6 +17,7 @@ class PurchaseQuotationServices
             'price' => $item['price'],
             'discount' => $item['discount'],
             'discount_type' => $item['discount_type'],
+            'spare_part_id' => $item['spare_part_id'],
             'active' => isset($item['checked']) ? 1 : 0,
             'sub_total' => $item['quantity'] * $item['price']
         ];

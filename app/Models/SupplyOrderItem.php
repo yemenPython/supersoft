@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class SupplyOrderItem extends Model
 {
     protected $fillable = ['supply_order_id', 'part_id', 'part_price_id', 'quantity', 'price', 'sub_total', 'discount',
-        'discount_type', 'total_after_discount', 'tax', 'total', 'active', 'part_price_segment_id'];
+        'discount_type', 'total_after_discount', 'tax', 'total', 'active', 'part_price_segment_id', 'spare_part_id'];
 
     protected $table = 'supply_order_items';
 
@@ -36,13 +36,20 @@ class SupplyOrderItem extends Model
         return $this->belongsTo(PartPriceSegment::class, 'part_price_segment_id');
     }
 
-    public function getRemainingQuantityForAcceptAttribute () {
+    public function getRemainingQuantityForAcceptAttribute()
+    {
 
         $acceptedQuantity = PurchaseReceiptItem::where('supply_order_item_id', $this->id)->sum('accepted_quantity');
         return $this->quantity - $acceptedQuantity;
     }
 
-    public function getAcceptedQuantityAttribute () {
+    public function getAcceptedQuantityAttribute()
+    {
         return PurchaseReceiptItem::where('supply_order_item_id', $this->id)->sum('accepted_quantity');
+    }
+
+    public function sparePart()
+    {
+        return $this->belongsTo(SparePart::class, 'spare_part-id');
     }
 }

@@ -504,14 +504,10 @@ footer {
 }
 
 .wg-inside-table th {
-    background-color: #a9c1f5 !important;
+    background-color: #a9b8fa !important;
     color: #333;
 }
 
-.bg-table1,
-.bg-table1 th {
-    background: red !important
-}
 
 .bg-table2,
 .bg-table2 th {
@@ -521,4 +517,77 @@ footer {
 .bg-table3,
 .bg-table3 th {
     background: #acec58 !important
+}
+
+#supplier_discount_check {
+    height: 20px !important;
+}
+
+.remove-padd-marg
+{
+    padding:0;
+    margin:0
+}
+
+.top-space
+{
+    margin-top:3px
+}
+
+.input-height input
+{
+    /* padding:20px !important */
+    height:30px !important
+}
+
+.eye-design-one
+{
+    background-color: rgb(255, 197, 215);
+    color: rgb(103, 99, 99);
+    padding: 3px 10px;
+   
+    cursor: pointer;
+    font-size: 20px;
+    border: 1px solid rgb(124, 124, 124);
+    position: absolute;
+    left: 16px;
+    top: -10px;
+}
+
+.eye-design-two
+{
+    background-color:rgb(86, 133, 204) !important;
+    color: #FFF;
+    padding: 3px 10px;
+  
+    cursor: pointer;
+    font-size: 20px;
+    border: 1px solid #FFF;
+    position: absolute;
+    left: 0px;
+    top: -10px;
+}
+
+.flex-div-cen
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.flex-div-cen li:last-of-type
+{
+    padding:0 !important;
+    margin:0 !important
+}
+
+@media (max-width:615px)
+{
+    .eye-design-one,
+    .eye-design-two
+    {
+        position:initial !important;
+        display: block;
+    } 
 }

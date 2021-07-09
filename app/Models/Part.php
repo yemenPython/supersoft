@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\OpeningStockBalance\Models\OpeningBalanceItems;
 use App\Scopes\BranchScope;
+use App\Traits\SubTypesServices;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\DB;
@@ -11,7 +12,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Part extends Model
 {
-    use SoftDeletes, LogsActivity;
+    use SoftDeletes, LogsActivity, SubTypesServices;
 
     protected static $logAttributes = ['name_ar', 'name_en', 'quantity'];
 
@@ -227,5 +228,12 @@ class Part extends Model
         }
 
         return $firstPrice->damage_price;
+    }
+
+    public function getPartTypesTreeAttribute () {
+
+        $types = $this->spareParts()->where('status',1)->where('spare_part_id',null)->get();
+
+        return $this->getAllPartTypes($types);
     }
 }

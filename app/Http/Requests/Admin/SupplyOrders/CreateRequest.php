@@ -41,9 +41,9 @@ class CreateRequest extends FormRequest
             'items.*.price' => 'required|numeric|min:0',
             'items.*.discount' => 'required|numeric|min:0',
             'items.*.discount_type' => 'required|string|in:amount,percent',
+            'items.*.spare_part_id' => 'required|integer|exists:spare_parts,id',
 
             'taxes.*' => 'nullable|integer|exists:taxes_fees,id',
-//            'terms.*' => 'nullable|integer|exists:supply_terms,id',
         ];
 
         if (authIsSuperAdmin()) {
