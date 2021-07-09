@@ -68,7 +68,6 @@ class PurchaseAssetsController extends Controller
         DB::beginTransaction();
         try {
             $data = $request->all();
-//
             $invoice_data = [
                 'invoice_number' => $data['invoice_number'],
                 'date' => $data['date'],
@@ -95,6 +94,11 @@ class PurchaseAssetsController extends Controller
                     'annual_consumtion_rate' => $item['annual_consumtion_rate'],
                     'asset_age' => $item['asset_age'],
                 ] );
+
+                $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
+                $sum_total_current_consumtion_for_group = $assetGroup->assets()->sum( 'total_current_consumtion' );
+                $assetGroup->update( ['total_consumtion' => $sum_total_current_consumtion_for_group] );
+
                 PurchaseAssetItem::create( [
                     'purchase_asset_id' => $purchaseAsset->id,
                     'asset_id' => $item['asset_id'],
@@ -183,6 +187,9 @@ class PurchaseAssetsController extends Controller
                     'annual_consumtion_rate' => $item['annual_consumtion_rate'],
                     'asset_age' => $item['asset_age'],
                 ] );
+                $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
+                $sum_total_current_consumtion_for_group = $assetGroup->assets()->sum( 'total_current_consumtion' );
+                $assetGroup->update( ['total_consumtion' => $sum_total_current_consumtion_for_group] );
                 PurchaseAssetItem::create( [
                     'purchase_asset_id' => $purchaseAsset->id,
                     'asset_id' => $item['asset_id'],

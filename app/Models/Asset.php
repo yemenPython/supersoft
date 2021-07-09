@@ -42,6 +42,7 @@ class Asset extends Model
         'updated_at',
         'deleted_at',
         'user_id',
+        'total_replacements'
     ];
 
     protected static $logAttributes = [
@@ -61,6 +62,7 @@ class Asset extends Model
         'current_consumtion',
         'total_current_consumtion',
         'book_value',
+        'total_replacements'
      ];
 
     protected static $logOnlyDirty = true;
@@ -94,5 +96,9 @@ class Asset extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+    public function replacements()
+    {
+        return $this->hasMany(AssetReplacementItem::class,'asset_id');
     }
 }

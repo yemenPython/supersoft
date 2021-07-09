@@ -112,6 +112,7 @@
                     totalPurchaseCost(index);
                     totalPastConsumtion(index);
                     netTotal(index);
+                    totalReplacements()
                 }
             });
         }
@@ -207,7 +208,7 @@
             let date_from = $('#date_from').val();
             let date_to = $('#date_to').val();
             $.ajax({
-                url: "{{ route('admin:consumption_assets.getAssetsByAssetId') }}?asset_id=" + $(this).val(),
+                url: "{{ route('admin:consumption_assets.get_Assets_By_Asset_Id') }}?asset_id=" + $(this).val(),
                 method: 'get',
                 data: {
                     asset_id: $(this).val(),
@@ -224,6 +225,7 @@
                     totalPastConsumtion(index);
                     netTotal(index);
                     consumptionAmount(data.index);
+                    totalReplacements();
                     $('.js-example-basic-single').select2();
                 },
                 error: function (jqXhr, json, errorThrown) {
@@ -257,6 +259,14 @@
                 total = +total + +value;
             });
             $('#total_past_consumtion').val(total);
+        }
+        function totalReplacements() {
+            let total = '';
+            $(".total_replacement").each(function () {
+                var value = $($(this)).val();
+                total = +total + +value;
+            });
+            $('#total_replacement').val(total);
         }
 
         function netTotal() {
@@ -333,8 +343,10 @@
         function consumptionAmount(index) {
             var date_from = $('#date_from').val();
             var date_to = $('#date_to').val();
-            var net_purchase_cost = $('.net_purchase_cost_' + index).val();
+            var total_net_purchase_cost = $('.net_purchase_cost_' + index).val();
+            var total_replacements = $('.total_replacements_' + index).val();
             var annual_consumtion_rate = $('.annual_consumtion_rate_' + index).val();
+            var net_purchase_cost = +total_net_purchase_cost + +total_replacements;
             if (date_from != '' && date_to != '' && net_purchase_cost != '' && annual_consumtion_rate != '') {
                 const date1 = new Date(date_from);
                 const date2 = new Date(date_to);
