@@ -50,7 +50,7 @@
         </tr>
         </tfoot>
 
-        <input type="hidden" name="index" id="items_count" value="{{isset($purchaseInvoice) ? $purchaseInvoice->items->count() : 0}}">
+        <input type="hidden" name="index" id="items_count" value="{{isset($purchaseAsset) ? $purchaseAsset->items->count() : 0}}">
     </table>
 </div>
 </div>

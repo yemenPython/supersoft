@@ -9,26 +9,25 @@
             <th scope="col"> {{ __('work date') }} </th>
             <th scope="col"> {{ __('purchase cost') }} </th>
             <th scope="col"> {{ __('past consumtion') }} </th>
-            <th scope="col"> {{ __('net purchase cost') }} </th>
-            <th scope="col"> {{ __('consumtion rate') }} </th>
-            <th scope="col"> {{ __('consumption amount') }} </th>
+            <th scope="col"> {{ __('replacement cost') }} </th>
+            <th scope="col"> {{ __('total consumtion') }} </th>
+            <th scope="col"> {{ __('final total consumption') }} </th>
+            <th scope="col"> {{ __('Sale amount') }} </th>
             <th width="5%"> {{ __('Action') }} </th>
-
-
-
         </tr>
+
         </thead>
         <tbody id="items_data">
-        @if(isset($consumptionAsset))
+        @if(isset($saleAsset))
 
-            @foreach ($consumptionAsset->items as $index => $update_item)
+            @foreach ($saleAsset->items as $index => $update_item)
                 @php
 
                     $index +=1;
                     $asset = $update_item->asset;
 
                 @endphp
-                @include('admin.consumption-assets.row')
+                @include('admin.sale-assets.row')
             @endforeach
         @endif
 
@@ -41,14 +40,15 @@
             <th scope="col"> {{ __('work date') }} </th>
             <th scope="col"> {{ __('purchase cost') }} </th>
             <th scope="col"> {{ __('past consumtion') }} </th>
-            <th scope="col"> {{ __('net purchase cost') }} </th>
-            <th scope="col"> {{ __('consumtion rate') }} </th>
-            <th scope="col"> {{ __('consumption amount') }} </th>
+            <th scope="col"> {{ __('replacement cost') }} </th>
+            <th scope="col"> {{ __('total consumtion') }} </th>
+            <th scope="col"> {{ __('final total consumption') }} </th>
+            <th scope="col"> {{ __('Sale amount') }} </th>
             <th width="5%"> {{ __('Action') }} </th>
         </tr>
         </tfoot>
 
-        <input type="hidden" name="index" id="items_count" value="{{isset($consumptionAsset) ? $consumptionAsset->items->count() : 0}}">
+        <input type="hidden" name="index" id="items_count" value="{{isset($saleAsset) ? $saleAsset->items->count() : 0}}">
     </table>
 </div>
 </div>
