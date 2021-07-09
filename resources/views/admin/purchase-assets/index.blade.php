@@ -54,16 +54,24 @@
 {{--                                                @endphp--}}
 {{--                                                @include($view_path . '.option-row')--}}
 
-                        <table id="datatable-with-btns" class="table table-striped table-bordered display" style="width:100%">
+                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover" style="width:100%">
                             <thead>
                             <tr>
                                 <th>#</th>
+                                <th scope="col">{!! __('Branch') !!}</th>
                                 <th class="text-center column-invoice-number"
                                     scope="col">{!! __('Invoice Number') !!}</th>
 
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
 
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
+                                
+                                <th>
+                                    {{__('Total')}}
+                            </th>
+                            <th class="text-center">{!! __('created at') !!}</th>
+                            <th class="text-center">{!! __('Updated at') !!}</th>
+                              
 
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">
@@ -80,12 +88,20 @@
                                 <tr>
 
                                     <td class="text-center">{{$loop->iteration}}</td>
+                                    <td class="text-center text-danger"> 
+                                    {!! optional($invoice->branch)->name !!}
+                                    </td>
                                     <td class="text-center column-invoice-number">{!! $invoice->invoice_number !!}</td>
 
                                     <td class="text-center column-date">{{$invoice->date}}{{$invoice->time}}</td>
 
                                     <td class="text-center column-supplier">{!! optional($invoice->supplier)->name !!}</td>
 
+                                    <td class="text-center">
+                                    {{$invoice->net_total}}
+                                    </td>
+                                    <td class="text-center column-created-at">{{ $invoice->created_at }}</td>
+                                        <td class="text-center column-created-at">{{ $invoice->updated_at }}</td>
                                     <td>
                                         <div class="btn-group margin-top-10">
 
@@ -95,6 +111,13 @@
 
                                             </button>
                                             <ul class="dropdown-menu dropdown-wg">
+                                            <li>
+                                                    <a style="cursor:pointer"class="btn btn-print-wg text-white  " data-toggle="modal" onclick="getPrintData('{{route('admin:purchase-assets.show',$invoice->id)}}')"
+                                                       data-target="#boostrapModal" title="{{__('print')}}">
+                                                        <i class="fa fa-print"></i> {{__('Print')}}
+                                                    </a>
+
+                                                </li>
                                                 <li>
 
                                                     @component('admin.buttons._edit_button',[
@@ -112,13 +135,7 @@
                                                     @endcomponent
                                                 </li>
 
-                                                <li>
-                                                    <a style="cursor:pointer"class="btn btn-print-wg text-white  " data-toggle="modal" onclick="getPrintData('{{route('admin:purchase-assets.show',$invoice->id)}}')"
-                                                       data-target="#boostrapModal" title="{{__('print')}}">
-                                                        <i class="fa fa-print"></i> {{__('Print')}}
-                                                    </a>
 
-                                                </li>
                                             </ul>
                                         </div>
                                     </td>
@@ -136,12 +153,18 @@
                             <tfoot>
                             <tr>
                                 <th>#</th>
+                                <th scope="col">{!! __('Branch') !!}</th>
                                 <th class="text-center column-invoice-number"
                                     scope="col">{!! __('Invoice Number') !!}</th>
 
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
 
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
+                                <th>
+                                    {{__('Total')}}
+                            </th>
+                            <th class="text-center">{!! __('created at') !!}</th>
+                            <th class="text-center">{!! __('Updated at') !!}</th>
 
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">{!! __('Select') !!}</th>

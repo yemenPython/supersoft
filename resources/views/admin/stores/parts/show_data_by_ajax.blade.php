@@ -115,7 +115,7 @@
                 
             <table class="table table-bordered wg-inside-table">
               <tr>
-                <th style="width: 50%;">
+                <th style="width: 47%;">
                 {{__('Employee Name In Arabic')}}
                 </th>
                 <td>
@@ -128,7 +128,7 @@
             <div class="col-md-12">
             <table class="table table-bordered wg-inside-table">
               <tr>
-                <th style="width: 50%;">
+                <th style="width: 47%;">
                 {{__('Employee Name In English')}}
                 </th>
                 <td>
@@ -158,7 +158,7 @@
                 {{__('Phone2')}}
                 </th>
                 <td>
-                {{$employeeHistory->start}}
+                {{optional($employeeHistory->employee)->phone2}}
                 </td>
               </tr>
             </table>
