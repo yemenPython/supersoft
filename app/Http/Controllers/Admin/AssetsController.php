@@ -136,7 +136,7 @@ class AssetsController extends Controller
             <i class="fa fa-trash"></i>  ' . __( 'Delete' ) . '
         </button>
 
-        <form style="display: none" method="POST" id="confirmDelete'.$asset->id.'" action="' . route( 'admin:assets.destroy', $asset->id ) . '">
+        <form style="display: none" method="POST" id="confirmDelete' . $asset->id . '" action="' . route( 'admin:assets.destroy', $asset->id ) . '">
             <input type="hidden" name="_method" value="DELETE">
            ' . @csrf_field() . '
         </form>
@@ -272,7 +272,8 @@ class AssetsController extends Controller
         $assetExaminations = AssetExamination::where( "asset_id", $asset->id )->get();
         $assetLicenses = AssetLicense::where( "asset_id", $asset->id )->get();
         $assetType = AssetType::where( "id", $asset->asset_type_id )->first();
-        $view = view( 'admin.assets.show', compact( "asset", "assetType", "assetEmployees", "assetInsurances", "assetExaminations", "assetLicenses" ) )->render();
+        $total_replacements = $asset->replacements()->sum( 'value_replacement' );
+        $view = view( 'admin.assets.show', compact( "asset", "assetType", "assetEmployees", "assetInsurances", "assetExaminations", "assetLicenses", 'total_replacements' ) )->render();
 
         return response()->json( ['view' => $view] );
     }
@@ -317,7 +318,8 @@ class AssetsController extends Controller
         $branches = Branch::select( ['id', 'name_ar', 'name_en'] )->get();
         $assetsGroups = AssetGroup::select( ['id', 'name_ar', 'name_en'] )->get();
         $assetsTypes = AssetType::select( ['id', 'name_ar', 'name_en'] )->get();
-        return view( 'admin.assets.edit', compact( 'asset', "assetsGroups", "branches", "assetsTypes" ) );
+        $total_replacements = $asset->replacements()->sum( 'value_replacement' );
+        return view( 'admin.assets.edit', compact( 'asset', "assetsGroups", "branches", "assetsTypes", 'total_replacements' ) );
     }
 
     public function update(AssetRequest $request, asset $asset)
@@ -328,6 +330,7 @@ class AssetsController extends Controller
         } else {
             $asset_age = 0;
         }
+        $book_value = $request->purchase_cost + $request->total_replacements - $asset->total_current_consumtion;
 
         $asset->update( [
             'asset_age' => $asset_age,
@@ -342,7 +345,9 @@ class AssetsController extends Controller
             'purchase_date' => $request->purchase_date,
             'date_of_work' => $request->date_of_work,
             'purchase_cost' => $request->purchase_cost,
+            'total_replacements' => $request->total_replacements,
             'user_id' => auth()->id(),
+            'book_value' => $book_value
         ] );
         return redirect()->to( 'admin/assets' )
             ->with( ['message' => __( 'words.asset-updated' ), 'alert-type' => 'success'] );
