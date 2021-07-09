@@ -141,11 +141,13 @@
       <tr>
       <th style="width:40%;height:50px;background:#FFC5D7 !important;color:black !important">
                 <div class="btn-group ">
-                    <span type="button" class="fa fa-eye  eye-design-one dropdown-toggle" data-toggle="dropdown"
+                    <span type="button" class="eye-design-one btn-1 dropdown-toggle" data-toggle="dropdown"
                           
-                          aria-haspopup="true" aria-expanded="false"> </span>
+                          aria-haspopup="true" aria-expanded="false">                   <i class="fa fa-eye"></i>
+</span>
 
-                    <ul class="dropdown-menu" style="margin-top: 19px;">
+
+                    <ul class="dropdown-menu for-design-eye" style="margin-top: 19px;">
                         @if($taxes->count())
                             @foreach($taxes as $tax_key => $tax)
 
@@ -207,11 +209,14 @@
       <tr>
       <th scope="col" style="width: 40%;height:50px">
                 <div class="btn-group ">
-                    <span type="button" class="fa fa-eye eye-design-two  dropdown-toggle" data-toggle="dropdown"
+                    <span type="button" class="eye-design-two btn-1 dropdown-toggle" data-toggle="dropdown"
                           
-                          aria-haspopup="true" aria-expanded="false"> </span>
+                          aria-haspopup="true" aria-expanded="false">
+                          <i class="fa fa-eye"></i>
 
-                    <ul class="dropdown-menu" style="margin-top: 19px;">
+                        </span>
+
+                    <ul class="dropdown-menu for-design-eye" style="margin-top: 19px;">
                         @if($additionalPayments->count())
                             @foreach($additionalPayments as $additional_key => $additionalPayment)
 

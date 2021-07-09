@@ -164,7 +164,7 @@
 
     <td>
         <div class="btn-group " style="display:flex !important;align-items:center">
-            <span type="button" class="fa fa-eye dropdown-toggle" data-toggle="dropdown"
+            <span type="button" class=" dropdown-toggle btn-1" data-toggle="dropdown"
                   style="
     color: #a776e7;
     padding: 6px 10px;
@@ -174,9 +174,10 @@
     font-size: 20px;
 }"
                   aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-eye"></i>
             </span>
 
-            <ul class="dropdown-menu" style="margin-top: 19px;">
+            <ul class="dropdown-menu for-design-eye-style" style="margin-top: 19px;">
                 @if($part->taxes->count())
                     @foreach($part->taxes as $tax_index => $tax)
 
