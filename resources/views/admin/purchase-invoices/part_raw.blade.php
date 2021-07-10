@@ -97,7 +97,7 @@
 
         @if(isset($item))
 
-            <input style="width: 100px !important;" type="number" class="form-control" id="quantity_{{$index}}"
+            <input style="width: 100px !important;" type="number" class="form-control border1" id="quantity_{{$index}}"
                    value="{{ $item->quantity}}" min="0"
                    name="items[{{$index}}][quantity]"
                    onchange="calculateItem('{{$index}}')" onkeyup="calculateItem('{{$index}}')">

@@ -46,11 +46,14 @@
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
                                 <th scope="col">{!! __('Number') !!}</th>
-                                <th scope="col">{!! __('Concession Status') !!}</th>
-                                <th scope="col">{!! __('Execution Status') !!}</th>
+
                                 <th scope="col">{!! __('Total') !!}</th>
                                 <th scope="col">{!! __('Total Accepted') !!}</th>
                                 <th scope="col">{!! __('Total Rejected') !!}</th>
+
+                                <th scope="col">{!! __('Concession Status') !!}</th>
+                                <th scope="col">{!! __('Execution Status') !!}</th>
+                               
                                 <th scope="col">{!! __('Created Date') !!}</th>
                                 <th scope="col">{!! __('Updated Date') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -71,11 +74,13 @@
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
                                 <th scope="col">{!! __('Number') !!}</th>
-                                <th scope="col">{!! __('Concession Status') !!}</th>
-                                <th scope="col">{!! __('Execution Status') !!}</th>
+
                                 <th scope="col">{!! __('Total') !!}</th>
                                 <th scope="col">{!! __('Total Accepted') !!}</th>
                                 <th scope="col">{!! __('Total Rejected') !!}</th>
+                                <th scope="col">{!! __('Concession Status') !!}</th>
+                                <th scope="col">{!! __('Execution Status') !!}</th>
+                               
                                 <th scope="col">{!! __('Created Date') !!}</th>
                                 <th scope="col">{!! __('Updated Date') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -93,6 +98,11 @@
                                     @endif
 
                                     <td>{{ $item->number }}</td>
+
+                                    <td class="text-danger">{{$item->total}}</td>
+                                    <td style="background:#FBFAD4 !important">{{$item->total_accepted}}</td>
+                                    <td style="background:#E3F6FB !important">{{$item->total_rejected}}</td>
+
 
                                     <td>
                                         @if( $item->concession )
@@ -135,10 +145,7 @@
 
                                     </td>
 
-                                    <td>{{$item->total}}</td>
-                                    <td>{{$item->total_accepted}}</td>
-                                    <td>{{$item->total_rejected}}</td>
-
+                               
                                     <td>{{ $item->created_at }}</td>
                                     <td>{{ $item->updated_at }}</td>
 

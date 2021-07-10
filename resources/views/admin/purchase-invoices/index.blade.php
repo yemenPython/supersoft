@@ -63,7 +63,7 @@
                             <!-- <th scope="col">{!! __('Supplier Phone') !!}</th> -->
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Invoice Type') !!}</th>
 
-                                <th class="text-center column-payment" scope="col">{!! __('Payment status') !!}</th>
+                                <!-- <th class="text-center column-payment" scope="col">{!! __('Payment status') !!}</th> -->
                                 <th class="text-center column-paid" scope="col">{!! __('Total') !!}</th>
 
                                 <th class="text-center column-paid" scope="col">{!! __('Paid') !!}</th>
@@ -97,7 +97,7 @@
                                         @endif
                                     </td>
 
-
+<!-- 
                                     @if ($invoice->type === "cash")
                                         @if ($invoice->remaining  == 0)
                                             <td class="text-center column-payment">
@@ -111,10 +111,10 @@
                                                 {!! __('Not Completed') !!}
                                                 </span>
                                             </td>
-                                        @endif
-                                        <td class="text-center column-paid" style="background:#FBFAD4 !important">{!! number_format($invoice->total, 2) !!}</td>
-                                        <td class="text-center column-paid" style="background:#E3E3FB !important">{!! number_format($invoice->paid, 2) !!}</td>
-                                        <td class="text-center column-remaining" style="background:#FFC5D7 !important">{!! number_format($invoice->remaining ,2)!!}</td>
+                                        @endif -->
+                                        <td class="text-center text-danger column-paid" >{!! number_format($invoice->total, 2) !!}</td>
+                                        <td class="text-center column-paid" style="background:#FBFAD4 !important">{!! number_format($invoice->paid, 2) !!}</td>
+                                        <td class="text-center column-remaining" style="background:#E3F6FB !important">{!! number_format($invoice->remaining ,2)!!}</td>
                                     @endif
                                     @if ($invoice->type === "credit")
                                         @if ($invoice->remaining  == 0)
@@ -130,9 +130,9 @@
                                                 </span>
                                             </td>
                                         @endif
-                                        <td class="text-center column-paid" style="background:#FBFAD4 !important">{!! number_format($invoice->total, 2) !!}</td>
+                                        <td class="text-center text-danger column-paid">{!! number_format($invoice->total, 2) !!}</td>
                                         <td class="text-center column-paid" style="background:#FBFAD4 !important">{!! number_format($invoice->paid, 2) !!}</td>
-                                        <td class=" text-center column-remaining" style="background:#FFC5D7 !important">{!! number_format($invoice->remaining ,2)!!}</td>
+                                        <td class=" text-center column-remaining" style="background:#E3F6FB !important">{!! number_format($invoice->remaining ,2)!!}</td>
                                 @endif
 
                                 <td>
