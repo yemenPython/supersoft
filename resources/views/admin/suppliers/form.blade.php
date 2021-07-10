@@ -403,7 +403,21 @@
         </div>
     </div>
 
-    <div class="col-md-8">
+    <div class="col-md-4">
+        <div class="form-group  ">
+            <label for="commercial_record_area" class="control-label">{{__('Commercial Record Area')}}</label>
+            <div class="input-group">
+                <span class="input-group-addon"><li class="fa fa-location-arrow"></li></span>
+                <input type="text" name="commercial_record_area" class="form-control"
+                       id="commercial_record_area"
+                       placeholder="{{__('Commercial Record Area')}}"
+                       value="{{old('commercial_record_area', isset($supplier)? $supplier->commercial_record_area :'')}}">
+            </div>
+            {{input_error($errors,'commercial_record_area')}}
+        </div>
+    </div>
+
+    <div class="col-md-4">
         <div class="form-group  ">
             <label for="inputDescription" class="control-label">{{__('Description')}}</label>
             <div class="input-group">

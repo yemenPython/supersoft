@@ -49,6 +49,7 @@ class Supplier extends Model
         'sub_group_id',
         'supplier_type',
         'identity_number',
+        'commercial_record_area',
     ];
 
     protected $table = 'suppliers';
