@@ -17,6 +17,8 @@ use App\Models\SupplyTerm;
 use App\Models\TaxesFees;
 use App\Services\SupplyOrderServices;
 use App\Traits\SubTypesServices;
+use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
@@ -267,6 +269,25 @@ class SupplyOrderController extends Controller
             return redirect()->back()->with(['message' => 'sorry, please try later', 'alert-type' => 'error']);
         }
 
+        return redirect()->back()->with(['message' => __('supply.orders.deleted.successfully'), 'alert-type' => 'success']);
+    }
+
+    public function deleteSelected(Request $request): RedirectResponse
+    {
+        if (!isset($request->ids)) {
+            return redirect()->back()->with(['message' => __('words.select-one-least'), 'alert-type' => 'error']);
+        }
+        try {
+            $supplyOrders = SupplyOrder::whereIn('id', array_unique($request->ids))->get();
+            foreach ($supplyOrders as $supplyOrder) {
+                if ($supplyOrder->purchaseReceipts->count()) {
+                    return redirect()->back()->with(['message' => 'sorry, this supply order has purchase receipts', 'alert-type' => 'error']);
+                }
+                $supplyOrder->delete();
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' => __('sorry, please try later'), 'alert-type' => 'error']);
+        }
         return redirect()->back()->with(['message' => __('supply.orders.deleted.successfully'), 'alert-type' => 'success']);
     }
 
