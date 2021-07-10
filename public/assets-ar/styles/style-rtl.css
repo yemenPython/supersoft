@@ -1897,8 +1897,7 @@ input[type="time"]
                             .table-wg-inputs input {
                                 width: 130px !important;
                             }
-                            
-                            .navigation .menu .sub-menu>li>a::before {
+                            /* .navigation .menu .sub-menu>li>a::before {
                                 content: "";
                                 position: absolute;
                                 right: 30.7px !important;
@@ -1906,9 +1905,8 @@ input[type="time"]
                                 height: 32px;
                                 background: #4f73be;
                                 margin-top: -5px
-                            }
-                            
-                            .navigation .menu .sub-menu>li>a::after {
+                            } */
+                            /* .navigation .menu .sub-menu>li>a::after {
                                 content: "";
                                 position: absolute;
                                 right: 17px !important;
@@ -1918,12 +1916,11 @@ input[type="time"]
                                 background: #4f73be;
                                 margin-top: 6px;
                                 margin-right: 10px;
-                            }
-                            
-                            .js.menu-active .navigation .menu .sub-menu>li>a::after,
+                            } */
+                            /* .js.menu-active .navigation .menu .sub-menu>li>a::after,
                             .js.menu-active .navigation .menu .sub-menu>li>a::before {
                                 display: none;
-                            }
+                            } */
                             
                             ul.sub-menu.js__content {
                                 position: relative;
