@@ -23,8 +23,7 @@ class CreateRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'branch_id' => 'required|exists:branches,id',
+        $rules = [
             'operation_date' => 'required|date',
             'operation_time' => 'required',
             'items.*.part_price_id' => 'required|integer|exists:part_prices,id',
@@ -32,7 +31,14 @@ class CreateRequest extends FormRequest
             'items.*.buy_price' => 'required|numeric|min:0',
             'items.*.store_id' => 'required|integer|exists:stores,id',
             'items.*.part_price_price_segment_id' => 'nullable|integer|exists:part_price_segments,id'
+
         ];
+
+        if (authIsSuperAdmin()) {
+            $rules['branch_id'] = 'required|exists:branches,id';
+        }
+
+        return $rules;
     }
 
     public function attributes() {
