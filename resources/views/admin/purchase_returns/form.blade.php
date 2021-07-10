@@ -217,7 +217,7 @@
 
                 {{-- Buttons --}}
 
-                <div class="col-md-6 from_supply_order" style="{{isset($purchaseReturn) && $purchaseReturn->invoice_type != 'from_supply_order'? 'display:none':''}}">
+                <div class="col-md-12 from_supply_order" style="{{isset($purchaseReturn) && $purchaseReturn->invoice_type != 'from_supply_order'? 'display:none':''}}">
             <div class="form-group">
          
 
