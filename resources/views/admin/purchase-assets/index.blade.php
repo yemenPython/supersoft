@@ -19,9 +19,128 @@
                 <li class="breadcrumb-item active"> {{__('Purchase Assets')}}</li>
             </ol>
         </nav>
+        @if(filterSetting())
+            <div class="col-xs-12">
+                <div class="box-content card bordered-all js__card top-search">
+                    <h4 class="box-title with-control">
+                        <i class="fa fa-search"></i>{{__('Search filters')}}
+                        <span class="controls">
+							<button type="button" class="control fa fa-minus js__card_minus"></button>
+							<button type="button" class="control fa fa-times js__card_remove"></button>
+						</span>
+                        <!-- /.controls -->
+                    </h4>
+                    <!-- /.box-title -->
+                    <div class="card-content js__card_content" style="padding:30px">
+                        <form  onsubmit="filterFunction($(this));return false;">
+                            <div class="list-inline margin-bottom-0 row">
+
+                                @if(authIsSuperAdmin())
+                                    <div class="form-group col-md-12">
+                                        <label> {{ __('Branches') }} </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon fa fa-file"></span>
+                                            {!! drawSelect2ByAjax('branch_id','Branch','name_'.app()->getLocale(),'name_'.app()->getLocale(),__('Select Branch'),request()->branch_id) !!}
+                                        </div>
+                                    </div>
+                                @endif
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label> {{ __('Assets Groups') }} </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                                            <select class="form-control select2" id="asset_group_id"
+                                                    name="asset_group_id">
+                                                <option value="0"> {{ __('Select Group') }} </option>
+                                                @foreach($assetsGroups as $assetGroup)
+                                                    <option
+                                                        {{ old('assetsGroups_id') == $assetGroup->id ? 'selected' : '' }}
+                                                        value="{{ $assetGroup->id }}"
+                                                        rate="{{ $assetGroup->annual_consumtion_rate }}"> {{ $assetGroup->name_ar }} </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label> {{ __('Asset name') }} </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+
+                                        <select class="form-control select2" id="asset_id"
+                                                name="asset_id">
+                                            <option value="0"> {{ __('Select Name') }} </option>
+                                            @foreach($assets as $asset)
+                                                <option
+                                                    {{ old('asset_id') == $asset->id ? 'selected' : '' }}
+                                                    value="{{ $asset->id }}"> {{ $asset->name }} </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group has-feedback">
+                                            <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon fa fa-user"></span>
+
+                                                <select class="form-control" name="supplier_id" id="supplier_id">
+                                                    <option value="">{{__('Select')}}</option>
+
+                                                    @foreach($suppliers as $supplier)
+                                                        <option value="{{$supplier->id}}">
+                                                            {{$supplier->name}}
+                                                        </option>
+                                                    @endforeach
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                <div class="form-group col-md-6">
+                                    <label> {{ __('Invoice Number') }} </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+
+                                        <select class="form-control select2" id="invoice_number"
+                                                name="invoice_number">
+                                            <option value="0"> {{ __('Invoice Number') }} </option>
+                                            @foreach($numbers as $number)
+                                                <option value="{{$number}}"> {{$number}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label> {{ __('date From') }}</label>
+                                    <input type="date" class="form-control" name="date_from">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label> {{ __('date To') }}</label>
+                                    <input type="date" class="form-control" name="date_to">
+                                </div>
 
 
-{{--                @include('admin.purchase-assets.parts.search')--}}
+                            </div>
+
+                            <button type="submit"
+                                    class="btn sr4-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
+                                    class=" fa fa-search "></i> {{__('Search')}} </button>
+                            <a href="{{route('admin:purchase-assets.index')}}"
+                               class="btn bc-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
+                                    class=" fa fa-reply"></i> {{__('Back')}}
+                            </a>
+
+                        </form>
+                    </div>
+                    <!-- /.card-content -->
+                </div>
+                <!-- /.box-content -->
+            </div>
+        @endif
 
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
@@ -49,11 +168,6 @@
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
-{{--                                                @php--}}
-{{--                                                    $view_path = 'admin.purchase-assets.options-datatable';--}}
-{{--                                                @endphp--}}
-{{--                                                @include($view_path . '.option-row')--}}
-
                         <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover" style="width:100%">
                             <thead>
                             <tr>
@@ -65,13 +179,13 @@
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
 
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
-                                
+
                                 <th>
                                     {{__('Total')}}
                             </th>
                             <th class="text-center">{!! __('created at') !!}</th>
                             <th class="text-center">{!! __('Updated at') !!}</th>
-                              
+
 
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">
@@ -83,73 +197,6 @@
                             </tr>
                             </thead>
 
-                            <tbody>
-                            @foreach($invoices as $index=>$invoice)
-                                <tr>
-
-                                    <td class="text-center">{{$loop->iteration}}</td>
-                                    <td class="text-center text-danger"> 
-                                    {!! optional($invoice->branch)->name !!}
-                                    </td>
-                                    <td class="text-center column-invoice-number">{!! $invoice->invoice_number !!}</td>
-
-                                    <td class="text-center column-date">{{$invoice->date}} {{$invoice->time}}</td>
-
-                                    <td class="text-center column-supplier">{!! optional($invoice->supplier)->name !!}</td>
-
-                                    <td class="text-center">
-                                    {{$invoice->net_total}}
-                                    </td>
-                                    <td class="text-center column-created-at">{{ $invoice->created_at }}</td>
-                                        <td class="text-center column-created-at">{{ $invoice->updated_at }}</td>
-                                    <td>
-                                        <div class="btn-group margin-top-10">
-
-                                            <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="ico fa fa-bars"></i>
-                                                {{__('Options')}} <span class="caret"></span>
-
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-wg">
-                                            <li>
-                                                    <a style="cursor:pointer"class="btn btn-print-wg text-white  " data-toggle="modal" onclick="getPrintData('{{route('admin:purchase-assets.show',$invoice->id)}}')"
-                                                       data-target="#boostrapModal" title="{{__('print')}}">
-                                                        <i class="fa fa-print"></i> {{__('Print')}}
-                                                    </a>
-
-                                                </li>
-                                                <li>
-
-                                                    @component('admin.buttons._edit_button',[
-                                                                'id'=>$invoice->id,
-                                                                'route' => 'admin:purchase-assets.edit',
-                                                                 ])
-                                                    @endcomponent
-                                                </li>
-                                                <li class="btn-style-drop">
-
-                                                    @component('admin.buttons._delete_button',[
-                                                                'id'=> $invoice->id,
-                                                                'route' => 'admin:purchase-assets.destroy',
-                                                                 ])
-                                                    @endcomponent
-                                                </li>
-
-
-                                            </ul>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        @component('admin.buttons._delete_selected',[
-                                                   'id' => $invoice->id,
-                                                   'route' => 'admin:purchase-assets.deleteSelected',
-
-                                                    ])
-                                        @endcomponent
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
                             <tfoot>
                             <tr>
                                 <th>#</th>
@@ -171,7 +218,7 @@
                             </tr>
                             </tfoot>
                         </table>
-                        {{ $invoices->links() }}
+{{--                        {{ $invoices->links() }}--}}
                     </div>
                 </div>
             </div>
@@ -181,71 +228,81 @@
 
 
 @section('js')
-
-{{--<script type="application/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>--}}
-{{--<script type="application/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>--}}
-{{--<script type="application/javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>--}}
-{{--<script type="application/javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script>--}}
-{{--<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>--}}
     <script type="application/javascript">
 
         $(document).ready(function () {
-            invoke_datatable($('#datatable-with-btns'))
+            // invoke_datatable($('#datatable-with-btns'));
+            server_side_datatable('#datatable-with-btns');
             $(".select2").select2()
         })
-        $(document).ready(function () {
-                // $('#datatable-with-btns').DataTable( {
-                //     dom: 'Bfrtip',
-                //     buttons: [
-                //         'copy', 'csv', 'excel', 'pdf', 'print'
-                //     ]
-                // } );
-
-            {{--$('#datatable-with-btns').DataTable({--}}
-            {{--    "bSort": withSorting,--}}
-            {{--    "language": {--}}
-            {{--        "url": "{{app()->isLocale('ar')  ? "//cdn.datatables.net/plug-ins/1.10.20/i18n/Arabic.json" :--}}
-            {{--                                 "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/English.json"}}",--}}
-            {{--    },--}}
-            {{--    dom: 'Bfrtip',--}}
-            {{--    buttons: [--}}
-            {{--        {--}}
-            {{--            extend: 'print',--}}
-            {{--            text: '<i class="fa fa-print"></i> {{__('Print')}}',--}}
-            {{--            autoPrint: false,--}}
-            {{--        },--}}
-            {{--        {--}}
-            {{--            extend: 'csv',--}}
-            {{--            text: '<i class="fa fa-table"></i> {{__('Excel')}}',--}}
-            {{--            // exportOptions: {--}}
-            {{--            //     columns: ':visible:not(:last-child)'--}}
-            {{--            // }--}}
-            {{--        },--}}
-            {{--        {--}}
-            {{--            extend: 'colvis',--}}
-            {{--            text: '<i class="fa fa-list"></i> {{__('Columns visibility')}}',--}}
-            {{--        },--}}
-            {{--    ],--}}
-            {{--});--}}
-            // $('#boostrapModal').modal('show');
-        });
-
         function printAsset() {
             var element_id = 'asset_to_print', page_title = document.title
             print_element(element_id, page_title)
         }
 
-        function getPrintData(route) {
+        function getPrintData(id) {
             $.ajax({
-                url: route,
+                url: "{{route('admin:purchase-assets.show')}}?id=" + id,
                 method: 'GET',
                 success: function (data) {
                     $("#invoiceDatatoPrint").html(data.invoice)
                 }
             });
         }
+
+        function filterFunction($this) {
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $( ".js__card_minus" ).trigger( "click" );
+        }
+
+        $('#asset_group_id').on('change', function () {
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            const asset_group_id = $(this).val();
+            $.ajax({
+                type: 'post',
+                url: "{{ route('admin:assets.getAssetsByAssetsGroup')}}",
+                data: {
+                    asset_group_id: asset_group_id,
+                    _token: CSRF_TOKEN,
+                },
+                success: function (data) {
+                    $('#asset_id').each(function () {
+                        $(this).html(data.data)
+                    });
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
+
+        });
+        $('#supplier_id').on('change', function () {
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            const supplier_id = $(this).val();
+            $.ajax({
+                type: 'post',
+                url: "{{ route('admin:purchase-assets.getInvoiceNumbersBySupplierId')}}",
+                data: {
+                    supplier_id: supplier_id,
+                    _token: CSRF_TOKEN,
+                },
+                success: function (data) {
+                    $('#invoice_number').each(function () {
+                        $(this).html(data.data)
+                    });
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
+
+        });
     </script>
-{{--    <script type="application/javascript" src="{{ asset('accounting-module/options-for-dt.js') }}"></script>--}}
 @stop
 @section('modals')
     <div class="modal fade" id="boostrapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
@@ -275,6 +332,4 @@
             </div>
         </div>
     </div>
-
-    {{--        @include($view_path . '.column-visible')--}}
 @endsection

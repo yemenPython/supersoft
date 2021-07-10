@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Yajra\DataTables\DataTables;
 
 class PurchaseAssetsController extends Controller
 {
@@ -31,15 +32,129 @@ class PurchaseAssetsController extends Controller
 
     public function index(Request $request)
     {
-        $invoices = PurchaseAsset::query();
+        if ($request->isDataTable) {
+            $purchaseAssets = PurchaseAsset::select([
+                'purchase_assets.id',
+                'purchase_assets.invoice_number',
+                'purchase_assets.supplier_id',
+                'purchase_assets.branch_id',
+                'purchase_assets.date',
+                'purchase_assets.time',
+                'purchase_assets.created_at',
+                'purchase_assets.updated_at',
+                'purchase_assets.net_total'
+            ])->leftjoin( 'purchase_asset_items', 'purchase_assets.id', '=', 'purchase_asset_items.purchase_asset_id' );
 
-        $invoices = $invoices->orderBy( 'id', 'DESC' );
+            if ($request->has( 'branch_id' ) && !empty( $request['branch_id'] ))
+                $purchaseAssets->where( 'purchase_assets.branch_id', $request['branch_id'] );
+            if ($request->has( 'supplier_id' ) && !empty( $request['supplier_id'] ))
+                $purchaseAssets->where( 'purchase_assets.supplier_id', $request['supplier_id'] );
+
+            if ($request->has( 'invoice_number' ) && !empty( $request['invoice_number'] ))
+                $purchaseAssets->where( 'purchase_assets.invoice_number', $request['invoice_number'] );
 
 
-        $rows = $request->has( 'rows' ) ? $request->rows : 10;
+            if ($request->has( 'asset_group_id' ) && !empty( $request->asset_group_id ))
+                $purchaseAssets->where( 'purchase_asset_items.asset_group_id', $request['asset_group_id'] );
+            if ($request->has( 'asset_id' ) && !empty( $request->asset_id ))
+                $purchaseAssets->where( 'purchase_asset_items.asset_id', $request['asset_id'] );
 
-        $invoices = $invoices->paginate( $rows )->appends( request()->query() );
-        return view( 'admin.purchase-assets.index', compact( 'invoices' ) );
+            whereBetween($purchaseAssets,'DATE(purchase_assets.date)',$request->date_from,$request->date_to);
+            whereBetween( $purchaseAssets, 'purchase_asset_items.sale_amount', $request->sale_amount_from, $request->sale_amount_to );
+
+
+
+            return DataTables::of($purchaseAssets->groupBy('purchase_assets.id'))
+                ->addIndexColumn()
+                ->addColumn( 'branch_id', function ($asset) {
+                    return '<span class="text-danger">' . optional( $asset->branch )->name . '</span>';
+                } )
+                ->addColumn( 'invoice_number', function ($saleAsset) {
+                    return $saleAsset->invoice_number;
+
+                } )
+                ->addColumn('date',function ($saleAsset){
+                    return $saleAsset->date .' '. $saleAsset->time;
+                })
+                ->addColumn('supplier_id',function ($purchaseAsset){
+                    return optional($purchaseAsset->supplier)->name;
+                })
+                ->addColumn('net_total',function ($purchaseAsset){
+                    return $purchaseAsset->net_total;
+                })
+                ->addColumn('created_at',function ($purchaseAsset){
+                    return $purchaseAsset->created_at;
+                })
+                ->addColumn('updated_at',function ($purchaseAsset){
+                    return $purchaseAsset->updated_at;
+                })
+                ->addColumn( 'action', function ($purchaseAsset) {
+                    return '
+                      <div class="btn-group margin-top-10">
+
+                                        <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="ico fa fa-bars"></i> ' . __( "Options" ) . '<span class="caret"></span></button>
+                                          <ul class="dropdown-menu dropdown-wg">
+                                            <li> <a class="btn btn-wg-edit hvr-radial-out" href="' . route( "admin:purchase-assets.edit", $purchaseAsset->id ) . '">
+    <i class="fa fa-edit"></i>  ' . __( 'Edit' ) . '
+        </a></li>
+        <li class="btn-style-drop">
+        <button type="button" class="btn btn-wg-delete hvr-radial-out"  onclick="confirmDelete(' . $purchaseAsset->id . ')">
+            <i class="fa fa-trash"></i>  ' . __( 'Delete' ) . '
+        </button>
+
+        <form style="display: none" method="POST" id="confirmDelete' . $purchaseAsset->id . '" action="' . route( 'admin:purchase-assets.destroy', $purchaseAsset->id ) . '">
+            <input type="hidden" name="_method" value="DELETE">
+           ' . @csrf_field() . '
+        </form>
+        </li>
+        <li>
+        <a style="cursor:pointer" class="btn btn-print-wg text-white  "
+           data-toggle="modal" onclick="getPrintData(' .$purchaseAsset->id . ')"
+           data-target="#boostrapModal" title="' . __( 'print' ) . '">
+            <i class="fa fa-print"></i> ' . __( 'Print' ) . '</a>
+        </li>
+          </ul> </div>
+                 ';
+                } )->addColumn( 'options', function ($saleAsset) {
+                    return '
+                    <form action=' . route( "admin:purchase-assets.deleteSelected" ) . ' method="post" id="deleteSelected">
+                    ' . @csrf_field() . '
+        <div class="checkbox danger">
+        <input type="checkbox" name="ids[]" value="' . $saleAsset->id . '" id="checkbox-' . $saleAsset->id . '">
+        <label for="checkbox-' . $saleAsset->id . '"></label>
+          </div>
+            </form>
+                    ';
+                } )
+                ->rawColumns( ['action'] )
+                ->rawColumns( ['actions'] )
+                ->escapeColumns( [] )
+                ->make( true );
+
+        }else {
+            $js_columns = [
+                'DT_RowIndex' => 'DT_RowIndex',
+                'branch_id' => 'purchase_assets.branch_id',
+                'invoice_number' => 'purchase_assets.invoice_number',
+                'date' => 'date',
+                'supplier_id' => 'purchase_assets.supplier_id',
+                'net_total' => 'purchase_assets.net_total',
+                'created_at' => 'purchase_assets.created_at',
+                'updated_at' => 'purchase_assets.updated_at',
+                'action' => 'action',
+                'options' => 'options'
+            ];
+
+
+            $assets = Asset::all();
+            $branches = Branch::all()->pluck( 'name', 'id' );
+            $assetsGroups = AssetGroup::select( ['id', 'name_ar', 'name_en'] )->get();
+            $numbers = PurchaseAsset::pluck('invoice_number')->unique();
+            $suppliers = Supplier::select(['name_en','name_ar','id'])->get();
+
+            return view( 'admin.purchase-assets.index', compact( 'numbers','assets','assetsGroups' ,'js_columns','suppliers') );
+        }
     }
 
     public function create(Request $request)
@@ -128,9 +243,9 @@ class PurchaseAssetsController extends Controller
 
     }
 
-    public function show(PurchaseAsset $purchaseAsset)
+    public function show(Request $request)
     {
-        $asset = $purchaseAsset;
+        $asset = PurchaseAsset::find($request->id);
         $invoice = view( 'admin.purchase-assets.show', compact( 'asset' ) )->render();
 
         return response()->json( ['invoice' => $invoice] );
@@ -265,5 +380,19 @@ class PurchaseAssetsController extends Controller
             'items' => $view,
             'index' => $index
         ] );
+    }
+    public function getInvoiceNumbersBySupplierId(Request $request): JsonResponse
+    {
+        if (!empty( $request->supplier_id )) {
+            $numbers = PurchaseAsset::where('supplier_id',$request->supplier_id)->pluck('invoice_number')->unique();
+        } else {
+            $numbers = PurchaseAsset::pluck('invoice_number')->unique();
+        }
+        if ($numbers) {
+            $numbers_data = view( 'admin.purchase-assets.invoice_number_by_supplier_id', compact( 'numbers' ) )->render();
+            return response()->json( [
+                'data' => $numbers_data,
+            ] );
+        }
     }
 }

@@ -40,13 +40,13 @@
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
-                <table id="revenuesItems" class="table table-bordered" style="width:100%">
+                <table id="datatable-with-btns" class="table table-bordered" style="width:100%">
                     <thead>
                     <tr>
                         <th scope="col">{!! __('#') !!}</th>
+                        <th scope="col">{!! __('Branch') !!}</th>
                         <th scope="col">{!! __('Number') !!}</th>
                         <th scope="col">{!! __('Date') !!}</th>
-                        <th scope="col">{!! __('Time') !!}</th>
                         <th scope="col">{!! __('Status') !!}</th>
                         <th scope="col">{!! __('Total') !!}</th>
                         <th scope="col">{!! __('Created at') !!}</th>
@@ -62,9 +62,9 @@
                     <tfoot>
                     <tr>
                         <th scope="col">{!! __('#') !!}</th>
+                        <th scope="col">{!! __('Branch') !!}</th>
                         <th scope="col">{!! __('Number') !!}</th>
                         <th scope="col">{!! __('Date') !!}</th>
-                        <th scope="col">{!! __('Time') !!}</th>
                         <th scope="col">{!! __('Status') !!}</th>
                         <th scope="col">{!! __('Total') !!}</th>
                         <th scope="col">{!! __('Created at') !!}</th>
@@ -73,57 +73,57 @@
                         <th scope="col">{!! __('Select') !!}</th>
                     </tr>
                     </tfoot>
-                    <tbody>
-                    @foreach($assetsExpenses as $index=>$item)
-                        <tr>
-                            <td>{!! $index +1 !!}</td>
-                            <td>{!! $item->number !!}</td>
-                            <td>{!! $item->date  !!} </td>
-                            <td>{!! $item->time  !!} </td>
-                            <td>
-                                @if( $item->status == 'pending' )
-                                    <span class="label label-info wg-label"> {{__('Pending')}}</span>
-                                @elseif( $item->status == 'accept' )
-                                    <span class="label label-success wg-label"> {{__('Accepted')}} </span>
-                                @elseif( $item->status == 'cancel' )
-                                    <span class="label label-danger wg-label"> {{__('Rejected')}} </span>
-                                @endif
+{{--                    <tbody>--}}
+{{--                    @foreach($assetsExpenses as $index=>$item)--}}
+{{--                        <tr>--}}
+{{--                            <td>{!! $index +1 !!}</td>--}}
+{{--                            <td>{!! $item->number !!}</td>--}}
+{{--                            <td>{!! $item->date  !!} </td>--}}
+{{--                            <td>{!! $item->time  !!} </td>--}}
+{{--                            <td>--}}
+{{--                                @if( $item->status == 'pending' )--}}
+{{--                                    <span class="label label-info wg-label"> {{__('Pending')}}</span>--}}
+{{--                                @elseif( $item->status == 'accept' )--}}
+{{--                                    <span class="label label-success wg-label"> {{__('Accepted')}} </span>--}}
+{{--                                @elseif( $item->status == 'cancel' )--}}
+{{--                                    <span class="label label-danger wg-label"> {{__('Rejected')}} </span>--}}
+{{--                                @endif--}}
 
-                            </td>
-                            <td> <span class="label label-warning wg-label"> {!! number_format($item->total, 2) !!} </span></td>
-                            <td>{!! $item->created_at->format('y-m-d h:i:s A') !!}</td>
-                            <td>{!! $item->updated_at->format('y-m-d h:i:s A') !!}</td>
-                            <td>
-                                @component('admin.buttons._edit_button',[
-                                            'id'=>$item->id,
-                                            'route' => 'admin:assets_expenses.edit',
-                                             ])
-                                @endcomponent
+{{--                            </td>--}}
+{{--                            <td> <span class="label label-warning wg-label"> {!! number_format($item->total, 2) !!} </span></td>--}}
+{{--                            <td>{!! $item->created_at->format('y-m-d h:i:s A') !!}</td>--}}
+{{--                            <td>{!! $item->updated_at->format('y-m-d h:i:s A') !!}</td>--}}
+{{--                            <td>--}}
+{{--                                @component('admin.buttons._edit_button',[--}}
+{{--                                            'id'=>$item->id,--}}
+{{--                                            'route' => 'admin:assets_expenses.edit',--}}
+{{--                                             ])--}}
+{{--                                @endcomponent--}}
 
-                                @component('admin.buttons._delete_button',[
-                                            'id'=> $item->id,
-                                            'route' => 'admin:assets_expenses.destroy',
-                                             ])
-                                @endcomponent
-                                    <a style="cursor:pointer" class="btn btn-print-wg text-white  "
-                                       data-toggle="modal"
+{{--                                @component('admin.buttons._delete_button',[--}}
+{{--                                            'id'=> $item->id,--}}
+{{--                                            'route' => 'admin:assets_expenses.destroy',--}}
+{{--                                             ])--}}
+{{--                                @endcomponent--}}
+{{--                                    <a style="cursor:pointer" class="btn btn-print-wg text-white  "--}}
+{{--                                       data-toggle="modal"--}}
 
-                                       onclick="getPrintData({{$item->id}})"
-                                       data-target="#boostrapModal" title="{{__('print')}}">
-                                        <i class="fa fa-print"></i> {{__('Print')}}
-                                    </a>
+{{--                                       onclick="getPrintData({{$item->id}})"--}}
+{{--                                       data-target="#boostrapModal" title="{{__('print')}}">--}}
+{{--                                        <i class="fa fa-print"></i> {{__('Print')}}--}}
+{{--                                    </a>--}}
 
-                            </td>
-                            <td>
-                                @component('admin.buttons._delete_selected',[
-                                         'id' => $item->id,
-                                         'route' => 'admin:assets_expenses.deleteSelected',
-                                          ])
-                                @endcomponent
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
+{{--                            </td>--}}
+{{--                            <td>--}}
+{{--                                @component('admin.buttons._delete_selected',[--}}
+{{--                                         'id' => $item->id,--}}
+{{--                                         'route' => 'admin:assets_expenses.deleteSelected',--}}
+{{--                                          ])--}}
+{{--                                @endcomponent--}}
+{{--                            </td>--}}
+{{--                        </tr>--}}
+{{--                    @endforeach--}}
+{{--                    </tbody>--}}
                 </table>
             </div>
             </div>
@@ -134,7 +134,7 @@
 @endsection
 @section('js')
     <script type="application/javascript">
-        invoke_datatable($('#revenuesItems'))
+        server_side_datatable('#datatable-with-btns');
         function printAsset() {
             var element_id = 'assetDatatoPrint', page_title = document.title
             print_element(element_id, page_title)
@@ -147,6 +147,11 @@
                     $("#assetDatatoPrint").html(data.view)
                 }
             });
+        }
+        function filterFunction($this) {
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
         }
     </script>
 @endsection

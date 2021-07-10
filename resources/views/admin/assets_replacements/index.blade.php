@@ -7,137 +7,243 @@
 @section('content')
     <div class="row small-spacing">
 
-    <nav>
+        <nav>
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
                 <li class="breadcrumb-item active"> {{__('Assets Replacements')}}</li>
             </ol>
         </nav>
-                <div class="col-xs-12">
-                <div class="box-content card bordered-all js__card">
-                <h4 class="box-title bg-secondary with-control">
-                <i class="fa fa-money"></i> {{__('Assets Replacements')}}
-                 </h4>
 
-                 <div class="card-content js__card_content" style="">
+        @if(filterSetting())
+            <div class="col-xs-12">
+                <div class="box-content card bordered-all js__card top-search">
+                    <h4 class="box-title with-control">
+                        <i class="fa fa-search"></i>{{__('Search filters')}}
+                        <span class="controls">
+							<button type="button" class="control fa fa-minus js__card_minus"></button>
+							<button type="button" class="control fa fa-times js__card_remove"></button>
+						</span>
+                        <!-- /.controls -->
+                    </h4>
+                    <!-- /.box-title -->
+                    <div class="card-content js__card_content" style="padding:30px">
+                        <form  onsubmit="filterFunction($(this));return false;">
+                            <div class="list-inline margin-bottom-0 row">
+
+                                @if(authIsSuperAdmin())
+                                    <div class="form-group col-md-12">
+                                        <label> {{ __('Branches') }} </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon fa fa-file"></span>
+                                            {!! drawSelect2ByAjax('branch_id','Branch','name_'.app()->getLocale(),'name_'.app()->getLocale(),__('Select Branch'),request()->branch_id) !!}
+                                        </div>
+                                    </div>
+                                @endif
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label> {{ __('Assets Groups') }} </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                                            <select class="form-control select2" id="asset_group_id"
+                                                    name="asset_group_id">
+                                                <option value="0"> {{ __('Select Group') }} </option>
+                                                @foreach($assetsGroups as $assetGroup)
+                                                    <option
+                                                        {{ old('assetsGroups_id') == $assetGroup->id ? 'selected' : '' }}
+                                                        value="{{ $assetGroup->id }}"
+                                                        rate="{{ $assetGroup->annual_consumtion_rate }}"> {{ $assetGroup->name_ar }} </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label> {{ __('Asset name') }} </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+
+                                        <select class="form-control select2" id="asset_id"
+                                                name="asset_id">
+                                            <option value="0"> {{ __('Select Name') }} </option>
+                                            @foreach($assets as $asset)
+                                                <option
+                                                    {{ old('asset_id') == $asset->id ? 'selected' : '' }}
+                                                    value="{{ $asset->id }}"> {{ $asset->name }} </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label> {{ __('Number') }} </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+
+                                        <select class="form-control select2" id="number"
+                                                name="number">
+                                            <option value="0"> {{ __('Number') }} </option>
+                                            @foreach($numbers as $number)
+                                                <option value="{{$number}}"> {{$number}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    <label> {{ __('date From') }}</label>
+                                    <input type="date" class="form-control" name="date_from">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label> {{ __('date To') }}</label>
+                                    <input type="date" class="form-control" name="date_to">
+                                </div>
+
+
+                                    <div class="form-group col-md-4">
+                                        <label> {{ __('Value From') }}</label>
+                                        <input type="date" class="form-control" name="value_replacement_from">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label> {{ __('Value To') }}</label>
+                                        <input type="date" class="form-control" name="value_replacement_to">
+                                    </div>
+
+
+                            </div>
+
+                            <button type="submit"
+                                    class="btn sr4-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
+                                    class=" fa fa-search "></i> {{__('Search')}} </button>
+                            <a href="{{route('admin:purchase-assets.index')}}"
+                               class="btn bc-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
+                                    class=" fa fa-reply"></i> {{__('Back')}}
+                            </a>
+
+                        </form>
+                    </div>
+                    <!-- /.card-content -->
+                </div>
+                <!-- /.box-content -->
+            </div>
+        @endif
+
+        <div class="col-xs-12">
+            <div class="box-content card bordered-all js__card">
+                <h4 class="box-title bg-secondary with-control">
+                    <i class="fa fa-money"></i> {{__('Assets Replacements')}}
+                </h4>
+
+                <div class="card-content js__card_content" style="">
                     <ul class="list-inline pull-left top-margin-wg">
 
-                       <li class="list-inline-item">
-                       @include('admin.buttons.add-new', [
-                  'route' => 'admin:assets_replacements.create',
-                      'new' => '',
-                     ])
-                       </li>
+                        <li class="list-inline-item">
+                            @include('admin.buttons.add-new', [
+                       'route' => 'admin:assets_replacements.create',
+                           'new' => '',
+                          ])
+                        </li>
 
-                            <li class="list-inline-item">
-                                @component('admin.buttons._confirm_delete_selected',[
-                                'route' => 'admin:assets_replacements.deleteSelected',
-                                 ])
-                                @endcomponent
-                            </li>
+                        <li class="list-inline-item">
+                            @component('admin.buttons._confirm_delete_selected',[
+                            'route' => 'admin:assets_replacements.deleteSelected',
+                             ])
+                            @endcomponent
+                        </li>
 
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
-                <table id="revenuesItems" class="table table-bordered" style="width:100%">
-                    <thead>
-                    <tr>
-                        <th scope="col">{!! __('#') !!}</th>
-                        <th scope="col">{!! __('Number') !!}</th>
-                        <th scope="col">{!! __('Date') !!}</th>
-                        <th scope="col">{!! __('Time') !!}</th>
-                        <th scope="col">{!! __('Total Purchase') !!}</th>
-                        <th scope="col">{!! __('Total Value Of Replacement') !!}</th>
-                        <th scope="col">{!! __('Created at') !!}</th>
-                        <th scope="col">{!! __('Updated at') !!}</th>
-                        <th scope="col">{!! __('Options') !!}</th>
-                        <th scope="col">
-                        <div class="checkbox danger">
-                                <input type="checkbox"  id="select-all">
-                                <label for="select-all"></label>
-                            </div>{!! __('Select') !!}</th>
-                    </tr>
-                    </thead>
-                    <tfoot>
-                    <tr>
-                        <th scope="col">{!! __('#') !!}</th>
-                        <th scope="col">{!! __('Number') !!}</th>
-                        <th scope="col">{!! __('Date') !!}</th>
-                        <th scope="col">{!! __('Time') !!}</th>
-                        <th scope="col">{!! __('Total Before Replacement') !!}</th>
-                        <th scope="col">{!! __('Total After Replacement') !!}</th>
-                        <th scope="col">{!! __('Created at') !!}</th>
-                        <th scope="col">{!! __('Updated at') !!}</th>
-                        <th scope="col">{!! __('Options') !!}</th>
-                        <th scope="col">{!! __('Select') !!}</th>
-                    </tr>
-                    </tfoot>
-                    <tbody>
-                    @foreach($assetsReplacements as $index=>$item)
-                        <tr>
-                            <td>{!! $index +1 !!}</td>
-                            <td>{!! $item->number !!}</td>
-                            <td>{!! $item->date  !!} </td>
-                            <td>{!! $item->time  !!} </td>
-                            <td> <span class="label label-warning wg-label"> {!! number_format($item->total_before_replacement, 2) !!} </span></td>
-                            <td> <span class="label label-warning wg-label"> {!! number_format($item->total_after_replacement, 2) !!} </span></td>
-                            <td>{!! $item->created_at->format('y-m-d h:i:s A') !!}</td>
-                            <td>{!! $item->updated_at->format('y-m-d h:i:s A') !!}</td>
-                            <td>
-                                @component('admin.buttons._edit_button',[
-                                            'id'=>$item->id,
-                                            'route' => 'admin:assets_replacements.edit',
-                                             ])
-                                @endcomponent
-
-                                @component('admin.buttons._delete_button',[
-                                            'id'=> $item->id,
-                                            'route' => 'admin:assets_replacements.destroy',
-                                             ])
-                                @endcomponent
-                                    <a style="cursor:pointer" class="btn btn-print-wg text-white  "
-                                       data-toggle="modal"
-
-                                       onclick="getPrintData({{$item->id}})"
-                                       data-target="#boostrapModal" title="{{__('print')}}">
-                                        <i class="fa fa-print"></i> {{__('Print')}}
-                                    </a>
-
-                            </td>
-                            <td>
-                                @component('admin.buttons._delete_selected',[
-                                         'id' => $item->id,
-                                         'route' => 'admin:assets_replacements.deleteSelected',
-                                          ])
-                                @endcomponent
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-            </div>
-            </div>
+                        <table id="datatable-with-btns" class="table table-bordered" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th scope="col">{!! __('#') !!}</th>
+                                <th scope="col">{!! __('Branch') !!}</th>
+                                <th scope="col">{!! __('Number') !!}</th>
+                                <th scope="col">{!! __('Date') !!}</th>
+                                <th scope="col">{!! __('Total Purchase') !!}</th>
+                                <th scope="col">{!! __('Total Value Of Replacement') !!}</th>
+                                <th scope="col">{!! __('Created at') !!}</th>
+                                <th scope="col">{!! __('Updated at') !!}</th>
+                                <th scope="col">{!! __('Options') !!}</th>
+                                <th scope="col">
+                                    <div class="checkbox danger">
+                                        <input type="checkbox" id="select-all">
+                                        <label for="select-all"></label>
+                                    </div>{!! __('Select') !!}</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th scope="col">{!! __('#') !!}</th>
+                                <th scope="col">{!! __('Branch') !!}</th>
+                                <th scope="col">{!! __('Number') !!}</th>
+                                <th scope="col">{!! __('Date') !!}</th>
+                                <th scope="col">{!! __('Total Before Replacement') !!}</th>
+                                <th scope="col">{!! __('Total After Replacement') !!}</th>
+                                <th scope="col">{!! __('Created at') !!}</th>
+                                <th scope="col">{!! __('Updated at') !!}</th>
+                                <th scope="col">{!! __('Options') !!}</th>
+                                <th scope="col">{!! __('Select') !!}</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
     </div>
 @endsection
 @section('js')
     <script type="application/javascript">
-        invoke_datatable($('#revenuesItems'))
+        // invoke_datatable($('#revenuesItems'))
+        server_side_datatable('#datatable-with-btns');
+
         function printAsset() {
             var element_id = 'assetDatatoPrint', page_title = document.title
             print_element(element_id, page_title)
         }
+
         function getPrintData(id) {
             $.ajax({
-                url: "{{ url('admin/assets_replacements/')}}" +'/'+ id,
+                url: "{{ url('admin/assets_replacements/')}}" + '/' + id,
                 method: 'GET',
                 success: function (data) {
                     $("#assetDatatoPrint").html(data.view)
                 }
             });
         }
+
+        function filterFunction($this) {
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+        }
+
+        $('#asset_group_id').on('change', function () {
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            const asset_group_id = $(this).val();
+            $.ajax({
+                type: 'post',
+                url: "{{ route('admin:assets.getAssetsByAssetsGroup')}}",
+                data: {
+                    asset_group_id: asset_group_id,
+                    _token: CSRF_TOKEN,
+                },
+                success: function (data) {
+                    $('#asset_id').each(function () {
+                        $(this).html(data.data)
+                    });
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
+
+        });
+
     </script>
 @endsection
 @section('modals')
