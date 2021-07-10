@@ -359,6 +359,31 @@
 
         $('.dropdown-toggle').dropdown();
 
+        function getDate () {
+
+            let start_date = $('#date_from').val();
+            let end_date = $('#date_to').val();
+
+            const date1 = new Date(start_date);
+            const date2 = new Date(end_date);
+
+            const now = new Date();
+            let dateNow = now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate();
+            const date0 = new Date(dateNow);
+
+            var diff = date2.getTime() - date1.getTime();
+
+            var remainingTime = date2.getTime() - date0.getTime();
+
+            var daydiff = diff / (1000 * 60 * 60 * 24);
+
+            var remainingTimeDays = remainingTime / (1000 * 60 * 60 * 24);
+
+            $('#different_days').val(daydiff.toFixed(0));
+
+            $('#remaining_days').val(remainingTimeDays.toFixed(0));
+        }
+
 
     </script>
 

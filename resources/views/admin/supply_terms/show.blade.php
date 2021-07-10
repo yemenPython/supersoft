@@ -78,6 +78,32 @@
                                     {{input_error($errors,'term_en')}}
                                 </div>
                             </div>
+
+                            <!-- <div class="col-md-12 table-responsive">
+<table class="table table-bordered">
+            <thead>
+                <tr>
+                <th>لوريم</th> 
+                <th>لوريم</th> 
+                <th>لوريم</th> 
+                <th>لوريم</th> 
+                <th>لوريم</th>
+                <th>لوريم</th>
+        </tr>
+        </thead> 
+            <tbody>
+                <tr>
+                    <td>لوريم</td> 
+                    <td>لوريم</td> 
+                    <td>لوريم</td> 
+                    <td>لوريم</td> 
+                    <td>لوريم</td> 
+                    <td>لوريم</td> 
+        </tr>
+    </tbody>
+    </table>
+</div>    -->
+
                             
                             <div class="col-md-4">
                             <table class="table table-bordered has-feedback">

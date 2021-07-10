@@ -79,9 +79,7 @@ class PurchaseReceiptsController extends Controller
             $purchaseReceiptData['user_id'] = auth()->id();
             $purchaseReceiptData['supplier_id'] = $supplyOrder->supplier_id;
 
-            $lastNumber = PurchaseReceipt::where('branch_id', $branch_id)
-                ->orderBy('id', 'desc')
-                ->first();
+            $lastNumber = PurchaseReceipt::where('branch_id', $branch_id)->orderBy('id', 'desc')->first();
 
             $purchaseReceiptData['number'] = $lastNumber ? $lastNumber->number + 1 : 1;
 
@@ -89,7 +87,12 @@ class PurchaseReceiptsController extends Controller
 
             $purchaseReceipt = PurchaseReceipt::create($purchaseReceiptData);
 
-            $this->purchaseReceiptServices->savePurchaseReceiptItems($supplyOrder, $data['items'], $purchaseReceipt->id);
+            $total = $this->purchaseReceiptServices->savePurchaseReceiptItems($supplyOrder, $data['items'], $purchaseReceipt->id);
+
+            $purchaseReceipt->total = $total['total'];
+            $purchaseReceipt->total_accepted = $total['total_accepted'];
+            $purchaseReceipt->total_rejected = $total['total_rejected'];
+            $purchaseReceipt->save();
 
             DB::commit();
         }catch (\Exception $e) {
@@ -154,7 +157,12 @@ class PurchaseReceiptsController extends Controller
 
             $purchaseReceipt->update($purchaseReceiptData);
 
-            $this->purchaseReceiptServices->savePurchaseReceiptItems($supplyOrder, $data['items'], $purchaseReceipt->id);
+            $total = $this->purchaseReceiptServices->savePurchaseReceiptItems($supplyOrder, $data['items'], $purchaseReceipt->id);
+
+            $purchaseReceipt->total = $total['total'];
+            $purchaseReceipt->total_accepted = $total['total_accepted'];
+            $purchaseReceipt->total_rejected = $total['total_rejected'];
+            $purchaseReceipt->save();
 
             DB::commit();
         }catch (\Exception $e) {

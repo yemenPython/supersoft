@@ -44,6 +44,8 @@ class SupplyOrderServices
             'type' => $requestData['type'],
             'date' => $requestData['date'],
             'time' => $requestData['time'],
+            'date_from' => $requestData['date_from'],
+            'date_to' => $requestData['date_to'],
             'supplier_id' => $requestData['supplier_id'],
             'purchase_request_id' => isset($requestData['purchase_request_id']) && $requestData['type'] == 'from_purchase_request' ? $requestData['purchase_request_id'] : null,
             'discount' => $requestData['discount'],

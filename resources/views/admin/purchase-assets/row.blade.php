@@ -25,7 +25,7 @@
     </td>
 
     <td>
-        <div class="input-group">
+        <div class="input-group hide">
             <input type="text" readonly  style="width: 100px !important;" class="form-control valid current_consumtion current_consumtion_{{$index}}" onchange="netTotal('{{$index}}')" onkeyup="netTotal('{{$index}}')" value="{{isset($update_item)?$update_item->purchase_cost - $update_item->past_consumtion: $asset->purchase_cost - $asset->past_consumtion}}" name="items[{{$index}}][current_consumtion]">
         </div>
     </td>

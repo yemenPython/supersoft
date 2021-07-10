@@ -11,7 +11,7 @@
             </h4>
             <!-- /.box-title -->
             <div class="card-content js__card_content" style="padding:20px">
-                <form action="{{route('admin:assets_expenses.index')}}" method="get" id="filtration-form">
+                <form onsubmit="filterFunction($(this));return false;" id="filtration-form">
                     <ul class="list-inline margin-bottom-0 row">
                         @if (authIsSuperAdmin())
                             <li class="form-group col-md-12">

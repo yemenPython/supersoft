@@ -11,14 +11,14 @@
     </td>
 
     <td>
-        <span>{{$item->partPrice && $item->partPrice->unit ? $item->partPrice->unit->unit : '---'}}</span>
+        <span class="part-unit-span">{{$item->partPrice && $item->partPrice->unit ? $item->partPrice->unit->unit : __('Not determined')}}</span>
     </td>
 
     <td>
-        <span>{{$item->supplyOrderItem &&  $item->supplyOrderItem->partPriceSegment ? $item->supplyOrderItem->partPriceSegment ->name:'---'}}</span>
+        <span class="price-span" style="width: 120px !important;display:block">{{$item->supplyOrderItem &&  $item->supplyOrderItem->partPriceSegment ? $item->supplyOrderItem->partPriceSegment ->name : __('Not determined')}}</span>
     </td>
 
-    <td>
+    <td style="background:#FBFAD4 !important">
         <?php
         $part_store = $part->stores()->where('store_id', $item->store_id)->first()
         ?>
@@ -26,12 +26,12 @@
         <span>{{$part_store && $part_store->pivot ? $part_store->pivot->quantity : 0 }}</span>
     </td>
 
-    <td>
+    <td style="background:#E3FBEA !important">
         <span>{{$item->accepted_quantity}}</span>
     </td>
 
     <td>
-        <input style="width: 100px !important;" type="number" class="form-control" id="quantity_{{$index}}"
+        <input style="width: 100px !important;" type="number" class="form-control border1" id="quantity_{{$index}}"
                value="{{ isset($item) ? $item->accepted_quantity : 0}}" min="0" name="items[{{$index}}][quantity]"
                onchange="checkQuantity('{{$index}}'); calculateItem('{{$index}}')"
                onkeyup="checkQuantity('{{$index}}'); calculateItem('{{$index}}')">
@@ -63,27 +63,34 @@
         </div>
     </td>
 
-    <td style="background:#FBE3E6 !important">
-        <input style="width: 150px !important;" type="number" class="form-control" id="discount_{{$index}}"
+    <td>
+        <input style="width: 150px !important;" type="number" class="form-control border4" id="discount_{{$index}}"
                value="{{isset($item) && $item->supplyOrderItem ? $item->supplyOrderItem->discount : 0}}" min="0"
                name="items[{{$index}}][discount]"
                onkeyup="calculateItem('{{$index}}')" onchange="calculateItem('{{$index}}')">
     </td>
 
-    <td style="background:#E3FBEA !important">
-        <input style="width: 150px !important;" type="number" class="form-control" id="total_before_discount_{{$index}}" value="0" min="0"
+    <td>
+        <input style="width: 150px !important;" type="number" class="form-control border2" id="total_before_discount_{{$index}}" value="0" min="0"
                name="items[{{$index}}][total_before_discount]" disabled>
     </td>
 
-    <td style="background:#E3E3FB !important">
-        <input style="width: 150px !important;" type="number" class="form-control" id="total_after_discount_{{$index}}" value="0" min="0"
+    <td>
+        <input style="width: 150px !important;" type="number" class="form-control border2" id="total_after_discount_{{$index}}" value="0" min="0"
                name="items[{{$index}}][total_after_discount]" disabled>
     </td>
 
-    <td style="background:#E3F6FB !important">
-        <div class="btn-group ">
-            <span type="button" class="fa fa-usd  dropdown-toggle" data-toggle="dropdown"
-                  style="background-color: rgb(244, 67, 54); color: white; padding: 3px; border-radius: 5px; cursor: pointer"
+    <td>
+    <div class="btn-group" style="display:flex !important;align-items:center">
+    <span type="button" class="fa fa-eye dropdown-toggle" data-toggle="dropdown"
+                  style="
+    color: #a776e7;
+    padding: 6px 10px;
+    border-radius: 0;
+    border: 1px solid #3f3f3f;
+    cursor: pointer;
+    font-size: 20px;
+}"
                   aria-haspopup="true" aria-expanded="false">
             </span>
 
@@ -127,14 +134,14 @@
 
             <input type="hidden" id="tax_count_{{$index}}" value="{{$part->taxes->count()}}">
 
-            <input style="width: 150px !important;" type="number" class="form-control" id="tax_{{$index}}"
+            <input style="width: 120px !important; margin: 0 5px;" type="number" class="form-control" id="tax_{{$index}}"
                    value="{{isset($update_item) ? $update_item->tax : 0 }}"
                    min="0" name="items[{{$index}}][tax]" disabled>
         </div>
     </td>
 
-    <td style="background:#FBFBE3 !important">
-        <input style="width: 150px !important;" type="number" class="form-control" id="total_{{$index}}" value="0" min="0"
+    <td>
+        <input style="width: 150px !important;" type="number" class="form-control border3" id="total_{{$index}}" value="0" min="0"
                name="items[{{$index}}][total]" disabled>
     </td>
 
@@ -148,12 +155,13 @@
     </td>
 
     <td>
-        <div>
+    <div style="padding:5px !important;">
             <button type="button" class="btn btn-danger fa fa-trash" onclick="removeItem('{{$index}}')"></button>
 
             <button type="button" class="btn btn-primary waves-effect waves-light btn-xs" onclick="storeQuantity('{{$part->id}}')"
                     data-toggle="modal" data-target="#part_quantity" style="margin-right: 10px;">
-                {{__('Quantity')}}
+               
+                    <li class="fa fa-cubes"></li> {{__('Stores Qty')}}
             </button>
         </div>
     </td>

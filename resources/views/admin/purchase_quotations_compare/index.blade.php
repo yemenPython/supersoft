@@ -61,7 +61,7 @@
 
                                 <button type="submit" style="margin-bottom: 12px; border-radius: 5px"
                                         class="btn btn-icon btn-icon-left btn-create-wg waves-effect waves-light hvr-bounce-to-left">
-                                    {{__('Save')}}
+                                    {{__('create supply order')}}
                                     <i class="ico fa fa-plus"></i>
                                 </button>
                             </li>
@@ -70,7 +70,7 @@
                         <div class="clearfix"></div>
 
                         <div class="table-responsive">
-                            <table class="table table-bordered wg-table-print table-hover" style="width:100%">
+                            <table class="table table-bordered wg-table-print table-hover" id="cities" style="width:100%">
 
                                 <thead>
                                 <tr>
@@ -149,24 +149,24 @@
                                             {{$item->partPriceSegment ? $item->partPriceSegment->name : __('Not determined')}}
                                             </span>
                                             </td>
-                                            <td style="background:#FBE3E6 !important">
+                                            <td class="text-danger">
                                                 {{$item->quantity}}
                                             </td>
-                                            <td style="background:#E3FBEA !important">
+                                            <td style="background:#FBFAD4 !important">
                                                 {{$item->price}}
                                             </td>
 
                                             <td>{{__($item->discount_type)}}</td>
-                                            <td style="background:#E3E3FB !important">
+                                            <td style="background:#E3F6FB !important">
                                                 {{$item->discount}}
                                             </td>
                                             <td style="background:#FBE3EA !important">
                                                 {{$item->sub_total}}
                                             </td>
-                                            <td style="background:#E3E3FB !important">
+                                            <td style="background:#E3F6FB !important">
                                                 {{$item->total_after_discount}}
                                             </td>
-                                            <td style="background:#E3F6FB !important">
+                                            <td>
                                                 {{$item->tax}}
                                             </td>
                                             <td style="background:#FBFAD4 !important">
@@ -177,7 +177,7 @@
                                                    data-toggle="modal"
                                                    onclick="getPrintData({{$purchaseQuotation->id}})"
                                                    data-target="#boostrapModal" title="{{__('print')}}">
-                                                    <i class="fa fa-print"></i> {{__('Print')}}
+                                                    <i class="fa fa-print"></i> {{__('Show quotation')}}
                                                 </a>
                                             </td>
                                             <td>
@@ -242,6 +242,69 @@
         {{--    let branch_id = $('#branch_id').find(":selected").val();--}}
         {{--    window.location.href = "{{route('admin:purchase.quotations.compare.index')}}" + "?branch_id=" + branch_id;--}}
         {{--}--}}
+
+        function getParts() {
+
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            let spare_part_id = $('#spare_part_id').find(":selected").val();
+
+            $.ajax({
+
+                type: 'post',
+
+                url: '{{route('admin:purchase.quotations.compare.get.parts')}}',
+
+                data: {
+                    _token: CSRF_TOKEN,
+                    spare_part_id: spare_part_id
+                },
+
+                success: function (data) {
+
+                    $("#parts_options").html(data.parts);
+                    $('.js-example-basic-single').select2();
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+        }
+
+        function getPurchaseQuotations(type) {
+
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            let item_id = $('#supplier').find(":selected").val();
+
+            if (type == 'purchase_request') {
+                item_id = $('#purchase_request').find(":selected").val();
+            }
+
+            $.ajax({
+
+                type: 'post',
+                url: '{{route('admin:purchase.quotations.compare.get.quotations')}}',
+                data: {
+                    _token: CSRF_TOKEN,
+                    type:type,
+                    item_id: item_id
+                },
+
+                success: function (data) {
+
+                    $("#purchase_quotations").html(data.quotations);
+                    $('.js-example-basic-single').select2();
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+        }
 
     </script>
 @endsection

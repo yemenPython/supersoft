@@ -74,7 +74,7 @@
 
     <div class="modal fade" id="purchase_receipts" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
+        <div class="modal-content wg-content">
                 <div class="modal-header">
 
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -115,15 +115,17 @@
 
                 <div class="modal-footer">
 
+
+                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
+                            onclick="addSelectedPurchaseReceipts()">
+                        {{__('Add Item')}}
+                    </button>
+
                     <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"
                             data-dismiss="modal">
                         {{__('Close')}}
                     </button>
 
-                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
-                            onclick="addSelectedPurchaseReceipts()">
-                        {{__('Add Item')}}
-                    </button>
                 </div>
             </div>
         </div>

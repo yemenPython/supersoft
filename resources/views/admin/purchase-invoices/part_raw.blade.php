@@ -97,7 +97,7 @@
 
         @if(isset($item))
 
-            <input style="width: 100px !important;" type="number" class="form-control" id="quantity_{{$index}}"
+            <input style="width: 100px !important;" type="number" class="form-control border1" id="quantity_{{$index}}"
                    value="{{ $item->quantity}}" min="0"
                    name="items[{{$index}}][quantity]"
                    onchange="calculateItem('{{$index}}')" onkeyup="calculateItem('{{$index}}')">
@@ -160,9 +160,16 @@
     </td>
 
     <td>
-        <div class="btn-group ">
-            <span type="button" class="fa fa-usd  dropdown-toggle" data-toggle="dropdown"
-                  style="background-color: rgb(244, 67, 54); color: white; padding: 3px; border-radius: 5px; cursor: pointer"
+    <div class="btn-group" style="display:flex !important;align-items:center">
+    <span type="button" class="fa fa-eye dropdown-toggle" data-toggle="dropdown"
+                  style="
+    color: #a776e7;
+    padding: 6px 10px;
+    border-radius: 0;
+    border: 1px solid #3f3f3f;
+    cursor: pointer;
+    font-size: 20px;
+}"
                   aria-haspopup="true" aria-expanded="false">
             </span>
 
@@ -187,7 +194,7 @@
                                     {{isset($update_item) && in_array($tax->id, $update_item->taxes->pluck('id')->toArray()) ? 'checked':''}}
                                 >
                                 <span>
-                                    {{$tax->name}} - {{$tax->tax_type == 'amount' ? '$':'%'}} - {{ $tax->value }} -
+                                    {{$tax->name}} ( {{ $tax->value }} {{$tax->tax_type == 'amount' ? '$':'%'}} ) =
                                     <span id="calculated_tax_value_{{$tax_index}}_{{$index}}">
                                          {{isset($update_item) ? taxValueCalculated($update_item->total_after_discount - $update_item->tax, $update_item->subtotal, $tax ) : 0}}
                                     </span>
@@ -207,7 +214,7 @@
 
             <input type="hidden" id="tax_count_{{$index}}" value="{{$part->taxes->count()}}">
 
-            <input style="width: 150px !important;" type="number" class="form-control border5" id="tax_{{$index}}"
+            <input style="width: 120px !important;  margin: 0 5px;" type="number" class="form-control border5" id="tax_{{$index}}"
                    value="{{isset($update_item) ? $update_item->tax : 0 }}"
                    min="0" name="items[{{$index}}][tax]" disabled>
         </div>

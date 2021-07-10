@@ -116,7 +116,45 @@
         </div>
     </div>
 
+    <div class="wg-tb-snd" style="border:1px solid #AAA;margin:5px 20px 20px;padding:10px;border-radius:5px">
+        <div class="row">
+            <div class="col-xs-4">
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <th style="background:#CCC !important;color:black" scope="row">{{__('Total')}}</th>
+                        <td>{{$purchaseReceipt->total }}</td>
+                    </tr>
 
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-xs-4">
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <th style="background:#CCC !important;color:black" scope="row">{{__('Total Accepted')}}</th>
+                        <td>{{$purchaseReceipt->total_accepted }}</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-xs-4">
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <th style="background:#CCC !important;color:black" scope="row">{{__('Total Rejected')}}</th>
+                        <td>{{$purchaseReceipt->total_rejected }}</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
         @if($purchaseReceipt->notes)
             <div class="col-xs-12 wg-tb-snd">

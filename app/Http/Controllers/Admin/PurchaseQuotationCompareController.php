@@ -19,6 +19,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class PurchaseQuotationCompareController extends Controller
 {
@@ -171,5 +172,83 @@ class PurchaseQuotationCompareController extends Controller
         $url = route('admin:supply-orders.edit', $supplyOrder->id);
 
         return redirect($url)->with(['message' => __('supply.orders.created.successfully'), 'alert-type' => 'success']);
+    }
+
+    public function partsByType(Request $request)
+    {
+        $rules = [
+            'spare_part_id' => 'nullable|integer|exists:spare_parts,id'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        try {
+
+            $parts = Part::where('status', 1);
+
+            if ($request['spare_part_id'] != null) {
+
+                $parts->whereHas('spareParts', function ($q) use ($request) {
+                    $q->where('spare_part_type_id', $request['spare_part_id']);
+                });
+            }
+
+            $parts = $parts->select('name_' . $this->lang, 'id')->get();
+
+            $view = view('admin.purchase_quotations_compare.ajax_parts', compact('parts'))->render();
+
+            return response()->json(['parts' => $view], 200);
+
+        } catch (\Exception $e) {
+
+            return response()->json('sorry, please try later', 400);
+        }
+    }
+
+    public function getPurchaseQuotations(Request $request)
+    {
+
+        $rules = [
+            'type' => 'required|string|in:suppliers,purchase_request',
+        ];
+
+        $rules['item_id'] = 'nullable|integer|exists:purchase_requests,id';
+
+        if ($request['type'] == 'supplier') {
+            $rules['item_id'] = 'nullable|integer|exists:supplier,id';
+        }
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        try {
+
+            $quotations = PurchaseQuotation::query();
+
+            if ($request['type'] == 'suppliers' && $request['item_id'] != null) {
+                $quotations->where('supplier_id', $request['item_id']);
+            }
+
+            if ($request['type'] == 'purchase_request' && $request['item_id'] != null) {
+                $quotations->where('purchase_request_id', $request['item_id']);
+            }
+
+            $quotations = $quotations->select('number', 'id')->get();
+
+            $view = view('admin.purchase_quotations_compare.ajax_quotations', compact('quotations'))->render();
+
+            return response()->json(['quotations' => $view], 200);
+
+        } catch (\Exception $e) {
+
+            return response()->json('sorry, please try later', 400);
+        }
     }
 }

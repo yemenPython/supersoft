@@ -108,6 +108,45 @@
                 </table>
             </div>
 
+
+            <div class="col-xs-4">
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <th style="background:#CCC !important;color:black"
+                            scope="row">{{__('Period of quotation from')}}</th>
+                        <td>{{__($purchaseQuotation->date_from)}}</td>
+                    </tr>
+
+                    <tr>
+                        <th style="background:#CCC !important;color:black"
+                            scope="row">{{__('Different Days')}}</th>
+                        <td>{{__($purchaseQuotation->different_days)}}</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-xs-4">
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <th style="background:#CCC !important;color:black"
+                            scope="row">{{__('Period of quotation to')}}</th>
+                        <td>{{__($purchaseQuotation->date_to )}}</td>
+                    </tr>
+                    <tr>
+                        <th style="background:#CCC !important;color:black"
+                            scope="row">{{__('Remaining Days')}}</th>
+                        <td>{{__($purchaseQuotation->remaining_days)}}</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+
             <div class="col-xs-4">
                 <table class="table table-bordered">
                     <tbody>

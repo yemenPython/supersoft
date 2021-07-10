@@ -18,20 +18,22 @@ class PurchaseReturn {
             'invoice_number' => 'invoice_number',
             'supplier' => 'supplier',
             'invoice_type' => 'invoice_type',
-            'payment' => 'payment',
+        
+            'total' => 'total',
             'paid' => 'paid',
             'remaining' => 'remaining',
             'created_at' => 'created_at',
             'updated_at' => 'updated_at'
         ];
         $this->columns = [
-            'invoice_number' ,'supplier', 'invoice_type', 'payment', 'paid', 'remaining', 'created_at', 'updated_at'
+            'invoice_number' ,'supplier', 'invoice_type','total','paid', 'remaining', 'created_at', 'updated_at'
         ];
         $this->header = [
             'invoice_number' => __('Invoice Number'),
             'supplier' => __('Supplier Name'),
             'invoice_type' => __('Invoice Type'),
-            'payment' => __('Payment status'),
+       
+            'total' => __('Total'),
             'paid' => __('Paid'),
             'remaining' => __('Remaining'),
             'created_at' => __('created at'),
@@ -54,7 +56,8 @@ class PurchaseReturn {
         return [
             'invoice-number' => __('Invoice Number'),
             'invoice-type' => __('Invoice Type'),
-            'payment' => __('Payment status'),
+        
+            'total' => __('Total'),
             'paid' => __('Paid'),
             'remaining' => __('Remaining'),
         ];

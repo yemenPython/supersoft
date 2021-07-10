@@ -15,98 +15,99 @@
 
                     <div class="list-inline margin-bottom-0 row">
 
-{{--                        @if(authIsSuperAdmin())--}}
-{{--                            <div class="form-group col-md-4">--}}
-{{--                                <label> {{ __('Branches') }} </label>--}}
-{{--                                <div class="input-group">--}}
-{{--                                    <span class="input-group-addon fa fa-file"></span>--}}
-{{--                                    <select name="branch_id" id="branch_id" onchange="changeBranch()">--}}
-{{--                                        <option value="">{{__('Select')}}</option>--}}
-{{--                                        @foreach ($data['branches'] as $branch)--}}
-{{--                                            <option value="{{$branch->id}}"--}}
-{{--                                                {{request()->has('branch_id') && request()['branch_id'] == $branch->id ? 'selected':''}}>--}}
-{{--                                                {{$branch->name}}--}}
-{{--                                            </option>--}}
-{{--                                        @endforeach--}}
-{{--                                    </select>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        @endif--}}
+                        {{--                        @if(authIsSuperAdmin())--}}
+                        {{--                            <div class="form-group col-md-4">--}}
+                        {{--                                <label> {{ __('Branches') }} </label>--}}
+                        {{--                                <div class="input-group">--}}
+                        {{--                                    <span class="input-group-addon fa fa-file"></span>--}}
+                        {{--                                    <select name="branch_id" id="branch_id" onchange="changeBranch()">--}}
+                        {{--                                        <option value="">{{__('Select')}}</option>--}}
+                        {{--                                        @foreach ($data['branches'] as $branch)--}}
+                        {{--                                            <option value="{{$branch->id}}"--}}
+                        {{--                                                {{request()->has('branch_id') && request()['branch_id'] == $branch->id ? 'selected':''}}>--}}
+                        {{--                                                {{$branch->name}}--}}
+                        {{--                                            </option>--}}
+                        {{--                                        @endforeach--}}
+                        {{--                                    </select>--}}
+                        {{--                                </div>--}}
+                        {{--                            </div>--}}
+                        {{--                        @endif--}}
 
-                            <div class="form-group col-md-4">
-                                <label> {{ __('Parts') }} </label>
-                                <div class="input-group">
-                                    <span class="input-group-addon fa fa-file"></span>
-                                    <select name="part_id" >
-                                        <option value="">{{__('Select')}}</option>
-                                        @foreach ($data['parts'] as $part)
-                                            <option value="{{$part->id}}">
-                                                {{$part->name}}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                        <div class="form-group col-md-4">
+                            <label> {{ __('Parts Types') }} </label>
+                            <div class="input-group">
+                                <span class="input-group-addon fa fa-file"></span>
+                                <select name="part_type_id" onchange="getParts()" id="spare_part_id">
+                                    <option value="">{{__('Select')}}</option>
+                                    @foreach ($data['partsTypes'] as $key=>$value)
+                                        <option value="{{$key}}">
+                                            {{$value}}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
+                        </div>
 
-                            <div class="form-group col-md-4">
-                                <label> {{ __('Parts Types') }} </label>
-                                <div class="input-group">
-                                    <span class="input-group-addon fa fa-file"></span>
-                                    <select name="part_type_id" >
-                                        <option value="">{{__('Select')}}</option>
-                                        @foreach ($data['partsTypes'] as $key=>$value)
-                                            <option value="{{$key}}">
-                                                {{$value}}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                        <div class="form-group col-md-4">
+                            <label> {{ __('Parts') }} </label>
+                            <div class="input-group">
+                                <span class="input-group-addon fa fa-file"></span>
+                                <select name="part_id" id="parts_options">
+                                    <option value="">{{__('Select')}}</option>
+                                    @foreach ($data['parts'] as $part)
+                                        <option value="{{$part->id}}">
+                                            {{$part->name}}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
+                        </div>
 
-                            <div class="form-group col-md-4">
-                                <label> {{ __('Suppliers') }} </label>
-                                <div class="input-group">
-                                    <span class="input-group-addon fa fa-file"></span>
-                                    <select name="supplier_id" >
-                                        <option value="">{{__('Select')}}</option>
-                                        @foreach ($data['suppliers'] as $supplier)
-                                            <option value="{{$supplier->id}}">
-                                                {{$supplier->name}}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
 
-                            <div class="form-group col-md-2">
-                                <label> {{ __('Quotation Number') }} </label>
-                                <div class="input-group">
-                                    <span class="input-group-addon fa fa-file"></span>
-                                    <select name="quotation_number" >
-                                        <option value="">{{__('Select')}}</option>
-                                        @foreach ($data['purchase_quotations'] as $purchase_quotations)
-                                            <option value="{{$purchase_quotations->id}}">
-                                                {{$purchase_quotations->number}}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                        <div class="form-group col-md-4">
+                            <label> {{ __('Suppliers') }} </label>
+                            <div class="input-group">
+                                <span class="input-group-addon fa fa-file"></span>
+                                <select name="supplier_id" onchange="getPurchaseQuotations('suppliers')" id="supplier">
+                                    <option value="">{{__('Select')}}</option>
+                                    @foreach ($data['suppliers'] as $supplier)
+                                        <option value="{{$supplier->id}}">
+                                            {{$supplier->name}}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
+                        </div>
 
-                            <div class="form-group col-md-2">
-                                <label> {{ __('Purchase Request Number') }} </label>
-                                <div class="input-group">
-                                    <span class="input-group-addon fa fa-file"></span>
-                                    <select name="purchase_request_id" >
-                                        <option value="">{{__('Select')}}</option>
-                                        @foreach ($data['purchase_request'] as $purchase_request)
-                                            <option value="{{$purchase_request->id}}">
-                                                {{$purchase_request->number}}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                        <div class="form-group col-md-2">
+                            <label> {{ __('Purchase Request Number') }} </label>
+                            <div class="input-group">
+                                <span class="input-group-addon fa fa-file"></span>
+                                <select name="purchase_request_id" onchange="getPurchaseQuotations('purchase_request')" id="purchase_request">
+                                    <option value="">{{__('Select')}}</option>
+                                    @foreach ($data['purchase_request'] as $purchase_request)
+                                        <option value="{{$purchase_request->id}}">
+                                            {{$purchase_request->number}}
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
+                        </div>
+
+                        <div class="form-group col-md-2">
+                            <label> {{ __('Quotation Number') }} </label>
+                            <div class="input-group">
+                                <span class="input-group-addon fa fa-file"></span>
+                                <select name="quotation_number" id="purchase_quotations">
+                                    <option value="">{{__('Select')}}</option>
+                                    @foreach ($data['purchase_quotations'] as $purchase_quotations)
+                                        <option value="{{$purchase_quotations->id}}">
+                                            {{$purchase_quotations->number}}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
 
                         <div class="form-group col-md-4">
                             <label> {{ __('Date From') }} </label>
@@ -118,6 +119,15 @@
                             <input type="date" name="date_to" class="form-control">
                         </div>
 
+                        <div class="form-group col-md-4">
+                            <label> {{ __('Part Barcode') }} </label>
+                            <input type="text" name="part_barcode" class="form-control">
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label> {{ __('Supplier Barcode') }} </label>
+                            <input type="text" name="supplier_barcode" class="form-control">
+                        </div>
 
                     </div>
 
