@@ -120,7 +120,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-1">
+                <div class="col-md-2">
                     <div class="radio primary ">
                         <input type="radio" name="type" id="credit" value="credit"
                             {{isset($purchaseReturn) && $purchaseReturn->type == 'credit' ? 'checked':''}} >
@@ -157,7 +157,7 @@
                 </div>
 
                 {{-- Purchase Invoices --}}
-                <div class="col-md-3 from_purchase_invoice"
+                <div class="col-md-6 from_purchase_invoice"
                      style="{{isset($purchaseReturn) && $purchaseReturn->invoice_type != 'from_supply_order'? '':'display:none'}}
                      {{!isset($purchaseReturn) ? 'display:none':''}}">
                     <div class="form-group has-feedback">
@@ -186,7 +186,7 @@
                 </div>
 
                 {{-- Supply Orders --}}
-                <div class="col-md-3 from_supply_order"
+                <div class="col-md-6 from_supply_order"
                      style="{{isset($purchaseReturn) && $purchaseReturn->invoice_type != 'from_supply_order'? 'display:none':''}}">
                     <div class="form-group has-feedback">
                         <label for="inputStore" class="control-label">{{__('Supply Orders')}}</label>
@@ -219,12 +219,12 @@
                         <div class="input-group">
                             <button type="button" onclick="getPurchaseReceipts(); changeType()"
                                     class="btn btn-primary waves-effect waves-light btn-xs">
-                                {{__('Get Purchase Receipt')}}
+                                    {{__('Get Purchase Receipt')}}
                             </button>
 
                             <button type="button" class="btn btn-danger waves-effect waves-light btn-xs"
                                     data-toggle="modal" data-target="#purchase_receipts" style="margin-right: 10px;">
-                                {{__('Show Purchase Receipt')}}
+                                    {{__('Show selected Receipts')}}
                             </button>
                         </div>
                     </div>

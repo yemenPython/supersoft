@@ -1,5 +1,5 @@
 <?php
-
+Route::post('purchase-requests-deleteSelected', 'PurchaseRequestController@deleteSelected')->name('purchase-requests.deleteSelected');
 Route::resource('/purchase-requests', 'PurchaseRequestController');
 Route::post('/purchase-requests/select-part', 'PurchaseRequestController@selectPart')->name('purchase.requests.select.part');
 Route::get('/purchase-requests/print/data', 'PurchaseRequestController@print')->name('purchase.requests.print');

@@ -390,7 +390,7 @@ class PurchaseInvoicesController extends Controller
 
         if (isset($request->ids)) {
 
-            foreach ($request->ids as $invoiceId) {
+            foreach (array_unique($request->ids) as $invoiceId) {
 
                 $purchaseInvoice = PurchaseInvoice::find($invoiceId);
 

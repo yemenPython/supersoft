@@ -27,10 +27,10 @@
                             @include('admin.buttons.add-new', [  'route' => 'admin:supply-orders.create',  'new' => '',])
                         </li>
 
-                        {{--                        <li class="list-inline-item">--}}
-                        {{--                            @component('admin.buttons._confirm_delete_selected',['route' => 'admin:damaged-stock.create.deleteSelected',])--}}
-                        {{--                            @endcomponent--}}
-                        {{--                        </li>--}}
+                                                <li class="list-inline-item">
+                                                    @component('admin.buttons._confirm_delete_selected',['route' => 'admin:damaged-stock.create.deleteSelected',])
+                                                    @endcomponent
+                                                </li>
 
                     </ul>
 
@@ -139,12 +139,12 @@
                                     <td>
 
                                     <div class="btn-group margin-top-10">
-                                        
+
                                         <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="ico fa fa-bars"></i>
                                         {{__('Options')}} <span class="caret"></span>
-                                     
-                                    </button> 
+
+                                    </button>
                                     <ul class="dropdown-menu dropdown-wg">
                                     <li>
                                         @component('admin.buttons._edit_button',[
@@ -189,11 +189,11 @@
 
                                     </td>
                                     <td>
-                                        {{--                                        @component('admin.buttons._delete_selected',[--}}
-                                        {{--                                                   'id' => $type->id,--}}
-                                        {{--                                                    'route' => 'admin:concession-types.deleteSelected',--}}
-                                        {{--                                                    ])--}}
-                                        {{--                                        @endcomponent--}}
+                                                                                @component('admin.buttons._delete_selected',[
+                                                                                           'id' => $item->id,
+                                                                                            'route' => 'admin:supply-orders.deleteSelected',
+                                                                                            ])
+                                                                                @endcomponent
                                     </td>
                                 </tr>
                             @endforeach

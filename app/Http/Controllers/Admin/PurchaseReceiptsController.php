@@ -7,6 +7,8 @@ use App\Models\Branch;
 use App\Models\PurchaseReceipt;
 use App\Models\SupplyOrder;
 use App\Services\PurchaseReceiptServices;
+use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
@@ -181,6 +183,25 @@ class PurchaseReceiptsController extends Controller
         }
 
         return redirect()->back()->with(['message'=> __('purchase.receipts.deleted.successfully'), 'alert-type'=>'success']);
+    }
+
+    public function deleteSelected(Request $request): RedirectResponse
+    {
+        if (!isset($request->ids)) {
+            return redirect()->back()->with(['message' => __('words.select-one-least'), 'alert-type' => 'error']);
+        }
+        try {
+            $purchaseReceipts = PurchaseReceipt::whereIn('id', array_unique($request->ids))->get();
+            foreach ($purchaseReceipts as $purchaseReceipt) {
+                if ($purchaseReceipt->concession) {
+                    return redirect()->back()->with(['message'=> __('sorry, you can not delete that'), 'alert-type'=>'error']);
+                }
+                $purchaseReceipt->delete();
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' => __('sorry, please try later'), 'alert-type' => 'error']);
+        }
+        return redirect()->back()->with(['message' => __('purchase.receipts.deleted.successfully'), 'alert-type' => 'success']);
     }
 
     public function selectSupplyOrder(Request $request)

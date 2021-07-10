@@ -1,4 +1,5 @@
 <?php
+Route::post('purchase-receipts-deleteSelected', 'PurchaseReceiptsController@deleteSelected')->name('purchase-receipts.deleteSelected');
 
 Route::resource('/purchase-receipts', 'PurchaseReceiptsController');
 Route::post('/purchase-receipts/select-supply-order', 'PurchaseReceiptsController@selectSupplyOrder')->name('purchase.receipts.select.supply.order');

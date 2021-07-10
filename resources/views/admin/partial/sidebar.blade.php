@@ -741,10 +741,6 @@ url('admin/concessions/archive'),
                         <span class="menu-arrow fa fa-angle-down"></span>
                     </a>
                     <ul class="sub-menu js__content wg-menu" style="">
-                        <li class="{{setActivationClass(url('admin/users/archive').'?archive')}}">
-                            <a href="{{url('admin/users/archive').'?archive'}}">{{__('Users Archives')}}</a>
-                        </li>
-
                         <li class="{{setActivationClass(url('admin/concessions/archive'))}}">
                             <a href="{{url('admin/concessions/archive')}}">{{__('Concessions Archives')}}</a>
                         </li>

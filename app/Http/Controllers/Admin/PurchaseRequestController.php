@@ -10,6 +10,7 @@ use App\Models\PurchaseRequestItem;
 use App\Models\SparePart;
 use App\Services\PurchaseRequestService;
 use App\Traits\SubTypesServices;
+use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
@@ -99,7 +100,7 @@ class PurchaseRequestController extends Controller
             }
 
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollback();
 
             return redirect()->back()->with(['message' => __('sorry, please try later'), 'alert-type' => 'error']);
@@ -191,7 +192,7 @@ class PurchaseRequestController extends Controller
             }
 
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollback();
 
             dd($e->getMessage());
@@ -237,7 +238,7 @@ class PurchaseRequestController extends Controller
 
             return response()->json(['parts' => $view, 'partTypesView'=> $partTypesView,  'index' => $index], 200);
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
 
             return response()->json('sorry, please try later', 400);
         }
@@ -252,9 +253,29 @@ class PurchaseRequestController extends Controller
             $this->purchaseRequestServices->deletePurchaseRequest($purchaseRequest);
 
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollback();
 
+            return redirect()->back()->with(['message' => __('sorry, please try later'), 'alert-type' => 'error']);
+        }
+
+        return redirect(route('admin:purchase-requests.index'))->with(['message' => __('words.purchase-request-deleted'), 'alert-type' => 'success']);
+    }
+
+    public function deleteSelected(Request $request)
+    {
+        if (!isset($request->ids)) {
+            return redirect()->back()->with(['message' => __('words.select-one-least'), 'alert-type' => 'error']);
+        }
+        try {
+            DB::beginTransaction();
+            $purchaseRequests = PurchaseRequest::whereIn('id', array_unique($request->ids))->get();
+            foreach ($purchaseRequests as $purchaseRequest) {
+                $this->purchaseRequestServices->deletePurchaseRequest($purchaseRequest);
+            }
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollback();
             return redirect()->back()->with(['message' => __('sorry, please try later'), 'alert-type' => 'error']);
         }
 
@@ -283,7 +304,7 @@ class PurchaseRequestController extends Controller
             }
 
             DB::commit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollback();
 
             return redirect()->back()->with(['message' => __('sorry, please try later'), 'alert-type' => 'error']);

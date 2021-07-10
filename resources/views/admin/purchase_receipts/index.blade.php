@@ -27,10 +27,10 @@
                             @include('admin.buttons.add-new', [  'route' => 'admin:purchase-receipts.create',  'new' => '',])
                         </li>
 
-                        {{--                        <li class="list-inline-item">--}}
-                        {{--                            @component('admin.buttons._confirm_delete_selected',['route' => 'admin:damaged-stock.create.deleteSelected',])--}}
-                        {{--                            @endcomponent--}}
-                        {{--                        </li>--}}
+                                                <li class="list-inline-item">
+                                                    @component('admin.buttons._confirm_delete_selected',['route' => 'admin:damaged-stock.create.deleteSelected',])
+                                                    @endcomponent
+                                                </li>
 
                     </ul>
 
@@ -48,7 +48,7 @@
                                 <th scope="col">{!! __('Number') !!}</th>
                                 <th scope="col">{!! __('Concession Status') !!}</th>
                                 <th scope="col">{!! __('Execution Status') !!}</th>
-                                
+
                                 <th scope="col">{!! __('Created Date') !!}</th>
                                 <th scope="col">{!! __('Updated Date') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -71,7 +71,7 @@
                                 <th scope="col">{!! __('Number') !!}</th>
                                 <th scope="col">{!! __('Concession Status') !!}</th>
                                 <th scope="col">{!! __('Execution Status') !!}</th>
-                            
+
                                 <th scope="col">{!! __('Created Date') !!}</th>
                                 <th scope="col">{!! __('Updated Date') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -138,8 +138,8 @@
                                     <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="ico fa fa-bars"></i>
                                         {{__('Options')}} <span class="caret"></span>
-                                     
-                                    </button> 
+
+                                    </button>
                                     <ul class="dropdown-menu dropdown-wg">
                                             <li>
                                         @component('admin.buttons._edit_button',[
@@ -166,25 +166,25 @@
                                         </a>
                                         </li>
 
-                                            
+
 <li>
 
                                         @include('admin.partial.execution_period', ['id'=> $item->id])
                                         </li>
-                                    
 
-                                            
+
+
                                     <li>
                                         @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])
                                         </li>
 
                                     </td>
                                     <td>
-                                        {{--                                        @component('admin.buttons._delete_selected',[--}}
-                                        {{--                                                   'id' => $type->id,--}}
-                                        {{--                                                    'route' => 'admin:concession-types.deleteSelected',--}}
-                                        {{--                                                    ])--}}
-                                        {{--                                        @endcomponent--}}
+                                                                                @component('admin.buttons._delete_selected',[
+                                                                                           'id' => $item->id,
+                                                                                            'route' => 'admin:purchase-receipts.deleteSelected',
+                                                                                            ])
+                                                                                @endcomponent
                                     </td>
                                 </tr>
                             @endforeach
