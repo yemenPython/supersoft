@@ -39,9 +39,40 @@ class ConsumptionAssetsController extends Controller
     public function index(Request $request)
     {
         if ($request->isDataTable) {
-            $consumptionAssets = ConsumptionAsset::select( ['*'] );
-            return DataTables::of( $consumptionAssets )
+            $consumptionAssets = ConsumptionAsset::select( [
+                'consumption_assets.id', 'number',
+                'branch_id',
+                'date',
+                'time',
+                'note',
+                'date_from',
+                'date_to'] )
+                ->leftjoin( 'consumption_asset_items', 'consumption_assets.id', '=', 'consumption_asset_items.consumption_asset_id' );
+
+            if ($request->has( 'branch_id' ) && !empty( $request['branch_id'] ))
+                $consumptionAssets->where( 'consumption_assets.branch_id', $request['branch_id'] );
+            if ($request->has( 'number' ) && !empty( $request['number'] ))
+                $consumptionAssets->where( 'consumption_assets.number', $request['number'] );
+
+            if ($request->has( 'asset_group_id' ) && !empty( $request->asset_group_id ))
+                $consumptionAssets->where( 'consumption_asset_items.asset_group_id', $request['asset_group_id'] );
+            if ($request->has( 'asset_id' ) && !empty( $request->asset_id ))
+                $consumptionAssets->where( 'consumption_asset_items.asset_id', $request['asset_id'] );
+
+
+            if ($request->has( 'date_from' ) && !empty( $request['date_from'] ))
+                $consumptionAssets->where( 'consumption_assets.date_from', $request['date_from'] );
+
+            if ($request->has( 'date_to' ) && !empty( $request['date_to'] ))
+                $consumptionAssets->where( 'consumption_assets.date_to', $request['date_to'] );
+
+            whereBetween( $consumptionAssets, 'consumption_asset_items.consumption_amount', $request->consumption_amount_from, $request->consumption_amount_to );
+            return DataTables::of( $consumptionAssets->groupBy( 'consumption_assets.id' ) )
                 ->addIndexColumn()
+                ->addColumn( 'branch_id', function ($asset) {
+                    return '<span class="text-danger">' . optional( $asset->branch )->name . '</span>';
+
+                } )
                 ->addColumn( 'number', function ($consumptionAsset) {
                     return $consumptionAsset->number;
 
@@ -98,6 +129,7 @@ class ConsumptionAssetsController extends Controller
         } else {
             $js_columns = [
                 'DT_RowIndex' => 'DT_RowIndex',
+                'branch_id' => 'consumption_assets.branch_id',
                 'number' => 'consumption_assets.number',
                 'date' => 'consumption_assets.date',
                 'date_from' => 'consumption_assets.date_from',
@@ -105,7 +137,11 @@ class ConsumptionAssetsController extends Controller
                 'action' => 'action',
                 'options' => 'options'
             ];
-            return view( 'admin.consumption-assets.index', compact( 'js_columns' ) );
+            $assets = Asset::all();
+            $branches = Branch::all()->pluck( 'name', 'id' );
+            $assetsGroups = AssetGroup::select( ['id', 'name_ar', 'name_en'] )->get();
+            $numbers = ConsumptionAsset::select( 'number' )->orderBy( 'number', 'asc' )->get();
+            return view( 'admin.consumption-assets.index', compact( 'js_columns', 'assets', 'branches', 'assetsGroups', 'numbers' ) );
         }
 
     }
@@ -145,7 +181,7 @@ class ConsumptionAssetsController extends Controller
                 'date_to' => $data['date_to'],
                 'total_purchase_cost' => $request->total_purchase_cost,
                 'total_past_consumtion' => $request->total_past_consumtion,
-                'total_replacement' => 0
+                'total_replacement' => $request->total_replacement
             ];
             $invoice_data['branch_id'] = authIsSuperAdmin() ? $request['branch_id'] : auth()->user()->branch_id;
 
@@ -162,10 +198,15 @@ class ConsumptionAssetsController extends Controller
 
                 $asset = Asset::find( $item['asset_id'] );
                 $total_current_consumtion = $consumption_amount + (float)$asset->past_consumtion;
+
                 $asset->update( [
                     'current_consumtion' => $consumption_amount,
                     'total_current_consumtion' => $total_current_consumtion
                 ] );
+                $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
+                $sum_total_current_consumtion_for_group = $assetGroup->assets()->sum( 'total_current_consumtion' );
+                $assetGroup->update( ['total_consumtion' => $sum_total_current_consumtion_for_group] );
+
                 ConsumptionAssetItem::create( [
                     'consumption_asset_id' => $consumptionAsset->id,
                     'asset_id' => $item['asset_id'],
@@ -213,8 +254,8 @@ class ConsumptionAssetsController extends Controller
         DB::beginTransaction();
         try {
             $data = $request->all();
-            $to = \Carbon\Carbon::createFromFormat( 'Y-m-d', $request->date_to );
-            $from = \Carbon\Carbon::createFromFormat( 'Y-m-d', $request->date_from );
+            $to = Carbon::createFromFormat( 'Y-m-d', $request->date_to );
+            $from = Carbon::createFromFormat( 'Y-m-d', $request->date_from );
             $diff_in_days = $to->diffInDays( $from );
 
             $invoice_data = [
@@ -226,10 +267,11 @@ class ConsumptionAssetsController extends Controller
                 'date_to' => $data['date_to'],
                 'total_purchase_cost' => $request->total_purchase_cost,
                 'total_past_consumtion' => $request->total_past_consumtion,
-                'total_replacement' => 0
+                'total_replacement' => $request->total_replacement
             ];
 
             $consumptionAsset->update( $invoice_data );
+            $consumptionAsset->items()->delete();
             foreach ($data['items'] as $item) {
                 $age = ($item['net_purchase_cost'] / $item['annual_consumtion_rate']) / 100;
                 $months = $age * 12;
@@ -239,37 +281,46 @@ class ConsumptionAssetsController extends Controller
 
                 $asset = Asset::find( $item['asset_id'] );
 
-                if ($item['consumption_asset_item_id'] != 'new') {
-                    $consumptionAssetItem = ConsumptionAssetItem::where( 'id', $item['consumption_asset_item_id'] )->first();
-                    $new_consumption_amount = $asset->current_consumtion - $consumptionAssetItem->consumption_amount + $consumption_amount;
+//                if ($item['consumption_asset_item_id'] != 'new') {
+//                    $consumptionAssetItem = ConsumptionAssetItem::where( 'id', $item['consumption_asset_item_id'] )->first();
+//                    $new_consumption_amount = $asset->current_consumtion - $consumptionAssetItem->consumption_amount + $consumption_amount;
+//
+//                    $total_current_consumtion = $new_consumption_amount + (float)$asset->past_consumtion;
+//
+//                    $asset->update( [
+//                        'current_consumtion' => $new_consumption_amount,
+//                        'total_current_consumtion' => $total_current_consumtion
+//                    ] );
+//
+//                    $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
+//                    $sum_total_current_consumtion_for_group = $assetGroup->assets()->sum( 'total_current_consumtion' );
+//                    $assetGroup->update( ['total_consumtion' => $sum_total_current_consumtion_for_group] );
+//
+//                    $consumptionAssetItem->update( [
+//                        'consumption_asset_id' => $consumptionAsset->id,
+//                        'asset_id' => $item['asset_id'],
+//                        'asset_group_id' => $asset->asset_group_id,
+//                        'consumption_amount' => $consumption_amount,
+//                    ] );
+//                }
+//                else {
+                $total_current_consumtion = $consumption_amount + (float)$asset->past_consumtion;
+                $asset->update( [
+                    'current_consumtion' => $consumption_amount,
+                    'total_current_consumtion' => $total_current_consumtion
+                ] );
+                $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
+                $sum_total_current_consumtion_for_group = $assetGroup->assets()->sum( 'total_current_consumtion' );
+                $assetGroup->update( ['total_consumtion' => $sum_total_current_consumtion_for_group] );
 
-                    $total_current_consumtion = $new_consumption_amount + (float)$asset->past_consumtion;
+                ConsumptionAssetItem::create( [
+                    'consumption_asset_id' => $consumptionAsset->id,
+                    'asset_id' => $item['asset_id'],
+                    'asset_group_id' => $asset->asset_group_id,
+                    'consumption_amount' => $consumption_amount,
+                ] );
 
-                    $asset->update( [
-                        'current_consumtion' => $new_consumption_amount,
-                        'total_current_consumtion' => $total_current_consumtion
-                    ] );
-
-                    $consumptionAssetItem->update( [
-                        'consumption_asset_id' => $consumptionAsset->id,
-                        'asset_id' => $item['asset_id'],
-                        'asset_group_id' => $asset->asset_group_id,
-                        'consumption_amount' => $consumption_amount,
-                    ] );
-                }else{
-                    $total_current_consumtion = $consumption_amount + (float)$asset->past_consumtion;
-                    $asset->update( [
-                        'current_consumtion' => $consumption_amount,
-                        'total_current_consumtion' => $total_current_consumtion
-                    ] );
-                    ConsumptionAssetItem::create( [
-                        'consumption_asset_id' => $consumptionAsset->id,
-                        'asset_id' => $item['asset_id'],
-                        'asset_group_id' => $asset->asset_group_id,
-                        'consumption_amount' => $consumption_amount,
-                    ] );
-
-                }
+//                }
             }
 
             DB::commit();
@@ -317,7 +368,6 @@ class ConsumptionAssetsController extends Controller
     public function getAssetsByAssetId(Request $request): JsonResponse
     {
 //        dd($request->all());
-
         if (is_null( $request->asset_id )) {
             return response()->json( __( 'please select valid Asset' ), 400 );
         }
@@ -331,9 +381,9 @@ class ConsumptionAssetsController extends Controller
             return response()->json( __( 'please update date of work for this asset, or select another asset' ), 400 );
         }
 
-        $datef = Carbon::createFromFormat('Y-m-d',$request->date_from);
-        $datew = Carbon::createFromFormat('Y-m-d',$asset->date_of_work);
-        if ( $datew->gt($datef)) {
+        $datef = Carbon::createFromFormat( 'Y-m-d', $request->date_from );
+        $datew = Carbon::createFromFormat( 'Y-m-d', $asset->date_of_work );
+        if ($datew->gt( $datef )) {
             return response()->json( __( 'can not choice date to consumption before  date of work' ), 400 );
         }
         $consumption_asset = ConsumptionAsset::join( 'consumption_asset_items', 'consumption_assets.id', '=', 'consumption_asset_items.consumption_asset_id' )
@@ -342,7 +392,8 @@ class ConsumptionAssetsController extends Controller
                     'consumption_assets.date_to' => $request->date_to,
                     'consumption_asset_items.asset_id' => $request->asset_id,
                 ] )->count();
-        if ($consumption_asset) {
+
+        if ($consumption_asset > 1 && $request->type != 'update') {
             return response()->json( __( 'can not create consumption for asset in same dates more than once' ), 400 );
         }
         $assetGroup = $asset->group;
