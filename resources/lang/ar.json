@@ -2062,7 +2062,18 @@
     "create supply order" : "إضافة أمر توريد",
     "Total receipts" : "إجمالي محضر الإستلام",
     "Total Accepted" : "إجمالي ك المستلمة",
-    "Total Rejected" : "إجمالي ك المرفوضة"
+    "Total Rejected" : "إجمالي ك المرفوضة",
+    "Part Barcode" : "باركود الصنف",
+    "Purchase Asset" : "مشتريات الأصول",
+    "Create Purchase Asset" : "إضافة مشتريات أصول",
+    "purchase cost" : "تكلفة الشراء",
+    "past consumtion" : "الإهلاك السابق",
+    "current consumtion" : "الإهلاك الحالي",
+    "purchase date" : "تاريخ الشراء",
+    "work date" : "تاريخ العمل",
+    "consumtion rate" : "معدل الإهلاك",
+    "date From" : "التاريخ من",
+    "date To" : "التاريخ الى"
 }
 
 

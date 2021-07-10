@@ -41,7 +41,7 @@
 
     <div class="col-md-12">
 
-        <div class="col-md-3">
+        <div class="col-md-6">
             <div class="form-group">
                 <label for="inputNameAr" class="control-label">{{__('Invoice Number')}}</label>
                 <div class="input-group">
@@ -53,7 +53,7 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-6">
             <div class="form-group">
                 <label for="date" class="control-label">{{__('Date')}}</label>
                 <div class="input-group">
@@ -64,8 +64,10 @@
                 {{input_error($errors,'date')}}
             </div>
         </div>
+        </div>
 
-        <div class="col-md-3">
+        <div class="col-md-12">
+        <div class="col-md-6">
             <div class="form-group">
                 <label for="date" class="control-label">{{__('Time')}}</label>
                 <div class="input-group">
@@ -78,7 +80,7 @@
         </div>
 
 
-        <div class="col-md-3">
+        <div class="col-md-6">
             <div class="form-group has-feedback">
                 <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
                 <div class="input-group">
@@ -103,22 +105,15 @@
                 {{input_error($errors,'supplier_id')}}
             </div>
         </div>
-        <div class="col-md-12">
-            <div class="form-group">
-                <label> {{ __('Notes') }} </label>
-                <textarea class="form-control" name="note" id="note"
-                          placeholder="{{ __('Notes') }}">{{ old('notes') }}</textarea>
-            </div>
-            {{input_error($errors,'note')}}
         </div>
 
-        </div>
+
         </div>
 
         <div class="row center-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
 
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="form-group has-feedback">
                     <label for="inputStore" class="control-label">{{__('Assets Groups')}}</label>
 
@@ -136,7 +131,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="form-group has-feedback">
                     <label for="inputStore" class="control-label">{{__('Assets')}}</label>
                     <div class="input-group">
@@ -170,5 +165,17 @@
     @include('admin.purchase-assets.financial_details')
 
 </div>
+
+        
 </div>
+
+<div class="col-md-12">
+            <div class="form-group">
+                <label> {{ __('Notes') }} </label>
+                <textarea class="form-control" name="note" id="note"
+                          placeholder="{{ __('Notes') }}">{{ old('notes') }}</textarea>
+            </div>
+            {{input_error($errors,'note')}}
+        </div>
+
 </div>
