@@ -284,7 +284,8 @@ class AssetExpenseController extends Controller
         if (!empty( $request->asset_group_id )) {
             $assets = Asset::where( 'asset_group_id', $request->asset_group_id )->get();
         } else {
-            $assets = Asset::all();
+            $branchId = $request->branch_id ?? auth()->user()->branch_id;
+            $assets = Asset::where('branch_id',$branchId)->get();
         }
         $htmlAssets = '<option value="">' . __( 'Select Assets' ) . '</option>';
         foreach ($assets as $asset) {

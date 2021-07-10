@@ -172,7 +172,9 @@
                             <thead>
                             <tr>
                                 <th>#</th>
+                                @if(authIsSuperAdmin())
                                 <th scope="col">{!! __('Branch') !!}</th>
+                                @endif
                                 <th class="text-center column-invoice-number"
                                     scope="col">{!! __('Invoice Number') !!}</th>
 
@@ -180,9 +182,9 @@
 
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
 
-                                <th>
-                                    {{__('Total')}}
-                            </th>
+{{--                                <th>--}}
+{{--                                    {{__('Total')}}--}}
+{{--                            </th>--}}
                             <th class="text-center">{!! __('created at') !!}</th>
                             <th class="text-center">{!! __('Updated at') !!}</th>
 
@@ -200,16 +202,18 @@
                             <tfoot>
                             <tr>
                                 <th>#</th>
+                                @if(authIsSuperAdmin())
                                 <th scope="col">{!! __('Branch') !!}</th>
+                                @endif
                                 <th class="text-center column-invoice-number"
                                     scope="col">{!! __('Invoice Number') !!}</th>
 
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
 
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
-                                <th>
-                                    {{__('Total')}}
-                            </th>
+{{--                                <th>--}}
+{{--                                    {{__('Total')}}--}}
+{{--                            </th>--}}
                             <th class="text-center">{!! __('created at') !!}</th>
                             <th class="text-center">{!! __('Updated at') !!}</th>
 
@@ -256,6 +260,74 @@
             $( ".js__card_minus" ).trigger( "click" );
         }
 
+        $('#branch_id').on('change', function () {
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            const branch_id = $(this).val();
+            $.ajax({
+                type: 'post',
+                url: "{{ route('admin:purchase-assets.getSuppliersByBranchId')}}",
+                data: {
+                    branch_id: branch_id,
+                    _token: CSRF_TOKEN,
+                },
+                success: function (data) {
+                    $('#supplier_id').each(function () {
+                        $(this).html(data.data)
+                    });
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
+
+        });
+        $('#branch_id').on('change', function () {
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            const branch_id = $(this).val();
+            $.ajax({
+                type: 'post',
+                url: "{{ route('admin:assets.getAssetsByBranchId')}}",
+                data: {
+                    branch_id: branch_id,
+                    _token: CSRF_TOKEN,
+                },
+                success: function (data) {
+                    $('#name').each(function () {
+                        $(this).html(data.data)
+                    });
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
+
+        });
+        $('#branch_id').on('change', function () {
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            const branch_id = $(this).val();
+            $.ajax({
+                type: 'post',
+                url: "{{ route('admin:assets.getAssetsGroupsByBranchId')}}",
+                data: {
+                    branch_id: branch_id,
+                    _token: CSRF_TOKEN,
+                },
+                success: function (data) {
+                    $('#asset_group_id').each(function () {
+                        $(this).html(data.data)
+                    });
+
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+        });
         $('#asset_group_id').on('change', function () {
             const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             const asset_group_id = $(this).val();
