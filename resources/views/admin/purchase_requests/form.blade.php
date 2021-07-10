@@ -144,7 +144,7 @@
                 <label for="date" class="control-label">{{__('Period of request to')}}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                    <input type="date" name="date_to" class="form-control" id="date_to"
+                    <input type="date" name="date_to" class="form-control" id="date_to" onchange="getDate()"
                            {{isset($request_type) && $request_type == 'approval' ? 'disabled' : ''}}
                            value="{{old('date_to', isset($purchaseRequest)? $purchaseRequest->date_to : \Carbon\Carbon::now()->format('Y-m-d'))}}">
                 </div>
@@ -152,8 +152,28 @@
             </div>
         </div>
 
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="date" class="control-label">{{__('Different Days')}}</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
+                    <input type="text" class="form-control" id="different_days" disabled
+                           value="{{isset($purchaseRequest) ? $purchaseRequest->different_days : 0}}">
+                </div>
+            </div>
+        </div>
 
-        
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="date" class="control-label">{{__('Remaining Days')}}</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
+                    <input type="text" class="form-control" id="remaining_days" disabled
+                           value="{{isset($purchaseRequest) ? $purchaseRequest->remaining_days : 0}}">
+                </div>
+            </div>
+        </div>
+
     </div>
 
 </div>
@@ -232,7 +252,7 @@
                 </div>
             </div>
         @endif
- 
+
 
     @if(isset($request_type) && $request_type == 'approval')
 
@@ -242,9 +262,9 @@
     @include('admin.purchase_requests.table_items')
 
     </div>
-    
 
-    
+
+
     <div class="row buttom-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
     <div class="col-md-6">
@@ -274,7 +294,7 @@
             </div>
         </div>
 
-        
+
     <div class="col-md-12">
         <div class="form-group">
             <label for="inputDescription" class="control-label">{{__('Description')}}</label>

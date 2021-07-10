@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Scopes\BranchScope;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -38,18 +39,35 @@ class PurchaseRequest extends Model
         return $this->hasMany(PurchaseRequestItem::class, 'purchase_request_id');
     }
 
-    public function getSpecialNumberAttribute () {
-
+    public function getSpecialNumberAttribute()
+    {
         return $this->number . '_#';
     }
 
-    public function execution () {
-
+    public function execution()
+    {
         return $this->hasOne(PurchaseRequestExecution::class, 'purchase_request_id');
     }
 
-    function files() {
+    function files()
+    {
+        return $this->hasMany(PurchaseRequestLibrary::class, 'purchase_request_id');
+    }
 
-        return $this->hasMany(PurchaseRequestLibrary::class ,'purchase_request_id');
+    public function getDifferentDaysAttribute()
+    {
+        $startDate = Carbon::create($this->date_from);
+        $endDate = Carbon::create($this->date_to);
+        return $endDate->diffInDays($startDate);
+    }
+
+    public function getRemainingDaysAttribute()
+    {
+        $dateNowFormat = Carbon::now()->format('Y-m-d');
+
+        $dateNow = Carbon::create($dateNowFormat);
+        $endDate = Carbon::create($this->date_to);
+
+        return $dateNow->diffInDays($endDate, false);
     }
 }

@@ -132,7 +132,7 @@
 
             <table class="table table-bordered">
                 <tbody>
-                <th style="width:30%;background:#FFC5D7 !important;color:black !important">{{__('Total')}}</label>
+                <th style="width:30%;background:#FFC5D7 !important;color:black !important">{{__('Total receipts')}}</label>
                 <td style="background:#FFC5D7">
                     <input type="text" disabled id="total" style="background:#FFC5D7; border:none;text-align:center !important;" class="form-control"
                            value="{{isset($purchaseReceipt) ? $purchaseReceipt->total : 0}}">

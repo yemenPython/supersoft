@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Super Car') }} - {{ __('Purchase Invoices Returns') }} </title>
+    <title>{{ __('Purchase Invoices Returns') }} </title>
 @endsection
 
 @section('style')
@@ -56,7 +56,7 @@
                                 <th class="text-center column-invoice-number"
                                     scope="col">{!! __('Invoice Number') !!}</th>
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Invoice Type') !!}</th>
-                                <th class="text-center column-payment" scope="col">{!! __('Payment status') !!}</th>
+                                <!-- <th class="text-center column-payment" scope="col">{!! __('Payment status') !!}</th> -->
                                 <th class="text-center column-paid" scope="col">{!! __('Total') !!}</th>
                                 <th class="text-center column-paid" scope="col">{!! __('Paid') !!}</th>
                                 <th class="text-center column-remaining" scope="col">{!! __('Remaining') !!}</th>
@@ -88,7 +88,7 @@
                                         @endif
                                     </td>
 
-
+<!-- 
                                     @if ($invoice->remaining  == 0)
                                         <td class="text-center column-payment">
                                             <span class="label label-warning wg-label">
@@ -101,12 +101,12 @@
                                                 {!! __('Not Completed') !!}
                                                 </span>
                                         </td>
-                                    @endif
+                                    @endif -->
 
-                                    <td class="text-danger text-center column-paid">{!! number_format($invoice->total, 2) !!}</td>
+                                    <td class="text-center text-danger column-paid" >{!! number_format($invoice->total, 2) !!}</td>
 
-                                    <td class="text-danger text-center column-paid">{!! number_format($invoice->paid, 2) !!}</td>
-                                    <td class="text-danger text-center column-remaining">{!! number_format($invoice->remaining ,2)!!}</td>
+                                    <td class="text-center column-paid"  style="background:#FBFAD4 !important">{!! number_format($invoice->paid, 2) !!}</td>
+                                    <td class="text-center column-remaining" style="background:#E3F6FB !important">{!! number_format($invoice->remaining ,2)!!}</td>
 
                                 <!-- <td>{!! auth()->user()->name !!}</td> -->
                                     <td class="text-center column-created-at">{!! $invoice->created_at->format('y-m-d h:i:s A') !!}</td>
@@ -118,25 +118,38 @@
                                         </a>
                                     </td> -->
                                     <td>
-
+                                    <div class="btn-group margin-top-10">
+                                        
+                                        <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="ico fa fa-bars"></i>
+                                        {{__('Options')}} <span class="caret"></span>
+                                     
+                                    </button> 
+                                        <ul class="dropdown-menu dropdown-wg">
+                                            <li>
                                         @component('admin.buttons._edit_button',[
                                                     'id'=>$invoice->id,
                                                     'route' => 'admin:purchase_returns.edit',
                                                      ])
                                         @endcomponent
-
+                                        </li>
+                                            <li class="btn-style-drop">
                                         @component('admin.buttons._delete_button',[
                                                     'id'=> $invoice->id,
                                                     'route' => 'admin:purchase_returns.destroy',
                                                      ])
                                         @endcomponent
+                                        </li>
 
+<li>
 
                                         @component('admin.purchase_returns.parts.print',[
                                            'id'=> $invoice->id,
                                            'invoice'=> $invoice,
                                           ])
                                         @endcomponent
+                                        </li>
+                                        
                                     </td>
                                     <td>
                                         @component('admin.buttons._delete_selected',[

@@ -117,7 +117,7 @@ route('admin:supply-terms.index'),
                             </li>
                         @endif
 
-                        @if(!authIsSuperAdmin())
+                        <!-- @if(!authIsSuperAdmin())
                             <li class="{{setActivationClass(route('admin:points.settings.edit'))}}">
                                 <a class=" " href="{{route('admin:points.settings.edit')}}">
                                     {{__('Points settings')}}</a>
@@ -126,7 +126,7 @@ route('admin:supply-terms.index'),
 
                         <li class="{{setActivationClass(route('admin:points-rules.index'))}}">
                             <a href="{{route('admin:points-rules.index')}}">{{__('Points Rules')}}</a>
-                        </li>
+                        </li> -->
 
                         <li class="{{setActivationClass(route('admin:supply-terms.index'))}}">
                             <a href="{{route('admin:supply-terms.index')}}">{{__('Supply & payments')}}</a>
@@ -356,7 +356,7 @@ route('admin:services_packages.index'),
                                 {{__('Maintenance Detection')}}
                             </a>
                         </li>
-
+<!-- 
                         <li class="{{setActivationClass(url('admin/companies'))}}">
                             <a href="{{url('admin/companies')}}">{{__('Companies')}}</a>
                         </li>
@@ -369,7 +369,7 @@ route('admin:services_packages.index'),
 
                         <li class="{{setActivationClass(url('admin/carTypes'))}}">
                             <a href="{{url('admin/carTypes')}}">{{__('Cars Types')}}</a>
-                        </li>
+                        </li> -->
 
                         <li class="{{setActivationClass(route('admin:work-cards.index'))}}">
                             <a class=" " href="{{route('admin:work-cards.index')}}">
@@ -381,11 +381,11 @@ route('admin:services_packages.index'),
                                 <span>{{__('Maintenance Status')}}</span>
                             </a>
                         </li>
-                        <li class="{{setActivationClass(route('admin:reservations.index'))}}">
+                        <!-- <li class="{{setActivationClass(route('admin:reservations.index'))}}">
                             <a class=" " href="{{route('admin:reservations.index')}}">
                                 <span>{{__('Services Reservations')}}</span>
                             </a>
-                        </li>
+                        </li> -->
 
                     </ul>
                 </li>
@@ -420,7 +420,7 @@ route('admin:customers.requests.index'),
                         </li>
 
 
-                        <li class="{{setActivationClass(route('admin:customers-categories.index'))}}">
+                        <!-- <li class="{{setActivationClass(route('admin:customers-categories.index'))}}">
                             <a href="{{route('admin:customers-categories.index')}}">
                                 {{__('customers Categories')}}
                             </a>
@@ -432,7 +432,7 @@ route('admin:customers.requests.index'),
 
                         <li class="{{setActivationClass(route('admin:customers.requests.index'))}}">
                             <a href="{{route('admin:customers.requests.index')}}">{{__('Customers Requests')}}</a>
-                        </li>
+                        </li> -->
 
                     </ul>
                 </li>
@@ -581,7 +581,7 @@ route('admin:expenseReceipts.index'),
                     </ul>
                 </li> -->
 
-
+<!-- 
                 <li class="{{setActivationClass([
 route('admin:purchase-invoices.index'),
 route('admin:purchase_returns.index'),
@@ -626,7 +626,7 @@ route('admin:purchase-quotations.index'),
 
 
                     </ul>
-                </li>
+                </li> -->
                 <!-- <li class="{{setActivationClass([
 route('admin:work-cards.index'),
 route('admin:maintenance.status.index.report'),

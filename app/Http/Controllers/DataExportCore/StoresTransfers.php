@@ -16,7 +16,7 @@ class StoresTransfers {
         $this->view_path = '';
         $this->columns_definitions = [
             'id' => 'id',
-            'branch' => 'branch',
+            // 'branch' => 'branch',
             'transfer_date' => 'transfer_date',
             'transfer_number' => 'transfer_number',
             'store_from' => 'store_from',
@@ -27,11 +27,11 @@ class StoresTransfers {
             'updated_at' => 'updated_at',
         ];
         $this->columns = [
-            'id', 'branch', 'transfer_date','transfer_number' , 'store_from', 'store_to','total', 'status', 'created_at', 'updated_at'
+            'id', 'transfer_date','transfer_number' , 'store_from', 'store_to','total', 'status', 'created_at', 'updated_at'
         ];
         $this->header = [
             'id' => __('#'),
-            'branch' => __('Branch'),
+            // 'branch' => __('Branch'),
             'transfer_date' => __('words.transfer-date'),
             'transfer_number' => __('words.transfer-number'),
             'store_from' => __('words.store-from'),
@@ -52,7 +52,7 @@ class StoresTransfers {
     static function get_my_view_columns() {
         return [
 
-            'branch' =>__('Branch'),
+            // 'branch' =>__('Branch'),
             'transfer-date' => __('words.transfer-date'),
             'transfer-number' => __('opening-balance.serial-number'),
             'store-from' => __('words.store-from'),

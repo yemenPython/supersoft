@@ -5,11 +5,13 @@
         @method('post')
         <input type="hidden" name="supplier_group_id" value="{{ isset($parentId) && $parentId != '' ? $parentId : '' }}"/>
 
+        <h4 class="box-title with-control" style="text-align: initial;">
+            {{__('Suppliers Groups')}}
+            </h4>
+
         @if(authIsSuperAdmin())
             <div class="">
-            <h4 class="box-title with-control" style="text-align: initial;">
-            {{__('Select Branch')}}
-            </h4>
+
                 <div class="form-group has-feedback">
                     <!-- <label for="inputSymbolAR" class="control-label"></label> -->
                     <div class="col-md-12">

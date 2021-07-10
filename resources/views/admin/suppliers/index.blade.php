@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Super Car') }} - {{ __('Suppliers') }} </title>
+    <title>{{ __('Suppliers') }} </title>
 @endsection
 
 @section('style')
@@ -277,32 +277,45 @@
                                     <td class="text-center column-updated-at">{!! $supplier->updated_at->format('y-m-d h:i:s A') !!}</td>
 
                                     <td>
-
+                                    <div class="btn-group margin-top-10">
+                                        
+                                        <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="ico fa fa-bars"></i>
+                                        {{__('Options')}} <span class="caret"></span>
+                                     
+                                    </button> 
+                                        <ul class="dropdown-menu dropdown-wg">
+                                            <li>
 
                                         @component('admin.buttons._show_button',[
                                                        'id' => $supplier->id,
                                                        'route'=>'admin:suppliers.show'
                                                         ])
                                         @endcomponent
-
+                                        </li>
+                                            <li class="btn-style-drop">
                                         @component('admin.buttons._edit_button',[
                                                     'id' => $supplier->id,
                                                     'route'=>'admin:suppliers.edit'
                                                      ])
                                         @endcomponent
-
+                                        </li>
+                                            <li class="btn-style-drop">
                                         @component('admin.buttons._delete_button',[
                                                     'id'=>$supplier->id,
                                                     'route' => 'admin:suppliers.destroy',
                                                     'tooltip' => __('Delete '.$supplier['name']),
                                                      ])
                                         @endcomponent
-
+                                        </li>
+                                            <li class="btn-style-drop">
                                         <a data-toggle="modal" data-target="#boostrapModal-2"
                                            onclick="getLibrarySupplierId('{{$supplier->id}}')"
                                            title="Supplier Library" class="btn btn-warning">
                                             <i class="fa fa-plus"> </i> {{__('Library')}}
                                         </a>
+                                        </li>
+                                         
                                     </td>
                                     <td>
                                         @component('admin.buttons._delete_selected',[

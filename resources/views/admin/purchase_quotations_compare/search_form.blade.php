@@ -119,6 +119,15 @@
                             <input type="date" name="date_to" class="form-control">
                         </div>
 
+                        <div class="form-group col-md-4">
+                            <label> {{ __('Part Barcode') }} </label>
+                            <input type="text" name="part_barcode" class="form-control">
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label> {{ __('Supplier Barcode') }} </label>
+                            <input type="text" name="supplier_barcode" class="form-control">
+                        </div>
 
                     </div>
 
