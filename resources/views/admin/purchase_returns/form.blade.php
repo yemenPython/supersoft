@@ -113,6 +113,8 @@
 
                 <div class="col-md-1">
                     <div class="radio primary ">
+                    <label style="opacity:0">{{__('select')}}</label>
+
                         <input type="radio" name="type" value="cash" id="cash"
                             {{ !isset($purchaseReturn) ? 'checked':'' }}
                             {{isset($purchaseReturn) && $purchaseReturn->type == 'cash' ? 'checked':''}} >
@@ -122,6 +124,8 @@
 
                 <div class="col-md-2">
                     <div class="radio primary ">
+                    <label style="opacity:0;display:block">{{__('select')}}</label>
+
                         <input type="radio" name="type" id="credit" value="credit"
                             {{isset($purchaseReturn) && $purchaseReturn->type == 'credit' ? 'checked':''}} >
                         <label for="credit">{{__('Credit')}}</label>
@@ -212,23 +216,43 @@
                 </div>
 
                 {{-- Buttons --}}
-                <div class="col-md-3 from_supply_order" style="{{isset($purchaseReturn) && $purchaseReturn->invoice_type != 'from_supply_order'? 'display:none':''}}">
+
+                <div class="col-md-6 from_supply_order" style="{{isset($purchaseReturn) && $purchaseReturn->invoice_type != 'from_supply_order'? 'display:none':''}}">
+            <div class="form-group">
+         
+
+                <div class="input-group">
+                <label style="opacity:0">{{__('select')}}</label>
+                <ul class="list-inline" style="display:flex">
+                    <li>                         <button type="button" onclick="getPurchaseReceipts(); changeType()"
+                                    class="btn btn-primary waves-effect waves-light btn-xs">
+                                    {{__('Get Purchase Receipt')}}
+                            </button>
+                </li>
+                    <li>
+                    <button type="button" class="btn btn-danger waves-effect waves-light btn-xs"
+                                    data-toggle="modal" data-target="#purchase_receipts" style="margin-right: 10px;">
+                                    {{__('Show selected Receipts')}}
+                            </button>
+                    <li>
+                </ul>    
+                </div>
+                </div>
+            </div>
+
+
+                
+                <!-- <div class="col-md-3 from_supply_order" style="{{isset($purchaseReturn) && $purchaseReturn->invoice_type != 'from_supply_order'? 'display:none':''}}">
                     <div class="form-group">
                         <label for="date" class="control-label">{{__('')}}</label>
 
                         <div class="input-group">
-                            <button type="button" onclick="getPurchaseReceipts(); changeType()"
-                                    class="btn btn-primary waves-effect waves-light btn-xs">
-                                    {{__('Get Purchase Receipt')}}
-                            </button>
+          
 
-                            <button type="button" class="btn btn-danger waves-effect waves-light btn-xs"
-                                    data-toggle="modal" data-target="#purchase_receipts" style="margin-right: 10px;">
-                                    {{__('Show selected Receipts')}}
-                            </button>
+                           
                         </div>
                     </div>
-                </div>
+                </div> -->
 
             </div>
         </div>

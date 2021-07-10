@@ -104,7 +104,9 @@
             </div>
         </div>
 
-        <div class="col-md-3 purchase_request_type"
+        
+
+        <div class="col-md-6 purchase_request_type"
              style="{{isset($purchaseInvoice) && $purchaseInvoice->invoice_type != 'from_supply_order'? 'display:none':''}}">
             <div class="form-group has-feedback">
                 <label for="inputStore" class="control-label">{{__('Supply Orders')}}</label>
@@ -128,6 +130,30 @@
                 {{input_error($errors,'supply_order_id')}}
             </div>
         </div>
+
+        <div class="col-md-6 purcpurchase_request_type"
+             style="{{isset($purchaseInvoice) && $purchaseInvoice->invoice_type != 'from_supply_order'? 'display:none':''}}">
+            <div class="form-group">
+         
+
+                <div class="input-group">
+                <label style="opacity:0">{{__('select')}}</label>
+                <ul class="list-inline" style="display:flex">
+                    <li>       <button type="button" onclick="getPurchaseReceipts(); changeType()"
+                            class="btn btn-primary waves-effect waves-light btn-xs">
+                        {{__('Get Purchase Receipt')}}
+                    </button></li>
+                    <li>
+                    <button type="button" class="btn btn-danger waves-effect waves-light btn-xs"
+                            data-toggle="modal" data-target="#purchase_receipts" style="margin-right: 10px;">
+                        {{__('Show selected Receipts')}}
+                    </button>
+                    <li>
+                </ul>    
+                </div>
+                </div>
+            </div>
+        
 
         <div class="col-md-6">
             <div class="form-group has-feedback">
@@ -158,6 +184,8 @@
 
         <div class="col-md-1">
             <div class="radio primary ">
+            <label style="opacity:0">{{__('select')}}</label>
+
                 <input type="radio" name="type" value="cash" id="cash"
                     {{ !isset($purchaseInvoice) ? 'checked':'' }}
                     {{isset($purchaseInvoice) && $purchaseInvoice->type == 'cash' ? 'checked':''}} >
@@ -166,33 +194,28 @@
         </div>
 
         <div class="col-md-1">
+
             <div class="radio primary ">
+            <label style="opacity:0">{{__('select')}}</label>
+
                 <input type="radio" name="type" id="credit" value="credit"
                     {{isset($purchaseInvoice) && $purchaseInvoice->type == 'credit' ? 'checked':''}} >
                 <label for="credit">{{__('Credit')}}</label>
             </div>
         </div>
 
-
-
+    
+<!-- 
         <div class="col-md-3 purchase_request_type"
              style="{{isset($purchaseInvoice) && $purchaseInvoice->invoice_type != 'from_supply_order'? 'display:none':''}}">
             <div class="form-group">
                 <label for="date" class="control-label">{{__('')}}</label>
 
                 <div class="input-group">
-                    <button type="button" onclick="getPurchaseReceipts(); changeType()"
-                            class="btn btn-primary waves-effect waves-light btn-xs">
-                        {{__('Get Purchase Receipt')}}
-                    </button>
-
-                    <button type="button" class="btn btn-danger waves-effect waves-light btn-xs"
-                            data-toggle="modal" data-target="#purchase_receipts" style="margin-right: 10px;">
-                        {{__('Show selected Receipts')}}
-                    </button>
+              
                 </div>
             </div>
-        </div>
+        </div> -->
 
 
 
