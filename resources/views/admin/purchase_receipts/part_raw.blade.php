@@ -24,8 +24,10 @@
         <div class="input-group" >
             @if(isset($update_item))
                 <span>{{isset($update_item) ? $update_item->price : __('Not determined')}}</span>
+                <input type="hidden" disabled id="price_{{$index}}" value="{{$update_item->price}}">
             @else
                 <span>{{isset($item) ? $item->price : __('Not determined')}}</span>
+                <input type="hidden" disabled id="price_{{$index}}" value="{{$item->price}}">
             @endif
         </div>
     </td>

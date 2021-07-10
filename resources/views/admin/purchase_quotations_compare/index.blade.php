@@ -70,7 +70,7 @@
                         <div class="clearfix"></div>
 
                         <div class="table-responsive">
-                            <table class="table table-bordered wg-table-print table-hover" style="width:100%">
+                            <table class="table table-bordered wg-table-print table-hover" id="cities" style="width:100%">
 
                                 <thead>
                                 <tr>
@@ -242,6 +242,69 @@
         {{--    let branch_id = $('#branch_id').find(":selected").val();--}}
         {{--    window.location.href = "{{route('admin:purchase.quotations.compare.index')}}" + "?branch_id=" + branch_id;--}}
         {{--}--}}
+
+        function getParts() {
+
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            let spare_part_id = $('#spare_part_id').find(":selected").val();
+
+            $.ajax({
+
+                type: 'post',
+
+                url: '{{route('admin:purchase.quotations.compare.get.parts')}}',
+
+                data: {
+                    _token: CSRF_TOKEN,
+                    spare_part_id: spare_part_id
+                },
+
+                success: function (data) {
+
+                    $("#parts_options").html(data.parts);
+                    $('.js-example-basic-single').select2();
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+        }
+
+        function getPurchaseQuotations(type) {
+
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            let item_id = $('#supplier').find(":selected").val();
+
+            if (type == 'purchase_request') {
+                item_id = $('#purchase_request').find(":selected").val();
+            }
+
+            $.ajax({
+
+                type: 'post',
+                url: '{{route('admin:purchase.quotations.compare.get.quotations')}}',
+                data: {
+                    _token: CSRF_TOKEN,
+                    type:type,
+                    item_id: item_id
+                },
+
+                success: function (data) {
+
+                    $("#purchase_quotations").html(data.quotations);
+                    $('.js-example-basic-single').select2();
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+        }
 
     </script>
 @endsection

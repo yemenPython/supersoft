@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class PurchaseReceipt extends Model
 {
-    protected $fillable = ['number', 'branch_id', 'user_id', 'supply_order_id', 'date', 'time', 'supplier_id', 'library_path', 'notes'];
+    protected $fillable = ['number', 'branch_id', 'user_id', 'supply_order_id', 'date', 'time', 'supplier_id',
+        'library_path', 'notes', 'total', 'total_accepted', 'total_rejected'];
 
     protected $table = 'purchase_receipts';
 

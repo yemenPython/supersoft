@@ -178,6 +178,8 @@
                     $("#supplier_id").val(data.supplier_name);
 
                     $('.js-example-basic-single').select2();
+
+                    calculateTotal ();
                 },
 
                 error: function (jqXhr, json, errorThrown) {
@@ -234,6 +236,7 @@
             if (!validateItemQuantity (index)) {
 
                 swal({text: '{{__('sorry, Refused quantity is more than total')}}', icon: "error"})
+                calculateTotal ();
                 return false
             }
 
@@ -246,6 +249,7 @@
             let defect_percent = parseFloat(refused_quantity) * parseInt(100) / parseInt(item_total_qty);
 
             $('#defect_percent_' + index).text( ' % ' +defect_percent.toFixed(2));
+            calculateTotal ();
         }
 
         function calculateAcceptedQuantity (index) {
@@ -260,6 +264,7 @@
             if (!validateItemQuantity (index)) {
 
                 swal({text: '{{__('sorry, Accepted quantity is more than total')}}', icon: "error"})
+                calculateTotal ();
                 return false
             }
 
@@ -272,6 +277,31 @@
             let defect_percent = parseFloat(remainQty) * parseInt(100) / parseInt(item_total_qty);
 
             $('#defect_percent_' + index).text( ' % ' + defect_percent.toFixed(2));
+            calculateTotal ();
+        }
+
+        function calculateTotal () {
+
+            let items_count = $('#items_count').val();
+            let total = 0;
+            let total_accepted = 0;
+            let total_rejected = 0;
+
+            for (let i = 1; i <= items_count; i++) {
+
+                let price = $('#price_' + i).val();
+                let accepted_quantity = $('#accepted_quantity_' + i).val();
+                let rejected_quantity = $('#refused_quantity_' + i).val();
+                let remaining_quantity = $('#remaining_quantity_' + i).val();
+
+                total += parseFloat(price) * parseFloat(remaining_quantity);
+                total_accepted += parseFloat(price) * parseFloat(accepted_quantity);
+                total_rejected += parseFloat(price) * parseFloat(rejected_quantity);
+            }
+
+            $('#total').val(total.toFixed(2));
+            $('#total_accepted').val(total_accepted.toFixed(2));
+            $('#total_rejected').val(total_rejected.toFixed(2));
         }
 
     </script>

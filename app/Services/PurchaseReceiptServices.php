@@ -9,6 +9,12 @@ class PurchaseReceiptServices
 {
     public function savePurchaseReceiptItems ($supplyOrder, $items, $purchaseReceiptId) {
 
+        $total = [
+            'total'=> 0,
+            'total_accepted'=> 0,
+            'total_rejected'=> 0,
+        ];
+
         foreach ($supplyOrder->items as $supplyOrderItem) {
 
             if ($supplyOrderItem->remaining_quantity_for_accept == 0) {
@@ -31,8 +37,15 @@ class PurchaseReceiptServices
 
             $data['defect_percent'] = round($data['refused_quantity'] * 100 / $supplyOrderItem->quantity,2);
 
-            PurchaseReceiptItem::create($data);
+            $total['total_accepted'] += $data['price'] * $data['accepted_quantity'];
+            $total['total_rejected'] += $data['price'] * $data['refused_quantity'];
+
+            $purchaseReceiptItem = PurchaseReceiptItem::create($data);
+
+            $total['total'] += $purchaseReceiptItem->remaining_quantity * $data['price'];
         }
+
+        return $total;
     }
 
     public function purchaseReceiptData ($requestData) {
