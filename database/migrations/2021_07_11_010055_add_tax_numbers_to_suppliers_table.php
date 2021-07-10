@@ -15,6 +15,7 @@ class AddTaxNumbersToSuppliersTable extends Migration
     {
         Schema::table('suppliers', function (Blueprint $table) {
             $table->string('commercial_record_area')->nullable();
+            $table->string('tax_file_number')->nullable();
         });
     }
 
@@ -27,6 +28,7 @@ class AddTaxNumbersToSuppliersTable extends Migration
     {
         Schema::table('suppliers', function (Blueprint $table) {
             $table->dropColumn('commercial_record_area');
+            $table->dropColumn('tax_file_number');
         });
     }
 }

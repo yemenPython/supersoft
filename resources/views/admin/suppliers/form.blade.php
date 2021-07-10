@@ -405,6 +405,20 @@
 
     <div class="col-md-4">
         <div class="form-group  ">
+            <label for="tax_file_number" class="control-label">{{__('Tax File Number')}}</label>
+            <div class="input-group">
+                <span class="input-group-addon"><li class="fa fa-location-arrow"></li></span>
+                <input type="text" name="tax_file_number" class="form-control"
+                       id="tax_file_number"
+                       placeholder="{{__('Tax File Number')}}"
+                       value="{{old('tax_file_number', isset($supplier)? $supplier->tax_file_number :'')}}">
+            </div>
+            {{input_error($errors,'tax_file_number')}}
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="form-group  ">
             <label for="commercial_record_area" class="control-label">{{__('Commercial Record Area')}}</label>
             <div class="input-group">
                 <span class="input-group-addon"><li class="fa fa-location-arrow"></li></span>
@@ -417,7 +431,7 @@
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-12">
         <div class="form-group  ">
             <label for="inputDescription" class="control-label">{{__('Description')}}</label>
             <div class="input-group">
