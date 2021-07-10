@@ -2039,9 +2039,7 @@
     "Edit asset Examination" : "تعديل بيانات الفحص",
     "Concessions Archives" : "أرشيف الاذونات",
     "Activity-log Archives" : "أرشيف أنشطة المستخدميين",
-<<<<<<< HEAD
-    "Commercial Record Area" : "منطقة السجل التجارى"
-=======
+    "Commercial Record Area" : "منطقة السجل التجارى",
     "Get Purchase Quotations" : "تحديد عروض الأسعار",
     "Show selected Quotations" : "عروض الأسعار المحددة",
     "Get Purchase Receipt" : "تحديد محاضر الإستلام",
@@ -2077,7 +2075,6 @@
     "consumtion rate" : "معدل الإهلاك",
     "date From" : "التاريخ من",
     "date To" : "التاريخ الى"
->>>>>>> 680429bbd8f1374029cadee34c82ed06d9859a07
 }
 
 
