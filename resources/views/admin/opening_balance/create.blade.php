@@ -231,6 +231,23 @@
             });
         }
 
+        function checkBranchValidation() {
+
+            let branch_id = $('#branch_id').find(":selected").val();
+
+            let isSuperAdmin = '{{authIsSuperAdmin()}}';
+
+            if (!isSuperAdmin) {
+                return true;
+            }
+
+            if (branch_id) {
+                return true;
+            }
+
+            return false;
+        }
+
     </script>
 
     <script src="{{asset('js/opening_balance/index.js')}}"></script>
