@@ -178,7 +178,7 @@
         <div class="col-md-3 purchase_request_type"
              style="{{isset($purchaseInvoice) && $purchaseInvoice->invoice_type != 'from_supply_order'? 'display:none':''}}">
             <div class="form-group">
-                <label for="date" class="control-label">{{__('select')}}</label>
+                <label for="date" class="control-label">{{__('')}}</label>
 
                 <div class="input-group">
                     <button type="button" onclick="getPurchaseReceipts(); changeType()"
