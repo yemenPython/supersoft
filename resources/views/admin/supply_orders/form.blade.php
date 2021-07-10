@@ -111,7 +111,7 @@
 
         <div class="col-md-12">
 
-        <div class="col-md-3 purchase_request_type"
+        <div class="col-md-6 purchase_request_type"
              style="{{isset($purchaseQuotation) && $purchaseQuotation->type != 'from_purchase_request'? 'display:none':''}}">
             <div class="form-group has-feedback">
                 <label for="inputStore" class="control-label">{{__('Purchase Requests')}}</label>
@@ -138,12 +138,12 @@
 
       
 
-        <div class="col-md-9 purchase_request_type">
+        <div class="col-md-6 purchase_request_type">
             <div class="form-group">
          
 
                 <div class="input-group">
-                <label style="opacity:0">CHOOSE</label>
+                <label style="opacity:0">{{__('select')}}</label>
                 <ul class="list-inline" style="display:flex">
                     <li> <button type="button" onclick="getPurchaseQuotations(); quotationType()"
                             class="btn btn-primary waves-effect waves-light btn-xs">
@@ -152,7 +152,7 @@
                     <li>
                     <button type="button" class="btn btn-danger waves-effect waves-light btn-xs"
                             data-toggle="modal" data-target="#purchase_quotations" style="margin-right: 10px;">
-                        {{__('Show Quotations')}}
+                        {{__('Show selected Quotations')}}
                     </button>
                     <li>
                 </ul>

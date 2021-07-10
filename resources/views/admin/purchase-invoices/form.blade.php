@@ -178,7 +178,7 @@
         <div class="col-md-3 purchase_request_type"
              style="{{isset($purchaseInvoice) && $purchaseInvoice->invoice_type != 'from_supply_order'? 'display:none':''}}">
             <div class="form-group">
-                <label for="date" class="control-label">{{__('')}}</label>
+                <label for="date" class="control-label">{{__('select')}}</label>
 
                 <div class="input-group">
                     <button type="button" onclick="getPurchaseReceipts(); changeType()"
@@ -188,7 +188,7 @@
 
                     <button type="button" class="btn btn-danger waves-effect waves-light btn-xs"
                             data-toggle="modal" data-target="#purchase_receipts" style="margin-right: 10px;">
-                        {{__('Show Purchase Receipt')}}
+                        {{__('Show selected Receipts')}}
                     </button>
                 </div>
             </div>

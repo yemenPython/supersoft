@@ -2038,7 +2038,11 @@
     "Add new asset Examination" : "إضافة فحص جديد",
     "Edit asset Examination" : "تعديل بيانات الفحص",
     "Concessions Archives" : "أرشيف الاذونات",
-    "Activity-log Archives" : "أرشيف أنشطة المستخدميين"
+    "Activity-log Archives" : "أرشيف أنشطة المستخدميين",
+    "Get Purchase Quotations" : "تحديد عروض الأسعار",
+    "Show selected Quotations" : "عروض الأسعار المحددة",
+    "Get Purchase Receipt" : "تحديد محاضر الإستلام",
+    "Show selected Receipts" : "محاضر الإستلام المحددة"
 }
 
 
