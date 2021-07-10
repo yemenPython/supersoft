@@ -84,6 +84,43 @@
                 </table>
             </div>
 
+            <div class="col-xs-4">
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <th style="background:#CCC !important;color:black"
+                            scope="row">{{__('Period of supply order from')}}</th>
+                        <td>{{__($supplyOrder->date_from)}}</td>
+                    </tr>
+
+                    <tr>
+                        <th style="background:#CCC !important;color:black"
+                            scope="row">{{__('Different Days')}}</th>
+                        <td>{{__($supplyOrder->different_days)}}</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-xs-4">
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <th style="background:#CCC !important;color:black"
+                            scope="row">{{__('Period of supply order to')}}</th>
+                        <td>{{__($supplyOrder->date_to )}}</td>
+                    </tr>
+                    <tr>
+                        <th style="background:#CCC !important;color:black"
+                            scope="row">{{__('Remaining Days')}}</th>
+                        <td>{{__($supplyOrder->remaining_days)}}</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
 

@@ -27,10 +27,10 @@
                             @include('admin.buttons.add-new', [  'route' => 'admin:purchase-requests.create',  'new' => '',])
                         </li>
 
-                                                <li class="list-inline-item">
-                                                    @component('admin.buttons._confirm_delete_selected',['route' => 'admin:damaged-stock.create.deleteSelected',])
-                                                    @endcomponent
-                                                </li>
+                        <li class="list-inline-item">
+                            @component('admin.buttons._confirm_delete_selected',['route' => 'admin:damaged-stock.create.deleteSelected',])
+                            @endcomponent
+                        </li>
 
                     </ul>
 
@@ -46,9 +46,10 @@
                                 @endif
                                 <th scope="col">{!! __('Date') !!}</th>
                                 <th scope="col">{!! __('Purchase request Number') !!}</th>
-
                                 <th scope="col">{!! __('Status') !!}</th>
                                 <th scope="col">{!! __('Execution Status') !!}</th>
+                                <th scope="col">{!! __('Different Days') !!}</th>
+                                <th scope="col">{!! __('Remaining Days') !!}</th>
                                 <th scope="col">{!! __('Created Date') !!}</th>
                                 <th scope="col">{!! __('Updated Date') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -73,6 +74,8 @@
 
                                 <th scope="col">{!! __('Status') !!}</th>
                                 <th scope="col">{!! __('Execution Status') !!}</th>
+                                <th scope="col">{!! __('Different Days') !!}</th>
+                                <th scope="col">{!! __('Remaining Days') !!}</th>
                                 <th scope="col">{!! __('Created Date') !!}</th>
                                 <th scope="col">{!! __('Updated Date') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -91,106 +94,110 @@
 
                                     <td>
 
-                                       @if($item->status == 'under_processing' )
-                                        <span class="label label-info wg-label"> {{__('Under Processing')}}</span>
+                                        @if($item->status == 'under_processing' )
+                                            <span class="label label-info wg-label"> {{__('Under Processing')}}</span>
                                         @elseif($item->status == 'ready_for_approval' )
-                                        <span class="label label-primary wg-label"> {{__('Ready For Approval')}} </span>
+                                            <span
+                                                class="label label-primary wg-label"> {{__('Ready For Approval')}} </span>
                                         @elseif($item->status == 'accept_approval' )
-                                        <span class="label label-success wg-label"> {{__('Accept Approval')}} </span>
+                                            <span
+                                                class="label label-success wg-label"> {{__('Accept Approval')}} </span>
                                         @else
-                                        <span class="label label-danger wg-label"> {{__('Reject Approval')}} </span>
+                                            <span class="label label-danger wg-label"> {{__('Reject Approval')}} </span>
                                         @endif
 
                                     </td>
                                     <td class="text-center column-date">
 
-@if($item->execution)
+                                        @if($item->execution)
 
 
-@if($item->execution ->status == 'pending' )
-<span class="label label-info wg-label"> {{__('Processing')}}</span>
+                                            @if($item->execution ->status == 'pending' )
+                                                <span class="label label-info wg-label"> {{__('Processing')}}</span>
 
-@elseif($item->execution ->status == 'finished' )
-<span class="label label-success wg-label"> {{__('Finished')}} </span>
+                                            @elseif($item->execution ->status == 'finished' )
+                                                <span class="label label-success wg-label"> {{__('Finished')}} </span>
 
-@elseif($item->execution ->status == 'late' )
-<span class="label label-danger wg-label"> {{__('Late')}} </span>
-@endif
+                                            @elseif($item->execution ->status == 'late' )
+                                                <span class="label label-danger wg-label"> {{__('Late')}} </span>
+                                            @endif
 
 
-@else
-<span class="label label-warning wg-label">
+                                        @else
+                                            <span class="label label-warning wg-label">
                                         {{__('Not determined')}}
                                         </span>
 
-@endif
+                                        @endif
 
-</td>
+                                    </td>
+                                    <td>{{ $item->different_days }}</td>
+                                    <td>{{ $item->remaining_days }}</td>
                                     <td>{{ $item->created_at }}</td>
                                     <td>{{ $item->updated_at }}</td>
                                     <td>
 
-                                    <div class="btn-group margin-top-10">
+                                        <div class="btn-group margin-top-10">
 
-                                        <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="ico fa fa-bars"></i>
-                                        {{__('Options')}} <span class="caret"></span>
+                                            <button type="button" class="btn btn-options dropdown-toggle"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="ico fa fa-bars"></i>
+                                                {{__('Options')}} <span class="caret"></span>
 
-                                    </button>
-                                        <ul class="dropdown-menu dropdown-wg">
-                                            <li>
-                                            <a style="cursor:pointer" class="btn btn-print-wg text-white  "
-                                           data-toggle="modal"
-                                           onclick="getPrintData({{$item->id}})"
-                                           data-target="#boostrapModal" title="{{__('print')}}">
-                                            <i class="fa fa-print"></i> {{__('Print')}}
-                                        </a>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-wg">
+                                                <li>
+                                                    <a style="cursor:pointer" class="btn btn-print-wg text-white  "
+                                                       data-toggle="modal"
+                                                       onclick="getPrintData({{$item->id}})"
+                                                       data-target="#boostrapModal" title="{{__('print')}}">
+                                                        <i class="fa fa-print"></i> {{__('Print')}}
+                                                    </a>
 
-                                            </li>
-                                            <li>
+                                                </li>
+                                                <li>
 
-                                            @component('admin.buttons._edit_button',[
-                                                    'id'=>$item->id,
-                                                    'route' => 'admin:purchase-requests.edit',
-                                                     ])
-                                        @endcomponent
-                                            </li>
+                                                    @component('admin.buttons._edit_button',[
+                                                            'id'=>$item->id,
+                                                            'route' => 'admin:purchase-requests.edit',
+                                                             ])
+                                                    @endcomponent
+                                                </li>
 
-                                            <li class="btn-style-drop">
-                                            @component('admin.buttons._delete_button',[
-                                                    'id'=> $item->id,
-                                                    'route' => 'admin:purchase-requests.destroy',
-                                                     ])
-                                        @endcomponent
-                                            </li>
+                                                <li class="btn-style-drop">
+                                                    @component('admin.buttons._delete_button',[
+                                                            'id'=> $item->id,
+                                                            'route' => 'admin:purchase-requests.destroy',
+                                                             ])
+                                                    @endcomponent
+                                                </li>
 
-                                            @if($item->status == 'ready_for_approval')
-                                            <li>
-
-
-
-<a href="{{route('admin:purchase-requests.edit', ['id'=> $item->id, 'request_type'=>'approval'])}}"
-   class="btn btn-approval-wg text-white hvr-radial-out">
-    <i class="fa fa-check"></i>
-    {{__('Approval')}}
-</a>
-
-                                            </li>
-                                            @endif
+                                                @if($item->status == 'ready_for_approval')
+                                                    <li>
 
 
-                                            <li>
-                                            @include('admin.partial.execution_period', ['id'=> $item->id])
-                                            </li>
+                                                        <a href="{{route('admin:purchase-requests.edit', ['id'=> $item->id, 'request_type'=>'approval'])}}"
+                                                           class="btn btn-approval-wg text-white hvr-radial-out">
+                                                            <i class="fa fa-check"></i>
+                                                            {{__('Approval')}}
+                                                        </a>
 
-                                            <li>
-                                            @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])
-                                            </li>
+                                                    </li>
+                                                @endif
 
-                                        </ul>
-                                    </div>
 
-                                        <!-- <a style="cursor:pointer" class="btn btn-print-wg text-white  "
+                                                <li>
+                                                    @include('admin.partial.execution_period', ['id'=> $item->id])
+                                                </li>
+
+                                                <li>
+                                                    @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])
+                                                </li>
+
+                                            </ul>
+                                        </div>
+
+                                    <!-- <a style="cursor:pointer" class="btn btn-print-wg text-white  "
                                            data-toggle="modal"
                                            onclick="getPrintData({{$item->id}})"
                                            data-target="#boostrapModal" title="{{__('print')}}">
@@ -201,35 +208,35 @@
                                                     'id'=>$item->id,
                                                     'route' => 'admin:purchase-requests.edit',
                                                      ])
-                                        @endcomponent
+                                    @endcomponent
 
-                                        @component('admin.buttons._delete_button',[
-                                                    'id'=> $item->id,
-                                                    'route' => 'admin:purchase-requests.destroy',
-                                                     ])
-                                        @endcomponent
+                                    @component('admin.buttons._delete_button',[
+                                                'id'=> $item->id,
+                                                'route' => 'admin:purchase-requests.destroy',
+                                                 ])
+                                    @endcomponent
 
 
 
-                                        @if($item->status == 'ready_for_approval')
+                                    @if($item->status == 'ready_for_approval')
 
-                                            <a href="{{route('admin:purchase-requests.edit', ['id'=> $item->id, 'request_type'=>'approval'])}}"
+                                        <a href="{{route('admin:purchase-requests.edit', ['id'=> $item->id, 'request_type'=>'approval'])}}"
                                                class="btn btn-approval-wg text-white hvr-radial-out">
                                                 <i class="fa fa-check"></i>
                                                 {{__('Approval')}}
                                             </a>
                                         @endif
 
-                                        @include('admin.partial.execution_period', ['id'=> $item->id])
-                                        @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id]) -->
+                                    @include('admin.partial.execution_period', ['id'=> $item->id])
+                                    @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id]) -->
 
                                     </td>
                                     <td>
-                                                                                @component('admin.buttons._delete_selected',[
-                                                                                           'id' => $item->id,
-                                                                                            'route' => 'admin:purchase-requests.deleteSelected',
-                                                                                            ])
-                                                                                @endcomponent
+                                        @component('admin.buttons._delete_selected',[
+                                                   'id' => $item->id,
+                                                    'route' => 'admin:purchase-requests.deleteSelected',
+                                                    ])
+                                        @endcomponent
                                     </td>
                                 </tr>
                             @endforeach

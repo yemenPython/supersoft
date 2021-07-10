@@ -104,7 +104,7 @@
             </div>
         </div>
 
-        
+
 
         <div class="col-md-6 purchase_request_type"
              style="{{isset($purchaseInvoice) && $purchaseInvoice->invoice_type != 'from_supply_order'? 'display:none':''}}">
@@ -131,10 +131,10 @@
             </div>
         </div>
 
-        <div class="col-md-6 purcpurchase_request_type"
+        <div class="col-md-6 purchase_request_type"
              style="{{isset($purchaseInvoice) && $purchaseInvoice->invoice_type != 'from_supply_order'? 'display:none':''}}">
             <div class="form-group">
-         
+
 
                 <div class="input-group">
                 <label style="opacity:0">{{__('select')}}</label>
@@ -149,11 +149,11 @@
                         {{__('Show selected Receipts')}}
                     </button>
                     <li>
-                </ul>    
+                </ul>
                 </div>
                 </div>
             </div>
-        
+
 
         <div class="col-md-6">
             <div class="form-group has-feedback">
@@ -204,15 +204,15 @@
             </div>
         </div>
 
-    
-<!-- 
+
+<!--
         <div class="col-md-3 purchase_request_type"
              style="{{isset($purchaseInvoice) && $purchaseInvoice->invoice_type != 'from_supply_order'? 'display:none':''}}">
             <div class="form-group">
                 <label for="date" class="control-label">{{__('')}}</label>
 
                 <div class="input-group">
-              
+
                 </div>
             </div>
         </div> -->
@@ -325,7 +325,7 @@
                 </div>
             </div>
         </div>
-   
+
 
 
 
