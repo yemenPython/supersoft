@@ -183,7 +183,7 @@ class ServicesTypesController extends Controller
             ->with(['message' => __('words.select-one-least'), 'alert-type' => 'error']);
     }
 
-    public function restoreDelete(int $id)
+    public function restoreDelete(int $id): RedirectResponse
     {
         try {
             $services_type = ServiceType::withTrashed()->findOrFail($id);

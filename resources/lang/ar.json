@@ -2036,7 +2036,9 @@
     "Add new asset License" : "إضافة ترخيص جديد",
     "Edit asset License" : "تعديل بيانات الترخيص",
     "Add new asset Examination" : "إضافة فحص جديد",
-    "Edit asset Examination" : "تعديل بيانات الفحص"
+    "Edit asset Examination" : "تعديل بيانات الفحص",
+    "Concessions Archives" : "أرشيف الاذونات",
+    "Activity-log Archives" : "أرشيف أنشطة المستخدميين"
 }
 
 

@@ -57,7 +57,8 @@ class ConcessionController extends AbstractController
         $concessions = $this->concessionService->search($request, true);
         $concessions = $concessions->get();
         $concessionTypes = ConcessionType::select('id', 'name_' . $this->lang)->get();
-        return view('admin.concessions.archive', compact('concessions', 'concessionTypes'));
+        $additionalData['concessions'] = Concession::select('id', 'number')->get();
+        return view('admin.concessions.archive', compact('concessions', 'concessionTypes', 'additionalData'));
     }
 
     public function create(Request  $request)

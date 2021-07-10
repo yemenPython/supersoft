@@ -733,7 +733,7 @@ route('admin:concession-relations.create'),
 
                 <li class="{{setActivationClass([
 url('admin/users/archive').'?archive',
-url('admin/service-types/archive').'?archive'
+url('admin/concessions/archive'),
                      ])}}">
                     <a class="parent-item js__control" href="#">
                         <i style="color:#3C5DF2 !important" class="menu-icon fa fa-archive"></i>
@@ -743,6 +743,13 @@ url('admin/service-types/archive').'?archive'
                     <ul class="sub-menu js__content wg-menu" style="">
                         <li class="{{setActivationClass(url('admin/users/archive').'?archive')}}">
                             <a href="{{url('admin/users/archive').'?archive'}}">{{__('Users Archives')}}</a>
+                        </li>
+
+                        <li class="{{setActivationClass(url('admin/concessions/archive'))}}">
+                            <a href="{{url('admin/concessions/archive')}}">{{__('Concessions Archives')}}</a>
+                        </li>
+                        <li class="{{setActivationClass(url('admin/activity-log/archive'))}}">
+                            <a href="{{url('admin/activity-log/archive')}}">{{__('Activity-log Archives')}}</a>
                         </li>
                     </ul>
                 </li>
