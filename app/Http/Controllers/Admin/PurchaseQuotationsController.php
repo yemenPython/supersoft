@@ -15,6 +15,7 @@ use App\Models\SupplyTerm;
 use App\Models\TaxesFees;
 use App\Services\PurchaseQuotationServices;
 use App\Traits\SubTypesServices;
+use Exception;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
@@ -275,6 +276,22 @@ class PurchaseQuotationsController extends Controller
         }
 
         return redirect()->back()->with(['message'=> __('purchase.quotations.deleted.successfully'), 'alert-type'=>'success']);
+    }
+
+    public function deleteSelected(Request $request)
+    {
+        if (!isset($request->ids)) {
+            return redirect()->back()->with(['message' => __('words.select-one-least'), 'alert-type' => 'error']);
+        }
+        try {
+            $purchaseQuotations = PurchaseQuotation::whereIn('id', array_unique($request->ids))->get();
+            foreach ($purchaseQuotations as $purchaseQuotation) {
+                $purchaseQuotation->delete();
+            }
+        } catch (Exception $e) {
+            return redirect()->back()->with(['message' => __('sorry, please try later'), 'alert-type' => 'error']);
+        }
+        return redirect(route('admin:purchase-quotations.index'))->with(['message' => __('words.purchase-quotations-deleted'), 'alert-type' => 'success']);
     }
 
     public function selectPurchaseRequest (Request $request) {

@@ -1,4 +1,5 @@
 <?php
+Route::post('supply-orders-deleteSelected', 'SupplyOrderController@deleteSelected')->name('supply-orders.deleteSelected');
 
 Route::resource('/supply-orders', 'SupplyOrderController');
 
