@@ -175,7 +175,7 @@ style="background:#D2F4F6; border:none;text-align:center !important;"
                                                value="{{$tax->id}}"
                                         >
                                         <span>
-                                            {{$tax->name}} - {{$tax->tax_type == 'amount' ? '$':'%'}} - {{ $tax->value }} -
+                                            {{$tax->name}} ( {{ $tax->value }} {{$tax->tax_type == 'amount' ? '$':'%'}} ) =
                                              <span id="calculated_tax_value_{{$tax_key}}">
                                                   {{isset($supplyOrder) ? taxValueCalculated($supplyOrder->total_after_discount, $supplyOrder->sub_total, $tax) : 0}}
                                              </span>

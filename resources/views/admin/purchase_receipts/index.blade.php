@@ -27,10 +27,10 @@
                             @include('admin.buttons.add-new', [  'route' => 'admin:purchase-receipts.create',  'new' => '',])
                         </li>
 
-                        {{--                        <li class="list-inline-item">--}}
-                        {{--                            @component('admin.buttons._confirm_delete_selected',['route' => 'admin:damaged-stock.create.deleteSelected',])--}}
-                        {{--                            @endcomponent--}}
-                        {{--                        </li>--}}
+                        <li class="list-inline-item">
+                            @component('admin.buttons._confirm_delete_selected',['route' => 'admin:damaged-stock.create.deleteSelected',])
+                            @endcomponent
+                        </li>
 
                     </ul>
 
@@ -51,8 +51,6 @@
                                 <th scope="col">{!! __('Total') !!}</th>
                                 <th scope="col">{!! __('Total Accepted') !!}</th>
                                 <th scope="col">{!! __('Total Rejected') !!}</th>
-
-
                                 <th scope="col">{!! __('Created Date') !!}</th>
                                 <th scope="col">{!! __('Updated Date') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -78,7 +76,6 @@
                                 <th scope="col">{!! __('Total') !!}</th>
                                 <th scope="col">{!! __('Total Accepted') !!}</th>
                                 <th scope="col">{!! __('Total Rejected') !!}</th>
-
                                 <th scope="col">{!! __('Created Date') !!}</th>
                                 <th scope="col">{!! __('Updated Date') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -137,9 +134,11 @@
                                         @endif
 
                                     </td>
+
                                     <td>{{$item->total}}</td>
                                     <td>{{$item->total_accepted}}</td>
                                     <td>{{$item->total_rejected}}</td>
+
                                     <td>{{ $item->created_at }}</td>
                                     <td>{{ $item->updated_at }}</td>
 
@@ -191,11 +190,11 @@
 
                                     </td>
                                     <td>
-                                        {{--                                        @component('admin.buttons._delete_selected',[--}}
-                                        {{--                                                   'id' => $type->id,--}}
-                                        {{--                                                    'route' => 'admin:concession-types.deleteSelected',--}}
-                                        {{--                                                    ])--}}
-                                        {{--                                        @endcomponent--}}
+                                        @component('admin.buttons._delete_selected',[
+                                                   'id' => $item->id,
+                                                    'route' => 'admin:purchase-receipts.deleteSelected',
+                                                    ])
+                                        @endcomponent
                                     </td>
                                 </tr>
                             @endforeach
@@ -379,3 +378,9 @@
         invoke_datatable($('#cities'))
     </script>
 @endsection
+
+
+
+
+
+

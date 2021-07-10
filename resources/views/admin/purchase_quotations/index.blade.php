@@ -27,10 +27,10 @@
                             @include('admin.buttons.add-new', [  'route' => 'admin:purchase-quotations.create',  'new' => '',])
                         </li>
 
-                        {{--                        <li class="list-inline-item">--}}
-                        {{--                            @component('admin.buttons._confirm_delete_selected',['route' => 'admin:damaged-stock.create.deleteSelected',])--}}
-                        {{--                            @endcomponent--}}
-                        {{--                        </li>--}}
+                                                <li class="list-inline-item">
+                                                    @component('admin.buttons._confirm_delete_selected',['route' => 'admin:damaged-stock.create.deleteSelected',])
+                                                    @endcomponent
+                                                </li>
 
                     </ul>
 
@@ -46,7 +46,7 @@
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
                                 <th scope="col">{!! __('Quotation Number') !!}</th>
-                               
+
                                 <th scope="col">{!! __('Status') !!}</th>
 
                                 <th scope="col">{!! __('Total') !!}</th>
@@ -74,7 +74,7 @@
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
                                 <th scope="col">{!! __('Quotation Number') !!}</th>
-                               
+
                                 <th scope="col">{!! __('Status') !!}</th>
 
                                 <th scope="col">{!! __('Total') !!}</th>
@@ -97,7 +97,7 @@
                                     @endif
 
                                     <td>{{ $item->number }}</td>
-                                
+
                                     <td>
                                     @if($item->status == 'pending' )
                                         <span class="label label-info wg-label"> {{__('processing')}}</span>
@@ -106,7 +106,7 @@
                                         @else
                                         <span class="label label-danger wg-label"> {{__('Reject Approval')}} </span>
                                         @endif
-                                    
+
                                     </td>
                                     <td style="background:#FBFAD4 !important">{{ __($item->total) }}</td>
                                     <td class="text-center column-date">
@@ -140,13 +140,14 @@
                                     <td>
 
                                     <div class="btn-group margin-top-10">
-                                        
+
                                         <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="ico fa fa-bars"></i>
                                         {{__('Options')}} <span class="caret"></span>
                                      
                                     </button> 
-                                        <ul class="dropdown-menu">
+                                        <ul class="dropdown-menu dropdown-wg">
+
                                             <li>
                                             @component('admin.buttons._edit_button',[
                                                     'id'=>$item->id,
@@ -156,7 +157,7 @@
 
                                             </li>
                                             <li class="btn-style-drop">
-                                                
+
                                             @component('admin.buttons._delete_button',[
                                                     'id'=> $item->id,
                                                     'route' => 'admin:purchase-quotations.destroy',
@@ -173,18 +174,18 @@
                                         </a>
                                             </li>
 
-                                            
+
                                             <li>
-                                            
+
 
                                             <a style="cursor:pointer" class="btn btn-terms-wg text-white hvr-radial-out" data-toggle="modal"
                                            data-target="#terms_{{$item->id}}" title="{{__('Terms')}}">
                                             <i class="fa fa-check-circle"></i> {{__('Terms')}}
                                         </a>
                                             </li>
-                                    
 
-                                            
+
+
                                             <li>
                                             @include('admin.partial.execution_period', ['id'=> $item->id])
                                             </li>
@@ -225,11 +226,11 @@
 
                                     </td>
                                     <td>
-                                        {{--                                        @component('admin.buttons._delete_selected',[--}}
-                                        {{--                                                   'id' => $type->id,--}}
-                                        {{--                                                    'route' => 'admin:concession-types.deleteSelected',--}}
-                                        {{--                                                    ])--}}
-                                        {{--                                        @endcomponent--}}
+                                                                                @component('admin.buttons._delete_selected',[
+                                                                                           'id' => $item->id,
+                                                                                            'route' => 'admin:purchase-quotations.deleteSelected',
+                                                                                            ])
+                                                                                @endcomponent
                                     </td>
                                 </tr>
                             @endforeach

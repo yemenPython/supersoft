@@ -8,7 +8,7 @@
             <th width="8%"> {{ __('Unit') }} </th>
             <th width="8%"> {{ __('Price Segments') }} </th>
             <th width="8%"> {{ __('Quantity in store') }} </th>
-            <th width="7%"> {{ __('Max Quantity') }} </th>
+            <th width="7%"> {{ __('Max Quantity return') }} </th>
             <th width="7%"> {{ __('Quantity') }} </th>
             <th width="8%"> {{ __('Price') }} </th>
             <th width="4%"> {{ __('Discount Type') }} </th>
@@ -46,7 +46,7 @@
             <th width="8%"> {{ __('Unit') }} </th>
             <th width="8%"> {{ __('Price Segments') }} </th>
             <th width="8%"> {{ __('Quantity in store') }} </th>
-            <th width="7%"> {{ __('Max Quantity') }} </th>
+            <th width="7%"> {{ __('Max Quantity return') }} </th>
             <th width="7%"> {{ __('Quantity') }} </th>
             <th width="8%"> {{ __('Price') }} </th>
             <th width="4%"> {{ __('Discount Type') }} </th>

@@ -27,10 +27,10 @@
                             @include('admin.buttons.add-new', [  'route' => 'admin:purchase-requests.create',  'new' => '',])
                         </li>
 
-                        {{--                        <li class="list-inline-item">--}}
-                        {{--                            @component('admin.buttons._confirm_delete_selected',['route' => 'admin:damaged-stock.create.deleteSelected',])--}}
-                        {{--                            @endcomponent--}}
-                        {{--                        </li>--}}
+                                                <li class="list-inline-item">
+                                                    @component('admin.buttons._confirm_delete_selected',['route' => 'admin:damaged-stock.create.deleteSelected',])
+                                                    @endcomponent
+                                                </li>
 
                     </ul>
 
@@ -46,7 +46,7 @@
                                 @endif
                                 <th scope="col">{!! __('Date') !!}</th>
                                 <th scope="col">{!! __('Purchase request Number') !!}</th>
-                               
+
                                 <th scope="col">{!! __('Status') !!}</th>
                                 <th scope="col">{!! __('Execution Status') !!}</th>
                                 <th scope="col">{!! __('Created Date') !!}</th>
@@ -70,7 +70,7 @@
                                 @endif
                                 <th scope="col">{!! __('Date') !!}</th>
                                 <th scope="col">{!! __('Purchase request Number') !!}</th>
-                           
+
                                 <th scope="col">{!! __('Status') !!}</th>
                                 <th scope="col">{!! __('Execution Status') !!}</th>
                                 <th scope="col">{!! __('Created Date') !!}</th>
@@ -88,7 +88,7 @@
                                     @endif
                                     <td class="text-danger">{{ $item->date }}</td>
                                     <td>{{ $item->number }}</td>
-                                   
+
                                     <td>
 
                                        @if($item->status == 'under_processing' )
@@ -131,12 +131,12 @@
                                     <td>
 
                                     <div class="btn-group margin-top-10">
-                                        
+
                                         <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="ico fa fa-bars"></i>
                                         {{__('Options')}} <span class="caret"></span>
-                                     
-                                    </button> 
+
+                                    </button>
                                         <ul class="dropdown-menu dropdown-wg">
                                             <li>
                                             <a style="cursor:pointer" class="btn btn-print-wg text-white  "
@@ -148,7 +148,7 @@
 
                                             </li>
                                             <li>
-                                                
+
                                             @component('admin.buttons._edit_button',[
                                                     'id'=>$item->id,
                                                     'route' => 'admin:purchase-requests.edit',
@@ -166,8 +166,8 @@
 
                                             @if($item->status == 'ready_for_approval')
                                             <li>
-                                            
-                                      
+
+
 
 <a href="{{route('admin:purchase-requests.edit', ['id'=> $item->id, 'request_type'=>'approval'])}}"
    class="btn btn-approval-wg text-white hvr-radial-out">
@@ -178,7 +178,7 @@
                                             </li>
                                             @endif
 
-                                            
+
                                             <li>
                                             @include('admin.partial.execution_period', ['id'=> $item->id])
                                             </li>
@@ -225,11 +225,11 @@
 
                                     </td>
                                     <td>
-                                        {{--                                        @component('admin.buttons._delete_selected',[--}}
-                                        {{--                                                   'id' => $type->id,--}}
-                                        {{--                                                    'route' => 'admin:concession-types.deleteSelected',--}}
-                                        {{--                                                    ])--}}
-                                        {{--                                        @endcomponent--}}
+                                                                                @component('admin.buttons._delete_selected',[
+                                                                                           'id' => $item->id,
+                                                                                            'route' => 'admin:purchase-requests.deleteSelected',
+                                                                                            ])
+                                                                                @endcomponent
                                     </td>
                                 </tr>
                             @endforeach

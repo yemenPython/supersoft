@@ -149,6 +149,9 @@ class MaintenanceDetectionTypesController extends Controller
 
             return redirect()->back()->with(['authorization' => 'error']);
         }
+        if ($maintenanceDetectionType->maintenance()->exists()) {
+            return redirect()->back()->with(['message'=> __('sorry, this item has related data'), 'alert-type'=>'error']);
+        }
 
         $maintenanceDetectionType->delete();
 
@@ -164,7 +167,13 @@ class MaintenanceDetectionTypesController extends Controller
         }
 
         if (isset($request->ids)) {
-            MaintenanceDetectionType::whereIn('id', $request->ids)->delete();
+            $maintenanceDetectionTypes = MaintenanceDetectionType::whereIn('id', $request->ids)->get();
+            foreach ($maintenanceDetectionTypes as $maintenanceDetectionType) {
+                if ($maintenanceDetectionType->maintenance()->exists()) {
+                    return redirect()->back()->with(['message'=> __('sorry, this item has related data'), 'alert-type'=>'error']);
+                }
+                $maintenanceDetectionType->delete();
+            }
             return redirect(route('admin:maintenance-detection-types.index'))
                 ->with(['message' => __('words.selected-row-deleted'), 'alert-type' => 'success']);
         }

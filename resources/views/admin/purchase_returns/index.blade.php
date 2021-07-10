@@ -57,11 +57,12 @@
                                     scope="col">{!! __('Invoice Number') !!}</th>
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Invoice Type') !!}</th>
                                 <th class="text-center column-payment" scope="col">{!! __('Payment status') !!}</th>
+                                <th class="text-center column-paid" scope="col">{!! __('Total') !!}</th>
                                 <th class="text-center column-paid" scope="col">{!! __('Paid') !!}</th>
                                 <th class="text-center column-remaining" scope="col">{!! __('Remaining') !!}</th>
                                 <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
                                 <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
-                                <th scope="col">{!! __('Expenses') !!}</th>
+                                <!-- <th scope="col">{!! __('Expenses') !!}</th> -->
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">{!! __('Select') !!}</th>
                             </tr>
@@ -102,6 +103,7 @@
                                         </td>
                                     @endif
 
+                                    <td class="text-danger text-center column-paid">{!! number_format($invoice->total, 2) !!}</td>
 
                                     <td class="text-danger text-center column-paid">{!! number_format($invoice->paid, 2) !!}</td>
                                     <td class="text-danger text-center column-remaining">{!! number_format($invoice->remaining ,2)!!}</td>
@@ -109,12 +111,12 @@
                                 <!-- <td>{!! auth()->user()->name !!}</td> -->
                                     <td class="text-center column-created-at">{!! $invoice->created_at->format('y-m-d h:i:s A') !!}</td>
                                     <td class="text-center column-updated-at">{!! $invoice->updated_at->format('y-m-d h:i:s A')!!}</td>
-                                    <td>
+                                    <!-- <td>
                                         <a href="{{route('admin:purchase_returns.revenues', ['id' => $invoice->id])}}"
                                            class="btn btn-info-wg hvr-radial-out  ">
                                             <i class="fa fa-money"> </i> {{__('Payments')}}
                                         </a>
-                                    </td>
+                                    </td> -->
                                     <td>
 
                                         @component('admin.buttons._edit_button',[

@@ -2036,7 +2036,19 @@
     "Add new asset License" : "إضافة ترخيص جديد",
     "Edit asset License" : "تعديل بيانات الترخيص",
     "Add new asset Examination" : "إضافة فحص جديد",
-    "Edit asset Examination" : "تعديل بيانات الفحص"
+    "Edit asset Examination" : "تعديل بيانات الفحص",
+    "Concessions Archives" : "أرشيف الاذونات",
+    "Activity-log Archives" : "أرشيف أنشطة المستخدميين",
+    "Get Purchase Quotations" : "تحديد عروض الأسعار",
+    "Show selected Quotations" : "عروض الأسعار المحددة",
+    "Get Purchase Receipt" : "تحديد محاضر الإستلام",
+    "Show selected Receipts" : "محاضر الإستلام المحددة",
+    "Purchase Invoices Return" : "مرتجعات المشتريات",
+    "Create Purchase Invoice Return" : "إضافة مرتجع مشتريات جديد",
+    "Edit Purchase Invoice Return" : "تعديل مرتجعات الشراء",
+    "Quantity in store" : "كمية المخزون",
+    "Max Quantity return" : "أقصى كمية مرتجعة",
+    "Purchase Return" : "مرتجعات شراء"
 }
 
 

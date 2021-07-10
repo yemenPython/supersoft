@@ -390,7 +390,7 @@ background-image: linear-gradient(0deg, #1d92af 0%, #1d5697 100%); */
     display: flex !important;
 } */
         
-       HEAD .inline-flex-span .part-unit-span {
+        HEAD .inline-flex-span .part-unit-span {
             margin-right: 5px;
         }
         
@@ -582,17 +582,22 @@ background-image: linear-gradient(0deg, #1d92af 0%, #1d5697 100%); */
             background: #FFE1E2;
             color: white;
             border-radius: 5px;
-            padding: 20px 10px;
-            width:80%;
-            margin:0 auto !important;
+            padding: 8px !important;
+            width: 80%;
+            margin: 0 auto !important;
+            text-align: center;
+            position: relative;
+            margin-bottom: 20px !important;
+            margin-top: 10px !important;
         }
         
         .no-officials .icon-official {
             background: #E7515A;
             border-radius: 0 7px 7px 0;
             padding: 5px 15px;
-            position: relative;
-  
+            position: absolute;
+            right: 0;
+            top: 0
         }
         
         .no-officials .icon-official:after {
@@ -614,8 +619,7 @@ background-image: linear-gradient(0deg, #1d92af 0%, #1d5697 100%); */
         .text-for-official {
             padding: 0 30px;
             color: #E7515A;
-            text-align:center
-
+            text-align: center
         }
         
         .inline-flex-span .part-unit-span {
@@ -793,5 +797,21 @@ background-image: linear-gradient(0deg, #1d92af 0%, #1d5697 100%); */
             .eye-design-two {
                 position: initial !important;
                 display: block;
+            }
+            .text-for-official {
+                padding: 0 30px;
+                color: #E7515A;
+                font-size: 13px;
+                text-align: center;
+            }
+            .no-officials .icon-official i {
+                font-size: 19px;
+            }
+        }
+        
+        @media (max-width:370px) {
+            .no-officials {
+                width: 98%;
+                text-align: left !important
             }
         }
