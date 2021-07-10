@@ -123,16 +123,19 @@ class Supplier extends Model
 
     private function get_my_debit_balance()
     {
-        $buy_invoices = $this->buy_invoices()->sum('remaining');
-        $revenue_receipts = $this->revenue_receipts()->sum('cost');
-        return $buy_invoices + $revenue_receipts;
+//        $buy_invoices = $this->buy_invoices()->sum('remaining');
+//        $revenue_receipts = $this->revenue_receipts()->sum('cost');
+//        return $buy_invoices + $revenue_receipts;
+        return 0;
     }
 
     private function get_my_credit_balance()
     {
-        $expense_receipts = $this->expense_receipts()->sum('cost');
-        $return_buy_invoices = $this->return_buy_invoices()->sum('remaining');
-        return $expense_receipts + $return_buy_invoices;
+//        $expense_receipts = $this->expense_receipts()->sum('cost');
+//        $return_buy_invoices = $this->return_buy_invoices()->sum('remaining');
+//        return $expense_receipts + $return_buy_invoices;
+
+        return 0;
     }
 
     function direct_balance()
