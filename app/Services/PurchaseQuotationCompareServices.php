@@ -50,6 +50,26 @@ class PurchaseQuotationCompareServices
             $quotations->where('created_at', '<=', $request['date_to']);
         }
 
+        if ($request->has('part_barcode') && $request['part_barcode'] != null) {
+            $quotations->whereHas('items', function ($q) use ($request) {
+                $q->whereHas('part', function ($q) use ($request) {
+                    $q->whereHas('prices', function ($q) use ($request) {
+                        $q->where('barcode', 'like', '%'. $request['part_barcode'] . '%');
+                    });
+                });
+            });
+        }
+
+        if ($request->has('supplier_barcode') && $request['supplier_barcode'] != null) {
+            $quotations->whereHas('items', function ($q) use ($request) {
+                $q->whereHas('part', function ($q) use ($request) {
+                    $q->whereHas('prices', function ($q) use ($request) {
+                        $q->where('supplier_barcode', 'like', '%'. $request['supplier_barcode'] . '%');
+                    });
+                });
+            });
+        }
+
         $quotations = $quotations->select('id', 'number', 'purchase_request_id', 'supplier_id')->get();
 
         return $quotations;

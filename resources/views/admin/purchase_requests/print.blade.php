@@ -93,6 +93,12 @@
                         <td>{{__($purchaseRequest->date_from)}}</td>
                     </tr>
 
+                    <tr>
+                        <th style="background:#CCC !important;color:black"
+                            scope="row">{{__('Different Days')}}</th>
+                        <td>{{__($purchaseRequest->different_days)}}</td>
+                    </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -104,6 +110,11 @@
                         <th style="background:#CCC !important;color:black"
                             scope="row">{{__('Period of request to')}}</th>
                         <td>{{__($purchaseRequest->date_to )}}</td>
+                    </tr>
+                    <tr>
+                        <th style="background:#CCC !important;color:black"
+                            scope="row">{{__('Remaining Days')}}</th>
+                        <td>{{__($purchaseRequest->remaining_days)}}</td>
                     </tr>
 
                     </tbody>

@@ -111,6 +111,55 @@
 
             <div class="col-md-12">
 
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="date" class="control-label">{{__('Period of supply order from')}}</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
+                            <input type="date" name="date_from" class="form-control" id="date_from" onchange="getDate()"
+                                   value="{{old('date_from', isset($supplyOrder)? $supplyOrder->date_from : \Carbon\Carbon::now()->format('Y-m-d'))}}">
+                        </div>
+                        {{input_error($errors,'date_from')}}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="date" class="control-label">{{__('Period of supply order to')}}</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
+                            <input type="date" name="date_to" class="form-control" id="date_to" onchange="getDate()"
+                                   value="{{old('date_to', isset($supplyOrder)? $supplyOrder->date_to : \Carbon\Carbon::now()->format('Y-m-d'))}}">
+                        </div>
+                        {{input_error($errors,'date_to')}}
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="date" class="control-label">{{__('Different Days')}}</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
+                            <input type="text" class="form-control" id="different_days" disabled
+                                   value="{{isset($supplyOrder) ? $supplyOrder->different_days : 0}}">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="date" class="control-label">{{__('Remaining Days')}}</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
+                            <input type="text" class="form-control" id="remaining_days" disabled
+                                   value="{{isset($supplyOrder) ? $supplyOrder->remaining_days : 0}}">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-12">
+
                 <div class="col-md-6 purchase_request_type"
                      style="{{isset($supplyOrder) && $supplyOrder->type != 'from_purchase_request'? 'display:none':''}}">
                     <div class="form-group has-feedback">

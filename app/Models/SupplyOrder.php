@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class SupplyOrder extends Model
@@ -9,7 +10,7 @@ class SupplyOrder extends Model
     protected $fillable = ['number', 'branch_id', 'purchase_request_id', 'date', 'time', 'user_id', 'supplier_id', 'status',
         'sub_total', 'discount', 'discount_type', 'total_after_discount', 'tax', 'total', 'type',
         'additional_payments', 'description', 'library_path', 'supplier_discount', 'supplier_discount_type',
-        'supplier_discount_active'];
+        'supplier_discount_active', 'date_from', 'date_to'];
 
     protected $table = 'supply_orders';
 
@@ -79,5 +80,22 @@ class SupplyOrder extends Model
         }
 
         return true;
+    }
+
+    public function getDifferentDaysAttribute()
+    {
+        $startDate = Carbon::create($this->date_from);
+        $endDate = Carbon::create($this->date_to);
+        return $endDate->diffInDays($startDate);
+    }
+
+    public function getRemainingDaysAttribute()
+    {
+        $dateNowFormat = Carbon::now()->format('Y-m-d');
+
+        $dateNow = Carbon::create($dateNowFormat);
+        $endDate = Carbon::create($this->date_to);
+
+        return $dateNow->diffInDays($endDate, false);
     }
 }

@@ -42,6 +42,8 @@ class PurchaseQuotationServices
             'type' => $requestData['type'],
             'date' => $requestData['date'],
             'time' => $requestData['time'],
+            'date_from' => $requestData['date_from'],
+            'date_to' => $requestData['date_to'],
             'supply_date_from' => $requestData['supply_date_from'],
             'supply_date_to' => $requestData['supply_date_to'],
             'supplier_id' => $requestData['supplier_id'],
