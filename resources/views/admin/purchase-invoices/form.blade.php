@@ -155,6 +155,26 @@
             </div>
         </div>
 
+
+        <div class="col-md-1">
+            <div class="radio primary ">
+                <input type="radio" name="type" value="cash" id="cash"
+                    {{ !isset($purchaseInvoice) ? 'checked':'' }}
+                    {{isset($purchaseInvoice) && $purchaseInvoice->type == 'cash' ? 'checked':''}} >
+                <label for="cash">{{__('Cash')}}</label>
+            </div>
+        </div>
+
+        <div class="col-md-1">
+            <div class="radio primary ">
+                <input type="radio" name="type" id="credit" value="credit"
+                    {{isset($purchaseInvoice) && $purchaseInvoice->type == 'credit' ? 'checked':''}} >
+                <label for="credit">{{__('Credit')}}</label>
+            </div>
+        </div>
+
+
+
         <div class="col-md-3 purchase_request_type"
              style="{{isset($purchaseInvoice) && $purchaseInvoice->invoice_type != 'from_supply_order'? 'display:none':''}}">
             <div class="form-group">
@@ -174,22 +194,6 @@
             </div>
         </div>
 
-        <div class="col-md-1">
-            <div class="radio primary ">
-                <input type="radio" name="type" value="cash" id="cash"
-                    {{ !isset($purchaseInvoice) ? 'checked':'' }}
-                    {{isset($purchaseInvoice) && $purchaseInvoice->type == 'cash' ? 'checked':''}} >
-                <label for="cash">{{__('Cash')}}</label>
-            </div>
-        </div>
-
-        <div class="col-md-1">
-            <div class="radio primary ">
-                <input type="radio" name="type" id="credit" value="credit"
-                    {{isset($purchaseInvoice) && $purchaseInvoice->type == 'credit' ? 'checked':''}} >
-                <label for="credit">{{__('Credit')}}</label>
-            </div>
-        </div>
 
 
         <div class="col-md-3">
@@ -307,7 +311,7 @@
     </div>
 
 
-    <div class="row buttom-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+    <div class="row bottom-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
 
     @include('admin.purchase-invoices.financial_details')

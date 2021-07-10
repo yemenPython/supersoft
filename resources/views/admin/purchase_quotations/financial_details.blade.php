@@ -170,7 +170,7 @@
                                                value="{{$tax->id}}"
                                         >
                                         <span>
-                                            {{$tax->name}} - {{$tax->tax_type == 'amount' ? '$':'%'}} - {{ $tax->value }} -
+                                            {{$tax->name}} ( {{ $tax->value }} {{$tax->tax_type == 'amount' ? '$':'%'}} ) =
                                              <span id="calculated_tax_value_{{$tax_key}}">
                                                   {{isset($purchaseQuotation) ? taxValueCalculated($purchaseQuotation->total_after_discount, $purchaseQuotation->sub_total, $tax) : 0}}
                                              </span>
@@ -193,6 +193,7 @@
 
                 {!! __('Taxes') !!}
             </th>
+            
             <td  style="background:#FFC5D7">
                 <input type="text" class="form-control"
                 style="background:#FFC5D7; border:none;text-align:center !important;"

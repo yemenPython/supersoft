@@ -146,7 +146,7 @@
                                         {{__('Options')}} <span class="caret"></span>
                                      
                                     </button> 
-                                        <ul class="dropdown-menu">
+                                        <ul class="dropdown-menu dropdown-wg">
                                             <li>
                                             @component('admin.buttons._edit_button',[
                                                     'id'=>$item->id,
