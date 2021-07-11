@@ -150,12 +150,12 @@ style="background:#D2F4F6; border:none;text-align:center !important;"
 <table class="table table-bordered">
       <tr>
       <th style="width:40%;height:50px;background:#FFC5D7 !important;color:black !important">
-                <div class="btn-group ">
+                <div class="btn-group " style="position: relative;top: -2px;">
                     <span type="button" class="fa fa-eye eye-design-one dropdown-toggle" data-toggle="dropdown"
                           
                           aria-haspopup="true" aria-expanded="false"> </span>
 
-                          <ul class="dropdown-menu" style="margin-top: 19px;">
+                          <ul class="dropdown-menu  for-design-eye" style="margin-top: 19px;">
                         @if($data['taxes']->count())
                             @foreach($data['taxes'] as $tax_key => $tax)
 
@@ -222,12 +222,12 @@ style="background:#D2F4F6; border:none;text-align:center !important;"
 <table class="table table-bordered">
       <tr>
       <th style="width:40%;height:50px;background:#D2CCF8 !important;color:black !important">
-                <div class="btn-group ">
-                    <span type="button" class="fa fa-eye eye-design-two  dropdown-toggle" data-toggle="dropdown"
+                <div class="btn-group " style="position: relative;top: -2px;">
+                    <span type="button" class="fa fa-eye eye-design-two dropdown-toggle" data-toggle="dropdown"
                           
                           aria-haspopup="true" aria-expanded="false"> </span>
 
-                          <ul class="dropdown-menu" style="margin-top: 19px;">
+                          <ul class="dropdown-menu for-design-eye" style="margin-top: 19px;">
                         @if( $data['additionalPayments']->count())
                             @foreach( $data['additionalPayments'] as $additional_key => $additionalPayment)
 

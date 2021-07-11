@@ -4,8 +4,10 @@
             <thead>
             <tr>
                 <th width="2%"> # </th>
-                <th width="16%"> {{ __('Assets Groups') }} </th>
-                <th width="10%"> {{ __('Assets') }} </th>
+
+                <th width="16%"> {{ __('Asset name') }} </th>
+
+                <th width="10%"> {{ __('Asset group') }} </th>
                 <th width="10%"> {{ __('Expenses Types') }} </th>
                 <th width="10%"> {{ __('Expenses Items') }} </th>
                 <th width="12%"> {{ __('Expense Cost') }} </th>
@@ -22,13 +24,15 @@
                             <span>{{$index + 1}}</span>
                         </td>
 
-                        <td>
-                            <span style="width: 150px !important;display:block">{{optional($item->asset->group)->name}}</span>
-                        </td>
+
 
                         <td class="inline-flex-span">
                             <span>{{optional($item->asset)->name}}</span>
                             <input type="hidden" class="assetExist" value="{{optional($item->asset)->id}}" name="items[{{$index + 1}}][asset_id]">
+                        </td>
+
+                        <td>
+                            <span style="width: 150px !important;display:block">{{optional($item->asset->group)->name}}</span>
                         </td>
 
                         <td>
@@ -58,6 +62,7 @@
 
                         <td>
                             <input type="number" class="priceItem" name="items[{{$index + 1}}][price]" value="{{$item->price ?? 0}}" onkeyup="addPriceToTotal('{{$index + 1}}')">
+
                         </td>
                         <td>
                             <div class="input-group" id="stores">
@@ -74,8 +79,10 @@
             <tfoot>
             <tr>
                 <th width="2%"> # </th>
-                <th width="16%"> {{ __('Assets Groups') }} </th>
-                <th width="10%"> {{ __('Assets') }} </th>
+
+                <th width="16%"> {{ __('Asset name') }} </th>
+
+                <th width="10%"> {{ __('Asset group') }} </th>
                 <th width="10%"> {{ __('Expenses Types') }} </th>
                 <th width="10%"> {{ __('Expenses Items') }} </th>
                 <th width="12%"> {{ __('Expense Cost') }} </th>

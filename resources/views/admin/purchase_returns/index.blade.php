@@ -48,8 +48,7 @@
                         @endphp
                         @include($view_path . '.option-row')
                         <div class="clearfix"></div>
-                        <table id="purchaseInvoicesReturns" class="table table-bordered"
-                               style="width:100%;margin-top:15px">
+                        <table id="purchaseInvoicesReturns" class="table table-bordered wg-table-print table-hover" style="width:100%">
                             @include($view_path . '.table-thead')
                             <tfoot>
                             <tr>
@@ -103,10 +102,23 @@
                                         </td>
                                     @endif -->
 
-                                    <td class="text-center text-danger column-paid" >{!! number_format($invoice->total, 2) !!}</td>
+                                    <td class="text-center column-paid">
+                                    <span style="background:#F7F8CC !important">
+                                    {!! number_format($invoice->total, 2) !!}
+                                    </span>
+                                    </td>
 
-                                    <td class="text-center column-paid"  style="background:#FBFAD4 !important">{!! number_format($invoice->paid, 2) !!}</td>
-                                    <td class="text-center column-remaining" style="background:#E3F6FB !important">{!! number_format($invoice->remaining ,2)!!}</td>
+                                    <td class="text-center column-paid">
+                                    <span style="background:#D7FDF9 !important">
+                                    {!! number_format($invoice->paid, 2) !!}
+                                    </span>
+                                    </td>
+
+                                    <td class="text-center column-remaining">
+                                    <span style="background:#FDD7D7 !important">
+                                    {!! number_format($invoice->remaining ,2)!!}
+                                    </span>
+                                    </td>
 
                                 <!-- <td>{!! auth()->user()->name !!}</td> -->
                                     <td class="text-center column-created-at">{!! $invoice->created_at->format('y-m-d h:i:s A') !!}</td>

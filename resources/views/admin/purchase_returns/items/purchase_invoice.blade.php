@@ -159,7 +159,7 @@
             <button type="button" class="btn btn-danger fa fa-trash" onclick="removeItem('{{$index}}')"></button>
 
             <button type="button" class="btn btn-primary waves-effect waves-light btn-xs" onclick="storeQuantity('{{$part->id}}')"
-                    data-toggle="modal" data-target="#part_quantity" style="margin-right: 10px;">
+                    data-toggle="modal" data-target="#part_quantity" style="margin-right: 10px;margin-top:5px">
                 
                     <li class="fa fa-cubes"></li> {{__('Stores Qty')}}
             </button>

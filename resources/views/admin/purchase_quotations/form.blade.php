@@ -58,7 +58,7 @@
 
                 <div class="col-md-3">
                     <div class="form-group has-feedback">
-                        <label for="inputStore" class="control-label">{{__('')}}</label>
+                        <label for="inputStore" class="control-label">{{__('Type')}}</label>
 
                         <div class="input-group">
 

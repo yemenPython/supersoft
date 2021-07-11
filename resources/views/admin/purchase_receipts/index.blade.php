@@ -99,9 +99,21 @@
 
                                     <td>{{ $item->number }}</td>
 
-                                    <td class="text-danger">{{$item->total}}</td>
-                                    <td style="background:#FBFAD4 !important">{{$item->total_accepted}}</td>
-                                    <td style="background:#E3F6FB !important">{{$item->total_rejected}}</td>
+                                    <td>
+                                    <span style="background:#F7F8CC !important">
+                                    {{$item->total}}
+                                    </span>
+                                    </td>
+                                    <td>
+                                    <span style="background:#D7FDF9 !important">
+                                    {{$item->total_accepted}}
+                                    </span>
+                                    </td>
+                                    <td>
+                                    <span style="background:#FDD7D7 !important">
+                                    {{$item->total_rejected}}
+                                    </span>
+                                    </td>
 
 
                                     <td>

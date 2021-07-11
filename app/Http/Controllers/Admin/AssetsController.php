@@ -114,10 +114,10 @@ class AssetsController extends Controller
                     }
                 } )
                 ->editColumn( 'annual_consumtion_rate', function ($asset) {
-                    return ' <span class="price-span">' . $asset->annual_consumtion_rate . '%' . '</span>';
+                    return '    <span style="background:#F7F8CC !important">' . $asset->annual_consumtion_rate . '%' . '</span>';
                 } )
                 ->editColumn( 'asset_age', function ($asset) {
-                    return '<span class="part-unit-span">' . $asset->asset_age . __( 'year' ) . '</span>';
+                    return '<span class="price-span">' . $asset->asset_age . ' ' . __( 'year' ) . '</span>';
                 } )
                 ->editColumn( 'created_at', '{{$created_at}}' )
                 ->editColumn( 'updated_at', '{{$updated_at}}' )

@@ -96,8 +96,10 @@
                                  </span>
 
                                 </td>
-                                <td class="text-center column-total" style="background:#FBFAD4 !important">
+                                <td class="text-center column-total">
+                                <span style="background:#F7F8CC !important">
                                     {!! $store_transfer->total !!}
+                                    </span>
                                 </td>
                                 <td class="text-center column-status" > 
                                 @if( $store_transfer->concession )                 

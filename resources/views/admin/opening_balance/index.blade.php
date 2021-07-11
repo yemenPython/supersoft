@@ -59,7 +59,7 @@
                                     @endif
                                     <td class="text-danger column-operation_date"> {{ $c->operation_date }} </td>
                                     <td class="column-serial_number"> {{ $c->serial_number }} </td>
-                                    <td  class="column-total_money" style="background:#FBFAD4 !important"> {{ $c->total_money }} </td>
+                                    <td  class="column-total_money"> <span style="background:#F7F8CC !important"> {{ $c->total_money }} </span></td>
 
                                     <td class="column-status">
                                     @if( $c->concession )
