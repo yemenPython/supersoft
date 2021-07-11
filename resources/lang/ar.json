@@ -2075,7 +2075,12 @@
     "consumtion rate" : "معدل الإهلاك",
     "date From" : "التاريخ من",
     "date To" : "التاريخ الى",
-    "Tax File Number" : "رقم الملف الضريبي"
+    "Tax File Number" : "رقم الملف الضريبي",
+    "Edit Purchase Asset" : "تعديل مشتريات الأصول",
+    "total purchase cost" : "إجمالي تكلفة الشراء",
+    "total past consumtion" : "إجمالي الإهلاك السابق",
+    "paid amount" : "المبلغ المدفوع",
+    "remaining amount" : "المبلغ المتبقي"
 }
 
 

@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Edit Purchase Invoice') }} </title>
+    <title>{{ __('Edit Purchase Asset') }} </title>
 @endsection
 
 @section('style')
@@ -17,7 +17,7 @@
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
                 <li class="breadcrumb-item active">
                     <a href="{{route('admin:purchase-invoices.index')}}"> {{__('Purchase Invoices')}}</a></li>
-                <li class="breadcrumb-item active"> {{__('Edit Purchase Invoice')}}</li>
+                <li class="breadcrumb-item active"> {{__('Edit Purchase Asset')}}</li>
             </ol>
         </nav>
 

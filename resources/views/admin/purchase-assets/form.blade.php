@@ -159,7 +159,7 @@
     </div>
 
 
-    <div class="row buttom-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+    <div class="row bottom-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
 
     @include('admin.purchase-assets.financial_details')
@@ -170,6 +170,7 @@
 </div>
 
 <div class="col-md-12">
+<br>
             <div class="form-group">
                 <label> {{ __('Notes') }} </label>
                 <textarea class="form-control" name="note" id="note"
@@ -179,3 +180,4 @@
         </div>
 
 </div>
+
