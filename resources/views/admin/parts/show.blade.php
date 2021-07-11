@@ -186,7 +186,7 @@
 
                                 <div class="clearfix"></div>
                                 <div class="row">
-                                    <div class="col-md-6 img-wg">
+                                    <div class="col-md-6 img-wg-new" style="margin:0 20px">
                                         @include('admin.spare-parts.parts.image-preview', [
                                                                           'path' => 'storage/images/parts/',
                                                                          'image' => $part->img,
