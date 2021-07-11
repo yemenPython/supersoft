@@ -44,7 +44,9 @@
                     <thead>
                     <tr>
                         <th scope="col">{!! __('#') !!}</th>
+                        @if(authIsSuperAdmin())
                         <th scope="col"> {{ __('Branch') }} </th>
+                        @endif
                         <th scope="col">{!! __('Name') !!}</th>
                         <th scope="col">{!! __('total consumption') !!}</th>
                         <th scope="col">{!! __('annual consumption rate') !!}</th>
@@ -59,7 +61,9 @@
                     <tfoot>
                     <tr>
                         <th scope="col">{!! __('#') !!}</th>
+                        @if(authIsSuperAdmin())
                         <th scope="col"> {{ __('Branch') }} </th>
+                        @endif
                         <th scope="col">{!! __('Name') !!}</th>
                         <th scope="col">{!! __('total consumption') !!}</th>
                         <th scope="col">{!! __('annual consumption rate') !!}</th>
@@ -71,7 +75,9 @@
                     @foreach($assetsGroups as $index=>$assetGroup)
                         <tr>
                             <td>{!! $index +1 !!}</td>
-                            <td> {{ $assetGroup->branch->name }} </td>
+                            @if(authIsSuperAdmin())
+                            <td class="text-danger"> {{ $assetGroup->branch->name }} </td>
+                            @endif
                             <td>{!! $assetGroup->name !!}</td>
                             <td> <span class="part-unit-span">{!! $assetGroup->total_consumtion !!} </span> </td>
                             <td> <span class="price-span">{!! $assetGroup->annual_consumtion_rate !!} %</td>

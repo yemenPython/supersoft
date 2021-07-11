@@ -44,7 +44,9 @@
                     <thead>
                     <tr>
                         <th scope="col">{!! __('#') !!}</th>
+                        @if(authIsSuperAdmin())
                         <th scope="col"> {{ __('Branch') }} </th>
+                        @endif
                         <th scope="col">{!! __('Type name') !!}</th>
                         <th scope="col">{!! __('Options') !!}</th>
                         <th scope="col">
@@ -57,7 +59,9 @@
                     <tfoot>
                     <tr>
                         <th scope="col">{!! __('#') !!}</th>
+                        @if(authIsSuperAdmin())
                         <th scope="col"> {{ __('Branch') }} </th>
+                        @endif
                         <th scope="col">{!! __('Name') !!}</th>
                         <th scope="col">{!! __('Options') !!}</th>
                         <th scope="col">{!! __('Select') !!}</th>
@@ -67,7 +71,9 @@
                     @foreach($assetsTypes as $index=>$assetType)
                         <tr>
                             <td>{!! $loop->iteration !!}</td>
+                            @if(authIsSuperAdmin())
                             <td class="text-danger"> {{ optional($assetType->branch)->name }} </td>
+                            @endif
                             <td>{!! $assetType->name !!}</td>
                             <td>
                             <div class="btn-group margin-top-10"> 

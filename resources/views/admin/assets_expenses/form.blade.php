@@ -30,7 +30,7 @@
             @endif
 
             <div class="col-md-12">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label for="inputNameAr" class="control-label">{{__('Number')}}</label>
                         <div class="input-group">
@@ -45,7 +45,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label for="date" class="control-label">{{__('Date And Time')}}</label>
                         <div class="input-group">
@@ -57,7 +57,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label for="date" class="control-label">{{__('Time')}}</label>
                         <div class="input-group">
@@ -69,7 +69,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group ">
                         <label for="inputStore" class="control-label">{{__('Status')}}</label>
                         <div class="input-group">
@@ -95,17 +95,7 @@
 
                 </div>
 
-                <div class="col-md-8">
-                    <div class="form-group">
-                        <label for="date" class="control-label">{{__('Notes')}}</label>
-                        <div class="input-group">
-                            <span class="input-group-addon"><li class="fa fa-file"></li></span>
-                            <textarea name="notes"
-                                      class="form-control">{{isset($assetExpense) ? $assetExpense->notes : old('notes')}}</textarea>
-                        </div>
-                        {{input_error($errors,'notes')}}
-                    </div>
-                </div>
+              
 
             </div>
 
@@ -115,7 +105,7 @@
 
 <div class="row center-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="form-group has-feedback">
             <label for="inputStore" class="control-label">{{__('Assets Groups')}}</label>
 
@@ -133,7 +123,7 @@
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="form-group has-feedback">
             <label for="inputStore" class="control-label">{{__('Assets')}}</label>
             <div class="input-group">
@@ -169,3 +159,14 @@
     </table>
 </div>
 
+<div class="col-md-12">
+                    <div class="form-group">
+                        <label for="date" class="control-label">{{__('Notes')}}</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><li class="fa fa-file"></li></span>
+                            <textarea name="notes"
+                                      class="form-control">{{isset($assetExpense) ? $assetExpense->notes : old('notes')}}</textarea>
+                        </div>
+                        {{input_error($errors,'notes')}}
+                    </div>
+                </div>
