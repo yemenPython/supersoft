@@ -1,12 +1,14 @@
 <div class="col-xs-12">
-    <div class="col-md-12">
-        <hr>
-        <span
-            style="color: white;font-size: 14px;background:#2980B9;padding:5px 10px;border-radius:3px"> {{__('Main supplier')}} </span>
-        <hr>
+    <div class="col-md-12" style="color:white;margin-bottom:50px;margin-right:-15px">
+        <div class="ribbon ribbon-r bg-secondary">
+                                                    <p class="mb-0">{{__('Main supplier')}}</p>
+                                                </div>
+        <!-- <span
+            style="color: white;font-size: 14px;background:#2980B9;padding:5px 10px;border-radius:3px">  </span>
+        <hr> -->
     </div>
 
-    <div class="container">
+    <div class="" style="padding:0 20px">
         <div class="form_new_supplier">
             <input type="hidden" value="0" id="supplier_count">
         </div>

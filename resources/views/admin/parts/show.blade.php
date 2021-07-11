@@ -186,7 +186,7 @@
 
                                 <div class="clearfix"></div>
                                 <div class="row">
-                                    <div class="col-md-6 img-wg">
+                                    <div class="col-md-6 img-wg-new" style="margin:0 20px">
                                         @include('admin.spare-parts.parts.image-preview', [
                                                                           'path' => 'storage/images/parts/',
                                                                          'image' => $part->img,
@@ -258,11 +258,17 @@
                             
                             <div class="row top-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
                             <div class="col-md-12">
-                                <hr>
-                                <span style="color: white;font-size: 14px;background:#2980B9;padding:5px 10px;border-radius:3px"> {{__('Main supplier')}} </span>
-                                <hr>
-                                <div class="container">
-                                    <div class="form_new_supplier">
+                            <div class="col-md-12" style="color:white;margin-bottom:30px;margin-right:-15px">
+        <div class="ribbon ribbon-r bg-secondary">
+                                                    <p class="mb-0">{{__('Main supplier')}}</p>
+                                                </div>
+        <!-- <span
+            style="color: white;font-size: 14px;background:#2980B9;padding:5px 10px;border-radius:3px">  </span>
+        <hr> -->
+    </div>
+    <div class="clearfix"></div>
+                                <div class="" style="margin:20px 0">
+                                    <div class="form_new_supplier" style="box-shadow:0 0 7px 1px #DDD;padding:20px">
                                         @if(isset($part) && $part->suppliers_ids )
                                             @foreach($part->suppliers_ids as $index=>$supplierPart)
                                                 <div class="row supplier-{{$index}}">
