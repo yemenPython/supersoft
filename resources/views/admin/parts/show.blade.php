@@ -258,8 +258,8 @@
                             
                             <div class="row top-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
                             <div class="col-md-12">
-                            <div class="col-md-12" style="color:white;margin-bottom:30px;margin-right:-15px">
-        <div class="ribbon ribbon-r bg-secondary">
+                            <div class="col-md-12" style="color:white;margin-bottom:30px;margin-right:-15px;">
+        <div class="ribbon ribbon-r bg-secondary show-ribbon" style="background:#5685CC !important">
                                                     <p class="mb-0">{{__('Main supplier')}}</p>
                                                 </div>
         <!-- <span
