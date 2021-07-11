@@ -76,7 +76,7 @@
 
     <td>
         <div class="input-group">
-            <input type="text"  style="width: 100px !important;"
+            <input type="text" readonly style="width: 100px !important;"
                    class="consumption_amount_{{$index}} form-control valid"
                    onchange="annual_consumtion_rate_value('{{$index}}')"
                    onkeyup="annual_consumtion_rate_value('{{$index}}')"

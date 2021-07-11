@@ -147,7 +147,7 @@
 
     <table class="table table-bordered">
         <tbody>
-        <th style="width:30%;background:#F9EFB7 !important;color:black !important">{{__('Total Price')}}</th>
+        <th style="width:30%;background:#F9EFB7 !important;color:black !important">{{__('Total expenses')}}</th>
         <td style="background:#F9EFB7">
             <input type="text" readonly id="total_price"
                    style="background:#F9EFB7;border:none;text-align:center !important;"

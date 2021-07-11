@@ -1712,7 +1712,7 @@
     "Notifications settings" : "إعدادات الإشعارات",
     "Default unit" : "الوحدة الإفتراضية",
     "Select unit" : "إختيار الوحدة",
-    "Main supplier" : "المورد الرئيسي",
+    "Main supplier" : "الموردين الرئيسيين",
 
     "Default Purchase" : "إفتراضي شراء",
     "Default Sales" : "إفتراضي بيع",
@@ -2080,7 +2080,23 @@
     "total purchase cost" : "إجمالي تكلفة الشراء",
     "total past consumtion" : "إجمالي الإهلاك السابق",
     "paid amount" : "المبلغ المدفوع",
-    "remaining amount" : "المبلغ المتبقي"
+    "remaining amount" : "المبلغ المتبقي",
+    "Edit Assets Expenses" : "تعديل مصروفات الأصول",
+    "Total expenses" : "إجمالي المصروفات",
+    "Different Days" : "عدد الأيام",
+    "Remaining Days" : "الأيام المتبقية",
+    "Period of quotation from" : "تاريخ العرض من",
+    "Period of quotation to" : "تاريخ العرض الى",
+    "Period of supply order from" : "تاريخ التوريد من",
+    "Period of supply order to" : "تاريخ التوريد الى",
+    "net purchase cost" : "صافي التكلفة",
+    "consumption amount" : "تكلفة الإهلاك",
+    "Edit Consumption Assets" : "تعديل إهلاك الأصول",
+    "total replacement" : "إجمالى الإهلاك الحالي",
+    "consumption amount From" : "تكلفة الإهلاك من",
+    "consumption amount To" : "تكلفة الإهلاك الى"
+
+
 }
 
 

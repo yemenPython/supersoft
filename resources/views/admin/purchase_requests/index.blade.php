@@ -131,8 +131,8 @@
                                         @endif
 
                                     </td>
-                                    <td>{{ $item->different_days }}</td>
-                                    <td>{{ $item->remaining_days }}</td>
+                                    <td> <span class="part-unit-span">{{ $item->different_days }} </span> </td>
+                                    <td> <span class="price-span">{{ $item->remaining_days }} </span></td>
                                     <td>{{ $item->created_at }}</td>
                                     <td>{{ $item->updated_at }}</td>
                                     <td>

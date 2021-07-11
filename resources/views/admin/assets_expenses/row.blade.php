@@ -4,15 +4,16 @@
         <span>{{$index}}</span>
     </td>
 
+    <td class="inline-flex-span">
+        <span>{{$asset->name}}</span>
+        <input type="hidden" class="assetExist" value="{{$asset->id}}" name="items[{{$index}}][asset_id]">
+    </td>
 
     <td>
         <span style="width: 150px !important;display:block">{{$assetGroup->name}}</span>
     </td>
 
-    <td class="inline-flex-span">
-        <span>{{$asset->name}}</span>
-        <input type="hidden" class="assetExist" value="{{$asset->id}}" name="items[{{$index}}][asset_id]">
-    </td>
+    
 
     <td>
         <div class="input-group">
@@ -36,7 +37,7 @@
     </td>
 
     <td>
-        <input type="number" class="priceItem" name="items[{{$index}}][price]" value="0" onkeyup="addPriceToTotal('{{$index}}')">
+        <input type="number" class="priceItem border2" name="items[{{$index}}][price]" value="0" onkeyup="addPriceToTotal('{{$index}}')">
     </td>
     <td>
         <div class="input-group" id="stores">

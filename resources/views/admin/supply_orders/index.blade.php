@@ -113,7 +113,11 @@
 
                                     </td>
 
-                                    <td style="background:#FBFAD4 !important">{{ __($item->total) }}</td>
+                                    <td>
+                                    <span style="background:#F7F8CC !important">
+                                    {{ __($item->total) }}
+                                    </span>
+                                    </td>
 
                                     <td class="text-center column-date">
 
@@ -136,8 +140,16 @@
                                         @endif
 
                                     </td>
-                                    <td>{{ $item->different_days }}</td>
-                                    <td>{{ $item->remaining_days }}</td>
+                                    <td>
+                                    <span class="part-unit-span">
+                                    {{ $item->different_days }}
+                                    </span>
+                                    </td>
+                                    <td>
+                                    <span class="price-span">
+                                    {{ $item->remaining_days }}
+                                    </span>
+                                    </td>
                                     <td>{{ $item->created_at }}</td>
                                     <td>{{ $item->updated_at }}</td>
 

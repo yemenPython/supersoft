@@ -79,14 +79,14 @@
                                 </div>
 
 
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-6">
                                         <label> {{ __('Number') }} </label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
 
                                             <select class="form-control select2" id="number"
                                                     name="number">
-                                                <option value="0"> {{ __('Select Number') }} </option>
+                                                <option value="0"> {{ __('Select') }} </option>
                                                 @foreach($numbers as $number)
                                                     <option value="{{$number->number}}"> {{$number->number}}</option>
                                                 @endforeach
@@ -94,22 +94,24 @@
                                         </div>
                                     </div>
 
-                                <div class="form-group col-md-4">
-                                    <label> {{ __('date From') }}</label>
-                                    <input type="date" class="form-control" name="date_from">
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label> {{ __('date To') }}</label>
-                                    <input type="date" class="form-control" name="date_to">
-                                </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-3">
                                     <label> {{ __('consumption amount From') }}</label>
                                     <input type="text" class="form-control" name="consumption_amount_from">
                                 </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-3">
                                         <label> {{ __('consumption amount To') }}</label>
                                         <input type="text" class="form-control" name="consumption_amount_to">
                                     </div>
+                                    
+                                <div class="form-group col-md-6">
+                                    <label> {{ __('date From') }}</label>
+                                    <input type="date" class="form-control" name="date_from">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label> {{ __('date To') }}</label>
+                                    <input type="date" class="form-control" name="date_to">
+                                </div>
+
 
 
                             </div>

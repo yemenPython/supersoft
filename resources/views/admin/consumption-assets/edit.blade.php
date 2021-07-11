@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Edit Purchase Invoice') }} </title>
+    <title>{{ __('Edit Consumption Assets') }} </title>
 @endsection
 
 @section('style')
