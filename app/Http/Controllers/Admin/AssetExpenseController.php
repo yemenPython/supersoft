@@ -281,13 +281,20 @@ class AssetExpenseController extends Controller
 
     public function getAssetsByAssetGroup(Request $request): JsonResponse
     {
-        if (empty($request->asset_group_id) || empty($request->branch_id) ){
-            return response()->json(__('please select valid Asset Group'), 400);
+        if (empty($request->branch_id) ){
+            return response()->json(__('please select valid Branch'), 400);
         }
-        $assets = Asset::where([
-            'asset_group_id' => $request->asset_group_id,
-            'branch_id' => $request->branch_id,
-        ])->get();
+        $assets = Asset::query();
+        if (!$request->asset_group_id) {
+            $assets = $assets->where('branch_id' , $request->branch_id);
+        }
+        if ($request->asset_group_id && $request->branch_id) {
+            $assets = $assets->where([
+                'asset_group_id' => $request->asset_group_id,
+                'branch_id' => $request->branch_id,
+            ]);
+        }
+        $assets = $assets->get();
         $htmlAssets = '<option value="">'.__('Select Assets').'</option>';
         foreach ($assets as $asset) {
             $htmlAssets .= '<option value="' . $asset->id . '">' . $asset->name . '</option>';
@@ -306,7 +313,7 @@ class AssetExpenseController extends Controller
             return response()->json( __( 'please select valid branch' ), 400 );
         }
         $branchId = $request->branch_id ?? auth()->user()->branch_id;
-        $index = rand( 1, 900000 );
+        $index = $request->index;
         $asset = Asset::with( 'group' )->find( $request->asset_id );
         $assetGroup = $asset->group;
         $assetExpensesTypes = AssetsTypeExpense::where( 'branch_id', $branchId )->get();

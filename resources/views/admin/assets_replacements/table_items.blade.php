@@ -18,10 +18,10 @@
             <tbody id="items_data">
             @if(isset($assetReplacement))
                 @foreach ($assetReplacement->assetReplacementItems as $index => $item)
-                    <tr class="text-center-inputs" id="item_{{$index}}">
+                    <tr class="text-center-inputs" id="item_{{$index + 1}}">
 
                         <td>
-                            <span>{{$index}}</span>
+                            <span>{{$index + 1}}</span>
                         </td>
 
                         <td>
@@ -30,7 +30,7 @@
 
                         <td class="inline-flex-span">
                             <span>{{optional($item->asset)->name}}</span>
-                            <input type="hidden" class="assetExist" value="{{optional($item->asset)->id}}" name="items[{{$index}}][asset_id]">
+                            <input type="hidden" class="assetExist" value="{{optional($item->asset)->id}}" name="items[{{$index + 1}}][asset_id]">
                         </td>
 
                         <td class="inline-flex-span">
@@ -38,41 +38,41 @@
                         </td>
 
                         <td class="inline-flex-span">
-                            <input type="number" class="purchase_cost" readonly  id="purchase_cost{{$index}}" name="items[{{$index}}][purchase_cost]" value="{{optional($item->asset)->purchase_cost}}" style="width: 100px" >
+                            <input type="number" class="purchase_cost" readonly  id="purchase_cost{{$index + 1}}" name="items[{{$index + 1}}][purchase_cost]" value="{{optional($item->asset)->purchase_cost}}" style="width: 100px" >
 
                         </td>
 
                         <td class="inline-flex-span">
                             <span>{{optional($item->asset)->annual_consumtion_rate}}</span>
-                            <input type="hidden" class="replacement_before" id="replacement_before{{$index}}"
+                            <input type="hidden" class="replacement_before" id="replacement_before{{$index + 1}}"
                                    value="{{optional($item->asset)->annual_consumtion_rate}}">
                         </td>
 
                         <td class="inline-flex-span">
                             <input type="number" class="value_replacement"
-                                   id="value_replacement{{$index}}"
-                                   name="items[{{$index}}][value_replacement]"
-                                   onkeyup="addReplacementValue('{{$index}}')"
-                                   onchange="addReplacementValue('{{$index}}')"
+                                   id="value_replacement{{$index + 1}}"
+                                   name="items[{{$index + 1}}][value_replacement]"
+                                   onkeyup="addReplacementValue('{{$index + 1}}')"
+                                   onchange="addReplacementValue('{{$index + 1}}')"
                                    value="{{$item->value_replacement}}" style="width: 100px">
                         </td>
 
                         <td class="inline-flex-span">
-                            <input type="number" class="replacement_after" id="replacement_after{{$index}}"
-                                   onkeyup="addReplacementValue('{{$index}}')"
-                                   onchange="addReplacementValue('{{$index}}')"
-                                   name="items[{{$index}}][value_after_replacement]"
+                            <input type="number" class="replacement_after" id="replacement_after{{$index + 1}}"
+                                   onkeyup="addReplacementValue('{{$index + 1}}')"
+                                   onchange="addReplacementValue('{{$index + 1}}')"
+                                   name="items[{{$index + 1}}][value_after_replacement]"
                                    value="{{$item->value_after_replacement}}" style="width: 100px" >
                         </td>
 
                         <td class="inline-flex-span">
-                            <input type="text" readonly style="width: 100px" id="age{{$index}}"
-                                   name="items[{{$index}}][age]" value="{{$item->age}}">
+                            <input type="text" readonly style="width: 100px" id="age{{$index + 1}}"
+                                   name="items[{{$index + 1}}][age]" value="{{$item->age}}">
                         </td>
 
                         <td>
                             <div class="input-group" id="stores">
-                                <button type="button" class="btn btn-danger fa fa-trash" onclick="removeItem('{{$index}}')"></button>
+                                <button type="button" class="btn btn-danger fa fa-trash" onclick="removeItem('{{$index + 1}}')"></button>
                             </div>
                         </td>
                     </tr>
@@ -93,6 +93,8 @@
                 <th width="5%"> {{ __('Action') }} </th>
             </tr>
             </tfoot>
+            <input type="hidden" name="index" id="items_count" value="{{isset($assetReplacement) ? $assetReplacement->assetReplacementItems->count() : 0}}">
+
         </table>
     </div>
 </div>
