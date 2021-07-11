@@ -76,11 +76,19 @@
                 swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
                 return false;
             }
+            let branch_id = $('#branch_id').find(":selected").val();
             $.ajax({
                 url: "{{ route('admin:assets_expenses.getAssetsByAssetGroup') }}?asset_group_id=" + $(this).val(),
                 method: 'GET',
+                data: {
+                  branch_id : branch_id,
+                },
                 success: function (data) {
                     $('#assetsOptions').html(data.assets);
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
                 }
             });
         });

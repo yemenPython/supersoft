@@ -48,6 +48,8 @@ class CreateSuppliersRequest extends FormRequest
             'long' => 'nullable|numeric',
             'maximum_fund_on' => 'numeric|min:0',
             'identity_number' => 'nullable',
+            'commercial_record_area' => 'nullable',
+            'tax_file_number' => 'nullable',
 
             'contacts'=>'nullable',
             'contacts.*.phone_1'=>'required|string',

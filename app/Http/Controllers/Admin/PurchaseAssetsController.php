@@ -42,26 +42,25 @@ class PurchaseAssetsController extends Controller
                 'purchase_assets.time',
                 'purchase_assets.created_at',
                 'purchase_assets.updated_at',
-                'purchase_assets.net_total'
             ])->leftjoin( 'purchase_asset_items', 'purchase_assets.id', '=', 'purchase_asset_items.purchase_asset_id' );
-
-            if ($request->has( 'branch_id' ) && !empty( $request['branch_id'] ))
-                $purchaseAssets->where( 'purchase_assets.branch_id', $request['branch_id'] );
-            if ($request->has( 'supplier_id' ) && !empty( $request['supplier_id'] ))
-                $purchaseAssets->where( 'purchase_assets.supplier_id', $request['supplier_id'] );
-
-            if ($request->has( 'invoice_number' ) && !empty( $request['invoice_number'] ))
-                $purchaseAssets->where( 'purchase_assets.invoice_number', $request['invoice_number'] );
-
-
-            if ($request->has( 'asset_group_id' ) && !empty( $request->asset_group_id ))
-                $purchaseAssets->where( 'purchase_asset_items.asset_group_id', $request['asset_group_id'] );
-            if ($request->has( 'asset_id' ) && !empty( $request->asset_id ))
-                $purchaseAssets->where( 'purchase_asset_items.asset_id', $request['asset_id'] );
-
-            whereBetween($purchaseAssets,'DATE(purchase_assets.date)',$request->date_from,$request->date_to);
-            whereBetween( $purchaseAssets, 'purchase_asset_items.sale_amount', $request->sale_amount_from, $request->sale_amount_to );
-
+//
+//            if ($request->has( 'branch_id' ) && !empty( $request['branch_id'] ))
+//                $purchaseAssets->where( 'purchase_assets.branch_id', $request['branch_id'] );
+//            if ($request->has( 'supplier_id' ) && !empty( $request['supplier_id'] ))
+//                $purchaseAssets->where( 'purchase_assets.supplier_id', $request['supplier_id'] );
+//
+//            if ($request->has( 'invoice_number' ) && !empty( $request['invoice_number'] ))
+//                $purchaseAssets->where( 'purchase_assets.invoice_number', $request['invoice_number'] );
+//
+//
+//            if ($request->has( 'asset_group_id' ) && !empty( $request->asset_group_id ))
+//                $purchaseAssets->where( 'purchase_asset_items.asset_group_id', $request['asset_group_id'] );
+//            if ($request->has( 'asset_id' ) && !empty( $request->asset_id ))
+//                $purchaseAssets->where( 'purchase_asset_items.asset_id', $request['asset_id'] );
+//
+//            whereBetween($purchaseAssets,'DATE(purchase_assets.date)',$request->date_from,$request->date_to);
+//            whereBetween( $purchaseAssets, 'purchase_asset_items.sale_amount', $request->sale_amount_from, $request->sale_amount_to );
+//
 
 
             return DataTables::of($purchaseAssets->groupBy('purchase_assets.id'))
@@ -78,9 +77,6 @@ class PurchaseAssetsController extends Controller
                 })
                 ->addColumn('supplier_id',function ($purchaseAsset){
                     return optional($purchaseAsset->supplier)->name;
-                })
-                ->addColumn('net_total',function ($purchaseAsset){
-                    return $purchaseAsset->net_total;
                 })
                 ->addColumn('created_at',function ($purchaseAsset){
                     return $purchaseAsset->created_at;
@@ -133,18 +129,31 @@ class PurchaseAssetsController extends Controller
                 ->make( true );
 
         }else {
-            $js_columns = [
-                'DT_RowIndex' => 'DT_RowIndex',
-                'branch_id' => 'purchase_assets.branch_id',
-                'invoice_number' => 'purchase_assets.invoice_number',
-                'date' => 'date',
-                'supplier_id' => 'purchase_assets.supplier_id',
-                'net_total' => 'purchase_assets.net_total',
-                'created_at' => 'purchase_assets.created_at',
-                'updated_at' => 'purchase_assets.updated_at',
-                'action' => 'action',
-                'options' => 'options'
-            ];
+
+            if (authIsSuperAdmin()){
+                $js_columns = [
+                    'DT_RowIndex' => 'DT_RowIndex',
+                    'branch_id'=>'purchase_assets.branch_id',
+                    'invoice_number' => 'purchase_assets.invoice_number',
+                    'date' => 'date',
+                    'supplier_id' => 'purchase_assets.supplier_id',
+                    'created_at' => 'purchase_assets.created_at',
+                    'updated_at' => 'purchase_assets.updated_at',
+                    'action' => 'action',
+                    'options' => 'options'
+                ];
+            }else{
+                $js_columns = [
+                    'DT_RowIndex' => 'DT_RowIndex',
+                    'invoice_number' => 'purchase_assets.invoice_number',
+                    'date' => 'date',
+                    'supplier_id' => 'purchase_assets.supplier_id',
+                    'created_at' => 'purchase_assets.created_at',
+                    'updated_at' => 'purchase_assets.updated_at',
+                    'action' => 'action',
+                    'options' => 'options'
+                ];
+            }
 
 
             $assets = Asset::all();
@@ -193,7 +202,6 @@ class PurchaseAssetsController extends Controller
                 'note' => $data['note'],
                 'total_purchase_cost'=>$request->total_purchase_cost,
                 'total_past_consumtion'=>$request->total_past_consumtion,
-                'net_total'=>$request->net_total
             ];
             $invoice_data['branch_id'] = authIsSuperAdmin() ? $request['branch_id'] : auth()->user()->branch_id;
 
@@ -288,7 +296,6 @@ class PurchaseAssetsController extends Controller
                 'note' => $data['note'],
                 'total_purchase_cost'=>$request->total_purchase_cost,
                 'total_past_consumtion'=>$request->total_past_consumtion,
-                'net_total'=>$request->net_total
             ];
             $purchaseAsset->update( $invoice_data );
             $purchaseAsset->items()->delete();
@@ -392,6 +399,20 @@ class PurchaseAssetsController extends Controller
             $numbers_data = view( 'admin.purchase-assets.invoice_number_by_supplier_id', compact( 'numbers' ) )->render();
             return response()->json( [
                 'data' => $numbers_data,
+            ] );
+        }
+    }
+    public function getSuppliersByBranchId(Request $request)
+    {
+        if (!empty( $request->branch_id )) {
+            $suppliers = Supplier::where( 'branch_id', $request->branch_id )->get();
+        } else {
+            $suppliers = Supplier::all();
+        }
+        if ($suppliers) {
+            $suppliers_data = view( 'admin.purchase-assets.suppliers_by_branch_id', compact( 'suppliers' ) )->render();
+            return response()->json( [
+                'data' => $suppliers_data,
             ] );
         }
     }

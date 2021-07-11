@@ -2039,6 +2039,7 @@
     "Edit asset Examination" : "تعديل بيانات الفحص",
     "Concessions Archives" : "أرشيف الاذونات",
     "Activity-log Archives" : "أرشيف أنشطة المستخدميين",
+    "Commercial Record Area" : "منطقة السجل التجارى",
     "Get Purchase Quotations" : "تحديد عروض الأسعار",
     "Show selected Quotations" : "عروض الأسعار المحددة",
     "Get Purchase Receipt" : "تحديد محاضر الإستلام",
@@ -2073,7 +2074,8 @@
     "work date" : "تاريخ العمل",
     "consumtion rate" : "معدل الإهلاك",
     "date From" : "التاريخ من",
-    "date To" : "التاريخ الى"
+    "date To" : "التاريخ الى",
+    "Tax File Number" : "رقم الملف الضريبي"
 }
 
 

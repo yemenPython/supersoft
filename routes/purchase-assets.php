@@ -6,6 +6,7 @@ Route::post('/purchase-assets/delete-selected', 'PurchaseAssetsController@delete
 
 Route::get('/purchase-assets/show', 'PurchaseAssetsController@show')->name('purchase-assets.show');
 Route::post('/InvoiceNumbersBySupplierId', 'PurchaseAssetsController@getInvoiceNumbersBySupplierId')->name('purchase-assets.getInvoiceNumbersBySupplierId');
+Route::post('purchase-assets/getSuppliersByBranchId', 'PurchaseAssetsController@getSuppliersByBranchId')->name('purchase-assets.getSuppliersByBranchId');
 Route::resource('purchase-assets','PurchaseAssetsController')->except('show');
 
 
