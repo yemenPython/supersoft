@@ -112,9 +112,21 @@
                                                 </span>
                                             </td>
                                         @endif -->
-                                        <td class="text-center text-danger column-paid" >{!! number_format($invoice->total, 2) !!}</td>
-                                        <td class="text-center column-paid" style="background:#FBFAD4 !important">{!! number_format($invoice->paid, 2) !!}</td>
-                                        <td class="text-center column-remaining" style="background:#E3F6FB !important">{!! number_format($invoice->remaining ,2)!!}</td>
+                                        <td class="text-center column-paid">
+                                        <span style="background:#F7F8CC !important">
+                                        {!! number_format($invoice->total, 2) !!}
+                                        </span>
+                                        </td>
+                                        <td class="text-center column-paid">
+                                        <span style="background:#D7FDF9 !important">
+                                        {!! number_format($invoice->paid, 2) !!}
+                                        </span>
+                                        </td>
+                                        <td class="text-center column-remaining">
+                                        <span style="background:#FDD7D7 !important">
+                                        {!! number_format($invoice->remaining ,2)!!}
+                                        </span>
+                                        </td>
                                     @endif
                                     @if ($invoice->type === "credit")
                                         @if ($invoice->remaining  == 0)
@@ -130,9 +142,21 @@
                                                 </span>
                                             </td>
                                         @endif
-                                        <td class="text-center text-danger column-paid">{!! number_format($invoice->total, 2) !!}</td>
-                                        <td class="text-center column-paid" style="background:#FBFAD4 !important">{!! number_format($invoice->paid, 2) !!}</td>
-                                        <td class=" text-center column-remaining" style="background:#E3F6FB !important">{!! number_format($invoice->remaining ,2)!!}</td>
+                                        <td class="text-center column-paid">
+                                        <span style="background:#F7F8CC !important">
+                                        {!! number_format($invoice->total, 2) !!}
+                                        </span>
+                                        </td>
+                                        <td class="text-center column-paid">
+                                        <span style="background:#D7FDF9 !important">
+                                        {!! number_format($invoice->paid, 2) !!}
+                                        </span>
+                                        </td>
+                                        <td class="text-center column-remaining">
+                                        <span style="background:#FDD7D7 !important">
+                                        {!! number_format($invoice->remaining ,2)!!}
+                                        </span>
+                                        </td>
                                 @endif
 
                                 <td>

@@ -281,14 +281,21 @@ class AssetExpenseController extends Controller
 
     public function getAssetsByAssetGroup(Request $request): JsonResponse
     {
-        $branchId = $request->branch_id ?? auth()->user()->branch_id;
-        if (!empty( $request->asset_group_id )) {
-            $assets = Asset::where( 'asset_group_id', $request->asset_group_id )->where('branch_id',$branchId)->get();
-        } else {
-
-            $assets = Asset::where('branch_id',$branchId)->get();
+        if (empty($request->branch_id) ){
+            return response()->json(__('please select valid Branch'), 400);
         }
-        $htmlAssets = '<option value="">' . __( 'Select Assets' ) . '</option>';
+        $assets = Asset::query();
+        if (!$request->asset_group_id) {
+            $assets = $assets->where('branch_id' , $request->branch_id);
+        }
+        if ($request->asset_group_id && $request->branch_id) {
+            $assets = $assets->where([
+                'asset_group_id' => $request->asset_group_id,
+                'branch_id' => $request->branch_id,
+            ]);
+        }
+        $assets = $assets->get();
+        $htmlAssets = '<option value="">'.__('Select Assets').'</option>';
         foreach ($assets as $asset) {
             $htmlAssets .= '<option value="' . $asset->id . '">' . $asset->name . '</option>';
         }

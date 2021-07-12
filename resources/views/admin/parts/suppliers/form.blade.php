@@ -1,9 +1,12 @@
-<div class="col-md-12">
-    <hr>
-    <span style="color: white;font-size: 14px;background:#2980B9;padding:5px 10px;border-radius:3px"> {{__('Main supplier')}} </span>
-    <hr>
-</div>
-<div class="container">
+<div class="col-md-12" style="color:white;margin-bottom:60px;margin-right:0px;">
+        <div class="ribbon ribbon-r bg-secondary show-ribbon" style="background:#5685CC !important">
+                                                    <p class="mb-0">{{__('Main supplier')}}</p>
+                                                </div>
+        <!-- <span
+            style="color: white;font-size: 14px;background:#2980B9;padding:5px 10px;border-radius:3px">  </span>
+        <hr> -->
+    </div>
+<div class="" style="padding:0 40px">
     <div class="form_new_supplier">
         @if(isset($part) && $part->suppliers_ids )
             @foreach($part->suppliers_ids as $index=>$supplierPart)
@@ -68,7 +71,8 @@
             class="btn btn-sm btn-info">
             <li class="fa fa-plus"></li> {{__('New supplier')}}
     </button>
-    <hr>
+    <br>
+    <br>
 </div>
 
 

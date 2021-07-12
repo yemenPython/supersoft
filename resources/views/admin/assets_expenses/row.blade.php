@@ -4,19 +4,22 @@
         <span>{{$index}}</span>
     </td>
 
-
-    <td>
-        <span style="width: 150px !important;display:block">{{$assetGroup->name}}</span>
-    </td>
-
     <td class="inline-flex-span">
         <span>{{$asset->name}}</span>
         <input type="hidden" class="assetExist" value="{{$asset->id}}" name="items[{{$index}}][asset_id]">
     </td>
 
     <td>
+        <span style="width: 150px !important;display:block">{{$assetGroup->name}}</span>
+    </td>
+
+    
+
+    <td>
         <div class="input-group">
-            <select style="width: 150px !important;" class="form-control js-example-basic-single">
+            <select style="width: 150px !important;" class="form-control js-example-basic-single"
+                    id="asset_expense_type_index{{$index}}"
+                    onchange="getAssetItemsByAssetTypeId('{{$index}}')">
                 @foreach($assetExpensesTypes as $type)
                     <option value="{{$type->id}}">{{$type->name}}</option>
                 @endforeach
@@ -27,7 +30,7 @@
     <td>
         <div class="input-group">
             <select style="width: 150px !important;" class="form-control js-example-basic-single"
-                    name="items[{{$index}}][asset_expense_item_id]">
+                    name="items[{{$index}}][asset_expense_item_id]" id="assetExpensesItemsSelect{{$index}}">
                 @foreach($assetExpensesItems as $item)
                     <option value="{{$item->id}}">{{$item->item}}</option>
                 @endforeach
@@ -36,7 +39,7 @@
     </td>
 
     <td>
-        <input type="number" class="priceItem" name="items[{{$index}}][price]" value="0" onkeyup="addPriceToTotal('{{$index}}')">
+        <input type="number" class="priceItem border2" name="items[{{$index}}][price]" value="0" onkeyup="addPriceToTotal('{{$index}}')">
     </td>
     <td>
         <div class="input-group" id="stores">

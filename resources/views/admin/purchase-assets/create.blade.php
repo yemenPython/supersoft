@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Create Purchase Invoice') }} </title>
+    <title>{{ __('Create Purchase Asset') }} </title>
 @endsection
 
 @section('style')

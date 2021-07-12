@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Super Car') }} - {{ __('Expenses Types') }} </title>
+    <title>{{ __('Expenses Types') }} </title>
 @endsection
 
 @section('content')
@@ -39,11 +39,13 @@
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
-                <table id="expensesTypes" class="table table-bordered" style="width:100%">
+                <table id="expensesTypes" class="table table-bordered table-hover wg-table-print">
                     <thead>
                     <tr>
                         <th scope="col">{!! __('#') !!}</th>
+                        @if(authIsSuperAdmin())
                         <th scope="col">{!! __('Branch') !!}</th>
+                        @endif
                         <th scope="col">{!! __('Expense Type') !!}</th>
                         <th scope="col">{!! __('Created at') !!}</th>
                         <th scope="col">{!! __('Updated at') !!}</th>
@@ -58,7 +60,9 @@
                     <tfoot>
                     <tr>
                         <th scope="col">{!! __('#') !!}</th>
+                        @if(authIsSuperAdmin())
                         <th scope="col">{!! __('Branch') !!}</th>
+                        @endif
                         <th scope="col">{!! __('Expense Type') !!}</th>
                         <th scope="col">{!! __('Created at') !!}</th>
                         <th scope="col">{!! __('Updated at') !!}</th>
@@ -70,22 +74,35 @@
                     @foreach($expenseTypes as $index=>$type)
                         <tr>
                             <td>{!! $index +1 !!}</td>
-                            <td>{!! optional($type->branch)->name !!}</td>
+                            @if(authIsSuperAdmin())
+                            <td class="text-danger">{!! optional($type->branch)->name !!}</td>
+                            @endif
                             <td>{!! $type->name !!}</td>
                             <td>{!! $type->created_at->format('y-m-d h:i:s A') !!}</td>
                             <td>{!! $type->updated_at->format('y-m-d h:i:s A')!!}</td>
                             <td>
+                            <div class="btn-group margin-top-10">
+                                            <button type="button" class="btn btn-options dropdown-toggle"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="ico fa fa-bars"></i>
+                                                {{__('Options')}} <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-wg">
+                                                <li>
                                 @component('admin.buttons._edit_button',[
                                             'id' => $type->id,
                                             'route' => 'admin:assets_expenses_types.edit',
                                              ])
                                 @endcomponent
+                                </li>
+                                <li class="btn-style-drop">
 
                                 @component('admin.buttons._delete_button',[
                                             'id'=> $type->id,
                                             'route' => 'admin:assets_expenses_types.destroy',
                                              ])
                                 @endcomponent
+                                <li>
                             </td>
                             <td>
                                 @if($type->is_seeder == 0)

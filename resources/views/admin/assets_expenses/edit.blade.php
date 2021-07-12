@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Super Car') }} - {{ __('Edit Assets Expenses') }} </title>
+    <title>{{ __('Edit Assets Expenses') }} </title>
 @endsection
 
 @section('content')
@@ -17,9 +17,21 @@
         <div class=" card box-content-wg-new bordered-all primary">
                 <h4 class="box-title with-control" style="text-align: initial"><i class="fa fa-money"></i>  {{__('Edit Assets Expenses')}}
                 <span class="controls hidden-sm hidden-xs pull-left">
-                <button class="control text-white" style="background:none;border:none;font-size:12px">{{__('Save')}}<img class="img-fluid" style="width:50px;height:50px;margin-top:-20px;margin-bottom:-13px" src="{{asset('assets/images/f1.png')}}"></button>
-							<button class="control text-white" style="background:none;border:none;font-size:12px">{{__('Reset')}}<img class="img-fluid" style="width:50px;height:50px;margin-top:-20px;margin-bottom:-13px" src="{{asset('assets/images/f2.png')}}"></button>
-							<button class="control text-white" style="background:none;border:none;font-size:12px"> {{__('Back')}} <img class="img-fluid" style="width:50px;height:50px;margin-top:-20px;margin-bottom:-13px" src="{{asset('assets/images/f3.png')}}"></button>
+                      <button class="control text-white"
+                              style="background:none;border:none;font-size:14px;font-weight:normal !important;">{{__('Save')}}
+                      <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
+                           src="{{asset('assets/images/f1.png')}}">
+                  </button>
+                        <button class="control text-white"
+                                style="background:none;border:none;font-size:14px;font-weight:normal !important;">
+                            {{__('Reset')}}
+                            <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
+                                 src="{{asset('assets/images/f2.png')}}"></button>
+							<button class="control text-white"
+                                    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
+                                    class="img-fluid"
+                                    style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
+                                    src="{{asset('assets/images/f3.png')}}"></button>
 						</span>
             </h4>
                     <div class="box-content">
@@ -64,11 +76,19 @@
                 swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
                 return false;
             }
+            let branch_id = $('#branch_id').find(":selected").val();
             $.ajax({
                 url: "{{ route('admin:assets_expenses.getAssetsByAssetGroup') }}?asset_group_id=" + $(this).val(),
                 method: 'GET',
+                data: {
+                    branch_id : branch_id,
+                },
                 success: function (data) {
                     $('#assetsOptions').html(data.assets);
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
                 }
             });
         });
@@ -84,6 +104,7 @@
                 return false;
             }
             let branch_id = $('#branch_id').find(":selected").val();
+            let indexItem = indexTable("#items_count", "increment");
             $.ajax({
                 url: "{{ route('admin:assets_expenses.getItemsByAssetId') }}?asset_id=" + $(this).val(),
                 method: 'get',
@@ -91,6 +112,7 @@
                     asset_id: $(this).val(),
                     branch_id: branch_id,
                     _token: '{{csrf_token()}}',
+                    index: indexItem,
                 },
                 success: function (data) {
                     $('#items_data').append(data.items);
@@ -113,6 +135,7 @@
 
             }).then((willDelete) => {
                 if (willDelete) {
+                    indexTable("#items_count", "decrement");
                     $('#item_' + index).remove();
                     addPriceToTotal()
                 }
@@ -138,6 +161,41 @@
                 ids.push($(this).val())
             })
             return ids.includes(index);
+        }
+
+        function indexTable(id, type) {
+            var currentIndex = $(id).val();
+            if (type === 'increment') {
+                var incrementIndex = parseInt(currentIndex) + 1;
+            }
+            if (type === 'decrement') {
+                var incrementIndex = parseInt(currentIndex) - 1;
+            }
+            $(id).val(incrementIndex)
+            return incrementIndex;
+        }
+
+        function getAssetItemsByAssetTypeId(asset_expense_type_index)
+        {
+            let assetExpenseTypeId = $('#asset_expense_type_index'+asset_expense_type_index).val();
+            let branch_id = $('#branch_id').find(":selected").val();
+            $.ajax({
+                url: "{{ route('admin:assets_expenses_items.getAssetItemsExpenseById') }}",
+                method: 'get',
+                data : {
+                    assets_type_expenses_id: assetExpenseTypeId,
+                    branch_id: branch_id,
+                    _token: '{{csrf_token()}}',
+                },
+                success: function (data) {
+                    $('#assetExpensesItemsSelect'+asset_expense_type_index).html(data.items);
+                    $('.js-example-basic-single').select2();
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
         }
     </script>
 @endsection

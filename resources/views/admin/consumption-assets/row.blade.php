@@ -8,86 +8,75 @@
     <td>
         <span>{{$index}}</span>
     </td>
+
+    <td class="inline-flex-span">
+        <span style="width: 150px !important;display:block">{{$asset?$asset->name:''}}</span>
+        <input type="hidden" class="assetExist" value="{{$asset?$asset->id:''}}" name="items[{{$index}}][asset_id]">
+    </td>
+
     <td>
         <span style="width: 150px !important;display:block">{{$asset?$asset->group->name:''}}</span>
     </td>
 
-    <td class="inline-flex-span">
-        <span>{{$asset?$asset->name:''}}</span>
-        <input type="hidden" class="assetExist" value="{{$asset?$asset->id:''}}" name="items[{{$index}}][asset_id]">
-    </td>
-
 
     <td>
-        <div class="input-group">
             <input type="date" readonly class="form-control valid date_of_work_{{$index}} form-control"
                    value="{{$asset->date_of_work}}" name="items[{{$index}}][date_of_work]">
-        </div>
     </td>
 
     <td>
-        <div class="input-group">
             <input type="text" style="width: 100px !important;"
                    readonly
-                   class="form-control valid purchase_cost purchase_cost_{{$index}}"
+                   class="form-control border2 valid purchase_cost purchase_cost_{{$index}}"
                    value="{{$asset->purchase_cost}}"
                    onchange="annual_consumtion_rate_value('{{$index}}');totalPurchaseCost('{{$index}}')"
                    onkeyup="totalPurchaseCost('{{$index}}');annual_consumtion_rate_value('{{$index}}')"
                    name="items[{{$index}}][purchase_cost]">
-        </div>
     </td>
 
     <td>
-        <div class="input-group">
-            <input type="text" style="width: 100px !important;" class="form-control valid past_consumtion "
+            <input type="text" style="width: 100px !important;" class="form-control border1 valid past_consumtion "
                    readonly
                    onchange="totalPastConsumtion('{{$index}}')" onkeyup="totalPastConsumtion('{{$index}}')"
                    value="{{$asset->past_consumtion}}"
                    name="items[{{$index}}][past_consumtion]">
-        </div>
     </td>
     <td>
-        <div class="input-group">
             <input type="text" readonly style="width: 100px !important;"
-                   class="net_purchase_cost_{{$index}} form-control valid"
+                   class="net_purchase_cost_{{$index}} border4 form-control valid"
                    onchange="annual_consumtion_rate_value('{{$index}}')"
                    onkeyup="annual_consumtion_rate_value('{{$index}}')"
                    value="{{$asset->purchase_cost - $asset->past_consumtion }}"
                    name="items[{{$index}}][net_purchase_cost]">
-        </div>
     </td>
         <input type="hidden" readonly style="width: 100px !important;"
-               class="total_replacements_{{$index}} form-control valid total_replacement"
+               class="total_replacements_{{$index}} border5 form-control valid total_replacement"
                onchange="annual_consumtion_rate_value('{{$index}}')"
                onkeyup="annual_consumtion_rate_value('{{$index}}')"
                value="{{$asset->total_replacements }}"
                name="items[{{$index}}][total_replacements]">
     <td>
-        <div class="input-group">
             <input type="text" readonly style="width: 100px !important;"
-                   class="annual_consumtion_rate_{{$index}} form-control valid"
+                   class="annual_consumtion_rate_{{$index}} border5 form-control valid"
                    onchange="annual_consumtion_rate_value('{{$index}}')"
                    onkeyup="annual_consumtion_rate_value('{{$index}}')"
                    value="{{$asset->annual_consumtion_rate}}"
                    name="items[{{$index}}][annual_consumtion_rate]">
-        </div>
     </td>
 
 
     <td>
-        <div class="input-group">
-            <input type="text"  style="width: 100px !important;"
-                   class="consumption_amount_{{$index}} form-control valid"
+            <input type="text" readonly style="width: 100px !important;"
+                   class="consumption_amount_{{$index}} border6 form-control valid"
                    onchange="annual_consumtion_rate_value('{{$index}}')"
                    onkeyup="annual_consumtion_rate_value('{{$index}}')"
                    value="{{isset($update_item)?$update_item->consumption_amount:0}}"
                    name="items[{{$index}}][consumption_amount]">
-        </div>
     </td>
 
 
     <td>
-        <div class="input-group" id="stores">
+        <div id="stores">
             <button type="button" class="btn btn-danger fa fa-trash" onclick="removeItem('{{$index}}')"></button>
         </div>
     </td>

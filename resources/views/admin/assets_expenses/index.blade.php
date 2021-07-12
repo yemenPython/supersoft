@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Super Car') }} - {{ __('Assets Expenses') }} </title>
+    <title>{{ __('Assets Expenses') }} </title>
 @endsection
 
 @section('content')
@@ -40,11 +40,13 @@
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
-                <table id="datatable-with-btns" class="table table-bordered" style="width:100%">
+                <table id="datatable-with-btns" class="table table-bordered table-hover wg-table-print"  style="width:100%">
                     <thead>
                     <tr>
                         <th scope="col">{!! __('#') !!}</th>
+                        @if(authIsSuperAdmin())
                         <th scope="col">{!! __('Branch') !!}</th>
+                        @endif
                         <th scope="col">{!! __('Number') !!}</th>
                         <th scope="col">{!! __('Date') !!}</th>
                         <th scope="col">{!! __('Status') !!}</th>
@@ -62,7 +64,9 @@
                     <tfoot>
                     <tr>
                         <th scope="col">{!! __('#') !!}</th>
+                        @if(authIsSuperAdmin())
                         <th scope="col">{!! __('Branch') !!}</th>
+                        @endif
                         <th scope="col">{!! __('Number') !!}</th>
                         <th scope="col">{!! __('Date') !!}</th>
                         <th scope="col">{!! __('Status') !!}</th>

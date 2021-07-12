@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use Exception;
+use Illuminate\Http\JsonResponse;
 use Illuminate\View\View;
 use App\Traits\LoggerError;
 use Illuminate\Http\Request;
@@ -100,5 +101,17 @@ class AssetsItemExpenseController extends Controller
         }
         return redirect()->to('admin/assets_expenses_items')
             ->with(['message' => __('words.select-one-least'), 'alert-type' => 'error']);
+    }
+
+    public function getAssetItemsExpenseById(Request $request): JsonResponse
+    {
+        $items = AssetsItemExpense::where([
+            'assets_type_expenses_id' => $request->assets_type_expenses_id,
+            'branch_id' => $request->branch_id,
+        ])->get();
+        $view = view('admin.assets_expenses_items.options', compact('items'))->render();
+        return response()->json([
+           'items' => $view
+        ]);
     }
 }

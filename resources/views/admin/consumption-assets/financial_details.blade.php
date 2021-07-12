@@ -1,32 +1,48 @@
-<div class="form-group has-feedback col-sm-12">
-    <table class="table table-bordered" style="width:100%">
-        <thead>
-        <tr>
-            <th scope="col">{!! __('total purchase cost') !!}</th>
-            <th scope="col">{!! __('total past consumtion') !!}</th>
-            <th scope="col">{!! __('total replacement') !!}</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>
-                <input type="text" class="form-control" readonly name="total_purchase_cost" id="total_purchase_cost"
+
+<table class="table table-bordered">
+      <tr>
+      <th style="width:30%;background:#FFC5D7 !important;color:black !important">{!! __('total purchase cost') !!}</th>
+      <td style="background:#FFC5D7">
+      <input type="text" class="form-control"
+      style="background:#FFC5D7; border:none;text-align:center !important;"
+       readonly name="total_purchase_cost" id="total_purchase_cost"
                        value=" {{isset($consumptionAsset) ? $consumptionAsset->total_purchase_cost : 0}}"
                 >
-            </td>
+                </td>
+      </tr>
+</table>
 
-            <td>
-                <input type="text" class="form-control" readonly name="total_past_consumtion" id="total_past_consumtion"
+
+
+
+<table class="table table-bordered">
+      <tr>
+      <th style="width:30%;background:#F9EFB7 !important;color:black !important">{!! __('total past consumtion') !!}</th>
+      <td style="background:#F9EFB7">
+      <input type="text" class="form-control" 
+      style="background:#F9EFB7; border:none;text-align:center !important;"
+
+      readonly name="total_past_consumtion" id="total_past_consumtion"
                        value=" {{isset($consumptionAsset) ? $consumptionAsset->total_past_consumtion : 0}}"
                 >
-            </td>
-            <td>
-                <input type="text" class="form-control" readonly name="total_replacement" id="total_replacement"
+                
+                </td>
+      </tr>
+</table>
+
+
+<table class="table table-bordered">
+      <tr>
+      <th style="width:30%;background:#D2F4F6 !important;color:black !important">{!! __('total replacement') !!}</th>
+      <td style="background:#D2F4F6 !important;color:black!important">
+      <input type="text" class="form-control"
+      style="background:#D2F4F6; border:none;text-align:center !important;"
+
+       readonly name="total_replacement" id="total_replacement"
                        value="{{isset($consumptionAsset) ? $consumptionAsset->total_replacement : 0}}">
-            </td>
+
+                       </td>
+      </tr>
+</table>
 
 
-        </tr>
-        </tbody>
-    </table>
-</div>

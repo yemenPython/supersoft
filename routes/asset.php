@@ -67,8 +67,13 @@ Route::post('/assets-examinations/delete-selected', 'AssetsExaminationsControlle
 Route::get('assets_expenses_items/assets_expenses_types_by_branch_id', 'AssetsTypeExpenseController@getExpensesTypesByBranch')->name('assets_expenses_types_by_branch_id');
 Route::post('assets_expenses_types/delete-selected', 'AssetsTypeExpenseController@deleteSelected')->name('assets_expenses_types.deleteSelected');
 Route::resource('assets_expenses_types', 'AssetsTypeExpenseController');
+
+
+//assets items expense
 Route::post('assets_expenses_items/delete-selected', 'AssetsItemExpenseController@deleteSelected')->name('assets_expenses_items.deleteSelected');
+Route::get('assets_expenses_items/getAssetItemsExpenseById', 'AssetsItemExpenseController@getAssetItemsExpenseById')->name('assets_expenses_items.getAssetItemsExpenseById');
 Route::resource('assets_expenses_items', 'AssetsItemExpenseController');
+
 Route::get('assets_expenses/getAssetsByAssetGroup', 'AssetExpenseController@getAssetsByAssetGroup')->name('assets_expenses.getAssetsByAssetGroup');
 Route::get('assets_expenses/getItemsByAssetId', 'AssetExpenseController@getItemsByAssetId')->name('assets_expenses.getItemsByAssetId');
 Route::resource('assets_expenses', 'AssetExpenseController');

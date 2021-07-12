@@ -167,7 +167,9 @@
                                                 {{$item->total_after_discount}}
                                             </td>
                                             <td>
+                                            <span style="background:#F7F8CC !important">
                                                 {{$item->tax}}
+                                                </span>
                                             </td>
                                             <td style="background:#FBFAD4 !important">
                                                 {{$item->total}}

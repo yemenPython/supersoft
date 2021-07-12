@@ -301,7 +301,7 @@ class AssetReplacementController extends Controller
         if (authIsSuperAdmin() && is_null( $request->branch_id )) {
             return response()->json( __( 'please select valid branch' ), 400 );
         }
-        $index = rand( 1, 900000 );
+        $index = $request->index;
         $asset = Asset::with( 'group' )->find( $request->asset_id );
         $assetGroup = $asset->group;
         $view = view( 'admin.assets_replacements.row',

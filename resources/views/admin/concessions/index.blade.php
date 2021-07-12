@@ -86,7 +86,11 @@
                                             {{ $concession->type == 'add' ? $concession->add_number : $concession->withdrawal_number }}
                                         </td>
 
-                                        <td class="text-center column-total" style="background:#FBFAD4">{{$concession->total}}</td>
+                                        <td class="text-center column-total">
+                                        <span style="background:#F7F8CC !important">
+                                        {{$concession->total}}
+                                        </span>
+                                        </td>
 
                                         <td class="text-center column-type">
 

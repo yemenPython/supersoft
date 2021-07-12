@@ -80,7 +80,11 @@
                 @endif
 
                                     </td>
-                                    <td class="column-total" style="background:#FBFAD4 !important">{{ $item->total }}</td>
+                                    <td class="column-total">
+                                    <span style="background:#F7F8CC !important">
+                                    {{ $item->total }}
+                                    </span>
+                                    </td>
                                     <td class="column-status"> 
                                     
                                     @if( $item->concession )                 

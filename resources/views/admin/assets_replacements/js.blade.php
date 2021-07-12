@@ -19,11 +19,19 @@
             swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
             return false;
         }
+        let branch_id = $('#branch_id').find(":selected").val();
         $.ajax({
             url: "{{ route('admin:assets_expenses.getAssetsByAssetGroup') }}?asset_group_id=" + $(this).val(),
             method: 'GET',
+            data: {
+                branch_id : branch_id,
+            },
             success: function (data) {
                 $('#assetsOptions').html(data.assets);
+            },
+            error: function (jqXhr, json, errorThrown) {
+                var errors = jqXhr.responseJSON;
+                swal({text: errors, icon: "error"})
             }
         });
     });
@@ -39,6 +47,7 @@
             return false;
         }
         let branch_id = $('#branch_id').find(":selected").val();
+        let indexItem = indexTable("#items_count", "increment");
         $.ajax({
             url: "{{ route('admin:assets_replacements.getItemsByAssetId') }}?asset_id=" + $(this).val(),
             method: 'get',
@@ -46,6 +55,7 @@
                 asset_id: $(this).val(),
                 branch_id: branch_id,
                 _token: '{{csrf_token()}}',
+                index: indexItem,
             },
             success: function (data) {
                 $('#items_data').append(data.items);
@@ -69,6 +79,7 @@
 
         }).then((willDelete) => {
             if (willDelete) {
+                indexTable("#items_count", "decrement");
                 $('#item_' + index).remove();
                 calculateTotalBeforeReplacement();
                 calculateTotalAfterReplacement();
@@ -128,5 +139,17 @@
         let total =( parseInt(purchaseCost) + parseInt(valueReplacement)) / parseInt(valueReplacementAfter);
         let age3 = total / 100;
         $("#age"+index).val(age3.toFixed(2));
+    }
+
+    function indexTable(id, type) {
+        var currentIndex = $(id).val();
+        if (type === 'increment') {
+            var incrementIndex = parseInt(currentIndex) + 1;
+        }
+        if (type === 'decrement') {
+            var incrementIndex = parseInt(currentIndex) - 1;
+        }
+        $(id).val(incrementIndex)
+        return incrementIndex;
     }
 </script>

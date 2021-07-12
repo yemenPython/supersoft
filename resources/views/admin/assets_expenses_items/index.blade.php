@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Super Car') }} - {{ __('Expenses Items') }} </title>
+    <title>{{ __('Expenses Items') }} </title>
 @endsection
 
 @section('content')
@@ -13,8 +13,6 @@
                 <li class="breadcrumb-item active"> {{__('Expenses Items')}}</li>
             </ol>
         </nav>
-
-        @include('admin.expenses_items.parts.search')
 
                 <div class="col-xs-12">
                 <div class="box-content card bordered-all js__card">
@@ -42,7 +40,7 @@
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
-                <table id="revenuesItems" class="table table-bordered" style="width:100%">
+                <table id="revenuesItems" class="table table-bordered table-hover wg-table-print">
                     <thead>
                     <tr>
                         <th scope="col">{!! __('#') !!}</th>
@@ -82,6 +80,15 @@
                             <td>{!! $item->created_at->format('y-m-d h:i:s A') !!}</td>
                             <td>{!! $item->updated_at->format('y-m-d h:i:s A') !!}</td>
                             <td>
+
+                            <div class="btn-group margin-top-10">
+                                            <button type="button" class="btn btn-options dropdown-toggle"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="ico fa fa-bars"></i>
+                                                {{__('Options')}} <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-wg">
+                                                <li>
                                 @if($item->is_seeder == 0)
 
                                 @component('admin.buttons._edit_button',[
@@ -89,6 +96,8 @@
                                             'route' => 'admin:assets_expenses_items.edit',
                                              ])
                                 @endcomponent
+                                </li>
+                                <li class="btn-style-drop">
 
                                 @component('admin.buttons._delete_button',[
                                             'id'=> $item->id,
@@ -96,6 +105,7 @@
                                              ])
                                 @endcomponent
                                 @endif
+                                </li>
                             </td>
                             <td>
                                 @if($item->is_seeder == 0)

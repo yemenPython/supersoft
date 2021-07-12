@@ -1,6 +1,8 @@
 <div class="row supplier-{{$index}}">
 
-    <div class="col-md-4">
+<div class="col-md-12" style="box-shadow:0 0 7px 1px #DDD;padding:20px;margin-bottom:20px">
+<div class="row">
+    <div class="col-md-6">
         <div class="form-group has-feedback">
             <label for="inputSymbolAR" class="control-label">{{__('Select Supplier')}}</label>
             <div class="input-group">
@@ -17,7 +19,7 @@
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="form-group">
 
             <label for="exampleInputEmail1">{{__('phone')}}</label>
@@ -26,7 +28,7 @@
         </div>
     </div>
 
-    <div class="col-md-8">
+    <div class="col-md-6">
         <div class="form-group">
             <label for="exampleInputEmail1">{{__('Address')}}</label>
             <input type="text" readonly min="0" name="contacts[{{$index}}][phone_2]" id="address{{$index}}" class="form-control">
@@ -42,4 +44,6 @@
             </button>
         </div>
     </div>
+</div>
+</div>
 </div>

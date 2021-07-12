@@ -149,7 +149,7 @@
 <table class="table table-bordered">
       <tr>
       <th style="width:40%;height:50px;background:#FFC5D7 !important;color:black !important">
-                <div class="btn-group ">
+                <div class="btn-group " style="position: absolute;right: 81px;top: 22px;">
 
                     <span type="button" class="fa fa-eye eye-design-one dropdown-toggle" data-toggle="dropdown"
 
@@ -224,7 +224,7 @@
 <table class="table table-bordered">
       <tr>
       <th style="width:40%;height:50px;background:#D2CCF8 !important;color:black !important">
-                <div class="btn-group ">
+                <div class="btn-group " style="position: absolute;right: 61px;top: 22px;">
                     <span type="button" class="fa fa-eye eye-design-two dropdown-toggle" data-toggle="dropdown"
                           
                           aria-haspopup="true" aria-expanded="false">

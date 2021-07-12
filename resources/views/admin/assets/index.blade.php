@@ -114,8 +114,6 @@
 
 
 
-
-
                                     <div class="form-group col-md-2">
                                         <label> {{ __('consumtion rate From') }}</label>
                                         <input type="text" class="form-control" name="annual_consumtion_rate1">
@@ -249,7 +247,9 @@
                             <thead>
                             <tr>
                                 <th>#</th>
+                                @if(authIsSuperAdmin())
                                 <th scope="col"> {{ __('Branch') }} </th>
+                                @endif
                                 <th scope="col"> {{ __('Asset name') }} </th>
                                 <th scope="col"> {{ __('Asset group') }} </th>
                                 <th scope="col"> {{ __('Asset Status') }} </th>
@@ -269,7 +269,9 @@
                             <tfoot>
                             <tr>
                                 <th>#</th>
+                                @if(authIsSuperAdmin())
                                 <th scope="col"> {{ __('Branch') }} </th>
+                                @endif
                                 <th scope="col"> {{ __('Asset name') }} </th>
                                 <th scope="col"> {{ __('Asset group') }} </th>
                                 <th scope="col"> {{ __('Asset Status') }} </th>
