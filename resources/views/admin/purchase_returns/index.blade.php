@@ -59,6 +59,7 @@
                                 <th class="text-center column-paid" scope="col">{!! __('Total') !!}</th>
                                 <th class="text-center column-paid" scope="col">{!! __('Paid') !!}</th>
                                 <th class="text-center column-remaining" scope="col">{!! __('Remaining') !!}</th>
+                                <th class="text-center column-supplier" scope="col">{!! __('Supplier') !!}</th>
                                 <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
                                 <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
                                 <!-- <th scope="col">{!! __('Expenses') !!}</th> -->
@@ -87,7 +88,7 @@
                                         @endif
                                     </td>
 
-<!-- 
+<!--
                                     @if ($invoice->remaining  == 0)
                                         <td class="text-center column-payment">
                                             <span class="label label-warning wg-label">
@@ -119,8 +120,7 @@
                                     {!! number_format($invoice->remaining ,2)!!}
                                     </span>
                                     </td>
-
-                                <!-- <td>{!! auth()->user()->name !!}</td> -->
+                                    <td>{{$invoice->supplier_name}}</td>
                                     <td class="text-center column-created-at">{!! $invoice->created_at->format('y-m-d h:i:s A') !!}</td>
                                     <td class="text-center column-updated-at">{!! $invoice->updated_at->format('y-m-d h:i:s A')!!}</td>
                                     <!-- <td>
@@ -131,12 +131,12 @@
                                     </td> -->
                                     <td>
                                     <div class="btn-group margin-top-10">
-                                        
+
                                         <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="ico fa fa-bars"></i>
                                         {{__('Options')}} <span class="caret"></span>
-                                     
-                                    </button> 
+
+                                    </button>
                                         <ul class="dropdown-menu dropdown-wg">
                                             <li>
                                         @component('admin.buttons._edit_button',[
@@ -161,7 +161,7 @@
                                           ])
                                         @endcomponent
                                         </li>
-                                        
+
                                     </td>
                                     <td>
                                         @component('admin.buttons._delete_selected',[

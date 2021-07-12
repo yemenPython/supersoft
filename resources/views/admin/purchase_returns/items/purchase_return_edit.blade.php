@@ -10,6 +10,15 @@
         <input type="hidden" value="{{$item->item_id}}" name="items[{{$index}}][item_id]" class="form-control" >
     </td>
 
+    <td class="inline-flex-span">
+
+        <span id="unit_quantity_{{$index}}">
+            {{ $item->partPrice ? $item->partPrice->quantity : $part->first_price_quantity}}
+        </span>
+
+        <span class="part-unit-span"> {{ $part->sparePartsUnit->unit }}  </span>
+    </td>
+
     <td>
         <span class="part-unit-span">{{$item->partPrice && $item->partPrice->unit ? $item->partPrice->unit->unit : __('Not determined')}}</span>
     </td>
@@ -150,7 +159,7 @@
             <div class="form-group has-feedback">
                 <input type="checkbox" id="checkbox_item_{{$index}}" name="items[{{$index}}][active]"
                        {{$item->active ? 'checked':''}}
-                       onclick=" calculateItem('{{$index}}'); calculateTotal();" class="item_of_all" >
+                       onclick=" calculateItem('{{$index}}'); calculateTotal();" class="item_of_all" checked>
             </div>
         </div>
     </td>
@@ -161,7 +170,7 @@
 
             <button type="button" class="btn btn-primary waves-effect waves-light btn-xs" onclick="storeQuantity('{{$part->id}}')"
                     data-toggle="modal" data-target="#part_quantity" style="margin-right: 10px;margin-top:5px">
-                 
+
                     <li class="fa fa-cubes"></li> {{__('Stores Qty')}}
             </button>
 

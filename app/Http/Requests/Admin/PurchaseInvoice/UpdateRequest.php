@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests\Admin\PurchaseInvoice;
 
-use App\Models\PurchaseInvoice;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class PurchaseInvoiceRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     public function authorize(): bool
     {
@@ -15,6 +14,7 @@ class PurchaseInvoiceRequest extends FormRequest
 
     public function rules(): array
     {
+
         $rules = [
 
 //            'number' => 'required|string|max:50',
@@ -57,7 +57,7 @@ class PurchaseInvoiceRequest extends FormRequest
         $rules['invoice_number'] =
             [
                 'required','string', 'max:50',
-                Rule::unique('purchase_invoices')->where(function ($query) use($branch_id) {
+                Rule::unique('purchase_invoices')->ignore($this->purchase_invoice->id)->where(function ($query) use($branch_id) {
                     return $query->where('invoice_number', request()->invoice_number)
                         ->where('branch_id', $branch_id)
 //                        ->where('deleted_at', null)

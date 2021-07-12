@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Http\Requests\Admin\SupplyOrders\CreateRequest;
+use App\Http\Requests\Admin\SupplyOrders\UpdateRequest;
 use App\Models\Branch;
 use App\Models\Part;
 use App\Models\PartPriceSegment;
@@ -199,12 +200,12 @@ class SupplyOrderController extends Controller
                     });
             })
             ->where('supplier_id', $supplyOrder->supplier_id)
-            ->select('id', 'number')->get();
+            ->select('id', 'number', 'supplier_id')->get();
 
         return view('admin.supply_orders.edit', compact('data', 'supplyOrder'));
     }
 
-    public function update(CreateRequest $request, SupplyOrder $supplyOrder)
+    public function update(UpdateRequest $request, SupplyOrder $supplyOrder)
     {
 
         if ($supplyOrder->purchaseReceipts->count()) {

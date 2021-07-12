@@ -11,15 +11,12 @@
     </td>
 
     <td class="inline-flex-span" style="">
-        <span id="unit_quantity_{{$index}}">
-        {{isset($item) && $item->partPrice ? $item->partPrice->quantity : $part->first_price_quantity}}
-</span>
-<span class="part-unit-span" style=""> {{ $part->sparePartsUnit->unit }}  </span>
-        <!-- <input style="width: 100px;text-align: center;" type="text" disabled
-               value="{{isset($item) && $item->partPrice ? $item->partPrice->quantity : $part->first_price_quantity}}"
-               id="unit_quantity_{{$index}}" class="form-control">
-               <span class="part-unit-span" style=""> {{ $part->sparePartsUnit->unit }}  </span> -->
 
+        <span id="unit_quantity_{{$index}}">
+            {{isset($item) && $item->partPrice ? $item->partPrice->quantity : $part->first_price_quantity}}
+        </span>
+
+        <span class="part-unit-span" style=""> {{ $part->sparePartsUnit->unit }}  </span>
     </td>
 
     <td>
@@ -92,7 +89,7 @@
         </div>
     </td>
 
- 
+
     <td>
         <input style="width: 120px !important;" type="number" class="form-control border1" id="quantity_{{$index}}"
                onkeyup="calculateItem('{{$index}}'); "

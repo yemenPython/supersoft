@@ -40,13 +40,18 @@ class ConsumptionAssetsController extends Controller
     {
         if ($request->isDataTable) {
             $consumptionAssets = ConsumptionAsset::select( [
-                'consumption_assets.id', 'number',
-                'branch_id',
-                'date',
-                'time',
-                'note',
-                'date_from',
-                'date_to'] )
+                'consumption_assets.id',
+                'consumption_assets.number',
+                'consumption_assets.branch_id',
+                'consumption_assets.date',
+                'consumption_assets.time',
+                'consumption_assets.note',
+                'consumption_assets.date_from',
+                'consumption_assets.date_to',
+                'consumption_assets.created_at',
+                'consumption_assets.updated_at',
+                'consumption_assets.total_past_consumtion'
+            ] )
                 ->leftjoin( 'consumption_asset_items', 'consumption_assets.id', '=', 'consumption_asset_items.consumption_asset_id' );
 
             if ($request->has( 'branch_id' ) && !empty( $request['branch_id'] ))
@@ -77,11 +82,23 @@ class ConsumptionAssetsController extends Controller
                     return $consumptionAsset->number;
 
                 } )
+                ->addColumn( 'date', function ($consumptionAsset) {
+                    return $consumptionAsset->date . ' ' . $consumptionAsset->time;
+                } )
                 ->addColumn( 'date_from', function ($consumptionAsset) {
                     return $consumptionAsset->date_from;
                 } )
                 ->addColumn( 'date_to', function ($consumptionAsset) {
                     return $consumptionAsset->date_to;
+                } )
+                ->addColumn( 'total_past_consumtion', function ($consumptionAsset) {
+                    return number_format( $consumptionAsset->total_past_consumtion, 2 );
+                } )
+                ->addColumn( 'created_at', function ($consumptionAsset) {
+                    return $consumptionAsset->created_at;
+                } )
+                ->addColumn( 'updated_at', function ($consumptionAsset) {
+                    return $consumptionAsset->updated_at;
                 } )
                 ->addColumn( 'action', function ($consumptionAsset) {
                     return '
@@ -134,13 +151,16 @@ class ConsumptionAssetsController extends Controller
                 'date' => 'consumption_assets.date',
                 'date_from' => 'consumption_assets.date_from',
                 'date_to' => 'consumption_assets.date_to',
+                'total_past_consumtion' => 'consumption_assets.total_past_consumtion',
+                'created_at' => 'consumption_assets.created_at',
+                'updated_at' => 'consumption_assets.updated_at',
                 'action' => 'action',
                 'options' => 'options'
             ];
             $assets = Asset::all();
             $branches = Branch::all()->pluck( 'name', 'id' );
             $assetsGroups = AssetGroup::select( ['id', 'name_ar', 'name_en'] )->get();
-            $numbers = ConsumptionAsset::select( 'number' )->orderBy( 'number', 'asc' )->get();
+            $numbers = ConsumptionAsset::select( 'number' )->distinct()->orderBy( 'number', 'asc' )->get();
             return view( 'admin.consumption-assets.index', compact( 'js_columns', 'assets', 'branches', 'assetsGroups', 'numbers' ) );
         }
 
@@ -168,8 +188,8 @@ class ConsumptionAssetsController extends Controller
         DB::beginTransaction();
         try {
             $data = $request->all();
-            $to = \Carbon\Carbon::createFromFormat( 'Y-m-d', $request->date_to );
-            $from = \Carbon\Carbon::createFromFormat( 'Y-m-d', $request->date_from );
+            $to = Carbon::createFromFormat( 'Y-m-d', $request->date_to );
+            $from = Carbon::createFromFormat( 'Y-m-d', $request->date_from );
             $diff_in_days = $to->diffInDays( $from );
 
             $invoice_data = [
@@ -181,7 +201,8 @@ class ConsumptionAssetsController extends Controller
                 'date_to' => $data['date_to'],
                 'total_purchase_cost' => $request->total_purchase_cost,
                 'total_past_consumtion' => $request->total_past_consumtion,
-                'total_replacement' => $request->total_replacement
+                'total_replacement' => $request->total_replacement,
+                'user_id'=>auth()->id()
             ];
             $invoice_data['branch_id'] = authIsSuperAdmin() ? $request['branch_id'] : auth()->user()->branch_id;
 
@@ -367,16 +388,22 @@ class ConsumptionAssetsController extends Controller
 
     public function getAssetsByAssetId(Request $request): JsonResponse
     {
-//        dd($request->all());
         if (is_null( $request->asset_id )) {
             return response()->json( __( 'please select valid Asset' ), 400 );
         }
         if (is_null( $request->branch_id ) && authIsSuperAdmin()) {
             return response()->json( __( 'please select valid branch' ), 400 );
         }
+
+
         $index = $request['index'] + 1;
 
         $asset = Asset::with( 'group' )->find( $request->asset_id );
+//dd(empty((int)$asset->purchase_cost) , PurchaseAssetItem::where('asset_id',$request->asset_id)->count());
+        if (empty((int)$asset->purchase_cost) && !PurchaseAssetItem::where('asset_id',$request->asset_id)->count()){
+            return response()->json( __( 'Please add Purchase  for this asset before consumption' ), 400 );
+        }
+
         if (empty( $asset->date_of_work )) {
             return response()->json( __( 'please update date of work for this asset, or select another asset' ), 400 );
         }
@@ -404,5 +431,20 @@ class ConsumptionAssetsController extends Controller
             'items' => $view,
             'index' => $index
         ] );
+    }
+
+    public function getNumbersByBranchId(Request $request): JsonResponse
+    {
+        if (!empty( $request->branch_id )) {
+            $numbers = ConsumptionAsset::where( 'branch_id', $request->branch_id )->pluck( 'number' )->unique();
+        } else {
+            $numbers = ConsumptionAsset::pluck( 'number' )->unique();
+        }
+        if ($numbers) {
+            $numbers_data = view( 'admin.consumption-assets.invoice_number_by_branch_id', compact( 'numbers' ) )->render();
+            return response()->json( [
+                'data' => $numbers_data,
+            ] );
+        }
     }
 }

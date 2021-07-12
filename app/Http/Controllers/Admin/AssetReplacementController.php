@@ -311,4 +311,18 @@ class AssetReplacementController extends Controller
             'items' => $view
         ] );
     }
+    public function getNumbersByBranchId(Request $request): JsonResponse
+    {
+        if (!empty( $request->branch_id )) {
+            $numbers = AssetReplacement::where( 'branch_id', $request->branch_id )->pluck( 'number' )->unique();
+        } else {
+            $numbers = AssetReplacement::pluck( 'number' )->unique();
+        }
+        if ($numbers) {
+            $numbers_data = view( 'admin.consumption-assets.invoice_number_by_branch_id', compact( 'numbers' ) )->render();
+            return response()->json( [
+                'data' => $numbers_data,
+            ] );
+        }
+    }
 }

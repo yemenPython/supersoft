@@ -46,10 +46,11 @@
                 <label for="inputNameAr" class="control-label">{{__('Number')}}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><li class="fa fa-bars"></li></span>
-                    <input type="text" name="number" class="form-control" placeholder="{{__('Number')}}"
-                           value="{{old('number', isset($purchaseInvoice)? $purchaseInvoice->invoice_number :'')}}">
+                    <input type="text" name="invoice_number" class="form-control" placeholder="{{__('Number')}}"
+                           value="{{old('invoice_number', isset($purchaseInvoice)? $purchaseInvoice->invoice_number :'')}}">
                 </div>
-                {{input_error($errors,'number')}}
+
+                {{input_error($errors,'invoice_number')}}
             </div>
         </div>
 

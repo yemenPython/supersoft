@@ -44,8 +44,12 @@
                 <table class="table table-bordered">
                     <tbody>
                     <tr>
-                        <th style="background:#CCC !important;color:black" scope="row">{{__('branch name')}}</th>
+                        <th style="background:#CCC !important;color:black" scope="row">{{__('Branch Name')}}</th>
                         <td>{{$asset->branch->name }}</td>
+                    </tr>
+                    <tr>
+                        <th style="background:#CCC !important;color:black" scope="row">{{__('Number')}}</th>
+                        <td>{{$asset->number }}</td>
                     </tr>
                     <tr>
                         <th style="background:#CCC !important;color:black" scope="row">{{__('total purchase cost')}}</th>
@@ -86,6 +90,10 @@
                     <tr>
                         <th style="background:#CCC !important;color:black" scope="row">{{__('Date to')}}</th>
                         <td>{{$asset->date_to}}</td>
+                    </tr>
+                    <tr>
+                        <th style="background:#CCC !important;color:black" scope="row">{{__('User')}}</th>
+                        <td>{{optional($asset->user)->name}}</td>
                     </tr>
 
                     </tbody>

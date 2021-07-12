@@ -27,8 +27,9 @@ class CreateRequest extends FormRequest
 
             $rules = [
                 'status' => 'required|string|in:under_processing,ready_for_approval,accept_approval,reject_approval',
-                'items.*.approval_quantity' => 'required|integer|min:1',
+                'items.*.approval_quantity' => 'required|integer|min:0',
                 'items.*.item_id' => 'required|integer|exists:purchase_request_items,id',
+                'description' => 'nullable|string',
             ];
 
         } else {

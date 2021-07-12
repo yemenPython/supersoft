@@ -3,6 +3,7 @@ Route::post('purchase-requests-deleteSelected', 'PurchaseRequestController@delet
 Route::resource('/purchase-requests', 'PurchaseRequestController');
 Route::post('/purchase-requests/select-part', 'PurchaseRequestController@selectPart')->name('purchase.requests.select.part');
 Route::get('/purchase-requests/print/data', 'PurchaseRequestController@print')->name('purchase.requests.print');
+Route::get('/purchase-requests/short-print/data', 'PurchaseRequestController@shortPrint')->name('purchase.requests.short.print');
 Route::patch('/purchase-requests/approval/{purchaseRequest}', 'PurchaseRequestController@approval')->name('purchase.requests.approval');
 
 

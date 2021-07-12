@@ -27,9 +27,9 @@ class PurchaseReturnInvoiceFilter
                 $query->where('type', $request->type);
             }
 
-            if ($request->has('supplier_id') && $request->supplier_id != '' && $request->supplier_id != null) {
-                $query->where('supplier_id', $request->supplier_id);
-            }
+//            if ($request->has('supplier_id') && $request->supplier_id != '' && $request->supplier_id != null) {
+//                $query->where('supplier_id', $request->supplier_id);
+//            }
 
             if ($request->has('dateFrom') && $request->has('dateTo')
                 && $request->dateFrom != '' && $request->dateTo != ''

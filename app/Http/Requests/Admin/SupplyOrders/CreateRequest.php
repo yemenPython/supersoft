@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\SupplyOrders;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateRequest extends FormRequest
 {
@@ -25,7 +26,7 @@ class CreateRequest extends FormRequest
     {
         $rules = [
 
-            'number'=>'required|string|max:50',
+//            'number'=>'required|string|max:50',
             'date' => 'required|date',
             'time' => 'required',
             'date_from' => 'nullable|date',
@@ -48,13 +49,28 @@ class CreateRequest extends FormRequest
             'taxes.*' => 'nullable|integer|exists:taxes_fees,id',
         ];
 
+        $branch_id = auth()->user()->branch_id;
+
         if (authIsSuperAdmin()) {
             $rules['branch_id'] = 'required|integer|exists:branches,id';
+            $branch_id = request()['branch_id'];
         }
 
         if (request()->has('type') && request()->type == 'from_purchase_request') {
             $rules['purchase_request_id'] = 'required|integer|exists:purchase_requests,id';
         }
+
+        $rules['number'] =
+            [
+                'required','string', 'max:50',
+                Rule::unique('supply_orders')->where(function ($query) use($branch_id) {
+                    return $query->where('number', request()->number)
+                        ->where('branch_id', $branch_id)
+//                        ->where('deleted_at', null)
+                        ;
+                }),
+            ];
+
 
         return $rules;
     }

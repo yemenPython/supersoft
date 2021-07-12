@@ -92,6 +92,12 @@
 
     <script type="application/javascript">
 
+        function changeBranch () {
+
+            let branch_id = $('#branch_id').find(":selected").val();
+            window.location.href = "{{route('admin:suppliers.create')}}" + "?branch_id=" + branch_id ;
+        }
+
         $("#country").change(function () {
             $.ajax({
                 url: "{{ route('admin:country.cities') }}?country_id=" + $(this).val(),

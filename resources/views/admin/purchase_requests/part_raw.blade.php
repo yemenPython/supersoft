@@ -6,7 +6,8 @@
 
     <td class="text-center">
         <span>{{$part->name}}</span>
-        <input type="hidden" value="{{$part->id}}" name="items[{{$index}}][part_id]" id="part_id_index_{{$index}}" class="form-control"
+        <input type="hidden" value="{{$part->id}}" name="items[{{$index}}][part_id]" id="part_id_index_{{$index}}"
+               class="form-control"
                style="text-align: center;">
 
         @if(isset($item) && isset($request_type) && $request_type == 'approval')
@@ -15,17 +16,25 @@
         @endif
     </td>
 
+    <td class="inline-flex-span">
+        <span id="unit_quantity_{{$index}}">
+            {{isset($item) && $item->partPrice ? $item->partPrice->quantity : $part->first_price_quantity}}
+        </span>
+        <span class="part-unit-span"> {{ $part->sparePartsUnit->unit }}  </span>
+    </td>
+
     <td>
         <div class="input-group">
 
-            <select style="width: 150px !important;" class="form-control js-example-basic-single" name="items[{{$index}}][part_price_id]"
-                    id="prices_part_{{$index}}"
+            <select style="width: 150px !important;" class="form-control js-example-basic-single"
+                    name="items[{{$index}}][part_price_id]"
+                    id="prices_part_{{$index}}" onchange="defaultUnitQuantity('{{$index}}')"
                 {{isset($request_type) && $request_type == 'approval' ? 'disabled' : ''}}
             >
 
                 @foreach($part->prices as $price)
-                    <option
-                        value="{{$price->id}}"{{isset($item) && $item->part_price_id == $price->id ? 'selected':''}}>
+                    <option data-quantity="{{$price->quantity}}"
+                            value="{{$price->id}}"{{isset($item) && $item->part_price_id == $price->id ? 'selected':''}}>
                         {{optional($price->unit)->unit}}
                     </option>
                 @endforeach
@@ -35,7 +44,8 @@
     </td>
 
     <td>
-        <input style="width: 130px !important;margin:0 auto;display:block" type="number" class="form-control border1" id="quantity_{{$index}}"
+        <input style="width: 130px !important;margin:0 auto;display:block" type="number" class="form-control border1"
+               id="quantity_{{$index}}"
                value="{{isset($item) ? $item->quantity : 0}}" min="0"
                name="items[{{$index}}][quantity]" {{isset($request_type) && $request_type == 'approval' ? 'disabled' : ''}}>
 
@@ -43,8 +53,9 @@
     </td>
 
     @if(isset($request_type) && $request_type == 'approval')
-    <td>
-            <input style="width: 150px !important;" type="number" class="form-control border2" value="{{isset($item) ? $item->part->quantity : 0}}" disabled>
+        <td>
+            <input style="width: 150px !important;" type="number" class="form-control border2"
+                   value="{{isset($item) ? $item->part->quantity : 0}}" disabled>
         </td>
 
         <td>
@@ -57,22 +68,21 @@
     <td>
 
         <a data-toggle="modal" data-target="#part_types_{{$index}}" title="Part Types" class="btn btn-info">
-                <i class="fa fa-check-circle"> </i> {{__('Types')}}
-            </a>
+            <i class="fa fa-check-circle"> </i> {{__('Types')}}
+        </a>
 
-            @if(!isset($request_type) || ( isset($request_type) && $request_type != 'approval'))
-                <button type="button" class="btn btn-danger fa fa-trash" onclick="removeItem('{{$index}}')"></button>
-            @endif
+{{--        @if(!isset($request_type) || ( isset($request_type) && $request_type != 'approval'))--}}
+            <button type="button" class="btn btn-danger fa fa-trash" onclick="removeItem('{{$index}}')"></button>
+{{--        @endif--}}
 
-            <div style="padding:5px !important;">
+        <div style="padding:5px !important;">
             @if(isset($request_type) && $request_type == 'approval')
                 <a data-toggle="modal" data-target="#part_quantity_{{$index}}"
                    title="Part quantity" class="btn btn-primary">
                     <li class="fa fa-cubes"></li> {{__('Stores Qty')}}
                 </a>
             @endif
-</div>
-
+        </div>
 
 
     </td>
@@ -88,6 +98,7 @@
                 <input type="checkbox" id="item_type_real_checkbox_{{$index}}_{{$key}}" value="{{$key}}"
                        name="items[{{$index}}][item_types][]"
                     {{isset($item) && in_array($key, $item->spareParts->pluck('id')->toArray()) ? 'checked':''}}
+                    {{ !isset($item) && $part->First_sub_part_type_id == $key ? 'checked':''}}
                 >
 
                 <label for="item_type_real_checkbox_{{$index}}_{{$key}}"></label>

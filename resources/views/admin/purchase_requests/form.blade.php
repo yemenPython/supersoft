@@ -300,7 +300,6 @@
             <label for="inputDescription" class="control-label">{{__('Description')}}</label>
             <div class="input-group">
                 <textarea name="description" class="form-control" rows="4" cols="150"
-                          {{isset($request_type) && $request_type == 'approval' ? 'disabled' : ''}}
                 >{{old('description', isset($purchaseRequest)? $purchaseRequest->description :'')}}</textarea>
             </div>
             {{input_error($errors,'description')}}
