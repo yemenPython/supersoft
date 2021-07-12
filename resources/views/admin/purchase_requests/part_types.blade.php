@@ -33,6 +33,7 @@
                                         <input type="checkbox" id="item_type_checkbox_{{$index}}_{{$key}}"
                                                onclick="selectItemType('{{$index}}', '{{$key}}')"
                                                {{isset($item) && in_array($key, $item->spareParts->pluck('id')->toArray()) ? 'checked':''}}
+                                               {{ !isset($item) && $part->First_sub_part_type_id == $key ? 'checked':''}}
                                             {{isset($request_type) && $request_type == 'approval' ? 'disabled' : ''}}
                                         >
                                         <label for="item_type_checkbox_{{$index}}_{{$key}}"></label>

@@ -236,4 +236,21 @@ class Part extends Model
 
         return $this->getAllPartTypes($types);
     }
+
+    public function getFirstSubPartTypeIdAttribute () {
+
+        $firstSubPartType = $this->spareParts()->where('spare_part_id','!=', null)->first();
+
+        if ($firstSubPartType) {
+            return $firstSubPartType->id;
+        }
+
+        $firstMainPartType = $this->spareParts()->where('spare_part_id', null)->first();
+
+        if ($firstMainPartType) {
+            return $firstMainPartType->id;
+        }
+
+        return null;
+    }
 }

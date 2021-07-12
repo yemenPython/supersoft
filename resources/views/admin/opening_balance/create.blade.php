@@ -221,6 +221,8 @@
 
                     calculateItem(index);
 
+                    defaultUnitQuantity(index);
+
                     $('.js-example-basic-single').select2();
                 },
 
@@ -246,6 +248,12 @@
             }
 
             return false;
+        }
+
+        function defaultUnitQuantity (index) {
+
+            let unit_quantity = $('#prices_part_' + index).find(":selected").data('quantity');
+            $('#unit_quantity_' + index).text(unit_quantity);
         }
 
     </script>

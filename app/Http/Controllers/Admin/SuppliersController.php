@@ -166,15 +166,18 @@ class SuppliersController extends Controller
             compact('suppliers', 'suppliers_search', 'branches', 'groups', 'countries'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
         if (!auth()->user()->can('create_suppliers')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
+        $branch_id = $request->has('branch_id') ? $request['branch_id'] : auth()->user()->branch_id;
+
         $branches = Branch::all()->pluck('name', 'id');
 
         $mainGroups = SupplierGroup::where('status', 1)
+            ->where('branch_id', $branch_id)
             ->where('supplier_group_id', null)
             ->select('id','name_' . $this->lang)
             ->get();
@@ -248,16 +251,18 @@ class SuppliersController extends Controller
         return view('admin.suppliers.show', compact('supplier', 'supplierGroupsTreeMain', 'supplierGroupsTreeSub'));
     }
 
-    public function edit(Supplier $supplier)
+    public function edit(Supplier $supplier, Request $request)
     {
         if (!auth()->user()->can('update_suppliers')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
+        $branch_id = $request->has('branch_id') ? $request['branch_id'] : $supplier->branch_id;
+
         $branches = Branch::all()->pluck('name', 'id');
 
         $mainGroups = SupplierGroup::where('status', 1)
-            ->where('branch_id', $supplier->branch_id)
+            ->where('branch_id', $branch_id)
             ->where('supplier_group_id', null)
             ->select('id','name_' . $this->lang)
             ->get();

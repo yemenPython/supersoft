@@ -121,7 +121,7 @@
                         {{__('Add Item')}}
                     </button>
 
-                    
+
                     <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"
                             data-dismiss="modal">
                         {{__('Close')}}
@@ -229,6 +229,8 @@
                     $('.js-example-basic-single').select2();
 
                     reorderItems();
+
+                    executeAllItems()
                 },
 
                 error: function (jqXhr, json, errorThrown) {
@@ -330,6 +332,8 @@
                     $('.js-example-basic-single').select2();
 
                     invoke_datatable_quotations($('#purchase_quotations_table'));
+
+                    executeAllItems()
                 },
 
                 error: function (jqXhr, json, errorThrown) {

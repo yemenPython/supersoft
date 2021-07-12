@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\PurchaseQuotation;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateRequest extends FormRequest
 {
@@ -30,6 +31,7 @@ class CreateRequest extends FormRequest
             'date_from' => 'nullable|date',
             'date_to' => 'nullable|date|after_or_equal:date_from',
             'time' => 'required',
+            'quotation_type' => 'required|string|in:cash,credit',
             'supply_date_from' => 'nullable|date',
             'supply_date_to' => 'nullable|date|after_or_equal:date_from',
             'supplier_id' => 'required|integer|exists:suppliers,id',
@@ -51,13 +53,26 @@ class CreateRequest extends FormRequest
             'terms.*' => 'nullable|integer|exists:supply_terms,id',
         ];
 
+        $branch_id = auth()->user()->branch_id;
+
         if (authIsSuperAdmin()) {
             $rules['branch_id'] = 'required|integer|exists:branches,id';
+            $branch_id = request()['branch_id'];
         }
 
         if (request()->has('type') && request()->type == 'from_purchase_request') {
             $rules['purchase_request_id'] = 'required|integer|exists:purchase_requests,id';
         }
+
+        $rules['number'] =
+            [
+                'required','string', 'max:50',
+                Rule::unique('purchase_quotations')->where(function ($query) use($branch_id) {
+                    return $query->where('number', request()->number)
+                        ->where('branch_id', $branch_id)
+                        ;
+                }),
+            ];
 
         return $rules;
     }

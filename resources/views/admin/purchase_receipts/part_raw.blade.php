@@ -10,6 +10,21 @@
         <span>{{$part->name}}</span>
     </td>
 
+    <td class="inline-flex-span">
+
+        <span id="unit_quantity_{{$index}}">
+            @if(isset($item))
+                {{ $item->partPrice ? $item->partPrice->quantity : $part->first_price_quantity}}
+            @elseif (isset($update_item))
+                {{ $update_item->partPrice ? $update_item->partPrice->quantity : $part->first_price_quantity}}
+            @else
+                {{ $part->first_price_quantity}}
+            @endif
+        </span>
+
+        <span class="part-unit-span"> {{ $part->sparePartsUnit->unit }}  </span>
+    </td>
+
     <td>
         <div class="input-group">
             @if(isset($update_item))

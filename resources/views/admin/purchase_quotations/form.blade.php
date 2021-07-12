@@ -264,6 +264,28 @@
                     </div>
                 </div>
 
+                <div class="col-md-1">
+                    <div class="radio primary ">
+                        <label style="opacity:0">{{__('select')}}</label>
+
+                        <input type="radio" name="quotation_type" value="cash" id="cash"
+                            {{ !isset($purchaseQuotation) ? 'checked':'' }}
+                            {{isset($purchaseQuotation) && $purchaseQuotation->quotation_type == 'cash' ? 'checked':''}} >
+                        <label for="cash">{{__('Cash')}}</label>
+                    </div>
+                </div>
+
+                <div class="col-md-1">
+
+                    <div class="radio primary ">
+                        <label style="opacity:0">{{__('select')}}</label>
+
+                        <input type="radio" name="quotation_type" id="credit" value="credit"
+                            {{isset($purchaseQuotation) && $purchaseQuotation->quotation_type == 'credit' ? 'checked':''}} >
+                        <label for="credit">{{__('Credit')}}</label>
+                    </div>
+                </div>
+
             </div>
         </div>
 

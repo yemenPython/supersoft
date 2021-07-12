@@ -6,6 +6,7 @@
             <th width="2%"> # </th>
             <th width="9%"> {{ __('Name') }} </th>
             <th width="15%"> {{ __('Part Types') }} </th>
+            <th width="10%"> {{ __('Unit Quantity') }} </th>
             <th width="8%"> {{ __('Unit') }} </th>
             <th width="8%"> {{ __('Price Segments') }} </th>
             <th width="7%"> {{ __('Quantity') }} </th>
@@ -19,7 +20,7 @@
             <th width="1%">
                 {{ __('Select') }}
                 <input type="checkbox" class="select_all_items form-control" style="margin-right: 16px;"
-                       onclick="checkAllItems(); executeAllItems()">
+                       onclick="checkAllItems(); executeAllItems()" {{!isset($purchaseQuotation) ? 'checked':''}}>
             </th>
             <th width="5%"> {{ __('Action') }} </th>
         </tr>
@@ -44,6 +45,7 @@
             <th width="2%"> # </th>
             <th width="9%"> {{ __('Name') }} </th>
             <th width="15%"> {{ __('Part Types') }} </th>
+            <th width="10%"> {{ __('Unit Quantity') }} </th>
             <th width="8%"> {{ __('Unit') }} </th>
             <th width="8%"> {{ __('Price Segments') }} </th>
             <th width="7%"> {{ __('Quantity') }} </th>

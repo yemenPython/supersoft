@@ -18,7 +18,7 @@ class PurchaseReturn {
             'invoice_number' => 'invoice_number',
             'supplier' => 'supplier',
             'invoice_type' => 'invoice_type',
-        
+
             'total' => 'total',
             'paid' => 'paid',
             'remaining' => 'remaining',
@@ -32,7 +32,7 @@ class PurchaseReturn {
             'invoice_number' => __('Invoice Number'),
             'supplier' => __('Supplier Name'),
             'invoice_type' => __('Invoice Type'),
-       
+
             'total' => __('Total'),
             'paid' => __('Paid'),
             'remaining' => __('Remaining'),
@@ -56,10 +56,10 @@ class PurchaseReturn {
         return [
             'invoice-number' => __('Invoice Number'),
             'invoice-type' => __('Invoice Type'),
-        
             'total' => __('Total'),
             'paid' => __('Paid'),
             'remaining' => __('Remaining'),
+            'supplier' => __('Supplier'),
         ];
     }
 
