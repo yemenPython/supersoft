@@ -2094,8 +2094,11 @@
     "Edit Consumption Assets" : "تعديل إهلاك الأصول",
     "total replacement" : "إجمالى الإهلاك الحالي",
     "consumption amount From" : "تكلفة الإهلاك من",
-    "consumption amount To" : "تكلفة الإهلاك الى"
-
+    "consumption amount To" : "تكلفة الإهلاك الى",
+    "Value From" : "تكلفة التجديد من",
+    "Value To" : "تكلفة التجديد الى",
+    "Create Assets Replacements" : "إضافة تجديد / إحلال جديد",
+    "Edit Assets Replacements" : "تعديل بيانات التجديد / الإحلال"
 
 }
 

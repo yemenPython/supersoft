@@ -10,6 +10,7 @@ body {
 }
 
 @media print {
+
     .wg-table-print {
         margin: 20px auto !important;
         width: 98% !important;
@@ -20,6 +21,7 @@ body {
         color: rgb(59, 59, 59) !important;
         font-family: 'DroidArabicKufiRegular' !important;
     }
+
     body {
         border: 1px solid rgb(70, 70, 70) !important;
         border-radius: 20px !important;

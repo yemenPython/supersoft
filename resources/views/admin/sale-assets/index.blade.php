@@ -87,7 +87,7 @@
 
                                         <select class="form-control select2" id="number"
                                                 name="number">
-                                            <option value="0"> {{ __('Select Number') }} </option>
+                                            <option value="0"> {{ __('Select') }} </option>
                                             @foreach($numbers as $number)
                                                 <option value="{{$number->number}}"> {{$number->number}}</option>
                                             @endforeach

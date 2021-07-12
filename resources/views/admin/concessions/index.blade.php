@@ -274,7 +274,7 @@
 
     <div class="modal fade" id="boostrapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
+            <div class="modal-content modal-print-padd">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span>
@@ -282,7 +282,7 @@
                     <!-- <h4 class="modal-title" id="myModalLabel-1">{{__('Concession')}}</h4> -->
                 </div>
 
-                <div class="modal-body" id="invoiceDatatoPrint">
+                <div class="modal-body print-border" id="invoiceDatatoPrint" style="border:1px solid #3b3b3b;margin:0 20px;border-radius:5px">
 
 
                 </div>
