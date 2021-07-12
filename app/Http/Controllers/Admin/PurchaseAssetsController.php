@@ -46,12 +46,17 @@ class PurchaseAssetsController extends Controller
                 'purchase_assets.paid_amount',
                 'purchase_assets.total_purchase_cost',
                 'purchase_assets.total_past_consumtion',
+                'purchase_assets.type',
             ] )->leftjoin( 'purchase_asset_items', 'purchase_assets.id', '=', 'purchase_asset_items.purchase_asset_id' );
 
             if ($request->has( 'branch_id' ) && !empty( $request['branch_id'] ))
                 $purchaseAssets->where( 'purchase_assets.branch_id', $request['branch_id'] );
+
             if ($request->has( 'supplier_id' ) && !empty( $request['supplier_id'] ))
                 $purchaseAssets->where( 'purchase_assets.supplier_id', $request['supplier_id'] );
+
+            if ($request->has( 'type' ) && !empty( $request['type'] ))
+                $purchaseAssets->where( 'purchase_assets.type', $request['type'] );
 
             if ($request->has( 'invoice_number' ) && !empty( $request['invoice_number'] ))
                 $purchaseAssets->where( 'purchase_assets.invoice_number', $request['invoice_number'] );
@@ -59,6 +64,7 @@ class PurchaseAssetsController extends Controller
 
             if ($request->has( 'asset_group_id' ) && !empty( $request->asset_group_id ))
                 $purchaseAssets->where( 'purchase_asset_items.asset_group_id', $request['asset_group_id'] );
+
             if ($request->has( 'asset_id' ) && !empty( $request->asset_id ))
                 $purchaseAssets->where( 'purchase_asset_items.asset_id', $request['asset_id'] );
 
@@ -79,6 +85,9 @@ class PurchaseAssetsController extends Controller
                 } )
                 ->addColumn( 'supplier_id', function ($purchaseAsset) {
                     return optional( $purchaseAsset->supplier )->name;
+                } )
+                ->addColumn( 'type', function ($purchaseAsset) {
+                    return $purchaseAsset->type;
                 } )
                 ->addColumn( 'total_purchase_cost', function ($purchaseAsset) {
                     return number_format( $purchaseAsset->total_purchase_cost, 2 );
@@ -152,6 +161,7 @@ class PurchaseAssetsController extends Controller
                     'invoice_number' => 'purchase_assets.invoice_number',
                     'date' => 'date',
                     'supplier_id' => 'purchase_assets.supplier_id',
+                    'type' => 'purchase_assets.type',
                     'total_purchase_cost' => 'purchase_assets.total_purchase_cost',
                     'total_past_consumtion' => 'purchase_assets.total_past_consumtion',
                     'paid_amount' => 'purchase_assets.paid_amount',
@@ -167,6 +177,7 @@ class PurchaseAssetsController extends Controller
                     'invoice_number' => 'purchase_assets.invoice_number',
                     'date' => 'date',
                     'supplier_id' => 'purchase_assets.supplier_id',
+                    'type' => 'purchase_assets.type',
                     'total_purchase_cost' => 'purchase_assets.total_purchase_cost',
                     'total_past_consumtion' => 'purchase_assets.total_past_consumtion',
                     'paid_amount' => 'purchase_assets.paid_amount',
@@ -225,6 +236,8 @@ class PurchaseAssetsController extends Controller
                 'note' => $data['note'],
                 'total_purchase_cost' => $request->total_purchase_cost,
                 'total_past_consumtion' => $request->total_past_consumtion,
+                'user_id'=>auth()->id(),
+                'type'=>$request->type
             ];
             $invoice_data['branch_id'] = authIsSuperAdmin() ? $request['branch_id'] : auth()->user()->branch_id;
 
@@ -320,6 +333,7 @@ class PurchaseAssetsController extends Controller
                 'note' => $data['note'],
                 'total_purchase_cost' => $request->total_purchase_cost,
                 'total_past_consumtion' => $request->total_past_consumtion,
+                'type'=>$request->type
             ];
             $purchaseAsset->update( $invoice_data );
             $purchaseAsset->items()->delete();
@@ -395,11 +409,15 @@ class PurchaseAssetsController extends Controller
 
     public function getAssetsByAssetId(Request $request): JsonResponse
     {
+
         if (is_null( $request->asset_id )) {
             return response()->json( __( 'please select valid Asset' ), 400 );
         }
         if (is_null( $request->branch_id ) && authIsSuperAdmin()) {
             return response()->json( __( 'please select valid branch' ), 400 );
+        }
+        if (PurchaseAssetItem::where('asset_id',$request->asset_id)->count()){
+            return response()->json( __( 'Purchase added before for this asset' ), 400 );
         }
         $index = $request['index'] + 1;
 

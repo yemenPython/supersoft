@@ -50,7 +50,7 @@
                    name="items[{{$index}}][net_purchase_cost]">
     </td>
         <input type="hidden" readonly style="width: 100px !important;"
-               class="total_replacements_{{$index}} border5 form-control valid total_replacement"
+               class="total_replacements_{{$index}} border5 form-control valid"
                onchange="annual_consumtion_rate_value('{{$index}}')"
                onkeyup="annual_consumtion_rate_value('{{$index}}')"
                value="{{$asset->total_replacements }}"
@@ -67,9 +67,7 @@
 
     <td>
             <input type="text" readonly style="width: 100px !important;"
-                   class="consumption_amount_{{$index}} border6 form-control valid"
-                   onchange="annual_consumtion_rate_value('{{$index}}')"
-                   onkeyup="annual_consumtion_rate_value('{{$index}}')"
+                   class="consumption_amount_{{$index}} border6 form-control valid total_replacement"
                    value="{{isset($update_item)?$update_item->consumption_amount:0}}"
                    name="items[{{$index}}][consumption_amount]">
     </td>

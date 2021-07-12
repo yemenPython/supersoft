@@ -123,7 +123,31 @@
                                     <input type="date" class="form-control" name="date_to">
                                 </div>
 
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label> {{ __('Type') }} </label>
+                                            <div class="input-group">
+                                                <ul class="list-inline">
+                                                    <li>
+                                                        <div class="radio info">
+                                                            <input type="radio" id="radio_status_cash" name="type"
+                                                                   value="cash"
+                                                            >
+                                                            <label for="radio_status_cash">{{ __('Cash') }}</label>
+                                                        </div>
+                                                    </li>
 
+                                                    <li>
+                                                        <div class="radio info">
+                                                            <input id="radio_status_delay" type="radio" name="type"
+                                                                   value="delay">
+                                                            <label for="radio_status_delay">{{ __('delay') }}</label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
 
                             <button type="submit"
@@ -184,6 +208,7 @@
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
 
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Type') !!}</th>
                                 <th>{{__('total purchase cost')}}</th>
                                 <th>{{__('total past consumtion')}}</th>
                                 <th>{{__('paid amount')}}</th>
@@ -214,6 +239,7 @@
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
 
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Type') !!}</th>
 
                                 <th>{{__('total purchase cost')}}</th>
                                 <th>{{__('total past consumtion')}}</th>

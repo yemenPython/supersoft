@@ -179,8 +179,9 @@
                 swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
                 return false;
             }
+            let branch_id = $('#branch_id').find(":selected").val();
             $.ajax({
-                url: "{{ route('admin:assets_expenses.getAssetsByAssetGroup') }}?asset_group_id=" + $(this).val(),
+                url: "{{ route('admin:assets_expenses.getAssetsByAssetGroup') }}?asset_group_id=" + $(this).val()+"&branch_id="+branch_id,
                 method: 'GET',
                 success: function (data) {
                     $('#assetsOptions').html(data.assets);
@@ -267,6 +268,7 @@
                 var value = $($(this)).val();
                 total = +total + +value;
             });
+            console.log(total)
             $('#total_replacement').val(total);
         }
 

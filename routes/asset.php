@@ -81,6 +81,8 @@ Route::post('assets_expenses/deleteSelected', 'AssetExpenseController@deleteSele
 
 
 //assets replacements
+
+Route::post('assets_replacements/get_numbers_by_branch_id', 'AssetReplacementController@getNumbersByBranchId')->name('assets_replacements.get_numbers_by_branch_id');
 Route::post('assets_replacements/delete-selected', 'AssetReplacementController@deleteSelected')->name('assets_replacements.deleteSelected');
 Route::get('assets_replacements/getItemsByAssetId', 'AssetReplacementController@getItemsByAssetId')->name('assets_replacements.getItemsByAssetId');
 Route::resource('assets_replacements', 'AssetReplacementController');

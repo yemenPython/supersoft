@@ -140,13 +140,15 @@
                                     scope="row">{{__('total past consumtion')}}</th>
                                 <td>{{$asset->total_past_consumtion}}</td>
                             </tr>
-{{--                            <tr>--}}
-{{--                                <th style="background:#CCC !important;color:black"--}}
-{{--                                    scope="row">{{__('net total')}}</th>--}}
-{{--                                <td>{{$asset->net_total}}</td>--}}
-{{--                            </tr>--}}
+                            <tr>
+                                <th style="background:#CCC !important;color:black" scope="row">{{__('User')}}</th>
+                                <td>{{optional($asset->user)->name}}</td>
+                            </tr>
 
-
+                            <tr>
+                                <th style="background:#CCC !important;color:black" scope="row">{{__('Type')}}</th>
+                                <td>{{$asset->type}}</td>
+                            </tr>
                     </tbody>
                 </table>
             </div>
