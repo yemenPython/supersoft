@@ -5,9 +5,9 @@
 @endsection
 
 @section('style')
-{{--    <link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="stylesheet">--}}
-{{--    <link href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css" rel="stylesheet">--}}
-{{--    <link rel="stylesheet" href="{{ asset('accounting-module/daily-restriction.css') }}"/>--}}
+    {{--    <link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="stylesheet">--}}
+    {{--    <link href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css" rel="stylesheet">--}}
+    {{--    <link rel="stylesheet" href="{{ asset('accounting-module/daily-restriction.css') }}"/>--}}
 @endsection
 
 @section('content')
@@ -32,7 +32,7 @@
                     </h4>
                     <!-- /.box-title -->
                     <div class="card-content js__card_content" style="padding:30px">
-                        <form  onsubmit="filterFunction($(this));return false;">
+                        <form onsubmit="filterFunction($(this));return false;">
                             <div class="list-inline margin-bottom-0 row">
 
                                 @if(authIsSuperAdmin())
@@ -79,25 +79,25 @@
                                         </select>
                                     </div>
                                 </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group has-feedback">
-                                            <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon fa fa-user"></span>
+                                <div class="col-md-4">
+                                    <div class="form-group has-feedback">
+                                        <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon fa fa-user"></span>
 
-                                                <select class="form-control" name="supplier_id" id="supplier_id">
-                                                    <option value="">{{__('Select')}}</option>
+                                            <select class="form-control" name="supplier_id" id="supplier_id">
+                                                <option value="">{{__('Select')}}</option>
 
-                                                    @foreach($suppliers as $supplier)
-                                                        <option value="{{$supplier->id}}">
-                                                            {{$supplier->name}}
-                                                        </option>
-                                                    @endforeach
+                                                @foreach($suppliers as $supplier)
+                                                    <option value="{{$supplier->id}}">
+                                                        {{$supplier->name}}
+                                                    </option>
+                                                @endforeach
 
-                                                </select>
-                                            </div>
+                                            </select>
                                         </div>
                                     </div>
+                                </div>
 
                                 <div class="form-group col-md-4">
                                     <label> {{ __('Invoice Number') }} </label>
@@ -123,7 +123,31 @@
                                     <input type="date" class="form-control" name="date_to">
                                 </div>
 
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label> {{ __('Type') }} </label>
+                                            <div class="input-group">
+                                                <ul class="list-inline">
+                                                    <li>
+                                                        <div class="radio info">
+                                                            <input type="radio" id="radio_status_cash" name="type"
+                                                                   value="cash"
+                                                            >
+                                                            <label for="radio_status_cash">{{ __('Cash') }}</label>
+                                                        </div>
+                                                    </li>
 
+                                                    <li>
+                                                        <div class="radio info">
+                                                            <input id="radio_status_delay" type="radio" name="type"
+                                                                   value="delay">
+                                                            <label for="radio_status_delay">{{ __('delay') }}</label>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
 
                             <button type="submit"
@@ -159,8 +183,10 @@
                         </li>
 
                         <li class="list-inline-item">
-                            <button style="margin-bottom: 12px; border-radius: 5px" type="button" class="btn btn-icon btn-icon-left btn-delete-wg waves-effect waves-light hvr-bounce-to-left" onclick="confirmDeleteSelected('{{route('admin:purchase-assets.deleteSelected')}}')">
-                                <i class="ico fa fa-trash"></i>  {{__('Delete Selected')}}
+                            <button style="margin-bottom: 12px; border-radius: 5px" type="button"
+                                    class="btn btn-icon btn-icon-left btn-delete-wg waves-effect waves-light hvr-bounce-to-left"
+                                    onclick="confirmDeleteSelected('{{route('admin:purchase-assets.deleteSelected')}}')">
+                                <i class="ico fa fa-trash"></i> {{__('Delete Selected')}}
                             </button>
 
                         </li>
@@ -168,12 +194,13 @@
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
-                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover" style="width:100%">
+                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover"
+                               style="width:100%">
                             <thead>
                             <tr>
                                 <th>#</th>
                                 @if(authIsSuperAdmin())
-                                <th scope="col">{!! __('Branch') !!}</th>
+                                    <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
                                 <th class="text-center column-invoice-number"
                                     scope="col">{!! __('Invoice Number') !!}</th>
@@ -181,12 +208,13 @@
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
 
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
-
-{{--                                <th>--}}
-{{--                                    {{__('Total')}}--}}
-{{--                            </th>--}}
-                            <th class="text-center">{!! __('created at') !!}</th>
-                            <th class="text-center">{!! __('Updated at') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Type') !!}</th>
+                                <th>{{__('total purchase cost')}}</th>
+                                <th>{{__('total past consumtion')}}</th>
+                                <th>{{__('paid amount')}}</th>
+                                <th>{{__('remaining amount')}}</th>
+                                <th class="text-center">{!! __('created at') !!}</th>
+                                <th class="text-center">{!! __('Updated at') !!}</th>
 
 
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -203,7 +231,7 @@
                             <tr>
                                 <th>#</th>
                                 @if(authIsSuperAdmin())
-                                <th scope="col">{!! __('Branch') !!}</th>
+                                    <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
                                 <th class="text-center column-invoice-number"
                                     scope="col">{!! __('Invoice Number') !!}</th>
@@ -211,18 +239,21 @@
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
 
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
-{{--                                <th>--}}
-{{--                                    {{__('Total')}}--}}
-{{--                            </th>--}}
-                            <th class="text-center">{!! __('created at') !!}</th>
-                            <th class="text-center">{!! __('Updated at') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Type') !!}</th>
+
+                                <th>{{__('total purchase cost')}}</th>
+                                <th>{{__('total past consumtion')}}</th>
+                                <th>{{__('paid amount')}}</th>
+                                <th>{{__('remaining amount')}}</th>
+                                <th class="text-center">{!! __('created at') !!}</th>
+                                <th class="text-center">{!! __('Updated at') !!}</th>
 
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">{!! __('Select') !!}</th>
                             </tr>
                             </tfoot>
                         </table>
-{{--                        {{ $invoices->links() }}--}}
+                        {{--                        {{ $invoices->links() }}--}}
                     </div>
                 </div>
             </div>
@@ -239,6 +270,7 @@
             server_side_datatable('#datatable-with-btns');
             $(".select2").select2()
         })
+
         function printAsset() {
             var element_id = 'asset_to_print', page_title = document.title
             print_element(element_id, page_title)
@@ -257,7 +289,7 @@
         function filterFunction($this) {
             $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
             $datatable.ajax.url($url).load();
-            $( ".js__card_minus" ).trigger( "click" );
+            $(".js__card_minus").trigger("click");
         }
 
         $('#branch_id').on('change', function () {
@@ -294,7 +326,7 @@
                     _token: CSRF_TOKEN,
                 },
                 success: function (data) {
-                    $('#name').each(function () {
+                    $('#asset_id').each(function () {
                         $(this).html(data.data)
                     });
                 },

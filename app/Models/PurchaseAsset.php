@@ -30,6 +30,8 @@ class PurchaseAsset extends Model
         'paid_amount',
         'total_purchase_cost',
         'total_past_consumtion',
+        'user_id',
+        'type'
     ];
 
     protected $table = 'purchase_assets';
@@ -59,6 +61,11 @@ class PurchaseAsset extends Model
     public function branch()
     {
         return $this->belongsTo( Branch::class, 'branch_id' )->withTrashed();
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function supplier()

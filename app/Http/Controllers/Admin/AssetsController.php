@@ -23,6 +23,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use \Yajra\DataTables\DataTables;
+use function GuzzleHttp\Promise\all;
 
 class AssetsController extends Controller
 {
@@ -478,9 +479,12 @@ class AssetsController extends Controller
 
     public function getAssetsByAssetsGroup(Request $request): JsonResponse
     {
-        if (!empty( $request->asset_group_id )) {
-            $assets = Asset::where( 'asset_group_id', $request->asset_group_id )->get();
-        } else {
+        $branchId = $request->branch_id ?? auth()->user()->branch_id;
+        if (!empty( $request->asset_group_id ) && !empty($branchId)) {
+            $assets = Asset::where( 'asset_group_id', $request->asset_group_id )->where('branch_id',$branchId)->get();
+        } else if (empty( $request->asset_group_id ) && !empty($branchId)) {
+            $assets = Asset::where('branch_id',$branchId)->get();
+        }else{
             $assets = Asset::all();
         }
         if ($assets) {

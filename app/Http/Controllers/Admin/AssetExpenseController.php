@@ -87,7 +87,7 @@ class AssetExpenseController extends Controller
                     }
                 } )
                 ->addColumn( 'total', function ($assetsReplacement) {
-                    return '<span style="background:#F7F8CC !important">' .number_format($assetsReplacement->total, 2) . '</span>';
+                    return '<span class="label label-warning wg-label">' .number_format($assetsReplacement->total, 2) . '</span>';
                 } )
                 ->addColumn( 'created_at', function ($assetsReplacement) {
                     return $assetsReplacement->created_at;
@@ -313,7 +313,7 @@ class AssetExpenseController extends Controller
             return response()->json( __( 'please select valid branch' ), 400 );
         }
         $branchId = $request->branch_id ?? auth()->user()->branch_id;
-        $index = $request->index;
+        $index = rand( 1, 900000 );
         $asset = Asset::with( 'group' )->find( $request->asset_id );
         $assetGroup = $asset->group;
         $assetExpensesTypes = AssetsTypeExpense::where( 'branch_id', $branchId )->get();

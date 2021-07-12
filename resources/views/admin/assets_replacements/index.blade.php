@@ -101,11 +101,11 @@
 
                                     <div class="form-group col-md-4">
                                         <label> {{ __('Value From') }}</label>
-                                        <input type="date" class="form-control" name="value_replacement_from">
+                                        <input type="text" class="form-control" name="value_replacement_from">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label> {{ __('Value To') }}</label>
-                                        <input type="date" class="form-control" name="value_replacement_to">
+                                        <input type="text" class="form-control" name="value_replacement_to">
                                     </div>
 
 
@@ -220,14 +220,84 @@
             $(".js__card_minus").trigger("click");
         }
 
+        $('#branch_id').on('change', function () {
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            const branch_id = $(this).val();
+            $.ajax({
+                type: 'post',
+                url: "{{ route('admin:assets.getAssetsByBranchId')}}",
+                data: {
+                    branch_id: branch_id,
+                    _token: CSRF_TOKEN,
+                },
+                success: function (data) {
+                    $('#asset_id').each(function () {
+                        $(this).html(data.data)
+                    });
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
+
+        });
+        $('#branch_id').on('change', function () {
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            const branch_id = $(this).val();
+            $.ajax({
+                type: 'post',
+                url: "{{ route('admin:assets.getAssetsGroupsByBranchId')}}",
+                data: {
+                    branch_id: branch_id,
+                    _token: CSRF_TOKEN,
+                },
+                success: function (data) {
+                    $('#asset_group_id').each(function () {
+                        $(this).html(data.data)
+                    });
+
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+        });
+        $('#branch_id').on('change', function () {
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            const branch_id = $(this).val();
+            $.ajax({
+                type: 'post',
+                url: "{{ route('admin:assets_replacements.get_numbers_by_branch_id')}}",
+                data: {
+                    branch_id: branch_id,
+                    _token: CSRF_TOKEN,
+                },
+                success: function (data) {
+                    $('#number').each(function () {
+                        $(this).html(data.data)
+                    });
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
+
+        });
         $('#asset_group_id').on('change', function () {
             const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             const asset_group_id = $(this).val();
+            let branch_id = $('#branch_id').find(":selected").val();
             $.ajax({
                 type: 'post',
                 url: "{{ route('admin:assets.getAssetsByAssetsGroup')}}",
                 data: {
                     asset_group_id: asset_group_id,
+                    branch_id:branch_id,
                     _token: CSRF_TOKEN,
                 },
                 success: function (data) {

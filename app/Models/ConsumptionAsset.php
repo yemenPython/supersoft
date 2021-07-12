@@ -29,7 +29,8 @@ class ConsumptionAsset extends Model
         'date_to',
         'total_purchase_cost',
         'total_past_consumtion',
-        'total_replacement'
+        'total_replacement',
+        'user_id'
     ];
 
     protected $table = 'consumption_assets';
@@ -65,7 +66,10 @@ class ConsumptionAsset extends Model
         return $this->belongsTo( Branch::class, 'branch_id' )->withTrashed();
     }
 
-
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
     public function items()
     {
         return $this->hasMany( ConsumptionAssetItem::class, 'consumption_asset_id' );

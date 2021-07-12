@@ -179,8 +179,9 @@
                 swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
                 return false;
             }
+            let branch_id = $('#branch_id').find(":selected").val();
             $.ajax({
-                url: "{{ route('admin:assets_expenses.getAssetsByAssetGroup') }}?asset_group_id=" + $(this).val(),
+                url: "{{ route('admin:assets_expenses.getAssetsByAssetGroup') }}?asset_group_id=" + $(this).val()+"&branch_id="+branch_id,
                 method: 'GET',
                 success: function (data) {
                     $('#assetsOptions').html(data.assets);
@@ -189,7 +190,6 @@
         });
         $('#assetsOptions').on('change', function () {
             var dateFrom = $('#date_from').val();
-            console.log(dateFrom);
             if (dateFrom == '') {
                 swal({text: '{{__('sorry, please select date from first')}}', icon: "error"});
                 $('#assetsOptions').val('');

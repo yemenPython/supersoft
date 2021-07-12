@@ -43,7 +43,6 @@
             <th scope="col"> {{ __('Assets Groups') }} </th>
             <th scope="col"> {{ __('purchase cost') }} </th>
             <th scope="col"> {{ __('past consumtion') }} </th>
-{{--            <th scope="col"> {{ __('current consumtion') }} </th>--}}
             <th scope="col"> {{ __('purchase date') }} </th>
             <th scope="col"> {{ __('work date') }} </th>
             <th scope="col"> {{ __('consumtion rate') }} </th>

@@ -67,7 +67,7 @@
         </div>
 
         <div class="col-md-12">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="date" class="control-label">{{__('Time')}}</label>
                 <div class="input-group">
@@ -80,7 +80,7 @@
         </div>
 
 
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="form-group has-feedback">
                 <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
                 <div class="input-group">
@@ -105,6 +105,41 @@
                 {{input_error($errors,'supplier_id')}}
             </div>
         </div>
+
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label> {{ __('Type') }} </label>
+                    <div class="input-group">
+                        <ul class="list-inline">
+                            <li>
+                                <div class="radio info">
+                                    <input type="radio" id="radio_status_cash" name="type"
+                                           value="cash"
+                                           @if(isset($purchaseAsset) && $purchaseAsset->type=='cash')
+                                           checked
+                                           @elseif(!isset($purchaseAsset))
+                                           checked
+                                        @endif
+                                    >
+                                    <label for="radio_status_cash">{{ __('Cash') }}</label>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="radio info">
+                                    <input id="radio_status_delay" type="radio" name="type"
+                                           @if(isset($purchaseAsset) && $purchaseAsset->type=='delay')
+                                           checked
+                                           @endif
+                                           value="delay">
+                                    <label for="radio_status_delay">{{ __('delay') }}</label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
 
 
@@ -166,7 +201,7 @@
 
 </div>
 
-        
+
 </div>
 
 <div class="col-md-12">
