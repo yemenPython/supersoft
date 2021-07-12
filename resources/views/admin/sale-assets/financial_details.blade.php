@@ -5,8 +5,8 @@
             <th scope="col">{!! __('total purchase cost') !!}</th>
             <th scope="col">{!! __('total past consumtion') !!}</th>
             <th scope="col">{!! __('total replacement') !!}</th>
-            <th scope="col">{!! __('total  consumtion') !!}</th>
-            <th scope="col">{!! __('final total consumtion') !!}</th>
+            <th scope="col">{!! __('total consumtion') !!}</th>
+            <th scope="col">{!! __('final total consumption') !!}</th>
             <th scope="col">{!! __('total sale amount') !!}</th>
         </tr>
         </thead>

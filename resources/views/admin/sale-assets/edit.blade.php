@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Edit Purchase Invoice') }} </title>
+    <title>{{ __('Edit Sale Assets') }} </title>
 @endsection
 
 @section('style')
@@ -28,7 +28,7 @@
             <div class=" card box-content-wg-new bordered-all primary">
 
                 <h4 class="box-title with-control" style="text-align: initial"><i class="fa fa-file-text-o"></i>
-                    {{__('Edit Sale Asset')}}
+                    {{__('Edit Sale Assets')}}
                     <span class="controls hidden-sm hidden-xs pull-left">
                       <button class="control text-white"
                               style="background:none;border:none;font-size:14px;font-weight:normal !important;">{{__('Save')}}

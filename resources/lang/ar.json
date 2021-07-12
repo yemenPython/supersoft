@@ -2057,7 +2057,7 @@
     "Consumption Asset" : "إهلاك الأصول",
     "Create Consumption Asset" : "إضافة إهلاك جديد",
     "Sale Asset" : "بيع وإستبعاد الأصول",
-    "Create Sale Asset" : "إضافة بيع او إستبعاد جديد",
+    "Create Sale Asset" : "إضافة بيع / إستبعاد جديد",
     "Part Type" : "نوع الصنف",
     "Show quotation" : "عرض السعر",
     "create supply order" : "إضافة أمر توريد",
@@ -2092,13 +2092,24 @@
     "net purchase cost" : "صافي التكلفة",
     "consumption amount" : "تكلفة الإهلاك",
     "Edit Consumption Assets" : "تعديل إهلاك الأصول",
-    "total replacement" : "إجمالى الإهلاك الحالي",
+    "total replacement" : "إجمالى التجديد / الإحلال",
     "consumption amount From" : "تكلفة الإهلاك من",
     "consumption amount To" : "تكلفة الإهلاك الى",
     "Value From" : "تكلفة التجديد من",
     "Value To" : "تكلفة التجديد الى",
     "Create Assets Replacements" : "إضافة تجديد / إحلال جديد",
-    "Edit Assets Replacements" : "تعديل بيانات التجديد / الإحلال"
+    "Edit Assets Replacements" : "تعديل بيانات التجديد / الإحلال",
+    "Sale amount From" : "تكلفة البيع / الإستبعاد من",
+    "Sale amount To" : "تكلفة البيع / الإستبعاد الى",
+    "Sale" : "بيع",
+    "exclusion" : "إستبعاد",
+    "Edit Sale Assets" : "تعديل بيع / إستبعاد الأصل",
+    "replacement cost" : "تكلفة التجديد",
+    "total consumtion" : "الإهلاك الحالي",
+    "final total consumption" : "إجمالي الإهلاك",
+    "Sale amount" : "تكلفة البيع / الإستبعاد",
+    "total replacements" : "إجمالي التجديد / الإحلال",
+    "total sale amount" : "إجمالي البيع / الإستبعاد"
 
 }
 
