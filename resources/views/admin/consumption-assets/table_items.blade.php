@@ -4,8 +4,9 @@
         <thead>
         <tr>
             <th width="2%"> # </th>
-            <th scope="col"> {{ __('Assets Groups') }} </th>
-            <th width="9%"> {{ __('Name') }} </th>
+            <th width="col"> {{ __('Asset name') }} </th>
+            <th scope="col"> {{ __('Asset group') }} </th>
+      
             <th scope="col"> {{ __('work date') }} </th>
             <th scope="col"> {{ __('purchase cost') }} </th>
             <th scope="col"> {{ __('past consumtion') }} </th>
@@ -36,8 +37,9 @@
         <tfoot>
         <tr>
             <th width="2%"> # </th>
-            <th scope="col"> {{ __('Assets Groups') }} </th>
-            <th width="9%"> {{ __('Name') }} </th>
+            <th width="col"> {{ __('Asset name') }} </th>
+            <th scope="col"> {{ __('Asset group') }} </th>
+          
             <th scope="col"> {{ __('work date') }} </th>
             <th scope="col"> {{ __('purchase cost') }} </th>
             <th scope="col"> {{ __('past consumtion') }} </th>

@@ -1,10 +1,10 @@
-<div class="col-md-12 input-height">
+
 
 <div class="col-md-6">
    
 <table class="table table-bordered">
       <tr>
-      <th style="width:40%;height:50px;background:#F9EFB7 !important;color:black !important">{!! __('total purchase cost') !!}</th>
+      <th style="width:40%;background:#F9EFB7 !important;color:black !important">{!! __('total purchase cost') !!}</th>
       <td style="background:#F9EFB7">
       <input type="text" class="form-control" 
       style="background:#F9EFB7; border:none;text-align:center !important;"
@@ -22,7 +22,7 @@
 
 <table class="table table-bordered">
       <tr>
-      <th style="width:40%;height:50px;background:#F9EFB7 !important;color:black !important">{!! __('total past consumtion') !!}</th>
+      <th style="width:40%;background:#F9EFB7 !important;color:black !important">{!! __('total past consumtion') !!}</th>
       <td style="background:#F9EFB7">
       <input type="text" class="form-control"
       style="background:#F9EFB7; border:none;text-align:center !important;"
@@ -35,16 +35,13 @@
 </table>
 </div>
 
-</div>
-
-<div class="col-md-12 input-height">
 
 
 <div class="col-md-6">
 
 <table class="table table-bordered">
       <tr>
-      <th style="width:40%;height:50px;background:#D2F4F6 !important;color:black !important">{!! __('paid amount') !!}</th>
+      <th style="width:40%;background:#D2F4F6 !important;color:black !important">{!! __('paid amount') !!}</th>
       <td style="background:#D2F4F6 !important;color:black!important">
       <input type="text" 
       style="background:#D2F4F6; border:none;text-align:center !important;"
@@ -62,7 +59,7 @@
       
 <table class="table table-bordered">
       <tr>
-      <th style="width:40%;height:50px;background:#D2F4F6 !important;color:black !important">{!! __('remaining amount') !!}</th>
+      <th style="width:40%;background:#D2F4F6 !important;color:black !important">{!! __('remaining amount') !!}</th>
       <td style="background:#D2F4F6 !important;color:black!important">
       <input type="text" 
       style="background:#D2F4F6; border:none;text-align:center !important;"
@@ -72,8 +69,9 @@
                        </td>
       </tr>
 </table>
-</div>
+
+
+<br>
 
 
 </div>
-
