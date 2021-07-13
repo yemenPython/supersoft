@@ -103,7 +103,7 @@
                                 <label> {{ __('date From') }}</label>
                                 <div class="input-group">
                     <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                                 
+
                                     <input type="date" class="form-control" name="date_from">
                                 </div>
                                 </div>
@@ -370,11 +370,13 @@
         $('#asset_group_id').on('change', function () {
             const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             const asset_group_id = $(this).val();
+            let branch_id = $('#branch_id').find(":selected").val();
             $.ajax({
                 type: 'post',
                 url: "{{ route('admin:assets.getAssetsByAssetsGroup')}}",
                 data: {
                     asset_group_id: asset_group_id,
+                    branch_id:branch_id,
                     _token: CSRF_TOKEN,
                 },
                 success: function (data) {

@@ -13,6 +13,7 @@ use App\Models\ConsumptionAssetItem;
 use App\Models\EmployeeData;
 use App\Models\PurchaseAsset;
 use App\Models\PurchaseAssetItem;
+use App\Models\SaleAssetItem;
 use Carbon\Carbon;
 use Exception;
 use App\Models\Branch;
@@ -391,15 +392,17 @@ class ConsumptionAssetsController extends Controller
         if (is_null( $request->asset_id )) {
             return response()->json( __( 'please select valid Asset' ), 400 );
         }
+
+        if (SaleAssetItem::where('asset_id',$request->asset_id)->count()){
+            return response()->json( __( 'can not  consumption asset after sale' ), 400 );
+        }
         if (is_null( $request->branch_id ) && authIsSuperAdmin()) {
             return response()->json( __( 'please select valid branch' ), 400 );
         }
 
-
         $index = $request['index'] + 1;
 
         $asset = Asset::with( 'group' )->find( $request->asset_id );
-//dd(empty((int)$asset->purchase_cost) , PurchaseAssetItem::where('asset_id',$request->asset_id)->count());
         if (empty((int)$asset->purchase_cost) && !PurchaseAssetItem::where('asset_id',$request->asset_id)->count()){
             return response()->json( __( 'Please add Purchase  for this asset before consumption' ), 400 );
         }

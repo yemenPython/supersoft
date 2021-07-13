@@ -108,7 +108,7 @@ class AssetsController extends Controller
                 ->editColumn( 'asset_status', function ($asset) {
                     if ($asset->asset_status == 1) {
                         return '<span class="label label-info wg-label">' . __( 'continues' ) . '</span>';
-                    } elseif ($asset->asset_status == 1) {
+                    } elseif ($asset->asset_status == 2) {
                         return '<span class="label label-info wg-label">' . __( 'sell' ) . '</span>';
                     } else {
                         return '<span class="label label-info wg-label">' . __( 'ignore' ) . '</span>';
@@ -118,7 +118,7 @@ class AssetsController extends Controller
                     return '    <span style="background:#F7F8CC !important">' . $asset->annual_consumtion_rate . '%' . '</span>';
                 } )
                 ->editColumn( 'asset_age', function ($asset) {
-                    return '<span class="price-span">' . $asset->asset_age . ' ' . __( 'year' ) . '</span>';
+                    return '<span class="price-span">' . number_format($asset->asset_age,2) . ' ' . __( 'year' ) . '</span>';
                 } )
                 ->editColumn( 'created_at', '{{$created_at}}' )
                 ->editColumn( 'updated_at', '{{$updated_at}}' )

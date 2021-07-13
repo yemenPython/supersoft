@@ -83,7 +83,7 @@
                                     <label> {{ __('date From') }}</label>
                                     <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                               
+
                                     <input type="date" class="form-control" name="date_from">
                                 </div>
                                 </div>
@@ -92,7 +92,7 @@
                                     <label> {{ __('date To') }}</label>
                                     <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                               
+
                                     <input type="date" class="form-control" name="date_to">
                                 </div>
                                 </div>
@@ -112,7 +112,7 @@
                                     </div>
                                 </div>
 
-                                
+
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label> {{ __('Type') }} </label>
@@ -135,6 +135,14 @@
                                                             for="radio_status_exclusion">{{ __('exclusion') }}</label>
                                                     </div>
                                                 </li>
+                                                <li>
+                                                    <div class="radio info">
+                                                        <input id="radio_status_all" type="radio" name="type"
+                                                               value=''>
+                                                        <label
+                                                            for="radio_status_all">{{ __('All') }}</label>
+                                                    </div>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>
@@ -145,7 +153,7 @@
                                     <label> {{ __('Sale amount From') }}</label>
                                     <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                               
+
                                     <input type="text" class="form-control" name="sale_amount_from">
                                 </div>
                                 </div>
@@ -155,7 +163,7 @@
                                     <label> {{ __('Sale amount To') }}</label>
                                     <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                               
+
                                     <input type="text" class="form-control" name="sale_amount_to">
                                 </div>
 
@@ -212,6 +220,9 @@
                             <thead>
                             <tr>
                                 <th>#</th>
+                                @if(authIsSuperAdmin())
+                                    <th scope="col">{!! __('Branch') !!}</th>
+                                @endif
                                 <th class="text-center column-number"
                                     scope="col">{!! __('Number') !!}</th>
                                 <th class="text-center column-type"
@@ -229,6 +240,9 @@
                             <tfoot>
                             <tr>
                                 <th>#</th>
+                                @if(authIsSuperAdmin())
+                                    <th scope="col">{!! __('Branch') !!}</th>
+                                @endif
                                 <th class="text-center"
                                     scope="col">{!! __('Number') !!}</th>
                                 <th class="text-center column-type"
@@ -276,6 +290,102 @@
             $datatable.ajax.url($url).load();
             $(".js__card_minus").trigger("click");
         }
+
+        $('#branch_id').on('change', function () {
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            const branch_id = $(this).val();
+            $.ajax({
+                type: 'post',
+                url: "{{ route('admin:assets.getAssetsByBranchId')}}",
+                data: {
+                    branch_id: branch_id,
+                    _token: CSRF_TOKEN,
+                },
+                success: function (data) {
+                    $('#asset_id').each(function () {
+                        $(this).html(data.data)
+                    });
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
+
+        });
+        $('#branch_id').on('change', function () {
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            const branch_id = $(this).val();
+            $.ajax({
+                type: 'post',
+                url: "{{ route('admin:assets.getAssetsGroupsByBranchId')}}",
+                data: {
+                    branch_id: branch_id,
+                    _token: CSRF_TOKEN,
+                },
+                success: function (data) {
+                    $('#asset_group_id').each(function () {
+                        $(this).html(data.data)
+                    });
+
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+        });
+        $('#asset_group_id').on('change', function () {
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            const asset_group_id = $(this).val();
+            let branch_id = $('#branch_id').find(":selected").val();
+            $.ajax({
+                type: 'post',
+                url: "{{ route('admin:assets.getAssetsByAssetsGroup')}}",
+                data: {
+                    asset_group_id: asset_group_id,
+                    branch_id:branch_id,
+                    _token: CSRF_TOKEN,
+                },
+                success: function (data) {
+                    $('#asset_id').each(function () {
+                        $(this).html(data.data)
+                    });
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
+
+        });
+
+        $('#branch_id').on('change', function () {
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            const branch_id = $(this).val();
+            $.ajax({
+                type: 'post',
+                url: "{{ route('admin:sale-assets.get_Numbers_By_Branch_Id')}}",
+                data: {
+                    branch_id: branch_id,
+                    _token: CSRF_TOKEN,
+                },
+                success: function (data) {
+                    $('#number').each(function () {
+                        $(this).html(data.data)
+                    });
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
+
+        });
+
     </script>
     {{--    <script type="application/javascript" src="{{ asset('accounting-module/options-for-dt.js') }}"></script>--}}
 @stop

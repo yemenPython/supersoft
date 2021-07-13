@@ -406,13 +406,13 @@
     function server_side_datatable(selector) {
         var page_title = $("title").text()
         $datatable = $('#datatable-with-btns').DataTable({
-            processing: false,
+            // processing: false,
             serverSide: true,
-            responsive: true,
-            searching: true,
-            info: true,
-            bSort: true,
-            lengthChange: true,
+            responsive: false,
+            // searching: true,
+            // info: true,
+            // bSort: true,
+            // lengthChange: true,
             "iDisplayLength": 25,
             dom: 'Bfrtip',
             "ajax": {
