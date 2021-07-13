@@ -28,9 +28,9 @@
 	
                         <div class="col-md-6">
                         <div class="form-group">
-                            <label for="inputNameAr" class="control-label">{{__('Name Ar')}}</label>
+                            <label for="inputNameAr" class="control-label">{{__('section name ar')}}</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                <span class="input-group-addon"><li class="fa fa-file-o"></li></span>
                                 <input type="text" name="name_ar" class="form-control" id="inputNameEn"
                                     placeholder="{{__('NameAr')}}"
                                     value="{{old('name_ar', isset($services_type)? $services_type->name_ar:'')}}">
@@ -41,9 +41,9 @@
 
                         <div class="col-md-6">
                         <div class="form-group">
-                            <label for="inputName" class="control-label">{{__('Name En')}}</label>
+                            <label for="inputName" class="control-label">{{__('section name en')}}</label>
                             <div class="input-group">
-                                <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                <span class="input-group-addon"><li class="fa fa-file-o"></li></span>
                                 <input type="text" name="name_en" class="form-control" id="inputNameEn"
                                     placeholder="{{__('NameEn')}}"
                                     value="{{old('name_en', isset($services_type)? $services_type->name_en:'')}}">

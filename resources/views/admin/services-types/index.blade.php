@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('title')
-    <title>{{ __('Super Car') }} - {{ __('Services Types') }} </title>
+    <title>{{ __('Services Types') }} </title>
 @endsection
 @section('content')
     <div class="row small-spacing">
@@ -32,6 +32,8 @@
                         @if(authIsSuperAdmin())
                                 <div class="form-group col-md-12">
                                     <label> {{ __('Branch') }} </label>
+                                    <div class="input-group">
+                                                <span class="input-group-addon fa fa-file"></span>
                                     <select name="branch_id" class="form-control js-example-basic-single">
                                         <option value="">{{__('Select Branch')}}</option>
                                         @foreach($branches as $k=>$v)
@@ -39,10 +41,13 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                </div>
                             @endif
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-6">
                                 <label> {{ __('Service Type') }} </label>
+                                <div class="input-group">
+                                <span class="input-group-addon fa fa-file-o"></span>
                                 <select name="name" class="form-control js-example-basic-single">
                                     <option value="">{{__('Select Service Name')}}</option>
                                     @foreach($services_types as $k=>$v)
@@ -50,12 +55,13 @@
                                     @endforeach
                                 </select>
                             </div>
+                            </div>
 
-                            <div class="switch primary col-md-4">
+                            <div class="switch primary col-md-2">
                                 <input type="checkbox" id="switch-2" name="active">
                                 <label for="switch-2">{{__('Active')}}</label>
                             </div>
-                            <div class="switch primary col-md-4">
+                            <div class="switch primary col-md-2">
                                 <input type="checkbox" id="switch-3" name="inactive">
                                 <label for="switch-3">{{__('inActive')}}</label>
                             </div>
@@ -79,7 +85,7 @@
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control">
-                <i class="fa fa-list"></i>
+                <i class="fa fa-gear"></i>
                 {{ __('Services Types') }}
                  </h4>
 
@@ -105,11 +111,11 @@
                     <div class="clearfix"></div>
                     <div class="table-responsive">
 
-                        <table id="currencies" class="table table-bordered" style="width:100%">
+                        <table id="currencies" class="table table-bordered table-hover wg-table-print" style="width:100%">
                             <thead>
                             <tr>
                                 <th scope="col">{!! __('#') !!}</th>
-                                <th scope="col">{!! __('Name') !!}</th>
+                                <th scope="col">{!! __('section name') !!}</th>
                                 <!-- <th scope="col">{!! __('Branch') !!}</th> -->
                                 <th scope="col">{!! __('Status') !!}</th>
                                 <th scope="col">{!! __('created at') !!}</th>
@@ -125,7 +131,7 @@
                             <tfoot>
                             <tr>
                                 <th scope="col">{!! __('#') !!}</th>
-                                <th scope="col">{!! __('Name') !!}</th>
+                                <th scope="col">{!! __('section name') !!}</th>
                                 <!-- <th scope="col">{!! __('Branch') !!}</th> -->
                                 <th scope="col">{!! __('Status') !!}</th>
                                 <th scope="col">{!! __('created at') !!}</th>
@@ -173,24 +179,27 @@
 
                                     <td>
 
-                                    <!--
-                                @component('admin.buttons._show_button',[
-                                           'id' => $type->id,
-                                           'route'=>'admin:services-types.show'
-                                            ])
-                                    @endcomponent -->
-
+                                    <div class="btn-group margin-top-10">
+                                            <button type="button" class="btn btn-options dropdown-toggle"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="ico fa fa-bars"></i>
+                                                {{__('Options')}} <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-wg">
+                                                <li>
                                         @component('admin.buttons._edit_button',[
                                                     'id' => $type->id,
                                                     'route'=>'admin:services-types.edit'
                                                      ])
                                         @endcomponent
-
+                                        </li>
+                                <li class="btn-style-drop">
                                         @component('admin.buttons._force_delete',[
                                                           'id' => $type->id,
                                                           'route'=>'admin:services.types.force_delete'
                                                            ])
                                         @endcomponent
+                                        </li>
                                     </td>
                                     <td>
 
