@@ -47,10 +47,12 @@
                                 @endif
                                 <th scope="col">{!! __('Quotation Number') !!}</th>
 
-                                <th scope="col">{!! __('Status') !!}</th>
+                           
+                                <th scope="col">{!! __('Quotation type') !!}</th>
 
                                 <th scope="col">{!! __('Total') !!}</th>
 
+                                <th scope="col">{!! __('Status') !!}</th>
                                 <th scope="col">{!! __('Execution Status') !!}</th>
                                 <th scope="col">{!! __('Different Days') !!}</th>
                                 <th scope="col">{!! __('Remaining Days') !!}</th>
@@ -77,8 +79,11 @@
                                 @endif
                                 <th scope="col">{!! __('Quotation Number') !!}</th>
 
-                                <th scope="col">{!! __('Status') !!}</th>
 
+
+                                <th scope="col">{!! __('Quotation type') !!}</th>
+
+                                <th scope="col">{!! __('Status') !!}</th>
                                 <th scope="col">{!! __('Total') !!}</th>
 
                                 <th scope="col">{!! __('Execution Status') !!}</th>
@@ -101,6 +106,21 @@
 
                                     <td>{{ $item->number }}</td>
 
+                                    
+                                    <td>
+                                    @if ($item->quotation_type === "cash")
+                                            <span class="label label-success wg-label">
+                                    {{__($item->quotation_type)}}
+                                    </span>
+                                        @else
+                                            <span class="label label-danger wg-label">
+                                    {{__($item->quotation_type)}}
+                                    </span>
+                                        @endif
+                                    </td>
+
+                                    <td> <span style="background:#F7F8CC !important">{{ __($item->total) }} </span> </td>
+                                  
                                     <td>
                                         @if($item->status == 'pending' )
                                             <span class="label label-info wg-label"> {{__('processing')}}</span>
@@ -112,7 +132,7 @@
                                         @endif
 
                                     </td>
-                                    <td> <span style="background:#F7F8CC !important">{{ __($item->total) }} </span> </td>
+
                                     <td class="text-center column-date">
 
                                         @if($item->execution)

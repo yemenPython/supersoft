@@ -96,20 +96,38 @@
 
                                     <div class="form-group col-md-3">
                                     <label> {{ __('consumption amount From') }}</label>
+                                    <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                               
                                     <input type="text" class="form-control" name="consumption_amount_from">
                                 </div>
+                                </div>
+
                                     <div class="form-group col-md-3">
                                         <label> {{ __('consumption amount To') }}</label>
+                                        <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                               
                                         <input type="text" class="form-control" name="consumption_amount_to">
+                                    </div>
                                     </div>
 
                                 <div class="form-group col-md-6">
                                     <label> {{ __('date From') }}</label>
+                                    <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                               
                                     <input type="date" class="form-control" name="date_from">
                                 </div>
+                                </div>
+
                                 <div class="form-group col-md-6">
                                     <label> {{ __('date To') }}</label>
+                                    <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                               
                                     <input type="date" class="form-control" name="date_to">
+                                </div>
                                 </div>
 
 
@@ -160,7 +178,7 @@
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
-                        <table id="datatable-with-btns" class="table table-striped table-bordered display" style="width:100%">
+                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover" style="width:100%">
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -169,7 +187,7 @@
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Date From') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Date to') !!}</th>
-                                <th>{{__('total  consumption')}}</th>
+                                <th>{{__('total consumption')}}</th>
                                 <th class="text-center">{!! __('created at') !!}</th>
                                 <th class="text-center">{!! __('Updated at') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -190,7 +208,7 @@
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Date From') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Date to') !!}</th>
-                                <th>{{__('total  consumption')}}</th>
+                                <th>{{__('total consumption')}}</th>
                                 <th class="text-center">{!! __('created at') !!}</th>
                                 <th class="text-center">{!! __('Updated at') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>

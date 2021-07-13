@@ -149,16 +149,16 @@ class AssetsController extends Controller
             <i class="fa fa-print"></i> ' . __( 'Print' ) . '</a>
         </li>
         <li><a class="btn btn-wg-show hvr-radial-out"z href="' . route( 'admin:assetsEmployees.index', $asset->id ) . '" >
-            <i class="fa fa-eye"></i>' . __( 'employees history' ) . '
+            <i class="fa fa-eye"></i> ' . __( 'employees history' ) . '
         </a></li>
         <li><a class="btn btn-wg-show hvr-radial-out"z href="' . route( 'admin:assetsInsurances.index', $asset->id ) . '" >
-            <i class="fa fa-eye"></i>' . __( 'insurances' ) . '
+            <i class="fa fa-eye"></i> ' . __( 'insurances' ) . '
         </a></li>
         <li><a class="btn btn-wg-show hvr-radial-out"z href="' . route( 'admin:assetsLicenses.index', $asset->id ) . '" >
-            <i class="fa fa-eye"></i>' . __( 'licenses' ) . '
+            <i class="fa fa-eye"></i> ' . __( 'licenses' ) . '
         </a></li>
         <li><a class="btn btn-wg-show hvr-radial-out"z href="' . route( 'admin:assetsExaminations.index', $asset->id ) . '" >
-            <i class="fa fa-eye"></i>' . __( 'examinations' ) . '
+            <i class="fa fa-eye"></i> ' . __( 'examinations' ) . '
         </a></li>
           </ul> </div>
                  ';

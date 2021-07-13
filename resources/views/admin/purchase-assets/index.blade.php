@@ -44,7 +44,7 @@
                                         </div>
                                     </div>
                                 @endif
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label> {{ __('Assets Groups') }} </label>
                                         <div class="input-group">
@@ -63,7 +63,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <label> {{ __('Asset name') }} </label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
@@ -79,7 +79,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group has-feedback">
                                         <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
                                         <div class="input-group">
@@ -99,7 +99,23 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-3">
+                                <label> {{ __('date From') }}</label>
+                                <div class="input-group">
+                    <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
+                                 
+                                    <input type="date" class="form-control" name="date_from">
+                                </div>
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <label> {{ __('date To') }}</label>
+                                    <div class="input-group">
+                    <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
+                                    <input type="date" class="form-control" name="date_to">
+                                </div>
+                                </div>
+
+                                <div class="form-group col-md-6">
                                     <label> {{ __('Invoice Number') }} </label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
@@ -114,18 +130,11 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group col-md-4">
-                                    <label> {{ __('date From') }}</label>
-                                    <input type="date" class="form-control" name="date_from">
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label> {{ __('date To') }}</label>
-                                    <input type="date" class="form-control" name="date_to">
-                                </div>
+
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label> {{ __('Type') }} </label>
+                                            <label> {{ __('Invoice Type') }} </label>
                                             <div class="input-group">
                                                 <ul class="list-inline">
                                                     <li>
@@ -141,7 +150,7 @@
                                                         <div class="radio info">
                                                             <input id="radio_status_delay" type="radio" name="type"
                                                                    value="delay">
-                                                            <label for="radio_status_delay">{{ __('delay') }}</label>
+                                                            <label for="radio_status_delay">{{ __('Credit') }}</label>
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -194,8 +203,7 @@
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
-                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover"
-                               style="width:100%">
+                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover" style="width:100%">
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -208,7 +216,7 @@
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
 
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
-                                <th class="text-center" scope="col">{!! __('Type') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Invoice Type') !!}</th>
                                 <th>{{__('total purchase cost')}}</th>
                                 <th>{{__('total past consumtion')}}</th>
                                 <th>{{__('paid amount')}}</th>
@@ -239,7 +247,7 @@
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
 
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
-                                <th class="text-center" scope="col">{!! __('Type') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Invoice Type') !!}</th>
 
                                 <th>{{__('total purchase cost')}}</th>
                                 <th>{{__('total past consumtion')}}</th>
@@ -253,7 +261,7 @@
                             </tr>
                             </tfoot>
                         </table>
-                        {{--                        {{ $invoices->links() }}--}}
+
                     </div>
                 </div>
             </div>

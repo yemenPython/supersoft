@@ -81,11 +81,20 @@
 
                                 <div class="form-group col-md-3">
                                     <label> {{ __('date From') }}</label>
+                                    <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                               
                                     <input type="date" class="form-control" name="date_from">
                                 </div>
+                                </div>
+
                                 <div class="form-group col-md-3">
                                     <label> {{ __('date To') }}</label>
+                                    <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                               
                                     <input type="date" class="form-control" name="date_to">
+                                </div>
                                 </div>
 
                                 <div class="form-group col-md-3">
@@ -134,11 +143,22 @@
 
                                 <div class="form-group col-md-3">
                                     <label> {{ __('Sale amount From') }}</label>
+                                    <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                               
                                     <input type="text" class="form-control" name="sale_amount_from">
                                 </div>
+                                </div>
+
+
                                 <div class="form-group col-md-3">
                                     <label> {{ __('Sale amount To') }}</label>
+                                    <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                               
                                     <input type="text" class="form-control" name="sale_amount_to">
+                                </div>
+
                                 </div>
 
                             </div>

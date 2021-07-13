@@ -87,7 +87,7 @@ class AssetExpenseController extends Controller
                     }
                 } )
                 ->addColumn( 'total', function ($assetsReplacement) {
-                    return '<span class="label label-warning wg-label">' .number_format($assetsReplacement->total, 2) . '</span>';
+                    return '<span style="background:#F7F8CC !important">' .number_format($assetsReplacement->total, 2) . '</span>';
                 } )
                 ->addColumn( 'created_at', function ($assetsReplacement) {
                     return $assetsReplacement->created_at;

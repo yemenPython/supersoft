@@ -74,7 +74,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-6">
                                     <label> {{ __('Number') }} </label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
@@ -89,23 +89,39 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-3">
                                     <label> {{ __('date From') }}</label>
+                                    <div class="input-group">
+                    <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
                                     <input type="date" class="form-control" name="date_from">
                                 </div>
-                                <div class="form-group col-md-4">
+                                </div>
+
+                                <div class="form-group col-md-3">
                                     <label> {{ __('date To') }}</label>
+                                    <div class="input-group">
+                    <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
                                     <input type="date" class="form-control" name="date_to">
+                                </div>
                                 </div>
 
 
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-3">
                                         <label> {{ __('Value From') }}</label>
+                                        <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
+
                                         <input type="text" class="form-control" name="value_replacement_from">
                                     </div>
-                                    <div class="form-group col-md-4">
+                                    </div>
+
+                                    <div class="form-group col-md-3">
                                         <label> {{ __('Value To') }}</label>
+                                        <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
+
                                         <input type="text" class="form-control" name="value_replacement_to">
+                                    </div>
                                     </div>
 
 

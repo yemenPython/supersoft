@@ -100,6 +100,8 @@
 
                                     <div class="form-group col-md-6">
                                             <label> {{ __('Assets employees') }} </label>
+                                            <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                             <select class="form-control select2" id="employee_id"
                                                     name="employee_id">
                                                 <option value="0"> {{ __('Select Employee Name') }} </option>
@@ -111,36 +113,56 @@
                                             </select>
 {{--                                            {!! drawSelect2ByAjax('employee_id','EmployeeData', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('opening-balance.select-one'),request()->employee) !!}--}}
                                         </div>
+                                        </div>
 
 
 
                                     <div class="form-group col-md-2">
                                         <label> {{ __('consumtion rate From') }}</label>
+                                        <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
                                         <input type="text" class="form-control" name="annual_consumtion_rate1">
                                     </div>
+                                    </div>
+
                                     <div class="form-group col-md-2">
                                         <label> {{ __('consumtion rate To') }}</label>
+                                        <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
                                         <input type="text" class="form-control" name="annual_consumtion_rate2">
+                                    </div>
                                     </div>
 
                                     <div class="form-group col-md-2">
                                         <label> {{ __('asset age From') }}</label>
+                                        <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
                                         <input type="text" class="form-control" name="asset_age1">
+                                    </div>
                                     </div>
 
                                     <div class="form-group col-md-2">
                                         <label> {{ __('asset age To') }}</label>
+                                        <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
                                         <input type="text" class="form-control" name="asset_age2">
+                                    </div>
                                     </div>
 
                                     <div class="form-group col-md-2">
                                         <label> {{ __('cost of purchase From') }}</label>
+                                        <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
                                         <input type="text" class="form-control" name="purchase_cost1">
+                                    </div>
                                     </div>
 
                                         <div class="form-group col-md-2">
                                         <label> {{ __('cost of purchase To') }}</label>
+                                        <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-money"></i></span>
                                         <input type="text" class="form-control" name="purchase_cost2">
+                                    </div>
                                     </div>
 
                                     <div class="form-group col-md-2">
