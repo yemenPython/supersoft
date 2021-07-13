@@ -50,7 +50,7 @@ trait PurchaseInvoiceServices
     {
         $data = [
 
-            'invoice_number' => $data_request['number'],
+            'invoice_number' => $data_request['invoice_number'],
             'supplier_id' => $data_request['supplier_id'] ?? null,
             'time' => $data_request['time'],
             'date' => $data_request['date'],

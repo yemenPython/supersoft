@@ -10,7 +10,7 @@ class PurchaseQuotation extends Model
     protected $fillable = ['number', 'branch_id', 'purchase_request_id', 'date', 'time', 'user_id', 'supplier_id', 'status', 'library_path',
         'supply_date_from', 'supply_date_to', 'sub_total', 'discount', 'discount_type', 'total_after_discount',
         'tax', 'total', 'type', 'additional_payments', 'supplier_discount_active', 'supplier_discount_type',
-        'supplier_discount', 'date_from', 'date_to'];
+        'supplier_discount', 'date_from', 'date_to', 'quotation_type'];
 
     protected $table = 'purchase_quotations';
 

@@ -5,6 +5,7 @@
         <tr class="text-center-inputs">
             <th width="2%"> # </th>
             <th width="13%"> {{ __('Name') }} </th>
+            <th width="10%"> {{ __('Unit Quantity') }} </th>
             <th width="8%"> {{ __('Unit') }} </th>
             <th width="5%"> {{ __('Requested Qty') }} </th>
             @if(isset($request_type) && $request_type == 'approval')
@@ -30,6 +31,7 @@
         <tr class="text-center-inputs">
             <th width="2%"> # </th>
             <th width="13%"> {{ __('Name') }} </th>
+            <th width="10%"> {{ __('Unit Quantity') }} </th>
             <th width="8%"> {{ __('Unit') }} </th>
             <th width="5%"> {{ __('Requested Qty') }} </th>
             @if(isset($request_type) && $request_type == 'approval')

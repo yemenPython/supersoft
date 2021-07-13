@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+//use App\Http\Requests\Admin\PurchaseQuotation\UpdateRequest;
 use App\Models\PartPrice;
 use App\Models\PartPriceSegment;
 use App\Models\PurchaseQuotation;
@@ -31,6 +32,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\ExportPrinterFactory;
 use App\Http\Controllers\DataExportCore\Invoices\Purchase;
 use App\Http\Requests\Admin\PurchaseInvoice\PurchaseInvoiceRequest;
+use App\Http\Requests\Admin\PurchaseInvoice\UpdateRequest;
 
 class PurchaseInvoicesController extends Controller
 {
@@ -198,8 +200,6 @@ class PurchaseInvoicesController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
 
-            dd($e->getMessage());
-
             return redirect()->to('admin/purchase-invoices')
                 ->with(['message' => __('words.purchase-invoice-cant-created'), 'alert-type' => 'error']);
         }
@@ -283,17 +283,22 @@ class PurchaseInvoicesController extends Controller
         $data['purchaseReceipts'] = PurchaseReceipt::where('supply_order_id', $purchaseInvoice->supply_order_id)
             ->where(function ($q) use ($purchaseInvoice) {
 
-                $q->doesntHave('purchaseInvoices')
-                    ->orWhereHas('purchaseInvoices', function ($supply) use ($purchaseInvoice) {
+                $q->doesntHave('purchaseInvoices')->orWhereHas('purchaseInvoices', function ($supply) use ($purchaseInvoice) {
                         $supply->where('purchase_invoice_id', $purchaseInvoice->id);
                     });
+
+            })->where(function ($q) {
+
+                $q->whereHas('concession', function ($q) {
+                    $q->where('status','accepted');
+                });
             })
             ->select('id', 'number', 'supplier_id')->get();
 
         return view('admin.purchase-invoices.edit', compact('data', 'purchaseInvoice'));
     }
 
-    public function update(PurchaseInvoiceRequest $request, PurchaseInvoice $purchaseInvoice)
+    public function update(UpdateRequest $request, PurchaseInvoice $purchaseInvoice)
     {
         if (!auth()->user()->can('update_purchase_invoices')) {
             return redirect()->back()->with(['authorization' => 'error']);
@@ -681,7 +686,6 @@ src="' . $imageUrl . '" id="output_image"/>
     {
         $rules = [
             'supply_order_id' => 'required|integer|exists:supply_orders,id',
-//            'supplier_id' => 'nullable|integer|exists:suppliers,id'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -693,6 +697,10 @@ src="' . $imageUrl . '" id="output_image"/>
         try {
 
             $purchaseReceipts = PurchaseReceipt::where('supply_order_id', $request['supply_order_id'])
+                ->doesntHave('purchaseInvoices')
+                ->whereHas('concession', function ($q) {
+                  $q->where('status','accepted');
+                })
                 ->select('id', 'number', 'supplier_id')
                 ->get();
 

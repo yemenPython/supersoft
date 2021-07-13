@@ -3,8 +3,30 @@
         -webkit-print-color-adjust: exact !important;
         font-family: 'Almarai', sans-serif !important;
         height: 99%;
+
     }
     
+    body
+    {
+        border:1px solid #3b3b3b !important;
+        padding:20px 0px !important;
+        margin:0 !important
+    }
+
+.modal-print-padd
+{
+    padding: 0 !important;
+    margin:0 !important
+}
+
+.head-title-print
+{
+    background: #8B8B8B !important;
+    color: white !important;
+    padding: 7px !important;
+    margin: 15px 0 !important;
+}
+
     table th
     {
         background:none !important;

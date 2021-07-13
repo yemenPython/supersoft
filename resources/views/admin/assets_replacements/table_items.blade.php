@@ -4,8 +4,9 @@
             <thead>
             <tr>
                 <th width="2%"> # </th>
-                <th width="10%"> {{ __('Assets Groups') }} </th>
-                <th width="10%"> {{ __('Assets') }} </th>
+            
+                <th width="10%"> {{ __('Asset name') }} </th>
+                <th width="10%"> {{ __('Asset group') }} </th>
                 <th width="10%"> {{ __('Operation Date') }} </th>
                 <th width="10%"> {{ __('Purchase Cost') }} </th>
                 <th width="10%"> {{ __('Cost Before Replacement') }} </th>
@@ -24,13 +25,15 @@
                             <span>{{$index + 1}}</span>
                         </td>
 
-                        <td>
-                            <span>{{optional($item->asset->group)->name}}</span>
-                        </td>
+
 
                         <td class="inline-flex-span">
                             <span>{{optional($item->asset)->name}}</span>
                             <input type="hidden" class="assetExist" value="{{optional($item->asset)->id}}" name="items[{{$index + 1}}][asset_id]">
+                        </td>
+
+                        <td>
+                            <span>{{optional($item->asset->group)->name}}</span>
                         </td>
 
                         <td class="inline-flex-span">
@@ -38,36 +41,41 @@
                         </td>
 
                         <td class="inline-flex-span">
-                            <input type="number" class="purchase_cost" readonly  id="purchase_cost{{$index + 1}}" name="items[{{$index + 1}}][purchase_cost]" value="{{optional($item->asset)->purchase_cost}}" style="width: 100px" >
-
+                            <!-- <input type="number" class="purchase_cost" readonly  name="items[{{$index + 1}}][purchase_cost]" value="{{optional($item->asset)->purchase_cost}}" style="width: 100px" > -->
+                            <span  id="purchase_cost{{$index + 1}}" 
+                           style="background:#D7FDF9 !important"
+                            >{{optional($item->asset)->purchase_cost}}</span>
                         </td>
 
                         <td class="inline-flex-span">
-                            <span>{{optional($item->asset)->annual_consumtion_rate}}</span>
+                            <span class="part-unit-span">{{optional($item->asset)->annual_consumtion_rate}}</span>
                             <input type="hidden" class="replacement_before" id="replacement_before{{$index + 1}}"
                                    value="{{optional($item->asset)->annual_consumtion_rate}}">
                         </td>
 
                         <td class="inline-flex-span">
-                            <input type="number" class="value_replacement"
+                            <input type="number" class="value_replacement border3"
                                    id="value_replacement{{$index + 1}}"
                                    name="items[{{$index + 1}}][value_replacement]"
                                    onkeyup="addReplacementValue('{{$index + 1}}')"
                                    onchange="addReplacementValue('{{$index + 1}}')"
-                                   value="{{$item->value_replacement}}" style="width: 100px">
+                                   value="{{$item->value_replacement}}" style="width: 150px">
                         </td>
 
                         <td class="inline-flex-span">
-                            <input type="number" class="replacement_after" id="replacement_after{{$index + 1}}"
+                            <input type="number" class="replacement_after border4" id="replacement_after{{$index + 1}}"
                                    onkeyup="addReplacementValue('{{$index + 1}}')"
                                    onchange="addReplacementValue('{{$index + 1}}')"
                                    name="items[{{$index + 1}}][value_after_replacement]"
-                                   value="{{$item->value_after_replacement}}" style="width: 100px" >
+                                   value="{{$item->value_after_replacement}}" style="width: 150px" >
                         </td>
 
                         <td class="inline-flex-span">
-                            <input type="text" readonly style="width: 100px" id="age{{$index + 1}}"
+                            <input type="text" readonly
+                            class="border4"
+                             style="width: 100px" id="age{{$index + 1}}"
                                    name="items[{{$index + 1}}][age]" value="{{$item->age}}">
+                             
                         </td>
 
                         <td>
@@ -82,8 +90,9 @@
             <tfoot>
             <tr>
                 <th width="2%"> # </th>
-                <th width="10%"> {{ __('Assets Groups') }} </th>
-                <th width="10%"> {{ __('Assets') }} </th>
+        
+                <th width="10%"> {{ __('Asset name') }} </th>
+                <th width="10%"> {{ __('Asset group') }} </th>
                 <th width="10%"> {{ __('Operation Date') }} </th>
                 <th width="10%"> {{ __('Purchase Cost') }} </th>
                 <th width="10%"> {{ __('Cost Before Replacement') }} </th>

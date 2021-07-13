@@ -69,6 +69,7 @@ class PurchaseReturn extends Model
         return $this->belongsTo(Branch::class, 'branch_id')->withTrashed();
     }
 
+//  NOT USED NOW IN NEW SCOPE
     public function supplier()
     {
         return $this->belongsTo(Supplier::class, 'supplier_id')->withTrashed();
@@ -191,7 +192,16 @@ class PurchaseReturn extends Model
 
     public function getNumberAttribute()
     {
-        return $this->invoice_number ;
+        return $this->invoice_number;
+    }
+
+    public function getSupplierNameAttribute()
+    {
+        if ($this->invoice_type == 'from_supply_order') {
+            return $this->supplyOrders->first() ? $this->supplyOrders->first()->name : '---';
+        }
+
+        return $this->invoice && $this->invoice->supplier ? $this->invoice->supplier->name : '---';
     }
 
 }

@@ -155,6 +155,16 @@
                                                     </a>
 
                                                 </li>
+
+                                                <li>
+                                                    <a style="cursor:pointer" class="btn btn-print-wg text-white  "
+                                                       data-toggle="modal"
+                                                       onclick="shortPrintData({{$item->id}})"
+                                                       data-target="#boostrapModal" title="{{__('Short Print')}}">
+                                                        <i class="fa fa-print"></i> {{__('Short Print')}}
+                                                    </a>
+
+                                                </li>
                                                 <li>
 
                                                     @component('admin.buttons._edit_button',[
@@ -275,6 +285,18 @@
 
             $.ajax({
                 url: "{{ route('admin:purchase.requests.print') }}?purchase_request_id=" + id,
+                method: 'GET',
+                success: function (data) {
+
+                    $("#data_to_print").html(data.view)
+                }
+            });
+        }
+
+        function shortPrintData(id) {
+
+            $.ajax({
+                url: "{{ route('admin:purchase.requests.short.print') }}?purchase_request_id=" + id,
                 method: 'GET',
                 success: function (data) {
 

@@ -26,6 +26,21 @@
         </div>
     </td>
 
+    <td class="inline-flex-span">
+
+        <span id="unit_quantity_{{$index}}">
+            @if(isset($item))
+                {{ $item->partPrice ? $item->partPrice->quantity : $part->first_price_quantity}}
+            @elseif (isset($update_item))
+                {{ $update_item->partPrice ? $update_item->partPrice->quantity : $part->first_price_quantity}}
+            @else
+                {{ $part->first_price_quantity}}
+            @endif
+        </span>
+
+        <span class="part-unit-span"> {{ $part->sparePartsUnit->unit }}  </span>
+    </td>
+
     <td>
         <div class="input-group">
 
@@ -34,7 +49,10 @@
                     onchange="priceSegments('{{$index}}'); getPurchasePrice('{{$index}}'); calculateItem('{{$index}}')">
 
                 @foreach($part->prices as $price)
-                    <option {{isset($update_item) && $update_item->part_price_id == $price->id ? 'selected':''}}
+                    <option
+                        {{isset($update_item) && $update_item->part_price_id == $price->id ? 'selected':''}}
+                        {{isset($item) && $item->part_price_id == $price->id ? 'selected':''}}
+                            data-quantity="{{$price->quantity}}"
                             data-purchase-price="{{$price->purchase_price}}"
                             data-big-percent-discount="{{$price->biggest_percent_discount}}"
                             data-big-amount-discount="{{$price->biggest_amount_discount}}"
@@ -86,8 +104,6 @@
             </select>
         </div>
     </td>
-
-
 
     <td>
 

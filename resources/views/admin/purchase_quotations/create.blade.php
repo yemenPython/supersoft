@@ -201,6 +201,8 @@
                     $('.js-example-basic-single').select2();
 
                     reorderItems();
+
+                    executeAllItems();
                 },
 
                 error: function (jqXhr, json, errorThrown) {
@@ -232,6 +234,8 @@
 
                     $("#price_segments_part_" + index).html(data.view);
                     $('.js-example-basic-single').select2();
+
+                    defaultUnitQuantity(index);
                 },
 
                 error: function (jqXhr, json, errorThrown) {
@@ -305,6 +309,8 @@
                     $("#parts_data").html(data.view);
                     $("#items_count").val(data.index);
                     $(".remove_for_new_purchase_request").remove();
+
+                    executeAllItems();
 
                     for (var i in data.partTypesViews) {
 
@@ -384,6 +390,11 @@
             $('#remaining_days').val(remainingTimeDays.toFixed(0));
         }
 
+        function defaultUnitQuantity (index) {
+
+            let unit_quantity = $('#prices_part_' + index).find(":selected").data('quantity');
+            $('#unit_quantity_' + index).text(unit_quantity);
+        }
 
     </script>
 

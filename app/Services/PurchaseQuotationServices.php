@@ -40,6 +40,7 @@ class PurchaseQuotationServices
         $data = [
             'number' => $requestData['number'],
             'type' => $requestData['type'],
+            'quotation_type' => $requestData['quotation_type'],
             'date' => $requestData['date'],
             'time' => $requestData['time'],
             'date_from' => $requestData['date_from'],

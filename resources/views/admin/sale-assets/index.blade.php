@@ -79,15 +79,32 @@
                                     </div>
                                 </div>
 
+                                <div class="form-group col-md-3">
+                                    <label> {{ __('date From') }}</label>
+                                    <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                               
+                                    <input type="date" class="form-control" name="date_from">
+                                </div>
+                                </div>
 
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-3">
+                                    <label> {{ __('date To') }}</label>
+                                    <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                               
+                                    <input type="date" class="form-control" name="date_to">
+                                </div>
+                                </div>
+
+                                <div class="form-group col-md-3">
                                     <label> {{ __('Number') }} </label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
 
                                         <select class="form-control select2" id="number"
                                                 name="number">
-                                            <option value="0"> {{ __('Select Number') }} </option>
+                                            <option value="0"> {{ __('Select') }} </option>
                                             @foreach($numbers as $number)
                                                 <option value="{{$number->number}}"> {{$number->number}}</option>
                                             @endforeach
@@ -95,24 +112,8 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group col-md-4">
-                                    <label> {{ __('date From') }}</label>
-                                    <input type="date" class="form-control" name="date_from">
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label> {{ __('date To') }}</label>
-                                    <input type="date" class="form-control" name="date_to">
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label> {{ __('Sale amount From') }}</label>
-                                    <input type="text" class="form-control" name="sale_amount_from">
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label> {{ __('Sale amount To') }}</label>
-                                    <input type="text" class="form-control" name="sale_amount_to">
-                                </div>
-
-                                <div class="col-md-4">
+                                
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label> {{ __('Type') }} </label>
                                         <div class="input-group">
@@ -137,6 +138,27 @@
                                             </ul>
                                         </div>
                                     </div>
+                                    </div>
+
+
+                                <div class="form-group col-md-3">
+                                    <label> {{ __('Sale amount From') }}</label>
+                                    <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                               
+                                    <input type="text" class="form-control" name="sale_amount_from">
+                                </div>
+                                </div>
+
+
+                                <div class="form-group col-md-3">
+                                    <label> {{ __('Sale amount To') }}</label>
+                                    <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-money"></i></span>
+                                               
+                                    <input type="text" class="form-control" name="sale_amount_to">
+                                </div>
+
                                 </div>
 
                             </div>
@@ -185,7 +207,7 @@
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
-                        <table id="datatable-with-btns" class="table table-striped table-bordered display"
+                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover"
                                style="width:100%">
                             <thead>
                             <tr>

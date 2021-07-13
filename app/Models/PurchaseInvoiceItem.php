@@ -65,6 +65,11 @@ class PurchaseInvoiceItem extends Model
         return $this->belongsTo(PartPriceSegment::class, 'part_price_segment_id');
     }
 
+    public function sparePart()
+    {
+        return $this->belongsTo(SparePart::class, 'spare_part_id');
+    }
+
     public function getPriceAttribute()
     {
         return $this->purchase_price;

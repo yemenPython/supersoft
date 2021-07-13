@@ -9,11 +9,17 @@
                     <div class="input-group">
                         <span class="input-group-addon fa fa-file"></span>
                         <select class="form-control js-example-basic-single" name="branch_id" id="branch_id"
-                                onchange="getGroupsByBranch()">
+{{--                                onchange="getGroupsByBranch();"--}}
+                                onchange="changeBranch();"
+                        >
                             <option value="">{{__('Select Branches')}}</option>
                             @foreach($branches as $k => $v)
                                 <option
-                                    value="{{$k}}" {{isset($supplier) && $supplier->branch_id == $k? 'selected':''}}>{{$v}}</option>
+                                    value="{{$k}}" {{isset($supplier) && $supplier->branch_id == $k? 'selected':''}}
+                                    {{request()->has('branch_id') && request()['branch_id'] == $k? 'selected':''}}
+                                >
+                                    {{$v}}
+                                </option>
                             @endforeach
                         </select>
                     </div>

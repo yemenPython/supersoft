@@ -288,6 +288,8 @@
 
                     $("#price_segments_part_" + index).html(data.view);
                     $('.js-example-basic-single').select2();
+
+                    defaultUnitQuantity(index);
                 },
 
                 error: function (jqXhr, json, errorThrown) {
@@ -457,6 +459,12 @@
                     },
                 ],
             });
+        }
+
+        function defaultUnitQuantity (index) {
+
+            let unit_quantity = $('#prices_part_' + index).find(":selected").data('quantity');
+            $('#unit_quantity_' + index).text(unit_quantity);
         }
 
     </script>

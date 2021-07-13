@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\PurchaseQuotation\CreateRequest;
+use App\Http\Requests\Admin\PurchaseQuotation\UpdateRequest;
 use App\Models\Branch;
 use App\Models\Part;
 use App\Models\PartPriceSegment;
@@ -203,7 +204,7 @@ class PurchaseQuotationsController extends Controller
                 'purchaseRequests', 'suppliers', 'taxes', 'additionalPayments'));
     }
 
-    public function update (CreateRequest $request, PurchaseQuotation $purchaseQuotation) {
+    public function update (UpdateRequest $request, PurchaseQuotation $purchaseQuotation) {
 
         if (!$request->has('items')) {
             return redirect()->back()->with(['message'=>'sorry, please select items', 'alert-type'=>'error']);

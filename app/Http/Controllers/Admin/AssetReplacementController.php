@@ -83,10 +83,10 @@ class AssetReplacementController extends Controller
                     return $saleAsset->date . ' ' . $saleAsset->time;
                 } )
                 ->addColumn( 'total_before_replacement', function ($assetsReplacement) {
-                    return '<span class="label label-warning wg-label">'.number_format($assetsReplacement->total_before_replacement, 2).'</span>';
+                    return '<span style="background:#F7F8CC !important">'.number_format($assetsReplacement->total_before_replacement, 2).'</span>';
                 } )
                 ->addColumn( 'total_after_replacement', function ($assetsReplacement) {
-                    return '<span class="label label-warning wg-label">'. number_format($assetsReplacement->total_after_replacement, 2).'</span>';
+                    return '<span style="background:#D7FDF9 !important">'. number_format($assetsReplacement->total_after_replacement, 2).'</span>';
                 } )
                 ->addColumn( 'created_at', function ($assetsReplacement) {
                     return $assetsReplacement->created_at;

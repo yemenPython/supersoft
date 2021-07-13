@@ -66,37 +66,47 @@ class PurchaseReturnsController extends Controller
         }
         if ($request->has('sort_by') && $request->sort_by != '') {
             $sort_by = $request->sort_by;
+
             $sort_method = $request->has('sort_method') ? $request->sort_method : 'asc';
+
             if (!in_array($sort_method, ['asc', 'desc'])) $sort_method = 'desc';
+
             $sort_fields = [
                 'invoice-number' => 'invoice_number',
-                'supplier' => 'supplier_id',
+//                'supplier' => 'supplier_id',
                 'invoice-type' => 'type',
-                'payment' => 'remaining',
-                'paid' => 'paid',
-                'remaining' => 'remaining',
+//                'payment' => 'remaining',
+//                'paid' => 'paid',
+//                'remaining' => 'remaining',
                 'created-at' => 'created_at',
-                'updated-at' => 'updated_at'
+                'updated-at' => 'updated_at',
+                'total' => 'total'
             ];
-            $invoices = $invoices->orderBy($sort_fields[$sort_by], $sort_method);
+
+            if (isset($sort_fields[$sort_by])) {
+                $invoices = $invoices->orderBy($sort_fields[$sort_by], $sort_method);
+            }
+
         } else {
             $invoices = $invoices->orderBy('id', 'DESC');
         }
         if ($request->has('key')) {
             $key = $request->key;
             $invoices->where(function ($q) use ($key) {
-                $q->where('invoice_number', 'like', "%$key%")
-                    ->orWhere('remaining', 'like', "%$key%")
-                    ->orWhere('paid', 'like', "%$key%");
+                $q->where('invoice_number', 'like', "%$key%");
+//                    ->orWhere('remaining', 'like', "%$key%")
+//                    ->orWhere('paid', 'like', "%$key%");
             });
         }
         if ($request->has('invoker') && in_array($request->invoker, ['print', 'excel'])) {
             $visible_columns = $request->has('visible_columns') ? $request->visible_columns : [];
-            return (new ExportPrinterFactory(new InvoicesPurchaseReturn($invoices->with('supplier'), $visible_columns), $request->invoker))();
+            return (new ExportPrinterFactory(new InvoicesPurchaseReturn($invoices, $visible_columns), $request->invoker))();
         }
+
         $rows = $request->has('rows') ? $request->rows : 10;
 
         $invoices = $invoices->paginate($rows)->appends(request()->query());
+
         return view('admin.purchase_returns.index', compact('invoices'));
     }
 
@@ -262,7 +272,7 @@ class PurchaseReturnsController extends Controller
             ->where('status', 'accept')
             ->select('id', 'invoice_number', 'supplier_id')->get();
 
-        $data['purchaseReceipts'] =  $purchaseReceipts = PurchaseReceipt::whereIn('supply_order_id', $purchaseReturn->supplyOrders->pluck('id')->toArray())
+        $data['purchaseReceipts'] = $purchaseReceipts = PurchaseReceipt::whereIn('supply_order_id', $purchaseReturn->supplyOrders->pluck('id')->toArray())
             ->whereHas('concession', function ($q) {
                 $q->where('status', 'accepted');
 
@@ -403,7 +413,7 @@ class PurchaseReturnsController extends Controller
             foreach ($invoicesReturn as $invoice) {
 
                 if ($invoice->status == 'finished' && $invoice->invoice_type == 'normal') {
-                   continue;
+                    continue;
                 }
 
                 $invoice->delete();

@@ -6,23 +6,27 @@
     </td>
 
     <td>
-        <!-- <input type="text" disabled value="{{$part->name}}" class="form-control" style="text-align: center;"> -->
-        <span style="width:150px;display:block">{{$part->name}}</span> 
-        <input type="hidden" value="{{$part->id}}" name="items[{{$index}}][part_id]" class="form-control" style="text-align: center;">
-        <input type="hidden" value="{{isset($item) ? $max : 0}}" class="form-control" id="max_quantity_part_{{$index}}" style="text-align: center;">
+    <!-- <input type="text" disabled value="{{$part->name}}" class="form-control" style="text-align: center;"> -->
+        <span style="width:150px;display:block">{{$part->name}}</span>
+        <input type="hidden" value="{{$part->id}}" name="items[{{$index}}][part_id]" class="form-control"
+               style="text-align: center;">
+        <input type="hidden" value="{{isset($item) ? $max : 0}}" class="form-control" id="max_quantity_part_{{$index}}"
+               style="text-align: center;">
     </td>
 
     <td class="inline-flex-span" style="">
-    <span id="unit_quantity_{{$index}}">
-    {{isset($item) && $item->partPrice ? $item->partPrice->quantity : $part->first_price_quantity}}
-    </span>
+
+        <span id="unit_quantity_{{$index}}">
+            {{isset($item) && $item->partPrice ? $item->partPrice->quantity : $part->first_price_quantity}}
+        </span>
         <span class="part-unit-span"> {{ $part->sparePartsUnit->unit }}  </span>
     </td>
 
     <td>
         <div class="input-group">
 
-            <select style="width: 150px !important;" class="form-control js-example-basic-single" name="items[{{$index}}][part_price_id]" id="prices_part_{{$index}}"
+            <select style="width: 150px !important;" class="form-control js-example-basic-single"
+                    name="items[{{$index}}][part_price_id]" id="prices_part_{{$index}}"
                     onchange="priceSegments('{{$index}}');">
 
                 @foreach($part->prices as $price)
@@ -40,8 +44,10 @@
     <td>
         <div class="input-group">
 
-            <select style="width: 150px !important;" class="form-control js-example-basic-single" name="items[{{$index}}][part_price_segment_id]"
-                    id="price_segments_part_{{$index}}" onchange=" getPurchasePrice('price_segments_part_','{{$index}}'); calculateItem('{{$index}}');">
+            <select style="width: 150px !important;" class="form-control js-example-basic-single"
+                    name="items[{{$index}}][part_price_segment_id]"
+                    id="price_segments_part_{{$index}}"
+                    onchange=" getPurchasePrice('price_segments_part_','{{$index}}'); calculateItem('{{$index}}');">
 
                 @if(isset($item) && $item->partPrice)
 
@@ -77,7 +83,8 @@
     </td>
 
     <td>
-        <input style="width: 120px !important;" type="number" class="form-control border1" id="quantity_{{$index}}" onkeyup="checkPartQuantity('{{$index}}'); calculateItem('{{$index}}')"
+        <input style="width: 120px !important;" type="number" class="form-control border1" id="quantity_{{$index}}"
+               onkeyup="checkPartQuantity('{{$index}}'); calculateItem('{{$index}}')"
                onchange="checkPartQuantity('{{$index}}'); calculateItem('{{$index}}')"
                value="{{isset($item) ? $item->quantity : 0}}" min="0" name="items[{{$index}}][quantity]">
     </td>

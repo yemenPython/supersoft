@@ -7,16 +7,16 @@
 
     <td>
         <!-- <input type="text" disabled value="{{$part->name}}" class="form-control" style="text-align: center;"> -->
-        <span style="width: 150px !important;display:block">{{$part->name}}</span> 
+        <span style="width: 150px !important;display:block">{{$part->name}}</span>
         <input type="hidden" value="{{$part->id}}" name="items[{{$index}}][part_id]" class="form-control" style="text-align: center;">
         <input type="hidden" value="{{isset($item) ? $max : $part->first_store_quantity}}"
                class="form-control" id="max_quantity_part_{{$index}}" style="text-align: center;">
     </td>
 
     <td class="inline-flex-span">
-    <span>
-    {{isset($item) && $item->partPrice ? $item->partPrice->quantity : $part->first_price_quantity}}
-    </span>
+        <span id="unit_quantity_{{$index}}">
+        {{isset($item) && $item->partPrice ? $item->partPrice->quantity : $part->first_price_quantity}}
+        </span>
 
         <span class="part-unit-span"> {{ $part->sparePartsUnit->unit }}  </span>
 

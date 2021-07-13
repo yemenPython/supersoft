@@ -6,6 +6,7 @@
                    onclick="selectPurchaseQuotation('{{$purchaseQuotation->id}}')"
                    class="purchase_quotation_box_{{$purchaseQuotation->id}}"
                 {{isset($supply_order_quotations) && in_array($purchaseQuotation->id, $supply_order_quotations) ? 'checked':''}}
+                {{!isset($supply_order_quotations) ? 'checked':''}}
             >
         </td>
         <td>

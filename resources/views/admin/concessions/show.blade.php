@@ -1,7 +1,6 @@
+
+
 <div class="row small-spacing" id="concession_to_print">
-
-<div style="border: #AAA solid 1px;border-radius:5px 5px 5px 5px;min-height:130px">
-
 
 
 <div class="col-xs-4" style="{{ $lang == 'ar' ? 'float: left !important' : '' }}">
@@ -16,7 +15,7 @@
 </div>
 
 <div class="col-xs-4 text-center" style="{{ $lang == 'ar' ? 'float: left !important' : '' }}">
-    <img style="width: 200px; height: 100px"
+    <img style="width: 200px; height: 120px"
         src="{{isset($branchToPrint->logo) ? asset('storage/images/branches/'.$branchToPrint->logo) : env('DEFAULT_IMAGE_PRINT')}}">
 
     </div>
@@ -32,19 +31,24 @@
     </div>
 </div>
 
-</div>
+<div class="clearfix"></div>
 
-    <h4 class="text-center">
+<h4 class="text-center head-title-print" style="
+    background: #8B8B8B !important;
+    color: white !important;
+    padding: 7px !important;
+    margin: 15px 0 !important;
+    ">
 
-    @if($concession->type == 'add' )
-      {{ __('Add Concession') }}
-    @else
-    {{ __('Withdrawal Concession') }} </span>
-    @endif
+@if($concession->type == 'add' )
+  {{ __('Add Concession') }}
+@else
+{{ __('Withdrawal Concession') }} </span>
+@endif
 
-    </h4>
+</h4>
 
-    <div class="wg-tb-snd" style="border:1px solid #AAA;margin:5px 20px 20px;padding:10px;border-radius:5px">
+    <div class="wg-tb-snd" style="margin:5px 20px 20px;padding:10px;border-radius:5px">
         <div class="row">
             <div class="col-xs-4">
                 <table class="table table-bordered">
@@ -161,7 +165,7 @@
         </div>
     </div>
 
-    <div class="wg-tb-snd" style="border:1px solid #AAA;margin:5px 20px 20px;padding:10px;border-radius:5px">
+    <div class="wg-tb-snd" style="margin:5px 20px 20px;padding:10px;border-radius:5px">
         <div class="row">
             <div class="col-xs-6">
                 <table class="table table-bordered">

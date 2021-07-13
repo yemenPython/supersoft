@@ -123,6 +123,16 @@ class PurchaseRequestController extends Controller
         return response()->json(['view' => $view]);
     }
 
+    public function shortPrint(Request $request)
+    {
+
+        $purchaseRequest = PurchaseRequest::findOrFail($request['purchase_request_id']);
+
+        $view = view('admin.purchase_requests.short_print', compact('purchaseRequest'))->render();
+
+        return response()->json(['view' => $view]);
+    }
+
     public function edit(Request $request, PurchaseRequest $purchaseRequest)
     {
         if (!$request->has('request_type') && $purchaseRequest->status != 'under_processing') {
@@ -289,6 +299,7 @@ class PurchaseRequestController extends Controller
             DB::beginTransaction();
 
             $purchaseRequest->status = $request['status'];
+            $purchaseRequest->description = $request['description'];
             $purchaseRequest->save();
 
             if (isset($request['items'])) {

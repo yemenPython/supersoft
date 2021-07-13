@@ -10,6 +10,21 @@
                style="text-align: center;">
     </td>
 
+    <td class="inline-flex-span">
+
+        <span id="unit_quantity_{{$index}}">
+            @if(isset($item))
+                {{ $item->partPrice ? $item->partPrice->quantity : $part->first_price_quantity}}
+            @elseif (isset($update_item))
+                {{ $update_item->partPrice ? $update_item->partPrice->quantity : $part->first_price_quantity}}
+            @else
+                {{ $part->first_price_quantity}}
+            @endif
+        </span>
+
+        <span class="part-unit-span"> {{ $part->sparePartsUnit->unit }}  </span>
+    </td>
+
     <td>
         <div class="input-group">
 
@@ -36,11 +51,14 @@
                     onchange="priceSegments('{{$index}}'); getPurchasePrice('{{$index}}'); calculateItem('{{$index}}')">
 
                 @foreach($part->prices as $price)
-                    <option {{isset($update_item) && $update_item->part_price_id == $price->id ? 'selected':''}}
-                            data-purchase-price="{{$price->purchase_price}}"
-                            data-big-percent-discount="{{$price->biggest_percent_discount}}"
-                            data-big-amount-discount="{{$price->biggest_amount_discount}}"
-                            value="{{$price->id}}">
+                    <option value="{{$price->id}}"
+                        data-quantity="{{$price->quantity}}"
+                        data-purchase-price="{{$price->purchase_price}}"
+                        data-big-percent-discount="{{$price->biggest_percent_discount}}"
+                        data-big-amount-discount="{{$price->biggest_amount_discount}}"
+                        {{isset($update_item) && $update_item->part_price_id == $price->id ? 'selected':''}}
+                        {{isset($item) && $item->part_price_id == $price->id ? 'selected':''}}
+                    >
                         {{optional($price->unit)->unit}}
                     </option>
                 @endforeach
@@ -65,7 +83,8 @@
                     @foreach($update_item->partPrice->partPriceSegments as $priceSegment)
                         <option value="{{$priceSegment->id}}"
                                 data-purchase-price="{{$priceSegment->purchase_price}}"
-                            {{isset($update_item) && $update_item->part_price_segment_id == $priceSegment->id  ? 'selected':''}}>
+                            {{isset($update_item) && $update_item->part_price_segment_id == $priceSegment->id  ? 'selected':''}}
+                        >
                             {{$priceSegment->name}}
                         </option>
                     @endforeach
@@ -163,9 +182,9 @@
     </td>
 
     <td>
-    <div class="btn-group" style="display:flex !important;align-items:center">
+        <div class="btn-group" style="display:flex !important;align-items:center">
     <span type="button" class="fa fa-eye dropdown-toggle" data-toggle="dropdown"
-                  style="
+          style="
     color: #a776e7;
     padding: 6px 10px;
     border-radius: 0;
@@ -173,7 +192,7 @@
     cursor: pointer;
     font-size: 20px;
 }"
-                  aria-haspopup="true" aria-expanded="false">
+          aria-haspopup="true" aria-expanded="false">
             </span>
 
             <ul class="dropdown-menu for-design-eye-style" style="margin-top: 19px;">
@@ -235,7 +254,9 @@
             <div class="form-group has-feedback">
                 <input type="checkbox" id="checkbox_item_{{$index}}" name="items[{{$index}}][checked]"
                        onclick=" calculateItem('{{$index}}'); calculateTotal();" class="item_of_all"
-                    {{isset($update_item) && $update_item->active ? 'checked' : ''}}>
+                    {{isset($update_item) && $update_item->active ? 'checked' : ''}}
+                    {{ !isset($update_item) ? 'checked' : ''}}
+                >
             </div>
         </div>
     </td>
@@ -244,11 +265,11 @@
 
         <button type="button" class="btn btn-danger fa fa-trash" onclick="removeItem('{{$index}}')"></button>
 
-{{--        <div style="padding:5px !important;">--}}
-{{--            <a data-toggle="modal" data-target="#part_types_{{$index}}" title="Part Types" class="btn btn-info">--}}
-{{--                <i class="fa fa-check-circle"> </i> {{__('Types')}}--}}
-{{--            </a>--}}
-{{--        </div>--}}
+        {{--        <div style="padding:5px !important;">--}}
+        {{--            <a data-toggle="modal" data-target="#part_types_{{$index}}" title="Part Types" class="btn btn-info">--}}
+        {{--                <i class="fa fa-check-circle"> </i> {{__('Types')}}--}}
+        {{--            </a>--}}
+        {{--        </div>--}}
     </td>
 
     <td style="display: none;">

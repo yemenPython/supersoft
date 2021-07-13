@@ -77,7 +77,7 @@
 
 <div class="row center-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="form-group has-feedback">
             <label for="inputStore" class="control-label">{{__('Assets Groups')}}</label>
 
@@ -95,7 +95,7 @@
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="form-group has-feedback">
             <label for="inputStore" class="control-label">{{__('Assets')}}</label>
             <div class="input-group">
@@ -119,10 +119,10 @@
 
     <table class="table table-bordered">
         <tbody>
-        <th style="width:30%;background:#F9EFB7 !important;color:black !important">{{__('Total Purchase')}}</th>
-        <td style="background:#F9EFB7">
+        <th style="width:30%;background:#FFC5D7 !important;color:black !important">{{__('Total Purchase')}}</th>
+        <td style="background:#FFC5D7">
             <input type="text" readonly id="total_before_replacement"
-                   style="background:#F9EFB7;border:none;text-align:center !important;"
+                   style="background:#FFC5D7;border:none;text-align:center !important;"
                    value="{{isset($assetReplacement) ? $assetReplacement->total_before_replacement : 0}}" class="form-control">
             <input id="total_before_replacement_hidden" type="hidden" name="total_before_replacement"
                    value="{{isset($assetReplacement) ? $assetReplacement->total_before_replacement : 0}}">

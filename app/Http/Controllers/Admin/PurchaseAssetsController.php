@@ -91,16 +91,16 @@ class PurchaseAssetsController extends Controller
                     return __($purchaseAsset->type);
                 } )
                 ->addColumn( 'total_purchase_cost', function ($purchaseAsset) {
-                    return number_format( $purchaseAsset->total_purchase_cost, 2 );
+                    return '<span style="background:#F7F8CC !important">'. number_format( $purchaseAsset->total_purchase_cost, 2 ).'</span>';
                 } )
                 ->addColumn( 'total_past_consumtion', function ($purchaseAsset) {
-                    return number_format( $purchaseAsset->total_past_consumtion, 2 );
+                    return '<span style="background:#F7F8CC !important">' .number_format( $purchaseAsset->total_past_consumtion, 2 ).'</span>';
                 } )
                 ->addColumn( 'paid_amount', function ($purchaseAsset) {
-                    return number_format( $purchaseAsset->paid_amount, 2 );
+                    return '<span style="background:#D7FDF9 !important">' .number_format( $purchaseAsset->paid_amount, 2 ).'</span>';
                 } )
                 ->addColumn( 'remaining_amount', function ($purchaseAsset) {
-                    return number_format( $purchaseAsset->remaining_amount, 2 );
+                    return '<span style="background:#D7FDF9 !important">' .number_format( $purchaseAsset->remaining_amount, 2 ).'</span>';
                 } )
                 ->addColumn( 'created_at', function ($purchaseAsset) {
                     return $purchaseAsset->created_at;
