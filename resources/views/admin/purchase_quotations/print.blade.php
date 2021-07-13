@@ -238,7 +238,7 @@
                             $tax_value = 0;
                         @endphp
 
-                        @foreach($purchaseQuotation->taxes as $tax)
+                        @foreach($purchaseQuotation->taxes()->where('type', 'tax')->get() as $tax)
 
                             @php
                                 $tax_value += $tax->value;
@@ -259,8 +259,47 @@
                         </tr>
                         </tbody>
                     </table>
+
+
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr class="heading">
+                            <th style="background:#CCC !important;color:black">{{__('Tax Name')}}</th>
+                            <th style="background:#CCC !important;color:black">{{__('Tax Type')}}</th>
+                            <th style="background:#CCC !important;color:black">{{__('Tax Value')}}</th>
+                            <th style="background:#CCC !important;color:black">{{__('Calculated Tax Value')}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        @php
+                            $tax_value = 0;
+                        @endphp
+
+                        @foreach($purchaseQuotation->taxes()->where('type', 'additional_payments')->get() as $tax)
+
+                            @php
+                                $tax_value += $tax->value;
+                            @endphp
+
+                            <tr class="item">
+                                <td>{{$tax->name}}</td>
+                                <td>{{__($tax->tax_type)}}</td>
+                                <td>{{$tax->value}}</td>
+                                <td>{{round(taxValueCalculated($purchaseQuotation->total_after_discount, $purchaseQuotation->sub_total, $tax),2)}}</td>
+                            </tr>
+                        @endforeach
+
+                        <tr class="item">
+                            <th style="background:#CCC !important;color:black" colspan="2">{{__('Total Additional Payments')}}</th>
+                            <td>{{$tax_value}}</td>
+                            <td>{{$purchaseQuotation->additional_payments}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
+
             <div class="col-xs-4">
                 <table class="table table-bordered">
                     <tbody>
