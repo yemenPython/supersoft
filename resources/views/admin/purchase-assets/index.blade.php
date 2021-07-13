@@ -312,9 +312,8 @@
                     swal({text: errors, icon: "error"})
                 }
             });
-
-
         });
+
         $('#branch_id').on('change', function () {
             const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             const branch_id = $(this).val();
@@ -391,6 +390,28 @@
                 url: "{{ route('admin:purchase-assets.getInvoiceNumbersBySupplierId')}}",
                 data: {
                     supplier_id: supplier_id,
+                    _token: CSRF_TOKEN,
+                },
+                success: function (data) {
+                    $('#invoice_number').each(function () {
+                        $(this).html(data.data)
+                    });
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
+        });
+        $('#branch_id').on('change', function () {
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            const branch_id = $(this).val();
+            $.ajax({
+                type: 'post',
+                url: "{{ route('admin:purchase-assets.get_Numbers_By_BranchId')}}",
+                data: {
+                    branch_id: branch_id,
                     _token: CSRF_TOKEN,
                 },
                 success: function (data) {

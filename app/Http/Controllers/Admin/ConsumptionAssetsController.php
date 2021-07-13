@@ -50,7 +50,7 @@ class ConsumptionAssetsController extends Controller
                 'consumption_assets.date_to',
                 'consumption_assets.created_at',
                 'consumption_assets.updated_at',
-                'consumption_assets.total_past_consumtion'
+                'consumption_assets.total_replacement'
             ] )
                 ->leftjoin( 'consumption_asset_items', 'consumption_assets.id', '=', 'consumption_asset_items.consumption_asset_id' );
 
@@ -91,8 +91,8 @@ class ConsumptionAssetsController extends Controller
                 ->addColumn( 'date_to', function ($consumptionAsset) {
                     return $consumptionAsset->date_to;
                 } )
-                ->addColumn( 'total_past_consumtion', function ($consumptionAsset) {
-                    return number_format( $consumptionAsset->total_past_consumtion, 2 );
+                ->addColumn( 'total_replacement', function ($consumptionAsset) {
+                    return number_format( $consumptionAsset->total_replacement, 2 );
                 } )
                 ->addColumn( 'created_at', function ($consumptionAsset) {
                     return $consumptionAsset->created_at;
@@ -151,7 +151,7 @@ class ConsumptionAssetsController extends Controller
                 'date' => 'consumption_assets.date',
                 'date_from' => 'consumption_assets.date_from',
                 'date_to' => 'consumption_assets.date_to',
-                'total_past_consumtion' => 'consumption_assets.total_past_consumtion',
+                'total_replacement' => 'consumption_assets.total_replacement',
                 'created_at' => 'consumption_assets.created_at',
                 'updated_at' => 'consumption_assets.updated_at',
                 'action' => 'action',

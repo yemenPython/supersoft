@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\Asset\PurchaseAssetRequest;
 use App\Models\Asset;
 use App\Models\AssetGroup;
+use App\Models\ConsumptionAsset;
 use App\Models\PurchaseAsset;
 use App\Models\PurchaseAssetItem;
 use Exception;
@@ -87,7 +88,7 @@ class PurchaseAssetsController extends Controller
                     return optional( $purchaseAsset->supplier )->name;
                 } )
                 ->addColumn( 'type', function ($purchaseAsset) {
-                    return $purchaseAsset->type;
+                    return __($purchaseAsset->type);
                 } )
                 ->addColumn( 'total_purchase_cost', function ($purchaseAsset) {
                     return number_format( $purchaseAsset->total_purchase_cost, 2 );
@@ -458,6 +459,20 @@ class PurchaseAssetsController extends Controller
             $suppliers_data = view( 'admin.purchase-assets.suppliers_by_branch_id', compact( 'suppliers' ) )->render();
             return response()->json( [
                 'data' => $suppliers_data,
+            ] );
+        }
+    }
+    public function getNumbersByBranchId(Request $request): JsonResponse
+    {
+        if (!empty( $request->branch_id )) {
+            $numbers = PurchaseAsset::where( 'branch_id', $request->branch_id )->pluck( 'invoice_number' )->unique();
+        } else {
+            $numbers = PurchaseAsset::pluck( 'invoice_number' )->unique();
+        }
+        if ($numbers) {
+            $numbers_data = view( 'admin.purchase-assets.invoice_number_by_branch_id', compact( 'numbers' ) )->render();
+            return response()->json( [
+                'data' => $numbers_data,
             ] );
         }
     }
