@@ -12,7 +12,7 @@ class PartPrice extends Model
     protected $dates = ['deleted_at'];
 
     protected $fillable = ['part_id','unit_id','barcode','selling_price','purchase_price','less_selling_price','service_selling_price'
-        ,'less_service_selling_price','maximum_sale_amount','minimum_for_order','biggest_percent_discount', 'biggest_amount_discount',
+        ,'less_service_selling_price','maximum_sale_amount','minimum_for_order','biggest_percent_discount',
         'quantity', 'last_selling_price', 'last_purchase_price', 'default_purchase', 'default_sales', 'default_maintenance',
         'supplier_barcode','damage_price'
     ];

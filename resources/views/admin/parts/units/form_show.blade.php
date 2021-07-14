@@ -118,17 +118,17 @@
     </div>
 </div>
 
-<div class="col-md-3">
+{{--<div class="col-md-3">--}}
 
-    <div class="form-group">
-        <label for="inputBigAmountDiscount" class="control-label">{{__('Biggest amount discount')}}</label>
-        <div class="input-group">
-            <span class="input-group-addon"><li class="fa fa-money"></li></span>
+{{--    <div class="form-group">--}}
+{{--        <label for="inputBigAmountDiscount" class="control-label">{{__('Biggest amount discount')}}</label>--}}
+{{--        <div class="input-group">--}}
+{{--            <span class="input-group-addon"><li class="fa fa-money"></li></span>--}}
 
-            <input type="text"  value="{{$price->biggest_amount_discount }}" class="form-control" disabled>
-        </div>
-    </div>
-</div>
+{{--            <input type="text"  value="{{$price->biggest_amount_discount }}" class="form-control" disabled>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--</div>--}}
 
 <div class="col-md-3">
     <div class="form-group">

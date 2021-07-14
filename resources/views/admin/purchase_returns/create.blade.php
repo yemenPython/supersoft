@@ -230,7 +230,7 @@
 
                     reorderItems();
 
-                    executeAllItems()
+                    executeAllItems();
                 },
 
                 error: function (jqXhr, json, errorThrown) {

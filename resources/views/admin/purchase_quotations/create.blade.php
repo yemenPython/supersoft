@@ -198,11 +198,11 @@
 
                     $("#items_count").val(data.index);
 
+                    executeAllItems();
+
                     $('.js-example-basic-single').select2();
 
                     reorderItems();
-
-                    executeAllItems();
                 },
 
                 error: function (jqXhr, json, errorThrown) {

@@ -197,8 +197,10 @@ class PurchaseReturn extends Model
 
     public function getSupplierNameAttribute()
     {
+
         if ($this->invoice_type == 'from_supply_order') {
-            return $this->supplyOrders->first() ? $this->supplyOrders->first()->name : '---';
+
+            return $this->supplyOrders->first() && $this->supplyOrders->first()->supplier ?  $this->supplyOrders->first()->supplier->name : '---';
         }
 
         return $this->invoice && $this->invoice->supplier ? $this->invoice->supplier->name : '---';
