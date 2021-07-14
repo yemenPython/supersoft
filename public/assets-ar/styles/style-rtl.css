@@ -2475,3 +2475,114 @@ input[type="time"]
                             .for-width-select .select2 {
                                 width: 150px !important;
                             }
+                            /* أذونات البرنت */
+                            
+                            .print-border {
+                                padding: 0 !important;
+                            }
+                            
+                            .logo-print {
+                                background: #333 !important;
+                                width: 350px !important;
+                                border-radius: 115px 0 0 0 !important;
+                                padding: 20px !important;
+                                border-left: 9px solid #FAB907 !important;
+                                color: white;
+                                border-right: none !important;
+                            }
+                            
+                            .top-logo-print {
+                                position: absolute;
+                            }
+                            /* .row-right-data {
+    position: relative;
+    top: -80px
+} */
+                            
+                            .right-top-detail h1 {
+                                color: #FAB907;
+                                font-weight: bold
+                            }
+                            
+                            .invoice-to {
+                                padding: 20px
+                            }
+                            
+                            .invoice-to h4 {
+                                color: #FAB907;
+                                font-weight: bold;
+                                margin: 0;
+                                padding: 5px 0
+                            }
+                            
+                            .invoice-to h2 {
+                                color: black;
+                                margin: 0;
+                                padding: 5px 0
+                            }
+                            
+                            .invoice-to h6 {
+                                color: black;
+                                margin: 0 0 10px;
+                            }
+                            
+                            .invoice-to ul {
+                                color: black;
+                                margin: 0;
+                                padding: 0
+                            }
+                            
+                            .print-table-wg thead th {
+                                background: #FAB907 !important;
+                            }
+                            
+                            .print-table-wg tbody tr:nth-of-type(2) {
+                                background: #EEE !important;
+                            }
+                            
+                            .print-table-wg tr th,
+                            .print-table-wg tr td {
+                                border: none !important
+                            }
+                            
+                            .print-table-wg tr th:first-of-type,
+                            .print-table-wg tr td:first-of-type {
+                                border-radius: 0 30px 30px 0 !important;
+                            }
+                            
+                            .print-table-wg tr th:last-of-type,
+                            .print-table-wg tr td:last-of-type {
+                                border-radius: 30px 0 0 30px !important;
+                            }
+                            
+                            .last-total {
+                                background: #FAB907;
+                                color: white;
+                                border-radius: 30px
+                            }
+                            
+                            .right-peice-wg .title {
+                                color: #FAB907;
+                                font-weight: bold !important
+                            }
+                            
+                            .print-foot-wg {
+                                margin-right: 15px !important;
+                            }
+                            
+                            .print-foot-wg .media i {
+                                margin-left: 5px;
+                            }
+                            
+                            .print-foot-wg .col-xs-7 {
+                                background: black;
+                                color: white !important;
+                                border-radius: 100px 0 0 0 !important;
+                                border-left: 15px solid #FAB907 !important;
+                                border-right: none !important
+                            }
+                            
+                            .print-foot-wg .col-xs-7 .media {
+                                padding: 20px 0 15px
+                            }
+                            /* أذونات البرنت */
