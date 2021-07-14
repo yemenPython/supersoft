@@ -79,21 +79,26 @@ class ConsumptionAssetsController extends Controller
                     return '<span class="text-danger">' . optional( $asset->branch )->name . '</span>';
 
                 } )
+                ->addColumn( 'date', function ($consumptionAsset) {
+                    return '<span class="text-danger">' .$consumptionAsset->date . ' ' . $consumptionAsset->time;
+                } )
                 ->addColumn( 'number', function ($consumptionAsset) {
                     return $consumptionAsset->number;
 
                 } )
-                ->addColumn( 'date', function ($consumptionAsset) {
-                    return $consumptionAsset->date . ' ' . $consumptionAsset->time;
-                } )
+              
                 ->addColumn( 'date_from', function ($consumptionAsset) {
-                    return $consumptionAsset->date_from;
+                    return '<span class="label wg-label"
+                    style="background: rgb(113, 101, 218) !important;"
+                    >' . $consumptionAsset->date_from. '</span>';
                 } )
                 ->addColumn( 'date_to', function ($consumptionAsset) {
-                    return $consumptionAsset->date_to;
+                    return '<span class="label wg-label"
+                    style="background: rgb(113, 101, 218) !important;"
+                    >' . $consumptionAsset->date_to. '</span>';
                 } )
                 ->addColumn( 'total_replacement', function ($consumptionAsset) {
-                    return number_format( $consumptionAsset->total_replacement, 2 );
+                    return '<span style="background:#F7F8CC !important">'. number_format( $consumptionAsset->total_replacement, 2 ).'</span>';
                 } )
                 ->addColumn( 'created_at', function ($consumptionAsset) {
                     return $consumptionAsset->created_at;
@@ -148,8 +153,9 @@ class ConsumptionAssetsController extends Controller
             $js_columns = [
                 'DT_RowIndex' => 'DT_RowIndex',
                 'branch_id' => 'consumption_assets.branch_id',
-                'number' => 'consumption_assets.number',
                 'date' => 'consumption_assets.date',
+                'number' => 'consumption_assets.number',
+               
                 'date_from' => 'consumption_assets.date_from',
                 'date_to' => 'consumption_assets.date_to',
                 'total_replacement' => 'consumption_assets.total_replacement',

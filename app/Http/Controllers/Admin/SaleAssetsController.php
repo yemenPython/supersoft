@@ -82,6 +82,10 @@ class SaleAssetsController extends Controller
                     return '<span class="text-danger">' . optional( $asset->branch )->name . '</span>';
 
                 } )
+                ->addColumn('date',function ($saleAsset){
+                    return '<span class="text-danger">' .$saleAsset->date .' '. $saleAsset->time . '</span>';
+                })
+                
                 ->addColumn( 'number', function ($saleAsset) {
                     return $saleAsset->number;
 
@@ -90,9 +94,7 @@ class SaleAssetsController extends Controller
                     return $saleAsset->type;
 
                 } )
-                ->addColumn('date',function ($saleAsset){
-                    return $saleAsset->date .' '. $saleAsset->time;
-                })
+
                 ->addColumn( 'action', function ($saleAsset) {
                     return '
                       <div class="btn-group margin-top-10">
@@ -141,18 +143,20 @@ class SaleAssetsController extends Controller
                 $js_columns = [
                     'DT_RowIndex' => 'DT_RowIndex',
                     'branch_id' => 'sale_assets.branch_id',
+                    'date' => 'sale_assets.date',
                     'number' => 'sale_assets.number',
                     'type' => 'sale_assets.type',
-                    'date' => 'sale_assets.date',
+                  
                     'action' => 'action',
                     'options' => 'options'
                 ];
             }else{
                 $js_columns = [
                     'DT_RowIndex' => 'DT_RowIndex',
+                    'date' => 'sale_assets.date',
                     'number' => 'sale_assets.number',
                     'type' => 'sale_assets.type',
-                    'date' => 'sale_assets.date',
+              
                     'action' => 'action',
                     'options' => 'options'
                 ];

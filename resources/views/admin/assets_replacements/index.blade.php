@@ -174,8 +174,9 @@
                             <tr>
                                 <th scope="col">{!! __('#') !!}</th>
                                 <th scope="col">{!! __('Branch') !!}</th>
-                                <th scope="col">{!! __('Number') !!}</th>
                                 <th scope="col">{!! __('Date') !!}</th>
+                                <th scope="col">{!! __('Number') !!}</th>
+                                
                                 <th scope="col">{!! __('Total Purchase') !!}</th>
                                 <th scope="col">{!! __('Total Value Of Replacement') !!}</th>
                                 <th scope="col">{!! __('Created at') !!}</th>
@@ -192,8 +193,9 @@
                             <tr>
                                 <th scope="col">{!! __('#') !!}</th>
                                 <th scope="col">{!! __('Branch') !!}</th>
-                                <th scope="col">{!! __('Number') !!}</th>
                                 <th scope="col">{!! __('Date') !!}</th>
+                                <th scope="col">{!! __('Number') !!}</th>
+                     
                                 <th scope="col">{!! __('Total Before Replacement') !!}</th>
                                 <th scope="col">{!! __('Total After Replacement') !!}</th>
                                 <th scope="col">{!! __('Created at') !!}</th>

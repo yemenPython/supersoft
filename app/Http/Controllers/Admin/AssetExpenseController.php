@@ -68,13 +68,14 @@ class AssetExpenseController extends Controller
                 ->addColumn( 'branch_id', function ($assetExpense) {
                     return '<span class="text-danger">' . optional( $assetExpense->branch )->name . '</span>';
                 } )
+                ->addColumn( 'date', function ($assetExpense) {
+                    return '<span class="text-danger">' .$assetExpense->date . ' ' . $assetExpense->time . '</span>';
+                } )
                 ->addColumn( 'number', function ($assetExpense) {
                     return $assetExpense->number;
 
                 } )
-                ->addColumn( 'date', function ($assetExpense) {
-                    return $assetExpense->date . ' ' . $assetExpense->time;
-                } )
+
                 ->addColumn( 'status', function ($assetExpense) {
                     if ($assetExpense->status == 'pending') {
                         return ' <span class="label label-info wg-label">'.__('Pending').'</span>';
@@ -143,8 +144,9 @@ class AssetExpenseController extends Controller
             $js_columns = [
                 'DT_RowIndex' => 'DT_RowIndex',
                 'branch_id' => 'asset_expenses.branch_id',
-                'number' => 'asset_expenses.number',
                 'date' => 'date',
+                'number' => 'asset_expenses.number',
+               
                 'status' => 'asset_expenses.status',
                 'total' => 'asset_expenses.total',
                 'created_at' => 'asset_expenses.created_at',

@@ -210,10 +210,11 @@
                                 @if(authIsSuperAdmin())
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
+                                <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
+
                                 <th class="text-center column-invoice-number"
                                     scope="col">{!! __('Invoice Number') !!}</th>
 
-                                <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
 
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Invoice Type') !!}</th>
@@ -241,10 +242,12 @@
                                 @if(authIsSuperAdmin())
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
+
+                                <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
+
                                 <th class="text-center column-invoice-number"
                                     scope="col">{!! __('Invoice Number') !!}</th>
 
-                                <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
 
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Invoice Type') !!}</th>
