@@ -46,16 +46,21 @@ table th {
 
 .logo-print {
     background: #333 !important;
-    width: 350px !important;
+    width: 400px !important;
     border-radius: 0 0 115px 0 !important;
-    padding: 20px !important;
-    border-right: 9px solid #FAB907 !important;
+    padding: 10px !important;
+    border-right: 9px solid #526cc2 !important;
     color: white !important
 }
 
 .logo-print h1 {
     color: white !important
 }
+
+.logo-print h5 {
+    color: white !important
+}
+
 
 .top-logo-print {
     position: absolute !important;
@@ -68,16 +73,30 @@ table th {
 } */
 
 .right-top-detail h1 {
-    color: #FAB907 !important;
+    color: #526cc2 !important;
     font-weight: bold !important
 }
+
+
+.right-top-detail h3 {
+    color: #526cc2 !important;
+    font-weight: bold !important
+}
+
 
 .invoice-to {
     padding: 20px !important
 }
 
 .invoice-to h4 {
-    color: #FAB907 !important;
+    color: #526cc2 !important;
+    font-weight: bold !important;
+    margin: 0 !important;
+    padding: 5px 0 !important
+}
+
+.invoice-to h3 {
+    color: #526cc2 !important;
     font-weight: bold !important;
     margin: 0 !important;
     padding: 5px 0 !important
@@ -101,7 +120,7 @@ table th {
 }
 
 .print-table-wg thead th {
-    background: #FAB907 !important;
+    background: #526cc2 !important;
     color: white !important;
     border: none !important
 }
@@ -126,7 +145,7 @@ table th {
 }
 
 .last-total {
-    background: #FAB907 !important;
+    background: #526cc2 !important;
     color: white !important;
     border-radius: 30px !important
 }
@@ -136,7 +155,7 @@ table th {
 }
 
 .right-peice-wg .title {
-    color: #FAB907 !important;
+    color: #526cc2 !important;
     font-weight: bold !important
 }
 
@@ -150,7 +169,7 @@ table th {
     background: black !important;
     color: white !important;
     border-radius: 0 100px 0 0 !important;
-    border-right: 15px solid #FAB907 !important;
+    border-right: 15px solid #526cc2 !important;
 }
 
 .print-foot-wg .col-xs-7 .media {

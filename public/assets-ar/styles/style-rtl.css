@@ -2483,10 +2483,10 @@ input[type="time"]
                             
                             .logo-print {
                                 background: #333 !important;
-                                width: 350px !important;
+                                width: 400px !important;
                                 border-radius: 115px 0 0 0 !important;
-                                padding: 20px !important;
-                                border-left: 9px solid #FAB907 !important;
+                                padding: 10px !important;
+                                border-left: 9px solid #526cc2 !important;
                                 color: white;
                                 border-right: none !important;
                             }
@@ -2500,7 +2500,12 @@ input[type="time"]
 } */
                             
                             .right-top-detail h1 {
-                                color: #FAB907;
+                                color: #526cc2;
+                                font-weight: bold
+                            }
+
+                            .right-top-detail h3 {
+                                color: #526cc2;
                                 font-weight: bold
                             }
                             
@@ -2509,7 +2514,7 @@ input[type="time"]
                             }
                             
                             .invoice-to h4 {
-                                color: #FAB907;
+                                color: #526cc2;
                                 font-weight: bold;
                                 margin: 0;
                                 padding: 5px 0
@@ -2533,7 +2538,7 @@ input[type="time"]
                             }
                             
                             .print-table-wg thead th {
-                                background: #FAB907 !important;
+                                background: #526cc2 !important;
                             }
                             
                             .print-table-wg tbody tr:nth-of-type(2) {
@@ -2556,13 +2561,13 @@ input[type="time"]
                             }
                             
                             .last-total {
-                                background: #FAB907;
+                                background: #526cc2;
                                 color: white;
                                 border-radius: 30px
                             }
                             
                             .right-peice-wg .title {
-                                color: #FAB907;
+                                color: #526cc2;
                                 font-weight: bold !important
                             }
                             
@@ -2578,7 +2583,7 @@ input[type="time"]
                                 background: black;
                                 color: white !important;
                                 border-radius: 100px 0 0 0 !important;
-                                border-left: 15px solid #FAB907 !important;
+                                border-left: 15px solid #526cc2 !important;
                                 border-right: none !important
                             }
                             
