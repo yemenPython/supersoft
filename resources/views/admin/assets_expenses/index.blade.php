@@ -47,8 +47,9 @@
                         @if(authIsSuperAdmin())
                         <th scope="col">{!! __('Branch') !!}</th>
                         @endif
-                        <th scope="col">{!! __('Number') !!}</th>
                         <th scope="col">{!! __('Date') !!}</th>
+                        <th scope="col">{!! __('Number') !!}</th>
+                 
                         <th scope="col">{!! __('Status') !!}</th>
                         <th scope="col">{!! __('Total') !!}</th>
                         <th scope="col">{!! __('Created at') !!}</th>
@@ -67,8 +68,9 @@
                         @if(authIsSuperAdmin())
                         <th scope="col">{!! __('Branch') !!}</th>
                         @endif
-                        <th scope="col">{!! __('Number') !!}</th>
                         <th scope="col">{!! __('Date') !!}</th>
+                        <th scope="col">{!! __('Number') !!}</th>
+                 
                         <th scope="col">{!! __('Status') !!}</th>
                         <th scope="col">{!! __('Total') !!}</th>
                         <th scope="col">{!! __('Created at') !!}</th>

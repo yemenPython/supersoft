@@ -77,13 +77,14 @@ class PurchaseAssetsController extends Controller
                 ->addColumn( 'branch_id', function ($asset) {
                     return '<span class="text-danger">' . optional( $asset->branch )->name . '</span>';
                 } )
+                ->addColumn( 'date', function ($saleAsset) {
+                    return '<span class="text-danger">' .$saleAsset->date . ' ' . $saleAsset->time . '</span>';
+                } )
                 ->addColumn( 'invoice_number', function ($saleAsset) {
                     return $saleAsset->invoice_number;
 
                 } )
-                ->addColumn( 'date', function ($saleAsset) {
-                    return $saleAsset->date . ' ' . $saleAsset->time;
-                } )
+               
                 ->addColumn( 'supplier_id', function ($purchaseAsset) {
                     return optional( $purchaseAsset->supplier )->name;
                 } )
@@ -159,8 +160,9 @@ class PurchaseAssetsController extends Controller
                 $js_columns = [
                     'DT_RowIndex' => 'DT_RowIndex',
                     'branch_id' => 'purchase_assets.branch_id',
-                    'invoice_number' => 'purchase_assets.invoice_number',
                     'date' => 'date',
+                    'invoice_number' => 'purchase_assets.invoice_number',
+                    
                     'supplier_id' => 'purchase_assets.supplier_id',
                     'type' => 'purchase_assets.type',
                     'total_purchase_cost' => 'purchase_assets.total_purchase_cost',
@@ -175,8 +177,9 @@ class PurchaseAssetsController extends Controller
             } else {
                 $js_columns = [
                     'DT_RowIndex' => 'DT_RowIndex',
-                    'invoice_number' => 'purchase_assets.invoice_number',
                     'date' => 'date',
+                    'invoice_number' => 'purchase_assets.invoice_number',
+            
                     'supplier_id' => 'purchase_assets.supplier_id',
                     'type' => 'purchase_assets.type',
                     'total_purchase_cost' => 'purchase_assets.total_purchase_cost',

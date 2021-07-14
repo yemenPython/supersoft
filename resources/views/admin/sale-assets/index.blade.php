@@ -223,11 +223,12 @@
                                 @if(authIsSuperAdmin())
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
+                                <th class="text-center" scope="col">{!! __('Date') !!}</th>
                                 <th class="text-center column-number"
                                     scope="col">{!! __('Number') !!}</th>
                                 <th class="text-center column-type"
                                     scope="col">{!! __('Type') !!}</th>
-                                <th class="text-center" scope="col">{!! __('Date') !!}</th>
+                      
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">
                                     <div class="checkbox danger">
@@ -243,11 +244,12 @@
                                 @if(authIsSuperAdmin())
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
+                                <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
+
                                 <th class="text-center"
                                     scope="col">{!! __('Number') !!}</th>
                                 <th class="text-center column-type"
                                     scope="col">{!! __('Type') !!}</th>
-                                <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">{!! __('Select') !!}</th>
                             </tr>

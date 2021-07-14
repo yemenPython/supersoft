@@ -183,8 +183,9 @@
                             <tr>
                                 <th>#</th>
                                 <th class="text-center" scope="col">{!! __('Branch') !!}</th>
-                                <th class="text-center" scope="col">{!! __('Number') !!}</th>
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
+
+                                <th class="text-center" scope="col">{!! __('Number') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Date From') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Date to') !!}</th>
                                 <th>{{__('total consumption')}}</th>
@@ -203,9 +204,10 @@
                             <tr>
                                 <th>#</th>
                                 <th class="text-center" scope="col">{!! __('Branch') !!}</th>
+                                <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
+
                                 <th class="text-center"
                                     scope="col">{!! __('Number') !!}</th>
-                                <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Date From') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Date to') !!}</th>
                                 <th>{{__('total consumption')}}</th>
