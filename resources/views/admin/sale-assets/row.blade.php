@@ -46,7 +46,7 @@
                    class="replacement_cost_{{$index}} form-control valid replacement_cost"
                    onchange="total_replacement_cost('{{$index}}')"
                    onkeyup="total_replacement_cost('{{$index}}')"
-                   value="{{1 }}"
+                   value="{{ optional($asset->assetReplacementItem)->value_replacement}}"
                    name="items[{{$index}}][replacement_cost]">
         </div>
     </td>

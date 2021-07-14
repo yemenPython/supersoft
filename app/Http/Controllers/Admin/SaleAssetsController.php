@@ -42,16 +42,18 @@ class SaleAssetsController extends Controller
     public function index(Request $request)
     {
         if ($request->isDataTable) {
-            $saleAssets = SaleAsset::select( ['*'] );
-            $saleAssets = SaleAsset::select( [
-                'sale_assets.id',
-                'number',
-                'branch_id',
-                'date',
-                'time',
-                'type',
-            ] )
-                ->leftjoin( 'sale_asset_items', 'sale_assets.id', '=', 'sale_asset_items.sale_asset_id' );
+            $saleAssets = SaleAsset::with('items')->select( ['*'] );
+//            $saleAssets = SaleAsset::select( [
+//                'sale_assets.id',
+//                'number',
+//                'branch_id',
+//                'date',
+//                'time',
+//                'type',
+//                'total_sale_amount',
+//                'created_at',
+//                'updated_at',
+//            ] )->leftjoin( 'sale_asset_items', 'sale_assets.id', '=', 'sale_asset_items.sale_asset_id' );
 
             if ($request->has( 'branch_id' ) && !empty( $request['branch_id'] ))
                 $saleAssets->where( 'sale_assets.branch_id', $request['branch_id'] );
@@ -61,33 +63,41 @@ class SaleAssetsController extends Controller
             if ($request->has( 'type' ) && !empty( $request['type'] ))
                 $saleAssets->where( 'sale_assets.type', $request['type'] );
 
-            if ($request->has( 'asset_group_id' ) && !empty( $request->asset_group_id ))
-                $saleAssets->where( 'sale_asset_items.asset_group_id', $request['asset_group_id'] );
-            if ($request->has( 'asset_id' ) && !empty( $request->asset_id ))
-                $saleAssets->where( 'sale_asset_items.asset_id', $request['asset_id'] );
+            if ($request->has( 'asset_group_id' ) && !empty( $request->asset_group_id )) {
+                $saleAssets->whereHas('items', function ($query) use($request) {
+                    $query->where( 'asset_group_id', $request['asset_group_id'] );
+                });
+            }
 
-//            if ($request->has( 'date_from' ) && !empty( $request['date_from'] ))
-//                $saleAssets->where( 'sale_assets.date_from', $request['date_from'] );
-//
-//            if ($request->has( 'date_to' ) && !empty( $request['date_to'] ))
-//                $saleAssets->where( 'sale_assets.date_to', $request['date_to'] );
+            if ($request->has( 'asset_id' ) && !empty( $request->asset_id)) {
+                $saleAssets->whereHas('items', function ($query) use($request) {
+                    $query->where( 'asset_id', $request['asset_group_id'] );
+                });
+            }
 
             whereBetween($saleAssets,'DATE(date)',$request->date_from,$request->date_to);
             whereBetween( $saleAssets, 'sale_asset_items.sale_amount', $request->sale_amount_from, $request->sale_amount_to );
-
-
-            return DataTables::of( $saleAssets->groupBY('sale_assets.id') )
+            return DataTables::of( $saleAssets )
                 ->addIndexColumn()
                 ->addColumn( 'number', function ($saleAsset) {
                     return $saleAsset->number;
 
                 } )
                 ->addColumn( 'type', function ($saleAsset) {
-                    return $saleAsset->type;
+                    return ($saleAsset->type === 'sale' ?  __('Sale') : __('exclusion'));
+                } )
+                ->addColumn( 'total_sale_amount', function ($saleAsset) {
+                    return $saleAsset->total_sale_amount;
 
                 } )
                 ->addColumn('date',function ($saleAsset){
                     return $saleAsset->date .' '. $saleAsset->time;
+                })
+                ->addColumn('created_at',function ($saleAsset){
+                    return $saleAsset->created_at;
+                })
+                ->addColumn('updated_at',function ($saleAsset){
+                    return $saleAsset->updated_at;
                 })
                 ->addColumn( 'action', function ($saleAsset) {
                     return '
@@ -137,7 +147,10 @@ class SaleAssetsController extends Controller
                 'DT_RowIndex' => 'DT_RowIndex',
                 'number' => 'sale_assets.number',
                 'type' => 'sale_assets.type',
+                'total_sale_amount' => 'sale_assets.total_sale_amount',
                 'date' => 'sale_assets.date',
+                'created_at' => 'sale_assets.created_at',
+                'updated_at' => 'sale_assets.updated_at',
                 'action' => 'action',
                 'options' => 'options'
             ];

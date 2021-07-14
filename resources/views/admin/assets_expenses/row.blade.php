@@ -13,13 +13,14 @@
         <span style="width: 150px !important;display:block">{{$assetGroup->name}}</span>
     </td>
 
-    
+
 
     <td>
         <div class="input-group">
             <select style="width: 150px !important;" class="form-control js-example-basic-single"
                     id="asset_expense_type_index{{$index}}"
                     onchange="getAssetItemsByAssetTypeId('{{$index}}')">
+                <option value="*">{{__('Select')}}</option>
                 @foreach($assetExpensesTypes as $type)
                     <option value="{{$type->id}}">{{$type->name}}</option>
                 @endforeach

@@ -105,10 +105,16 @@ class AssetsItemExpenseController extends Controller
 
     public function getAssetItemsExpenseById(Request $request): JsonResponse
     {
-        $items = AssetsItemExpense::where([
-            'assets_type_expenses_id' => $request->assets_type_expenses_id,
-            'branch_id' => $request->branch_id,
-        ])->get();
+        $items = AssetsItemExpense::query();
+        if ($request->assets_type_expenses_id === '*') {
+            $items = $items->where('branch_id', $request->branch_id);
+        } else {
+            $items = $items->where([
+                'assets_type_expenses_id' => $request->assets_type_expenses_id,
+                'branch_id' => $request->branch_id,
+            ]);
+        }
+        $items = $items->get();
         $view = view('admin.assets_expenses_items.options', compact('items'))->render();
         return response()->json([
            'items' => $view

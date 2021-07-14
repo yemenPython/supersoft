@@ -138,7 +138,11 @@
         let valueReplacement = $("#value_replacement"+index).val();
         let valueReplacementAfter = $("#replacement_after"+index).val();
         let total =( parseInt(purchaseCost) + parseInt(valueReplacement)) / parseInt(valueReplacementAfter);
+        console.log(parseInt(purchaseCost) + parseInt(valueReplacement))
         let age3 = total / 100;
+        if (age3 === Infinity) {
+            age3 = 0
+        }
         $("#age"+index).val(age3.toFixed(2));
     }
 

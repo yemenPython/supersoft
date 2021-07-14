@@ -104,9 +104,8 @@
                                 </td>
 
                                 <td class="inline-flex-span">
-                                    <span>{{optional($item->asset)->purchase_cost}}</span>
+                                    <span style="background:#D7FDF9 !important">{{optional($item->asset)->purchase_cost}}</span>
                                     <input type="hidden" id="purchase_cost{{$index}}" value="{{optional($item->asset)->purchase_cost}}">
-
                                 </td>
 
                                 <td class="inline-flex-span">

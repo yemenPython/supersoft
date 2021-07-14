@@ -40,6 +40,7 @@
                                 <select style="width: 150px !important;" class="form-control js-example-basic-single"
                                         id="asset_expense_type_index{{$index + 1}}"
                                 onchange="getAssetItemsByAssetTypeId('{{$index + 1}}')">
+                                    <option value="*">{{__('Select')}}</option>
                                     @foreach($assetExpensesTypes as $type)
                                         <option value="{{$type->id}}"
                                             {{optional($item->assetExpenseItem)->assets_type_expenses_id === $type->id ? 'selected' : ''}}>{{$type->name}}</option>

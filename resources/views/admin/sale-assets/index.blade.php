@@ -103,7 +103,7 @@
                                     </div>
                                 </div>
 
-                                
+
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label> {{ __('Type') }} </label>
@@ -196,7 +196,11 @@
                                     scope="col">{!! __('Number') !!}</th>
                                 <th class="text-center column-type"
                                     scope="col">{!! __('Type') !!}</th>
+                                <th class="text-center column-type"
+                                    scope="col">{!! __('total sale amount') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Date') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Created At') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Updated At') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">
                                     <div class="checkbox danger">
@@ -213,7 +217,11 @@
                                     scope="col">{!! __('Number') !!}</th>
                                 <th class="text-center column-type"
                                     scope="col">{!! __('Type') !!}</th>
-                                <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
+                                <th class="text-center column-type"
+                                    scope="col">{!! __('total sale amount') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Date') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Created At') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Updated At') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">{!! __('Select') !!}</th>
                             </tr>

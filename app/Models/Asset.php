@@ -6,6 +6,7 @@ use App\Scopes\BranchScope;
 use App\Traits\ColumnTranslation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\File;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -100,5 +101,10 @@ class Asset extends Model
     public function replacements()
     {
         return $this->hasMany(AssetReplacementItem::class,'asset_id');
+    }
+
+    public function assetReplacementItem(): HasOne
+    {
+        return $this->hasOne(AssetReplacementItem::class, 'asset_id');
     }
 }

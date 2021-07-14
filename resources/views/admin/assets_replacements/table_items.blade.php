@@ -4,7 +4,7 @@
             <thead>
             <tr>
                 <th width="2%"> # </th>
-            
+
                 <th width="10%"> {{ __('Asset name') }} </th>
                 <th width="10%"> {{ __('Asset group') }} </th>
                 <th width="10%"> {{ __('Operation Date') }} </th>
@@ -41,10 +41,8 @@
                         </td>
 
                         <td class="inline-flex-span">
-                            <!-- <input type="number" class="purchase_cost" readonly  name="items[{{$index + 1}}][purchase_cost]" value="{{optional($item->asset)->purchase_cost}}" style="width: 100px" > -->
-                            <span  id="purchase_cost{{$index + 1}}" 
-                           style="background:#D7FDF9 !important"
-                            >{{optional($item->asset)->purchase_cost}}</span>
+                            <input type="hidden" class="purchase_cost" id="purchase_cost{{$index + 1}}" value="{{optional($item->asset)->purchase_cost}}">
+                            <span style="background:#D7FDF9 !important">{{optional($item->asset)->purchase_cost}}</span>
                         </td>
 
                         <td class="inline-flex-span">
@@ -75,7 +73,7 @@
                             class="border4"
                              style="width: 100px" id="age{{$index + 1}}"
                                    name="items[{{$index + 1}}][age]" value="{{$item->age}}">
-                             
+
                         </td>
 
                         <td>
@@ -90,7 +88,7 @@
             <tfoot>
             <tr>
                 <th width="2%"> # </th>
-        
+
                 <th width="10%"> {{ __('Asset name') }} </th>
                 <th width="10%"> {{ __('Asset group') }} </th>
                 <th width="10%"> {{ __('Operation Date') }} </th>
