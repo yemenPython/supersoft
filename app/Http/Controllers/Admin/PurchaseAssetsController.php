@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\Asset\PurchaseAssetRequest;
 use App\Models\Asset;
 use App\Models\AssetGroup;
+use App\Models\ConsumptionAsset;
 use App\Models\PurchaseAsset;
 use App\Models\PurchaseAssetItem;
 use Exception;
@@ -76,30 +77,31 @@ class PurchaseAssetsController extends Controller
                 ->addColumn( 'branch_id', function ($asset) {
                     return '<span class="text-danger">' . optional( $asset->branch )->name . '</span>';
                 } )
+                ->addColumn( 'date', function ($saleAsset) {
+                    return '<span class="text-danger">' .$saleAsset->date . ' ' . $saleAsset->time . '</span>';
+                } )
                 ->addColumn( 'invoice_number', function ($saleAsset) {
                     return $saleAsset->invoice_number;
 
                 } )
-                ->addColumn( 'date', function ($saleAsset) {
-                    return $saleAsset->date . ' ' . $saleAsset->time;
-                } )
+               
                 ->addColumn( 'supplier_id', function ($purchaseAsset) {
                     return optional( $purchaseAsset->supplier )->name;
                 } )
                 ->addColumn( 'type', function ($purchaseAsset) {
-                    return $purchaseAsset->type;
+                    return __($purchaseAsset->type);
                 } )
                 ->addColumn( 'total_purchase_cost', function ($purchaseAsset) {
-                    return number_format( $purchaseAsset->total_purchase_cost, 2 );
+                    return '<span style="background:#F7F8CC !important">'. number_format( $purchaseAsset->total_purchase_cost, 2 ).'</span>';
                 } )
                 ->addColumn( 'total_past_consumtion', function ($purchaseAsset) {
-                    return number_format( $purchaseAsset->total_past_consumtion, 2 );
+                    return '<span style="background:#F7F8CC !important">' .number_format( $purchaseAsset->total_past_consumtion, 2 ).'</span>';
                 } )
                 ->addColumn( 'paid_amount', function ($purchaseAsset) {
-                    return number_format( $purchaseAsset->paid_amount, 2 );
+                    return '<span style="background:#D7FDF9 !important">' .number_format( $purchaseAsset->paid_amount, 2 ).'</span>';
                 } )
                 ->addColumn( 'remaining_amount', function ($purchaseAsset) {
-                    return number_format( $purchaseAsset->remaining_amount, 2 );
+                    return '<span style="background:#D7FDF9 !important">' .number_format( $purchaseAsset->remaining_amount, 2 ).'</span>';
                 } )
                 ->addColumn( 'created_at', function ($purchaseAsset) {
                     return $purchaseAsset->created_at;
@@ -158,8 +160,9 @@ class PurchaseAssetsController extends Controller
                 $js_columns = [
                     'DT_RowIndex' => 'DT_RowIndex',
                     'branch_id' => 'purchase_assets.branch_id',
-                    'invoice_number' => 'purchase_assets.invoice_number',
                     'date' => 'date',
+                    'invoice_number' => 'purchase_assets.invoice_number',
+                    
                     'supplier_id' => 'purchase_assets.supplier_id',
                     'type' => 'purchase_assets.type',
                     'total_purchase_cost' => 'purchase_assets.total_purchase_cost',
@@ -174,8 +177,9 @@ class PurchaseAssetsController extends Controller
             } else {
                 $js_columns = [
                     'DT_RowIndex' => 'DT_RowIndex',
-                    'invoice_number' => 'purchase_assets.invoice_number',
                     'date' => 'date',
+                    'invoice_number' => 'purchase_assets.invoice_number',
+            
                     'supplier_id' => 'purchase_assets.supplier_id',
                     'type' => 'purchase_assets.type',
                     'total_purchase_cost' => 'purchase_assets.total_purchase_cost',
@@ -458,6 +462,20 @@ class PurchaseAssetsController extends Controller
             $suppliers_data = view( 'admin.purchase-assets.suppliers_by_branch_id', compact( 'suppliers' ) )->render();
             return response()->json( [
                 'data' => $suppliers_data,
+            ] );
+        }
+    }
+    public function getNumbersByBranchId(Request $request): JsonResponse
+    {
+        if (!empty( $request->branch_id )) {
+            $numbers = PurchaseAsset::where( 'branch_id', $request->branch_id )->pluck( 'invoice_number' )->unique();
+        } else {
+            $numbers = PurchaseAsset::pluck( 'invoice_number' )->unique();
+        }
+        if ($numbers) {
+            $numbers_data = view( 'admin.purchase-assets.invoice_number_by_branch_id', compact( 'numbers' ) )->render();
+            return response()->json( [
+                'data' => $numbers_data,
             ] );
         }
     }

@@ -137,7 +137,7 @@
                             $tax_value = 0;
                         @endphp
 
-                        @foreach($purchase_invoice->taxes as $tax)
+                        @foreach($purchase_invoice->taxes()->where('type', 'tax')->get() as $tax)
 
                             @php
                                 $tax_value += $tax->value;
@@ -154,7 +154,45 @@
                         <tr class="item">
                             <th style="background:#CCC !important;color:black" colspan="2">{{__('Total Tax')}}</th>
                             <td>{{$tax_value}}</td>
-                            <td>{{$purchase_invoice->tax + $purchase_invoice->additional_payments }}</td>
+                            <td>{{$purchase_invoice->tax}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr class="heading">
+                            <th style="background:#CCC !important;color:black">{{__('Tax Name')}}</th>
+                            <th style="background:#CCC !important;color:black">{{__('Tax Type')}}</th>
+                            <th style="background:#CCC !important;color:black">{{__('Tax Value')}}</th>
+                            <th style="background:#CCC !important;color:black">{{__('Calculated Tax Value')}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        @php
+                            $tax_value = 0;
+                        @endphp
+
+                        @foreach($purchase_invoice->taxes()->where('type', 'additional_payments')->get() as $tax)
+
+                            @php
+                                $tax_value += $tax->value;
+                            @endphp
+
+                            <tr class="item">
+                                <td>{{$tax->name}}</td>
+                                <td>{{__($tax->tax_type)}}</td>
+                                <td>{{$tax->value}}</td>
+                                <td>{{round(taxValueCalculated($purchase_invoice->total_after_discount, $purchase_invoice->sub_total, $tax),2)}}</td>
+                            </tr>
+                        @endforeach
+
+                        <tr class="item">
+                            <th style="background:#CCC !important;color:black" colspan="2">{{__('Total Additional Payments')}}</th>
+                            <td>{{$tax_value}}</td>
+                            <td>{{$purchase_invoice->additional_payments }}</td>
                         </tr>
                         </tbody>
                     </table>

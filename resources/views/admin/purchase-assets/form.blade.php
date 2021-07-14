@@ -41,7 +41,7 @@
 
     <div class="col-md-12">
 
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="inputNameAr" class="control-label">{{__('Invoice Number')}}</label>
                 <div class="input-group">
@@ -53,7 +53,7 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="form-group">
                 <label for="date" class="control-label">{{__('Date')}}</label>
                 <div class="input-group">
@@ -64,9 +64,6 @@
                 {{input_error($errors,'date')}}
             </div>
         </div>
-        </div>
-
-        <div class="col-md-12">
         <div class="col-md-4">
             <div class="form-group">
                 <label for="date" class="control-label">{{__('Time')}}</label>
@@ -78,9 +75,13 @@
                 {{input_error($errors,'time')}}
             </div>
         </div>
+        </div>
+
+        <div class="col-md-12">
 
 
-        <div class="col-md-4">
+
+        <div class="col-md-8">
             <div class="form-group has-feedback">
                 <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
                 <div class="input-group">
@@ -109,7 +110,7 @@
 
             <div class="col-md-4">
                 <div class="form-group">
-                    <label> {{ __('Type') }} </label>
+                    <label> {{ __('Invoice Type') }} </label>
                     <div class="input-group">
                         <ul class="list-inline">
                             <li>
@@ -133,7 +134,7 @@
                                            checked
                                            @endif
                                            value="delay">
-                                    <label for="radio_status_delay">{{ __('delay') }}</label>
+                                    <label for="radio_status_delay">{{ __('Credit') }}</label>
                                 </div>
                             </li>
                         </ul>

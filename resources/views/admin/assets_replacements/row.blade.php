@@ -18,8 +18,8 @@
     </td>
 
     <td class="inline-flex-span">
-        <!-- <input type="number" class="purchase_cost" readonly id="purchase_cost{{$index}}"  name="items[{{$index}}][purchase_cost]" value="{{$asset->purchase_cost}}" style="width: 100px" > -->
-        <span id="purchase_cost{{$index}}"  style="background:#D7FDF9 !important">{{$asset->purchase_cost}}</span>
+         <input type="hidden" class="purchase_cost"  id="purchase_cost{{$index}}"  name="items[{{$index}}][purchase_cost]" value="{{$asset->purchase_cost}}" >
+        <span style="background:#D7FDF9 !important">{{$asset->purchase_cost}}</span>
     </td>
 
     <td class="inline-flex-span">
@@ -47,7 +47,7 @@
         <input type="text" readonly
         class="border4"
          style="width: 100px" id="age{{$index}}"  name="items[{{$index}}][age]" value="0">
-   
+
     </td>
 
     <td>

@@ -108,7 +108,7 @@ class AssetsController extends Controller
                 ->editColumn( 'asset_status', function ($asset) {
                     if ($asset->asset_status == 1) {
                         return '<span class="label label-info wg-label">' . __( 'continues' ) . '</span>';
-                    } elseif ($asset->asset_status == 1) {
+                    } elseif ($asset->asset_status == 2) {
                         return '<span class="label label-info wg-label">' . __( 'sell' ) . '</span>';
                     } else {
                         return '<span class="label label-info wg-label">' . __( 'ignore' ) . '</span>';
@@ -118,7 +118,7 @@ class AssetsController extends Controller
                     return '    <span style="background:#F7F8CC !important">' . $asset->annual_consumtion_rate . '%' . '</span>';
                 } )
                 ->editColumn( 'asset_age', function ($asset) {
-                    return '<span class="price-span">' . $asset->asset_age . ' ' . __( 'year' ) . '</span>';
+                    return '<span class="price-span">' . number_format($asset->asset_age,2) . ' ' . __( 'year' ) . '</span>';
                 } )
                 ->editColumn( 'created_at', '{{$created_at}}' )
                 ->editColumn( 'updated_at', '{{$updated_at}}' )
@@ -149,16 +149,16 @@ class AssetsController extends Controller
             <i class="fa fa-print"></i> ' . __( 'Print' ) . '</a>
         </li>
         <li><a class="btn btn-wg-show hvr-radial-out"z href="' . route( 'admin:assetsEmployees.index', $asset->id ) . '" >
-            <i class="fa fa-eye"></i>' . __( 'employees history' ) . '
+            <i class="fa fa-eye"></i> ' . __( 'employees history' ) . '
         </a></li>
         <li><a class="btn btn-wg-show hvr-radial-out"z href="' . route( 'admin:assetsInsurances.index', $asset->id ) . '" >
-            <i class="fa fa-eye"></i>' . __( 'insurances' ) . '
+            <i class="fa fa-eye"></i> ' . __( 'insurances' ) . '
         </a></li>
         <li><a class="btn btn-wg-show hvr-radial-out"z href="' . route( 'admin:assetsLicenses.index', $asset->id ) . '" >
-            <i class="fa fa-eye"></i>' . __( 'licenses' ) . '
+            <i class="fa fa-eye"></i> ' . __( 'licenses' ) . '
         </a></li>
         <li><a class="btn btn-wg-show hvr-radial-out"z href="' . route( 'admin:assetsExaminations.index', $asset->id ) . '" >
-            <i class="fa fa-eye"></i>' . __( 'examinations' ) . '
+            <i class="fa fa-eye"></i> ' . __( 'examinations' ) . '
         </a></li>
           </ul> </div>
                  ';

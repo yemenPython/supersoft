@@ -124,7 +124,7 @@
                                                         <label for="radio_status_2">{{ __('sell') }}</label>
                                                     </div>
                                                 </li>
-
+                                                <input type="hidden" name="asset_status" value="{{$asset->asset_status}}">
                                                 <li>
                                                     <div class="radio info">
                                                         <input disabled type="radio" id="radio_status_3"
@@ -178,7 +178,7 @@
                                     <label> {{ __('asset age') }} </label>
                                     <div class="input-group">
                                         <span class="input-group-addon border4"><i class="fa fa-calendar"></i></span>
-                                        <input class="form-control border4" id="asset_age" value="{{ $asset->asset_age }}" readOnly type="text"
+                                        <input class="form-control border4" id="asset_age" value="{{ number_format($asset->asset_age,2) }}" readOnly type="text"
                                                name="asset_age"/>
                                     </div>
                                     {{input_error($errors,'asset_age')}}

@@ -90,10 +90,6 @@
                         </div>
                         </div>
 
-             
-               
-                  
-
                   <div class="col-md-12">
                         <div class="form-group">
                             @include('admin.buttons._save_buttons')

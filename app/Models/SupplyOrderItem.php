@@ -50,6 +50,6 @@ class SupplyOrderItem extends Model
 
     public function sparePart()
     {
-        return $this->belongsTo(SparePart::class, 'spare_part-id');
+        return $this->belongsTo(SparePart::class, 'spare_part_id');
     }
 }
