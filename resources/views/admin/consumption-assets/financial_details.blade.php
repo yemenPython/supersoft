@@ -33,7 +33,7 @@
 
 <table class="table table-bordered">
       <tr>
-      <th style="width:30%;background:#D2F4F6 !important;color:black !important">{!! __('total replacement') !!}</th>
+      <th style="width:30%;background:#D2F4F6 !important;color:black !important">{!! __('total consumtion') !!}</th>
       <td style="background:#D2F4F6 !important;color:black!important">
       <input type="text" class="form-control"
       style="background:#D2F4F6; border:none;text-align:center !important;"

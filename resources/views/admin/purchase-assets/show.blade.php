@@ -147,7 +147,7 @@
 
                             <tr>
                                 <th style="background:#CCC !important;color:black" scope="row">{{__('Type')}}</th>
-                                <td>{{$asset->type}}</td>
+                                <td>{{__($asset->type)}}</td>
                             </tr>
                     </tbody>
                 </table>

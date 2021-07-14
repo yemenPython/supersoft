@@ -184,6 +184,7 @@
         <div class="row">
             <div class="col-xs-12 wg-tb-snd">
                 <div style="margin:10px 15px">
+
                     <table class="table table-bordered">
                         <thead>
                         <tr class="heading">
@@ -199,7 +200,7 @@
                             $tax_value = 0;
                         @endphp
 
-                        @foreach($supplyOrder->taxes as $tax)
+                        @foreach($supplyOrder->taxes()->where('type', 'tax')->get() as $tax)
 
                             @php
                                 $tax_value += $tax->value;
@@ -217,6 +218,44 @@
                             <th style="background:#CCC !important;color:black" colspan="2">{{__('Total Tax')}}</th>
                             <td>{{$tax_value}}</td>
                             <td>{{$supplyOrder->tax}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr class="heading">
+                            <th style="background:#CCC !important;color:black">{{__('Tax Name')}}</th>
+                            <th style="background:#CCC !important;color:black">{{__('Tax Type')}}</th>
+                            <th style="background:#CCC !important;color:black">{{__('Tax Value')}}</th>
+                            <th style="background:#CCC !important;color:black">{{__('Calculated Tax Value')}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        @php
+                            $tax_value = 0;
+                        @endphp
+
+                        @foreach($supplyOrder->taxes()->where('type', 'additional_payments')->get() as $tax)
+
+                            @php
+                                $tax_value += $tax->value;
+                            @endphp
+
+                            <tr class="item">
+                                <td>{{$tax->name}}</td>
+                                <td>{{__($tax->tax_type)}}</td>
+                                <td>{{$tax->value}}</td>
+                                <td>{{round(taxValueCalculated($supplyOrder->total_after_discount, $supplyOrder->sub_total, $tax),2)}}</td>
+                            </tr>
+                        @endforeach
+
+                        <tr class="item">
+                            <th style="background:#CCC !important;color:black" colspan="2">{{__('Total Additional Payments')}}</th>
+                            <td>{{$tax_value}}</td>
+                            <td>{{$supplyOrder->additional_payments}}</td>
                         </tr>
                         </tbody>
                     </table>

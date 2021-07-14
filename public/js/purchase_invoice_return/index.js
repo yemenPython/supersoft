@@ -6,11 +6,13 @@ function changeType() {
 
         $(".from_supply_order").show();
         $(".from_purchase_invoice").hide();
+        // $(".part_types_head").hide();
 
     } else {
 
         $(".from_supply_order").hide();
         $(".from_purchase_invoice").show();
+        // $(".part_types_head").show();
     }
 
     $(".remove_on_change_branch").remove();

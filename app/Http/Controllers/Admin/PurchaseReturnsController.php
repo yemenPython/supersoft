@@ -154,6 +154,7 @@ class PurchaseReturnsController extends Controller
 
     public function store(PurchaseReturnRequest $request)
     {
+//        dd($request->all());
         if (!auth()->user()->can('create_purchase_return_invoices')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
@@ -214,7 +215,7 @@ class PurchaseReturnsController extends Controller
         } catch (Exception $e) {
             DB::rollBack();
 
-//            dd($e->getMessage());
+            dd($e->getMessage());
 
             return redirect()->back()
                 ->with(['message' => __('words.purchase-invoice-return-cant-created'), 'alert-type' => 'error']);
@@ -223,9 +224,6 @@ class PurchaseReturnsController extends Controller
 
         return redirect()->to(route('admin:purchase_returns.index'))
             ->with(['message' => __('words.purchase-invoice-return-created'), 'alert-type' => 'success']);
-
-        //        return redirect()->to('admin/revenueReceipts/create?purchase_return_id=' . $purchaseReturn->id)
-//            ->with(['message' => __('words.purchase-invoice-return-created'), 'alert-type' => 'success']);
 
     }
 

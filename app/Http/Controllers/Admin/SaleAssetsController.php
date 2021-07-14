@@ -79,6 +79,14 @@ class SaleAssetsController extends Controller
             whereBetween( $saleAssets, 'sale_asset_items.sale_amount', $request->sale_amount_from, $request->sale_amount_to );
             return DataTables::of( $saleAssets )
                 ->addIndexColumn()
+                ->addColumn( 'branch_id', function ($asset) {
+                    return '<span class="text-danger">' . optional( $asset->branch )->name . '</span>';
+
+                } )
+                ->addColumn('date',function ($saleAsset){
+                    return '<span class="text-danger">' .$saleAsset->date .' '. $saleAsset->time . '</span>';
+                })
+
                 ->addColumn( 'number', function ($saleAsset) {
                     return $saleAsset->number;
 
@@ -143,8 +151,10 @@ class SaleAssetsController extends Controller
                 ->escapeColumns( [] )
                 ->make( true );
         } else {
+
             $js_columns = [
                 'DT_RowIndex' => 'DT_RowIndex',
+                'branch_id' => 'sale_assets.branch_id',
                 'number' => 'sale_assets.number',
                 'type' => 'sale_assets.type',
                 'total_sale_amount' => 'sale_assets.total_sale_amount',
@@ -154,10 +164,34 @@ class SaleAssetsController extends Controller
                 'action' => 'action',
                 'options' => 'options'
             ];
+//=======
+//            if(authIsSuperAdmin()) {
+//                $js_columns = [
+//                    'DT_RowIndex' => 'DT_RowIndex',
+//                    'branch_id' => 'sale_assets.branch_id',
+//                    'date' => 'sale_assets.date',
+//                    'number' => 'sale_assets.number',
+//                    'type' => 'sale_assets.type',
+//
+//                    'action' => 'action',
+//                    'options' => 'options'
+//                ];
+//            }else{
+//                $js_columns = [
+//                    'DT_RowIndex' => 'DT_RowIndex',
+//                    'date' => 'sale_assets.date',
+//                    'number' => 'sale_assets.number',
+//                    'type' => 'sale_assets.type',
+//
+//                    'action' => 'action',
+//                    'options' => 'options'
+//                ];
+//            }
+//>>>>>>> 882dcff785aabd81208032c13827138a732a5689
             $assets = Asset::all();
             $branches = Branch::all()->pluck( 'name', 'id' );
             $assetsGroups = AssetGroup::select( ['id', 'name_ar', 'name_en'] )->get();
-            $numbers = ConsumptionAsset::select( 'number' )->orderBy( 'number', 'asc' )->get();
+            $numbers = SaleAsset::select( 'number' )->orderBy( 'number', 'asc' )->get();
             return view( 'admin.sale-assets.index', compact( 'js_columns' ,'assets','assetsGroups','numbers','branches') );
         }
 
@@ -210,6 +244,11 @@ class SaleAssetsController extends Controller
                     $status = 'gain';
                 }
                 $asset = Asset::find( $item['asset_id'] );
+                if ($data['type'] =='sale') {
+                    $asset->update( ['asset_status' =>2] );
+                    }elseif ($data['type'] =='exclusion'){
+                    $asset->update( ['asset_status' =>3] );
+                }
 
                 SaleAssetItem::create( [
                     'sale_asset_id' => $saleAsset->id,
@@ -284,6 +323,12 @@ class SaleAssetsController extends Controller
                 } else {
                     $status = 'gain';
                 }
+                if ($data['type'] =='sale') {
+                    $asset->update( ['asset_status' =>2] );
+                }elseif ($data['type'] =='exclusion'){
+                    $asset->update( ['asset_status' =>3] );
+                }
+
                 SaleAssetItem::create( [
                     'sale_asset_id' => $saleAsset->id,
                     'asset_id' => $item['asset_id'],
@@ -354,5 +399,19 @@ class SaleAssetsController extends Controller
             'items' => $view,
             'index' => $index
         ] );
+    }
+    public function getNumbersByBranchId(Request $request): JsonResponse
+    {
+        if (!empty( $request->branch_id )) {
+            $numbers = SaleAsset::where( 'branch_id', $request->branch_id )->pluck( 'number' )->unique();
+        } else {
+            $numbers = SaleAsset::pluck( 'number' )->unique();
+        }
+        if ($numbers) {
+            $numbers_data = view( 'admin.sale-assets.invoice_number_by_branch_id', compact( 'numbers' ) )->render();
+            return response()->json( [
+                'data' => $numbers_data,
+            ] );
+        }
     }
 }

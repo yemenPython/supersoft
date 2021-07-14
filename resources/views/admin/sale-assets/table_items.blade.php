@@ -1,11 +1,12 @@
 <div class="col-md-12">
-    <div class="table-responsive">
-    <table class="table table-responsive table-bordered table-striped">
+    <div class="table-responsive scroll-table">
+    <table class="table table-responsive table-bordered table-hover">
         <thead>
         <tr>
             <th width="2%"> # </th>
-            <th scope="col"> {{ __('Assets Groups') }} </th>
-            <th width="9%"> {{ __('Name') }} </th>
+        
+            <th width="9%"> {{ __('Asset name') }} </th>
+            <th scope="col"> {{ __('Asset group') }} </th>
             <th scope="col"> {{ __('work date') }} </th>
             <th scope="col"> {{ __('purchase cost') }} </th>
             <th scope="col"> {{ __('past consumtion') }} </th>
@@ -35,8 +36,9 @@
         <tfoot>
         <tr>
             <th width="2%"> # </th>
-            <th scope="col"> {{ __('Assets Groups') }} </th>
-            <th width="9%"> {{ __('Name') }} </th>
+       
+            <th width="9%"> {{ __('Asset name') }} </th>
+            <th scope="col"> {{ __('Asset group') }} </th>
             <th scope="col"> {{ __('work date') }} </th>
             <th scope="col"> {{ __('purchase cost') }} </th>
             <th scope="col"> {{ __('past consumtion') }} </th>

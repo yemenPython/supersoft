@@ -13,6 +13,7 @@ use App\Models\ConsumptionAssetItem;
 use App\Models\EmployeeData;
 use App\Models\PurchaseAsset;
 use App\Models\PurchaseAssetItem;
+use App\Models\SaleAssetItem;
 use Carbon\Carbon;
 use Exception;
 use App\Models\Branch;
@@ -50,7 +51,7 @@ class ConsumptionAssetsController extends Controller
                 'consumption_assets.date_to',
                 'consumption_assets.created_at',
                 'consumption_assets.updated_at',
-                'consumption_assets.total_past_consumtion'
+                'consumption_assets.total_replacement'
             ] )
                 ->leftjoin( 'consumption_asset_items', 'consumption_assets.id', '=', 'consumption_asset_items.consumption_asset_id' );
 
@@ -78,21 +79,26 @@ class ConsumptionAssetsController extends Controller
                     return '<span class="text-danger">' . optional( $asset->branch )->name . '</span>';
 
                 } )
+                ->addColumn( 'date', function ($consumptionAsset) {
+                    return '<span class="text-danger">' .$consumptionAsset->date . ' ' . $consumptionAsset->time;
+                } )
                 ->addColumn( 'number', function ($consumptionAsset) {
                     return $consumptionAsset->number;
 
                 } )
-                ->addColumn( 'date', function ($consumptionAsset) {
-                    return $consumptionAsset->date . ' ' . $consumptionAsset->time;
-                } )
+              
                 ->addColumn( 'date_from', function ($consumptionAsset) {
-                    return $consumptionAsset->date_from;
+                    return '<span class="label wg-label"
+                    style="background: rgb(113, 101, 218) !important;"
+                    >' . $consumptionAsset->date_from. '</span>';
                 } )
                 ->addColumn( 'date_to', function ($consumptionAsset) {
-                    return $consumptionAsset->date_to;
+                    return '<span class="label wg-label"
+                    style="background: rgb(113, 101, 218) !important;"
+                    >' . $consumptionAsset->date_to. '</span>';
                 } )
-                ->addColumn( 'total_past_consumtion', function ($consumptionAsset) {
-                    return number_format( $consumptionAsset->total_past_consumtion, 2 );
+                ->addColumn( 'total_replacement', function ($consumptionAsset) {
+                    return '<span style="background:#F7F8CC !important">'. number_format( $consumptionAsset->total_replacement, 2 ).'</span>';
                 } )
                 ->addColumn( 'created_at', function ($consumptionAsset) {
                     return $consumptionAsset->created_at;
@@ -147,11 +153,12 @@ class ConsumptionAssetsController extends Controller
             $js_columns = [
                 'DT_RowIndex' => 'DT_RowIndex',
                 'branch_id' => 'consumption_assets.branch_id',
-                'number' => 'consumption_assets.number',
                 'date' => 'consumption_assets.date',
+                'number' => 'consumption_assets.number',
+               
                 'date_from' => 'consumption_assets.date_from',
                 'date_to' => 'consumption_assets.date_to',
-                'total_past_consumtion' => 'consumption_assets.total_past_consumtion',
+                'total_replacement' => 'consumption_assets.total_replacement',
                 'created_at' => 'consumption_assets.created_at',
                 'updated_at' => 'consumption_assets.updated_at',
                 'action' => 'action',
@@ -391,15 +398,17 @@ class ConsumptionAssetsController extends Controller
         if (is_null( $request->asset_id )) {
             return response()->json( __( 'please select valid Asset' ), 400 );
         }
+
+        if (SaleAssetItem::where('asset_id',$request->asset_id)->count()){
+            return response()->json( __( 'can not  consumption asset after sale' ), 400 );
+        }
         if (is_null( $request->branch_id ) && authIsSuperAdmin()) {
             return response()->json( __( 'please select valid branch' ), 400 );
         }
 
-
         $index = $request['index'] + 1;
 
         $asset = Asset::with( 'group' )->find( $request->asset_id );
-//dd(empty((int)$asset->purchase_cost) , PurchaseAssetItem::where('asset_id',$request->asset_id)->count());
         if (empty((int)$asset->purchase_cost) && !PurchaseAssetItem::where('asset_id',$request->asset_id)->count()){
             return response()->json( __( 'Please add Purchase  for this asset before consumption' ), 400 );
         }

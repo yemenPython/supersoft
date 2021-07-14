@@ -75,13 +75,16 @@ class AssetReplacementController extends Controller
                 ->addColumn( 'branch_id', function ($asset) {
                     return '<span class="text-danger">' . optional( $asset->branch )->name . '</span>';
                 } )
+
+                ->addColumn( 'date', function ($saleAsset) {
+                    return '<span class="text-danger">' . $saleAsset->date . ' ' . $saleAsset->time . '</span>';
+                } )
+
                 ->addColumn( 'number', function ($saleAsset) {
                     return $saleAsset->number;
 
                 } )
-                ->addColumn( 'date', function ($saleAsset) {
-                    return $saleAsset->date . ' ' . $saleAsset->time;
-                } )
+               
                 ->addColumn( 'total_before_replacement', function ($assetsReplacement) {
                     return '<span style="background:#F7F8CC !important">'.number_format($assetsReplacement->total_before_replacement, 2).'</span>';
                 } )
@@ -141,8 +144,9 @@ class AssetReplacementController extends Controller
             $js_columns = [
                 'DT_RowIndex' => 'DT_RowIndex',
                 'branch_id' => 'asset_replacements.branch_id',
-                'number' => 'asset_replacements.number',
                 'date' => 'date',
+                'number' => 'asset_replacements.number',
+       
                 'total_before_replacement' => 'asset_replacements.total_before_replacement',
                 'total_after_replacement' => 'asset_replacements.total_after_replacement',
                 'created_at' => 'asset_replacements.created_at',

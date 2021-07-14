@@ -16,6 +16,8 @@
                         @if (authIsSuperAdmin())
                             <li class="form-group col-md-12">
                                 <label> {{ __('Branches') }} </label>
+                                <div class="input-group">
+                                                <span class="input-group-addon fa fa-file"></span>
                                 <select class="form-control select2" name="branch_id" id="branchId">
                                     <option value=""> {{ __('Select Branch') }} </option>
                                     @foreach(\App\Models\Branch::all() as $branch)
@@ -24,34 +26,56 @@
                                             value="{{ $branch->id }}"> {{ $branch->name }} </option>
                                     @endforeach
                                 </select>
+                                </div>
                             </li>
+                            
                         @endif
 
 
                         <li class="form-group col-md-4">
                             <label> {{ __('opening-balance.serial-number') }}</label>
+                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                                               
                             {!! drawSelect2ByAjax('number','AssetExpense','number', 'number', __('opening-balance.serial-number'),  request()->number) !!}
+                            </div>
                         </li>
 
 
                         <li class="form-group col-md-4">
                             <label>{{__('Date From')}}</label>
+                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                               
                             <input type="date" name="dateFrom" class="form-control">
+                            </div>
                         </li>
                         <li class="form-group col-md-4">
                             <label>{{__('Date To')}}</label>
+                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                               
                             <input type="date" name="dateTo" class="form-control">
+                            </div>
                         </li>
 
 
                         <li class="form-group col-md-4">
                             <label>{{__('assets Groups')}}</label>
+                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                                               
                             {!! drawSelect2ByAjax('asset_group_name','AssetGroup', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('opening-balance.select-one'), request()->asset_group_name) !!}
+                            </div>
                         </li>
 
                         <li class="form-group col-md-4">
                             <label> {{ __('words.assets') }}</label>
+                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                                               
                             {!! drawSelect2ByAjax('asset_name','Asset', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('opening-balance.select-one'), request()->asset_group_name) !!}
+                            </div>
                         </li>
 
 
@@ -59,7 +83,7 @@
                         <li class="form-group col-md-4">
                             <label> {{ __('Concession Status') }} </label>
                             <div class="input-group">
-                                <span class="input-group-addon fa fa-cubes"></span>
+                                <span class="input-group-addon fa fa-info"></span>
                                 <select class="form-control js-example-basic-single" name="status">
                                     <option value="">{{__('Select Status')}}</option>
                                     <option
@@ -76,12 +100,20 @@
 
                             <li class="form-group col-md-4">
                                 <label> {{ __('Expenses Types') }}</label>
+                                <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-file-o"></i></span>
+                                               
                                 {!! drawSelect2ByAjax('asset_expense_type','AssetsTypeExpense', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('opening-balance.select-one'), request()->asset_expense_type) !!}
+                                </div>
                             </li>
 
                             <li class="form-group col-md-4">
                                 <label> {{ __('Expenses Items') }}</label>
+                                <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-file-o"></i></span>
+                                               
                                 {!! drawSelect2ByAjax('asset_expense_item','AssetsItemExpense', 'item_'.app()->getLocale(),'item_'.app()->getLocale(),  __('opening-balance.select-one'), request()->asset_expense_item) !!}
+                                </div>
                             </li>
 
 

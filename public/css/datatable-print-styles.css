@@ -10,7 +10,6 @@ body {
 }
 
 @media print {
-
     .wg-table-print {
         margin: 20px auto !important;
         width: 98% !important;
@@ -21,7 +20,6 @@ body {
         color: rgb(59, 59, 59) !important;
         font-family: 'DroidArabicKufiRegular' !important;
     }
-
     body {
         border: 1px solid rgb(70, 70, 70) !important;
         border-radius: 20px !important;
@@ -37,16 +35,12 @@ body {
     .wg-table-print td {
         font-size: 13px !important;
         border-color: rgb(70, 70, 70) !important;
-
     }
-
-    .table-for-width
-    {
+    .table-for-width {
         width: 97% !important;
-        margin:0 auto !important;
-        padding:0 15px !important;
-        border:none !important;
-        
+        margin: 0 auto !important;
+        padding: 0 15px !important;
+        border: none !important;
     }
 }
 

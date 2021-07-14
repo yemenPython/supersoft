@@ -102,8 +102,10 @@
                                         </td>
                                         <td class="text-center column-date">{{ optional($concession->concessionable)->number }}</td>
 
-                                        <td class="text-center column-concession-type" style="background:#E3EFFB !important">
+                                        <td class="text-center column-concession-type" >
+                                        <span class="label wg-label" style="background: rgb(113, 101, 218) !important;">
                                             {{ optional($concession->concessionType)->name }}
+                            </span>
                                         </td>
 
                                         <td class="text-center column-status">
@@ -276,6 +278,15 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content modal-print-padd">
                 <div class="modal-header">
+                <button type="button" class="btn btn-primary waves-effect waves-light"
+                            onclick="printDownPayment()" id="print_sales_invoice">
+                        <i class='fa fa-print'></i>
+                        {{__('Print')}}
+                    </button>
+
+                    <button type="button" class="btn btn-danger waves-effect waves-light"
+                            data-dismiss="modal"><i class='fa fa-close'></i>
+                        {{__('Close')}}</button>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span>
                     </button>
@@ -288,7 +299,7 @@
                 </div>
                 <div class="modal-footer" style="text-align:center">
 
-                    <button type="button" class="btn btn-primary waves-effect waves-light"
+                    <!-- <button type="button" class="btn btn-primary waves-effect waves-light"
                             onclick="printDownPayment()" id="print_sales_invoice">
                         <i class='fa fa-print'></i>
                         {{__('Print')}}
@@ -296,7 +307,7 @@
 
                     <button type="button" class="btn btn-danger waves-effect waves-light"
                             data-dismiss="modal"><i class='fa fa-close'></i>
-                        {{__('Close')}}</button>
+                        {{__('Close')}}</button> -->
 
                 </div>
 

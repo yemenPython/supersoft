@@ -52,27 +52,26 @@
                         @endphp
                         @include($view_path . '.option-row')
                         <div class="clearfix"></div>
-                        <table id="purchaseInvoices" class="table table-bordered wg-table-print table-hover" style="width:100%">
+                        <table id="purchaseInvoices" class="table table-bordered wg-table-print table-hover"
+                               style="width:100%">
                             @include($view_path . '.table-thead')
                             <tfoot>
                             <tr>
                                 <th class="text-center column-invoice-number"
                                     scope="col">{!! __('Invoice Number') !!}</th>
-                               
-                                <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
-                            <!-- <th scope="col">{!! __('Supplier Phone') !!}</th> -->
-                                <th class="text-center column-invoice-type" scope="col">{!! __('Invoice Type') !!}</th>
 
-                                <!-- <th class="text-center column-payment" scope="col">{!! __('Payment status') !!}</th> -->
+                                <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
+                                <th class="text-center column-invoice-type" scope="col">{!! __('Invoice Type') !!}</th>
                                 <th class="text-center column-paid" scope="col">{!! __('Total') !!}</th>
 
                                 <th class="text-center column-paid" scope="col">{!! __('Paid') !!}</th>
                                 <th class="text-center column-remaining" scope="col">{!! __('Remaining') !!}</th>
                                 <th scope="col">{!! __('Status') !!}</th>
-                                <th class="text-center column-execution-status" scope="col">{!! __('Execution Status') !!}</th>
+                                <th class="text-center column-execution-status"
+                                    scope="col">{!! __('Execution Status') !!}</th>
                                 <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
                                 <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
-                            
+
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">{!! __('Select') !!}</th>
                             </tr>
@@ -83,111 +82,56 @@
                                     <td class="text-center column-invoice-number">{!! $invoice->invoice_number !!}</td>
 
                                     <td class="text-center column-supplier">{!! optional($invoice->supplier)->name !!}</td>
-                                <!-- <td>{!! optional($invoice->supplier)->phone_1 ??  optional($invoice->supplier)->phone_2!!}</td> -->
 
                                     <td class="text-center column-invoice-type">
-                                        @if ($invoice->type === "cash")
-                                            <span class="label label-primary wg-label">
-                                    {{__($invoice->type)}}
-                                    </span>
-                                        @else
-                                            <span class="label label-info wg-label">
-                                    {{__($invoice->type)}}
-                                    </span>
-                                        @endif
+                                        <span class="label label-info wg-label">{{__($invoice->type)}}</span>
                                     </td>
 
-<!-- 
-                                    @if ($invoice->type === "cash")
-                                        @if ($invoice->remaining  == 0)
-                                            <td class="text-center column-payment">
-                                            <span class="label label-warning wg-label">
-                                                {!! __('Completed') !!}
-                                                </span>
-                                            </td>
-                                        @else
-                                            <td class="text-center column-payment">
-                                            <span class="label label-danger wg-label">
-                                                {!! __('Not Completed') !!}
-                                                </span>
-                                            </td>
-                                        @endif -->
-                                        <td class="text-center column-paid">
+                                    <td class="text-center column-paid">
                                         <span style="background:#F7F8CC !important">
                                         {!! number_format($invoice->total, 2) !!}
                                         </span>
-                                        </td>
-                                        <td class="text-center column-paid">
+                                    </td>
+                                    <td class="text-center column-paid">
                                         <span style="background:#D7FDF9 !important">
                                         {!! number_format($invoice->paid, 2) !!}
                                         </span>
-                                        </td>
-                                        <td class="text-center column-remaining">
+                                    </td>
+                                    <td class="text-center column-remaining">
                                         <span style="background:#FDD7D7 !important">
                                         {!! number_format($invoice->remaining ,2)!!}
                                         </span>
-                                        </td>
-                                    @endif
-                                    @if ($invoice->type === "credit")
-                                        @if ($invoice->remaining  == 0)
-                                            <td class="text-center column-payment">
-                                            <span class="label label-warning wg-label">
-                                                {!! __('Completed') !!}
-                                                </span>
-                                            </td>
-                                        @else
-                                            <td class="text-center column-payment">
-                                            <span class="label label-danger wg-label">
-                                                {!! __('Not Completed') !!}
-                                                </span>
-                                            </td>
-                                        @endif
-                                        <td class="text-center column-paid">
-                                        <span style="background:#F7F8CC !important">
-                                        {!! number_format($invoice->total, 2) !!}
-                                        </span>
-                                        </td>
-                                        <td class="text-center column-paid">
-                                        <span style="background:#D7FDF9 !important">
-                                        {!! number_format($invoice->paid, 2) !!}
-                                        </span>
-                                        </td>
-                                        <td class="text-center column-remaining">
-                                        <span style="background:#FDD7D7 !important">
-                                        {!! number_format($invoice->remaining ,2)!!}
-                                        </span>
-                                        </td>
-                                @endif
-
-                                <td>
-                                    @if($invoice->status == 'pending' )
-                                        <span class="label label-info wg-label"> {{__('processing')}}</span>
+                                    </td>
+                                    <td>
+                                        @if($invoice->status == 'pending' )
+                                            <span class="label label-info wg-label"> {{__('processing')}}</span>
                                         @elseif($invoice->status == 'accept' )
-                                        <span class="label label-primary wg-label"> {{__('Accept Approval')}} </span>
+                                            <span
+                                                class="label label-primary wg-label"> {{__('Accept Approval')}} </span>
                                         @else
-                                        <span class="label label-danger wg-label"> {{__('Reject Approval')}} </span>
+                                            <span class="label label-danger wg-label"> {{__('Reject Approval')}} </span>
                                         @endif
-                                    
+
                                     </td>
-                                    
+
                                     <td class="text-center column-date">
 
                                         @if($invoice->execution)
 
                                             @if($invoice->execution ->status == 'pending' )
-                                            <span class="label label-info wg-label"> {{__('Processing')}}</span>
+                                                <span class="label label-info wg-label"> {{__('Processing')}}</span>
 
                                             @elseif($invoice->execution ->status == 'finished' )
-                                            <span class="label label-success wg-label"> {{__('Finished')}} </span>
+                                                <span class="label label-success wg-label"> {{__('Finished')}} </span>
 
                                             @elseif($invoice->execution ->status == 'late' )
-                                            <span class="label label-danger wg-label"> {{__('Late')}} </span>
+                                                <span class="label label-danger wg-label"> {{__('Late')}} </span>
                                             @endif
 
                                         @else
-                                        <span class="label label-warning wg-label">
-      {{__('Not determined')}}
-</span>
+                                            <span class="label label-warning wg-label">
+                                                {{__('Not determined')}}
+                                            </span>
                                         @endif
 
                                     </td>
@@ -196,56 +140,59 @@
                                     <td class="text-center column-updated-at">{!! $invoice->updated_at->format('y-m-d h:i:s A')!!}</td>
 
                                     <td>
-                                    <div class="btn-group margin-top-10">
-                                        
-                                        <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="ico fa fa-bars"></i>
-                                        {{__('Options')}} <span class="caret"></span>
-                                     
-                                    </button> 
-                                        <ul class="dropdown-menu dropdown-wg">
-                                            <li>
+                                        <div class="btn-group margin-top-10">
 
-                                        @component('admin.buttons._edit_button',[
-                                                    'id'=>$invoice->id,
-                                                    'route' => 'admin:purchase-invoices.edit',
-                                                     ])
-                                        @endcomponent
-                                        </li>
-                                            <li class="btn-style-drop">
+                                            <button type="button" class="btn btn-options dropdown-toggle"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="ico fa fa-bars"></i>
+                                                {{__('Options')}} <span class="caret"></span>
 
-                                        @component('admin.buttons._delete_button',[
-                                                    'id'=> $invoice->id,
-                                                    'route' => 'admin:purchase-invoices.destroy',
-                                                     ])
-                                        @endcomponent
-                                        </li>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-wg">
+                                                <li>
 
-<li>
+                                                    @component('admin.buttons._edit_button',[
+                                                                'id'=>$invoice->id,
+                                                                'route' => 'admin:purchase-invoices.edit',
+                                                                 ])
+                                                    @endcomponent
+                                                </li>
+                                                <li class="btn-style-drop">
 
-                                        @component('admin.purchase-invoices.parts.print',[
-                                                    'id'=> $invoice->id,
-                                                    'invoice'=> $invoice,
-                                                     ])
-                                        @endcomponent
-                                        </li>
+                                                    @component('admin.buttons._delete_button',[
+                                                                'id'=> $invoice->id,
+                                                                'route' => 'admin:purchase-invoices.destroy',
+                                                                 ])
+                                                    @endcomponent
+                                                </li>
 
-<li>
+                                                <li>
 
-                                        <a href="{{route('admin:purchase-invoices.expenses', ['id' => $invoice->id])}}"
-                                           class="btn btn-info-wg hvr-radial-out  ">
-                                            <i class="fa fa-money"></i> {{__('Payments')}}
-                                        </a>
-                                        </li>
+                                                    @component('admin.purchase-invoices.parts.print',[
+                                                                'id'=> $invoice->id,
+                                                                'invoice'=> $invoice,
+                                                                 ])
+                                                    @endcomponent
+                                                </li>
 
-<li>
+                                                <li>
 
-                                        @include('admin.partial.execution_period', ['id'=> $invoice->id])
-                                        </li>
+                                                    <a href="{{route('admin:purchase-invoices.expenses', ['id' => $invoice->id])}}"
+                                                       class="btn btn-info-wg hvr-radial-out  ">
+                                                        <i class="fa fa-money"></i> {{__('Payments')}}
+                                                    </a>
+                                                </li>
 
-<li>
-                                        @include('admin.partial.upload_library.btn_upload', ['id'=> $invoice->id])
-                                        </li>
+                                                <li>
+
+                                                    @include('admin.partial.execution_period', ['id'=> $invoice->id])
+                                                </li>
+
+                                                <li>
+                                                    @include('admin.partial.upload_library.btn_upload', ['id'=> $invoice->id])
+                                                </li>
+                                            </ul>
+                                        </div>
 
 
                                     </td>
@@ -268,6 +215,7 @@
         </div>
     </div>
 @endsection
+
 @section('modals')
 
     @include('admin.partial.execution_period_form', [
