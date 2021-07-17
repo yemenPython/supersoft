@@ -79,10 +79,7 @@ class StoresController extends Controller
             if (!authIsSuperAdmin()) {
                 $data['branch_id'] = auth()->user()->branch_id;
             }
-            $store = Store::create($data);
-            if ($request['employees'] && $store) {
-                $this->storeEmployeeHistoryService->create($request['employees'], $store);
-            }
+           Store::create($data);
             DB::commit();
                 return redirect()->to('admin/stores')
                     ->with(['message' => __('words.store-created'), 'alert-type' => 'success']);
@@ -114,12 +111,6 @@ class StoresController extends Controller
             $data['branch_id'] = auth()->user()->branch_id;
         }
         $store->update($data);
-        if ($request['employees'] && $store) {
-            $this->storeEmployeeHistoryService->create($request['employees'], $store);
-        }
-        if ($request['employeesUpdate'] && $store) {
-            $this->storeEmployeeHistoryService->update($request['employeesUpdate'], $store);
-        }
         return redirect()->to('admin/stores')
             ->with(['message' => __('words.store-updated'), 'alert-type' => 'success']);
     }

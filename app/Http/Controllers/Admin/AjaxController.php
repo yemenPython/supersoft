@@ -58,10 +58,10 @@ class AjaxController extends Controller
                     $data = $this->getUsers($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
                     break;
                 case 'Branch':
-                    $data = $this->getBranches($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    $data = $this->getBranches($searchFields, $searchTerm, $selectedColumns, $limit);
                     break;
                     case 'Asset':
-                    $data = $this->getAsset($searchFields, $searchTerm, $selectedColumns, $limit);
+                    $data = $this->getAsset($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
                     break;
                     case 'AssetInsurances':
                     $data = $this->getAssetInsurances($searchFields, $searchTerm, $selectedColumns, $limit);
@@ -208,7 +208,7 @@ class AjaxController extends Controller
 
         return $data;
     }
-    public function getAsset($searchFields = [], $searchTerm = '', $selectedColumns = '*', $limit = 10)
+    public function getAsset($searchFields = [], $searchTerm = '', $selectedColumns = '*', $limit = 10, $branchId = null)
     {
         $data = [];
         $id = ' id ,';
