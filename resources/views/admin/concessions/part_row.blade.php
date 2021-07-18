@@ -34,21 +34,21 @@
 
         </td>
 
+        <td class="text-danger">
 
-        <td style="background:#FBE3E6 !important">
         <span>
         {{$item->quantity}}
         </span>
         </td>
 
-        <td style="background:#E3FBEA !important">
-        <span>
+        <td>
+        <span style="background:#F7F8CC !important">
         {{ $item->price}}
         </span>
         </td>
 
-        <td style="background:#FBFAD4 !important">
-        <span>
+        <td>
+        <span style="background:rgb(253, 215, 215) !important">
         {{ $item->price * $item->quantity}}
         </span>
         </td>

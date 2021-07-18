@@ -70,7 +70,7 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div class="form-group">
                 <label for="date" class="control-label">{{__('Time')}}</label>
                 <div class="input-group">
@@ -82,19 +82,20 @@
             </div>
         </div>
 
-        <div class="radio primary col-md-1" style="margin-top: 37px;">
+        <div class="col-md-4">
+        <div class="radio primary col-md-6" style="margin-top: 37px;">
             <input type="radio" name="type" value="natural" id="natural" onchange="showEmployeePercent()"
                 {{ !isset($damegeStock) ? 'checked':'' }}
                 {{isset($damagedStock) && $damagedStock->type == 'natural' ? 'checked':''}} >
             <label for="natural">{{__('Natural')}}</label>
         </div>
 
-        <div class="radio primary col-md-2" style="margin-top: 37px;">
+        <div class="radio primary col-md-6" style="margin-top: 37px;">
             <input type="radio" name="type" id="un_natural" value="un_natural" onchange="showEmployeePercent()"
                 {{isset($damagedStock) && $damagedStock->type == 'un_natural' ? 'checked':''}} >
             <label for="un_natural">{{__('un_natural')}}</label>
         </div>
-
+        </div>
         </div>
         </div>
         </div>
@@ -220,11 +221,11 @@
 
     <div class="col-md-12" id="employees_percent" style="{{isset($damagedStock) && $damagedStock->type == 'un_natural' ? '':'display: none;' }}">
 
-    <div class="bottom-data-wg" style="width:100%;box-shadow: 0 0 7px 1px #DDD;margin:5px auto 10px;padding:7px 7px 3px">
+    <div class="bottom-data-wg" style="display:inline-block;width:100%;box-shadow: 0 0 7px 1px #DDD;margin:5px auto 10px;padding:25px 15px 3px">
 
-     
+    <div class="col-md-12" style="color: white; margin-bottom: 60px; margin-right: -15px;"><div class="ribbon ribbon-r bg-secondary show-ribbon" style="background: rgb(86, 133, 204) !important;"><p class="mb-0">{{__('Employees')}}</p></div></div>
        
-            <label for="inputDescription" class="control-label">{{__('Employees')}}</label>
+            <!-- <label for="inputDescription" class="control-label">{{__('Employees')}}</label> -->
 
             <div id="employees_data">
 

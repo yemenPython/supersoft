@@ -5,11 +5,14 @@
         @method('post')
         <input type="hidden" name="_id" value="{{ $partType->id }}"/>
 
+        <h4 class="box-title with-control" style="text-align: initial;">
+            {{__('Edit type')}}
+            </h4>
+
         @if(authIsSuperAdmin()) 
             <div class="">
-            <h4 class="box-title with-control" style="text-align: initial;">
-            {{__('Select Branch')}}
-            </h4>
+            <div class="form-group has-feedback" style="padding:0 15px">
+            <label for="inputSymbolAR" class="control-label">{{__('Select Branch')}}</label>
                 <div class="form-group has-feedback">
                     <!-- <label for="inputSymbolAR" class="control-label"></label> -->
                     <div class="col-md-12">
@@ -24,6 +27,7 @@
                         </select>
                     </div>
                     </div>
+                </div>
                 </div>
             </div>
         @endif

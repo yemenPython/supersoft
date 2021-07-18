@@ -173,10 +173,12 @@
                             <thead>
                             <tr>
                                 <th scope="col">{!! __('#') !!}</th>
-                                <th scope="col">{!! __('Branch') !!}</th>
+                                @if (authIsSuperAdmin())
+                                    <th scope="col">{!! __('Branch') !!}</th>
+                                @endif
                                 <th scope="col">{!! __('Date') !!}</th>
                                 <th scope="col">{!! __('Number') !!}</th>
-                                
+
                                 <th scope="col">{!! __('Total Purchase') !!}</th>
                                 <th scope="col">{!! __('Total Value Of Replacement') !!}</th>
                                 <th scope="col">{!! __('Created at') !!}</th>
@@ -192,10 +194,12 @@
                             <tfoot>
                             <tr>
                                 <th scope="col">{!! __('#') !!}</th>
-                                <th scope="col">{!! __('Branch') !!}</th>
+                                @if (authIsSuperAdmin())
+                                    <th scope="col">{!! __('Branch') !!}</th>
+                                @endif
                                 <th scope="col">{!! __('Date') !!}</th>
                                 <th scope="col">{!! __('Number') !!}</th>
-                     
+
                                 <th scope="col">{!! __('Total Before Replacement') !!}</th>
                                 <th scope="col">{!! __('Total After Replacement') !!}</th>
                                 <th scope="col">{!! __('Created at') !!}</th>

@@ -61,7 +61,7 @@
                                         </div>
                                     </div>
                                 @endif
-                   
+
 
                             <div class="">
 
@@ -144,20 +144,6 @@
                                 </div>
                                 </div>
                                 </div>
-
-                                <div class="box-content card bordered-all js__card" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
-                                <h4 class="box-title with-control" style="margin:0;text-align:right;background:#5A76B0 !important;color:white !important"><i class="fa fa-user"></i>{{__('Stores officials')}}
-                        <span class="controls">
-                        <button type="button" class="control fa fa-minus js__card_minus"></button> 
-                        <button type="button" class="control fa fa-times js__card_remove"></button>
-                        </span>
-                        </h4>
-                        <div class="col-xs-12 card-content js__card_content" style="max-height:600px;overflow-y:auto;overflow-x:hidden">
-                           @include('admin.stores.parts.form')
-
-                        </div>
-                        </div>
-                        
                         <div class="form-group col-sm-12">
                             @include('admin.buttons._save_buttons')
                         </div>

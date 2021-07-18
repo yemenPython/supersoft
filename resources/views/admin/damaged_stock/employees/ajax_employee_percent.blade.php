@@ -1,6 +1,7 @@
 
-<div class="col-md-12" id="employee_{{$employees_items_count}}">
-    <div class="col-md-2">
+<div class="col-md-12" id="employee_{{$employees_items_count}}" style="margin:10px auto;box-shadow:0 0 7px 1px #DDD;padding:20px">
+<div class="row">
+    <div class="col-md-6">
         <div class="form-group">
             <label for="inputDescription" class="control-label">{{__('Employees')}}</label>
             <div class="input-group">
@@ -18,7 +19,7 @@
         </div>
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-6">
         <div class="form-group">
             <label for="inputDescription" class="control-label">{{__('Percent')}}</label>
             <div class="input-group">
@@ -26,23 +27,25 @@
                        name="employees[{{$employees_items_count}}][percent]"
                        onkeyup="calculateEmployeePercent('{{$employees_items_count}}')"
                        value="{{isset($damaged_employee) ? $damaged_employee->pivot->percent : 0}}"
-                       class="form-control">
+                       class="form-control"
+                       style="height:35px !important">
             </div>
         </div>
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-6">
         <div class="form-group">
             <label for="inputDescription" class="control-label">{{__('Total Amount')}}</label>
             <div class="input-group">
                 <input type="text" readonly id="employee_amount_{{$employees_items_count}}"
                        name="employees[{{$employees_items_count}}][amount]"
-                       value="{{isset($damaged_employee) ? $damaged_employee->pivot->amount : 0}}" class="form-control">
+                       value="{{isset($damaged_employee) ? $damaged_employee->pivot->amount : 0}}" class="form-control" style="height:35px !important">
+            
             </div>
         </div>
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-6">
         <div class="form-group">
 
             @if(isset($damaged_employee))
@@ -58,4 +61,5 @@
         </div>
     </div>
 
+    </div>
 </div>

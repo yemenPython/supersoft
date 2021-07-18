@@ -141,7 +141,9 @@ class AssetExpenseController extends Controller
                 ->make( true );
         } else {
 
-            $js_columns = [
+            if (authIsSuperAdmin()) {
+                $js_columns = [
+
                 'DT_RowIndex' => 'DT_RowIndex',
                 'branch_id' => 'asset_expenses.branch_id',
                 'date' => 'date',
@@ -154,6 +156,22 @@ class AssetExpenseController extends Controller
                 'action' => 'action',
                 'options' => 'options'
             ];
+        }
+        else {
+            $js_columns = [
+                'DT_RowIndex' => 'DT_RowIndex',
+
+                'date' => 'date',
+                'number' => 'asset_expenses.number',
+               
+                'status' => 'asset_expenses.status',
+                'total' => 'asset_expenses.total',
+                'created_at' => 'asset_expenses.created_at',
+                'updated_at' => 'asset_expenses.updated_at',
+                'action' => 'action',
+                'options' => 'options'
+            ];
+        }
 
             $branches = Branch::all();
 

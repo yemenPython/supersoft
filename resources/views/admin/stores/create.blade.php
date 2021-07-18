@@ -143,47 +143,6 @@
                                 </div>
 
 
-                                <div class="row top-data-wg" style="margin:5px 5px 10px;padding-top:20px">
-
-
-                                <div class="box-content card bordered-all js__card" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
-                                <h4 class="box-title with-control" style="margin:0;text-align:right;background:#5A76B0 !important;color:white !important"><i class="fa fa-user"></i>{{__('Stores officials')}}
-                        <span class="controls">
-                        <button type="button" class="control fa fa-minus js__card_minus"></button> 
-                        <button type="button" class="control fa fa-times js__card_remove"></button>
-                        </span>
-                        </h4>
-                        <div class="col-xs-12 card-content js__card_content" style="max-height:600px;overflow-y:auto;overflow-x:hidden">
-                           
-                        <div class="">
-                                <!-- <div class="col-md-12">
-                                    <hr>
-                                    <span
-                                        style="color: white;font-size: 14px;background:#2980B9;padding:5px 10px;border-radius:3px"> {{__('Stores officials')}} </span>
-                                    <hr>
-                                </div> -->
-
-                                <div class="">
-                                    <div class="form_new_contact">
-                                        <input type="hidden" value="0" id="contacts_count">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <button type="button" title="new price" onclick="newEmployee()"
-                                            class="btn btn-sm btn-info">
-                                        <li class="fa fa-plus"></li> {{__('New employee')}}
-                                    </button>
-                                    <!-- <hr> -->
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-
-
-                      
-
-                            </div>
-
                             <div class="form-group col-sm-12">
                                 @include('admin.buttons._save_buttons')
                             </div>

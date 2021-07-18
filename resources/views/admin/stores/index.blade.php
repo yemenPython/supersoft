@@ -46,7 +46,9 @@
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
                                 <th scope="col">{!! __('Store Name') !!}</th>
-                                <th scope="col">{!! __('Store Creator') !!}</th>
+
+                                <th scope="col">{!! __('employees count') !!}</th>
+
                                 <!-- <th scope="col">{!! __('Store Phone') !!}</th> -->
                                 <!-- <th scope="col">{!! __('Address') !!}</th> -->
                                 <th scope="col">{!! __('Created At') !!}</th>
@@ -66,7 +68,9 @@
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
                                 <th scope="col">{!! __('Store Name') !!}</th>
-                                <th scope="col">{!! __('Store Creator') !!}</th>
+
+                                <th scope="col">{!! __('employees count') !!}</th>
+
                                 <!-- <th scope="col">{!! __('Store Phone') !!}</th> -->
                                 <!-- <th scope="col">{!! __('Address') !!}</th> -->
                                 <th scope="col">{!! __('Created At') !!}</th>
@@ -82,12 +86,16 @@
                                     @if(authIsSuperAdmin())
                                         <td class="text-danger">{!! optional($store->branch)->name !!}</td>
                                     @endif
-                                    <td>{!! $store->name !!}</td> 
+                                    <td>{!! $store->name !!}</td>
                                     <td>
-                                        @foreach($store->storeEmployeeHistories as $storeEmployeeHistory)
-                                            <p class="employeeData">{{optional($storeEmployeeHistory->employee)->name}}
-                                                ({{optional($storeEmployeeHistory->employee)->phone1}} / {{optional($storeEmployeeHistory->employee)->phone2}} )</p>
-                                        @endforeach
+
+                                     <span class="label label-success m-5 ">
+                                         <a style="color: white !important;font-size: 14px"
+                                            target="_blank" href="{{route('admin:store_employee_history.index', ['store' => $store->id])}}">
+                                             {{count($store->storeEmployeeHistories->where('status', 1))}}
+                                         </a>
+                                     </span>
+
                                     </td>
                                     <!-- <td>{!! $store->store_phone !!}</td> -->
                                     <!-- <td>{!! $store->store_address !!}</td> -->
@@ -96,23 +104,23 @@
                                     <td>
 
                                     <div class="btn-group margin-top-10">
-                                        
+
                                         <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="ico fa fa-bars"></i>
                                         {{__('Options')}} <span class="caret"></span>
-                                     
-                                    </button> 
+
+                                    </button>
                                         <ul class="dropdown-menu dropdown-wg">
                                             <li>
-                                            
+
 
                                             <a class="btn btn-wg-show hvr-radial-out" onclick="loadDataWithModal('{{$store->id}}')" data-id="{{$store->id}}">
                                                 <i class="fa fa-eye"></i> {{__('Show')}}
                                             </a>
-                
+
                                             </li>
                                             <li>
-                                                
+
                                             @component('admin.buttons._edit_button',[
                                                     'id'=>$store->id,
                                                     'route' => 'admin:stores.edit',
@@ -127,10 +135,16 @@
                                                      ])
                                         @endcomponent
                                             </li>
-                                            
+                                            <li>
+                                                <a class="btn btn-wg-show hvr-radial-out" target="_blank"
+                                                   href="{{route('admin:store_employee_history.index', ['store' => $store->id])}}" >
+                                                    <i class="fa fa-eye"></i>{{ __( 'employees history' )}}</a>
+
+                                            </li>
+
                                         </ul>
                                     </div>
-<!-- 
+<!--
                                     <a class="btn btn-wg-show hvr-radial-out" onclick="loadDataWithModal('{{$store->id}}')" data-id="{{$store->id}}">
                                                 <i class="fa fa-eye"></i> {{__('Show')}}
                                             </a>

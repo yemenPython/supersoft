@@ -27,23 +27,38 @@
                                 </div>
                             </div>
                         @endif
-                        <div class="form-group col-md-4">
+                        <!-- <div class="form-group col-md-4">
                             <label> {{ __('UserName') }} </label>
+                            <div class="input-group">
+
+<span class="input-group-addon fa fa-user"></span>
                             {!! drawSelect2ByAjax('user_id','User','name','name',__('Select Name'), request()->name) !!}
                         </div>
+                        </div> -->
 
                         <div class="form-group col-md-4">
                             <label> {{ __('Date From') }} </label>
+                            <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
                             <input type="date" name="date_from" class="form-control">
+                        </div>
                         </div>
 
                         <div class="form-group col-md-4">
                             <label> {{ __('Date To') }} </label>
+                            <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
                             <input type="date" name="date_to" class="form-control">
+                        </div>
                         </div>
 
                         <div class="form-group col-md-4">
                             <label> {{ __('Status') }} </label>
+                            <div class="input-group">
+
+<span class="input-group-addon fa fa-info"></span>
                             <select class="form-control js-example-basic-single" name="status">
                                 <option value="">{{__('Select Status')}}</option>
                                 <option value="pending">{{__('Pending')}}</option>
@@ -51,9 +66,13 @@
                                 <option value="rejected">{{__('Rejected')}}</option>
                             </select>
                         </div>
+                        </div>
 
                         <div class="form-group col-md-4">
                             <label> {{ __('Execution Status') }} </label>
+                            <div class="input-group">
+
+<span class="input-group-addon fa fa-info"></span>
                             <select class="form-control js-example-basic-single" name="execution_status">
                                 <option value="">{{__('Select Status')}}</option>
                                 <option value="pending">{{__('Pending')}}</option>
@@ -61,9 +80,13 @@
                                 <option value="finished">{{__('Finished')}}</option>
                             </select>
                         </div>
+                        </div>
 
                         <div class="form-group col-md-4">
                             <label> {{ __('Concession Type') }} </label>
+                            <div class="input-group">
+
+<span class="input-group-addon fa fa-file-o"></span>
                             <div class="input-group" id="concession_types">
 
                                 <select class="form-control js-example-basic-single" id="concession_type_id"
@@ -75,9 +98,14 @@
                                 </select>
                             </div>
                         </div>
+                        </div>
 
                         <div class="form-group col-md-4">
                         <label> {{ __('Items') }} </label>
+                        <div class="input-group">
+
+<span class="input-group-addon fa fa-file-o"></span>
+                        
                             <select name="concession_id" class="form-control js-example-basic-single concessions_numbers">
                                 <option value class="remove_concession_for_new">{{__('Select')}}</option>
                                 @foreach($additionalData['concessions'] as $concession)
@@ -85,14 +113,19 @@
                                 @endforeach
                             </select>
                         </div>
+                        </div>
 
                         <div class="form-group col-md-4">
                            
                             <label> {{ __('Doc. number') }} </label>
+                            <div class="input-group">
+
+<span class="input-group-addon fa fa-file-text-o"></span>
                             <div class="input-group" id="concession_items">
                                 <select class="form-control js-example-basic-single " name="item_id" id>
                                     <option value="">{{__('Select')}}</option>
                                 </select>
+                            </div>
                             </div>
 
                             <input type="hidden" name="model_name" id="model_name">

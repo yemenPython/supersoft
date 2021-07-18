@@ -21,6 +21,11 @@ class StoreEmployeeHistory extends Model
         'employee_id',
         'start',
         'end',
+        'status',
+    ];
+
+    protected $casts = [
+      'status' => 'boolean'
     ];
 
     public function employee(): BelongsTo

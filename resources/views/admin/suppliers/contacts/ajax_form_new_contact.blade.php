@@ -1,6 +1,10 @@
-<div class="row contact-{{$index}}">
+<div class="row contact-{{$index}}" style="padding:0 20px">
 
-    <div class="col-md-2">
+
+<div class="col-md-12" style="box-shadow:0 0 7px 1px #DDD;padding:20px;margin-bottom:20px">
+<div class="row">
+
+<div class="col-md-4">
         <div class="form-group">
 
             <label for="exampleInputEmail1">{{__('name')}}</label>
@@ -13,7 +17,7 @@
         {{input_error($errors,'contacts.'.$index.'.name')}}
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-4">
         <div class="form-group">
 
             <label for="exampleInputEmail1">{{__('phone 1')}}</label>
@@ -26,14 +30,14 @@
         {{input_error($errors,'contacts.'.$index.'.phone_1')}}
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-4">
         <div class="form-group">
             <label for="exampleInputEmail1">{{__('phone 2')}} :</label>
             <input type="text" min="0" name="contacts[{{$index}}][phone_2]" class="form-control">
         </div>
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-8">
         <div class="form-group">
 
             <label for="exampleInputPassword1"> {{__('Address')}} : </label>
@@ -53,4 +57,16 @@
             </button>
         </div>
     </div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
 </div>

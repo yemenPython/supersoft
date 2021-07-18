@@ -1,8 +1,6 @@
 <tr>
     <td>{{$key+1}}</td>
     <td>
-{{--        <span>{{optional($item->part)->name}}</span>--}}
-
         <span style="cursor: pointer" data-img="{{optional($item->part)->image}}" data-toggle="modal" data-target="#part_img"
               title="Part image" onclick="getPartImage('{{$key}}')" id="part_img_id_{{$key}}">
                   {{optional($item->part)->name}}
@@ -23,16 +21,18 @@
 
     </td>
 
-    <td style="background:#FBE3E6 !important">
+    <td class="text-danger">
     <span>{{$item->quantity}}</span>
     </td>
 
-    <td style="background:#E3FBEA !important">
-    <span>{{$item->price}}</span>
+    <td style="width:150px">
+    <span style="background:#F7F8CC !important">
+    {{$item->price}}</span>
     </td>
 
-    <td style="background:#FBFAD4 !important">
-    <span>{{ $item->price * $item->quantity}}</span>
+    <td>
+    <span style="background:rgb(253, 215, 215) !important">
+    {{ $item->price * $item->quantity}}</span>
     </td>
 
 </tr>

@@ -1,4 +1,4 @@
-<thead>
+<!-- <thead>
 <tr>
 
     <th class="text-center column-index" scope="col">{!! __('#') !!}</th>
@@ -28,8 +28,8 @@
         {!! __('Updated At') !!}
         <i class="fa fa-sort{{ \App\AccountingModule\Helper::iam_used_in_sort('updated-at') }}"></i>
     </th>
-<!-- <th scope="col">{!! __('Expenses') !!}</th> -->
-    <th scope="col">{!! __('Options') !!}</th>
+ <th scope="col">{!! __('Expenses') !!}</th> -->
+    <!-- <th scope="col">{!! __('Options') !!}</th>
     <th scope="col">
         <div class="checkbox danger">
             <input type="checkbox" id="select-all">
@@ -38,4 +38,4 @@
         {!! __('Select') !!}
     </th>
 </tr>
-</thead>
+</thead>  -->

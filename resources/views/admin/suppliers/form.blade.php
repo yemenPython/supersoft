@@ -1,6 +1,6 @@
 <div class="row">
 
-    <div class="col-xs-12">
+    <div class="">
         <div class="col-md-12">
 
             @if(authIsSuperAdmin())
@@ -30,9 +30,9 @@
     </div>
 
 
-    <div class="col-md-12">
+    <div class="">
 
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="form-group">
                 <label for="inputNameAr" class="control-label">{{__('Supplier Name Ar')}}</label>
                 <div class="input-group">
@@ -46,7 +46,7 @@
 
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-6">
             <div class="form-group">
                 <label for="inputName" class="control-label">{{__('Supplier Name En')}}</label>
                 <div class="input-group">
@@ -103,7 +103,7 @@
         </div>
     </div>
 
-    <div class="col-md-12">
+    <div class="">
         <div class="col-md-4">
             <div class="form-group has-feedback">
                 <label for="country" class="control-label">{{__('Select Country')}}</label>
@@ -159,7 +159,7 @@
     </div>
 
 
-    <div class="col-md-12">
+    <div class="">
         <div class="col-md-4">
             <div class="form-group">
                 <label for="inputNameAr" class="control-label">{{__('Email')}}</label>
@@ -199,7 +199,7 @@
     </div>
 
 
-    <div class="col-xs-12">
+    <div class="">
         <div class="col-md-4">
             <div class="col-md-2" style="width: 100px">
                 <div class="form-group has-feedback">
@@ -250,7 +250,7 @@
         </div>
     </div>
 
-    <div class="col-xs-12">
+    <div class="">
         <div class="col-md-4">
             <div class="form-group  ">
                 <label for="address" class="control-label">{{__('Address')}}</label>
@@ -287,7 +287,7 @@
         </div>
     </div>
 
-    <div class="col-xs-12">
+    <div class="">
         <div class="col-md-4">
             <div class="form-group  ">
                 <label for="address" class="control-label">{{__('Lat')}}</label>
@@ -324,7 +324,7 @@
         </div>
     </div>
 
-    <div class="col-md-12">
+    <div class="">
         <div class="col-md-3">
             <div class="form-group has-feedback">
                 <label for="inputPhone" class="control-label">{{__('Status')}}</label>
@@ -378,12 +378,12 @@
 
 </div>
 
-<div class="col-md-12">
+<div class="">
     @if (isset($supplier))
         @php
             $balance_details = $supplier->get_my_balance();
         @endphp
-        <div class="col-md-12">
+        <div class="">
             <div class="form-group">
                 <label> {{ $balance_details['balance_title'] }} </label>
                 <input disabled value="{{ $balance_details['balance'] }}"
@@ -394,7 +394,7 @@
 
 </div>
 
-<div class="form-group  col-sm-12">
+<div class="form-group row">
     <div class="col-md-4">
         <div class="form-group  ">
             <label for="address" class="control-label">{{__('Identity Number')}}</label>
@@ -437,8 +437,8 @@
         </div>
     </div>
 
-    <div class="col-md-12">
-        <div class="form-group  ">
+    <div class="">
+        <div class="form-group col-md-12">
             <label for="inputDescription" class="control-label">{{__('Description')}}</label>
             <div class="input-group">
         <textarea name="description" class="form-control" rows="4" cols="150"
@@ -449,14 +449,14 @@
     </div>
 </div>
 
-<div class="col-xs-12">
+<div class="col-xs-12" style="box-shadow: rgb(221, 221, 221) 0px 0px 7px 1px; margin: 5px 5px 10px; padding-top: 20px;">
     @include('admin.suppliers.contacts.form')
 </div>
 
-<div class="col-xs-12">
+<div class="col-xs-12" style="box-shadow: rgb(221, 221, 221) 0px 0px 7px 1px; margin: 5px 5px 10px; padding-top: 20px;">
     @include('admin.suppliers.bank_accounts.form')
 </div>
 
-<div class="form-group col-sm-12">
+<div class="form-group col-sm-12" >
     @include('admin.buttons._save_buttons')
 </div>

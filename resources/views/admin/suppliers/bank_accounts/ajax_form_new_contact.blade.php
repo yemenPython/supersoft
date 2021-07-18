@@ -1,6 +1,7 @@
-<div class="row bank-account-{{$index}}">
+<div class="row bank-account-{{$index}}" style="padding:0 20px">
 
-    <div class="row">
+<div class="col-md-12" style="box-shadow:0 0 7px 1px #DDD;padding:20px;margin-bottom:20px;">
+<div class="row">
         <div class="col-md-3">
             <div class="form-group">
                 <label for="exampleInputEmail1">{{__('Bank Name')}}</label>
@@ -64,4 +65,7 @@
        </div>
    </div>
 </div>
-<hr>
+
+
+</div>
+<!-- <hr> -->

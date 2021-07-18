@@ -13,6 +13,7 @@ use App\Models\EmployeeData;
 use App\Models\OpeningBalance;
 use App\Models\Part;
 use App\Models\Settlement;
+use App\Models\Store;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use DB;
@@ -58,10 +59,10 @@ class AjaxController extends Controller
                     $data = $this->getUsers($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
                     break;
                 case 'Branch':
-                    $data = $this->getBranches($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    $data = $this->getBranches($searchFields, $searchTerm, $selectedColumns, $limit);
                     break;
                     case 'Asset':
-                    $data = $this->getAsset($searchFields, $searchTerm, $selectedColumns, $limit);
+                    $data = $this->getAsset($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
                     break;
                     case 'AssetInsurances':
                     $data = $this->getAssetInsurances($searchFields, $searchTerm, $selectedColumns, $limit);
@@ -208,7 +209,7 @@ class AjaxController extends Controller
 
         return $data;
     }
-    public function getAsset($searchFields = [], $searchTerm = '', $selectedColumns = '*', $limit = 10)
+    public function getAsset($searchFields = [], $searchTerm = '', $selectedColumns = '*', $limit = 10, $branchId = null)
     {
         $data = [];
         $id = ' id ,';
@@ -459,7 +460,7 @@ class AjaxController extends Controller
         if ($selectedColumns != '' && $selectedColumns != '*') {
             $selectedColumns = $id . ' ' . $selectedColumns;
         }
-        $stores = DB::table('stores')->whereNull('deleted_at')->select(DB::raw($selectedColumns));
+        $stores = Store::whereNull('deleted_at')->select(DB::raw($selectedColumns));
         if (!empty($searchFields)) {
             foreach ($searchFields as $searchField) {
                 if (!empty($searchTerm) && $searchTerm != '') {

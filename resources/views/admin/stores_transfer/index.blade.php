@@ -49,7 +49,24 @@
                     <div class="clearfix"></div>
                   <div class="table-responsive">
                     <table id="stores" class="table table-bordered wg-table-print table-hover" style="width:100%;margin-top:15px">
-                        @include($view_path . '.table-thead')
+                    <tr>
+                        <th class="text-center column-index" scope="col">#</th>
+                            @if(authIsSuperAdmin())
+                                <th scope="col" class="text-center column-branch">{!! __('Branch') !!}</th>
+                            @endif
+                        <th class="text-center column-transfer-date" scope="col">{!! __('words.transfer-date') !!}</th>
+
+                            <th class="text-center column-transfer-number" scope="col">{{ __('opening-balance.serial-number') }}</th>
+
+                            <th class="text-center column-store-from" scope="col">{!! __('words.store-from') !!}</th>
+                            <th class="text-center column-store-to" scope="col">{!! __('words.store-to') !!}</th>
+                            <th class="text-center column-total" scope="col">{!! __('Total') !!}</th>
+                            <th class="text-center column-status" scope="col">{!! __('Concession Status') !!}</th>
+                            <th class="text-center column-created-at" scope="col">{!! __('Created At') !!}</th>
+                            <th class="text-center column-updated-at" scope="col">{!! __('Updated At') !!}</th>
+                            <th scope="col">{!! __('Options') !!}</th>
+                            <th scope="col">{!! __('Select') !!}</th>
+                        </tr>
                         <tfoot>
                         <tr>
                         <th class="text-center column-index" scope="col">#</th>

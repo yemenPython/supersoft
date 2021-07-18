@@ -106,7 +106,7 @@
                                 </div>
                             </li>
 
-                            <li class="form-group col-md-4">
+                            <li class="form-group col-md-3">
                                 <label> {{ __('Concession Status') }} </label>
                                 <div class="input-group">
                                     <span class="input-group-addon fa fa-cubes"></span>
@@ -130,20 +130,20 @@
                             </li>
 
 
-                            <li class="form-group col-md-12">
-                            <div class="radio primary col-md-3">
+                            <li class="col-md-6" style="margin-top:20px">
+                            <div class="radio primary col-md-4">
                                 <input type="radio" name="damage_type" value="natural" {{isset($_GET['damage_type']) && $_GET['damage_type'] == 'natural' ? 'checked' : ''}} id="natural" onclick="showEmployeeData('natural')">
                                 <label for="natural">{{__('Natural')}}</label>
                             </div>
 
-                            <div class="radio primary col-md-3" style="margin-top: 11px;">
+                            <div class="radio primary col-md-4" style="margin-top: 11px;">
                                 <input type="radio" name="damage_type" id="un_natural" value="un_natural" {{isset($_GET['damage_type']) && $_GET['damage_type'] == 'un_natural' ? 'checked' : ''}} onclick="showEmployeeData('un_natural')">
                                 <label for="un_natural">{{__('un_natural')}}</label>
                             </div>
 
                                 <div class="radio primary col-md-3" style="margin-top: 11px;">
                                     <input type="radio" name="damage_type" id="both" value="both" {{isset($_GET['damage_type']) && $_GET['damage_type'] == 'both' ? 'checked' : ''}} onclick="showEmployeeData('both')">
-                                    <label for="both">{{__('Natural and un_natural')}}</label>
+                                    <label for="both">{{__('All')}}</label>
                                 </div>
                             </li>
 

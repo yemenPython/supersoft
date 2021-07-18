@@ -95,6 +95,13 @@ table th {
     padding: 5px 0 !important
 }
 
+.invoice-to h5 {
+    color: #526cc2 !important;
+    font-weight: bold !important;
+    margin: 0 !important;
+    padding: 5px 0 !important
+}
+
 .invoice-to h3 {
     color: #526cc2 !important;
     font-weight: bold !important;
@@ -145,13 +152,16 @@ table th {
 }
 
 .last-total {
-    background: #526cc2 !important;
-    color: white !important;
-    border-radius: 30px !important
+
+    color: rgb(27, 27, 27) !important;
+    border: 1px solid #333 !important;
+    border-radius: 30px !important;
+    margin-top: 5px !important;
 }
 
 .last-total h6 {
-    color: white !important;
+    color: rgb(27, 27, 27) !important;
+    font-weight: bold !important;
 }
 
 .right-peice-wg .title {
@@ -166,7 +176,7 @@ table th {
 }
 
 .print-foot-wg .col-xs-7 {
-    background: black !important;
+    background: #333 !important;
     color: white !important;
     border-radius: 0 100px 0 0 !important;
     border-right: 15px solid #526cc2 !important;
@@ -176,9 +186,32 @@ table th {
     padding: 20px 0 15px !important
 }
 
+
 .print-foot-wg h6 {
     color: white !important
 }
 
+.print-foot-wg i {
+    margin-left: 5px !important;
+    color:white !important
+}
+
+.print-foot-wg::after
+{
+    content: "" !important;
+    background: #526cc2 !important;
+    width: 340px !important;
+    height: 40px !important;
+    position: absolute !important;
+    left: -30px !important;
+    bottom: 0 !important;
+    border-radius: 0 50px 0 0 !important;
+}
+
+.right-top-detail h3 {
+    color: #526cc2;
+    font-weight: bold;
+    text-align:center !important
+}
 
 /* أذونات البرنت */

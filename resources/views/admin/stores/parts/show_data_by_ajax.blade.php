@@ -90,7 +90,7 @@
             </div>
             </div>
         
-
+<!-- 
 
             <div class="col-md-12">
 
@@ -209,7 +209,7 @@
     </div>
     </div>
     </div>
-    
+     -->
     
     <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">{{__('Close')}}</button>

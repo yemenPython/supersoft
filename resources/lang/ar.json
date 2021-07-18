@@ -2112,7 +2112,26 @@
     "total sale amount" : "إجمالي البيع / الإستبعاد",
     "section name ar" : "اسم القسم عربي",
     "section name en" : "اسم القسم إنجليزي",
-    "section name" : "اسم القسم"
+    "section name" : "اسم القسم",
+
+    "Short Print" : "طباعة للجهة",
+    "types" : "الأنواع",
+    "concession data" : "بيانات الإذن",
+    "concession items" : "بيانات أصناف الإذن",
+    "Add new type" : "إضافة نوع جديد",
+    "Edit type" : "تعديل بيانات النوع",
+
+    "contact numbers" : "أرقام التواصل",
+    "employees count" : "عدد المسؤولين النشط",
+    "employee name" : "اسم الموظف",
+
+    "request days" : "فترة الطلب بالأيام",
+    "quotation days" : "فترة العرض بالأيام",
+    "supply order days" : "فترة أمر التوريد بالأيام",
+
+    "website_url" : "للموقع الإلكتروني",
+    "Website Url" : "رابط الموقع الإلكتروني",
+    "Active Employee" : "عدد المسؤولين النشط"
 
 }
 

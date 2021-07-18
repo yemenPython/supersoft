@@ -16,14 +16,6 @@
             @endif
 
 
-            <div class="col-md-6">
-                <table class="table table-bordered">
-                    <tbody>
-                    <th style="width:50%;background:#ddd !important;color:black !important">{{__('Added By')}}</th>
-                    <td>{{old('number', isset($damagedStock)? optional($damagedStock->user)->name :'')}}</td>
-                    </tbody>
-                </table>
-            </div>
 
             <div class="col-md-6">
                 <table class="table table-bordered">
@@ -52,6 +44,15 @@
                 </table>
             </div>
 
+            
+            <div class="col-md-6">
+                <table class="table table-bordered">
+                    <tbody>
+                    <th style="width:50%;background:#ddd !important;color:black !important">{{__('Added By')}}</th>
+                    <td>{{old('number', isset($damagedStock)? optional($damagedStock->user)->name :'')}}</td>
+                    </tbody>
+                </table>
+            </div>
 
             <div class="col-md-6">
                 <table class="table table-bordered">
@@ -85,9 +86,9 @@
             <th width="10%"> {{ __('Unit Quantity') }} </th>
             <th width="12%"> {{ __('Unit') }} </th>
             <th width="13%"> {{ __('Price Segments') }} </th>
-            <th width="5%"> {{ __('Quantity') }} </th>
-            <th width="5%"> {{ __('Price') }} </th>
-            <th width="5%"> {{ __('Total') }} </th>
+            <th> {{ __('Quantity') }} </th>
+            <th> {{ __('Price') }} </th>
+            <th> {{ __('Total') }} </th>
             <th width="5%"> {{ __('Store') }} </th>
         </tr>
         </thead>
@@ -134,7 +135,7 @@
 
 
 
-<td style="background:#FBE3E6 !important">
+<td class="text-danger">
                         <span>
 
                         {{isset($item) ? $item->quantity : 0}}
@@ -143,15 +144,15 @@
                     </td>
 
 
-<td style="background:#E3FBEA !important">
-                        <span>
+<td>
+                        <span style="background:#F7F8CC !important">
 
                         {{isset($item) ? $item->price : 0}}
                         </span>
                     </td>
 
-                    <td style="background:#FBFAD4 !important">
-                        <span>
+                    <td>
+                        <span style="background:rgb(253, 215, 215) !important">
                         {{isset($item) ? ($item->price * $item->quantity) : 0}}
                         </span>
                     </td>
@@ -172,9 +173,9 @@
             <th width="10%"> {{ __('Unit Quantity') }} </th>
             <th width="12%"> {{ __('Unit') }} </th>
             <th width="13%"> {{ __('Price Segments') }} </th>
-            <th width="5%"> {{ __('Quantity') }} </th>
-            <th width="5%"> {{ __('Price') }} </th>
-            <th width="5%"> {{ __('Total') }} </th>
+            <th> {{ __('Quantity') }} </th>
+            <th> {{ __('Price') }} </th>
+            <th> {{ __('Total') }} </th>
             <th width="5%"> {{ __('Store') }} </th>
         </tr>
         </tfoot>
@@ -213,16 +214,43 @@
     <div class="col-md-12" id="employees_percent"
          style="{{isset($damagedStock) && $damagedStock->type == 'un_natural' ? '':'display: none;' }}">
         <div class="form-group">
-            <label for="inputDescription" class="control-label">{{__('Employees')}}</label>
+
+        <div class="col-md-12" style="color: white; margin-bottom: 75px; margin-right: -24px;top:16px"><div class="ribbon ribbon-r bg-secondary show-ribbon" style="background: rgb(86, 133, 204) !important;"><p class="mb-0">{{__('Employees')}}</p></div></div>
+        
+            <!-- <label for="inputDescription" class="control-label">{{__('Employees')}}</label> -->
 
 
             <div id="employees_data">
+
+
+
+            
+ 
 
                 @if(isset($damagedStock))
 
                     @foreach($damagedStock->employees as $damaged_employee)
 
-                        <div class="col-md-12">
+
+                    <table class="table table-bordered">
+                           <thead>
+                             <tr>
+                               <th>{{__('Name')}}</th>
+                               <th>{{__('Percent')}}</th>
+                               <th>{{__('Total Amount')}}</th>                               
+                             </tr>
+                           </thead>
+                           <ttbody>
+                             <tr>
+                               <td>{{$damaged_employee->name}}</td>
+                               <td>{{$damaged_employee->pivot->percent}}</td>
+                               <td>{{$damaged_employee->pivot->amount}}</td>
+                             </tr>
+                           </ttbody>
+                        </table>
+
+
+                        <!-- <div class="col-md-12" style="padding-bottom: 20px;">
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="inputDescription" class="control-label">{{__('Name')}}</label>
@@ -253,7 +281,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
 
                     @endforeach
