@@ -49,8 +49,8 @@ class BranchUpdateRequest extends FormRequest
             'phone1' =>'nullable',
             'fax' =>'nullable',
             'logo' =>'image|mimes:jpeg,png,jpg,gif,svg',
-//            'tax_card' =>'string',
-        ];
+            'website_url' =>'sometimes|url',
+            ];
     }
 
     public function attributes()
@@ -73,6 +73,7 @@ class BranchUpdateRequest extends FormRequest
             'logo'=> __('Logo'),
             'vat_active' =>__('Is VAT active ?'),
             'vat_percent' =>__('VAT percent'),
+            'website_url' =>__('website_url'),
         ];
     }
 }

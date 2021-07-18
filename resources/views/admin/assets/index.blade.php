@@ -277,6 +277,7 @@
                                 <th scope="col"> {{ __('Asset Status') }} </th>
                                 <th scope="col"> {{ __('annual consumption rate') }} </th>
                                 <th scope="col"> {{ __('asset age') }} </th>
+                                <th scope="col">{!! __('Active Employee') !!}</th>
                                 <th scope="col">{!! __('Created at') !!}</th>
                                 <th scope="col">{!! __('Updated at') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -299,6 +300,7 @@
                                 <th scope="col"> {{ __('Asset Status') }} </th>
                                 <th scope="col"> {{ __('annual consumption rate') }} </th>
                                 <th scope="col"> {{ __('asset age') }} </th>
+                                <th scope="col">{!! __('Active Employee') !!}</th>
                                 <th scope="col">{!! __('Created at') !!}</th>
                                 <th scope="col">{!! __('Updated at') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>

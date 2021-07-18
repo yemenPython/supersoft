@@ -176,7 +176,7 @@
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control">
-                    <i class="fa fa-cubes"></i> {{ __('Asset employees'). " " .$asset->name }}
+                    <i class="fa fa-cubes"></i>[{{count($assetsEmployees)}}] {{ __('Asset employees'). " " .$asset->name }}
                 </h4>
 
                 <div class="card-content js__card_content" style="">

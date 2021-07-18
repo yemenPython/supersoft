@@ -13,7 +13,7 @@
         </nav>
         <div class="col-xs-12">
         <div class=" card box-content-wg-new bordered-all primary">
-                <h4 class="box-title with-control" style="text-align: initial"><i class="fa fa-building-o"></i> 
+                <h4 class="box-title with-control" style="text-align: initial"><i class="fa fa-building-o"></i>
                   {{__('Edit Branch')}}
                   <span class="controls hidden-sm hidden-xs pull-left">
                   <button class="control text-white" style="background:none;border:none;font-size:12px">{{__('Save')}}<img class="img-fluid" style="width:50px;height:50px;margin-top:-20px;margin-bottom:-13px" src="{{asset('assets/images/f1.png')}}"></button>
@@ -54,7 +54,7 @@
                             </div>
                             {{input_error($errors,'name_en')}}
                         </div>
-                        </div>                                              
+                        </div>
 
                         <div class="col-md-4">
 
@@ -87,8 +87,8 @@
                             </select>
                             {{input_error($errors,'city_id')}}
                         </div>
-                        </div>      
-                        </div>                                        
+                        </div>
+                        </div>
 
                         <div class="col-md-4">
                         <div class="form-group has-feedback">
@@ -117,14 +117,14 @@
                             </select>
                             {{input_error($errors,'currency_id')}}
                         </div>
-                        </div>       
-                        </div>                                       
+                        </div>
+                        </div>
 
                     </div>
-                    
+
                     <div class="col-md-12">
 
-  
+
 
                         <div class="col-md-4">
                         <div class="form-group has-feedback">
@@ -136,7 +136,7 @@
                             </div>
                             {{input_error($errors,'address_ar')}}
                         </div>
-                        </div>           
+                        </div>
 
                                               <div class="col-md-4">
                         <div class="form-group has-feedback">
@@ -148,7 +148,7 @@
                             </div>
                             {{input_error($errors,'address_en')}}
                         </div>
-                        </div>                                  
+                        </div>
 
                         <div class="col-md-4">
                         <div class="form-group has-feedback">
@@ -174,7 +174,7 @@
                             </div>
                             {{input_error($errors,'tax_card')}}
                         </div>
-                        </div>                                              
+                        </div>
 
                         <div class="col-md-4">
                         <div class="form-group has-feedback">
@@ -198,10 +198,10 @@
                             </div>
                             {{input_error($errors,'phone1')}}
                         </div>
-                        </div>                                              
+                        </div>
 
                     </div>
-                    
+
                     <div class="col-md-12">
 
                         <div class="col-md-4">
@@ -226,7 +226,7 @@
                             </div>
                             {{input_error($errors,'postal_code')}}
                         </div>
-                        </div>                                              
+                        </div>
 
                         <div class="col-md-4">
                         <div class="form-group has-feedback">
@@ -242,6 +242,19 @@
                         </div>
 
                         <div class="col-md-12">
+
+                            <div class="col-md-4">
+                                <div class="form-group has-feedback">
+                                    <label for="logo" class="control-label">{{__('Website Url')}}</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><li class="fa fa-link"></li></span>
+                                        <input type="url" name="website_url" class="form-control" id="website_url"
+                                               placeholder="{{__('Website Url')}}" value="{{$branch->website_url}}">
+                                    </div>
+                                    {{input_error($errors,'website_url')}}
+                                </div>
+                            </div>
+
                         <div class="col-md-4">
                         <div class="form-group has-feedback">
                             <label for="logo" class="control-label">{{__('Logo')}}</label>
@@ -252,19 +265,8 @@
                             </div>
                             {{input_error($errors,'logo')}}
                         </div>
-                        </div>                                                
+                        </div>
 
-{{--                        <div class="col-md-4">--}}
-{{--                        <div class="form-group has-feedback">--}}
-{{--                            <label for="fax" class="control-label">{{__('Map')}}</label>--}}
-{{--                            <div class="input-group">--}}
-{{--                                <span class="input-group-addon"><li class="fa fa-map"></li></span>--}}
-{{--                                <input type="file" name="map" class="form-control" id="map"--}}
-{{--                                       placeholder="{{__('Map')}}" value="{{$branch->map}}">--}}
-{{--                            </div>--}}
-{{--                            {{input_error($errors,'map')}}--}}
-{{--                        </div>--}}
-{{--                        </div>--}}
 
                         <div class="col-md-2">
                         <div class="form-group has-feedback">
@@ -276,7 +278,7 @@
                                 <label for="switch-1">{{__('Active')}}</label>
                             </div>
                         </div>
-                        </div>    
+                        </div>
                         <div class="col-md-2">
                         <div class="form-group has-feedback">
                             <label for="inputPhone" class="control-label">{{__('Activating shifts')}}</label>
@@ -287,11 +289,11 @@
                                 <label for="switch-2">{{__('Active')}}</label>
                             </div>
                         </div>
-                        </div>                                                                      
+                        </div>
 
-                    </div>                    
+                    </div>
 
-                  </div>  
+                  </div>
 
                         <div class="form-group col-sm-12">
                             @include('admin.buttons._save_buttons')

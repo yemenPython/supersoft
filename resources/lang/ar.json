@@ -2112,7 +2112,10 @@
     "total sale amount" : "إجمالي البيع / الإستبعاد",
     "section name ar" : "اسم القسم عربي",
     "section name en" : "اسم القسم إنجليزي",
-    "section name" : "اسم القسم"
+    "section name" : "اسم القسم",
+    "Active Employee" : "المسؤلين النشطيين",
+    "website_url" : "للموقع الألكترونى",
+    "Website Url" : "رابط الموقع الألكترونى"
 
 }
 
