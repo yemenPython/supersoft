@@ -8,9 +8,9 @@
         <th width="16%"> {{ __('Unit Quantity') }} </th>
         <th width="12%"> {{ __('Unit') }} </th>
         <th width="12%"> {{ __('Price Segments') }} </th>
-        <th width="13%"> {{ __('quantity') }} </th>
-        <th width="5%"> {{ __('Price') }} </th>
-        <th width="5%"> {{ __('Total') }} </th>
+        <th> {{ __('quantity') }} </th>
+        <th> {{ __('Price') }} </th>
+        <th> {{ __('Total') }} </th>
     </tr>
     </thead>
     <tbody id="parts_data">
@@ -27,9 +27,9 @@
         <th width="16%"> {{ __('Unit Quantity') }} </th>
         <th width="12%"> {{ __('Unit') }} </th>
         <th width="12%"> {{ __('Price Segments') }} </th>
-        <th width="13%"> {{ __('quantity') }} </th>
-        <th width="5%"> {{ __('Price') }} </th>
-        <th width="5%"> {{ __('Total') }} </th>
+        <th> {{ __('quantity') }} </th>
+        <th> {{ __('Price') }} </th>
+        <th> {{ __('Total') }} </th>
     </tr>
     </tfoot>
 </table>

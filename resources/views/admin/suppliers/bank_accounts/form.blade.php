@@ -1,20 +1,23 @@
-<div class="col-md-12">
-    <hr>
+<div class="col-md-12" >
+    <!-- <hr>
     <span
         style="color: white;font-size: 14px;background:#2980B9;padding:5px 10px;border-radius:3px"> {{__('Bank Accounts')}} </span>
-    <hr>
+    <hr> -->
+
+    <div class="col-md-12" style="color: white; margin-bottom: 60px; margin-right: -15px;"><div class="ribbon ribbon-r bg-secondary show-ribbon" style="background: rgb(86, 133, 204) !important;right: -15px;"><p class="mb-0">{{__('Bank Accounts')}}</p></div></div>
+
 </div>
 
-<div class="container">
+<div class="">
 
-    <div class="form_new_bank_account">
+    <div class="form_new_bank_account" style="">
 
         @if(isset($supplier) && $supplier->bankAccounts )
             @foreach($supplier->bankAccounts as $bankAccount)
                 @php
                     $index = $bankAccount->id;
                 @endphp
-                <div class="row " id="bank_account_{{$bankAccount->id}}">
+                <div class="row " id="bank_account_{{$bankAccount->id}}" style="box-shadow:0 0 7px 1px #DDD;padding:20px;margin:60px 5px 20px 5px">
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
@@ -102,7 +105,6 @@
                         </div>
                     </div>
                 </div>
-                <hr>
             @endforeach
         @endif
 
@@ -122,5 +124,6 @@
             class="btn btn-sm btn-primary">
         <li class="fa fa-plus"></li>
     </button>
-    <hr>
+    <br>
+    <br>
 </div>

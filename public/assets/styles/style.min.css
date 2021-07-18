@@ -7124,6 +7124,14 @@ div.bordered-div input {
     padding: 5px 0
 }
 
+.invoice-to h5 {
+    color: #526cc2;
+    font-weight: bold;
+    margin: 0;
+    padding: 5px 0
+}
+
+
 .invoice-to h2 {
     color: black;
     margin: 0;
@@ -7165,10 +7173,19 @@ div.bordered-div input {
 }
 
 .last-total {
-    background: #526cc2;
-    color: white;
-    border-radius: 30px
+
+    color: rgb(27, 27, 27) !important;
+    border: 1px solid #333 !important;
+    border-radius: 30px;
+    margin-top: 5px !important;
+  
 }
+
+.last-total h6 {
+    color: rgb(27, 27, 27) !important;
+    font-weight: bold !important;
+}
+
 
 .right-peice-wg .title {
     color: #526cc2;

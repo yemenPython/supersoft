@@ -5,11 +5,13 @@
         @method('post')
         <input type="hidden" name="spare_part_id" value="{{ isset($parentId) && $parentId != '' ? $parentId : '' }}"/>
  
+        <h4 class="box-title with-control" style="text-align: initial;">
+            {{__('Add new type')}}
+            </h4>
+
         @if(authIsSuperAdmin())
             <div class="">
-            <h4 class="box-title with-control" style="text-align: initial;">
-            {{__('Add new')}}
-            </h4>
+            
                 <div class="form-group has-feedback" style="padding:0 15px">
                     <label for="inputSymbolAR" class="control-label">{{__('Select Branch')}}</label>
                     <div class="input-group">

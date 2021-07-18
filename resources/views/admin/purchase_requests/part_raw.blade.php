@@ -66,16 +66,23 @@
     @endif
 
     <td>
-
-        <a data-toggle="modal" data-target="#part_types_{{$index}}" title="Part Types" class="btn btn-info">
+<ul class="list-inline" style="display:flex;justify-content:center;align-items:center;margin:0;padding:0">
+  <li>
+  <a data-toggle="modal" data-target="#part_types_{{$index}}" title="Part Types" class="btn btn-info">
             <i class="fa fa-check-circle"> </i> {{__('Types')}}
         </a>
-
-{{--        @if(!isset($request_type) || ( isset($request_type) && $request_type != 'approval'))--}}
+  </li>
+  <li>
+  {{--        @if(!isset($request_type) || ( isset($request_type) && $request_type != 'approval'))--}}
             <button type="button" class="btn btn-danger fa fa-trash" onclick="removeItem('{{$index}}')"></button>
 {{--        @endif--}}
+  </li>
+</ul>
+   
 
-        <div style="padding:5px !important;">
+
+
+        <div style="padding:0px !important;">
             @if(isset($request_type) && $request_type == 'approval')
                 <a data-toggle="modal" data-target="#part_quantity_{{$index}}"
                    title="Part quantity" class="btn btn-primary">

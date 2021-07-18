@@ -150,20 +150,31 @@ class ConsumptionAssetsController extends Controller
                 ->escapeColumns( [] )
                 ->make( true );
         } else {
-            $js_columns = [
-                'DT_RowIndex' => 'DT_RowIndex',
+            
+
+
+                $js_columns = [
+                    'DT_RowIndex' => 'DT_RowIndex',
+
+                    'date' => 'consumption_assets.date',
+                    'number' => 'consumption_assets.number',
+                   
+                    'date_from' => 'consumption_assets.date_from',
+                    'date_to' => 'consumption_assets.date_to',
+                    'total_replacement' => 'consumption_assets.total_replacement',
+                    'created_at' => 'consumption_assets.created_at',
+                    'updated_at' => 'consumption_assets.updated_at',
+                    'action' => 'action',
+                    'options' => 'options'
+                ];
+
+
+        if (authIsSuperAdmin()) {
+            $js_columns + [
                 'branch_id' => 'consumption_assets.branch_id',
-                'date' => 'consumption_assets.date',
-                'number' => 'consumption_assets.number',
-               
-                'date_from' => 'consumption_assets.date_from',
-                'date_to' => 'consumption_assets.date_to',
-                'total_replacement' => 'consumption_assets.total_replacement',
-                'created_at' => 'consumption_assets.created_at',
-                'updated_at' => 'consumption_assets.updated_at',
-                'action' => 'action',
-                'options' => 'options'
             ];
+        }
+        
             $assets = Asset::all();
             $branches = Branch::all()->pluck( 'name', 'id' );
             $assetsGroups = AssetGroup::select( ['id', 'name_ar', 'name_en'] )->get();
