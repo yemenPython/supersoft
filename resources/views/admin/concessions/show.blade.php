@@ -2,7 +2,19 @@
 
 <div class="top-logo-print">
     <div class="logo-print text-center">
-        <h5>{{optional($branchToPrint)->name_ar}}</h5>
+        <ul class="list-inline" style="margin:0">
+            <li>
+            <h5>{{optional($branchToPrint)->name_ar}}</h5>
+            </li>
+            <li>
+            <img src="http://127.0.0.1:8000/default-images/future.png" style="width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 21px;">
+            </li>
+        </ul>
     </div>
 </div>
 
@@ -21,44 +33,50 @@
 </div>
 
 <div class="invoice-to">
-<h5>{{__('concession data')}}</h5>
+    <div clas="row">
+        <div class="col-xs-6">
+        <h5>{{__('concession data')}}</h5>
+        </div>
+        <div class="col-xs-6" style="padding-right: 50px;">
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-time-user">
+                        <tr>
+                        <th>{{__('Time & Date')}}</th>
+                        <td>{{$concession->time}} - {{$concession->date}}</td>
+                        </tr>
+                        <tr>
+                        <th>{{__('User Name')}}</th>
+                        <td>{{optional($concession->user)->name}}</td>
+                        </tr>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <div class="col-xs-12">
 
-        <div class="col-xs-3"><h6>
-        {{__('Number')}} : 
-        {{$concession->type == 'add' ? $concession->add_number : $concession->withdrawal_number }}
-        </h6></div>
-
-        <div class="col-xs-3"><h6>
-        {{__('Item Number')}} : 
-        {{optional($concession->concessionable)->number}}        
-        </h6></div>
- 
-        <div class="col-xs-3"><h6>
-        {{__('Type')}} : 
-        {{__($concession->type . ' concession')}}
-        </h6></div>
-
-        <div class="col-xs-3"><h6>
-        {{__('Concession Type')}} : 
-        {{optional($concession->concessionType)->name}}
-        </h6></div>
-
-        <div class="col-xs-3"><h6>
-        {{__('Time & Date')}} : 
-        {{$concession->time}} - {{$concession->date}}
-        </h6></div>
-
-        <div class="col-xs-3"><h6>
-        {{__('Status')}} : 
-        {{__($concession->status)}}
-        </h6></div>
-
-        <div class="col-xs-3"><h6>
-        {{__('Execution Status')}} : 
-        @if($concession->concessionExecution)
+<table class="table static-table-wg">
+                           <tbody>
+                               <tr>
+                               <th>{{__('Number')}}</th>
+                               <td>{{$concession->type == 'add' ? $concession->add_number : $concession->withdrawal_number }}</td>
+                               <th>{{__('Item Number')}}</th>
+                               <td>{{optional($concession->concessionable)->number}}</td>
+                               <th>{{__('Type')}}</th>
+                               <td>{{__($concession->type . ' concession')}}</td>
+                             </tr>
+                             <tr>
+                               <th>{{__('Concession Type')}}</th>
+                               <td>{{optional($concession->concessionType)->name}}</td>
+                               <th>{{__('Status')}}</th>
+                               <td>{{__($concession->status)}}</td>
+                               <th>{{__('Execution Status')}}</th>
+                               <td>@if($concession->concessionExecution)
         
         @if($concession->concessionExecution ->status == 'pending' )
                 {{__('Processing')}}
@@ -74,14 +92,12 @@
                                     @else
                                     {{__('Not determined')}}
 
-                                    @endif
+                                    @endif</td>
+                             </tr>
 
-        </h6></div>
+                           
+                        </tbody></table>
 
-        <div class="col-xs-3"><h6>
-        {{__('User Name')}} : 
-        {{optional($concession->user)->name}}
-        </h6></div>
 
 </div>
 
@@ -129,14 +145,6 @@
         </div>
     <div class="col-xs-5 text-center">
 
-      <div class="row last-total">
-          <div class="col-xs-6">
-              <h6>{{__('Total Quantity')}}</h6>
-          </div>
-          <div class="col-xs-6">
-             <h6>{{$concession->total_quantity}}</h6>
-          </div>
-      </div>
       
       <div class="row last-total">
           <div class="col-xs-6">
@@ -153,8 +161,8 @@
     <div class="row">
         <div class="col-xs-7">
             <div class="row">
-            <div class="col-xs-4">
-                <div class="media">
+            <div class="col-xs-12">
+                <!-- <div class="media">
                     <div class="media-left">
                         <i style="color:white !important" class="fa fa-phone text-white"></i>
                     </div>
@@ -163,10 +171,21 @@
                         <h6>{{optional($branchToPrint)->phone1}}</h6>
                         <h6>{{optional($branchToPrint)->phone2}}</h6>
                     </div>
+                    </div> -->
+                    <div class="media">
+                    <div class="media-left">
+                        <!-- <i style="color:white !important" class="fa fa-phone text-white"></i> -->
+                        <h6 class="media-heading" style="line-height:30px;">{{__('address')}}</h6>
                     </div>
+                    <div class="media-body">
+                        <!-- <h6 class="media-heading">{{__('address')}}</h6> -->
+                        <h6 style="padding:0 15px">{{optional($branchToPrint)->address_ar}} </h6>
+                    </div>
+                    </div>
+
                 </div>
-                <div class="col-xs-4">
-                <div class="media">
+                <div class="col-xs-6">
+                <!-- <div class="media">
                     <div class="media-left">
                         <i style="color:white !important" class="fa fa-phone text-white"></i>
                     </div>
@@ -174,25 +193,35 @@
                         <h6 class="media-heading">{{__('email')}}</h6>
                         <h6>{{optional($branchToPrint)->email}}</h6>
                     </div>
-                    </div>
+                    </div> -->
+                    <ul class="list-inline">
+                 <!-- <li><h6>{{__('contact numbers')}}</h6></li> -->
+                 <li><h6>{{optional($branchToPrint)->phone1}}</h6></li>
+                 <li><h6>{{optional($branchToPrint)->phone2}}</h6></li>
+                </ul>
                 </div>
-                <div class="col-xs-4">
-                <div class="media">
-                    <div class="media-left">
-                        <i style="color:white !important" class="fa fa-phone text-white"></i>
-                    </div>
-                    <div class="media-body">
-                        <h6 class="media-heading">{{__('address')}}</h6>
-                        <h6>{{optional($branchToPrint)->address_ar}} </h6>
-                    </div>
-                    </div>
+                <div class="col-xs-6">
+                <ul class="list-inline">
+                 <!-- <li><h6>{{__('email')}}</h6></li> -->
+                 <li><h6>{{optional($branchToPrint)->email}}</h6></li>
+                </ul>
                 </div>
                 </div>
 
                 </div>
-                <div class="col-xs-5">
-
-</div>   
+                <div class="col-xs-5 small-data-wg">
+                  <div class="row">
+                      <div class="col-xs-4">
+                          <h6>Lorem ipsum</h6>
+                      </div>
+                      <div class="col-xs-4">
+                          <h6>Lorem ipsum</h6>
+                      </div>
+                      <div class="col-xs-4">
+                          <h6>Lorem ipsum</h6>
+                      </div>
+                  </div>
+                </div>   
                 </div>
             </div>
         </div>

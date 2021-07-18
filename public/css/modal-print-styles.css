@@ -61,7 +61,6 @@ table th {
     color: white !important
 }
 
-
 .top-logo-print {
     position: absolute !important;
 }
@@ -77,12 +76,10 @@ table th {
     font-weight: bold !important
 }
 
-
 .right-top-detail h3 {
     color: #526cc2 !important;
     font-weight: bold !important
 }
-
 
 .invoice-to {
     padding: 20px !important
@@ -152,7 +149,6 @@ table th {
 }
 
 .last-total {
-
     color: rgb(27, 27, 27) !important;
     border: 1px solid #333 !important;
     border-radius: 30px !important;
@@ -186,17 +182,17 @@ table th {
     padding: 20px 0 15px !important
 }
 
-
 .print-foot-wg h6 {
     color: white !important
 }
 
 .print-foot-wg i {
     margin-left: 5px !important;
-    color:white !important
+    color: white !important
 }
 
-.print-foot-wg::after
+
+/* .print-foot-wg::after
 {
     content: "" !important;
     background: #526cc2 !important;
@@ -206,12 +202,60 @@ table th {
     left: -30px !important;
     bottom: 0 !important;
     border-radius: 0 50px 0 0 !important;
+} */
+
+.small-data-wg {
+    background: #526cc2 !important;
+    color: white !important;
+    position: absolute !important;
+    left: -20px !important;
+    bottom: 0 !important;
+    padding: 12px 30px 12px 12px !important;
+    border-radius: 0 50px 0 0 !important;
+    width: 47% !important;
+}
+
+.small-data-wg h6 {
+    padding: 0 !important;
+    margin: 0 !important;
+    text-align: center !important;
+}
+
+.static-table-wg th {
+    background: #DDD !important;
+    color: black !important
+}
+
+.static-table-wg td {
+    background: #fafafa !important;
+    color: black !important
+}
+
+.print-table-wg tbody tr {
+    background: #fafafa !important
 }
 
 .right-top-detail h3 {
     color: #526cc2;
     font-weight: bold;
-    text-align:center !important
+    text-align: center !important
 }
+
+.table-time-user th,
+.table-time-user td,
+.table-time-user tr {
+    background: none !important;
+    color: black !important;
+    border: none !important;
+    padding: 3px !important;
+    text-align: center !important
+}
+
+.table-time-user {
+    margin: 0 !important;
+    position: relative !important;
+    top: -10px !important;
+}
+
 
 /* أذونات البرنت */
