@@ -135,6 +135,8 @@
 
     </div>
 
+    @include('admin.partial.part_image')
+
 @endsection
 
 @section('js-validation')
@@ -465,6 +467,12 @@
 
             let unit_quantity = $('#prices_part_' + index).find(":selected").data('quantity');
             $('#unit_quantity_' + index).text(unit_quantity);
+        }
+
+        function getPartImage (index) {
+
+            let image_path = $('#part_img_id_' + index).data('img');
+            $('#part_image').attr('src', image_path);
         }
 
     </script>

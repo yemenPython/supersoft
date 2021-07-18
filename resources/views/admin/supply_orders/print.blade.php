@@ -131,6 +131,8 @@
                 <tr class="heading">
                     <th style="background:#CCC !important;color:black">{{__('#')}}</th>
                     <th style="background:#CCC !important;color:black">{{__('Name')}}</th>
+                    <th style="background:#CCC !important;color:black">{{__('Part Type')}}</th>
+
                     <th style="background:#CCC !important;color:black">{{__('Unit')}}</th>
                     <th style="background:#CCC !important;color:black">{{__('Quantity')}}</th>
                     <th style="background:#CCC !important;color:black">{{__('Price')}}</th>
@@ -149,6 +151,7 @@
                     <tr class="item">
                         <td>{{$index + 1}}</td>
                         <td>{{optional($item->part)->name}}</td>
+                        <td>{{ $item->sparePart ? $item->sparePart->type : '---'}}</td>
                         <td>{{$item->partPrice && $item->partPrice->unit ? $item->partPrice->unit->unit : '---'}}</td>
                         <td>{{$item->quantity}}</td>
                         <td>{{$item->price}}</td>

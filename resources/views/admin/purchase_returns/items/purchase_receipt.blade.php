@@ -5,9 +5,20 @@
     </td>
 
     <td>
-        <span style="width: 150px !important;display:block">{{$part->name}}</span>
+
+        <span style="width: 150px !important;display:block; cursor: pointer" data-img="{{$part->image}}" data-toggle="modal" data-target="#part_img" title="Part image" onclick="getPartImage('{{$index}}')"
+              id="part_img_id_{{$index}}" >
+
+            {{$part->name}}
+        </span>
+
         <input type="hidden" value="{{$part->id}}" name="items[{{$index}}][part_id]" class="form-control">
         <input type="hidden" value="{{$item->id}}" name="items[{{$index}}][item_id]" class="form-control" >
+    </td>
+
+    <td>
+        {{$item->sparePart ? $item->sparePart->type : '---'}}
+        <input type="hidden" name="items[{{$index}}][spare_part_id]" value="{{$item->spare_part_id}}">
     </td>
 
     <td class="inline-flex-span">

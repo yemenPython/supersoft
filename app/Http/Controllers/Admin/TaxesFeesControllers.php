@@ -48,7 +48,6 @@ class TaxesFeesControllers extends Controller
     public function create()
     {
         if (!auth()->user()->can('create_taxes')) {
-
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
@@ -57,6 +56,7 @@ class TaxesFeesControllers extends Controller
 
     public function store(TaxRequest $request)
     {
+//        dd($request->all());
         if (!auth()->user()->can('create_taxes')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
@@ -64,7 +64,14 @@ class TaxesFeesControllers extends Controller
         $data = $request->all();
 
         $data['on_parts'] = $request->has('on_parts') && $data['type'] != 'additional_payments' ? 1 : 0;
+
         $data['purchase_quotation'] = $request->has('purchase_quotation') ? 1 : 0;
+        $data['supply_order'] = $request->has('supply_order') ? 1 : 0;
+        $data['purchase_return'] = $request->has('purchase_return') ? 1 : 0;
+        $data['active_invoices'] = $request->has('active_invoices') ? 1 : 0;
+        $data['active_offers'] = $request->has('active_offers') ? 1 : 0;
+        $data['active_services'] = $request->has('active_services') ? 1 : 0;
+        $data['active_purchase_invoice'] = $request->has('active_purchase_invoice') ? 1 : 0;
 
         if (!authIsSuperAdmin()) {
             $data['branch_id'] = auth()->user()->branch_id;
@@ -78,7 +85,6 @@ class TaxesFeesControllers extends Controller
     public function edit(TaxesFees $taxesFees)
     {
         if (!auth()->user()->can('update_taxes')) {
-
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
@@ -88,7 +94,6 @@ class TaxesFeesControllers extends Controller
     public function update(TaxRequest $request, TaxesFees $taxesFees)
     {
         if (!auth()->user()->can('update_taxes')) {
-
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
@@ -100,11 +105,16 @@ class TaxesFeesControllers extends Controller
 
         $data['on_parts'] = $request->has('on_parts') && $data['type'] != 'additional_payments' ? 1 : 0;
         $data['purchase_quotation'] = $request->has('purchase_quotation') ? 1 : 0;
+        $data['supply_order'] = $request->has('supply_order') ? 1 : 0;
+        $data['purchase_return'] = $request->has('purchase_return') ? 1 : 0;
+        $data['active_invoices'] = $request->has('active_invoices') ? 1 : 0;
+        $data['active_offers'] = $request->has('active_offers') ? 1 : 0;
+        $data['active_services'] = $request->has('active_services') ? 1 : 0;
+        $data['active_purchase_invoice'] = $request->has('active_purchase_invoice') ? 1 : 0;
 
         $taxesFees->update($data);
 
-        return redirect()->to('admin/taxes')
-            ->with(['message' => __('words.tax-updated'), 'alert-type' => 'success']);
+        return redirect()->to('admin/taxes')->with(['message' => __('words.tax-updated'), 'alert-type' => 'success']);
     }
 
     public function destroy(TaxesFees $taxesFees)

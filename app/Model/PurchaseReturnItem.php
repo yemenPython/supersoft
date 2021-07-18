@@ -5,6 +5,7 @@ namespace App\Model;
 use App\Models\Part;
 use App\Models\PartPrice;
 use App\Models\PartPriceSegment;
+use App\Models\SparePart;
 use App\Models\Store;
 use App\Models\TaxesFees;
 use Illuminate\Database\Eloquent\Model;
@@ -31,6 +32,7 @@ class PurchaseReturnItem extends Model
         'item_id',
         'part_price_id',
         'part_price_segment_id',
+        'spare_part_id'
     ];
 
     public function part(){
@@ -58,5 +60,10 @@ class PurchaseReturnItem extends Model
     public function taxes()
     {
         return $this->belongsToMany(TaxesFees::class, 'purchase_return_item_taxes_fees', 'item_id', 'tax_id');
+    }
+
+    public function sparePart()
+    {
+        return $this->belongsTo(SparePart::class, 'spare_part_id');
     }
 }

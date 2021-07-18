@@ -12,6 +12,7 @@ use App\Models\PurchaseReceipt;
 use App\Models\RevenueReceipt;
 use App\Models\Supplier;
 use App\Models\SupplyOrder;
+use App\Models\SupplyTerm;
 use App\Models\TaxesFees;
 use App\Scopes\BranchScope;
 use Illuminate\Database\Eloquent\Model;
@@ -204,6 +205,11 @@ class PurchaseReturn extends Model
         }
 
         return $this->invoice && $this->invoice->supplier ? $this->invoice->supplier->name : '---';
+    }
+
+    public function terms()
+    {
+        return $this->belongsToMany(SupplyTerm::class, 'purchase_return_supply_terms', 'purchase_return_id', 'supply_term_id');
     }
 
 }

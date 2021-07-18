@@ -48,33 +48,43 @@
                         @endphp
                         @include($view_path . '.option-row')
                         <div class="clearfix"></div>
-                        <table id="purchaseInvoicesReturns" class="table table-bordered wg-table-print table-hover" style="width:100%">
+                        <table id="purchaseInvoicesReturns" class="table table-bordered wg-table-print table-hover"
+                               style="width:100%">
                             @include($view_path . '.table-thead')
                             <tfoot>
                             <tr>
                                 <th class="text-center column-invoice-number"
+                                    scope="col">{!! __('#') !!}</th>
+
+                                <th class="text-center column-invoice-number"
                                     scope="col">{!! __('Invoice Number') !!}</th>
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Invoice Type') !!}</th>
-                                <!-- <th class="text-center column-payment" scope="col">{!! __('Payment status') !!}</th> -->
+                            <!-- <th class="text-center column-payment" scope="col">{!! __('Payment status') !!}</th> -->
                                 <th class="text-center column-paid" scope="col">{!! __('Total') !!}</th>
                                 <th class="text-center column-paid" scope="col">{!! __('Paid') !!}</th>
                                 <th class="text-center column-remaining" scope="col">{!! __('Remaining') !!}</th>
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier') !!}</th>
                                 <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
                                 <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
-                                <!-- <th scope="col">{!! __('Expenses') !!}</th> -->
+                            <!-- <th scope="col">{!! __('Expenses') !!}</th> -->
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">{!! __('Select') !!}</th>
                             </tr>
                             </tfoot>
                             <tbody>
+
+                            @php
+                                $showRowsPerPage = request()->has('rows') ? request()['rows'] : 10;
+                                $page = request()->has('page') ? request()['page'] : 1;
+                            @endphp
+
                             @foreach($invoices as $index=>$invoice)
                                 @php
                                     $revenueSum =  App\Models\RevenueReceipt::where('purchase_return_id', $invoice->id)->sum('cost');
                                     $remaining = $invoice->total - $revenueSum;
-
                                 @endphp
                                 <tr>
+                                    <td class="text-center column-index">{!! (($page - 1) * $showRowsPerPage) + $index+1 !!}</td>
                                     <td class="text-center column-invoice-number">{!! $invoice->invoice_number !!}</td>
                                     <td class="text-center column-invoice-type">
                                         @if ($invoice->type === "cash")
@@ -88,20 +98,20 @@
                                         @endif
                                     </td>
 
-<!--
+                                <!--
                                     @if ($invoice->remaining  == 0)
-                                        <td class="text-center column-payment">
-                                            <span class="label label-warning wg-label">
-                                                {!! __('Completed') !!}
-                                                </span>
-                                        </td>
-                                    @else
-                                        <td class="text-center column-payment">
-                                            <span class="label label-danger wg-label">
-                                                {!! __('Not Completed') !!}
-                                                </span>
-                                        </td>
-                                    @endif -->
+                                    <td class="text-center column-payment">
+                                        <span class="label label-warning wg-label">
+{!! __('Completed') !!}
+                                        </span>
+                                </td>
+@else
+                                    <td class="text-center column-payment">
+                                        <span class="label label-danger wg-label">
+{!! __('Not Completed') !!}
+                                        </span>
+                                </td>
+@endif -->
 
                                     <td class="text-center column-paid">
                                     <span style="background:#F7F8CC !important">
@@ -123,44 +133,55 @@
                                     <td>{{$invoice->supplier_name}}</td>
                                     <td class="text-center column-created-at">{!! $invoice->created_at->format('y-m-d h:i:s A') !!}</td>
                                     <td class="text-center column-updated-at">{!! $invoice->updated_at->format('y-m-d h:i:s A')!!}</td>
-                                    <!-- <td>
+                                <!-- <td>
                                         <a href="{{route('admin:purchase_returns.revenues', ['id' => $invoice->id])}}"
                                            class="btn btn-info-wg hvr-radial-out  ">
                                             <i class="fa fa-money"> </i> {{__('Payments')}}
-                                        </a>
-                                    </td> -->
+                                    </a>
+                                </td> -->
                                     <td>
-                                    <div class="btn-group margin-top-10">
+                                        <div class="btn-group margin-top-10">
 
-                                        <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="ico fa fa-bars"></i>
-                                        {{__('Options')}} <span class="caret"></span>
+                                            <button type="button" class="btn btn-options dropdown-toggle"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="ico fa fa-bars"></i>
+                                                {{__('Options')}} <span class="caret"></span>
 
-                                    </button>
-                                        <ul class="dropdown-menu dropdown-wg">
-                                            <li>
-                                        @component('admin.buttons._edit_button',[
-                                                    'id'=>$invoice->id,
-                                                    'route' => 'admin:purchase_returns.edit',
-                                                     ])
-                                        @endcomponent
-                                        </li>
-                                            <li class="btn-style-drop">
-                                        @component('admin.buttons._delete_button',[
-                                                    'id'=> $invoice->id,
-                                                    'route' => 'admin:purchase_returns.destroy',
-                                                     ])
-                                        @endcomponent
-                                        </li>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-wg">
+                                                <li>
+                                                    @component('admin.buttons._edit_button',[
+                                                                'id'=>$invoice->id,
+                                                                'route' => 'admin:purchase_returns.edit',
+                                                                 ])
+                                                    @endcomponent
+                                                </li>
+                                                <li class="btn-style-drop">
+                                                    @component('admin.buttons._delete_button',[
+                                                                'id'=> $invoice->id,
+                                                                'route' => 'admin:purchase_returns.destroy',
+                                                                 ])
+                                                    @endcomponent
+                                                </li>
+                                                <li>
 
-<li>
+                                                    @component('admin.purchase_returns.parts.print',[
+                                                       'id'=> $invoice->id,
+                                                       'invoice'=> $invoice,
+                                                      ])
+                                                    @endcomponent
+                                                </li>
 
-                                        @component('admin.purchase_returns.parts.print',[
-                                           'id'=> $invoice->id,
-                                           'invoice'=> $invoice,
-                                          ])
-                                        @endcomponent
-                                        </li>
+                                                <li>
+                                                    <a style="cursor:pointer"
+                                                       class="btn btn-terms-wg text-white hvr-radial-out"
+                                                       data-toggle="modal" data-target="#terms_{{$invoice->id}}"
+                                                       title="{{__('Terms')}}">
+                                                        <i class="fa fa-check-circle"></i> {{__('Terms')}}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
 
                                     </td>
                                     <td>
@@ -182,6 +203,7 @@
     </div>
 @endsection
 @section('modals')
+
     <div class="modal fade" id="boostrapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -209,7 +231,11 @@
             </div>
         </div>
     </div>
+
     @include($view_path . '.column-visible')
+
+    @include('admin.purchase_returns.terms.supply_terms', ['items' => $invoices])
+
 @endsection
 
 @section('js')

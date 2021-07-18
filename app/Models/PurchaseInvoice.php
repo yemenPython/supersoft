@@ -178,4 +178,9 @@ class PurchaseInvoice extends Model
         return $this->belongsToMany(PurchaseReceipt::class, 'purchase_invoice_purchase_receipts',
             'purchase_invoice_id', 'purchase_receipt_id');
     }
+
+    public function terms()
+    {
+        return $this->belongsToMany(SupplyTerm::class, 'purchase_invoice_supply_terms', 'purchase_invoice_id', 'supply_term_id');
+    }
 }

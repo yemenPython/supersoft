@@ -5,16 +5,19 @@
         </td>
 
         <td>
-        <span style="width:150px;display:block">{{optional($item->part)->name}}</span> 
-        <!-- <input type="text" disabled value="{{optional($item->part)->name}}" class="form-control" style="text-align: center;"> -->
-        
+            <span style="width: 150px !important;display:block; cursor: pointer" data-img="{{optional($item->part)->image}}" data-toggle="modal" data-target="#part_img"
+                  title="Part image" onclick="getPartImage('{{$index}}')" id="part_img_id_{{$index}}">
+
+                  {{optional($item->part)->name}}
+            </span>
         </td>
 
-        <td class="inline-flex-span" >
+        <td class="inline-flex-span">
         <span>
         {{optional($item->partPrice)->quantity}}
         </span>
-            <span class="part-unit-span"> {{ $item->part && $item->part->sparePartsUnit ? $item->part->sparePartsUnit->unit : '---' }}  </span>
+            <span
+                class="part-unit-span"> {{ $item->part && $item->part->sparePartsUnit ? $item->part->sparePartsUnit->unit : '---' }}  </span>
         </td>
 
         <td>
@@ -31,8 +34,8 @@
 
         </td>
 
-      
-    <td style="background:#FBE3E6 !important">
+
+        <td style="background:#FBE3E6 !important">
         <span>
         {{$item->quantity}}
         </span>

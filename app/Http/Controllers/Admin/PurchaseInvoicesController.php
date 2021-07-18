@@ -8,6 +8,7 @@ use App\Models\PartPriceSegment;
 use App\Models\PurchaseQuotation;
 use App\Models\PurchaseReceipt;
 use App\Models\SupplyOrder;
+use App\Models\SupplyTerm;
 use App\Traits\SubTypesServices;
 use Exception;
 use App\Models\Part;
@@ -104,7 +105,14 @@ class PurchaseInvoicesController extends Controller
         $rows = $request->has('rows') ? $request->rows : 10;
 
         $invoices = $invoices->paginate($rows)->appends(request()->query());
-        return view('admin.purchase-invoices.index', compact('invoices'));
+
+        $data['paymentTerms'] = SupplyTerm::where('for_purchase_quotation', 1)->where('status', 1)->where('type', 'payment')
+            ->select('id', 'term_' . $this->lang)->get();
+
+        $data['supplyTerms'] = SupplyTerm::where('for_purchase_quotation', 1)->where('status', 1)->where('type', 'supply')
+            ->select('id', 'term_' . $this->lang)->get();
+
+        return view('admin.purchase-invoices.index', compact('invoices', 'data'));
     }
 
     public function create(Request $request)
@@ -236,9 +244,7 @@ class PurchaseInvoicesController extends Controller
         }
 
         if ($purchaseInvoice->status == 'accept' && $purchaseInvoice->invoice_type = 'normal') {
-
-            return redirect()->back()->with(['message' => __('words.purchase-invoice-accepted'),
-                'alert-type' => 'error']);
+            return redirect()->back()->with(['message' => __('words.purchase-invoice-accepted'), 'alert-type' => 'error']);
         }
 
         $data['branches'] = Branch::where('status', 1)->select('id', 'name_' . $this->lang)->get();
@@ -817,5 +823,24 @@ src="' . $imageUrl . '" id="output_image"/>
         } catch (\Exception $e) {
             return response()->json('sorry, please try later', 400);
         }
+    }
+
+    public function terms(Request $request)
+    {
+        $this->validate($request, [
+            'purchase_invoice_id' => 'required|integer|exists:purchase_invoices,id'
+        ]);
+
+        try {
+
+            $purchaseInvoice = PurchaseInvoice::find($request['purchase_invoice_id']);
+
+            $purchaseInvoice->terms()->sync($request['terms']);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['message' => 'sorry, please try later', 'alert-type' => 'error']);
+        }
+
+        return redirect()->back()->with(['message' => __('purchase.invoice.terms.successfully'), 'alert-type' => 'success']);
     }
 }
