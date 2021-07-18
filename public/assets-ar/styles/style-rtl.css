@@ -2493,7 +2493,7 @@ input[type="time"]
                             
                             .top-logo-print {
                                 position: absolute;
-                                left:0
+                                left: 0
                             }
                             /* .row-right-data {
     position: relative;
@@ -2504,7 +2504,7 @@ input[type="time"]
                                 color: #526cc2;
                                 font-weight: bold
                             }
-
+                            
                             .right-top-detail h3 {
                                 color: #526cc2;
                                 font-weight: bold
@@ -2528,7 +2528,6 @@ input[type="time"]
                                 padding: 5px 0
                             }
                             
-
                             .invoice-to h2 {
                                 color: black;
                                 margin: 0;
@@ -2569,20 +2568,21 @@ input[type="time"]
                                 border-radius: 30px 0 0 30px !important;
                             }
                             
+                            .print-table-wg tbody tr {
+                                background: #fafafa !important
+                            }
+                            
                             .last-total {
-
                                 color: rgb(27, 27, 27) !important;
                                 border: 1px solid #333 !important;
                                 border-radius: 30px;
                                 margin-top: 5px !important;
-               
                             }
-
+                            
                             .last-total h6 {
                                 color: rgb(27, 27, 27) !important;
                                 font-weight: bold !important;
                             }
-                            
                             
                             .right-peice-wg .title {
                                 color: #526cc2;
@@ -2595,7 +2595,7 @@ input[type="time"]
                             
                             .print-foot-wg .media i {
                                 margin-left: 5px !important;
-                                color:white !important
+                                color: white !important
                             }
                             
                             .print-foot-wg .col-xs-7 {
@@ -2609,8 +2609,7 @@ input[type="time"]
                             .print-foot-wg .col-xs-7 .media {
                                 padding: 20px 0 15px
                             }
-
-                            .print-foot-wg::after
+                            /* .print-foot-wg::after
                             {
                                 content: "";
                                 background: #526cc2;
@@ -2620,12 +2619,54 @@ input[type="time"]
                                 left: 0;
                                 bottom: 0;
                                 border-radius: 0 70px 0 0;
-                            }
-.row-right-data
-                            {
+                            } */
+                            
+                            .row-right-data {
                                 flex-direction: row-reverse !important;
                                 display: flex;
                                 text-align: center;
                             }
-
+                            
+                            .small-data-wg {
+                                background: #526cc2;
+                                color: white;
+                                position: absolute;
+                                left: 0;
+                                bottom: 0;
+                                padding: 12px 30px 12px 12px;
+                                border-radius: 0 50px 0 0;
+                                width: 47%;
+                            }
+                            
+                            .small-data-wg h6 {
+                                padding: 0 !important;
+                                margin: 0 !important;
+                                text-align: center !important;
+                            }
+                            
+                            .static-table-wg th {
+                                background: #DDD !important;
+                                color: black !important
+                            }
+                            
+                            .static-table-wg td {
+                                background: #fafafa !important;
+                                color: black !important
+                            }
+                            
+                            .table-time-user {
+                                margin: 0 !important;
+                                position: relative !important;
+                                top: -10px !important;
+                            }
+                            
+                            .table-time-user th,
+                            .table-time-user td,
+                            .table-time-user tr {
+                                background: none !important;
+                                color: black !important;
+                                border: none !important;
+                                padding: 3px !important;
+                                text-align: center !important
+                            }
                             /* أذونات البرنت */
