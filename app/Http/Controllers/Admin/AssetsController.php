@@ -79,11 +79,7 @@ class AssetsController extends Controller
                 $assets->where( 'asset_status', $request['asset_status'] );
 
             if ($request->has( 'employee_id' ) && !empty( $request['employee_id'] )) {
-//           $asset_ids = AssetEmployee::where('employee_id',$request->employee_id)->pluck('asset_id');
-//            $assets->whereIn( 'id', $asset_ids );
-                $assets->whereHas(
-                    'asset_employees',
-                    function ($query) use ($request) {
+                $assets->whereHas('asset_employees', function ($query) use ($request) {
                         $query->where( 'employee_id', $request->employee_id );
                     }
                 );
@@ -119,7 +115,14 @@ class AssetsController extends Controller
                 } )
                 ->editColumn( 'asset_age', function ($asset) {
                     return '<span class="price-span">' . number_format($asset->asset_age,2) . ' ' . __( 'year' ) . '</span>';
-                } )
+                } )->editColumn('employees_active_count', function ($asset){
+                    return'<span class="label label-success m-5 ">
+                                         <a style="color: white !important;font-size: 14px"
+                                            target="_blank" href="'.route('admin:assetsEmployees.index', ['asset' => $asset->id]).'">
+                                            '.count($asset->asset_employees->where('status', 1)).'
+                                         </a>
+                                     </span>';
+                })
                 ->editColumn( 'created_at', '{{$created_at}}' )
                 ->editColumn( 'updated_at', '{{$updated_at}}' )
                 ->addColumn( 'action', function ($asset) {
@@ -179,7 +182,6 @@ class AssetsController extends Controller
                 ->make( true );
         } else {
 
-            
             if (authIsSuperAdmin()) {
                 $js_columns = [
                     'DT_RowIndex' => 'DT_RowIndex',
@@ -204,6 +206,7 @@ class AssetsController extends Controller
                     'asset_status' => 'assets_tb.asset_status',
                     'annual_consumtion_rate' => 'assets_tb.annual_consumtion_rate',
                     'asset_age' => 'assets_tb.asset_age',
+                    'employees_active_count' => 'employees_active_count',
                     'created_at' => 'assets_tb.created_at',
                     'updated_at' => 'assets_tb.updated_at',
                     'action' => 'action',
@@ -212,6 +215,7 @@ class AssetsController extends Controller
                 ];
 
             }
+
 
 
             $assets = Asset::all();

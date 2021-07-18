@@ -68,6 +68,7 @@ Branch extends Model
         'status',
         'shift_is_active',
         'tax_card',
+        'website_url',
     ];
 
     protected $casts = [

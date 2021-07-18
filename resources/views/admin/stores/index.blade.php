@@ -46,7 +46,9 @@
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
                                 <th scope="col">{!! __('Store Name') !!}</th>
+
                                 <th scope="col">{!! __('employees count') !!}</th>
+
                                 <!-- <th scope="col">{!! __('Store Phone') !!}</th> -->
                                 <!-- <th scope="col">{!! __('Address') !!}</th> -->
                                 <th scope="col">{!! __('Created At') !!}</th>
@@ -66,7 +68,9 @@
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
                                 <th scope="col">{!! __('Store Name') !!}</th>
+
                                 <th scope="col">{!! __('employees count') !!}</th>
+
                                 <!-- <th scope="col">{!! __('Store Phone') !!}</th> -->
                                 <!-- <th scope="col">{!! __('Address') !!}</th> -->
                                 <th scope="col">{!! __('Created At') !!}</th>
@@ -84,10 +88,14 @@
                                     @endif
                                     <td>{!! $store->name !!}</td>
                                     <td>
-                                     <span class="part-unit-span">
-                                    <a  target="_blank" href="{{route('admin:store_employee_history.index', ['store' => $store->id])}}">
-                                             {{count($store->storeEmployeeHistories)}}
-                                         </a></span>
+
+                                     <span class="label label-success m-5 ">
+                                         <a style="color: white !important;font-size: 14px"
+                                            target="_blank" href="{{route('admin:store_employee_history.index', ['store' => $store->id])}}">
+                                             {{count($store->storeEmployeeHistories->where('status', 1))}}
+                                         </a>
+                                     </span>
+
                                     </td>
                                     <!-- <td>{!! $store->store_phone !!}</td> -->
                                     <!-- <td>{!! $store->store_address !!}</td> -->

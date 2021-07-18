@@ -341,20 +341,13 @@
 <script type="application/javascript" defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4YXeD4XTeNieaKWam43diRHXjsGg7aVY&callback=initMap"></script>
 
 <script type="text/javascript">
-
-
-    //Set up some of our variables.
     var map; //Will contain map object.
     var marker = false; ////Has the user plotted their location marker?
-
     //Function called to initialize / create the map.
     //This is called when the page has loaded.
     function initMap() {
-
         //The center location of our map.
         var centerOfMap = new google.maps.LatLng(24.68731563631883, 46.719044971885445);
-
-
         //Map options.
         var options = {
             center: centerOfMap, //Set center.
@@ -363,7 +356,7 @@
 
         //Create the map object.
         map = new google.maps.Map(document.getElementById('map'), options);
-
+        console.log(map)
         //Listen for any clicks on the map.
         google.maps.event.addListener(map, 'click', function (event) {
             //Get the location that the user clicked.
@@ -394,6 +387,7 @@
     function markerLocation() {
         //Get location.
         var currentLocation = marker.getPosition();
+        console.log(currentLocation)
         //Add lat and lng values to a field that we can save.
         document.getElementById('lat').value = currentLocation.lat(); //latitude
         document.getElementById('lng').value = currentLocation.lng(); //longitude

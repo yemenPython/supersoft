@@ -182,7 +182,9 @@
                             <thead>
                             <tr>
                                 <th>#</th>
+                                @if(authIsSuperAdmin())
                                 <th class="text-center" scope="col">{!! __('Branch') !!}</th>
+                                @endif
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
 
                                 <th class="text-center" scope="col">{!! __('Number') !!}</th>
@@ -203,7 +205,9 @@
                             <tfoot>
                             <tr>
                                 <th>#</th>
+                                @if(authIsSuperAdmin())
                                 <th class="text-center" scope="col">{!! __('Branch') !!}</th>
+                                @endif
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
 
                                 <th class="text-center"
