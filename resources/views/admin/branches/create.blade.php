@@ -246,6 +246,19 @@
                             </div>
 
                             <div class="col-md-12">
+
+                                <div class="col-md-4">
+                                    <div class="form-group has-feedback">
+                                        <label for="logo" class="control-label">{{__('Website Url')}}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><li class="fa fa-link"></li></span>
+                                            <input type="url" name="website_url" class="form-control" id="website_url"
+                                                   placeholder="{{__('Website Url')}}" value="{{old('website_url')}}">
+                                        </div>
+                                        {{input_error($errors,'website_url')}}
+                                    </div>
+                                </div>
+
                                 <div class="col-md-4">
                                     <div class="form-group has-feedback">
                                         <label for="logo" class="control-label">{{__('Logo')}}</label>
