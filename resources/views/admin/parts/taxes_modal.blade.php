@@ -63,26 +63,33 @@
                             </tbody>
                         </table>
 
-                        <table class="table table-bordered">
+                        <table class="table table-bordered wg-inside-table">
                            <thead>
                              <tr>
-                               <th>الإسم</th>
-                               <th>الحاله</th>
-                               <th>الإسم</th>
-                               <th>الحاله</th>
+                               <th>{{__('Reviewable')}}</th>
+                               <th> 
+                                   
+                               <div class="switch primary">
+                                    <input type="checkbox" id="reviewable-{{$part->id}}" name="reviewable" {{isset($part) && $part->reviewable? 'checked':''}}>
+                                    <label for="reviewable-{{$part->id}}">{{__('Active')}} / {{__('inActive')}}</label>
+                                </div>
+                            
+                            </th>
+                               <th>{{__('Taxable')}}</th>
+                               <th>
+                               
+                               <div class="switch primary">
+                                    <input type="checkbox" id="taxable-{{$part->id}}" name="taxable" onchange="partTaxable('{{$part->id}}')"
+                                        {{isset($part) && $part->taxable? 'checked':''}}>
+                                    <label for="taxable-{{$part->id}}">{{__('Active')}} / {{__('inActive')}}</label>
+                                </div>
+
+                               </th>
                              </tr>
                            </thead>
-                           <ttbody>
-                             <tr>
-                               <td>Lorem</td>
-                               <td>Lorem</td>
-                               <td>Lorem</td>
-                               <td>Lorem</td>
-                             </tr>
-                           </ttbody>
                         </table>
 
-                        <div class="row">
+                        <!-- <div class="row">
 
                         <div class="col-md-3">
                             <div class="form-group has-feedback">
@@ -106,7 +113,7 @@
                         </div>
                         </div>
 
-                    </div>
+                    </div> -->
 
                     <div class="modal-footer">
 
