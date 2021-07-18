@@ -198,7 +198,7 @@
                             <tr>
                                 <th scope="col"> {{ __('#') }} </th>
                                 <th scope="col"> {{ __('status') }} </th>
-                                <th scope="col"> {{ __('name') }} </th>
+                                <th scope="col"> {{ __('employee name') }} </th>
                                 <th scope="col"> {{ __('phone') }} </th>
                                 <th scope="col"> {{ __('start date') }} </th>
                                 <th scope="col"> {{ __('end date') }} </th>
@@ -215,7 +215,7 @@
                             <tr>
                                 <th scope="col"> {{ __('#') }} </th>
                                 <th scope="col"> {{ __('status') }} </th>
-                                <th scope="col"> {{ __('name') }} </th>
+                                <th scope="col"> {{ __('employee name') }} </th>
                                 <th scope="col"> {{ __('phone') }} </th>
                                 <th scope="col"> {{ __('start date') }} </th>
                                 <th scope="col"> {{ __('end date') }} </th>
@@ -230,15 +230,25 @@
                                         <td>{{$loop->iteration}}</td>
                                         <td>
                                             @if ($storeEmployee->status )
-                                                <span class="label label-success p-5">{{__('Active')}}</span>
+                                            <span class="label label-success wg-label">{{__('Active')}}</span>
                                             @else
-                                                <span class="label label-danger p-5">{{__('inActive')}}</span>
+                                            <span class="label label-danger wg-label">{{__('inActive')}}</span>
                                             @endif
                                         </td>
                                         <td> {{ $storeEmployee->employee->name }} </td>
                                         <td> {{ $storeEmployee->employee->phone1 }} </td>
-                                        <td> {{ $storeEmployee->start }} </td>
-                                        <td> {{ $storeEmployee->end }} </td>
+
+                                        <td> 
+                                        <span style="background:#F7F8CC !important">    
+                                        {{ $storeEmployee->start }}
+                                        </span>
+                                        </td>
+                                 
+                                        <td> 
+                                        <span style="background:rgb(253, 215, 215) !important">      
+                                        {{ $storeEmployee->end }} 
+                                        </span>
+                                        </td>
                                         <td>
                                             <div class="btn-group margin-top-10">
 

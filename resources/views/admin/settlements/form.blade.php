@@ -70,7 +70,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="form-group">
                         <label for="date" class="control-label">{{__('Time')}}</label>
                         <div class="input-group">
@@ -82,20 +82,21 @@
                     </div>
                 </div>
 
-
-                <div class="radio primary col-md-1" style="margin-top: 37px;">
+                <div class="col-md-4">
+                <div class="radio primary col-md-6" style="margin-top: 37px;">
                     <input type="radio" name="type" value="positive" id="positive"
                         {{ !isset($settlement) ? 'checked':'' }}
                         {{isset($settlement) && $settlement->type == 'positive' ? 'checked':''}} >
                     <label for="positive">{{__('Positive')}}</label>
                 </div>
 
-                <div class="radio primary col-md-2" style="margin-top: 37px;">
+                <div class="radio primary col-md-6" style="margin-top: 37px;">
                     <input type="radio" name="type" id="negative" value="negative"
                         {{isset($settlement) && $settlement->type == 'negative' ? 'checked':''}} >
                     <label for="negative">{{__('Negative')}}</label>
                 </div>
 
+            </div>
             </div>
 
         </div>

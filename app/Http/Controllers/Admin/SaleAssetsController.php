@@ -152,7 +152,22 @@ class SaleAssetsController extends Controller
                 ->make( true );
         } else {
 
-            $js_columns = [
+            // $js_columns = [
+            //     'DT_RowIndex' => 'DT_RowIndex',
+            //     'branch_id' => 'sale_assets.branch_id',
+            //     'number' => 'sale_assets.number',
+            //     'type' => 'sale_assets.type',
+            //     'total_sale_amount' => 'sale_assets.total_sale_amount',
+            //     'date' => 'sale_assets.date',
+            //     'created_at' => 'sale_assets.created_at',
+            //     'updated_at' => 'sale_assets.updated_at',
+            //     'action' => 'action',
+            //     'options' => 'options'
+            // ];
+
+
+           if(authIsSuperAdmin()) {
+               $js_columns = [
                 'DT_RowIndex' => 'DT_RowIndex',
                 'branch_id' => 'sale_assets.branch_id',
                 'number' => 'sale_assets.number',
@@ -163,31 +178,22 @@ class SaleAssetsController extends Controller
                 'updated_at' => 'sale_assets.updated_at',
                 'action' => 'action',
                 'options' => 'options'
-            ];
-//=======
-//            if(authIsSuperAdmin()) {
-//                $js_columns = [
-//                    'DT_RowIndex' => 'DT_RowIndex',
-//                    'branch_id' => 'sale_assets.branch_id',
-//                    'date' => 'sale_assets.date',
-//                    'number' => 'sale_assets.number',
-//                    'type' => 'sale_assets.type',
-//
-//                    'action' => 'action',
-//                    'options' => 'options'
-//                ];
-//            }else{
-//                $js_columns = [
-//                    'DT_RowIndex' => 'DT_RowIndex',
-//                    'date' => 'sale_assets.date',
-//                    'number' => 'sale_assets.number',
-//                    'type' => 'sale_assets.type',
-//
-//                    'action' => 'action',
-//                    'options' => 'options'
-//                ];
-//            }
-//>>>>>>> 882dcff785aabd81208032c13827138a732a5689
+               ];
+           }else{
+               $js_columns = [
+                'DT_RowIndex' => 'DT_RowIndex',
+              
+                'number' => 'sale_assets.number',
+                'type' => 'sale_assets.type',
+                'total_sale_amount' => 'sale_assets.total_sale_amount',
+                'date' => 'sale_assets.date',
+                'created_at' => 'sale_assets.created_at',
+                'updated_at' => 'sale_assets.updated_at',
+                'action' => 'action',
+                'options' => 'options'
+               ];
+           }
+
             $assets = Asset::all();
             $branches = Branch::all()->pluck( 'name', 'id' );
             $assetsGroups = AssetGroup::select( ['id', 'name_ar', 'name_en'] )->get();
