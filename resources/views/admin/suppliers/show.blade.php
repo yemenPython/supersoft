@@ -266,7 +266,8 @@
 @endsection
 
 @section('accounting-scripts')
-<script type="application/javascript">
+    <script type="application/javascript" defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4YXeD4XTeNieaKWam43diRHXjsGg7aVY&callback=initMap"></script>
+    <script type="application/javascript">
 
     function select_part_type(id, ele) {
         openTree(ele)
