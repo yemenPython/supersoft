@@ -22,15 +22,6 @@ class CheckAdmin
                 return \Redirect::to ( route('admin:login') );
             }
         }
-        // get the logged userd
-        $user_is_admin = \Auth::user()->can('login-admin') ? true:false ;
-
-
-        if (! $user_is_admin ) {
-            \Auth::logout();
-            return \Redirect::guest ( route('admin:login') );
-        }
-
         return $next($request);
     }
 }

@@ -356,7 +356,6 @@
 
         //Create the map object.
         map = new google.maps.Map(document.getElementById('map'), options);
-        console.log(map)
         //Listen for any clicks on the map.
         google.maps.event.addListener(map, 'click', function (event) {
             //Get the location that the user clicked.
@@ -387,7 +386,7 @@
     function markerLocation() {
         //Get location.
         var currentLocation = marker.getPosition();
-        console.log(currentLocation)
+        console.log(currentLocation, 'ffffffffffffff')
         //Add lat and lng values to a field that we can save.
         document.getElementById('lat').value = currentLocation.lat(); //latitude
         document.getElementById('lng').value = currentLocation.lng(); //longitude

@@ -13,6 +13,7 @@ use App\Models\EmployeeData;
 use App\Models\OpeningBalance;
 use App\Models\Part;
 use App\Models\Settlement;
+use App\Models\Store;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use DB;
@@ -459,7 +460,7 @@ class AjaxController extends Controller
         if ($selectedColumns != '' && $selectedColumns != '*') {
             $selectedColumns = $id . ' ' . $selectedColumns;
         }
-        $stores = DB::table('stores')->whereNull('deleted_at')->select(DB::raw($selectedColumns));
+        $stores = Store::whereNull('deleted_at')->select(DB::raw($selectedColumns));
         if (!empty($searchFields)) {
             foreach ($searchFields as $searchField) {
                 if (!empty($searchTerm) && $searchTerm != '') {
