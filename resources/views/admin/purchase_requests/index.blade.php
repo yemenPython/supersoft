@@ -48,7 +48,7 @@
                                 <th scope="col">{!! __('Purchase request Number') !!}</th>
                                 <th scope="col">{!! __('Status') !!}</th>
                                 <th scope="col">{!! __('Execution Status') !!}</th>
-                                <th scope="col">{!! __('Different Days') !!}</th>
+                                <th scope="col">{!! __('request days') !!}</th>
                                 <th scope="col">{!! __('Remaining Days') !!}</th>
                                 <th scope="col">{!! __('Created Date') !!}</th>
                                 <th scope="col">{!! __('Updated Date') !!}</th>
@@ -74,7 +74,7 @@
 
                                 <th scope="col">{!! __('Status') !!}</th>
                                 <th scope="col">{!! __('Execution Status') !!}</th>
-                                <th scope="col">{!! __('Different Days') !!}</th>
+                                <th scope="col">{!! __('request days') !!}</th>
                                 <th scope="col">{!! __('Remaining Days') !!}</th>
                                 <th scope="col">{!! __('Created Date') !!}</th>
                                 <th scope="col">{!! __('Updated Date') !!}</th>

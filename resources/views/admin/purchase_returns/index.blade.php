@@ -49,17 +49,34 @@
                         @include($view_path . '.option-row')
                         <div class="clearfix"></div>
                         <table id="purchaseInvoicesReturns" class="table table-bordered wg-table-print table-hover" style="width:100%">
-                            @include($view_path . '.table-thead')
-                            <tfoot>
-                            <tr>
+                        <tr>
                                 <th class="text-center column-invoice-number"
                                     scope="col">{!! __('Invoice Number') !!}</th>
+                                    <th class="text-center column-supplier" scope="col">{!! __('Supplier name') !!}</th>
+
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Invoice Type') !!}</th>
                                 <!-- <th class="text-center column-payment" scope="col">{!! __('Payment status') !!}</th> -->
                                 <th class="text-center column-paid" scope="col">{!! __('Total') !!}</th>
                                 <th class="text-center column-paid" scope="col">{!! __('Paid') !!}</th>
                                 <th class="text-center column-remaining" scope="col">{!! __('Remaining') !!}</th>
-                                <th class="text-center column-supplier" scope="col">{!! __('Supplier') !!}</th>
+                                <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
+                                <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
+                                <!-- <th scope="col">{!! __('Expenses') !!}</th> -->
+                                <th scope="col">{!! __('Options') !!}</th>
+                                <th scope="col">{!! __('Select') !!}</th>
+                            </tr>
+                            
+                            <tfoot>
+                            <tr>
+                                <th class="text-center column-invoice-number"
+                                    scope="col">{!! __('Invoice Number') !!}</th>
+                                    <th class="text-center column-supplier" scope="col">{!! __('Supplier name') !!}</th>
+
+                                <th class="text-center column-invoice-type" scope="col">{!! __('Invoice Type') !!}</th>
+                                <!-- <th class="text-center column-payment" scope="col">{!! __('Payment status') !!}</th> -->
+                                <th class="text-center column-paid" scope="col">{!! __('Total') !!}</th>
+                                <th class="text-center column-paid" scope="col">{!! __('Paid') !!}</th>
+                                <th class="text-center column-remaining" scope="col">{!! __('Remaining') !!}</th>
                                 <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
                                 <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
                                 <!-- <th scope="col">{!! __('Expenses') !!}</th> -->
@@ -76,6 +93,7 @@
                                 @endphp
                                 <tr>
                                     <td class="text-center column-invoice-number">{!! $invoice->invoice_number !!}</td>
+                                    <td>{{$invoice->supplier_name}}</td>
                                     <td class="text-center column-invoice-type">
                                         @if ($invoice->type === "cash")
                                             <span class="label label-primary wg-label">
@@ -120,7 +138,7 @@
                                     {!! number_format($invoice->remaining ,2)!!}
                                     </span>
                                     </td>
-                                    <td>{{$invoice->supplier_name}}</td>
+ 
                                     <td class="text-center column-created-at">{!! $invoice->created_at->format('y-m-d h:i:s A') !!}</td>
                                     <td class="text-center column-updated-at">{!! $invoice->updated_at->format('y-m-d h:i:s A')!!}</td>
                                     <!-- <td>

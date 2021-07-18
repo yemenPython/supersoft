@@ -77,7 +77,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-2">
                             <label>{{ __('Barcode') }} </label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-barcode"></span>
@@ -85,13 +85,27 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-2">
                             <label> {{ __('Supplier Barcode') }} </label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-barcode"></span>
                                 <input type="text" name="supplier_barcode" class="form-control" value=" {{ $_GET['supplier_barcode'] ?? null  }}">
                             </div>
                         </div>
+
+                        <div class="form-group col-md-4">
+                                <label> {{ __('Concession Status') }} </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon fa fa-cubes"></span>
+                                    <select class="form-control js-example-basic-single" name="concession_status">
+                                        <option value="">{{__('Select Status')}}</option>
+                                        <option value="pending"  {{ isset($_GET['concession_status']) && $_GET['concession_status'] == 'pending' ? 'selected' : '' }}>{{__('Pending')}}</option>
+                                        <option value="accepted" {{ isset($_GET['concession_status']) && $_GET['concession_status'] == 'accepted' ? 'selected' : '' }}>{{__('Accepted')}}</option>
+                                        <option value="rejected" {{ isset($_GET['concession_status']) && $_GET['concession_status'] == 'rejected' ? 'selected' : '' }}>{{__('Rejected')}}</option>
+                                        <option value="rejected" {{ isset($_GET['concession_status']) && $_GET['concession_status'] == 'not_found' ? 'selected' : '' }}>{{__('Not Found')}}</option>
+                                    </select>
+                                </div>
+                            </div>
 
                         <div class="form-group col-md-4">
                             <label> {{ __('words.date-from') }} </label>
@@ -123,19 +137,7 @@
                             </div>
                         </div>
 
-                            <div class="form-group col-md-4">
-                                <label> {{ __('Concession Status') }} </label>
-                                <div class="input-group">
-                                    <span class="input-group-addon fa fa-cubes"></span>
-                                    <select class="form-control js-example-basic-single" name="concession_status">
-                                        <option value="">{{__('Select Status')}}</option>
-                                        <option value="pending"  {{ isset($_GET['concession_status']) && $_GET['concession_status'] == 'pending' ? 'selected' : '' }}>{{__('Pending')}}</option>
-                                        <option value="accepted" {{ isset($_GET['concession_status']) && $_GET['concession_status'] == 'accepted' ? 'selected' : '' }}>{{__('Accepted')}}</option>
-                                        <option value="rejected" {{ isset($_GET['concession_status']) && $_GET['concession_status'] == 'rejected' ? 'selected' : '' }}>{{__('Rejected')}}</option>
-                                        <option value="rejected" {{ isset($_GET['concession_status']) && $_GET['concession_status'] == 'not_found' ? 'selected' : '' }}>{{__('Not Found')}}</option>
-                                    </select>
-                                </div>
-                            </div>
+                         
 
                     </div>
 

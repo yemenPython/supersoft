@@ -46,7 +46,7 @@
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
                                 <th scope="col">{!! __('Store Name') !!}</th>
-                                <th scope="col">{!! __('Store Creator') !!}</th>
+                                <th scope="col">{!! __('employees count') !!}</th>
                                 <!-- <th scope="col">{!! __('Store Phone') !!}</th> -->
                                 <!-- <th scope="col">{!! __('Address') !!}</th> -->
                                 <th scope="col">{!! __('Created At') !!}</th>
@@ -66,7 +66,7 @@
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
                                 <th scope="col">{!! __('Store Name') !!}</th>
-                                <th scope="col">{!! __('Store Creator') !!}</th>
+                                <th scope="col">{!! __('employees count') !!}</th>
                                 <!-- <th scope="col">{!! __('Store Phone') !!}</th> -->
                                 <!-- <th scope="col">{!! __('Address') !!}</th> -->
                                 <th scope="col">{!! __('Created At') !!}</th>
@@ -84,7 +84,8 @@
                                     @endif
                                     <td>{!! $store->name !!}</td>
                                     <td>
-                                     <span class="label label-primary bg-info m-3 "><a style="color: white !important; font-size: 12px;text-decoration: underline" target="_blank" href="{{route('admin:store_employee_history.index', ['store' => $store->id])}}">
+                                     <span class="part-unit-span">
+                                    <a  target="_blank" href="{{route('admin:store_employee_history.index', ['store' => $store->id])}}">
                                              {{count($store->storeEmployeeHistories)}}
                                          </a></span>
                                     </td>

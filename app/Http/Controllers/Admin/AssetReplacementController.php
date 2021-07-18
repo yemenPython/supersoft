@@ -141,7 +141,27 @@ class AssetReplacementController extends Controller
                 ->escapeColumns( [] )
                 ->make( true );
         } else {
-            $js_columns = [
+
+               
+            if (authIsSuperAdmin()) {
+                $js_columns = [
+                    'DT_RowIndex' => 'DT_RowIndex',
+                    'branch_id' => 'asset_replacements.branch_id',
+                    'date' => 'date',
+                    'number' => 'asset_replacements.number',
+           
+                    'total_before_replacement' => 'asset_replacements.total_before_replacement',
+                    'total_after_replacement' => 'asset_replacements.total_after_replacement',
+                    'created_at' => 'asset_replacements.created_at',
+                    'updated_at' => 'asset_replacements.updated_at',
+                    'action' => 'action',
+                    'options' => 'options'
+                ];
+            }
+
+            else {
+                $js_columns = [
+
                 'DT_RowIndex' => 'DT_RowIndex',
                 'branch_id' => 'asset_replacements.branch_id',
                 'date' => 'date',
@@ -154,6 +174,7 @@ class AssetReplacementController extends Controller
                 'action' => 'action',
                 'options' => 'options'
             ];
+        }
             $assets = Asset::all();
             $assetsGroups = AssetGroup::select( ['id', 'name_ar', 'name_en'] )->get();
             $numbers = AssetReplacement::pluck('number')->unique();

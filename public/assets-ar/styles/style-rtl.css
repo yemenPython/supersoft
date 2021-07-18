@@ -2484,15 +2484,16 @@ input[type="time"]
                             .logo-print {
                                 background: #333 !important;
                                 width: 400px !important;
-                                border-radius: 115px 0 0 0 !important;
+                                border-radius: 0 0 115px 0 !important;
                                 padding: 10px !important;
-                                border-left: 9px solid #526cc2 !important;
+                                border-right: 15px solid #526cc2 !important;
                                 color: white;
-                                border-right: none !important;
+                                border-left: none !important;
                             }
                             
                             .top-logo-print {
                                 position: absolute;
+                                left:0
                             }
                             /* .row-right-data {
     position: relative;
@@ -2520,6 +2521,14 @@ input[type="time"]
                                 padding: 5px 0
                             }
                             
+                            .invoice-to h5 {
+                                color: #526cc2;
+                                font-weight: bold;
+                                margin: 0;
+                                padding: 5px 0
+                            }
+                            
+
                             .invoice-to h2 {
                                 color: black;
                                 margin: 0;
@@ -2561,10 +2570,19 @@ input[type="time"]
                             }
                             
                             .last-total {
-                                background: #526cc2;
-                                color: white;
-                                border-radius: 30px
+
+                                color: rgb(27, 27, 27) !important;
+                                border: 1px solid #333 !important;
+                                border-radius: 30px;
+                                margin-top: 5px !important;
+               
                             }
+
+                            .last-total h6 {
+                                color: rgb(27, 27, 27) !important;
+                                font-weight: bold !important;
+                            }
+                            
                             
                             .right-peice-wg .title {
                                 color: #526cc2;
@@ -2576,18 +2594,38 @@ input[type="time"]
                             }
                             
                             .print-foot-wg .media i {
-                                margin-left: 5px;
+                                margin-left: 5px !important;
+                                color:white !important
                             }
                             
                             .print-foot-wg .col-xs-7 {
-                                background: black;
+                                background: #333;
                                 color: white !important;
                                 border-radius: 100px 0 0 0 !important;
-                                border-left: 15px solid #526cc2 !important;
+                                /* border-left: 15px solid #526cc2 !important; */
                                 border-right: none !important
                             }
                             
                             .print-foot-wg .col-xs-7 .media {
                                 padding: 20px 0 15px
                             }
+
+                            .print-foot-wg::after
+                            {
+                                content: "";
+                                background: #526cc2;
+                                width: 395px;
+                                height: 40px;
+                                position: absolute;
+                                left: 0;
+                                bottom: 0;
+                                border-radius: 0 70px 0 0;
+                            }
+.row-right-data
+                            {
+                                flex-direction: row-reverse !important;
+                                display: flex;
+                                text-align: center;
+                            }
+
                             /* أذونات البرنت */

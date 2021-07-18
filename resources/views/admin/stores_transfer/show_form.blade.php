@@ -1,5 +1,5 @@
 <div class="row">
-                                <div class="col-xs-12">
+<div class="col-xs-12">
 
 <div class="row top-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
@@ -89,9 +89,9 @@
                 <th width="12%"> {{ __('Unit Quantity') }} </th>
                 <th width="12%"> {{ __('Unit') }} </th>
                 <th width="13%"> {{ __('Price Segments') }} </th>
-                <th width="5%"> {{ __('Quantity') }} </th>
-                <th width="5%"> {{ __('Price') }} </th>
-                <th width="5%"> {{ __('Total') }} </th>
+                <th> {{ __('Quantity') }} </th>
+                <th> {{ __('Price') }} </th>
+                <th> {{ __('Total') }} </th>
             </tr>
             </thead>
             <tbody id="parts_data">
@@ -109,7 +109,7 @@
 
                         <td>
                         <span> 
-                          {{$part->name}}
+                          {{$part->name}} 
                         </span>
                         </td>
 
@@ -131,20 +131,20 @@
                         </span>
                         </td>
 
-                        <td style="background:#FBE3E6 !important">
+                        <td class="text-danger">
                         <span>
                           {{isset($item) ? $item->quantity : 0}}
-                        </span>
+                        </span> 
                         </td>
 
-                        <td style="background:#E3FBEA !important">
-                        <span>
+                        <td>
+                        <span style="background:#F7F8CC !important">
                             {{isset($item) ? $item->price : 0}}
                         </span>
                         </td>
 
-                        <td style="background:#FBFAD4 !important">
-                        <span>
+                        <td>
+                        <span style="background:rgb(253, 215, 215) !important">
                             {{isset($item) ? ($item->price * $item->quantity) : 0}}
                         </span>
                         </td>
@@ -160,9 +160,9 @@
                 <th width="12%"> {{ __('Unit Quantity') }} </th>
                 <th width="12%"> {{ __('Unit') }} </th>
                 <th width="13%"> {{ __('Price Segments') }} </th>
-                <th width="5%"> {{ __('Quantity') }} </th>
-                <th width="5%"> {{ __('Price') }} </th>
-                <th width="5%"> {{ __('Total') }} </th>
+                <th> {{ __('Quantity') }} </th>
+                <th> {{ __('Price') }} </th>
+                <th> {{ __('Total') }} </th>
             </tr>
             </tfoot>
         </table>

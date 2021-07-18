@@ -95,11 +95,9 @@
                             <label for="switch-3">{{__('inActive')}}</label>
                         </div>
 
-                    </div>
 
-                    <div class="col-md-12">
 
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-2">
                             <label> {{ __('Barcode') }} </label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-barcode"></span>
@@ -107,7 +105,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-2">
                             <label> {{ __('Supplier Barcode') }} </label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-barcode"></span>

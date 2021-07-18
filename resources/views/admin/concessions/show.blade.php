@@ -7,8 +7,8 @@
 </div>
 
 <div class="row row-right-data">
-    <div class="col-xs-8"></div>
-    <div class="col-xs-4 right-top-detail">
+    <div class="col-xs-6"></div>
+    <div class="col-xs-6 right-top-detail">
         <h3>
             @if($concession->type == 'add' )
   {{ __('Add Concession') }}
@@ -16,131 +16,134 @@
 {{ __('Withdrawal Concession') }} </span>
 @endif
 </h3>
-        <div class="row">
-        <div class="col-xs-6"><h6>Lorem Ipsum..:</h6></div>
-            <div class="col-xs-6"><h6>Lorem Ipsum..</h6></div>
-        </div>
-        <div class="row">
-        <div class="col-xs-6"><h6>Lorem Ipsum..:</h6></div>
-        <div class="col-xs-6"><h6>Lorem Ipsum..</h6></div>
-        </div>
-        <div class="row">
-            <div class="col-xs-6"><h6>Lorem Ipsum..:</h6></div>
-            <div class="col-xs-6"><h6>Lorem Ipsum..</h6></div>
-        </div>
+        
     </div>
 </div>
 
 <div class="invoice-to">
-    <div class="row">
-        <div class="col-xs-6">
-           <h4>INVOICE TO</h4>
-           <h2>JHONE DOE.</h2>
-           <h6>Managing Director xyz.</h6>
-           <br>
-           <ul class="list-inline">
-               <li><h6>Phone:</h6></li>
-               <li><h6>Lorem Ipsum..</h6></li>
-           </ul>
-           <ul class="list-inline">
-               <li><h6>Phone:</h6></li>
-               <li><h6>Lorem Ipsum..</h6></li>
-           </ul>
-           <ul class="list-inline">
-               <li><h6>Phone:</h6></li>
-               <li><h6>Lorem Ipsum..</h6></li>
-           </ul>
-        </div>
-        <div class="col-xs-6">
-        <h4>Payement Method</h4>
-        <ul class="list-inline">
-               <li><h6>Account No:</h6></li>
-               <li><h6>123456789</h6></li>
-           </ul>
-           <ul class="list-inline">
-               <li><h6>Account Name:</h6></li>
-               <li><h6>JHONE DOE.</h6></li>
-           </ul>
-           <ul class="list-inline">
-               <li><h6>Branch Name:</h6></li>
-               <li><h6>XYZ</h6></li>
-           </ul>
-        </div>
-    </div>
+<h5>{{__('concession data')}}</h5>
+</div>
+
+<div class="col-xs-12">
+
+        <div class="col-xs-3"><h6>
+        {{__('Number')}} : 
+        {{$concession->type == 'add' ? $concession->add_number : $concession->withdrawal_number }}
+        </h6></div>
+
+        <div class="col-xs-3"><h6>
+        {{__('Item Number')}} : 
+        {{optional($concession->concessionable)->number}}        
+        </h6></div>
+ 
+        <div class="col-xs-3"><h6>
+        {{__('Type')}} : 
+        {{__($concession->type . ' concession')}}
+        </h6></div>
+
+        <div class="col-xs-3"><h6>
+        {{__('Concession Type')}} : 
+        {{optional($concession->concessionType)->name}}
+        </h6></div>
+
+        <div class="col-xs-3"><h6>
+        {{__('Time & Date')}} : 
+        {{$concession->time}} - {{$concession->date}}
+        </h6></div>
+
+        <div class="col-xs-3"><h6>
+        {{__('Status')}} : 
+        {{__($concession->status)}}
+        </h6></div>
+
+        <div class="col-xs-3"><h6>
+        {{__('Execution Status')}} : 
+        @if($concession->concessionExecution)
+        
+        @if($concession->concessionExecution ->status == 'pending' )
+                {{__('Processing')}}
+
+        @elseif($concession->concessionExecution ->status == 'finished' )
+                                    {{__('Finished')}}
+
+         @elseif($concession->concessionExecution ->status == 'late' )
+                                    {{__('Late')}}
+                                    @endif
+
+
+                                    @else
+                                    {{__('Not determined')}}
+
+                                    @endif
+
+        </h6></div>
+
+        <div class="col-xs-3"><h6>
+        {{__('User Name')}} : 
+        {{optional($concession->user)->name}}
+        </h6></div>
+
+</div>
+
+<div class="invoice-to">
+<h5>{{__('concession items')}}</h5>
 </div>
 
 <div  style="padding:0 20px;">
 <table class="table print-table-wg table-borderless">
   <thead>
+
     <tr class="spacer" style="border-radius: 30px;">
       <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
+      <th scope="col">{{__('Name')}}</th>
+      <th scope="col">{{__('Unit')}}</th>
+      <th scope="col">{{__('Quantity')}}</th>
+      <th scope="col">{{__('Price')}}</th>
     </tr>
+
   </thead>
   <tbody>
+  @foreach($concession->concessionItems as $index=>$item)
+
     <tr class="spacer">
-      <td scope="row">1</td>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
+    <td>{{$index + 1}}</td>
+    <td>{{optional($item->part)->name}}</td>
+    <td>{{$item->partPrice && $item->partPrice->unit ? $item->partPrice->unit->unit : '---'}}</td>
+    <td>{{$item->quantity}}</td>
+    <td>{{$item->price}}</td>
     </tr>
-    <tr class="spacer">
-      <td scope="row">2</td>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr class="spacer">
-      <td scope="row">3</td>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
+
+    @endforeach
   </tbody>
 </table>
 </div>
 
 <div class="row right-peice-wg" style="padding:0 30px 50px 30px;margin-bottom:30px">
-    <div class="col-xs-9">
-         <h4 class="title">Lorem upsum is a demo</h4>
-         <p style="width: 80%;font-size:12px">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-         <p style="width: 80%;font-size:12px">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
-         <h4>Thank you for business with us.</h4>
+    <div class="col-xs-7">
+         <h5 class="title">{{__('Notes')}}</h5>
+         <p style="width: 80%;font-size:12px">
+         {!! $concession->description !!}
+        
+    </p>
 
         </div>
-    <div class="col-xs-3 text-center">
-      <div class="row">
-          <div class="col-xs-6">
-              <h6>Subtotal</h6>
-          </div>
-          <div class="col-xs-6">
-             <h6>$20.00</h6>
-          </div>
-      </div>
-      <div class="row">
-          <div class="col-xs-6">
-              <h6>Discount</h6>
-          </div>
-          <div class="col-xs-6">
-             <h6>$00.00</h6>
-          </div>
-      </div>
-      <div class="row">
-          <div class="col-xs-6">
-              <h6>Tax:(10%)</h6>
-          </div>
-          <div class="col-xs-6">
-             <h6>$5.00</h6>
-          </div>
-      </div>
+    <div class="col-xs-5 text-center">
+
       <div class="row last-total">
           <div class="col-xs-6">
-              <h6>Total<h6>
+              <h6>{{__('Total Quantity')}}</h6>
           </div>
           <div class="col-xs-6">
-             <h6>$15.00</h6>
+             <h6>{{$concession->total_quantity}}</h6>
+          </div>
+      </div>
+      
+      <div class="row last-total">
+          <div class="col-xs-6">
+              <h6>{{__('Total Price')}}<h6>
+          </div>
+          <div class="col-xs-6">
+             <h6>{{$concession->total}}</h6>
           </div>
       </div>
     </div>
@@ -153,33 +156,34 @@
             <div class="col-xs-4">
                 <div class="media">
                     <div class="media-left">
-                        <i class="fa fa-phone"></i>
+                        <i style="color:white !important" class="fa fa-phone text-white"></i>
                     </div>
                     <div class="media-body">
-                        <h6 class="media-heading">John Doe</h6>
-                        <h6>Lorem ipsum...</h6>
+                        <h6 class="media-heading">{{__('contact numbers')}}</h6>
+                        <h6>{{optional($branchToPrint)->phone1}}</h6>
+                        <h6>{{optional($branchToPrint)->phone2}}</h6>
                     </div>
                     </div>
                 </div>
                 <div class="col-xs-4">
                 <div class="media">
                     <div class="media-left">
-                        <i class="fa fa-phone"></i>
+                        <i style="color:white !important" class="fa fa-phone text-white"></i>
                     </div>
                     <div class="media-body">
-                        <h6 class="media-heading">John Doe</h6>
-                        <h6>Lorem ipsum...</h6>
+                        <h6 class="media-heading">{{__('email')}}</h6>
+                        <h6>{{optional($branchToPrint)->email}}</h6>
                     </div>
                     </div>
                 </div>
                 <div class="col-xs-4">
                 <div class="media">
                     <div class="media-left">
-                        <i class="fa fa-phone"></i>
+                        <i style="color:white !important" class="fa fa-phone text-white"></i>
                     </div>
                     <div class="media-body">
-                        <h6 class="media-heading">John Doe</h6>
-                        <h6>Lorem ipsum...</h6>
+                        <h6 class="media-heading">{{__('address')}}</h6>
+                        <h6>{{optional($branchToPrint)->address_ar}} </h6>
                     </div>
                     </div>
                 </div>
@@ -197,8 +201,11 @@
 
 </section>
 
+
+
 <!-- 
 
+Old data
 
 <div class="row small-spacing" id="concession_to_print">
 
@@ -397,3 +404,209 @@
 </div>
 
  -->
+
+
+ <!--
+
+Static design
+
+<section id="concession_to_print">
+
+<div class="top-logo-print">
+    <div class="logo-print text-center">
+        <h5>{{optional($branchToPrint)->name_ar}}</h5>
+    </div>
+</div>
+
+<div class="row row-right-data">
+    <div class="col-xs-8"></div>
+    <div class="col-xs-4 right-top-detail">
+        <h3>
+            @if($concession->type == 'add' )
+  {{ __('Add Concession') }}
+@else
+{{ __('Withdrawal Concession') }} </span>
+@endif
+</h3>
+        <div class="row">
+        <div class="col-xs-6"><h6>Lorem Ipsum..:</h6></div>
+            <div class="col-xs-6"><h6>Lorem Ipsum..</h6></div>
+        </div>
+        <div class="row">
+        <div class="col-xs-6"><h6>Lorem Ipsum..:</h6></div>
+        <div class="col-xs-6"><h6>Lorem Ipsum..</h6></div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6"><h6>Lorem Ipsum..:</h6></div>
+            <div class="col-xs-6"><h6>Lorem Ipsum..</h6></div>
+        </div>
+    </div>
+</div>
+
+<div class="invoice-to">
+    <div class="row">
+        <div class="col-xs-6">
+           <h4>INVOICE TO</h4>
+           <h2>JHONE DOE.</h2>
+           <h6>Managing Director xyz.</h6>
+           <br>
+           <ul class="list-inline">
+               <li><h6>Phone:</h6></li>
+               <li><h6>Lorem Ipsum..</h6></li>
+           </ul>
+           <ul class="list-inline">
+               <li><h6>Phone:</h6></li>
+               <li><h6>Lorem Ipsum..</h6></li>
+           </ul>
+           <ul class="list-inline">
+               <li><h6>Phone:</h6></li>
+               <li><h6>Lorem Ipsum..</h6></li>
+           </ul>
+        </div>
+        <div class="col-xs-6">
+        <h4>Payement Method</h4>
+        <ul class="list-inline">
+               <li><h6>Account No:</h6></li>
+               <li><h6>123456789</h6></li>
+           </ul>
+           <ul class="list-inline">
+               <li><h6>Account Name:</h6></li>
+               <li><h6>JHONE DOE.</h6></li>
+           </ul>
+           <ul class="list-inline">
+               <li><h6>Branch Name:</h6></li>
+               <li><h6>XYZ</h6></li>
+           </ul>
+        </div>
+    </div>
+</div>
+
+<div  style="padding:0 20px;">
+<table class="table print-table-wg table-borderless">
+  <thead>
+    <tr class="spacer" style="border-radius: 30px;">
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="spacer">
+      <td scope="row">1</td>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr class="spacer">
+      <td scope="row">2</td>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr class="spacer">
+      <td scope="row">3</td>
+      <td>Larry</td>
+      <td>the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="row right-peice-wg" style="padding:0 30px 50px 30px;margin-bottom:30px">
+    <div class="col-xs-9">
+         <h4 class="title">Lorem upsum is a demo</h4>
+         <p style="width: 80%;font-size:12px">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+         <p style="width: 80%;font-size:12px">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+         <h4>Thank you for business with us.</h4>
+
+        </div>
+    <div class="col-xs-3 text-center">
+      <div class="row">
+          <div class="col-xs-6">
+              <h6>Subtotal</h6>
+          </div>
+          <div class="col-xs-6">
+             <h6>$20.00</h6>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-xs-6">
+              <h6>Discount</h6>
+          </div>
+          <div class="col-xs-6">
+             <h6>$00.00</h6>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-xs-6">
+              <h6>Tax:(10%)</h6>
+          </div>
+          <div class="col-xs-6">
+             <h6>$5.00</h6>
+          </div>
+      </div>
+      <div class="row last-total">
+          <div class="col-xs-6">
+              <h6>Total<h6>
+          </div>
+          <div class="col-xs-6">
+             <h6>$15.00</h6>
+          </div>
+      </div>
+    </div>
+</div>  
+
+<div class="print-foot-wg">
+    <div class="row">
+        <div class="col-xs-7">
+            <div class="row">
+            <div class="col-xs-4">
+                <div class="media">
+                    <div class="media-left">
+                        <i class="fa fa-phone"></i>
+                    </div>
+                    <div class="media-body">
+                        <h6 class="media-heading">John Doe</h6>
+                        <h6>Lorem ipsum...</h6>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                <div class="media">
+                    <div class="media-left">
+                        <i class="fa fa-phone"></i>
+                    </div>
+                    <div class="media-body">
+                        <h6 class="media-heading">John Doe</h6>
+                        <h6>Lorem ipsum...</h6>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                <div class="media">
+                    <div class="media-left">
+                        <i class="fa fa-phone"></i>
+                    </div>
+                    <div class="media-body">
+                        <h6 class="media-heading">John Doe</h6>
+                        <h6>Lorem ipsum...</h6>
+                    </div>
+                    </div>
+                </div>
+                </div>
+
+                </div>
+                <div class="col-xs-5">
+
+</div>   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</section>
+
+-->

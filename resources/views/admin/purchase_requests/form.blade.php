@@ -154,7 +154,7 @@
 
         <div class="col-md-6">
             <div class="form-group">
-                <label for="date" class="control-label">{{__('Different Days')}}</label>
+                <label for="date" class="control-label">{!! __('request days') !!}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
                     <input type="text" class="form-control" id="different_days" disabled
