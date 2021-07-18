@@ -6,14 +6,14 @@ use App\Scopes\BranchScope;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
-class PurchaseQuotation extends Model
+class SaleQuotation extends Model
 {
     protected $fillable = ['number', 'branch_id', 'purchase_request_id', 'date', 'time', 'user_id', 'supplier_id', 'status', 'library_path',
         'supply_date_from', 'supply_date_to', 'sub_total', 'discount', 'discount_type', 'total_after_discount',
         'tax', 'total', 'type', 'additional_payments', 'supplier_discount_active', 'supplier_discount_type',
         'supplier_discount', 'date_from', 'date_to', 'quotation_type'];
 
-    protected $table = 'purchase_quotations';
+    protected $table = 'sale_quotations';
 
     public function branch()
     {
@@ -24,11 +24,6 @@ class PurchaseQuotation extends Model
     {
         parent::boot();
         static::addGlobalScope(new BranchScope());
-    }
-
-    public function purchaseRequest()
-    {
-        return $this->belongsTo(PurchaseRequest::class, 'purchase_request_id');
     }
 
     public function user()
@@ -43,34 +38,29 @@ class PurchaseQuotation extends Model
 
     public function items()
     {
-        return $this->hasMany(PurchaseQuotationItem::class, 'purchase_quotation_id');
+        return $this->hasMany(SaleQuotationItem::class, 'sale_quotation_id');
     }
 
     public function taxes()
     {
-        return $this->belongsToMany(TaxesFees::class, 'purchase_quotation_taxes_fees', 'purchase_quotation_id', 'tax_id');
+        return $this->belongsToMany(TaxesFees::class, 'taxes_fees_sale_quotations', 'sale_quotation_id', 'tax_id');
     }
 
     public function terms()
     {
-        return $this->belongsToMany(SupplyTerm::class, 'purchase_quotation_supply_terms', 'purchase_quotation_id', 'supply_term_id');
+        return $this->belongsToMany(SupplyTerm::class, 'sale_quotation_supply_terms',
+            'sale_quotation_id', 'supply_term_id');
     }
-
-    public function execution()
-    {
-        return $this->hasOne(PurchaseQuotationExecution::class, 'purchase_quotation_id');
-    }
-
-    public function files()
-    {
-        return $this->hasMany(PurchaseQuotationLibrary::class, 'purchase_quotation_id');
-    }
-
-    public function supplyOrders()
-    {
-        return $this->belongsToMany(SupplyOrder::class, 'purchase_quotation_supply_orders',
-            'purchase_quotation_id', 'supply_order_id');
-    }
+//
+//    public function execution()
+//    {
+//        return $this->hasOne(PurchaseQuotationExecution::class, 'purchase_quotation_id');
+//    }
+//
+//    public function files()
+//    {
+//        return $this->hasMany(PurchaseQuotationLibrary::class, 'purchase_quotation_id');
+//    }
 
     public function getDifferentDaysAttribute()
     {
@@ -88,4 +78,5 @@ class PurchaseQuotation extends Model
 
         return $dateNow->diffInDays($endDate, false);
     }
+
 }
