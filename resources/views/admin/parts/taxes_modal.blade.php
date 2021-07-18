@@ -63,6 +63,25 @@
                             </tbody>
                         </table>
 
+                        <table class="table table-bordered">
+                           <thead>
+                             <tr>
+                               <th>الإسم</th>
+                               <th>الحاله</th>
+                               <th>الإسم</th>
+                               <th>الحاله</th>
+                             </tr>
+                           </thead>
+                           <ttbody>
+                             <tr>
+                               <td>Lorem</td>
+                               <td>Lorem</td>
+                               <td>Lorem</td>
+                               <td>Lorem</td>
+                             </tr>
+                           </ttbody>
+                        </table>
+
                         <div class="row">
 
                         <div class="col-md-3">

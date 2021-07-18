@@ -213,16 +213,43 @@
     <div class="col-md-12" id="employees_percent"
          style="{{isset($damagedStock) && $damagedStock->type == 'un_natural' ? '':'display: none;' }}">
         <div class="form-group">
-            <label for="inputDescription" class="control-label">{{__('Employees')}}</label>
+
+        <div class="col-md-12" style="color: white; margin-bottom: 75px; margin-right: -24px;top:16px"><div class="ribbon ribbon-r bg-secondary show-ribbon" style="background: rgb(86, 133, 204) !important;"><p class="mb-0">{{__('Employees')}}</p></div></div>
+        
+            <!-- <label for="inputDescription" class="control-label">{{__('Employees')}}</label> -->
 
 
             <div id="employees_data">
+
+
+
+            
+ 
 
                 @if(isset($damagedStock))
 
                     @foreach($damagedStock->employees as $damaged_employee)
 
-                        <div class="col-md-12">
+
+                    <table class="table table-bordered">
+                           <thead>
+                             <tr>
+                               <th>{{__('Name')}}</th>
+                               <th>{{__('Percent')}}</th>
+                               <th>{{__('Total Amount')}}</th>                               
+                             </tr>
+                           </thead>
+                           <ttbody>
+                             <tr>
+                               <td>{{$damaged_employee->name}}</td>
+                               <td>{{$damaged_employee->pivot->percent}}</td>
+                               <td>{{$damaged_employee->pivot->amount}}</td>
+                             </tr>
+                           </ttbody>
+                        </table>
+
+
+                        <!-- <div class="col-md-12" style="padding-bottom: 20px;">
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="inputDescription" class="control-label">{{__('Name')}}</label>
@@ -253,7 +280,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
 
 
                     @endforeach

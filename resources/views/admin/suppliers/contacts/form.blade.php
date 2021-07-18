@@ -1,10 +1,14 @@
 <div class="col-md-12">
-    <hr>
+    <!-- <hr>
     <span style="color: white;font-size: 14px;background:#2980B9;padding:5px 10px;border-radius:3px"> {{__('Contacts')}} </span>
-    <hr>
+    <hr> -->
+
+    <div class="col-md-12" style="color: white; margin-bottom: 60px; margin-right: -15px;"><div class="ribbon ribbon-r bg-secondary show-ribbon" style="background: rgb(86, 133, 204) !important;right: -16px;"><p class="mb-0">{{__('Contacts')}}</p></div></div>
+
+
 </div>
 
-<div class="container">
+<div class="">
 
     <div class="form_new_contact">
 
@@ -13,9 +17,10 @@
                 @php
                 $index = $contact->id;
                 @endphp
+                <!-- <div  style="box-shadow:0 0 7px 1px #DDD;padding:20px;margin-bottom:20px"></div> -->
                 <input type="hidden" name="contactsUpdate[{{$contact->id}}][contactId]" value="{{$contact->id}}">
-                <div class="row " id="contact_{{$contact->id}}">
-                    <div class="col-md-2">
+                <div class="row " id="contact_{{$contact->id}}" style="box-shadow:0 0 7px 1px #DDD;padding:20px 5px;margin:60px 5px 20px 5px">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="exampleInputEmail1">{{__('Name')}}</label>
 
@@ -28,7 +33,7 @@
                         {{input_error($errors,'contactsUpdate.'.$contact->id.'.name')}}
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                         <div class="form-group">
 
                             <label for="exampleInputEmail1">{{__('phone 1')}}</label>
@@ -42,7 +47,7 @@
                         {{input_error($errors,'contactsUpdate.'.$contact->id.'.phone_1')}}
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="exampleInputEmail1">{{__('phone 2')}} :</label>
                             <input type="text" id="phone_2_{{$contact->id}}"
@@ -50,7 +55,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-2">
+                    <div class="col-md-8">
                         <div class="form-group">
 
                             <label for="exampleInputPassword1"> {{__('Address')}} : </label>
@@ -97,5 +102,6 @@
                 class="btn btn-sm btn-primary">
             <li class="fa fa-plus"></li>
         </button>
-    <hr>
+    <br>
+    <br>
 </div>

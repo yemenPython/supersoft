@@ -220,11 +220,11 @@
 
     <div class="col-md-12" id="employees_percent" style="{{isset($damagedStock) && $damagedStock->type == 'un_natural' ? '':'display: none;' }}">
 
-    <div class="bottom-data-wg" style="width:100%;box-shadow: 0 0 7px 1px #DDD;margin:5px auto 10px;padding:7px 7px 3px">
+    <div class="bottom-data-wg" style="display:inline-block;width:100%;box-shadow: 0 0 7px 1px #DDD;margin:5px auto 10px;padding:25px 15px 3px">
 
-     
+    <div class="col-md-12" style="color: white; margin-bottom: 60px; margin-right: -15px;"><div class="ribbon ribbon-r bg-secondary show-ribbon" style="background: rgb(86, 133, 204) !important;"><p class="mb-0">{{__('Employees')}}</p></div></div>
        
-            <label for="inputDescription" class="control-label">{{__('Employees')}}</label>
+            <!-- <label for="inputDescription" class="control-label">{{__('Employees')}}</label> -->
 
             <div id="employees_data">
 
