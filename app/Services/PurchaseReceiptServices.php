@@ -33,6 +33,7 @@ class PurchaseReceiptServices
                 'refused_quantity'=> $items[$supplyOrderItem->id]['refused_quantity'],
                 'accepted_quantity'=> $items[$supplyOrderItem->id]['accepted_quantity'],
                 'store_id'=> $items[$supplyOrderItem->id]['store_id'],
+                'spare_part_id'=> $supplyOrderItem->spare_part_id,
             ];
 
             $data['defect_percent'] = round($data['refused_quantity'] * 100 / $supplyOrderItem->quantity,2);

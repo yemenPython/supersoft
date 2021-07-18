@@ -80,6 +80,7 @@
                 <tr class="heading">
                     <th style="background:#CCC !important;color:black">{{__('#')}}</th>
                     <th style="background:#CCC !important;color:black">{{__('Name')}}</th>
+                    <th style="background:#CCC !important;color:black">{{__('Part Type')}}</th>
                     <th style="background:#CCC !important;color:black">{{__('Unit')}}</th>
                     <th style="background:#CCC !important;color:black">{{__('Quantity')}}</th>
                     <th style="background:#CCC !important;color:black">{{__('Price')}}</th>
@@ -98,6 +99,7 @@
                     <tr class="item">
                         <td>{{$index + 1}}</td>
                         <td>{{optional($item->part)->name}}</td>
+                        <td>{{optional($item->sparePart)->type}}</td>
                         <td>{{$item->partPrice && $item->partPrice->unit ? $item->partPrice->unit->unit : '---'}}</td>
                         <td>{{$item->quantity}}</td>
                         <td>{{$item->price}}</td>
@@ -240,6 +242,58 @@
                     </tr>
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="wg-tb-snd" style="border:1px solid #AAA;margin:5px 20px 20px;padding:10px;border-radius:5px">
+
+        <div class="row">
+            <div class="col-xs-12 wg-tb-snd">
+                <h4 class="text-center">{{__('Supply Terms')}}</h4>
+                <div style="margin:10px 15px">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr class="heading">
+                            <th style="background:#CCC !important;color:black">#</th>
+                            <th style="background:#CCC !important;color:black">{{__('Term')}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        @foreach($purchase_invoice->terms()->where('type','supply')->get() as $index=>$term)
+                            <tr class="item">
+                                <td>{{$index+1}}</td>
+                                <td>{{$term->term}}</td>
+                            </tr>
+                        @endforeach
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-xs-12 wg-tb-snd">
+                <h4 class="text-center">{{__('Payment Terms')}}</h4>
+                <div style="margin:10px 15px">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr class="heading">
+                            <th style="background:#CCC !important;color:black">#</th>
+                            <th style="background:#CCC !important;color:black">{{__('Term')}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        @foreach($purchase_invoice->terms()->where('type','payment')->get() as $index=>$term)
+                            <tr class="item">
+                                <td>{{$index+1}}</td>
+                                <td>{{$term->term}}</td>
+                            </tr>
+                        @endforeach
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

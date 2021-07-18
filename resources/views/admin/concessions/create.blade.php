@@ -62,6 +62,10 @@
     </div>
 @endsection
 
+@section('modals')
+    @include('admin.partial.part_image')
+@endsection
+
 @section('js-validation')
 
     {!! JsValidator::formRequest('App\Http\Requests\Admin\Concession\CreateRequest', '.form'); !!}
@@ -222,6 +226,12 @@
                     swal({text: errors, icon: "error"})
                 }
             });
+        }
+
+        function getPartImage (index) {
+
+            let image_path = $('#part_img_id_' + index).data('img');
+            $('#part_image').attr('src', image_path);
         }
 
     </script>

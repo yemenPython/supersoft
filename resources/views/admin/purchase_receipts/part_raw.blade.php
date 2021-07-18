@@ -8,7 +8,11 @@
     </td>
 
     <td>
-        <span>{{$part->name}}</span>
+        <span style="!important;display:block; cursor: pointer" data-img="{{$part->image}}" data-toggle="modal" data-target="#part_img" title="Part image"
+              onclick="getPartImage('{{$index}}')" id="part_img_id_{{$index}}" >
+
+            {{$part->name}}
+        </span>
     </td>
 
     <td>

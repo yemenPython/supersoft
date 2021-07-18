@@ -129,23 +129,6 @@ class PurchaseQuotationsController extends Controller
                 if (isset($item['taxes'])) {
                     $purchaseQuotationItem->taxes()->attach($item['taxes']);
                 }
-
-//                if (isset($item['item_types'])) {
-//
-//                    foreach ($item['item_types'] as $item_type) {
-//
-//                        if (!isset($item_type['id'])) {
-//                            continue;
-//                        }
-//
-//                        DB::table('purchase_quotation_items_spare_parts')
-//                            ->insert([
-//                                'item_id' => $purchaseQuotationItem->id,
-//                                'spare_part_id' => $item_type['id'],
-//                                'price' => $item_type['price'],
-//                            ]);
-//                    }
-//                }
             }
 
             DB::commit();
@@ -236,23 +219,6 @@ class PurchaseQuotationsController extends Controller
 
                 if (isset($item['taxes'])) {
                     $purchaseQuotationItem->taxes()->attach($item['taxes']);
-                }
-
-                if (isset($item['item_types'])) {
-
-                    foreach ($item['item_types'] as $item_type) {
-
-                        if (!isset($item_type['id'])) {
-                            continue;
-                        }
-
-                        DB::table('purchase_quotation_items_spare_parts')
-                            ->insert([
-                                'item_id' => $purchaseQuotationItem->id,
-                                'spare_part_id' => $item_type['id'],
-                                'price' => $item_type['price'],
-                            ]);
-                    }
                 }
             }
 

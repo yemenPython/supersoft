@@ -5,7 +5,14 @@
     </td>
 
     <td class="text-center">
-        <span>{{$part->name}}</span>
+
+        <span style=" cursor: pointer" data-img="{{$part->image}}" data-toggle="modal"
+              data-target="#part_img" title="Part image" onclick="getPartImage('{{$index}}')"
+              id="part_img_id_{{$index}}">
+
+            {{$part->name}}
+        </span>
+
         <input type="hidden" value="{{$part->id}}" name="items[{{$index}}][part_id]" id="part_id_index_{{$index}}"
                class="form-control"
                style="text-align: center;">

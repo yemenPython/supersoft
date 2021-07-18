@@ -77,7 +77,7 @@
 
                                     <td class="text-center column-id">{!! $index +1 !!}</td>
                                     <td class="text-center column-name">
-                                    @include('admin.parts.alternative_parts')
+                                        @include('admin.parts.alternative_parts')
                                     </td>
                                     <td class="text-center column-type">
                                         <span class="text-danger">
@@ -127,32 +127,32 @@
                                     <td>
 
                                     <div class="btn-group margin-top-10">
-                                        
+
                                         <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="ico fa fa-bars"></i>
                                         {{__('Options')}} <span class="caret"></span>
-                                     
-                                    </button> 
+
+                                    </button>
                                         <ul class="dropdown-menu dropdown-wg">
                                             <li>
-                                            
+
                                             @component('admin.buttons._show_button',[
                                                        'id' => $part->id,
                                                        'route'=>'admin:parts.show'
                                                         ])
                                         @endcomponent
 
-                
+
                                             </li>
                                             <li>
-                                                
+
 
                                             @component('admin.buttons._edit_button',[
                                                     'id' => $part->id,
                                                     'route'=>'admin:parts.edit'
                                                      ])
                                         @endcomponent
-                
+
                                             </li>
 
                                             <li class="btn-style-drop">
@@ -173,7 +173,7 @@
 
                                             </li>
 
-                                            
+
                                             <li>
                                             <a data-toggle="modal" data-target="#part_taxes_{{$part->id}}"
                                            onclick="partTaxable('{{$part->id}}')"
@@ -249,7 +249,10 @@
 @section('modals')
 
     @include('admin.parts.quantity_modal')
+
     @include('admin.parts.taxes_modal')
+
+    @include('admin.partial.part_image')
 
     <div class="modal fade modal-bg-wg" id="boostrapModal-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
@@ -461,6 +464,11 @@
             }
         }
 
+        function getPartImage (index) {
+
+            let image_path = $('#part_id_' + index).data('img');
+             $('#part_image').attr('src', image_path);
+        }
 
     </script>
 

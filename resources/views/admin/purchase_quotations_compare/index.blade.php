@@ -70,7 +70,8 @@
                         <div class="clearfix"></div>
 
                         <div class="table-responsive">
-                            <table class="table table-bordered wg-table-print table-hover" id="cities" style="width:100%">
+                            <table class="table table-bordered wg-table-print table-hover" id="cities"
+                                   style="width:100%">
 
                                 <thead>
                                 <tr>
@@ -136,12 +137,21 @@
                                         <tr>
                                             <td>{{$purchaseQuotation->number}}</td>
                                             <td>
+
                                             <span class="part-unit-span">
-                                            {{$purchaseQuotation->purchaseRequest ? $purchaseQuotation->purchaseRequest->number : __('Not determined')}}
+                                                {{$purchaseQuotation->purchaseRequest ? $purchaseQuotation->purchaseRequest->number : __('Not determined')}}
                                             </span>
                                             </td>
                                             <td>{{optional($purchaseQuotation->supplier)->name}}</td>
-                                            <td>{{optional($item->part)->name}}</td>
+
+                                            <td>
+                                                <span style="cursor: pointer" data-img="{{optional($item->part)->image}}" data-toggle="modal"
+                                                      data-target="#part_img" title="Part image"  class="part_img_id_{{optional($item->part)->id}}"
+                                                      onclick="getPartImage('{{optional($item->part)->id}}')" >
+                                                    {{optional($item->part)->name}}
+                                                </span>
+                                            </td>
+
                                             <td>{{$item->sparePart ? $item->sparePart->type : '---'}}</td>
                                             <td>{{optional($item->partPrice->unit)->unit}}</td>
                                             <td>
@@ -208,6 +218,8 @@
 @section('modals')
 
     @include('admin.partial.print_modal', ['title'=> __('Purchase Requests')])
+
+    @include('admin.partial.part_image')
 
 @endsection
 
@@ -291,7 +303,7 @@
                 url: '{{route('admin:purchase.quotations.compare.get.quotations')}}',
                 data: {
                     _token: CSRF_TOKEN,
-                    type:type,
+                    type: type,
                     item_id: item_id
                 },
 
@@ -306,6 +318,18 @@
                     swal({text: errors, icon: "error"})
                 }
             });
+        }
+
+        function getPartImage(index) {
+
+            let image_path = $('#part_img_id_' + index).data('img');
+            $('#part_image').attr('src', image_path);
+        }
+
+        function getPartImage(index) {
+
+            let image_path = $('.part_img_id_' + index).data('img');
+            $('#part_image').attr('src', image_path);
         }
 
     </script>

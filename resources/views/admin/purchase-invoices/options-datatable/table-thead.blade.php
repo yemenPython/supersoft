@@ -1,5 +1,7 @@
 <thead>
     <tr>
+        <th class="text-center column-index" scope="col">{!! __('#') !!}</th>
+
         @foreach(\App\Http\Controllers\DataExportCore\Invoices\Purchase::get_my_view_columns() as $key => $value)
             <th class="text-center column-{{ $key }}"
                 onclick="appling_sort(event ,'{{ $key }}')"
@@ -11,7 +13,7 @@
         @endforeach
 
         <th scope="col">{!! __('Status') !!}</th>
-        
+
             <th class="text-center column-execution-status"
                 scope="col">
                 {!! __('Execution Status') !!}
@@ -31,7 +33,7 @@
             {!! __('Updated At') !!}
             <i class="fa fa-sort{{ \App\AccountingModule\Helper::iam_used_in_sort('updated-at') }}"></i>
         </th>
-     
+
         <th scope="col">{!! __('Options') !!}</th>
         <th scope="col">
             <div class="checkbox danger">

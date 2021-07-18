@@ -1,5 +1,8 @@
 <!-- <thead>
 <tr>
+
+    <th class="text-center column-index" scope="col">{!! __('#') !!}</th>
+
     @foreach(\App\Http\Controllers\DataExportCore\Invoices\PurchaseReturn::get_my_view_columns() as $key => $value)
         <th class="text-center column-{{ $key }}"
             onclick="appling_sort(event ,'{{ $key }}')"

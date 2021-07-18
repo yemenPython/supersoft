@@ -49,6 +49,8 @@ Route::post('purchase-invoices/library/file-delete', 'PurchaseInvoiceLibraryCont
 Route::post('/purchase-invoices/purchase-receipt', 'PurchaseInvoicesController@getPurchaseReceipts')->name('purchase.invoices.purchase-receipts');
 Route::post('/purchase-invoices/add-purchase-receipts', 'PurchaseInvoicesController@addPurchaseReceipts')->name('purchase.invoices.add.purchase.receipts');
 
+Route::post('/purchase-invoices/terms', 'PurchaseInvoicesController@terms')->name('purchase.invoices.terms');
+
 
 
 

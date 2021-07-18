@@ -1,10 +1,10 @@
 <tr>
     <td>{{$key+1}}</td>
     <td>
-    <span>{{optional($item->part)->name}}</span> 
-    <!-- <input type="text" disabled value="{{optional($item->part)->name}}" class="form-control"
-               style="text-align: center;"> -->
-               
+        <span style="cursor: pointer" data-img="{{optional($item->part)->image}}" data-toggle="modal" data-target="#part_img"
+              title="Part image" onclick="getPartImage('{{$key}}')" id="part_img_id_{{$key}}">
+                  {{optional($item->part)->name}}
+            </span>
     </td>
 
     <td class="inline-flex-span">

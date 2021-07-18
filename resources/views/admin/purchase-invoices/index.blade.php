@@ -52,13 +52,14 @@
                         @endphp
                         @include($view_path . '.option-row')
                         <div class="clearfix"></div>
-                        <table id="purchaseInvoices" class="table table-bordered wg-table-print table-hover"
-                               style="width:100%">
+                        <table id="purchaseInvoices" class="table table-bordered wg-table-print table-hover" style="width:100%">
                             @include($view_path . '.table-thead')
                             <tfoot>
+
                             <tr>
-                                <th class="text-center column-invoice-number"
-                                    scope="col">{!! __('Invoice Number') !!}</th>
+                                <th class="text-center column-index" scope="col">{!! __('#') !!}</th>
+
+                                <th class="text-center column-invoice-number" scope="col">{!! __('Invoice Number') !!}</th>
 
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Invoice Type') !!}</th>
@@ -77,8 +78,17 @@
                             </tr>
                             </tfoot>
                             <tbody>
+
+                            @php
+                                $showRowsPerPage = request()->has('rows') ? request()['rows'] : 10;
+                                $page = request()->has('page') ? request()['page'] : 1;
+                            @endphp
+
                             @foreach($invoices as $index=>$invoice)
+
                                 <tr>
+                                    <td class="text-center column-invoice-number">{!! (($page - 1) * $showRowsPerPage) + $index+1 !!}</td>
+
                                     <td class="text-center column-invoice-number">{!! $invoice->invoice_number !!}</td>
 
                                     <td class="text-center column-supplier">{!! optional($invoice->supplier)->name !!}</td>
@@ -176,6 +186,15 @@
                                                 </li>
 
                                                 <li>
+                                                    <a style="cursor:pointer"
+                                                       class="btn btn-terms-wg text-white hvr-radial-out"
+                                                       data-toggle="modal" data-target="#terms_{{$invoice->id}}"
+                                                       title="{{__('Terms')}}">
+                                                        <i class="fa fa-check-circle"></i> {{__('Terms')}}
+                                                    </a>
+                                                </li>
+
+                                                <li>
 
                                                     <a href="{{route('admin:purchase-invoices.expenses', ['id' => $invoice->id])}}"
                                                        class="btn btn-info-wg hvr-radial-out  ">
@@ -250,7 +269,10 @@
             </div>
         </div>
     </div>
+
     @include($view_path . '.column-visible')
+
+    @include('admin.purchase-invoices.terms.supply_terms', ['items' => $invoices])
 @endsection
 
 @section('js')

@@ -6,9 +6,13 @@
                 <th width="2%"> #</th>
                 <th width="9%"> {{ __('Name') }} </th>
 
-                    <th width="15%" class="part_types_head" style="{{isset($purchaseInvoice) && $purchaseInvoice->invoice_type == 'normal' ? '':'display:none;' }}">
+                    <th width="15%"
+{{--                        class="part_types_head" --}}
+{{--                        style="{{isset($purchaseInvoice) && $purchaseInvoice->invoice_type == 'normal' ? '':'display:none;' }}"--}}
+                    >
                         {{ __('Part Types') }}
                     </th>
+
                 <th width="10%"> {{ __('Unit Quantity') }} </th>
                 <th width="8%"> {{ __('Unit') }} </th>
                 <th width="8%"> {{ __('Price Segments') }} </th>
@@ -43,7 +47,10 @@
             <tr>
                 <th width="2%"> #</th>
                 <th width="9%"> {{ __('Name') }} </th>
-                <th width="15%" class="part_types_head" style="{{isset($purchaseInvoice) && $purchaseInvoice->invoice_type == 'normal' ? '':'display:none;' }}">
+                <th width="15%"
+{{--                    class="part_types_head" --}}
+{{--                    style="{{isset($purchaseInvoice) && $purchaseInvoice->invoice_type == 'normal' ? '':'display:none;' }}"--}}
+                >
                     {{ __('Part Types') }}
                 </th>
                 <th width="10%"> {{ __('Unit Quantity') }} </th>
