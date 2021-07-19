@@ -12,12 +12,13 @@ class SupplyTerm extends Model
 
     protected $table = 'supply_terms';
 
-    public function getTermAttribute () {
-
+    public function getTermAttribute()
+    {
         return App::getLocale() == 'ar' ? $this->term_ar : $this->term_en;
     }
 
-    public function branch () {
+    public function branch()
+    {
         return $this->belongsTo(Branch::class, 'branch_id');
     }
 
@@ -25,5 +26,15 @@ class SupplyTerm extends Model
     {
         parent::boot();
         static::addGlobalScope(new BranchScope());
+    }
+
+    public function purchaseQuotations()
+    {
+        return $this->belongsToMany(PurchaseQuotation::class, 'purchase_quotation_supply_terms', 'supply_term_id', 'purchase_quotation_id');
+    }
+
+    public function supplyOrders()
+    {
+        return $this->belongsToMany(SupplyOrder::class, 'supply_order_supply_terms', 'supply_term_id', 'supply_order_id');
     }
 }

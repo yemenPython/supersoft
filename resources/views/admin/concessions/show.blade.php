@@ -7,7 +7,9 @@
             <h5>{{optional($branchToPrint)->name_ar}}</h5>
             </li>
             <li>
-            <img src="http://127.0.0.1:8000/default-images/future.png" style="width: 50px;
+            <img
+            src="{{isset($branchToPrint->logo) ? asset('storage/images/branches/'.$branchToPrint->logo) : env('DEFAULT_IMAGE_PRINT')}}"
+            style="width: 50px;
     height: 50px;
     border-radius: 50%;
     position: absolute;
@@ -42,12 +44,12 @@
                 <div class="col-xs-12">
                     <table class="table table-time-user">
                         <tr>
-                        <th>{{__('Time & Date')}}</th>
-                        <td>{{$concession->time}} - {{$concession->date}}</td>
+                        <th style="font-weight: normal !important;">{{__('Time & Date')}}</th>
+                        <td style="font-weight: normal !important;">{{$concession->time}} - {{$concession->date}}</td>
                         </tr>
                         <tr>
-                        <th>{{__('User Name')}}</th>
-                        <td>{{optional($concession->user)->name}}</td>
+                        <th style="font-weight: normal !important;">{{__('User Name')}}</th>
+                        <td style="font-weight: normal !important;">{{optional($concession->user)->name}}</td>
                         </tr>
                     </table>
                 </div>
@@ -115,6 +117,7 @@
       <th scope="col">{{__('Unit')}}</th>
       <th scope="col">{{__('Quantity')}}</th>
       <th scope="col">{{__('Price')}}</th>
+      <th scope="col">{{__('Total')}}</th>
     </tr>
 
   </thead>
@@ -127,6 +130,7 @@
     <td>{{$item->partPrice && $item->partPrice->unit ? $item->partPrice->unit->unit : '---'}}</td>
     <td>{{$item->quantity}}</td>
     <td>{{$item->price}}</td>
+    <td> {{ $item->price * $item->quantity}}</td>
     </tr>
 
     @endforeach
@@ -162,49 +166,23 @@
         <div class="col-xs-7">
             <div class="row">
             <div class="col-xs-12">
-                <!-- <div class="media">
-                    <div class="media-left">
-                        <i style="color:white !important" class="fa fa-phone text-white"></i>
-                    </div>
-                    <div class="media-body">
-                        <h6 class="media-heading">{{__('contact numbers')}}</h6>
-                        <h6>{{optional($branchToPrint)->phone1}}</h6>
-                        <h6>{{optional($branchToPrint)->phone2}}</h6>
-                    </div>
-                    </div> -->
+
                     <div class="media">
                     <div class="media-left">
-                        <!-- <i style="color:white !important" class="fa fa-phone text-white"></i> -->
-                        <h6 class="media-heading" style="line-height:30px;">{{__('address')}}</h6>
+                        <h6 class="media-heading" style="line-height:30px;">{{__('address')}} </h6>
                     </div>
+
                     <div class="media-body">
-                        <!-- <h6 class="media-heading">{{__('address')}}</h6> -->
                         <h6 style="padding:0 15px">{{optional($branchToPrint)->address_ar}} </h6>
                     </div>
                     </div>
 
                 </div>
                 <div class="col-xs-6">
-                <!-- <div class="media">
-                    <div class="media-left">
-                        <i style="color:white !important" class="fa fa-phone text-white"></i>
-                    </div>
-                    <div class="media-body">
-                        <h6 class="media-heading">{{__('email')}}</h6>
-                        <h6>{{optional($branchToPrint)->email}}</h6>
-                    </div>
-                    </div> -->
-                    <ul class="list-inline">
-                 <!-- <li><h6>{{__('contact numbers')}}</h6></li> -->
-                 <li><h6>{{optional($branchToPrint)->phone1}}</h6></li>
-                 <li><h6>{{optional($branchToPrint)->phone2}}</h6></li>
-                </ul>
+
                 </div>
                 <div class="col-xs-6">
-                <ul class="list-inline">
-                 <!-- <li><h6>{{__('email')}}</h6></li> -->
-                 <li><h6>{{optional($branchToPrint)->email}}</h6></li>
-                </ul>
+
                 </div>
                 </div>
 
@@ -212,13 +190,14 @@
                 <div class="col-xs-5 small-data-wg">
                   <div class="row">
                       <div class="col-xs-4">
-                          <h6>Lorem ipsum</h6>
+                          <h6>{{__('contact numbers')}} : </h6>
                       </div>
                       <div class="col-xs-4">
-                          <h6>Lorem ipsum</h6>
+                          <h6>{{optional($branchToPrint)->phone1}}</h6>
                       </div>
+                      
                       <div class="col-xs-4">
-                          <h6>Lorem ipsum</h6>
+                          <h6>{{optional($branchToPrint)->phone2}}</h6>
                       </div>
                   </div>
                 </div>   

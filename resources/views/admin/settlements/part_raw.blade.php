@@ -5,8 +5,13 @@
     </td>
 
     <td>
-        <!-- <input type="text" disabled value="{{$part->name}}" class="form-control" style="text-align: center;"> -->
-        <span style="width: 150px !important;display:block">{{$part->name}}</span> 
+            <span style="width: 150px !important;display:block; cursor: pointer" data-img="{{$part->image}}" data-toggle="modal"
+                  data-target="#part_img" title="Part image" onclick="getPartImage('{{$index}}')"
+                  id="part_img_id_{{$index}}" data-img="{{$part->img}}">
+
+            {{$part->name}}
+        </span>
+
         <input type="hidden" value="{{$part->id}}" name="items[{{$index}}][part_id]" class="form-control"
                style="text-align: center;">
         <input type="hidden" value="{{isset($item) ? $max : $part->first_store_quantity}}" class="form-control"

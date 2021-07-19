@@ -133,6 +133,8 @@
 
     </div>
 
+    @include('admin.partial.part_image')
+
 @endsection
 
 @section('js-validation')
@@ -306,6 +308,12 @@
             $('#total').val(total.toFixed(2));
             $('#total_accepted').val(total_accepted.toFixed(2));
             $('#total_rejected').val(total_rejected.toFixed(2));
+        }
+
+        function getPartImage (index) {
+
+            let image_path = $('#part_img_id_' + index).data('img');
+            $('#part_image').attr('src', image_path);
         }
 
     </script>

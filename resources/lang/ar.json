@@ -2129,9 +2129,12 @@
     "quotation days" : "فترة العرض بالأيام",
     "supply order days" : "فترة أمر التوريد بالأيام",
 
-    "website_url" : "للموقع الإلكتروني",
+    "website_url" : "رابط الموقع الإلكتروني",
     "Website Url" : "رابط الموقع الإلكتروني",
-    "Active Employee" : "عدد المسؤولين النشط"
+    "Active Employee" : "عدد المسؤولين النشط",
+    "Creat New Main Group" : "أضافة مجموعة رئيسية",
+    "Creat New Sub Group" : "أضافة مجموعة فرعية",
+    "please select Main Group First" : "من فضلك أختر المجموعة الرئيسية اولا"
 
 }
 

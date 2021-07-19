@@ -131,7 +131,6 @@
         </div>
     </div>
 
-
     <div class="modal fade" id="part_quantity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content wg-content">
@@ -177,6 +176,8 @@
             </div>
         </div>
     </div>
+
+    @include('admin.partial.part_image')
 
 @endsection
 
@@ -459,6 +460,12 @@
                     swal({text: errors, icon: "error"})
                 }
             });
+        }
+
+        function getPartImage (index) {
+
+            let image_path = $('#part_img_id_' + index).data('img');
+            $('#part_image').attr('src', image_path);
         }
 
     </script>

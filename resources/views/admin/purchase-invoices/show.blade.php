@@ -95,9 +95,10 @@
 
                 <thead>
                 <tr class="heading">
-                    <th style="background:#CCC !important;color:black">{{__('Unit')}}</th>
-                    <th style="background:#CCC !important;color:black">{{__('Price Segment')}}</th>
                     <th style="background:#CCC !important;color:black">{{__('spart')}}</th>
+                    <th style="background:#CCC !important;color:black">{{__('Unit')}}</th>
+                    <th style="background:#CCC !important;color:black">{{__('Part Type')}}</th>
+                    <th style="background:#CCC !important;color:black">{{__('Price Segment')}}</th>
                     <th style="background:#CCC !important;color:black">{{__('Purchase Quantity')}}</th>
                     <th style="background:#CCC !important;color:black">{{__('Purchase Price')}}</th>
                     <th style="background:#CCC !important;color:black">{{__('Store')}}</th>
@@ -113,7 +114,9 @@
                 @foreach($purchase_invoice->items as $item)
 
                     <tr class="item">
+                        <td>{{optional($item->part)->name}}</td>
                         <td>{{optional($item->partPrice->unit)->unit}}</td>
+                        <td>{{optional($item->sparePart)->type}}</td>
                         <td>
                             @if($item->partPriceSegment)
                                 {{$item->partPriceSegment->name}}
@@ -121,7 +124,7 @@
                                 <span>---</span>
                             @endif
                         </td>
-                        <td>{{optional($item->part)->name}}</td>
+
                         <td>{{$item->purchase_qty}}</td>
                         <td>{{$item->purchase_price}}</td>
                         <td>{{optional($item->store)->name}}</td>
@@ -311,6 +314,58 @@
                 </table>
             </div>
 
+        </div>
+    </div>
+
+    <div class="wg-tb-snd" style="border:1px solid #AAA;margin:5px 20px 20px;padding:10px;border-radius:5px">
+
+        <div class="row">
+            <div class="col-xs-12 wg-tb-snd">
+                <h4 class="text-center">{{__('Supply Terms')}}</h4>
+                <div style="margin:10px 15px">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr class="heading">
+                            <th style="background:#CCC !important;color:black">#</th>
+                            <th style="background:#CCC !important;color:black">{{__('Term')}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        @foreach($purchase_invoice->terms()->where('type','supply')->get() as $index=>$term)
+                            <tr class="item">
+                                <td>{{$index+1}}</td>
+                                <td>{{$term->term}}</td>
+                            </tr>
+                        @endforeach
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-xs-12 wg-tb-snd">
+                <h4 class="text-center">{{__('Payment Terms')}}</h4>
+                <div style="margin:10px 15px">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr class="heading">
+                            <th style="background:#CCC !important;color:black">#</th>
+                            <th style="background:#CCC !important;color:black">{{__('Term')}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        @foreach($purchase_invoice->terms()->where('type','payment')->get() as $index=>$term)
+                            <tr class="item">
+                                <td>{{$index+1}}</td>
+                                <td>{{$term->term}}</td>
+                            </tr>
+                        @endforeach
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

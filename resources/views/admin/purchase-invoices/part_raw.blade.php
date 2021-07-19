@@ -5,7 +5,14 @@
     </td>
 
     <td>
-        <span style="width: 150px !important;display:block">{{$part->name}}</span>
+
+        <span style="width: 150px !important;display:block; cursor: pointer" data-img="{{$part->image}}"
+              data-toggle="modal" data-target="#part_img" title="Part image" onclick="getPartImage('{{$index}}')"
+              id="part_img_id_{{$index}}">
+
+            {{$part->name}}
+        </span>
+
         <input type="hidden" value="{{$part->id}}" name="items[{{$index}}][part_id]" class="form-control"
                style="text-align: center;">
     </td>
@@ -25,6 +32,19 @@
                         </option>
                     @endforeach
                 </select>
+            </div>
+        </td>
+    @else
+        <td>
+            <div class="input-group">
+                @if(isset($update_item))
+                    <span>{{ $update_item->sparePart ? $update_item->sparePart->type : '---'}}</span>
+                    <input type="hidden" name="items[{{$index}}][spare_part_id]"
+                           value="{{$update_item->sparePart ? $update_item->spare_part_id : null}}">
+                @else
+                    <span>{{$item->sparePart ? $item->sparePart->type : '---'}}</span>
+                    <input type="hidden" name="items[{{$index}}][spare_part_id]" value="{{$item->sparePart ? $item->spare_part_id : null}}">
+                @endif
             </div>
         </td>
     @endif

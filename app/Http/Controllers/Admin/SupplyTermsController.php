@@ -87,10 +87,32 @@ class SupplyTermsController extends Controller
         try {
 
             $supplyTerm->delete();
+            return redirect(route('admin:supply-terms.index'))->with(['message' => __('done successfully'), 'alert-type'=>'success']);
+
+        }catch (\Exception $e) {
+            return redirect()->back()->with(['message'=> __('sorry, please try later'), 'alert-type'=>'error']);
+        }
+    }
+
+    public function deleteSelected (Request $request) {
+
+        $this->validate($request, [
+           'ids'=>'required',
+           'ids.*'=>'required|integer|exists:supply_terms,id',
+        ], ['ids.required' => __('sorry, please select items')]);
+
+        try {
+
+            foreach (array_values(array_unique($request['ids'])) as $id) {
+
+                $term = SupplyTerm::find($id);
+                $term->delete();
+            }
 
             return redirect(route('admin:supply-terms.index'))->with(['message' => __('done successfully'), 'alert-type'=>'success']);
 
         }catch (\Exception $e) {
+
             return redirect()->back()->with(['message'=> __('sorry, please try later'), 'alert-type'=>'error']);
         }
     }

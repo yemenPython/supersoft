@@ -24,6 +24,7 @@ class PurchaseReturnServices
 
         $data = [
             'part_id' => $item['part_id'],
+            'spare_part_id' => $item['spare_part_id'],
             'store_id' => $returnedItem->store_id,
             'quantity' => $item['quantity'],
             'price' => $item['price'],
@@ -82,7 +83,6 @@ class PurchaseReturnServices
                 }
             }
         }
-
 
         if (isset($requestData['supplier_discount_active']) && $supplier) {
 

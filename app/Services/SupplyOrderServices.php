@@ -66,7 +66,6 @@ class SupplyOrderServices
 
                 $itemData = $this->supplyOrderItemData($item);
                 $data['sub_total'] += $itemData['total'];
-
             }
         }
 

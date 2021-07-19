@@ -83,13 +83,13 @@ class SupplyOrderController extends Controller
             ->select('id', 'name_' . $this->lang, 'group_id', 'sub_group_id')
             ->get();
 
-        $data['taxes'] = TaxesFees::where('purchase_quotation', 1)
+        $data['taxes'] = TaxesFees::where('supply_order', 1)
             ->where('branch_id', $branch_id)
             ->where('type', 'tax')
             ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
             ->get();
 
-        $data['additionalPayments'] = TaxesFees::where('purchase_quotation', 1)
+        $data['additionalPayments'] = TaxesFees::where('supply_order', 1)
             ->where('branch_id', $branch_id)
             ->where('type', 'additional_payments')
             ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
@@ -179,13 +179,13 @@ class SupplyOrderController extends Controller
             ->select('id', 'name_' . $this->lang, 'group_id', 'sub_group_id')
             ->get();
 
-        $data['taxes'] = TaxesFees::where('purchase_quotation', 1)
+        $data['taxes'] = TaxesFees::where('supply_order', 1)
             ->where('branch_id', $branch_id)
             ->where('type', 'tax')
             ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
             ->get();
 
-        $data['additionalPayments'] = TaxesFees::where('purchase_quotation', 1)
+        $data['additionalPayments'] = TaxesFees::where('supply_order', 1)
             ->where('branch_id', $branch_id)
             ->where('type', 'additional_payments')
             ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
@@ -207,7 +207,6 @@ class SupplyOrderController extends Controller
 
     public function update(UpdateRequest $request, SupplyOrder $supplyOrder)
     {
-
         if ($supplyOrder->purchaseReceipts->count()) {
             return redirect()->back()->with(['message' => 'sorry, this supply order has purchase receipts', 'alert-type' => 'error']);
         }

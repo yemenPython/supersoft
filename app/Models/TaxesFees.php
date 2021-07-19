@@ -27,7 +27,9 @@ class TaxesFees extends Model
         'type',
         'on_parts',
         'purchase_quotation',
-        'execution_time'
+        'execution_time',
+        'supply_order',
+        'purchase_return'
     ];
 
     public function getNameAttribute()

@@ -1,9 +1,18 @@
+
 <button style="margin-bottom: 12px; border-radius: 5px"
-    class="btn btn-icon btn-icon-left btn-create-wg waves-effect waves-light hvr-bounce-to-left"
-    onclick="open_modal('create')"
+        class="btn btn-icon btn-icon-left btn-create-wg waves-effect waves-light hvr-bounce-to-left"
+        onclick="open_modal('create_main_group')"
     {{ auth()->user()->can('create_spareParts') ? '' : 'disabled' }}>
     <i class="ico fa fa-plus"></i>
-    {{ __('words.create-part-type') }}
+    {{ __('Creat New Main Group') }}
+</button>
+
+<button style="margin-bottom: 12px; border-radius: 5px"
+        class="btn btn-icon btn-icon-left btn-create-wg waves-effect waves-light hvr-bounce-to-left"
+        onclick="open_modal('create')"
+    {{ auth()->user()->can('create_spareParts') ? '' : 'disabled' }}>
+    <i class="ico fa fa-plus"></i>
+    {{ __('Creat New Sub Group') }}
 </button>
 
 <button style="margin-bottom: 12px; border-radius: 5px"

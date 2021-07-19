@@ -20,3 +20,5 @@ Route::post('purchase-quotations/library/get-files', 'PurchaseQuotationLibraryCo
 Route::post('purchase-quotations/upload_library', 'PurchaseQuotationLibraryController@uploadLibrary')->name('purchase.quotations.upload_library');
 Route::post('purchase-quotations/library/file-delete', 'PurchaseQuotationLibraryController@destroyFile')->name('purchase.quotations.library.file.delete');
 
+Route::get('purchase-quotations/file/manager', 'PurchaseQuotationsController@test');
+

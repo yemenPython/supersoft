@@ -7,6 +7,7 @@ use App\Models\Branch;
 use App\Models\PurchaseReceipt;
 use App\Models\Supplier;
 use App\Models\SupplyOrder;
+use App\Models\SupplyTerm;
 use App\Services\PurchaseReturnServices;
 use Exception;
 use App\Models\Part;
@@ -107,7 +108,13 @@ class PurchaseReturnsController extends Controller
 
         $invoices = $invoices->paginate($rows)->appends(request()->query());
 
-        return view('admin.purchase_returns.index', compact('invoices'));
+        $data['paymentTerms'] = SupplyTerm::where('for_purchase_quotation', 1)->where('status', 1)->where('type', 'payment')
+            ->select('id', 'term_' . $this->lang)->get();
+
+        $data['supplyTerms'] = SupplyTerm::where('for_purchase_quotation', 1)->where('status', 1)->where('type', 'supply')
+            ->select('id', 'term_' . $this->lang)->get();
+
+        return view('admin.purchase_returns.index', compact('invoices', 'data'));
     }
 
     public function create(Request $request)
@@ -120,13 +127,13 @@ class PurchaseReturnsController extends Controller
 
         $data['branches'] = Branch::where('status', 1)->select('id', 'name_' . $this->lang)->get();
 
-        $data['taxes'] = TaxesFees::where('active_purchase_invoice', 1)
+        $data['taxes'] = TaxesFees::where('purchase_return', 1)
             ->where('branch_id', $branch_id)
             ->where('type', 'tax')
             ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
             ->get();
 
-        $data['additionalPayments'] = TaxesFees::where('active_purchase_invoice', 1)
+        $data['additionalPayments'] = TaxesFees::where('purchase_return', 1)
             ->where('branch_id', $branch_id)
             ->where('type', 'additional_payments')
             ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
@@ -154,7 +161,6 @@ class PurchaseReturnsController extends Controller
 
     public function store(PurchaseReturnRequest $request)
     {
-//        dd($request->all());
         if (!auth()->user()->can('create_purchase_return_invoices')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
@@ -241,13 +247,13 @@ class PurchaseReturnsController extends Controller
 
         $data['branches'] = Branch::where('status', 1)->select('id', 'name_' . $this->lang)->get();
 
-        $data['taxes'] = TaxesFees::where('active_purchase_invoice', 1)
+        $data['taxes'] = TaxesFees::where('purchase_return', 1)
             ->where('branch_id', $branch_id)
             ->where('type', 'tax')
             ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
             ->get();
 
-        $data['additionalPayments'] = TaxesFees::where('active_purchase_invoice', 1)
+        $data['additionalPayments'] = TaxesFees::where('purchase_return', 1)
             ->where('branch_id', $branch_id)
             ->where('type', 'additional_payments')
             ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
@@ -556,6 +562,24 @@ class PurchaseReturnsController extends Controller
 
             return response()->json('sorry, please try later', 400);
         }
+    }
 
+    public function terms(Request $request)
+    {
+        $this->validate($request, [
+            'purchase_return_id' => 'required|integer|exists:purchase_returns,id'
+        ]);
+
+        try {
+
+            $purchaseReturn = PurchaseReturn::find($request['purchase_return_id']);
+
+            $purchaseReturn->terms()->sync($request['terms']);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['message' => 'sorry, please try later', 'alert-type' => 'error']);
+        }
+
+        return redirect()->back()->with(['message' => __('purchase.return.terms.successfully'), 'alert-type' => 'success']);
     }
 }
