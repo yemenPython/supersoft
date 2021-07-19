@@ -98,7 +98,7 @@
                                     <label> {{ __('consumption amount From') }}</label>
                                     <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                               
+
                                     <input type="text" class="form-control" name="consumption_amount_from">
                                 </div>
                                 </div>
@@ -107,7 +107,7 @@
                                         <label> {{ __('consumption amount To') }}</label>
                                         <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                               
+
                                         <input type="text" class="form-control" name="consumption_amount_to">
                                     </div>
                                     </div>
@@ -116,7 +116,7 @@
                                     <label> {{ __('date From') }}</label>
                                     <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                               
+
                                     <input type="date" class="form-control" name="date_from">
                                 </div>
                                 </div>
@@ -125,7 +125,7 @@
                                     <label> {{ __('date To') }}</label>
                                     <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                               
+
                                     <input type="date" class="form-control" name="date_to">
                                 </div>
                                 </div>
@@ -186,7 +186,6 @@
                                 <th class="text-center" scope="col">{!! __('Branch') !!}</th>
                                 @endif
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Date') !!}</th>
-
                                 <th class="text-center" scope="col">{!! __('Number') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Date From') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Date to') !!}</th>
