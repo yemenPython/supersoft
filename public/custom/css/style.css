@@ -823,3 +823,11 @@ background-image: linear-gradient(0deg, #1d92af 0%, #1d5697 100%); */
             position: fixed;
             top: -23px !important;
         }
+        
+        .box-content.card-closed .box-title.with-control .fa-minus:before {
+            content: "\f068" !important;
+        }
+        
+        .fa-minus:before {
+            content: "\f067" !important;
+        }
