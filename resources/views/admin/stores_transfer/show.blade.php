@@ -48,8 +48,20 @@
     <!-- /.row small-spacing -->
 @endsection
 
+@section('modals')
+    @include('admin.partial.part_image')
+@endsection
+
 @section('js-validation')
 
-    @include('admin.partial.sweet_alert_messages')
+    <script type="application/javascript">
+
+        function getPartImage(index) {
+
+            let image_path = $('#part_img_id_' + index).data('img');
+            $('#part_image').attr('src', image_path);
+        }
+
+    </script>
 
 @endsection

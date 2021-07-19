@@ -44,10 +44,10 @@ class SupplyOrderController extends Controller
 
         $data['supply_orders'] = SupplyOrder::get();
 
-        $data['paymentTerms'] = SupplyTerm::where('for_purchase_quotation', 1)->where('status', 1)->where('type', 'payment')
+        $data['paymentTerms'] = SupplyTerm::where('supply_order', 1)->where('status', 1)->where('type', 'payment')
             ->select('id', 'term_' . $this->lang)->get();
 
-        $data['supplyTerms'] = SupplyTerm::where('for_purchase_quotation', 1)->where('status', 1)->where('type', 'supply')
+        $data['supplyTerms'] = SupplyTerm::where('supply_order', 1)->where('status', 1)->where('type', 'supply')
             ->select('id', 'term_' . $this->lang)->get();
 
         return view('admin.supply_orders.index', compact('data'));

@@ -16,7 +16,6 @@
             @endif
 
 
-
             <div class="col-md-6">
                 <table class="table table-bordered">
                     <tbody>
@@ -44,7 +43,7 @@
                 </table>
             </div>
 
-            
+
             <div class="col-md-6">
                 <table class="table table-bordered">
                     <tbody>
@@ -107,10 +106,13 @@
                     </td>
 
                     <td>
-                        <span>
-                        {{$part->name}}
-                        </span>
-
+                         <span style="width:180px; cursor: pointer"
+                               data-img="{{$part->image}}" data-toggle="modal"
+                               data-target="#part_img" title="Part image"
+                               onclick="getPartImage('{{$index}}')"
+                               id="part_img_id_{{$index}}">
+                             {{$part->name}}
+                         </span>
                     </td>
                     <td class="inline-flex-span">
                         <span id="unit_quantity_{{$index}}">
@@ -118,8 +120,6 @@
                         </span>
 
                         <span class="part-unit-span">  {{ $part->sparePartsUnit->unit }}  </span>
-
-
                     </td>
                     <td>
                         <span>
@@ -134,8 +134,7 @@
                     </td>
 
 
-
-<td class="text-danger">
+                    <td class="text-danger">
                         <span>
 
                         {{isset($item) ? $item->quantity : 0}}
@@ -144,7 +143,7 @@
                     </td>
 
 
-<td>
+                    <td>
                         <span style="background:#F7F8CC !important">
 
                         {{isset($item) ? $item->price : 0}}
@@ -208,87 +207,49 @@
 
 </div>
 
-
 <div class="bottom-data-wg" style="width:100%;box-shadow: 0 0 7px 1px #DDD;margin:5px auto 10px;padding:7px 7px 3px">
 
     <div class="col-md-12" id="employees_percent"
          style="{{isset($damagedStock) && $damagedStock->type == 'un_natural' ? '':'display: none;' }}">
         <div class="form-group">
 
-        <div class="col-md-12" style="color: white; margin-bottom: 75px; margin-right: -24px;top:16px"><div class="ribbon ribbon-r bg-secondary show-ribbon" style="background: rgb(86, 133, 204) !important;"><p class="mb-0">{{__('Employees')}}</p></div></div>
-        
-            <!-- <label for="inputDescription" class="control-label">{{__('Employees')}}</label> -->
-
+            <div class="col-md-12" style="color: white; margin-bottom: 75px; margin-right: -24px;top:16px">
+                <div class="ribbon ribbon-r bg-secondary show-ribbon" style="background: rgb(86, 133, 204) !important;">
+                    <p class="mb-0">{{__('Employees')}}</p></div>
+            </div>
 
             <div id="employees_data">
 
-
-
-            
- 
 
                 @if(isset($damagedStock))
 
                     @foreach($damagedStock->employees as $damaged_employee)
 
 
-                    <table class="table table-bordered">
-                           <thead>
-                             <tr>
-                               <th>{{__('Name')}}</th>
-                               <th>{{__('Percent')}}</th>
-                               <th>{{__('Total Amount')}}</th>                               
-                             </tr>
-                           </thead>
-                           <ttbody>
-                             <tr>
-                               <td>{{$damaged_employee->name}}</td>
-                               <td>{{$damaged_employee->pivot->percent}}</td>
-                               <td>{{$damaged_employee->pivot->amount}}</td>
-                             </tr>
-                           </ttbody>
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>{{__('Name')}}</th>
+                                <th>{{__('Percent')}}</th>
+                                <th>{{__('Total Amount')}}</th>
+                            </tr>
+                            </thead>
+                            <ttbody>
+                                <tr>
+                                    <td>{{$damaged_employee->name}}</td>
+                                    <td>{{$damaged_employee->pivot->percent}}</td>
+                                    <td>{{$damaged_employee->pivot->amount}}</td>
+                                </tr>
+                            </ttbody>
                         </table>
-
-
-                        <!-- <div class="col-md-12" style="padding-bottom: 20px;">
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="inputDescription" class="control-label">{{__('Name')}}</label>
-                                    <div class="input-group">
-                                        <input type="text" disabled class="form-control"
-                                               value="{{$damaged_employee->name}}">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="inputDescription" class="control-label">{{__('Percent')}}</label>
-                                    <div class="input-group">
-
-                                        <input type="text" disabled class="form-control"
-                                               value="{{$damaged_employee->pivot->percent}}">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label for="inputDescription" class="control-label">{{__('Total Amount')}}</label>
-                                    <div class="input-group">
-                                        <input type="text" disabled class="form-control"
-                                               value="{{$damaged_employee->pivot->amount}}">
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
-
 
                     @endforeach
 
                 @endif
             </div>
         </div>
+    </div>
+</div>
 
 
 
