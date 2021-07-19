@@ -78,6 +78,8 @@
                 alert('{{ __('words.choose-supplier-group-to-edit') }}')
             } else {
                 switch(action_for) {
+                    case "create_main_group":
+                        return creatMainPartType(null)
                     case "create":
                         return createPartType($("#selected-part-type-id").val())
                     case "edit":
@@ -87,8 +89,27 @@
                 }
             }
         }
+        function creatMainPartType(id) {
+            $.ajax({
+                dataType: 'json',
+                type: 'GET',
+                url: `{{ route("admin:supplier-group.form" ,['action_for' => 'create' ]) }}${id ? '?parent_id='+id : ''}`,
+                success: function (response) {
+                    $("#form-modal").html(response.html_code)
+                    $('[data-remodal-id=part-type-modal]').remodal().open()
+                },
+                error: function (err) {
+                    const msg = err.responseJSON.message
+                    alert(msg ? msg : "server error")
+                }
+            })
+        }
 
         function createPartType(id) {
+            if (!id) {
+                swal({text: '{{__('please select Main Group First')}}', icon: "error"})
+                return false;
+            }
             $.ajax({
                 dataType: 'json',
                 type: 'GET',

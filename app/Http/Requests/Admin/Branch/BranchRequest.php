@@ -38,7 +38,7 @@ class BranchRequest extends FormRequest
             'fax' =>'nullable',
             'logo' =>'image|mimes:jpeg,png,jpg,gif,svg',
             'map' =>'image|mimes:jpeg,png,jpg,gif,svg',
-            'website_url' =>'sometimes|url',
+            'website_url' => ['nullable','regex:/^((?:https?\:\/\/|www\.)(?:[-a-z0-9]+\.)*[-a-z0-9]+.*)$/']
         ];
     }
 

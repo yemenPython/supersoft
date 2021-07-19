@@ -92,12 +92,6 @@
                                             <th scope="row">{{__('Tax Number')}}</th>
                                             <td>{{$supplier->tax_number}}</td>
                                         </tr>
-
-                                        <tr>
-                                            <th scope="row">{{__('Long')}}</th>
-                                            <td>{{$supplier->long}}</td>
-                                        </tr>
-
                                         </tbody>
                                     </table>
 
@@ -152,10 +146,17 @@
                                             <th scope="row">{{__('Maximum Supplier Funds')}}</th>
                                             <td>{{$supplier->maximum_fund_on}}</td>
                                         </tr>
-
                                         <tr>
-                                            <th scope="row">{{__('Lat')}}</th>
-                                            <td>{{$supplier->lat}}</td>
+                                            <th scope="row">{{__('Location')}}</th>
+                                            <td>
+                                                <input type="hidden" id="latVal" value="{{$supplier->lat}}">
+                                                <input type="hidden" id="longVal" value="{{$supplier->long}}">
+                                                <a data-toggle="modal" data-target="#boostrapModal-2" title="Cars info"
+                                                       class="btn btn-primary"
+                                                       style="margin-top:1px;cursor:pointer;font-size:12px;padding:3px 15px">
+                                                        <i class="fa fa-eye"> </i> {{__('Location')}}
+                                                    </a>
+                                            </td>
                                         </tr>
 
 
@@ -373,5 +374,50 @@
         $(this).parent().removeClass('has-error');
         $(this).parent().find('span.help-block').remove()
     });
+
+    var map;
+    var marker = false;
+    function initMap() {
+        let longVal = parseFloat($('#longVal').val());
+        let latVal = parseFloat($('#latVal').val());
+        const myLatLng = { lat: latVal, lng: longVal };
+        var centerOfMap = new google.maps.LatLng(latVal, longVal);
+        var options = {
+            center: centerOfMap,
+            zoom: 7
+        };
+        map = new google.maps.Map(document.getElementById('map'), options);
+        new google.maps.Marker({
+            position: myLatLng,
+            map:map
+        });
+    }
+    //Load the map when the page has finished loading.
+    google.maps.event.addDomListener(window, 'load', initMap);
 </script>
+@endsection
+@section('modals')
+
+    <div class="modal fade" id="boostrapModal-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel-1">{{__('Supplier Locations')}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body" id="map" style="height: 400px;" >
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm waves-effect waves-light" data-dismiss="modal">
+                        {{__('Close')}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
