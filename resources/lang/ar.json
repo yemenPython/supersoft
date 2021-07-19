@@ -1440,7 +1440,7 @@
     "Work Cards Printing": "خدمات الصيانة",
     "stores_transfers": "تحويلات المخازن",
     "view_stores_transfers": "عرض تحويلات المخازن",
-    "create_stores_transfers": "أضافة تحويل مخزني",
+    "create_stores_transfers": "إضافة تحويل مخزني",
     "edit_stores_transfers": "تعديل تحويل مخزني",
     "delete_stores_transfers": "حذف تحويل مخزني",
     "print_stores_transfers": "طباعة تحويل مخزني",
@@ -1943,7 +1943,7 @@
     "Assets Expenses" : "مصروفات الأصول",
     "Assets data" : "تعريفات الأصول",
     "Assets" : "الأصول والمعدات",
-    "Create Assets Expenses" : "أضافة مصروفات الأصول",
+    "Create Assets Expenses" : "إضافة مصروفات الأصول",
     "Date And Time" : "الوقت والتاريخ",
     "Expense Cost" : "تكلفة المصروف",
     "Assets Groups" : "مجموعات الأصول",
@@ -2132,9 +2132,12 @@
     "website_url" : "رابط الموقع الإلكتروني",
     "Website Url" : "رابط الموقع الإلكتروني",
     "Active Employee" : "عدد المسؤولين النشط",
-    "Creat New Main Group" : "أضافة مجموعة رئيسية",
-    "Creat New Sub Group" : "أضافة مجموعة فرعية",
-    "please select Main Group First" : "من فضلك أختر المجموعة الرئيسية اولا"
+    "Creat New Main Group" : "إضافة مجموعة رئيسية",
+    "Creat New Sub Group" : "إضافة مجموعة فرعية",
+    "please select Main Group First" : "من فضلك أختر المجموعة الرئيسية اولا",
+
+    "Creat New Main Type" :  "إضافة نوع رئيسي",
+    "Creat New Sub Type" : "إضافة نوع فرعي"
 
 }
 

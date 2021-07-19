@@ -19,7 +19,7 @@
     onclick="open_modal('edit')"
     {{ auth()->user()->can('update_spareParts') ? '' : 'disabled' }}>
     <i class="ico fa fa-edit"></i>
-    {{ __('words.edit-supplier-group') }}
+    {{ __('Edit') }}
 </button>
 
 <button style="margin-bottom: 12px; border-radius: 5px"
@@ -27,5 +27,5 @@
     onclick="open_modal('delete')"
     {{ auth()->user()->can('delete_spareParts') ? '' : 'disabled' }}>
     <i class="ico fa fa-trash-o"></i>
-    {{ __('words.delete-supplier-group') }}
+    {{ __('Delete') }}
 </button>

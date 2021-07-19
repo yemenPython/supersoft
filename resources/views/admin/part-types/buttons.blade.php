@@ -4,7 +4,7 @@
         onclick="open_modal('create_main_group')"
     {{ auth()->user()->can('create_spareParts') ? '' : 'disabled' }}>
     <i class="ico fa fa-plus"></i>
-    {{ __('Creat New Main Group') }}
+    {{ __('Creat New Main Type') }}
 </button>
 
 <button style="margin-bottom: 12px; border-radius: 5px"
@@ -12,7 +12,7 @@
         onclick="open_modal('create')"
     {{ auth()->user()->can('create_spareParts') ? '' : 'disabled' }}>
     <i class="ico fa fa-plus"></i>
-    {{ __('Creat New Sub Group') }}
+    {{ __('Creat New Sub Type') }}
 </button>
 
 <button style="margin-bottom: 12px; border-radius: 5px"
