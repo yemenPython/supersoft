@@ -41,6 +41,10 @@ class SupplyTermsController extends Controller
             $data['status'] = $request->has('status') ? 1 : 0;
 
             $data['for_purchase_quotation'] = $request->has('for_purchase_quotation') ? 1 : 0;
+            $data['supply_order'] = $request->has('supply_order') ? 1 : 0;
+            $data['purchase_invoice'] = $request->has('purchase_invoice') ? 1 : 0;
+            $data['purchase_return'] = $request->has('purchase_return') ? 1 : 0;
+            $data['sale_quotation'] = $request->has('sale_quotation') ? 1 : 0;
 
             SupplyTerm::create($data);
 
@@ -72,6 +76,10 @@ class SupplyTermsController extends Controller
             $data['status'] = $request->has('status') ? 1 : 0;
 
             $data['for_purchase_quotation'] = $request->has('for_purchase_quotation') ? 1 : 0;
+            $data['supply_order'] = $request->has('supply_order') ? 1 : 0;
+            $data['purchase_invoice'] = $request->has('purchase_invoice') ? 1 : 0;
+            $data['purchase_return'] = $request->has('purchase_return') ? 1 : 0;
+            $data['sale_quotation'] = $request->has('sale_quotation') ? 1 : 0;
 
             $supplyTerm->update($data);
 

@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\App;
 
 class SupplyTerm extends Model
 {
-    protected $fillable = ['term_en', 'term_ar', 'branch_id', 'status', 'for_purchase_quotation', 'type'];
+    protected $fillable = ['term_en', 'term_ar', 'branch_id', 'status', 'for_purchase_quotation',
+        'type', 'supply_order', 'purchase_invoice', 'purchase_return', 'sale_quotation'];
 
     protected $table = 'supply_terms';
 

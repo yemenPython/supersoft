@@ -11,7 +11,8 @@
         <nav>
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
-                <li class="breadcrumb-item active"><a href="{{route('admin:damaged-stock.index')}}"> {{__('Damaged Stock')}}</a></li>
+                <li class="breadcrumb-item active"><a
+                        href="{{route('admin:damaged-stock.index')}}"> {{__('Damaged Stock')}}</a></li>
                 <li class="breadcrumb-item active"> {{__('Show Damaged Stock')}}</li>
             </ol>
         </nav>
@@ -24,36 +25,41 @@
                     {{__('Show Damaged Stock')}}
                     <span class="controls hidden-sm hidden-xs pull-left">
 
-							<button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
+							<button class="control text-white"
+                                    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
                                     class="img-fluid"
                                     style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                                     src="{{asset('assets/images/f3.png')}}"></button>
 						</span>
                 </h4>
 
-           
-                    @include('admin.damaged_stock.show_form')
 
-                    </div>
+                @include('admin.damaged_stock.show_form')
+
+            </div>
             <a href="{{route('admin:damaged-stock.index')}}"
-                               class="btn btn-danger waves-effect waves-light">
-                                <i class=" fa fa-reply"></i> {{__('Back')}}
-                            </a>
-
-                            </div>
-
-
-            <!-- /.box-content -->
+               class="btn btn-danger waves-effect waves-light">
+                <i class=" fa fa-reply"></i> {{__('Back')}}
+            </a>
         </div>
-        <!-- /.col-xs-12 -->
-    </div>
     </div>
 
-    <!-- /.row small-spacing -->
+@endsection
+
+@section('modals')
+    @include('admin.partial.part_image')
 @endsection
 
 @section('js-validation')
 
-    @include('admin.partial.sweet_alert_messages')
+    <script type="application/javascript">
+
+        function getPartImage(index) {
+
+            let image_path = $('#part_img_id_' + index).data('img');
+            $('#part_image').attr('src', image_path);
+        }
+
+    </script>
 
 @endsection

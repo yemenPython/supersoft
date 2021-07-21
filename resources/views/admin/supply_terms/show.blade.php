@@ -25,7 +25,8 @@
                     {{__('Show Supply Term')}}
                     <span class="controls hidden-sm hidden-xs pull-left">
 
-							<button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
+							<button class="control text-white"
+                                    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
                                     class="img-fluid"
                                     style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                                     src="{{asset('assets/images/f3.png')}}"></button>
@@ -56,7 +57,6 @@
                         <div class="col-md-12">
 
 
-
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="inputDescription" class="control-label">{{__('Term Ar')}}</label>
@@ -83,91 +83,156 @@
 <table class="table table-bordered">
             <thead>
                 <tr>
-                <th>لوريم</th> 
-                <th>لوريم</th> 
-                <th>لوريم</th> 
-                <th>لوريم</th> 
+                <th>لوريم</th>
+                <th>لوريم</th>
+                <th>لوريم</th>
+                <th>لوريم</th>
                 <th>لوريم</th>
                 <th>لوريم</th>
         </tr>
-        </thead> 
+        </thead>
             <tbody>
                 <tr>
-                    <td>لوريم</td> 
-                    <td>لوريم</td> 
-                    <td>لوريم</td> 
-                    <td>لوريم</td> 
-                    <td>لوريم</td> 
-                    <td>لوريم</td> 
+                    <td>لوريم</td>
+                    <td>لوريم</td>
+                    <td>لوريم</td>
+                    <td>لوريم</td>
+                    <td>لوريم</td>
+                    <td>لوريم</td>
         </tr>
     </tbody>
     </table>
 </div>    -->
 
-                            
+
                             <div class="col-md-4">
-                            <table class="table table-bordered has-feedback">
-                               <tr>
-                                  <th style="width:50%">
-                                  <!-- <label for="inputStore" class="control-label">{{__('Type')}}</label> -->
-                                  {{__('Type')}}
-                                  </th>
-                                  <td>
-                                  @if($supplyTerm->type == 'supply')
-                                            <span class="label label-primary wg-label"> {{__('Supply')}} </span>
-                                        @else
-                                            <span class="label label-warning wg-label"> {{__('Payment')}} </span>
-                                        @endif
-                                  </td>
-                               </tr>
-                            </table>
+                                <table class="table table-bordered has-feedback">
+                                    <tr>
+                                        <th style="width:50%">
+                                        <!-- <label for="inputStore" class="control-label">{{__('Type')}}</label> -->
+                                            {{__('Type')}}
+                                        </th>
+                                        <td>
+                                            @if($supplyTerm->type == 'supply')
+                                                <span class="label label-primary wg-label"> {{__('Supply')}} </span>
+                                            @else
+                                                <span class="label label-warning wg-label"> {{__('Payment')}} </span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                </table>
                                 <!-- <div class="form-group has-feedback">
-                                
-                               
+
+
                                 </div> -->
                             </div>
 
                             <div class="col-md-4">
-                            <table class="table table-bordered has-feedback">
-                               <tr>
-                                  <th style="width:50%">
-                                  <!-- <label for="inputStore" class="control-label">{{__('Status')}}</label> -->
-                                  {{__('Status')}}
-                                  </th>
-                                  <td>
-                                  @if($supplyTerm->status)
-                                            <span class="label label-success wg-label"> {{ __('Active') }} </span>
-                                        @else
-                                            <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
-                                        @endif
-                                  </td>
-                               </tr>
-                            </table>
-                                
-                            </div>
+                                <table class="table table-bordered has-feedback">
+                                    <tr>
+                                        <th style="width:50%">
+                                        <!-- <label for="inputStore" class="control-label">{{__('Status')}}</label> -->
+                                            {{__('Status')}}
+                                        </th>
+                                        <td>
+                                            @if($supplyTerm->status)
+                                                <span class="label label-success wg-label"> {{ __('Active') }} </span>
+                                            @else
+                                                <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                </table>
 
+                            </div>
 
 
                             <div class="col-md-4">
-                            <table class="table table-bordered has-feedback">
-                               <tr>
-                                  <th style="width:50%">
-                                  <!-- <label for="inputStore" class="control-label">{{__('Purchase Quotation')}}</label> -->
-                                  {{__('Purchase Quotation')}}
-                                  </th>
-                                  <td>
-                                  @if($supplyTerm->for_purchase_quotation)
-                                            <span class="label label-success wg-label"> {{ __('Active') }} </span>
-                                        @else
-                                            <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
-                                        @endif
-                                  </td>
-                               </tr>
-                            </table>
-
-                              
-
+                                <table class="table table-bordered has-feedback">
+                                    <tr>
+                                        <th style="width:50%">
+                                        <!-- <label for="inputStore" class="control-label">{{__('Purchase Quotation')}}</label> -->
+                                            {{__('Purchase Quotation')}}
+                                        </th>
+                                        <td>
+                                            @if($supplyTerm->for_purchase_quotation)
+                                                <span class="label label-success wg-label"> {{ __('Active') }} </span>
+                                            @else
+                                                <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
+
+                            <div class="col-md-4">
+                                <table class="table table-bordered has-feedback">
+                                    <tr>
+                                        <th style="width:50%">
+                                            {{__('Purchase Invoice')}}
+                                        </th>
+                                        <td>
+                                            @if($supplyTerm->purchase_invoice)
+                                                <span class="label label-success wg-label"> {{ __('Active') }} </span>
+                                            @else
+                                                <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="col-md-4">
+                                <table class="table table-bordered has-feedback">
+                                    <tr>
+                                        <th style="width:50%">
+                                            {{__('Purchase Return')}}
+                                        </th>
+                                        <td>
+                                            @if($supplyTerm->purchase_return)
+                                                <span class="label label-success wg-label"> {{ __('Active') }} </span>
+                                            @else
+                                                <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="col-md-4">
+                                <table class="table table-bordered has-feedback">
+                                    <tr>
+                                        <th style="width:50%">
+                                            {{__('Supply Order')}}
+                                        </th>
+                                        <td>
+                                            @if($supplyTerm->supply_order)
+                                                <span class="label label-success wg-label"> {{ __('Active') }} </span>
+                                            @else
+                                                <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                            <div class="col-md-4">
+                                <table class="table table-bordered has-feedback">
+                                    <tr>
+                                        <th style="width:50%">
+                                            {{__('Sale Quotations')}}
+                                        </th>
+                                        <td>
+                                            @if($supplyTerm->sale_quotation)
+                                                <span class="label label-success wg-label"> {{ __('Active') }} </span>
+                                            @else
+                                                <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
                         </div>
                     </div>
 

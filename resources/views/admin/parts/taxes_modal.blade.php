@@ -1,6 +1,7 @@
 @foreach($parts as $part)
 
-    <div class="modal fade modal-bg-wg" id="part_taxes_{{$part->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
+    <div class="modal fade modal-bg-wg" id="part_taxes_{{$part->id}}" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -40,7 +41,8 @@
                                 <tr>
                                     <td>
                                         <div class="switch success">
-                                            <input type="checkbox" class="part_taxable" id="part-{{$part->id}}-tax-{{ $tax->id }}"
+                                            <input type="checkbox" class="part_taxable"
+                                                   id="part-{{$part->id}}-tax-{{ $tax->id }}"
                                                    name="taxes[]" value="{{$tax->id}}"
                                                 {{in_array($tax->id, $part->taxes->pluck('id')->toArray()) ? 'checked':''}}>
                                             <label for="part-{{$part->id}}-tax-{{ $tax->id }}"></label>
@@ -48,12 +50,12 @@
                                     </td>
                                     <td>{!! $tax->name !!}</td>
                                     <td>
-                            @if($tax->tax_type === 'amount')
-                                    <span class="label label-primary wg-label"> {{ __('Amount') }} </span>
-                                    @else
-                                    <span class="label label-danger wg-label"> {{ __('Percentage') }} </span>
-                            @endif
-                            </td>
+                                        @if($tax->tax_type === 'amount')
+                                            <span class="label label-primary wg-label"> {{ __('Amount') }} </span>
+                                        @else
+                                            <span class="label label-danger wg-label"> {{ __('Percentage') }} </span>
+                                        @endif
+                                    </td>
                                     <td>{!! $tax->value !!}</td>
                                 </tr>
                             @endforeach
@@ -64,32 +66,35 @@
                         </table>
 
                         <table class="table table-bordered wg-inside-table">
-                           <thead>
-                             <tr>
-                               <th>{{__('Reviewable')}}</th>
-                               <th> 
-                                   
-                               <div class="switch primary">
-                                    <input type="checkbox" id="reviewable-{{$part->id}}" name="reviewable" {{isset($part) && $part->reviewable? 'checked':''}}>
-                                    <label for="reviewable-{{$part->id}}">{{__('Active')}} / {{__('inActive')}}</label>
-                                </div>
-                            
-                            </th>
-                               <th>{{__('Taxable')}}</th>
-                               <th>
-                               
-                               <div class="switch primary">
-                                    <input type="checkbox" id="taxable-{{$part->id}}" name="taxable" onchange="partTaxable('{{$part->id}}')"
-                                        {{isset($part) && $part->taxable? 'checked':''}}>
-                                    <label for="taxable-{{$part->id}}">{{__('Active')}} / {{__('inActive')}}</label>
-                                </div>
+                            <thead>
+                            <tr>
+                                <th>{{__('Reviewable')}}</th>
+                                <th>
 
-                               </th>
-                             </tr>
-                           </thead>
+                                    <div class="switch primary">
+                                        <input type="checkbox" id="reviewable-{{$part->id}}"
+                                               name="reviewable" {{isset($part) && $part->reviewable? 'checked':''}}>
+                                        <label for="reviewable-{{$part->id}}">{{__('Active')}}
+                                            / {{__('inActive')}}</label>
+                                    </div>
+
+                                </th>
+                                <th>{{__('Taxable')}}</th>
+                                <th>
+
+                                    <div class="switch primary">
+                                        <input type="checkbox" id="taxable-{{$part->id}}" name="taxable"
+                                               onchange="partTaxable('{{$part->id}}')"
+                                            {{isset($part) && $part->taxable? 'checked':''}}>
+                                        <label for="taxable-{{$part->id}}">{{__('Active')}} / {{__('inActive')}}</label>
+                                    </div>
+
+                                </th>
+                            </tr>
+                            </thead>
                         </table>
 
-                        <!-- <div class="row">
+                    <!-- <div class="row">
 
                         <div class="col-md-3">
                             <div class="form-group has-feedback">
@@ -115,17 +120,19 @@
 
                     </div> -->
 
-                    <div class="modal-footer">
+                        <div class="modal-footer">
 
-                        <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">
-                            {{__('Save')}}
-                        </button>
+                            <button type="submit" class="btn btn-primary btn-sm waves-effect waves-light">
+                                {{__('Save')}}
+                            </button>
 
-                        <button type="button" class="btn btn-danger btn-sm waves-effect waves-light" data-dismiss="modal">
-                            {{__('Close')}}
-                        </button>
+                            <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"
+                                    data-dismiss="modal">
+                                {{__('Close')}}
+                            </button>
+                        </div>
+
                     </div>
-
                 </form>
             </div>
         </div>

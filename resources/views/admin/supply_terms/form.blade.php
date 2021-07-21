@@ -59,22 +59,22 @@
 <table class="table table-bordered">
             <thead>
                 <tr>
-                <th>لوريم</th> 
-                <th>لوريم</th> 
-                <th>لوريم</th> 
-                <th>لوريم</th> 
+                <th>لوريم</th>
+                <th>لوريم</th>
+                <th>لوريم</th>
+                <th>لوريم</th>
                 <th>لوريم</th>
                 <th>لوريم</th>
         </tr>
-        </thead> 
+        </thead>
             <tbody>
                 <tr>
-                    <td>لوريم</td> 
-                    <td>لوريم</td> 
-                    <td>لوريم</td> 
-                    <td>لوريم</td> 
-                    <td>لوريم</td> 
-                    <td>لوريم</td> 
+                    <td>لوريم</td>
+                    <td>لوريم</td>
+                    <td>لوريم</td>
+                    <td>لوريم</td>
+                    <td>لوريم</td>
+                    <td>لوريم</td>
         </tr>
     </tbody>
     </table>
@@ -125,6 +125,50 @@
                     <input type="checkbox" id="switch-3" name="for_purchase_quotation"
                         {{isset($supplyTerm) && $supplyTerm->for_purchase_quotation ? 'checked':''}}>
                     <label for="switch-3">{{__('Active')}}</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group has-feedback">
+                <label for="inputStore" class="control-label">{{__('Purchase Invoice')}}</label>
+                <div class="switch primary" style="margin-top: 15px">
+                    <input type="checkbox" id="switch-purchase_invoice" name="purchase_invoice"
+                        {{isset($supplyTerm) && $supplyTerm->purchase_invoice ? 'checked':''}}>
+                    <label for="switch-purchase_invoice">{{__('Active')}}</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group has-feedback">
+                <label for="inputStore" class="control-label">{{__('Purchase Return')}}</label>
+                <div class="switch primary" style="margin-top: 15px">
+                    <input type="checkbox" id="switch-purchase_return" name="purchase_return"
+                        {{isset($supplyTerm) && $supplyTerm->purchase_return ? 'checked':''}}>
+                    <label for="switch-purchase_return">{{__('Active')}}</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group has-feedback">
+                <label for="inputStore" class="control-label">{{__('Supply Order')}}</label>
+                <div class="switch primary" style="margin-top: 15px">
+                    <input type="checkbox" id="switch-supply_order" name="supply_order"
+                        {{isset($supplyTerm) && $supplyTerm->supply_order ? 'checked':''}}>
+                    <label for="switch-supply_order">{{__('Active')}}</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group has-feedback">
+                <label for="inputStore" class="control-label">{{__('Sale Quotations')}}</label>
+                <div class="switch primary" style="margin-top: 15px">
+                    <input type="checkbox" id="switch-sale_quotation" name="sale_quotation"
+                        {{isset($supplyTerm) && $supplyTerm->sale_quotation ? 'checked':''}}>
+                    <label for="switch-sale_quotation">{{__('Active')}}</label>
                 </div>
             </div>
         </div>

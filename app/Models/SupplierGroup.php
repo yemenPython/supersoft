@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Scopes\BranchScope;
+use App\Traits\ColumnTranslation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -10,7 +11,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class SupplierGroup extends Model
 {
-    use SoftDeletes, LogsActivity;
+    use SoftDeletes, LogsActivity, ColumnTranslation;
 
     protected static function boot()
     {
