@@ -178,14 +178,14 @@
                                 <table class="table">
                                     <thead>
                                     <tr>
-                                        <th>الإسم</th>
-                                        <th>الحاله</th>
-                                        <th>الإسم</th>
-                                        <th>الحاله</th>
-                                        <th>الإسم</th>
-                                        <th>الحاله</th>
-                                        <th>الإسم</th>
-                                        <th>الحاله</th>
+                                    <th>{{__('Name')}}</th>
+                                            <th>{{__('Status')}}</th>
+                                            <th>{{__('Name')}}</th>
+                                            <th>{{__('Status')}}</th>
+                                            <th>{{__('Name')}}</th>
+                                            <th>{{__('Status')}}</th>
+                                            <th>{{__('Name')}}</th>
+                                            <th>{{__('Status')}}</th>
                                     </tr>
                                     </thead>
                                     <tbody>

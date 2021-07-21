@@ -84,7 +84,7 @@ class SaleAssetsController extends Controller
 
                 } )
                 ->addColumn('date',function ($saleAsset){
-                    return '<span class="text-danger">' .$saleAsset->date .' '. $saleAsset->time . '</span>';
+                    return '<span class="text-danger">' . $saleAsset->date .' '. $saleAsset->time . '</span>';
                 })
 
                 ->addColumn( 'number', function ($saleAsset) {
@@ -92,14 +92,18 @@ class SaleAssetsController extends Controller
 
                 } )
                 ->addColumn( 'type', function ($saleAsset) {
-                    return ($saleAsset->type === 'sale' ?  __('Sale') : __('exclusion'));
+                    if ($saleAsset->type == 'sale') {
+                        return '<span class="label label-primary wg-label">' . __( 'Sale' ) . '</span>';
+                    } else {
+                        return '<span class="label label-info wg-label">' . __( 'exclusion' ) . '</span>';
+                    }
                 } )
                 ->addColumn( 'total_sale_amount', function ($saleAsset) {
-                    return $saleAsset->total_sale_amount;
+                    return '<span style="background:#F7F8CC !important">' .$saleAsset->total_sale_amount . '</span>';
 
                 } )
                 ->addColumn('date',function ($saleAsset){
-                    return $saleAsset->date .' '. $saleAsset->time;
+                    return '<span class="text-danger">' . $saleAsset->date . '</span>';
                 })
                 ->addColumn('created_at',function ($saleAsset){
                     return $saleAsset->created_at;
@@ -170,10 +174,11 @@ class SaleAssetsController extends Controller
                $js_columns = [
                 'DT_RowIndex' => 'DT_RowIndex',
                 'branch_id' => 'sale_assets.branch_id',
+                'date' => 'sale_assets.date',
                 'number' => 'sale_assets.number',
                 'type' => 'sale_assets.type',
                 'total_sale_amount' => 'sale_assets.total_sale_amount',
-                'date' => 'sale_assets.date',
+            
                 'created_at' => 'sale_assets.created_at',
                 'updated_at' => 'sale_assets.updated_at',
                 'action' => 'action',
@@ -182,11 +187,11 @@ class SaleAssetsController extends Controller
            }else{
                $js_columns = [
                 'DT_RowIndex' => 'DT_RowIndex',
-              
+                'date' => 'sale_assets.date',
                 'number' => 'sale_assets.number',
                 'type' => 'sale_assets.type',
                 'total_sale_amount' => 'sale_assets.total_sale_amount',
-                'date' => 'sale_assets.date',
+        
                 'created_at' => 'sale_assets.created_at',
                 'updated_at' => 'sale_assets.updated_at',
                 'action' => 'action',

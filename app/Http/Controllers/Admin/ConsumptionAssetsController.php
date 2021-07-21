@@ -152,7 +152,6 @@ class ConsumptionAssetsController extends Controller
         } else {
             
 
-
                 $js_columns = [
                     'DT_RowIndex' => 'DT_RowIndex',
 

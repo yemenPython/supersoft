@@ -89,7 +89,13 @@ class PurchaseAssetsController extends Controller
                     return optional( $purchaseAsset->supplier )->name;
                 } )
                 ->addColumn( 'type', function ($purchaseAsset) {
-                    return __($purchaseAsset->type);
+
+                        if ($purchaseAsset->type == 'cash') {
+                            return '<span class="label label-primary wg-label">' . __( 'Cash' ) . '</span>';
+                        } else {
+                            return '<span class="label label-info wg-label">' . __( 'Credit' ) . '</span>';
+                        }
+
                 } )
                 ->addColumn( 'total_purchase_cost', function ($purchaseAsset) {
                     return '<span style="background:#F7F8CC !important">'. number_format( $purchaseAsset->total_purchase_cost, 2 ).'</span>';

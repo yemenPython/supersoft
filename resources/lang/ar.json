@@ -150,8 +150,8 @@
     "Percentage" : "نسبه",
     "percentage" : "نسبه",
     "Invoices" : "المبيعات",
-    "Quotations" : "عروض الاسعار",
-    "Services and sections" :  " إدارة الصيانة  ",
+    "Quotations" : "عروض أسعار المبيعات",
+    "Services and sections" :  " إدارة الصيانة",
     "Services" : "الخدمات والصيانة",
     "Type In Arabic" :  "النوع باللغه العربيه",
     "Type In English" : "النوع باللغه الانجليزيه",
@@ -2137,7 +2137,9 @@
     "please select Main Group First" : "من فضلك أختر المجموعة الرئيسية اولا",
 
     "Creat New Main Type" :  "إضافة نوع رئيسي",
-    "Creat New Sub Type" : "إضافة نوع فرعي"
+    "Creat New Sub Type" : "إضافة نوع فرعي",
+    "Part Image" : "صورة الصنف",
+    "Supply Order" : "أوامر التوريد"
 
 }
 
