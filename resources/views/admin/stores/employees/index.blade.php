@@ -76,6 +76,7 @@
 
                 </div>
                 <div class="modal-footer">
+              
                     <button class="btn btn-primary waves-effect waves-light" type="submit">
                         {{__('save')}}
                     </button>

@@ -65,7 +65,7 @@
 <table class="table static-table-wg">
                            <tbody>
                                <tr>
-                               <th>{{__('Number')}}</th>
+                               <th>{{__('Concession number')}}</th>
                                <td>{{$concession->type == 'add' ? $concession->add_number : $concession->withdrawal_number }}</td>
                                <th>{{__('Item Number')}}</th>
                                <td>{{optional($concession->concessionable)->number}}</td>
@@ -127,7 +127,7 @@
     <tr class="spacer">
     <td>{{$index + 1}}</td>
     <td>{{optional($item->part)->name}}</td>
-    <td>{{$item->partPrice && $item->partPrice->unit ? $item->partPrice->unit->unit : '---'}}</td>
+    <td>{{$item->partPrice && $item->partPrice->unit ? $item->partPrice->unit->unit : __('Not determined')}}</td>
     <td>{{$item->quantity}}</td>
     <td>{{$item->price}}</td>
     <td> {{ $item->price * $item->quantity}}</td>

@@ -178,14 +178,14 @@
                                     {{ __('processing') }}
                                 </option>
 
-                                <option value="accept"
-                                    {{isset($purchaseQuotation) && $purchaseQuotation->status == 'accept' ? 'selected':''}}>
-                                    {{ __('Accept') }}
+                                <option value="accepted"
+                                    {{isset($purchaseQuotation) && $purchaseQuotation->status == 'accepted' ? 'selected':''}}>
+                                    {{ __('Accepted') }}
                                 </option>
 
-                                <option value="reject"
-                                    {{isset($purchaseQuotation) && $purchaseQuotation->status == 'reject' ? 'selected':''}}>
-                                    {{ __('Reject') }}
+                                <option value="rejected"
+                                    {{isset($purchaseQuotation) && $purchaseQuotation->status == 'rejected' ? 'selected':''}}>
+                                    {{ __('Rejected') }}
                                 </option>
 
                             </select>
@@ -264,7 +264,11 @@
                     </div>
                 </div>
 
-                <div class="col-md-1">
+                <div class="col-md-4">
+                <div class="form-group">
+               <label for="date" class="control-label">{{__('Quotation type')}}</label>
+
+                <div class="col-xs-4">
                     <div class="radio primary ">
                         <label style="opacity:0">{{__('select')}}</label>
 
@@ -274,8 +278,9 @@
                         <label for="cash">{{__('Cash')}}</label>
                     </div>
                 </div>
+           
 
-                <div class="col-md-1">
+                <div class="col-xs-4">
 
                     <div class="radio primary ">
                         <label style="opacity:0">{{__('select')}}</label>
@@ -286,7 +291,11 @@
                     </div>
                 </div>
 
+                </div>
             </div>
+
+            </div>
+
         </div>
 
 

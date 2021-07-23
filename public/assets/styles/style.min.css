@@ -7178,6 +7178,7 @@ div.bordered-div input {
     border: 1px solid #333 !important;
     border-radius: 30px;
     margin-top: 5px !important;
+    margin: auto;
   
 }
 

@@ -1898,7 +1898,7 @@
     "reject_approval" : "تم الرفض",
     "NO DATA FOUND" : "لا توجد بيانات",
     "Add new" : "إضافة جديد",
-    "Purchase Quotation" : "عروض أسعار المشتريات",
+    "Purchase Quotation" : "عرض سعر مشتريات",
     "Supply & payments" : "شروط السداد والتوريد",
     "Create Supply Terms" : "إضافة شروط السداد والتوريد",
     "Term Ar" : "الشروط عربي",
@@ -1912,7 +1912,9 @@
     "Supply Date From" : "تاريخ التوريد من",
     "Supply Date To" : "تاريخ التوريد الى",
     "From Purchase Request" : "تابع لطلب شراء",
+    "out_purchase_request" : "تابع لطلب شراء",
     "Out Purchase Request" : "عرض سعر مباشر",
+    "from_purchase_request" : "عرض سعر مباشر",
     "Purchase Quotation Execution" : "فترة تنفيذ عروض أسعار المشتريات",
     "Terms" : "الشروط",
     "Supply Terms" : "شروط التوريد",
@@ -2139,7 +2141,23 @@
     "Creat New Main Type" :  "إضافة نوع رئيسي",
     "Creat New Sub Type" : "إضافة نوع فرعي",
     "Part Image" : "صورة الصنف",
-    "Supply Order" : "أوامر التوريد"
+    "Supply Order" : "أوامر التوريد",
+    "Sale Quotations" : "عروض أسعار المبيعات",
+    "Purchase Request data" :"بيانات طلب الشراء",
+    "Purchase Request items" : "الأصناف المطلوب شرائها",
+    "normalPurchase Request" : "طلب شراء أصناف",
+    "Additional types" : "أنواع إضافية",
+    "Purchase Quotation data" : "بيانات عرض سعر المشتريات",
+    "Purchase Quotation items" : "أصناف عرض السعر",
+    "Payment Name" : "اسم المدفوعات",
+    "The Payment" : "المدفوعات",
+    "Payment Value" : "قيمة المدفوعات",
+    "Payment type" : "نوع المدفوعات",
+    "Supply Order data" : "بيانات أمر التوريد",
+    "Supply Order items" : "الأصناف المطلوب توريدها",
+    "Purchase Receipt data" : "بيانات محضر إستلام المخزون",
+    "Supply Order Number" : "رقم أمر التوريد",
+    "Purchase Receipt items" : "بيانات أصناف محضر الإستلام"
 
 }
 

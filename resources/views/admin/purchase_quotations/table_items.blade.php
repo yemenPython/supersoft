@@ -5,9 +5,9 @@
         <tr>
             <th width="2%"> # </th>
             <th width="9%"> {{ __('Name') }} </th>
-            <th width="15%"> {{ __('Part Types') }} </th>
+            <th> {{ __('Part Types') }} </th>
             <th width="15%"> {{ __('Unit Quantity') }} </th>
-            <th width="8%"> {{ __('Unit') }} </th>
+            <th> {{ __('Unit') }} </th>
             <th width="8%"> {{ __('Price Segments') }} </th>
             <th width="7%"> {{ __('Quantity') }} </th>
             <th width="8%"> {{ __('Price') }} </th>
@@ -44,9 +44,9 @@
         <tr>
             <th width="2%"> # </th>
             <th width="9%"> {{ __('Name') }} </th>
-            <th width="15%"> {{ __('Part Types') }} </th>
-            <th width="10%"> {{ __('Unit Quantity') }} </th>
-            <th width="8%"> {{ __('Unit') }} </th>
+            <th> {{ __('Part Types') }} </th>
+            <th> {{ __('Unit Quantity') }} </th>
+            <th width="12%"> {{ __('Unit') }} </th>
             <th width="8%"> {{ __('Price Segments') }} </th>
             <th width="7%"> {{ __('Quantity') }} </th>
             <th width="8%"> {{ __('Price') }} </th>

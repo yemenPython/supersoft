@@ -242,9 +242,9 @@
                                                value="{{$additionalPayment->id}}"
                                         >
                                         <span>
-                                            {{$additionalPayment->name}} -
-                                            {{$additionalPayment->tax_type == 'amount' ? '$':'%'}} -
-                                            {{ $additionalPayment->value }} -
+                                            {{$additionalPayment->name}} ( {{ $additionalPayment->value }} 
+                                            {{$additionalPayment->tax_type == 'amount'? '$':'%'}} ) =
+                                            
                                              <span id="calculated_additional_value_{{$additional_key}}">
                                                  {{isset($purchaseQuotation) ? taxValueCalculated($purchaseQuotation->total_after_discount, $purchaseQuotation->sub_total, $additionalPayment ) : 0}}
                                              </span>

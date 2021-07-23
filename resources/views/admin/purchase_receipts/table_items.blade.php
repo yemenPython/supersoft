@@ -4,11 +4,11 @@
         <thead>
         <tr>
             <th width="2%"> # </th>
-            <th width="9%"> {{ __('Name') }} </th>
-            <th width="9%"> {{ __('Part Type') }} </th>
+            <th> {{ __('Name') }} </th>
+            <th> {{ __('Part Type') }} </th>
             <th width="10%"> {{ __('Unit Quantity') }} </th>
             <th width="8%"> {{ __('Unit') }} </th>
-            <th width="7%"> {{ __('Price') }} </th>
+            <th> {{ __('Price') }} </th>
             <th width="7%"> {{ __('Total Quantity') }} </th>
             <th width="7%"> {{ __('Last Accepted Quantity') }} </th>
             <th width="7%"> {{ __('Remaining Quantity') }} </th>
@@ -36,11 +36,11 @@
         <tfoot>
         <tr>
             <th width="2%"> # </th>
-            <th width="9%"> {{ __('Name') }} </th>
-            <th width="9%"> {{ __('Part Type') }} </th>
+            <th> {{ __('Name') }} </th>
+            <th> {{ __('Part Type') }} </th>
             <th width="10%"> {{ __('Unit Quantity') }} </th>
             <th width="8%"> {{ __('Unit') }} </th>
-            <th width="7%"> {{ __('Price') }} </th>
+            <th> {{ __('Price') }} </th>
             <th width="7%"> {{ __('Total Quantity') }} </th>
             <th width="7%"> {{ __('Last Accepted Quantity') }} </th>
             <th width="7%"> {{ __('Remaining Quantity') }} </th>

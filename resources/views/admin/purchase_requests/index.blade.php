@@ -46,10 +46,11 @@
                                 @endif
                                 <th scope="col">{!! __('Date') !!}</th>
                                 <th scope="col">{!! __('Purchase request Number') !!}</th>
-                                <th scope="col">{!! __('Status') !!}</th>
-                                <th scope="col">{!! __('Execution Status') !!}</th>
+
                                 <th scope="col">{!! __('request days') !!}</th>
                                 <th scope="col">{!! __('Remaining Days') !!}</th>
+                                <th scope="col">{!! __('Status') !!}</th>
+                                <th scope="col">{!! __('Execution Status') !!}</th>
                                 <th scope="col">{!! __('Created Date') !!}</th>
                                 <th scope="col">{!! __('Updated Date') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -72,10 +73,11 @@
                                 <th scope="col">{!! __('Date') !!}</th>
                                 <th scope="col">{!! __('Purchase request Number') !!}</th>
 
-                                <th scope="col">{!! __('Status') !!}</th>
-                                <th scope="col">{!! __('Execution Status') !!}</th>
+
                                 <th scope="col">{!! __('request days') !!}</th>
                                 <th scope="col">{!! __('Remaining Days') !!}</th>
+                                <th scope="col">{!! __('Status') !!}</th>
+                                <th scope="col">{!! __('Execution Status') !!}</th>
                                 <th scope="col">{!! __('Created Date') !!}</th>
                                 <th scope="col">{!! __('Updated Date') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -92,47 +94,49 @@
                                     <td class="text-danger">{{ $item->date }}</td>
                                     <td>{{ $item->number }}</td>
 
-                                    <td>
 
-                                        @if($item->status == 'under_processing' )
-                                            <span class="label label-info wg-label"> {{__('Under Processing')}}</span>
-                                        @elseif($item->status == 'ready_for_approval' )
-                                            <span
-                                                class="label label-primary wg-label"> {{__('Ready For Approval')}} </span>
-                                        @elseif($item->status == 'accept_approval' )
-                                            <span
-                                                class="label label-success wg-label"> {{__('Accept Approval')}} </span>
-                                        @else
-                                            <span class="label label-danger wg-label"> {{__('Reject Approval')}} </span>
-                                        @endif
-
-                                    </td>
-                                    <td class="text-center column-date">
-
-                                        @if($item->execution)
-
-
-                                            @if($item->execution ->status == 'pending' )
-                                                <span class="label label-info wg-label"> {{__('Processing')}}</span>
-
-                                            @elseif($item->execution ->status == 'finished' )
-                                                <span class="label label-success wg-label"> {{__('Finished')}} </span>
-
-                                            @elseif($item->execution ->status == 'late' )
-                                                <span class="label label-danger wg-label"> {{__('Late')}} </span>
-                                            @endif
-
-
-                                        @else
-                                            <span class="label label-warning wg-label">
-                                        {{__('Not determined')}}
-                                        </span>
-
-                                        @endif
-
-                                    </td>
                                     <td> <span class="part-unit-span">{{ $item->different_days }} </span> </td>
                                     <td> <span class="price-span">{{ $item->remaining_days }} </span></td>
+                                    <td>
+
+@if($item->status == 'under_processing' )
+    <span class="label label-info wg-label"> {{__('Under Processing')}}</span>
+@elseif($item->status == 'ready_for_approval' )
+    <span
+        class="label label-primary wg-label"> {{__('Ready For Approval')}} </span>
+@elseif($item->status == 'accept_approval' )
+    <span
+        class="label label-success wg-label"> {{__('Accept Approval')}} </span>
+@else
+    <span class="label label-danger wg-label"> {{__('Reject Approval')}} </span>
+@endif
+
+</td>
+<td class="text-center column-date">
+
+@if($item->execution)
+
+
+    @if($item->execution ->status == 'pending' )
+        <span class="label label-info wg-label"> {{__('Processing')}}</span>
+
+    @elseif($item->execution ->status == 'finished' )
+        <span class="label label-success wg-label"> {{__('Finished')}} </span>
+
+    @elseif($item->execution ->status == 'late' )
+        <span class="label label-danger wg-label"> {{__('Late')}} </span>
+    @endif
+
+
+@else
+    <span class="label label-warning wg-label">
+{{__('Not determined')}}
+</span>
+
+@endif
+
+</td>
+                                 
                                     <td>{{ $item->created_at }}</td>
                                     <td>{{ $item->updated_at }}</td>
                                     <td>
@@ -147,7 +151,7 @@
                                             </button>
                                             <ul class="dropdown-menu dropdown-wg">
                                                 <li>
-                                                    <a style="cursor:pointer" class="btn btn-print-wg text-white  "
+                                                    <a style="cursor:pointer" class="btn btn-print-wg text-white"
                                                        data-toggle="modal"
                                                        onclick="getPrintData({{$item->id}})"
                                                        data-target="#boostrapModal" title="{{__('print')}}">
