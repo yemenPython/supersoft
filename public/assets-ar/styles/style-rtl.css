@@ -2669,4 +2669,18 @@ input[type="time"]
                                 padding: 3px !important;
                                 text-align: center !important
                             }
+                            
+                            @media (max-width:768px) {
+                                .logo-print {
+                                    width: 251px !important;
+                                }
+                            }
+                            
+                            @media (max-width:992px) {
+                                .right-top-detail h3 {
+                                    font-size: 12px !important;
+                                    text-align: right !important;
+                                    padding-right: 20px
+                                }
+                            }
                             /* أذونات البرنت */

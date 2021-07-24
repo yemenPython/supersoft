@@ -41,7 +41,7 @@
         </div>
         <div class="col-xs-6" style="padding-right: 50px;">
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col-xs-12 table-responsive">
                     <table class="table table-time-user">
                         <tr>
                         <th style="font-weight: normal !important;">{{__('Time & Date')}}</th>
@@ -60,7 +60,7 @@
 
 </div>
 
-<div class="col-xs-12">
+<div class="col-xs-12 table-responsive">
 
 <table class="table static-table-wg">
                            <tbody>
@@ -107,7 +107,7 @@
 <h5>{{__('concession items')}}</h5>
 </div>
 
-<div  style="padding:0 20px;">
+<div class=" table-responsive" style="padding:0 20px;">
 <table class="table print-table-wg table-borderless">
   <thead>
 
