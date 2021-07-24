@@ -47,7 +47,7 @@
                                 @endif
                                 <th scope="col">{!! __('Quotation Number') !!}</th>
 
-                           
+
                                 <th scope="col">{!! __('Quotation type') !!}</th>
 
                                 <th scope="col">{!! __('Total') !!}</th>
@@ -83,9 +83,9 @@
 
                                 <th scope="col">{!! __('Quotation type') !!}</th>
 
-                             
+
                                 <th scope="col">{!! __('Total') !!}</th>
-           
+
                                 <th scope="col">{{__('quotation days')}}</th>
                                 <th scope="col">{!! __('Remaining Days') !!}</th>
                                 <th scope="col">{!! __('Status') !!}</th>
@@ -107,7 +107,7 @@
 
                                     <td>{{ $item->number }}</td>
 
-                                    
+
                                     <td>
                                     @if ($item->quotation_type === "cash")
                                             <span class="label label-success wg-label">
@@ -121,8 +121,8 @@
                                     </td>
 
                                     <td> <span style="background:#F7F8CC !important">{{ __($item->total) }} </span> </td>
-                                  
-                                 
+
+
                                     <td> <span class="part-unit-span">{{ $item->different_days }} </span> </td>
                                     <td> <span class="price-span">{{ $item->remaining_days }} </span> </td>
                                     <td>
@@ -162,7 +162,7 @@
 
                                     </td>
 
-                                  
+
                                     <td>{{ $item->created_at }}</td>
                                     <td>{{ $item->updated_at }}</td>
 
@@ -308,9 +308,8 @@
                 method: 'GET',
                 success: function (data) {
                     $("#data_to_print").html(data.view);
-
                     let total = $("#totalInLetters").text()
-                    $("#totalInLetters").html(new Tafgeet(total, '{{env('DEFAULT_CURRENCY')}}').parse())
+                    $("#totalInLetters").html(new Tafgeet(parseFloat(total), '{{env('DEFAULT_CURRENCY')}}').parse())
                 }
             });
         }
