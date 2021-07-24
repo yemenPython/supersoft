@@ -129,10 +129,6 @@ table th {
     border: none !important
 }
 
-.print-table-wg tbody tr:nth-of-type(2) {
-    background: #EEE !important;
-}
-
 .print-table-wg tr th,
 .print-table-wg tr td {
     border: none !important
@@ -159,6 +155,8 @@ table th {
 .last-total h6 {
     color: rgb(27, 27, 27) !important;
     font-weight: bold !important;
+    font-size: 11px !important;
+    margin: 6px !important
 }
 
 .right-peice-wg .title {
@@ -168,8 +166,9 @@ table th {
 
 .print-foot-wg {
     margin-left: 15px;
-    position: absolute;
+    position: fixed;
     bottom: 0;
+    /* margin-top: 80px !important */
 }
 
 .print-foot-wg .col-xs-7 {
@@ -224,22 +223,34 @@ table th {
 
 .static-table-wg th {
     background: #DDD !important;
-    color: black !important
+    color: black !important;
+    border: 1px solid black !important
 }
 
 .static-table-wg td {
     background: #fafafa !important;
-    color: black !important
+    color: black !important;
+    border: 1px solid black !important
 }
 
 .print-table-wg tbody tr {
-    background: #fafafa !important
+    border-top: 1px solid white !important;
+}
+
+.print-table-wg tbody tr td {
+    background: rgb(248, 247, 247) !important;
+    background-color: rgb(248, 247, 247) !important;
 }
 
 .right-top-detail h3 {
     color: #526cc2;
     font-weight: bold;
     text-align: center !important
+}
+
+.invoice-to-title {
+    color: #526cc2 !important;
+    font-weight: bold;
 }
 
 .table-time-user th,
@@ -256,6 +267,32 @@ table th {
     margin: 0 !important;
     position: relative !important;
     top: -10px !important;
+}
+
+@media (max-width:992px) {
+    .right-top-detail h3 {
+        font-size: 12px !important
+    }
+}
+
+.static-table-wg>tbody>tr>td,
+.static-table-wg>tbody>tr>th,
+.static-table-wg>tfoot>tr>td,
+.static-table-wg>tfoot>tr>th,
+.static-table-wg>thead>tr>td,
+.static-table-wg>thead>tr>th {
+    padding: 5px !important;
+    font-size: 11px !important;
+}
+
+.print-table-wg>tbody>tr>td,
+.print-table-wg>tbody>tr>th,
+.print-table-wg>tfoot>tr>td,
+.print-table-wg>tfoot>tr>th,
+.print-table-wg>thead>tr>td,
+.print-table-wg>thead>tr>th {
+    padding: 7px !important;
+    font-size: 11px !important;
 }
 
 

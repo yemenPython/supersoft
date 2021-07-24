@@ -107,12 +107,12 @@
 </div>
 
 
-<div class="invoice-to">
-<h5>{{__('Purchase Quotation items')}}</h5>
-</div>
+
 
 
 <div  style="padding:0 20px;">
+<h5 class="invoice-to-title">{{__('Purchase Quotation items')}}</h5>
+
 <table class="table print-table-wg table-borderless">
   <thead>
 
@@ -171,7 +171,7 @@
 <div class="row right-peice-wg" style="padding:0 30px 50px 30px;margin-bottom:30px">
 
 <div class="col-xs-6">
-<table class="table table-bordered">
+<table class="table table-bordered static-table-wg">
                 <thead>
                 <tr class="heading">
                     <th style="background:#CCC !important;color:black">{{__('Tax Name')}}</th>
@@ -205,7 +205,7 @@
             </div>
 
             <div class="col-xs-6">
-            <table class="table table-bordered">
+            <table class="table table-bordered static-table-wg">
                 <thead>
                 <tr class="heading">
                     <th style="background:#CCC !important;color:black">{{__('Payment Name')}}</th>
@@ -238,15 +238,15 @@
             </table>
             </div>
 
-    <div class="col-xs-12">
+    <div class="col-xs-12" style="padding:0 !important">
     <div class="col-xs-4 text-center">
 
       
       <div class="row last-total">
-          <div class="col-xs-6">
+          <div class="col-xs-7">
               <h6>{{__('Total Price')}}<h6>
           </div>
-          <div class="col-xs-6">
+          <div class="col-xs-5">
              <h6> {{$purchaseQuotation->sub_total}} </h6>
           </div>
       </div>
@@ -257,10 +257,10 @@
 
       
 <div class="row last-total">
-    <div class="col-xs-6">
+    <div class="col-xs-7">
         <h6>{{__('Discount Type')}}<h6>
     </div>
-    <div class="col-xs-6">
+    <div class="col-xs-5">
        <h6> {{__($purchaseQuotation->discount_type)}} </h6>
     </div>
 </div>
@@ -271,10 +271,10 @@
 
       
 <div class="row last-total">
-    <div class="col-xs-6">
+    <div class="col-xs-7">
         <h6>{{__('Discount')}}<h6>
     </div>
-    <div class="col-xs-6">
+    <div class="col-xs-5">
        <h6> {{$purchaseQuotation->discount}} </h6>
     </div>
 </div>
@@ -282,15 +282,15 @@
 </div>
 </div>
 
-<div class="col-xs-12">
+<div class="col-xs-12" style="padding:0 !important">
 <div class="col-xs-4 text-center">
 
       
 <div class="row last-total">
-    <div class="col-xs-6">
+    <div class="col-xs-7">
         <h6>{{__('Total After Discount')}}<h6>
     </div>
-    <div class="col-xs-6">
+    <div class="col-xs-5">
        <h6> {{__($purchaseQuotation->total_after_discount)}} </h6>
     </div>
 </div>
@@ -303,10 +303,10 @@
 
       
 <div class="row last-total">
-    <div class="col-xs-6">
+    <div class="col-xs-7">
         <h6>{{__('Additional Payments')}}<h6>
     </div>
-    <div class="col-xs-6">
+    <div class="col-xs-5">
 
        <h6> {{$purchaseQuotation->additional_payments}} </h6>
 
@@ -319,10 +319,10 @@
 
       
 <div class="row last-total">
-    <div class="col-xs-6">
+    <div class="col-xs-7">
         <h6>{{__('Total Tax')}}<h6>
     </div>
-    <div class="col-xs-6">
+    <div class="col-xs-5">
 
        <h6> {{$purchaseQuotation->tax}} </h6>
 
@@ -332,7 +332,7 @@
 </div>
 </div>
 
-<div class="col-xs-12">
+<div class="col-xs-12" style="padding:0 !important">
 <div class="col-xs-12 text-center">
 
       
@@ -350,7 +350,7 @@
 
 </div>
 
-<div class="col-xs-12">
+<div class="col-xs-12" style="padding:0 !important">
     <div class="col-xs-12 text-center">
 
       
@@ -367,7 +367,7 @@
 </div>
 
 
-<div class="col-xs-12">
+<div class="col-xs-12" style="padding:0 !important">
 <br>
           <div class="col-xs-6">
               <h5 class="title">{{__('Supply Terms')}}</h5>
@@ -399,6 +399,7 @@
 
 
 </div>
+
 
 
 <div class="print-foot-wg">
