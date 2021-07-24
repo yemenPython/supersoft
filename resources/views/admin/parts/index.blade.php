@@ -20,7 +20,7 @@
         </nav>
 
         @if(filterSetting())
-           @include('admin.parts.search')
+            @include('admin.parts.search')
         @endif
 
 
@@ -54,7 +54,8 @@
                         @endphp
                         @include($view_path . '.option-row')
                         <div class="clearfix"></div>
-                        <table id="currencies" class="table table-bordered table-hover" style="width:100%;margin-top: 15px">
+                        <table id="currencies" class="table table-bordered table-hover"
+                               style="width:100%;margin-top: 15px">
                             @include($view_path . '.table-thead')
                             <tfoot>
                             <tr>
@@ -77,7 +78,11 @@
 
                                     <td class="text-center column-id">{!! $index +1 !!}</td>
                                     <td class="text-center column-name">
-                                        @include('admin.parts.alternative_parts')
+                                        <span style="cursor: pointer" data-toggle="modal" data-target="#part_img" title="Part image" id="part_id_{{$part->id}}"
+                                              onclick="getPartImage('{{$part->id}}')"
+                                              data-img="{{$part->image}}">
+                                            {!! $part->name !!}
+                                        </span>
                                     </td>
                                     <td class="text-center column-type">
                                         <span class="text-danger">
@@ -95,28 +100,28 @@
                                     </td>
 
 
-                                        <td class="text-center column-status">
+                                    <td class="text-center column-status">
                                         @if($part->status == 1 )
                                             <span class="label label-success wg-label"> {{ __('Active') }} </span>
                                         @else
-                                        <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
+                                            <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
                                         @endif
-                                        </td>
+                                    </td>
 
 
                                     <td class="text-center column-reviewable">
-                                    @if($part->reviewable == 1 )
+                                        @if($part->reviewable == 1 )
                                             <span class="label label-success wg-label"> {{ __('Reviewed') }} </span>
                                         @else
-                                        <span class="label label-danger wg-label"> {{ __('Not reviewed') }} </span>
+                                            <span class="label label-danger wg-label"> {{ __('Not reviewed') }} </span>
                                         @endif
                                     </td>
 
                                     <td class="text-center column-taxable">
-                                    @if($part->taxable == 1 )
+                                        @if($part->taxable == 1 )
                                             <span class="label label-success wg-label"> {{ __('Active') }} </span>
                                         @else
-                                        <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
+                                            <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
                                         @endif
                                     </td>
 
@@ -126,97 +131,67 @@
 
                                     <td>
 
-                                    <div class="btn-group margin-top-10">
+                                        <div class="btn-group margin-top-10">
 
-                                        <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="ico fa fa-bars"></i>
-                                        {{__('Options')}} <span class="caret"></span>
+                                            <button type="button" class="btn btn-options dropdown-toggle"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="ico fa fa-bars"></i>
+                                                {{__('Options')}} <span class="caret"></span>
 
-                                    </button>
-                                        <ul class="dropdown-menu dropdown-wg">
-                                            <li>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-wg">
+                                                <li>
 
-                                            @component('admin.buttons._show_button',[
-                                                       'id' => $part->id,
-                                                       'route'=>'admin:parts.show'
-                                                        ])
-                                        @endcomponent
-
-
-                                            </li>
-                                            <li>
+                                                    @component('admin.buttons._show_button',[
+                                                               'id' => $part->id,
+                                                               'route'=>'admin:parts.show'
+                                                                ])
+                                                    @endcomponent
 
 
-                                            @component('admin.buttons._edit_button',[
-                                                    'id' => $part->id,
-                                                    'route'=>'admin:parts.edit'
-                                                     ])
-                                        @endcomponent
+                                                </li>
+                                                <li>
+                                                    @component('admin.buttons._edit_button',[
+                                                            'id' => $part->id,
+                                                            'route'=>'admin:parts.edit'
+                                                             ])
+                                                    @endcomponent
 
-                                            </li>
+                                                </li>
 
-                                            <li class="btn-style-drop">
-                                            @component('admin.buttons._delete_button',[
-                                                    'id'=>$part->id,
-                                                    'route' => 'admin:parts.destroy',
-                                                    'tooltip' => __('Delete '.$part['name']),
-                                                     ])
-                                        @endcomponent
-                                            </li>
+                                                <li class="btn-style-drop">
+                                                    @component('admin.buttons._delete_button',[
+                                                            'id'=>$part->id,
+                                                            'route' => 'admin:parts.destroy',
+                                                            'tooltip' => __('Delete '.$part['name']),
+                                                             ])
+                                                    @endcomponent
+                                                </li>
 
-                                            <li>
-                                            <a data-toggle="modal" data-target="#boostrapModal-2"
-                                           onclick="getLibraryPartId('{{$part->id}}')"
-                                           title="Part Library" class="btn btn-warning" style="margin-bottom:5px">
-                                            <i class="fa fa-plus"> </i> {{__('Library')}}
-                                        </a>
+                                                <li>
+                                                    <a data-toggle="modal" data-target="#boostrapModal-2"
+                                                       onclick="getLibraryPartId('{{$part->id}}')"
+                                                       title="Part Library" class="btn btn-warning"
+                                                       style="margin-bottom:5px">
+                                                        <i class="fa fa-plus"> </i> {{__('Library')}}
+                                                    </a>
+                                                </li>
 
-                                            </li>
+                                                <li>
+                                                    @include('admin.parts.alternative_parts')
+                                                </li>
 
+                                                <li>
+                                                    <a data-toggle="modal" data-target="#part_taxes_{{$part->id}}"
+                                                       onclick="partTaxable('{{$part->id}}')"
+                                                       title="Part taxes" class="btn btn-info">
+                                                        <i class="fa fa-money"> </i> {{__('Taxes')}}
+                                                    </a>
 
-                                            <li>
-                                            <a data-toggle="modal" data-target="#part_taxes_{{$part->id}}"
-                                           onclick="partTaxable('{{$part->id}}')"
-                                           title="Part taxes" class="btn btn-info">
-                                            <i class="fa fa-money"> </i> {{__('Taxes')}}
-                                        </a>
+                                                </li>
 
-                                            </li>
-
-                                        </ul>
-                                    </div>
-
-                                        <!-- @component('admin.buttons._show_button',[
-                                                       'id' => $part->id,
-                                                       'route'=>'admin:parts.show'
-                                                        ])
-                                        @endcomponent
-
-                                        @component('admin.buttons._edit_button',[
-                                                    'id' => $part->id,
-                                                    'route'=>'admin:parts.edit'
-                                                     ])
-                                        @endcomponent
-
-                                        @component('admin.buttons._delete_button',[
-                                                    'id'=>$part->id,
-                                                    'route' => 'admin:parts.destroy',
-                                                    'tooltip' => __('Delete '.$part['name']),
-                                                     ])
-                                        @endcomponent
-
-                                        <a data-toggle="modal" data-target="#boostrapModal-2"
-                                           onclick="getLibraryPartId('{{$part->id}}')"
-                                           title="Part Library" class="btn btn-warning" style="margin-bottom:5px">
-                                            <i class="fa fa-plus"> </i> {{__('Library')}}
-                                        </a>
-
-                                        <a data-toggle="modal" data-target="#part_taxes_{{$part->id}}"
-                                           onclick="partTaxable('{{$part->id}}')"
-                                           title="Part taxes" class="btn btn-info">
-                                            <i class="fa fa-money"> </i> {{__('Taxes')}}
-                                        </a> -->
-
+                                            </ul>
+                                        </div>
                                     </td>
                                     <td>
                                         @component('admin.buttons._delete_selected',[
@@ -234,7 +209,7 @@
                     </div>
                 </div>
 
-                <input type="hidden" id="part_id" >
+                <input type="hidden" id="part_id">
 
             </div>
         </div>
@@ -254,7 +229,8 @@
 
     @include('admin.partial.part_image')
 
-    <div class="modal fade modal-bg-wg" id="boostrapModal-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
+    <div class="modal fade modal-bg-wg" id="boostrapModal-2" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -452,22 +428,22 @@
             });
         }
 
-        function partTaxable (part_id) {
+        function partTaxable(part_id) {
 
             if ($('#taxable-' + part_id).is(':checked')) {
 
                 $('.part_taxable').prop('disabled', false);
 
-            }else {
+            } else {
 
                 $('.part_taxable').prop('disabled', true);
             }
         }
 
-        function getPartImage (index) {
+        function getPartImage(index) {
 
             let image_path = $('#part_id_' + index).data('img');
-             $('#part_image').attr('src', image_path);
+            $('#part_image').attr('src', image_path);
         }
 
     </script>

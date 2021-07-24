@@ -39,10 +39,10 @@ class SaleQuotationController extends Controller
 
         $data = SaleQuotation::get();
 
-        $paymentTerms = SupplyTerm::where('for_purchase_quotation', 1)->where('status', 1)->where('type', 'payment')
+        $paymentTerms = SupplyTerm::where('sale_quotation', 1)->where('status', 1)->where('type', 'payment')
             ->select('id', 'term_' . $this->lang)->get();
 
-        $supplyTerms = SupplyTerm::where('for_purchase_quotation', 1)->where('status', 1)->where('type', 'supply')
+        $supplyTerms = SupplyTerm::where('sale_quotation', 1)->where('status', 1)->where('type', 'supply')
             ->select('id', 'term_' . $this->lang)->get();
 
         return view('admin.sale_quotations.index', compact('data', 'supplyTerms', 'paymentTerms'));

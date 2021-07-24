@@ -27,7 +27,7 @@
         <span id="unit_quantity_{{$index}}">
             {{isset($item) && $item->partPrice ? $item->partPrice->quantity : $part->first_price_quantity}}
         </span>
-        <span class="part-unit-span"> {{ $part->sparePartsUnit->unit }}  </span>
+        <span class="part-unit-span">  {{ $part->sparePartsUnit->unit }}  </span>
     </td>
 
     <td>
@@ -66,7 +66,7 @@
         </td>
 
         <td>
-            <input style="width: 150px !important;" type="number" class="form-control border3" id="quantity_{{$index}}"
+            <input style="width: 150px !important;" type="number" class="form-control border1" id="quantity_{{$index}}"
                    value="{{isset($item) ? $item->approval_quantity : 0}}"
                    min="0" name="items[{{$index}}][approval_quantity]">
         </td>

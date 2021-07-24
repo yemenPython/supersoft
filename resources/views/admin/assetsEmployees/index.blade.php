@@ -240,7 +240,13 @@
                                 @foreach($assetsEmployees as $assetEmployee)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
-                                        <td>{{$assetEmployee->status?__('Active'):__('In-active')}}</td>
+                                        <td>
+                                        @if ($assetEmployee->status )
+                                            <span class="label label-success wg-label">{{__('Active')}}</span>
+                                            @else
+                                            <span class="label label-danger wg-label">{{__('inActive')}}</span>
+                                            @endif    
+                                        </td>
                                         <td> {{ $assetEmployee->employee->name }} </td>
                                         <td> {{ $assetEmployee->employee->phone1 }} </td>
                                         <td> {{ $assetEmployee->start_date }} </td>

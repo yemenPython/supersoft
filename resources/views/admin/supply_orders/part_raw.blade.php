@@ -17,7 +17,7 @@
     </td>
 
     <td>
-        <div class="input-group">
+        <div class="input-group" style="width: 180px !important;">
 
             <select class="form-control js-example-basic-single" name="items[{{$index}}][spare_part_id]" id="spare_part_id_{{$index}}">
 
@@ -49,7 +49,7 @@
     </td>
 
     <td>
-        <div class="input-group">
+        <div class="input-group" style="width: 90px !important;">
 
             <select style="width: 150px !important;" class="form-control js-example-basic-single" name="items[{{$index}}][part_price_id]"
                     id="prices_part_{{$index}}"
@@ -74,7 +74,7 @@
 
 
     <td>
-        <div class="input-group" id="price_segments_part_{{$index}}">
+        <div class="input-group" id="price_segments_part_{{$index}}" style="width: 150px !important;">
 
             <select style="width: 150px !important;" class="form-control js-example-basic-single" name="items[{{$index}}][part_price_segment_id]"
                     id="price_segments_part_{{$index}}"
@@ -134,7 +134,7 @@
 
 
     <td>
-        <input style="width: 150px !important;" type="number" class="form-control" id="price_{{$index}}"
+        <input style="width: 150px !important;" type="number" class="form-control border2" id="price_{{$index}}"
                value="{{isset($update_item) ? $update_item->price : $part->default_purchase_price}}"
                min="0" name="items[{{$index}}][price]"
                onchange="calculateItem('{{$index}}')" onkeyup="calculateItem('{{$index}}')">

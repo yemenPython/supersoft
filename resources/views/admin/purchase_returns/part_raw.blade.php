@@ -7,17 +7,17 @@
     </td>
 
     <td>
-        <span style="width: 150px !important;display:block">{{$part->name}}</span>
+        <span style="width: 150px !important;display:block; cursor: pointer">{{$part->name}}</span>
         <input type="hidden" value="{{$part->id}}" name="items[{{$index}}][part_id]" class="form-control"
                style="text-align: center;">
     </td>
 
     <td>
-        <span>{{$item->partPrice && $item->partPrice->unit ? $item->partPrice->unit->unit : '---'}}</span>
+        <span>{{$item->partPrice && $item->partPrice->unit ? $item->partPrice->unit->unit : __('Not determined')}}</span>
     </td>
 
     <td>
-        <span>{{$item->partPriceSegment ? $item->partPriceSegment->name:'---'}}</span>
+        <span>{{$item->partPriceSegment ? $item->partPriceSegment->name: __('Not determined')}}</span>
     </td>
 
     <td>

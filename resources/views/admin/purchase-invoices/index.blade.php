@@ -114,12 +114,12 @@
                                     </td>
                                     <td>
                                         @if($invoice->status == 'pending' )
-                                            <span class="label label-info wg-label"> {{__('processing')}}</span>
+                                        <span class="label label-info wg-label"> {{__('processing')}}</span>
                                         @elseif($invoice->status == 'accept' )
-                                            <span
-                                                class="label label-primary wg-label"> {{__('Accept Approval')}} </span>
+                                        <span
+        class="label label-success wg-label"> {{__('Accept Approval')}} </span>
                                         @else
-                                            <span class="label label-danger wg-label"> {{__('Reject Approval')}} </span>
+                                        <span class="label label-danger wg-label">  {{__('Reject Approval')}} </span>
                                         @endif
 
                                     </td>

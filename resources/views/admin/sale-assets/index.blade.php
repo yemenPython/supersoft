@@ -223,13 +223,14 @@
                                 @if(authIsSuperAdmin())
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
+                                <th class="text-center" scope="col">{!! __('Date') !!}</th>
                                 <th class="text-center column-number"
                                     scope="col">{!! __('Number') !!}</th>
                                 <th class="text-center column-type"
                                     scope="col">{!! __('Type') !!}</th>
                                 <th class="text-center column-type"
                                     scope="col">{!! __('total sale amount') !!}</th>
-                                <th class="text-center" scope="col">{!! __('Date') !!}</th>
+                               
                                 <th class="text-center" scope="col">{!! __('Created At') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Updated At') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -248,13 +249,15 @@
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
 
+                                <th class="text-center" scope="col">{!! __('Date') !!}</th>
+
                                 <th class="text-center"
                                     scope="col">{!! __('Number') !!}</th>
                                 <th class="text-center column-type"
                                     scope="col">{!! __('Type') !!}</th>
                                 <th class="text-center column-type"
                                     scope="col">{!! __('total sale amount') !!}</th>
-                                <th class="text-center" scope="col">{!! __('Date') !!}</th>
+                         
                                 <th class="text-center" scope="col">{!! __('Created At') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Updated At') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>

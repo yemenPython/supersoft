@@ -1,36 +1,194 @@
-<div class="row small-spacing" id="concession_to_print">
+<div id="concession_to_print">
+<div class="top-logo-print">
+    <div class="logo-print text-center">
+        <ul class="list-inline" style="margin:0">
+            <li>
+            <h5>{{optional($branchToPrint)->name_ar}}</h5>
+            </li>
+            <li>
+            <img
+            src="{{isset($branchToPrint->logo) ? asset('storage/images/branches/'.$branchToPrint->logo) : env('DEFAULT_IMAGE_PRINT')}}"
+            style="width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 21px;">
+            </li>
+        </ul>
+    </div>
+</div>
 
 
-    <div class="print-wg-fatora">
-        <div class="row">
-            <div class="col-xs-4">
+<div class="row row-right-data">
+    <div class="col-xs-6"></div>
+    <div class="col-xs-6 right-top-detail">
+        <h3>
+        {{__('Purchase Receipt')}}
+</h3>
+        
+    </div>
+</div>
 
-                <div style="text-align: right ">
-                    <h5><i class="fa fa-home"></i> {{optional($purchaseReceipt->branch)->name_ar}}</h5>
-                    <h5><i class="fa fa-phone"></i> {{optional($purchaseReceipt->branch)->phone1}} </h5>
-                    <h5><i class="fa fa-globe"></i> {{optional($purchaseReceipt->branch)->address}} </h5>
-                    <h5><i class="fa fa-fax"></i> {{optional($purchaseReceipt->branch)->fax}}</h5>
-                    <h5><i class="fa fa-adjust"></i> {{optional($purchaseReceipt->branch)->tax_card}}</h5>
+<div class="invoice-to">
+    <div clas="row">
+        <div class="col-xs-6">
+        <h5>{{__('Purchase Receipt data')}}</h5>
+        </div>
+        <div class="col-xs-6" style="padding-right: 50px;">
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table table-time-user">
+                        <tr>
+                        <th style="font-weight: normal !important;">{{__('Time & Date')}}</th>
+                        <td style="font-weight: normal !important;">{{$purchaseReceipt->time}} - {{$purchaseReceipt->date}}</td>
+                        </tr>
+                        <tr>
+                        <th style="font-weight: normal !important;">{{__('User Name')}}</th>
+                        <td style="font-weight: normal !important;">{{optional($purchaseReceipt->user)->name}}</td>
+                        </tr>
+                    </table>
                 </div>
-            </div>
 
-            <div class="col-xs-4">
-
-                <img class="text-center center-block" style="width: 100px; height: 100px;margin-top:20px"
-                     src="{{$purchaseReceipt->branch->logo_img}}">
-            </div>
-            <div class="col-xs-4">
-
-                <div style="text-align: left" class="my-1">
-                    <h5>{{optional($purchaseReceipt->branch)->name_en}} <i class="fa fa-home"></i></h5>
-                    <h5>{{optional($purchaseReceipt->branch)->phone1}} <i class="fa fa-phone"></i></h5>
-                    <h5>{{optional($purchaseReceipt->branch)->address}} <i class="fa fa-globe"></i></h5>
-                    <h5>{{optional($purchaseReceipt->branch)->fax}} <i class="fa fa-fax"></i></h5>
-                    <h5>{{optional($purchaseReceipt->branch)->tax_card}} <i class="fa fa-adjust"></i></h5>
-                </div>
             </div>
         </div>
     </div>
+
+</div>
+
+<div class="col-xs-12">
+
+<table class="table static-table-wg">
+                           <tbody>
+                               <tr>
+                               <th style="width:20% !important">{{__('Purchase Receipt Number')}}</th>
+                               <td> {{$purchaseReceipt->number }} </td>
+                               <th style="width:20% !important">{{__('Supply Order Number')}}</th>
+                               <td> {{optional($purchaseReceipt->supplyOrder)->number}} </td>
+                             </tr>
+
+                             <tr>
+                               <th>{{__('Supplier name')}}</th>
+                               <td colspan="6">{{__($purchaseReceipt->supplier->name)}} </td>
+                             </tr>
+
+                        </tbody></table>
+
+</div>
+
+
+<div class="invoice-to">
+<h5>{{__('Purchase Receipt items')}}</h5>
+</div>
+
+
+
+<div  style="padding:0 20px;">
+<table class="table print-table-wg table-borderless">
+  <thead>
+
+    <tr class="spacer" style="border-radius: 30px;">
+    <th>{{__('#')}}</th>
+    <th>{{__('Name')}}</th>
+    <th>{{__('Part Type')}}</th>
+    <th>{{__('Unit')}}</th>
+    <!-- <th>{{__('Price')}}</th> -->
+    <th>{{__('Total Quantity')}}</th>
+    <th>{{__('Refused Quantity')}}</th>
+    <th>{{__('Accepted Quantity')}}</th>
+    </tr>
+
+  </thead>
+  <tbody>
+
+  @foreach($purchaseReceipt->items()->get() as $index=>$item)
+
+  <tr class="spacer">
+                        <td>{{$index + 1}}</td>
+                        <td>{{optional($item->part)->name}}</td>
+                        <td>{{ $item->sparePart ? $item->sparePart->type : __('Not determined')}}</td>
+                        <td>{{$item->partPrice && $item->partPrice->unit ? $item->partPrice->unit->unit : __('Not determined')}}</td>
+                        <td>{{$item->total_quantity}}</td>
+                        <td>{{$item->refused_quantity}}</td>
+                        <td>{{$item->accepted_quantity}}</td>
+                    </tr>
+
+                @endforeach
+
+
+                </tbody>
+</table>
+</div>
+
+<div class="row right-peice-wg" style="padding:0 30px 50px 30px;margin-bottom:30px">
+
+
+<div class="col-xs-12">
+    <div class="col-xs-4 text-center">
+
+      
+      <div class="row last-total">
+          <div class="col-xs-6">
+              <h6>{{__('Total Price')}}<h6>
+          </div>
+          <div class="col-xs-6">
+             <h6> {{$purchaseReceipt->total }} </h6>
+          </div>
+      </div>
+      
+    </div>
+
+    <div class="col-xs-4 text-center">
+
+      
+<div class="row last-total">
+    <div class="col-xs-6">
+        <h6>{{__('Total Accepted')}}<h6>
+    </div>
+    <div class="col-xs-6">
+       <h6> {{$purchaseReceipt->total_accepted }} </h6>
+    </div>
+</div>
+
+</div>
+
+<div class="col-xs-4 text-center">
+
+      
+<div class="row last-total">
+    <div class="col-xs-6">
+        <h6>{{__('Total Rejected')}}<h6>
+    </div>
+    <div class="col-xs-6">
+       <h6> {{$purchaseReceipt->total_rejected }} </h6>
+    </div>
+</div>
+
+</div>
+</div>
+
+
+
+<div class="col-xs-12">
+
+          <div class="col-xs-6">
+              <h5 class="title">{{__('Notes')}}<h5>
+              <p style="font-size:14px">
+             
+              {!! $purchaseReceipt->notes !!}
+                 
+              </p>
+          </div>
+      </div>
+      
+
+</div>
+
+
+
+<!-- 
+<div class="row small-spacing" id="concession_to_print">
+
 
     <h4 class="text-center">{{__('Purchase Receipt')}}</h4>
 
@@ -165,4 +323,4 @@
                 </div>
             </div>
         @endif
-</div>
+</div> -->

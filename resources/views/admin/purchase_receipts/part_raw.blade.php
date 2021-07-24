@@ -8,7 +8,7 @@
     </td>
 
     <td>
-        <span style="!important;display:block; cursor: pointer" data-img="{{$part->image}}" data-toggle="modal" data-target="#part_img" title="Part image"
+        <span style="display:block; cursor: pointer;width: 150px !important;" data-img="{{$part->image}}" data-toggle="modal" data-target="#part_img" title="Part image"
               onclick="getPartImage('{{$index}}')" id="part_img_id_{{$index}}" >
 
             {{$part->name}}
@@ -16,13 +16,15 @@
     </td>
 
     <td>
+        <div class="input-group" style="width: 120px !important;">
         @if(isset($item))
-            <span>{{$item->sparePart ? $item->sparePart->type : '---'}}</span>
+            <span>{{$item->sparePart ? $item->sparePart->type : __('Not determined')}}</span>
         @elseif(isset($update_item))
-            <span>{{$update_item->supplyOrderItem &&  $update_item->supplyOrderItem->sparePart ? $update_item->supplyOrderItem->sparePart->type : '---'}}</span>
+            <span>{{$update_item->supplyOrderItem &&  $update_item->supplyOrderItem->sparePart ? $update_item->supplyOrderItem->sparePart->type :  __('Not determined')}}</span>
         @else
-            <span>---</span>
+            <span> __('Not determined')}}</span>
         @endif
+</div>
     </td>
 
     <td class="inline-flex-span">
@@ -50,16 +52,20 @@
         </div>
     </td>
 
-    <td style="background:#FBFAD4 !important">
-        <div class="input-group">
+    <td>
+   
+        <div class="input-group" style="width: 120px !important;">
             @if(isset($update_item))
-                <span>{{isset($update_item) ? $update_item->price : __('Not determined')}}</span>
+            <span style="background:#F7F8CC !important">
+            {{isset($update_item) ? $update_item->price : __('Not determined')}}</span>
                 <input type="hidden" disabled id="price_{{$index}}" value="{{$update_item->price}}">
             @else
-                <span>{{isset($item) ? $item->price : __('Not determined')}}</span>
+            <span style="background:#F7F8CC !important">
+            {{isset($item) ? $item->price : __('Not determined')}}</span>
                 <input type="hidden" disabled id="price_{{$index}}" value="{{$item->price}}">
             @endif
         </div>
+
     </td>
 
     <td>

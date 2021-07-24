@@ -108,10 +108,10 @@ class PurchaseReturnsController extends Controller
 
         $invoices = $invoices->paginate($rows)->appends(request()->query());
 
-        $data['paymentTerms'] = SupplyTerm::where('for_purchase_quotation', 1)->where('status', 1)->where('type', 'payment')
+        $data['paymentTerms'] = SupplyTerm::where('purchase_return', 1)->where('status', 1)->where('type', 'payment')
             ->select('id', 'term_' . $this->lang)->get();
 
-        $data['supplyTerms'] = SupplyTerm::where('for_purchase_quotation', 1)->where('status', 1)->where('type', 'supply')
+        $data['supplyTerms'] = SupplyTerm::where('purchase_return', 1)->where('status', 1)->where('type', 'supply')
             ->select('id', 'term_' . $this->lang)->get();
 
         return view('admin.purchase_returns.index', compact('invoices', 'data'));

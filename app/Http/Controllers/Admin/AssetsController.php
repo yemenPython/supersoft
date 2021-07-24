@@ -111,7 +111,7 @@ class AssetsController extends Controller
                     }
                 } )
                 ->editColumn( 'annual_consumtion_rate', function ($asset) {
-                    return '    <span style="background:#F7F8CC !important">' . $asset->annual_consumtion_rate . '%' . '</span>';
+                    return '<span style="background:#F7F8CC !important">' . $asset->annual_consumtion_rate . '%' . '</span>';
                 } )
                 ->editColumn( 'asset_age', function ($asset) {
                     return '<span class="price-span">' . number_format($asset->asset_age,2) . ' ' . __( 'year' ) . '</span>';

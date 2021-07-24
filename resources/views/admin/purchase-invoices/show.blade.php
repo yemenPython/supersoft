@@ -95,6 +95,7 @@
 
                 <thead>
                 <tr class="heading">
+                    <th style="background:#CCC !important;color:black">{{__('#')}}</th>
                     <th style="background:#CCC !important;color:black">{{__('spart')}}</th>
                     <th style="background:#CCC !important;color:black">{{__('Unit')}}</th>
                     <th style="background:#CCC !important;color:black">{{__('Part Type')}}</th>
@@ -111,9 +112,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($purchase_invoice->items as $item)
+                @foreach($purchase_invoice->items as $index=>$item)
 
                     <tr class="item">
+                        <td>{{$index+1}}</td>
                         <td>{{optional($item->part)->name}}</td>
                         <td>{{optional($item->partPrice->unit)->unit}}</td>
                         <td>{{optional($item->sparePart)->type}}</td>

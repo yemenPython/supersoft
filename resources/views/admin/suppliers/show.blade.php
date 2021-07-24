@@ -56,16 +56,12 @@
                                         </tr>
                                         <tr>
                                             <th scope="row">{{__('Main Supplier Group')}}</th>
-                                            <td>
-                                          {!! $supplierGroupsTreeMain !!}
-                                            </td>
+                                            <td>{{optional($supplier->group)->name}}</td>
                                         </tr>
 
                                         <tr>
                                             <th scope="row">{{__('Sub Supplier Group')}}</th>
-                                            <td>
-                                                {!! $supplierGroupsTreeSub !!}
-                                            </td>
+                                            <td>{{optional($supplier->subGroup)->name}}</td>
                                         </tr>
                                         <tr>
                                             <th scope="row">{{__('Country')}}</th>
@@ -91,6 +87,16 @@
                                         <tr>
                                             <th scope="row">{{__('Tax Number')}}</th>
                                             <td>{{$supplier->tax_number}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">{{__('Tax File Number')}}</th>
+                                            <td>{{$supplier->tax_file_number}}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">{{__('Commercial Record Area')}}</th>
+                                            <td>{{$supplier->commercial_record_area}}</td>
                                         </tr>
                                         </tbody>
                                     </table>

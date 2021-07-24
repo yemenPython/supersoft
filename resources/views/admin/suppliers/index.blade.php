@@ -115,7 +115,7 @@
                                     </select>
                                 </div>
 
-                                <div class="switch primary col-md-6">
+                                <div class="switch primary col-md-4">
                                     <ul class="list-inline">
                                         <li>
                                             <input type="checkbox" id="switch-2" name="active">
@@ -128,7 +128,7 @@
                                     </ul>
                                 </div>
 
-                                    <div class="radio primary col-md-6" style="margin-top: 40px !important;">
+                                    <div class="radio primary col-md-4" style="margin-top: 40px !important;">
                                         <ul class="list-inline">
                                             <li>
                                                 <input type="radio" id="supplier_type1" name="supplier_type"

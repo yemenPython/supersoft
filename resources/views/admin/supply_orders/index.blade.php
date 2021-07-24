@@ -47,13 +47,15 @@
                                 @endif
                                 <th scope="col">{!! __('Number') !!}</th>
 
-                                <th scope="col">{!! __('Status') !!}</th>
+                             
 
                                 <th scope="col">{!! __('Total') !!}</th>
 
-                                <th scope="col">{!! __('Execution Status') !!}</th>
+  
                                 <th scope="col">{!! __('supply order days') !!}</th>
                                 <th scope="col">{!! __('Remaining Days') !!}</th>
+                                <th scope="col">{!! __('Status') !!}</th>
+                                <th scope="col">{!! __('Execution Status') !!}</th>
                                 <th scope="col">{!! __('Created Date') !!}</th>
                                 <th scope="col">{!! __('Updated Date') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -76,13 +78,14 @@
                                 @endif
                                 <th scope="col">{!! __('Number') !!}</th>
 
-                                <th scope="col">{!! __('Status') !!}</th>
+
 
                                 <th scope="col">{!! __('Total') !!}</th>
 
-                                <th scope="col">{!! __('Execution Status') !!}</th>
                                 <th scope="col">{!! __('supply order days') !!}</th>
                                 <th scope="col">{!! __('Remaining Days') !!}</th>
+                                <th scope="col">{!! __('Status') !!}</th>
+                                <th scope="col">{!! __('Execution Status') !!}</th>
                                 <th scope="col">{!! __('Created Date') !!}</th>
                                 <th scope="col">{!! __('Updated Date') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -101,24 +104,38 @@
 
                                     <td>{{ $item->number }}</td>
 
-                                    <td>
-                                        @if($item->status == 'pending' )
-                                            <span class="label label-info wg-label"> {{__('processing')}}</span>
-                                        @elseif($item->status == 'accept' )
-                                            <span
-                                                class="label label-primary wg-label"> {{__('Accept Approval')}} </span>
-                                        @else
-                                            <span class="label label-danger wg-label"> {{__('Reject Approval')}} </span>
-                                        @endif
-
-                                    </td>
-
+                                   
                                     <td>
                                     <span style="background:#F7F8CC !important">
                                     {{ __($item->total) }}
                                     </span>
                                     </td>
 
+                                
+                                    <td>
+                                    <span class="part-unit-span">
+                                    {{ $item->different_days }}
+                                    </span>
+                                    </td>
+                                    <td>
+                                    <span class="price-span">
+                                    {{ $item->remaining_days }}
+                                    </span>
+                                    </td>
+
+                                    <td>
+                                        @if($item->status == 'pending' )
+                                        <span class="label label-info wg-label"> {{__('processing')}}</span>
+                                        @elseif($item->status == 'accept' )
+                                        <span
+        class="label label-success wg-label"> {{__('Accept Approval')}} </span>
+                                        @else
+                                        <span class="label label-danger wg-label"> {{__('Reject Approval')}} </span>
+                                        @endif
+
+                                    </td>
+
+                                    
                                     <td class="text-center column-date">
 
                                         @if($item->execution)
@@ -140,16 +157,7 @@
                                         @endif
 
                                     </td>
-                                    <td>
-                                    <span class="part-unit-span">
-                                    {{ $item->different_days }}
-                                    </span>
-                                    </td>
-                                    <td>
-                                    <span class="price-span">
-                                    {{ $item->remaining_days }}
-                                    </span>
-                                    </td>
+
                                     <td>{{ $item->created_at }}</td>
                                     <td>{{ $item->updated_at }}</td>
 
