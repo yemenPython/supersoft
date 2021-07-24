@@ -2350,6 +2350,9 @@ input[type="time"]
                                 .bordered-div {
                                     border: none !important
                                 }
+                                .concession_to_print {
+                                    padding: 0 0 50px 0 !important
+                                }
                             }
                             
                             .table-hover tbody tr:hover {
@@ -2507,7 +2510,8 @@ input[type="time"]
                             
                             .right-top-detail h3 {
                                 color: #526cc2;
-                                font-weight: bold
+                                font-weight: bold;
+                                text-align: center !important
                             }
                             
                             .invoice-to {
@@ -2549,10 +2553,6 @@ input[type="time"]
                                 background: #526cc2 !important;
                             }
                             
-                            .print-table-wg tbody tr:nth-of-type(2) {
-                                background: #EEE !important;
-                            }
-                            
                             .print-table-wg tr th,
                             .print-table-wg tr td {
                                 border: none !important
@@ -2583,6 +2583,8 @@ input[type="time"]
                             .last-total h6 {
                                 color: rgb(27, 27, 27) !important;
                                 font-weight: bold !important;
+                                font-size: 11px !important;
+                                margin: 6px !important
                             }
                             
                             .right-peice-wg .title {
@@ -2647,12 +2649,14 @@ input[type="time"]
                             
                             .static-table-wg th {
                                 background: #DDD !important;
-                                color: black !important
+                                color: black !important;
+                                border: 1px solid black !important
                             }
                             
                             .static-table-wg td {
                                 background: #fafafa !important;
-                                color: black !important
+                                color: black !important;
+                                border: 1px solid black !important
                             }
                             
                             .table-time-user {
@@ -2669,5 +2673,45 @@ input[type="time"]
                                 border: none !important;
                                 padding: 3px !important;
                                 text-align: center !important
+                            }
+                            
+                            .invoice-to-title {
+                                color: #526cc2;
+                                font-weight: bold;
+                            }
+                            
+                            @media (max-width:768px) {
+                                .logo-print {
+                                    width: 251px !important;
+                                }
+                            }
+                            
+                            @media (max-width:992px) {
+                                .right-top-detail h3 {
+                                    font-size: 12px !important;
+                                    text-align: right !important;
+                                    padding-right: 20px;
+                                    text-align: center !important
+                                }
+                            }
+                            
+                            .static-table-wg>tbody>tr>td,
+                            .static-table-wg>tbody>tr>th,
+                            .static-table-wg>tfoot>tr>td,
+                            .static-table-wg>tfoot>tr>th,
+                            .static-table-wg>thead>tr>td,
+                            .static-table-wg>thead>tr>th {
+                                padding: 5px !important;
+                                font-size: 11px !important;
+                            }
+                            
+                            .print-table-wg>tbody>tr>td,
+                            .print-table-wg>tbody>tr>th,
+                            .print-table-wg>tfoot>tr>td,
+                            .print-table-wg>tfoot>tr>th,
+                            .print-table-wg>thead>tr>td,
+                            .print-table-wg>thead>tr>th {
+                                padding: 7px !important;
+                                font-size: 11px !important;
                             }
                             /* أذونات البرنت */
