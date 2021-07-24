@@ -17,8 +17,12 @@
     </td>
 
     <td>
-        {{$item->sparePart ? $item->sparePart->type : '---'}}
+    <div class="input-group" style="width: 180px !important;">
+    <span class="price-span">
+        {{$item->sparePart ? $item->sparePart->type : __('Not determined')}}
+</span>
         <input type="hidden" name="items[{{$index}}][spare_part_id]" value="{{$item->spare_part_id}}">
+</div>
     </td>
 
     <td class="inline-flex-span">
@@ -38,16 +42,16 @@
         <span class="price-span" style="width: 120px !important;display:block">{{$item->supplyOrderItem &&  $item->supplyOrderItem->partPriceSegment ? $item->supplyOrderItem->partPriceSegment ->name : __('Not determined')}}</span>
     </td>
 
-    <td style="background:#FBFAD4 !important">
+    <td>
         <?php
         $part_store = $part->stores()->where('store_id', $item->store_id)->first()
         ?>
 
-        <span>{{$part_store && $part_store->pivot ? $part_store->pivot->quantity : 0 }}</span>
+<span class="part-unit-span">{{$part_store && $part_store->pivot ? $part_store->pivot->quantity : 0 }}</span>
     </td>
 
-    <td style="background:#E3FBEA !important">
-        <span>{{$item->accepted_quantity}}</span>
+    <td>
+    <span class="part-unit-span">{{$item->accepted_quantity}}</span>
     </td>
 
     <td>
@@ -60,7 +64,7 @@
     </td>
 
     <td>
-        <input style="width: 150px !important;" type="number" class="form-control" id="price_{{$index}}"
+        <input style="width: 150px !important;" type="number" class="form-control border2" id="price_{{$index}}"
                value="{{$item->price}}" min="0" name="items[{{$index}}][price]"
                onchange="calculateItem('{{$index}}')" onkeyup="calculateItem('{{$index}}')">
     </td>
@@ -154,7 +158,7 @@
 
             <input type="hidden" id="tax_count_{{$index}}" value="{{$part->taxes->count()}}">
 
-            <input style="width: 120px !important; margin: 0 5px;" type="number" class="form-control" id="tax_{{$index}}"
+            <input style="width: 120px !important; margin: 0 5px;" type="number" class="form-control border5" id="tax_{{$index}}"
                    value="{{isset($update_item) ? $update_item->tax : 0 }}"
                    min="0" name="items[{{$index}}][tax]" disabled>
         </div>

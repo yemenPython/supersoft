@@ -134,7 +134,7 @@
 
 
     <td>
-        <input style="width: 150px !important;" type="number" class="form-control" id="price_{{$index}}"
+        <input style="width: 150px !important;" type="number" class="form-control border2" id="price_{{$index}}"
                value="{{isset($update_item) ? $update_item->price : $part->default_purchase_price}}"
                min="0" name="items[{{$index}}][price]"
                onchange="calculateItem('{{$index}}')" onkeyup="calculateItem('{{$index}}')">
