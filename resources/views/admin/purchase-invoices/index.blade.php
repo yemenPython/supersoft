@@ -307,7 +307,7 @@
                 success: function (data) {
                     $("#invoiceDatatoPrint").html(data.invoice)
                     let total = $("#totalInLetters").text()
-                    $("#totalInLetters").html(new Tafgeet(total, '{{env('DEFAULT_CURRENCY')}}').parse())
+                    $("#totalInLetters").html(new Tafgeet(total, '{{config("currency.defualt_currency")}}').parse())
                 }
             });
         }

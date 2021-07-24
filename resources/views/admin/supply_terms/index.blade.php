@@ -47,7 +47,7 @@
                                 <th scope="col">{!! __('Type') !!}</th>
                                 <th scope="col">{!! __('Term') !!}</th>
 
-                                <th scope="col">{!! __('Purchase Quotation') !!}</th>
+                                <!-- <th scope="col">{!! __('Purchase Quotation') !!}</th> -->
                                 <th scope="col">{!! __('Status') !!}</th>
 
 
@@ -73,7 +73,7 @@
                                 <th scope="col">{!! __('Type') !!}</th>
                                 <th scope="col">{!! __('Term') !!}</th>
 
-                                <th scope="col">{!! __('Purchase Quotation') !!}</th>
+                                <!-- <th scope="col">{!! __('Purchase Quotation') !!}</th> -->
                                 <th scope="col">{!! __('Status') !!}</th>
 
                                 <th scope="col">{!! __('Created Date') !!}</th>
@@ -98,14 +98,14 @@
                                     </td>
 
                                     <td>{{ \Illuminate\Support\Str::limit( $item->term, 30)}}</td>
-                                    <td class="text-danger">
+                                    <!-- <td class="text-danger">
 
                                         @if($item->for_purchase_quotation)
                                             <span class="label label-success wg-label"> {{ __('Active') }} </span>
                                         @else
                                             <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
                                         @endif
-                                    </td>
+                                    </td> -->
                                     <td>
                                         @if($item->status)
                                             <span class="label label-success wg-label"> {{ __('Active') }} </span>

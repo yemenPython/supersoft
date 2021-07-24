@@ -33,10 +33,12 @@
 						</span>
                 </h4>
 
+  
                 <div class="box-content">
 
                     <div class="row">
-                        <div class="col-md-12">
+                           
+                    @if(authIsSuperAdmin())
                             <div class="col-md-12">
                                 <div class="form-group has-feedback">
                                     <label for="inputStore" class="control-label">{{__('Branches')}}</label>
@@ -50,15 +52,11 @@
                                     </div>
 
                                 </div>
-
-                            </div>
                         </div>
-
-                        <div class="col-md-12">
-
+                        @endif
 
                             <div class="col-md-12">
-                                <div class="form-group">
+                                <div class="form-group has-feedback">
                                     <label for="inputDescription" class="control-label">{{__('Term Ar')}}</label>
                                     <div class="input-group">
                                         <textarea name="term_ar" class="form-control" rows="4" cols="150" disabled
@@ -78,38 +76,18 @@
                                     {{input_error($errors,'term_en')}}
                                 </div>
                             </div>
-
-                            <!-- <div class="col-md-12 table-responsive">
-<table class="table table-bordered">
-            <thead>
-                <tr>
-                <th>لوريم</th>
-                <th>لوريم</th>
-                <th>لوريم</th>
-                <th>لوريم</th>
-                <th>لوريم</th>
-                <th>لوريم</th>
-        </tr>
-        </thead>
-            <tbody>
-                <tr>
-                    <td>لوريم</td>
-                    <td>لوريم</td>
-                    <td>لوريم</td>
-                    <td>لوريم</td>
-                    <td>لوريم</td>
-                    <td>لوريم</td>
-        </tr>
-    </tbody>
-    </table>
-</div>    -->
+                            </div>
 
 
-                            <div class="col-md-4">
-                                <table class="table table-bordered has-feedback">
+                                                     
+                        <div class="row top-data-wg"
+                             style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+
+
+                            <div class="col-md-6">
+                                <table class="table table-bordered wg-inside-table">
                                     <tr>
                                         <th style="width:50%">
-                                        <!-- <label for="inputStore" class="control-label">{{__('Type')}}</label> -->
                                             {{__('Type')}}
                                         </th>
                                         <td>
@@ -121,17 +99,13 @@
                                         </td>
                                     </tr>
                                 </table>
-                                <!-- <div class="form-group has-feedback">
 
-
-                                </div> -->
                             </div>
 
-                            <div class="col-md-4">
-                                <table class="table table-bordered has-feedback">
+                            <div class="col-md-6">
+                                <table class="table table-bordered wg-inside-table">
                                     <tr>
                                         <th style="width:50%">
-                                        <!-- <label for="inputStore" class="control-label">{{__('Status')}}</label> -->
                                             {{__('Status')}}
                                         </th>
                                         <td>
@@ -147,11 +121,102 @@
                             </div>
 
 
-                            <div class="col-md-4">
+   
+                            <div class="col-md-12">
+
+
+                                <div class="table-responsive wg-inside-table">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>{{__('Name')}}</th>
+                                            <th>{{__('Status')}}</th>
+                                            <th>{{__('Name')}}</th>
+                                            <th>{{__('Status')}}</th>
+                                            <th>{{__('Name')}}</th>
+                                            <th>{{__('Status')}}</th>
+                                            <th>{{__('Name')}}</th>
+                                            <th>{{__('Status')}}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>  {{__('Purchase Quotation')}}</td>
+                                            <td>
+                                                <div class="switch primary" style="margin:0">
+                                                @if($supplyTerm->for_purchase_quotation)
+                                                <span class="label label-success wg-label"> {{ __('Active') }} </span>
+                                            @else
+                                                <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
+                                            @endif
+                                                </div>
+                                            </td>
+                                            <td>  {{__('Purchase Invoice')}}</td>
+                                            <td>
+                                                <div class="switch primary" style="margin:0">
+                                                @if($supplyTerm->purchase_invoice)
+                                                <span class="label label-success wg-label"> {{ __('Active') }} </span>
+                                            @else
+                                                <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
+                                            @endif
+                                                </div>
+                                            </td>
+                                            <td>   {{__('Purchase Return')}}</td>
+                                            <td>
+                                                <div class="switch primary" style="margin:0">
+                                                @if($supplyTerm->purchase_return)
+                                                <span class="label label-success wg-label"> {{ __('Active') }} </span>
+                                            @else
+                                                <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
+                                            @endif
+                                                </div>
+                                            </td>
+
+                                            <td>{{__('Supply Order')}}</td>
+                                            <td>
+                                                <div class="switch primary" style="margin:0">
+                                                @if($supplyTerm->supply_order)
+                                                <span class="label label-success wg-label"> {{ __('Active') }} </span>
+                                            @else
+                                                <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
+                                            @endif
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td> {{__('Sale Quotations')}}</td>
+                                            <td>
+                                                <div class="switch primary" style="margin:0">
+                                                @if($supplyTerm->sale_quotation)
+                                                <span class="label label-success wg-label"> {{ __('Active') }} </span>
+                                            @else
+                                                <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
+                                            @endif
+                                                </div>
+                                            </td>
+                                           
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                </div>
+                           
+
+</div>
+
+
+</div>
+                                </div>
+                                </div>
+</div>
+                                </div>
+                         
+
+                            <!-- <div class="col-md-4">
                                 <table class="table table-bordered has-feedback">
                                     <tr>
                                         <th style="width:50%">
-                                        <!-- <label for="inputStore" class="control-label">{{__('Purchase Quotation')}}</label> -->
                                             {{__('Purchase Quotation')}}
                                         </th>
                                         <td>
@@ -163,9 +228,9 @@
                                         </td>
                                     </tr>
                                 </table>
-                            </div>
+                            </div> -->
 
-                            <div class="col-md-4">
+                            <!-- <div class="col-md-4">
                                 <table class="table table-bordered has-feedback">
                                     <tr>
                                         <th style="width:50%">
@@ -180,8 +245,8 @@
                                         </td>
                                     </tr>
                                 </table>
-                            </div>
-
+                            </div> -->
+<!-- 
                             <div class="col-md-4">
                                 <table class="table table-bordered has-feedback">
                                     <tr>
@@ -197,8 +262,8 @@
                                         </td>
                                     </tr>
                                 </table>
-                            </div>
-
+                            </div> -->
+<!-- 
                             <div class="col-md-4">
                                 <table class="table table-bordered has-feedback">
                                     <tr>
@@ -214,8 +279,8 @@
                                         </td>
                                     </tr>
                                 </table>
-                            </div>
-
+                            </div> -->
+<!-- 
                             <div class="col-md-4">
                                 <table class="table table-bordered has-feedback">
                                     <tr>
@@ -231,20 +296,10 @@
                                         </td>
                                     </tr>
                                 </table>
-                            </div>
+                            </div> -->
 
-                        </div>
-                    </div>
 
-                </div>
 
-            </div>
-            <!-- /.box-content -->
-        </div>
-        <!-- /.col-xs-12 -->
-    </div>
-
-    <!-- /.row small-spacing -->
 @endsection
 
 @section('js-validation')

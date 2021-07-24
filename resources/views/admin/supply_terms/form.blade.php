@@ -1,5 +1,10 @@
 <div class="row">
 
+<div class="row top-data-wg"
+          style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+
+
+
     @if(authIsSuperAdmin())
         <div class="col-md-12">
             <div class="col-md-12">
@@ -30,8 +35,6 @@
         </div>
     @endif
 
-    <div class="col-md-12">
-
 
         <div class="col-md-12">
             <div class="form-group">
@@ -54,33 +57,16 @@
                 {{input_error($errors,'term_en')}}
             </div>
         </div>
+        </div>
 
-<!-- <div class="col-md-12 table-responsive">
-<table class="table table-bordered">
-            <thead>
-                <tr>
-                <th>لوريم</th>
-                <th>لوريم</th>
-                <th>لوريم</th>
-                <th>لوريم</th>
-                <th>لوريم</th>
-                <th>لوريم</th>
-        </tr>
-        </thead>
-            <tbody>
-                <tr>
-                    <td>لوريم</td>
-                    <td>لوريم</td>
-                    <td>لوريم</td>
-                    <td>لوريم</td>
-                    <td>لوريم</td>
-                    <td>لوريم</td>
-        </tr>
-    </tbody>
-    </table>
-</div>    -->
+   </div>
 
-        <div class="col-md-6">
+   <div class="row">
+        <div class="row top-data-wg"
+          style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+
+
+        <div class="col-md-4">
             <div class="form-group has-feedback">
                 <label for="inputStore" class="control-label">{{__('Type')}}</label>
                 <div class="input-group">
@@ -105,7 +91,10 @@
             </div>
         </div>
 
-        <div class="col-md-3">
+        <div class="col-md-4">
+        </div>
+
+        <div class="col-md-4">
             <div class="form-group has-feedback">
                 <label for="inputStore" class="control-label">{{__('Status')}}</label>
 
@@ -118,60 +107,80 @@
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="form-group has-feedback">
-                <label for="inputStore" class="control-label">{{__('Purchase Quotation')}}</label>
-                <div class="switch primary" style="margin-top: 15px">
+        <div class="col-md-12">
+
+
+<div class="table-responsive wg-inside-table">
+    <table class="table">
+        <thead>
+
+        <tr>
+        <th>{{__('Name')}}</th>
+        <th>{{__('Status')}}</th>
+        <th>{{__('Name')}}</th>
+        <th>{{__('Status')}}</th>
+        <th>{{__('Name')}}</th>
+        <th>{{__('Status')}}</th>
+        <th>{{__('Name')}}</th>
+        <th>{{__('Status')}}</th>
+        <th>{{__('Name')}}</th>
+        <th>{{__('Status')}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+        <td>  {{__('Purchase Quotation')}}</td>
+        <td>
+        <div class="switch primary" style="margin-top: 15px">
                     <input type="checkbox" id="switch-3" name="for_purchase_quotation"
                         {{isset($supplyTerm) && $supplyTerm->for_purchase_quotation ? 'checked':''}}>
                     <label for="switch-3">{{__('Active')}}</label>
                 </div>
-            </div>
-        </div>
+        </td>
 
-        <div class="col-md-3">
-            <div class="form-group has-feedback">
-                <label for="inputStore" class="control-label">{{__('Purchase Invoice')}}</label>
-                <div class="switch primary" style="margin-top: 15px">
+        <td>  {{__('Purchase Invoice')}} </td>
+        <td>
+        <div class="switch primary" style="margin-top: 15px">
                     <input type="checkbox" id="switch-purchase_invoice" name="purchase_invoice"
                         {{isset($supplyTerm) && $supplyTerm->purchase_invoice ? 'checked':''}}>
                     <label for="switch-purchase_invoice">{{__('Active')}}</label>
                 </div>
-            </div>
-        </div>
+        </td>
 
-        <div class="col-md-3">
-            <div class="form-group has-feedback">
-                <label for="inputStore" class="control-label">{{__('Purchase Return')}}</label>
-                <div class="switch primary" style="margin-top: 15px">
+
+
+        <td>  {{__('Purchase Return')}} </td>
+        <td>
+        <div class="switch primary" style="margin-top: 15px">
                     <input type="checkbox" id="switch-purchase_return" name="purchase_return"
                         {{isset($supplyTerm) && $supplyTerm->purchase_return ? 'checked':''}}>
                     <label for="switch-purchase_return">{{__('Active')}}</label>
                 </div>
-            </div>
-        </div>
+        </td>
 
-        <div class="col-md-3">
-            <div class="form-group has-feedback">
-                <label for="inputStore" class="control-label">{{__('Supply Order')}}</label>
-                <div class="switch primary" style="margin-top: 15px">
+        <td>  {{__('Supply Order')}} </td>
+        <td>
+        <div class="switch primary" style="margin-top: 15px">
                     <input type="checkbox" id="switch-supply_order" name="supply_order"
                         {{isset($supplyTerm) && $supplyTerm->supply_order ? 'checked':''}}>
                     <label for="switch-supply_order">{{__('Active')}}</label>
                 </div>
-            </div>
-        </div>
+        </td>
 
-        <div class="col-md-3">
-            <div class="form-group has-feedback">
-                <label for="inputStore" class="control-label">{{__('Sale Quotations')}}</label>
-                <div class="switch primary" style="margin-top: 15px">
+        <td>  {{__('Sale Quotations')}} </td>
+        <td>
+        <div class="switch primary" style="margin-top: 15px">
                     <input type="checkbox" id="switch-sale_quotation" name="sale_quotation"
                         {{isset($supplyTerm) && $supplyTerm->sale_quotation ? 'checked':''}}>
                     <label for="switch-sale_quotation">{{__('Active')}}</label>
                 </div>
-            </div>
-        </div>
+        </td>
+        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
 
     </div>
+    </div>
 </div>
+
