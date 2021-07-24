@@ -29,10 +29,10 @@ class BranchesController extends Controller
 
     public function index()
     {
-        if (!auth()->user()->can('view_branches')) {
-
-            return redirect()->back()->with(['authorization' => 'error']);
-        }
+//        if (!auth()->user()->can('view_branches')) {
+//
+//            return redirect()->back()->with(['authorization' => 'error']);
+//        }
 
         $branches = Branch::orderBy('id' ,'desc')->get();
         return view('admin.branches.index', compact('branches'));
@@ -131,26 +131,26 @@ class BranchesController extends Controller
 
     public function edit(Branch $branch)
     {
-        if (!auth()->user()->can('update_branches')) {
-
-            return redirect()->back()->with(['authorization' => 'error']);
-        }
+//        if (!auth()->user()->can('update_branches')) {
+//
+//            return redirect()->back()->with(['authorization' => 'error']);
+//        }
 
         return view('admin.branches.edit', compact('branch'));
     }
 
     public function update(BranchUpdateRequest $request, Branch $branch)
     {
-        if (!auth()->user()->can('update_branches')) {
+//        if (!auth()->user()->can('update_branches')) {
+//
+//            return redirect()->back()->with(['authorization' => 'error']);
+//        }
 
-            return redirect()->back()->with(['authorization' => 'error']);
-        }
-
-        if(!authIsSuperAdmin()){
-
-            return redirect()->to('admin/branches')
-                ->with(['message' => __('words.cant-access-page'), 'alert-type' => 'error']);
-        }
+//        if(!authIsSuperAdmin()){
+//
+//            return redirect()->to('admin/branches')
+//                ->with(['message' => __('words.cant-access-page'), 'alert-type' => 'error']);
+//        }
 
         $branchData = $request->all();
         if ($request->has('logo') && $branchData['logo'] != null) {

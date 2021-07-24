@@ -70,14 +70,11 @@ route('admin:supply-terms.index'),
                             <a href="{{url('admin/areas')}}">{{__('areas')}}</a>
                         </li>
 
-                        @if(authIsSuperAdmin())
-
+{{--                        @if(authIsSuperAdmin())--}}
                             <li class="{{setActivationClass(url('admin/branches'))}}">
                                 <a href="{{url('admin/branches')}}">{{__('branches')}}</a>
-
                             </li>
-
-                        @endif
+{{--                        @endif--}}
 
 
                         <li class="{{setActivationClass(url('admin/taxes'))}}">
