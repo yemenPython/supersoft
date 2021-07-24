@@ -21,10 +21,10 @@ class BranchesController extends Controller
 
     public function __construct()
     {
-//        $this->middleware('permission:view_branches');
-//        $this->middleware('permission:create_branches',['only'=>['create','store']]);
-//        $this->middleware('permission:update_branches',['only'=>['edit','update']]);
-//        $this->middleware('permission:delete_branches',['only'=>['destroy','deleteSelected']]);
+    //    $this->middleware('permission:view_branches');
+    //    $this->middleware('permission:create_branches',['only'=>['create','store']]);
+    //    $this->middleware('permission:update_branches',['only'=>['edit','update']]);
+    //    $this->middleware('permission:delete_branches',['only'=>['destroy','deleteSelected']]);
     }
 
     public function index()
