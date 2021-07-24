@@ -118,7 +118,7 @@
 
         <div class="col-md-3">
             <div class="form-group has-feedback">
-                <label for="inputStore" class="control-label">{{__('Concession Type')}}</label>
+                <label for="inputStore" class="control-label text-danger">{{__('Concession Type')}}</label>
                 <div class="input-group" id="concession_types">
 
                     <span class="input-group-addon fa fa-file-text-o"></span>
@@ -143,7 +143,7 @@
 
         <div class="col-md-3">
             <div class="form-group has-feedback">
-                <label for="inputStore" class="control-label">{{__('Doc. number')}}</label>
+                <label for="inputStore" class="control-label text-danger">{{__('Doc. number')}}</label>
                 <div class="input-group" id="concession_items">
 
                     <span class="input-group-addon fa fa-bars"></span>

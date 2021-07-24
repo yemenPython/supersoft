@@ -2157,7 +2157,8 @@
     "Supply Order items" : "الأصناف المطلوب توريدها",
     "Purchase Receipt data" : "بيانات محضر إستلام المخزون",
     "Supply Order Number" : "رقم أمر التوريد",
-    "Purchase Receipt items" : "بيانات أصناف محضر الإستلام"
+    "Purchase Receipt items" : "بيانات أصناف محضر الإستلام",
+    "supply order Number" : "رقم أمر التوريد"
 
 }
 
