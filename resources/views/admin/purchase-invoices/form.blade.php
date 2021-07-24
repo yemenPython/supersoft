@@ -182,8 +182,8 @@
             </div>
         </div>
 
-
-        <div class="col-md-1">
+        <div class="col-md-3">
+        <div class="col-md-6">
             <div class="radio primary ">
             <label style="opacity:0">{{__('select')}}</label>
 
@@ -194,7 +194,7 @@
             </div>
         </div>
 
-        <div class="col-md-1">
+        <div class="col-md-6">
 
             <div class="radio primary ">
             <label style="opacity:0">{{__('select')}}</label>
@@ -203,6 +203,8 @@
                     {{isset($purchaseInvoice) && $purchaseInvoice->type == 'credit' ? 'checked':''}} >
                 <label for="credit">{{__('Credit')}}</label>
             </div>
+        </div>
+
         </div>
 
 
