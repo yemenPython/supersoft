@@ -266,7 +266,7 @@
                     $("#data_to_print").html(data.view);
 
                     let total = $("#totalInLetters").text()
-                    $("#totalInLetters").html(new Tafgeet(total, '{{env('DEFAULT_CURRENCY')}}').parse())
+                    $("#totalInLetters").html(new Tafgeet(total, '{{config("currency.defualt_currency")}}').parse())
                 }
             });
         }

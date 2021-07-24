@@ -309,7 +309,7 @@
                 success: function (data) {
                     $("#data_to_print").html(data.view);
                     let total = $("#totalInLetters").text()
-                    $("#totalInLetters").html(new Tafgeet(parseFloat(total), '{{env('DEFAULT_CURRENCY')}}').parse())
+                    $("#totalInLetters").html(new Tafgeet(parseFloat(total), '{{config("currency.defualt_currency")}}').parse())
                 }
             });
         }
