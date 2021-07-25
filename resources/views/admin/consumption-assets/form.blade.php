@@ -86,7 +86,7 @@
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="date" class="control-label">{{__('Date From')}}</label>
+                    <label for="date" class="control-label text-new1">{{__('Date From')}}</label>
                     <div class="input-group">
                         <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
                         <input type="date" name="date_from" class="form-control" id="date_from"
@@ -100,7 +100,7 @@
 
             <div class="col-md-6">
                 <div class="form-group">
-                    <label for="date" class="control-label">{{__('Date to')}}</label>
+                    <label for="date" class="control-label text-new1">{{__('Date to')}}</label>
                     <div class="input-group">
                         <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
                         <input type="date" name="date_to" class="form-control" id="date_to"
@@ -113,7 +113,7 @@
 
             <div class="col-md-6">
                 <div class="form-group has-feedback">
-                    <label for="inputStore" class="control-label">{{__('Assets Groups')}}</label>
+                    <label for="inputStore" class="control-label text-new1">{{__('Assets Groups')}}</label>
 
                     <div class="input-group" id="main_types">
                         <span class="input-group-addon fa fa-cubes"></span>
@@ -131,7 +131,7 @@
 
             <div class="col-md-6">
                 <div class="form-group has-feedback">
-                    <label for="inputStore" class="control-label">{{__('Assets')}}</label>
+                    <label for="inputStore" class="control-label text-new1">{{__('Assets')}}</label>
                     <div class="input-group">
                         <span class="input-group-addon fa fa-cube"></span>
                         <select class="form-control js-example-basic-single" id="assetsOptions" name="asset_id">

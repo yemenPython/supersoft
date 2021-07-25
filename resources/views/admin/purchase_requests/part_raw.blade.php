@@ -59,6 +59,9 @@
         {{input_error($errors, 'items['.$index.'][quantity]')}}
     </td>
 
+    
+
+    
     @if(isset($request_type) && $request_type == 'approval')
         <td>
             <input style="width: 150px !important;" type="number" class="form-control border2"
@@ -73,31 +76,48 @@
     @endif
 
     <td>
-<ul class="list-inline" style="display:flex;justify-content:center;align-items:center;margin:0;padding:0">
-  <li>
-  <a data-toggle="modal" data-target="#part_types_{{$index}}" title="Part Types" class="btn btn-info">
-            <i class="fa fa-check-circle"> </i> {{__('Types')}}
-        </a>
-  </li>
-  <li>
+
+    <div class="btn-group margin-top-10">
+
+<button type="button" class="btn btn-options dropdown-toggle"
+        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <i class="ico fa fa-bars"></i>
+    {{__('Options')}} <span class="caret"></span>
+
+</button>
+
+<ul class="dropdown-menu dropdown-wg">
+
+
+<li class="btn-style-drop">
   {{--        @if(!isset($request_type) || ( isset($request_type) && $request_type != 'approval'))--}}
-            <button type="button" class="btn btn-danger fa fa-trash" onclick="removeItem('{{$index}}')"></button>
+            <button type="button" class="btn btn-danger" onclick="removeItem('{{$index}}')">
+            <i class="fa fa-trash"></i>  {{__('Delete')}}
+        </button>
+
 {{--        @endif--}}
   </li>
-</ul>
-   
 
+  <li class="btn-style-drop">
+  <a data-toggle="modal" data-target="#part_types_{{$index}}" title="Part Types" class="btn btn-info">
+            <i class="fa fa-cubes"> </i> 
+            {{__('Types')}}
+        </a>
+  </li>
 
-
-        <div style="padding:0px !important;">
             @if(isset($request_type) && $request_type == 'approval')
+            <li class="btn-style-drop">
                 <a data-toggle="modal" data-target="#part_quantity_{{$index}}"
                    title="Part quantity" class="btn btn-primary">
-                    <li class="fa fa-cubes"></li> {{__('Stores Qty')}}
+                    <i class="fa fa-check-circle"></i> 
+                    {{__('Stores Qty')}}
                 </a>
+                </li>
             @endif
-        </div>
 
+
+        </ul>
+</div>
 
     </td>
 

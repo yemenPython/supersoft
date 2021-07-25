@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Super Car') }} - {{__('Create Card')}} </title>
+    <title>{{__('Create Card')}} </title>
 @endsection
 
 @section('content')

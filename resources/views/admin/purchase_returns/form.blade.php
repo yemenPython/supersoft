@@ -224,14 +224,17 @@
                 <div class="input-group">
                 <label style="opacity:0">{{__('select')}}</label>
                 <ul class="list-inline" style="display:flex">
-                    <li>                         <button type="button" onclick="getPurchaseReceipts(); changeType()"
-                                    class="btn btn-primary waves-effect waves-light btn-xs">
+                <li class="col-md-6">
+                                           <button type="button" onclick="getPurchaseReceipts(); changeType()"
+                                    class="btn btn-new1 waves-effect waves-light btn-xs">
+                                    <i class="fa fa-file-text-o"></i> 
                                     {{__('Get Purchase Receipt')}}
                             </button>
                 </li>
-                    <li>
-                    <button type="button" class="btn btn-danger waves-effect waves-light btn-xs"
+                <li class="col-md-6">
+                    <button type="button" class="btn btn-new2 waves-effect waves-light btn-xs"
                                     data-toggle="modal" data-target="#purchase_receipts" style="margin-right: 10px;">
+                                    <i class="fa fa-file-text-o"></i> 
                                     {{__('Show selected Receipts')}}
                             </button>
                     <li>

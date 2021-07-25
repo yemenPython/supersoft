@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('title')
-<title>{{ __('Super Car') }} - {{ __('Services Package') }} </title>
+<title>{{ __('Services Package') }} </title>
 @endsection
 @section('content')
     <div class="row small-spacing">
@@ -37,7 +37,7 @@
                     <div class="clearfix"></div>
                     <div class="table-responsive">
 
-                <table id="services_packages" class="table table-bordered" style="width:100%">
+                <table id="services_packages" class="table table-bordered table-hover wg-table-print" style="width:100%">
                     <thead>
                     <tr>
                         <th scope="col">{!! __('#') !!}</th>
@@ -88,18 +88,30 @@
                             <td>{!! $package->updated_at->format('y-m-d h:i:s A') !!}</td>
                             <td>
 
+                            <div class="btn-group margin-top-10">
+                                            <button type="button" class="btn btn-options dropdown-toggle"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="ico fa fa-bars"></i>
+                                                {{__('Options')}} <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-wg">
+                                                <li>
+
 
                                 @component('admin.buttons._edit_button',[
                                             'id'=>$package->id,
                                             'route' => 'admin:services_packages.edit',
                                              ])
                                 @endcomponent
-
+                                </li>
+                                <li class="btn-style-drop">
                                     @component('admin.buttons._force_delete',[
                                                       'id' => $package->id,
                                                       'route'=>'admin:services_packages.force_delete'
                                                        ])
                                     @endcomponent
+                                    </li>
+                                <li>
                                     <a style="cursor:pointer" class="btn btn-print-wg text-white  "
                                        data-toggle="modal"
 
@@ -107,6 +119,7 @@
                                        data-target="#boostrapModal" title="{{__('print')}}">
                                         <i class="fa fa-print"></i> {{__('Print')}}
                                     </a>
+                                    </li>
                             </td>
                             <td>
                                 @component('admin.buttons._delete_selected',[

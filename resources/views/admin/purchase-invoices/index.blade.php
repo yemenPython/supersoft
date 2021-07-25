@@ -94,7 +94,15 @@
                                     <td class="text-center column-supplier">{!! optional($invoice->supplier)->name !!}</td>
 
                                     <td class="text-center column-invoice-type">
-                                        <span class="label label-info wg-label">{{__($invoice->type)}}</span>
+                                    @if ($invoice->type === "cash")
+                                            <span class="label label-primary wg-label">
+                                    {{__($invoice->type)}}
+                                    </span>
+                                        @else
+                                    <span class="label label-danger wg-label">
+                                    {{__($invoice->type)}}
+                                    </span>
+                                        @endif
                                     </td>
 
                                     <td class="text-center column-paid">

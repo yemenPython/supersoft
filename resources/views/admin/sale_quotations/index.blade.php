@@ -109,7 +109,7 @@
 
                                     <td>
                                         @if ($item->type === "cash")
-                                            <span class="label label-success wg-label">
+                                            <span class="label label-primary wg-label">
                                     {{__($item->type)}}
                                     </span>
                                         @else

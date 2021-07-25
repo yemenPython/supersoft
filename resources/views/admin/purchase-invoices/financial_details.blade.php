@@ -179,7 +179,7 @@ style="background:#D2F4F6; border:none;text-align:center !important;"
                                                value="{{$tax->id}}"
                                         >
                                         <span>
-                                            {{$tax->name}} - {{$tax->tax_type == 'amount' ? '$':'%'}} - {{ $tax->value }} -
+                                            {{$tax->name}} ( {{ $tax->value }} {{$tax->tax_type == 'amount' ?  '$':'%'}} ) =
                                              <span id="calculated_tax_value_{{$tax_key}}">
                                                   {{isset($purchaseInvoice) ? taxValueCalculated($purchaseInvoice->total_after_discount, $purchaseInvoice->subtotal, $tax) : 0}}
                                              </span>
@@ -251,9 +251,8 @@ style="background:#D2F4F6; border:none;text-align:center !important;"
                                                value="{{$additionalPayment->id}}"
                                         >
                                         <span>
-                                            {{$additionalPayment->name}} -
-                                            {{$additionalPayment->tax_type == 'amount' ? '$':'%'}} -
-                                            {{ $additionalPayment->value }} -
+                                            {{$additionalPayment->name}} ( {{ $additionalPayment->value }}
+                                            {{$additionalPayment->tax_type == 'amount' ?  '$':'%'}} ) = 
                                              <span id="calculated_additional_value_{{$additional_key}}">
                                                  {{isset($purchaseInvoice) ? taxValueCalculated($purchaseInvoice->total_after_discount, $purchaseInvoice->subtotal, $additionalPayment ) : 0}}
                                              </span>

@@ -140,14 +140,19 @@
                 <div class="input-group">
                 <label style="opacity:0">{{__('select')}}</label>
                 <ul class="list-inline" style="display:flex">
-                    <li>       <button type="button" onclick="getPurchaseReceipts(); changeType()"
-                            class="btn btn-primary waves-effect waves-light btn-xs">
+                <li class="col-md-6">
+                         <button type="button" onclick="getPurchaseReceipts(); changeType()"
+                            class="btn btn-new1 waves-effect waves-light btn-xs">
+                            <i class="fa fa-file-text-o"></i> 
                         {{__('Get Purchase Receipt')}}
-                    </button></li>
-                    <li>
-                    <button type="button" class="btn btn-danger waves-effect waves-light btn-xs"
+                    </button>
+                </li>
+
+                    <li class="col-md-6">
+                    <button type="button" class="btn btn-new2 waves-effect waves-light btn-xs"
                             data-toggle="modal" data-target="#purchase_receipts" style="margin-right: 10px;">
-                        {{__('Show selected Receipts')}}
+                            <i class="fa fa-file-text-o"></i> 
+                            {{__('Show selected Receipts')}}
                     </button>
                     <li>
                 </ul>
@@ -262,7 +267,7 @@
              style="{{isset($purchaseInvoice) && $purchaseInvoice->invoice_type == 'from_supply_order'? 'display:none':''}}
              {{!isset($purchaseInvoice) ? 'display:none':''}}">
             <div class="form-group has-feedback">
-                <label for="inputStore" class="control-label">{{__('Main Types')}}</label>
+                <label for="inputStore" class="control-label text-new1">{{__('Main Types')}}</label>
                 <div class="input-group" id="main_types">
 
                     <span class="input-group-addon fa fa-cubes"></span>
@@ -286,7 +291,7 @@
              style="{{isset($purchaseInvoice) && $purchaseInvoice->invoice_type == 'from_supply_order'? 'display:none':''}}
              {{!isset($purchaseInvoice) ? 'display:none':''}}">
             <div class="form-group has-feedback">
-                <label for="inputStore" class="control-label">{{__('Sub Types')}}</label>
+                <label for="inputStore" class="control-label text-new1">{{__('Sub Types')}}</label>
                 <div class="input-group" id="sub_types">
 
                     <span class="input-group-addon fa fa-cube"></span>
@@ -310,7 +315,7 @@
              style="{{isset($purchaseInvoice) && $purchaseInvoice->invoice_type == 'from_supply_order'? 'display:none':''}}
              {{!isset($purchaseInvoice) ? 'display:none':''}}">
             <div class="form-group has-feedback">
-                <label for="inputStore" class="control-label">{{__('Parts')}}</label>
+                <label for="inputStore" class="control-label text-new1">{{__('Parts')}}</label>
                 <div class="input-group" id="parts">
 
                     <span class="input-group-addon fa fa-gears"></span>

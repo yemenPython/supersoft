@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('title')
-    <title>{{ __('Super Car') }} - {{ __('Maintenance Status') }} </title>
+    <title>{{ __('Maintenance Status') }} </title>
 @endsection
 @section('content')
     <div class="row small-spacing">

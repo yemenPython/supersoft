@@ -171,7 +171,7 @@
                                                    value="{{$tax->id}}"
                                             >
                                             <span>
-                                            {{$tax->name}} - {{$tax->tax_type == 'amount' ? '$':'%'}} - {{ $tax->value }} -
+                                            {{$tax->name}}  ( {{ $tax->value }} {{$tax->tax_type == 'amount' ? '$':'%'}} ) =
                                              <span id="calculated_tax_value_{{$tax_key}}">
                                                   {{isset($purchaseReturn) ? taxValueCalculated($purchaseReturn->total_after_discount, $purchaseReturn->sub_total, $tax) : 0}}
                                              </span>
@@ -245,9 +245,8 @@
                                                    value="{{$additionalPayment->id}}"
                                             >
                                             <span>
-                                            {{$additionalPayment->name}} -
-                                            {{$additionalPayment->tax_type == 'amount' ? '$':'%'}} -
-                                            {{ $additionalPayment->value }} -
+                                            {{$additionalPayment->name}} ( {{ $additionalPayment->value }}
+                                            {{$additionalPayment->tax_type == 'amount' ? '$':'%'}} ) = 
                                              <span id="calculated_additional_value_{{$additional_key}}">
                                                  {{isset($purchaseReturn) ? taxValueCalculated($purchaseReturn->total_after_discount, $purchaseReturn->sub_total, $additionalPayment ) : 0}}
                                              </span>

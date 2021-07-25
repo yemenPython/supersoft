@@ -90,7 +90,7 @@
 
         <div class="col-md-4">
             <div class="form-group has-feedback">
-                <label for="inputStore" class="control-label text-danger">{{__('Main Types')}}</label>
+                <label for="inputStore" class="control-label text-new1">{{__('Main Types')}}</label>
 
                 <div class="input-group" id="main_types">
 
@@ -113,7 +113,7 @@
 
         <div class="col-md-4">
             <div class="form-group has-feedback">
-                <label for="inputStore" class="control-label text-danger">{{__('Sub Types')}}</label>
+                <label for="inputStore" class="control-label text-new1">{{__('Sub Types')}}</label>
 
                 <div class="input-group" id="sub_types">
 
@@ -136,7 +136,7 @@
 
         <div class="col-md-4">
             <div class="form-group has-feedback">
-                <label for="inputStore" class="control-label text-danger">{{__('Parts')}}</label>
+                <label for="inputStore" class="control-label text-new1">{{__('Parts')}}</label>
 
                 <div class="input-group" id="parts">
 

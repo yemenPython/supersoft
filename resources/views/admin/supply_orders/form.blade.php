@@ -193,16 +193,20 @@
                         <div class="input-group">
                             <label style="opacity:0">{{__('select')}}</label>
                             <ul class="list-inline" style="display:flex">
-                                <li>
+
+                                <li class="col-md-6">
                                     <button type="button" onclick="getPurchaseQuotations(); quotationType()"
-                                            class="btn btn-primary waves-effect waves-light btn-xs">
+                                            class="btn btn-new1 waves-effect waves-light btn-xs">
+                                            <i class="fa fa-file-text-o"></i> 
                                         {{__('Get Purchase Quotations')}}
                                     </button>
                                 </li>
-                                <li>
-                                    <button type="button" class="btn btn-danger waves-effect waves-light btn-xs"
+
+                                <li class="col-md-6">
+                                    <button type="button" class="btn btn-new2 waves-effect waves-light btn-xs"
                                             data-toggle="modal" data-target="#purchase_quotations"
                                             style="margin-right: 10px;">
+                                            <i class="fa fa-file-text-o"></i> 
                                         {{__('Show selected Quotations')}}
                                     </button>
                                 <li>
@@ -286,7 +290,7 @@
                  style="{{isset($supplyOrder) && $supplyOrder->type == 'from_purchase_request'? 'display:none':''}}
                  {{!isset($supplyOrder) ? 'display:none':''}}">
                 <div class="form-group has-feedback">
-                    <label for="inputStore" class="control-label">{{__('Main Types')}}</label>
+                    <label for="inputStore" class="control-label text-new1">{{__('Main Types')}}</label>
                     <div class="input-group" id="main_types">
 
                         <span class="input-group-addon fa fa-cubes"></span>
@@ -310,7 +314,7 @@
                  style="{{isset($supplyOrder) && $supplyOrder->type == 'from_purchase_request'? 'display:none':''}}
                  {{!isset($supplyOrder) ? 'display:none':''}}">
                 <div class="form-group has-feedback">
-                    <label for="inputStore" class="control-label">{{__('Sub Types')}}</label>
+                    <label for="inputStore" class="control-label text-new1">{{__('Sub Types')}}</label>
                     <div class="input-group" id="sub_types">
 
                         <span class="input-group-addon fa fa-cube"></span>
@@ -334,7 +338,7 @@
                  style="{{isset($supplyOrder) && $supplyOrder->type == 'from_purchase_request'? 'display:none':''}}
                  {{!isset($supplyOrder) ? 'display:none':''}}">
                 <div class="form-group has-feedback">
-                    <label for="inputStore" class="control-label">{{__('Parts')}}</label>
+                    <label for="inputStore" class="control-label text-new1">{{__('Parts')}}</label>
                     <div class="input-group" id="parts">
 
                         <span class="input-group-addon fa fa-gears"></span>

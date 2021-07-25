@@ -109,7 +109,7 @@
                                     {{__($invoice->type)}}
                                     </span>
                                         @else
-                                            <span class="label label-info wg-label">
+                                            <span class="label label-danger wg-label">
                                     {{__($invoice->type)}}
                                     </span>
                                         @endif
