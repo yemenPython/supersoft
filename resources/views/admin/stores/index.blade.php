@@ -37,8 +37,8 @@
                     </ul>
                        <div class="clearfix"></div>
 
-<div class="table-responsive">
-                        <table id="stores" class="table table-bordered wg-table-print table-hover" style="width:100%">
+                        <div class="table-responsive">
+                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover" style="width:100%">
                             <thead>
                             <tr>
                                 <th scope="col">{!! __('#') !!}</th>
@@ -46,11 +46,7 @@
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
                                 <th scope="col">{!! __('Store Name') !!}</th>
-
                                 <th scope="col">{!! __('employees count') !!}</th>
-
-                                <!-- <th scope="col">{!! __('Store Phone') !!}</th> -->
-                                <!-- <th scope="col">{!! __('Address') !!}</th> -->
                                 <th scope="col">{!! __('Created At') !!}</th>
                                 <th scope="col">{!! __('Updated At') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -68,11 +64,7 @@
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
                                 <th scope="col">{!! __('Store Name') !!}</th>
-
                                 <th scope="col">{!! __('employees count') !!}</th>
-
-                                <!-- <th scope="col">{!! __('Store Phone') !!}</th> -->
-                                <!-- <th scope="col">{!! __('Address') !!}</th> -->
                                 <th scope="col">{!! __('Created At') !!}</th>
                                 <th scope="col">{!! __('Updated At') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -202,8 +194,16 @@
 
 @section('js')
     <script type="application/javascript">
-        invoke_datatable($('#stores'))
-
+        server_side_datatable('#datatable-with-btns');
+        function filterFunction($this) {
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout( function () {
+                $("#loaderSearch").hide();
+            }, 1000)
+        }
         function loadDataWithModal(storeId) {
             event.preventDefault();
             $.ajax({

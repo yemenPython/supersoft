@@ -9,7 +9,7 @@
             </h4>
             <!-- /.box-title -->
             <div class="card-content js__card_content">
-                <form>
+                <form  onsubmit="filterFunction($(this));return false;">
                     <div class="list-inline margin-bottom-0 row">
                         @if(authIsSuperAdmin())
                             <div class="form-group col-md-12">

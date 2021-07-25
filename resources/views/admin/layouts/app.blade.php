@@ -150,7 +150,127 @@
             background-color: #ea4335;
             border-radius: 10px;
         }
+        /* Absolute Center Spinner */
+        .loading {
+            position: fixed;
+            z-index: 999;
+            height: 2em;
+            width: 2em;
+            overflow: show;
+            margin: auto;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+        }
 
+        /* Transparent Overlay */
+        .loading:before {
+            content: '';
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(rgba(20, 20, 20,.8), rgba(0, 0, 0, .8));
+
+            background: -webkit-radial-gradient(rgba(20, 20, 20,.8), rgba(0, 0, 0,.8));
+        }
+
+        /* :not(:required) hides these rules from IE9 and below */
+        .loading:not(:required) {
+            /* hide "loading..." text */
+            font: 0/0 a;
+            color: transparent;
+            text-shadow: none;
+            background-color: transparent;
+            border: 0;
+        }
+
+        .loading:not(:required):after {
+            content: '';
+            display: block;
+            font-size: 10px;
+            width: 1em;
+            height: 1em;
+            margin-top: -0.5em;
+            -webkit-animation: spinner 150ms infinite linear;
+            -moz-animation: spinner 150ms infinite linear;
+            -ms-animation: spinner 150ms infinite linear;
+            -o-animation: spinner 150ms infinite linear;
+            animation: spinner 150ms infinite linear;
+            border-radius: 0.5em;
+            -webkit-box-shadow: rgba(255,255,255, 0.75) 1.5em 0 0 0, rgba(255,255,255, 0.75) 1.1em 1.1em 0 0, rgba(255,255,255, 0.75) 0 1.5em 0 0, rgba(255,255,255, 0.75) -1.1em 1.1em 0 0, rgba(255,255,255, 0.75) -1.5em 0 0 0, rgba(255,255,255, 0.75) -1.1em -1.1em 0 0, rgba(255,255,255, 0.75) 0 -1.5em 0 0, rgba(255,255,255, 0.75) 1.1em -1.1em 0 0;
+            box-shadow: rgba(255,255,255, 0.75) 1.5em 0 0 0, rgba(255,255,255, 0.75) 1.1em 1.1em 0 0, rgba(255,255,255, 0.75) 0 1.5em 0 0, rgba(255,255,255, 0.75) -1.1em 1.1em 0 0, rgba(255,255,255, 0.75) -1.5em 0 0 0, rgba(255,255,255, 0.75) -1.1em -1.1em 0 0, rgba(255,255,255, 0.75) 0 -1.5em 0 0, rgba(255,255,255, 0.75) 1.1em -1.1em 0 0;
+        }
+
+        /* Animation */
+
+        @-webkit-keyframes spinner {
+            0% {
+                -webkit-transform: rotate(0deg);
+                -moz-transform: rotate(0deg);
+                -ms-transform: rotate(0deg);
+                -o-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                -moz-transform: rotate(360deg);
+                -ms-transform: rotate(360deg);
+                -o-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+        @-moz-keyframes spinner {
+            0% {
+                -webkit-transform: rotate(0deg);
+                -moz-transform: rotate(0deg);
+                -ms-transform: rotate(0deg);
+                -o-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                -moz-transform: rotate(360deg);
+                -ms-transform: rotate(360deg);
+                -o-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+        @-o-keyframes spinner {
+            0% {
+                -webkit-transform: rotate(0deg);
+                -moz-transform: rotate(0deg);
+                -ms-transform: rotate(0deg);
+                -o-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                -moz-transform: rotate(360deg);
+                -ms-transform: rotate(360deg);
+                -o-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+        @keyframes spinner {
+            0% {
+                -webkit-transform: rotate(0deg);
+                -moz-transform: rotate(0deg);
+                -ms-transform: rotate(0deg);
+                -o-transform: rotate(0deg);
+                transform: rotate(0deg);
+            }
+            100% {
+                -webkit-transform: rotate(360deg);
+                -moz-transform: rotate(360deg);
+                -ms-transform: rotate(360deg);
+                -o-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
     </style>
 
 
@@ -158,6 +278,7 @@
 </head>
 
 <body>
+<div class="loading" id="loaderSearch" style="display: none">Loading&#8230;</div>
 
 
 @include('admin.partial.sidebar')
@@ -403,16 +524,11 @@
     }
 </script>
 <script type="application/javascript">
-    function server_side_datatable(selector) {
+    function server_side_datatable(selector, load_at_end_selector) {
         var page_title = $("title").text()
         $datatable = $('#datatable-with-btns').DataTable({
-            // processing: false,
-            serverSide: true,
+            serverSide: false,
             responsive: false,
-            // searching: true,
-            // info: true,
-            // bSort: true,
-            // lengthChange: true,
             "iDisplayLength": 25,
             dom: 'Bfrtip',
             "ajax": {
@@ -422,7 +538,6 @@
                     data.isDataTable = "true";
                 }
             },
-
             "language": {
                 "url": "{{app()->isLocale("ar")  ? url("trans/ar.json") :  url("trans/en.json")}}",
             },
@@ -432,15 +547,20 @@
                     text: '<i class="fa fa-print"></i> {{__('Print')}}',
                     autoPrint: false,
                     exportOptions: {
-                        columns: ':visible:not(:nth-last-child(-n+2))'
+                        columns: ':visible:not(:nth-last-child(-n+2))',
+                        modifier: { page: 'all'},
                     },
-                    messageTop: `
-
-                        @include("admin.layouts.datatable-print")
-                    <h4 class="text-center" style="margin-bottom: 10px">${page_title}</h4>
-                    `
-
+                    messageTop: `@include("admin.layouts.datatable-print")<h4 class="text-center" style="margin-bottom: 10px">${page_title}</h4>`
                     ,
+                    customize: function (win) {
+                        $(win.document.head).append("<link href='{{ asset('css/datatable-print-styles.css') }}' rel='stylesheet'/>")
+                        $(win.document.body).find("h1:first").remove()
+                        if (load_at_end_selector) $(win.document.body).append($(load_at_end_selector).html())
+                        win.document.title = page_title
+                        setTimeout(function () {
+                            win.print()
+                        }, 5000)
+                    }
                 },
                 {
                     extend: 'csv',
@@ -469,20 +589,6 @@
                 @endforeach
                 @endif
             ],
-            // aoColumns: [
-            //     // { mData: "DT_RowIndex" },
-            //     { data: "DT_RowIndex", name: "DT_RowIndex" , orderable: false, searchable: false},
-            //     { mData: "branch_id" },
-            //     { mData: "name" },
-            //     { mData: "asset_group_id" },
-            //     { mData: "asset_status" },
-            //     { mData: "annual_consumtion_rate" },
-            //     { mData: "asset_age" },
-            //     { mData: "created_at" },
-            //     { mData: "updated_at" },
-            //     { mData: "action" },
-            //     { data: "options", name: "options" , orderable: false, searchable: false},
-            // ],
         });
     }
 </script>

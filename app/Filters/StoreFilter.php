@@ -15,9 +15,8 @@ class StoreFilter
                 $query->where('branch_id', $request->branch_id);
             }
 
-            if ($request->has('name') && $request->name != '' && $request->name != null) {
-                $query->where('name_ar', 'like', '%' . $request->name . '%')
-                    ->orWhere('name_en', 'like', '%' . $request->name . '%');
+            if ($request->has('store_id') && $request->store_id != '' && $request->store_id != null) {
+                $query->where('id', $request->store_id);
             }
 
             if ($request->has('employee') && $request->employee != '' && $request->employee != null) {

@@ -15,6 +15,9 @@ class Store extends Model
 {
     use ColumnTranslation, SoftDeletes;
 
+    /**
+     * @var string[]
+     */
     protected $table = 'stores';
 
     protected $fillable = [
@@ -28,6 +31,20 @@ class Store extends Model
     ];
 
     protected $dates = ['deleted_at'];
+
+    /**
+     * @var string[]
+     */
+    protected static $dataTableColumns = [
+        'DT_RowIndex' => 'DT_RowIndex',
+        'branch_id' => 'branch_id',
+        'name' => 'name',
+        'active_total_of_employee' => 'active_total_of_employee',
+        'created_at' => 'created_at',
+        'updated_at' => 'updated_at',
+        'action' => 'action',
+        'options' => 'options'
+    ];
 
     protected static function boot()
     {
@@ -100,5 +117,16 @@ class Store extends Model
     public function storeEmployeeHistories(): HasMany
     {
         return $this->hasMany(StoreEmployeeHistory::class, 'store_id');
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getJsDataTablesColumns(): array
+    {
+        if (!authIsSuperAdmin()) {
+            unset(self::$dataTableColumns['branch_id']);
+        }
+        return self::$dataTableColumns;
     }
 }
