@@ -17,7 +17,9 @@
                 <i class="fa fa-building-o"></i>   {{__('branches')}}
                  </h4>
 
+            
             <div class="card-content js__card_content" style="">
+            @if(authIsSuperAdmin())
                     <ul class="list-inline pull-left top-margin-wg">
                        <li class="list-inline-item">
                        @include('admin.buttons.add-new', [
@@ -34,6 +36,7 @@
                
                        </li>
                     </ul>
+                    @endif
                     <div class="clearfix"></div>
                     <div class="table-responsive">
                 <table id="branches" class="table table-bordered wg-table-print table-hover" style="width:100%">
@@ -45,11 +48,13 @@
                         <th scope="col">{{__('Phone')}}</th>
                         <th scope="col">{{__('Shifts')}}</th>
                         <th scope="col">{!! __('Options') !!}</th>
+                        @if(authIsSuperAdmin())
                         <th scope="col">
                         <div class="checkbox danger">
                                 <input type="checkbox"  id="select-all">
                                 <label for="select-all"></label>
                             </div>{{__('Select')}}</th>
+                        @endif
                     </tr>
                     </thead>
                     <tfoot>
@@ -60,7 +65,9 @@
                         <th scope="col">{{__('Phone')}}</th>
                         <th scope="col">{{__('Shifts')}}</th>
                         <th scope="col">{{__('Options')}}</th>
+                        @if(authIsSuperAdmin())
                         <th scope="col">{{__('Select')}}</th>
+                        @endif
                     </tr>
                     </tfoot>
                     <tbody>
@@ -98,7 +105,7 @@
                                 @endcomponent
                 
                                             </li>
-
+                                            @if(authIsSuperAdmin())
                                             <li class="btn-style-drop">
                                             @component('admin.buttons._delete_button',[
                                             'id'=> $branch->id,
@@ -107,6 +114,7 @@
                                 @endcomponent
                 
                                             </li>
+                                            @endif
 
                                         </ul>
                                     </div>
@@ -124,6 +132,7 @@
                                              ])
                                 @endcomponent -->
                             </td>
+                            @if(authIsSuperAdmin())
                             <td>
                             @component('admin.buttons._delete_selected',[
                                      'id' => $branch->id,
@@ -131,6 +140,7 @@
                                       ])
                                 @endcomponent
                             </td>
+                            @endif
                         </tr>
                     @endforeach
                     </tbody>

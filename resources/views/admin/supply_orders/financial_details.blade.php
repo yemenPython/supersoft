@@ -247,9 +247,8 @@ style="background:#D2F4F6; border:none;text-align:center !important;"
                                                value="{{$additionalPayment->id}}"
                                         >
                                         <span>
-                                            {{$additionalPayment->name}} -
-                                            {{$additionalPayment->tax_type == 'amount' ? '$':'%'}} -
-                                            {{ $additionalPayment->value }} -
+                                            {{$additionalPayment->name}}  ( {{ $additionalPayment->value }}
+                                            {{$additionalPayment->tax_type == 'amount' ?  '$':'%'}} ) = 
                                              <span id="calculated_additional_value_{{$additional_key}}">
                                                  {{isset($supplyOrder) ? taxValueCalculated($supplyOrder->total_after_discount, $supplyOrder->sub_total, $additionalPayment ) : 0}}
                                              </span>

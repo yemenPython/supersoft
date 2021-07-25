@@ -12,7 +12,7 @@
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
                 <li class="breadcrumb-item active"><a
-                        href="{{route('admin:sale-quotations.index')}}"> {{__('Sale Quotation')}}</a></li>
+                        href="{{route('admin:sale-quotations.index')}}"> {{__('Sale Quotations')}}</a></li>
                 <li class="breadcrumb-item active"> {{__('Edit Sale Quotation')}}</li>
             </ol>
         </nav>

@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Super Car') }} - {{ __('Work Cards') }} </title>
+    <title>{{ __('Work Cards') }} </title>
 @endsection
 
 @section('style')
@@ -218,8 +218,7 @@
                         @endphp
                         @include($view_path . '.option-row')
                         <div class="clearfix"></div>
-                        <table id="currencies" class="table table-bordered table-responsive"
-                               style="width:100%;margin-top:15px">
+                        <table id="currencies" class="table table-bordered table-hover wg-table-print" style="width:100%">
                             @include($view_path . '.table-thead')
                             <tfoot>
                             <tr>

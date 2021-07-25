@@ -424,7 +424,7 @@ route('admin:customers.requests.index'),
                         </li>
 
 
-                        <!-- <li class="{{setActivationClass(route('admin:customers-categories.index'))}}">
+                        <li class="{{setActivationClass(route('admin:customers-categories.index'))}}">
                             <a href="{{route('admin:customers-categories.index')}}">
                                 {{__('customers Categories')}}
                             </a>
@@ -434,6 +434,7 @@ route('admin:customers.requests.index'),
                             <a href="{{route('admin:customers.index')}}">{{__('Customers')}}</a>
                         </li>
 
+                        <!-- 
                         <li class="{{setActivationClass(route('admin:customers.requests.index'))}}">
                             <a href="{{route('admin:customers.requests.index')}}">{{__('Customers Requests')}}</a>
                         </li> -->

@@ -1,7 +1,7 @@
 
 @extends('admin.layouts.app')
 @section('title')
-    <title>{{ __('Super Car') }} - {{__('Show Maintenance Detection')}} </title>
+    <title>{{__('Show Maintenance Detection')}} </title>
 @endsection
 @section('content')
 
@@ -23,10 +23,11 @@
         <div class=" card box-content-wg-new bordered-all primary">
                     <h1 class="box-title bg-info" style="text-align: initial"><i class="fa fa-info-circle ico"></i>{{__('Show Maintenance Detection')}}
                     <span class="controls hidden-sm hidden-xs pull-left">
-							<button class="control text-white" style="background:none;border:none;font-size:12px">حفظ<img class="img-fluid" style="width:50px;height:50px;margin-top:-20px;margin-bottom:-13px" src="{{asset('assets/images/f1.png')}}"></button>
-							<button class="control text-white" style="background:none;border:none;font-size:12px">تفريغ<img class="img-fluid" style="width:50px;height:50px;margin-top:-20px;margin-bottom:-13px" src="{{asset('assets/images/f2.png')}}"></button>
-							<button class="control text-white" style="background:none;border:none;font-size:12px">إلغاء <img class="img-fluid" style="width:50px;height:50px;margin-top:-20px;margin-bottom:-13px" src="{{asset('assets/images/f3.png')}}"></button>
 
+							<button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
+                                    class="img-fluid"
+                                    style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
+                                    src="{{asset('assets/images/f3.png')}}"></button>
 						</span>
                 </h1>
                 <div class="box-content">

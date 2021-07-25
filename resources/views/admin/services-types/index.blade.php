@@ -147,31 +147,16 @@
                                     <td>{!! $type->name !!}</td>
                                     <!-- <td>{!! optional($type->branch)->name !!}</td> -->
 
-                                    @if ($type->status == 1)
+                                  
                                     <td>
-                                        <div class="switch success">
-                                            <input
-                                                    disabled
-                                                    type="checkbox"
-                                                    {{$type->status == 1 ? 'checked' : ''}}
-                                                    id="switch-{{ $type->id }}">
-                                            <label for="type-{{ $type->id }}"></label>
-                                        </div>
+
+                                    @if($type->status)
+                                            <span class="label label-success wg-label"> {{ __('Active') }} </span>
+                                        @else
+                                            <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
+                                        @endif
 
                                         </td>
-                                    @else
-                                    <td>
-                                        <div class="switch success">
-                                            <input
-                                                    disabled
-                                                    type="checkbox"
-                                                    {{$type->status == 1 ? 'checked' : ''}}
-                                                    id="switch-{{ $type->id }}">
-                                            <label for="type-{{ $type->id }}"></label>
-                                        </div>
-
-                                        </td>
-                                    @endif
 
                                     <td>{!! $type->created_at->format('y-m-d h:i:s A') !!}</td>
 

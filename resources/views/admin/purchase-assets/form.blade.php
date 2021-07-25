@@ -151,7 +151,7 @@
 
             <div class="col-md-6">
                 <div class="form-group has-feedback">
-                    <label for="inputStore" class="control-label">{{__('Assets Groups')}}</label>
+                    <label for="inputStore" class="control-label text-new1">{{__('Assets Groups')}}</label>
 
                     <div class="input-group" id="main_types">
                         <span class="input-group-addon fa fa-cubes"></span>
@@ -169,7 +169,7 @@
 
             <div class="col-md-6">
                 <div class="form-group has-feedback">
-                    <label for="inputStore" class="control-label">{{__('Assets')}}</label>
+                    <label for="inputStore" class="control-label text-new1">{{__('Assets')}}</label>
                     <div class="input-group">
                         <span class="input-group-addon fa fa-cube"></span>
                         <select class="form-control js-example-basic-single" id="assetsOptions" name="asset_id">

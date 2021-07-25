@@ -697,6 +697,22 @@ background-image: linear-gradient(0deg, #1d92af 0%, #1d5697 100%); */
         .border6 {
             border: 1px solid #e7ba76 !important;
         }
+
+        .btn-new1 {
+            background-color: #379c6a !important;
+            font-size: 14px !important;
+            color: white !important;
+        }
+
+        .btn-new2 {
+            background-color: #8c59ce !important;
+            font-size: 14px !important;
+            color: white !important;
+        }
+
+        .text-new1 {
+            color: #3c3ac2 !important;
+        }
         
         .show-ribbon {
             padding: 0 20px;

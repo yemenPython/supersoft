@@ -179,16 +179,39 @@
     </td>
 
     <td>
-    <div style="padding:5px !important;">
-            <button type="button" class="btn btn-danger fa fa-trash" onclick="removeItem('{{$index}}')"></button>
+
+    
+    <div class="btn-group margin-top-10">
+
+<button type="button" class="btn btn-options dropdown-toggle"
+        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <i class="ico fa fa-bars"></i>
+    {{__('Options')}} <span class="caret"></span>
+
+</button>
+
+<ul class="dropdown-menu dropdown-wg">
+
+
+<li class="btn-style-drop">
+
+            <button type="button" class="btn btn-danger" onclick="removeItem('{{$index}}')">
+     <i class="fa fa-trash"></i>  {{__('Delete')}}
+     </button>
+
+</li>
+
+<li class="btn-style-drop">
 
             <button type="button" class="btn btn-primary waves-effect waves-light btn-xs" onclick="storeQuantity('{{$part->id}}')"
-                    data-toggle="modal" data-target="#part_quantity" style="margin-right: 10px;margin-top:5px">
+                    data-toggle="modal" data-target="#part_quantity" >
 
                     <li class="fa fa-cubes"></li> {{__('Stores Qty')}}
             </button>
+            </li>
 
-        </div>
+</ul>
+</div>
     </td>
 
 </tr>

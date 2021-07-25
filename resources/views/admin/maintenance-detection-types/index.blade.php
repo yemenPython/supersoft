@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('title')
-    <title>{{ __('Super Car') }} - {{__('Maintenance Types')}} </title>
+    <title>{{__('Maintenance Types')}} </title>
 @endsection
 @section('content')
     <div class="row small-spacing">
@@ -109,7 +109,7 @@
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
-                        <table id="currencies" class="table table-bordered" style="width:100%">
+                        <table id="currencies" class="table table-bordered table-hover wg-table-print" style="width:100%">
                             <thead>
                             <tr>
                                 <th scope="col">{!! __('#') !!}</th>
@@ -143,31 +143,15 @@
                                     <td>{!! $type->name !!}</td>
                                     <!-- <td>{!! optional($type->branch)->name !!}</td> -->
 
-                                    @if ($type->status == 1)
                                     <td>
-                                        <div class="switch success">
-                                            <input
-                                                    disabled
-                                                    type="checkbox"
-                                                    {{$type->status == 1 ? 'checked' : ''}}
-                                                    id="switch-{{ $type->id }}">
-                                            <label for="type-{{ $type->id }}"></label>
-                                        </div>
+                                    @if($type->status)
+                                            <span class="label label-success wg-label"> {{ __('Active') }} </span>
+                                        @else
+                                            <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
+                                        @endif  
 
                                         </td>
-                                    @else
-                                    <td>
-                                        <div class="switch success">
-                                            <input
-                                                    disabled
-                                                    type="checkbox"
-                                                    {{$type->status == 1 ? 'checked' : ''}}
-                                                    id="switch-{{ $type->id }}">
-                                            <label for="type-{{ $type->id }}"></label>
-                                        </div>
 
-                                        </td>
-                                    @endif
 
                                     <td>{!! $type->created_at->format('y-m-d h:i:s A') !!}</td>
                                     <td>
@@ -178,18 +162,30 @@
                                                     ])
                                         @endcomponent -->
 
+                                        
+                                    <div class="btn-group margin-top-10">
+                                            <button type="button" class="btn btn-options dropdown-toggle"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="ico fa fa-bars"></i>
+                                                {{__('Options')}} <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-wg">
+                                                <li>
+
                                         @component('admin.buttons._edit_button',[
                                                     'id' => $type->id,
                                                     'route'=>'admin:maintenance-detection-types.edit'
                                                      ])
                                         @endcomponent
-
+                                        </li>
+                                <li class="btn-style-drop">
                                         @component('admin.buttons._delete_button',[
                                                     'id'=>$type->id,
                                                     'route' => 'admin:maintenance-detection-types.destroy',
                                                     'tooltip' => __('Delete '.$type['name']),
                                                      ])
                                         @endcomponent
+                                        </li>
                                     </td>
                                     <td>
                                         @component('admin.buttons._delete_selected',[
