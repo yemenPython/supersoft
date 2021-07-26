@@ -65,7 +65,6 @@
                 <th>{{__('Quotation Number')}}</th>
                 <td> {{$purchaseQuotation->number }} </td>
                 <th>{{__('Type')}}</th>
-                {{dd($purchaseQuotation->type)}}
                 <td> {{__($purchaseQuotation->type)}} </td>
                 <th>{{__('Status')}}</th>
                 <td> {{__($purchaseQuotation->status)}} </td>
