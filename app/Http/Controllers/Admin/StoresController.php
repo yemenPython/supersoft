@@ -16,6 +16,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\DataTables;
 
 class StoresController extends Controller
 {
@@ -37,10 +38,6 @@ class StoresController extends Controller
     ) {
         $this->storeFilter = $storeFilter;
         $this->storeEmployeeHistoryService = $storeEmployeeHistoryService;
-//        $this->middleware('permission:view_stores');
-//        $this->middleware('permission:create_stores',['only'=>['create','store']]);
-//        $this->middleware('permission:update_stores',['only'=>['edit','update']]);
-//        $this->middleware('permission:delete_stores',['only'=>['destroy','deleteSelected']]);
     }
 
     public function index(Request $request)
@@ -49,14 +46,37 @@ class StoresController extends Controller
             return redirect()->back()->with(['authorization' => 'error']);
         }
         $stores = Store::query();
-        $employeesData = Store::getEmployees();
-        if ($request->hasAny((new Store())->getFillable())) {
+        if ($request->hasAny((new Store())->getFillable()) || $request->filled('store_id')) {
             $stores = $this->storeFilter->filter($request);
         }
-        return view('admin.stores.index', [
-            'stores' => $stores->with('storeEmployeeHistories')->orderBy('id', 'desc')->get(),
-            'employeesData' => $employeesData,
-        ]);
+        if ($request->isDataTable) {
+            return DataTables::of($stores)->addIndexColumn()
+                ->addColumn('branch_id', function ($store) {
+                    return '<span class="text-danger">' . optional($store->branch)->name . '</span>';
+                })
+                ->addColumn('name', function ($store) {
+                    return $store->name;
+                })
+                ->addColumn('active_total_of_employee', function ($store) {
+                    return view('admin.stores.datatables.count_number_of_employee', compact('store'))->render();
+                })
+                ->addColumn('created_at', function ($store) {
+                    return $store->created_at;
+                })
+                ->addColumn('updated_at', function ($store) {
+                    return $store->updated_at;
+                })
+                ->addColumn('action', function ($store) {
+                    return view('admin.stores.datatables.actions', compact('store'))->render();
+                })->addColumn('options', function ($store) {
+                    return view('admin.stores.datatables.option-delete-selected', compact('store'))->render();
+                })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
+        } else {
+            return view('admin.stores.index', [
+                'stores' => $stores->with('storeEmployeeHistories')->orderBy('id', 'desc')->get(),
+                'js_columns' => Store::getJsDataTablesColumns(),
+            ]);
+        }
     }
 
     public function create()
