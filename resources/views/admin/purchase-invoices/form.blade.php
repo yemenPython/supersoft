@@ -66,12 +66,12 @@
                             onchange="changeType()">
 
                         <option value="from_supply_order"
-                            {{isset($purchaseInvoice) && $purchaseInvoice->type == 'from_supply_order'? 'selected':'' }}>
+                            {{isset($purchaseInvoice) && $purchaseInvoice->invoice_type == 'from_supply_order'? 'selected':'' }}>
                             {{ __('From Supply Order') }}
                         </option>
 
                         <option value="normal"
-                            {{isset($purchaseInvoice) && $purchaseInvoice->type == 'normal'? 'selected':'' }}>
+                            {{isset($purchaseInvoice) && $purchaseInvoice->invoice_type == 'normal'? 'selected':'' }}>
                             {{ __('Normal purchase invoice') }}
                         </option>
 
@@ -143,7 +143,7 @@
                 <li class="col-md-6">
                          <button type="button" onclick="getPurchaseReceipts(); changeType()"
                             class="btn btn-new1 waves-effect waves-light btn-xs">
-                            <i class="fa fa-file-text-o"></i> 
+                            <i class="fa fa-file-text-o"></i>
                         {{__('Get Purchase Receipt')}}
                     </button>
                 </li>
@@ -151,7 +151,7 @@
                     <li class="col-md-6">
                     <button type="button" class="btn btn-new2 waves-effect waves-light btn-xs"
                             data-toggle="modal" data-target="#purchase_receipts" style="margin-right: 10px;">
-                            <i class="fa fa-file-text-o"></i> 
+                            <i class="fa fa-file-text-o"></i>
                             {{__('Show selected Receipts')}}
                     </button>
                     <li>

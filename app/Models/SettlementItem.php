@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class SettlementItem extends Model
 {
-    protected $fillable = ['settlement_id','part_id','store_id','part_price_id','part_price_segment_id','quantity', 'price'];
+    protected $fillable = ['settlement_id','part_id','store_id','part_price_id','part_price_segment_id','quantity',
+        'price', 'spare_part_id'];
 
     protected $table = 'settlement_items';
 
@@ -33,5 +34,10 @@ class SettlementItem extends Model
     public function partPriceSegment () {
 
         return $this->belongsTo(PartPriceSegment::class, 'part_price_segment_id')->withTrashed();
+    }
+
+    function sparePart()
+    {
+        return $this->belongsTo(SparePart::class ,'spare_part_id');
     }
 }

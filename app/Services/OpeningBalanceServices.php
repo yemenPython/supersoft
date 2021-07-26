@@ -16,6 +16,7 @@ class OpeningBalanceServices
             'quantity' => $item['quantity'],
             'buy_price' => $item['buy_price'],
             'store_id' => $item['store_id'],
+            'spare_part_id' => $item['spare_part_id'],
         ];
 
         return $data;

@@ -12,6 +12,10 @@
             </span>
         </td>
 
+        <td>
+            <span > {{ $item->sparePart ? $item->sparePart->type : '---' }} </span>
+        </td>
+
         <td class="inline-flex-span">
         <span>
         {{optional($item->partPrice)->quantity}}

@@ -123,14 +123,14 @@ function calculateItemTaxes(index) {
             if (tax_type == 'amount') {
 
                 total_taxes += parseFloat(tax_value);
-                $("#calculated_tax_value_" + i + '_' + index).text(tax_value);
+                $("#calculated_tax_value_" + i + '_' + index).text(tax_value.toFixed(2));
 
             } else {
 
                 let tax_percent_value = parseFloat(totalUsedToCalculate) * parseFloat(tax_value) / 100;
                 total_taxes += parseFloat(tax_percent_value);
 
-                $("#calculated_tax_value_" + i + '_' + index).text(tax_percent_value);
+                $("#calculated_tax_value_" + i + '_' + index).text(tax_percent_value.toFixed(2));
             }
         }
     }
@@ -229,13 +229,13 @@ function calculateTax() {
             if (type == 'amount') {
 
                 total_tax += parseFloat(value);
-                $("#calculated_tax_value_" + i).text(value);
+                $("#calculated_tax_value_" + i).text(value.toFixed(2));
             } else {
 
                 var tax_value = parseFloat(totalUsedToCalculate) * parseFloat(value) / 100;
                 total_tax += parseFloat(tax_value);
 
-                $("#calculated_tax_value_" + i).text(tax_value);
+                $("#calculated_tax_value_" + i).text(tax_value.toFixed(2));
             }
         }
     }
@@ -287,14 +287,14 @@ function calculateAdditionalPayments() {
             if (type == 'amount') {
 
                 total_additional += parseFloat(value);
-                $("#calculated_additional_value_" + i).text(value);
+                $("#calculated_additional_value_" + i).text(value.toFixed(2));
 
             } else {
 
                 var tax_value = parseFloat(totalUsedToCalculate) * parseFloat(value) / 100;
                 total_additional += parseFloat(tax_value);
 
-                $("#calculated_additional_value_" + i).text(tax_value);
+                $("#calculated_additional_value_" + i).text(tax_value.toFixed(2));
             }
         }
     }

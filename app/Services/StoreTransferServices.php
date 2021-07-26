@@ -30,6 +30,7 @@ class StoreTransferServices
             'part_price_id' => $item['part_price_id'],
             'quantity' => $item['quantity'],
             'price' => $price,
+            'spare_part_id' => $item['spare_part_id'],
             'total' => $price * $item['quantity'],
             'part_price_segment_id' => isset($item['part_price_segment_id']) ? $item['part_price_segment_id'] : null,
         ];
@@ -39,7 +40,6 @@ class StoreTransferServices
 
     public function storeTransferData($requestData)
     {
-
         $data = [
 
             'transfer_date' => $requestData['date'],

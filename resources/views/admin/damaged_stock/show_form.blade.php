@@ -82,6 +82,7 @@
         <tr>
             <th width="2%">#</th>
             <th width="16%"> {{ __('Name') }} </th>
+            <th width="16%"> {{ __('Part Type') }} </th>
             <th width="10%"> {{ __('Unit Quantity') }} </th>
             <th width="12%"> {{ __('Unit') }} </th>
             <th width="13%"> {{ __('Price Segments') }} </th>
@@ -114,6 +115,11 @@
                              {{$part->name}}
                          </span>
                     </td>
+
+                    <td>
+                        {{$item->sparePart ? $item->sparePart->type : '---' }}
+                    </td>
+
                     <td class="inline-flex-span">
                         <span id="unit_quantity_{{$index}}">
                         {{isset($item) && $item->partPrice ? $item->partPrice->quantity : $part->first_price_quantity}}
@@ -169,6 +175,7 @@
         <tr>
             <th width="2%">#</th>
             <th width="16%"> {{ __('Name') }} </th>
+            <th width="16%"> {{ __('Part Type') }} </th>
             <th width="10%"> {{ __('Unit Quantity') }} </th>
             <th width="12%"> {{ __('Unit') }} </th>
             <th width="13%"> {{ __('Price Segments') }} </th>

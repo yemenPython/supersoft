@@ -64,7 +64,8 @@ class ConcessionService
                 'store_id' => $item->store_id,
                 'quantity' => $item->quantity,
                 'price' => $item->price,
-                'part_price_segment_id' => $item->part_price_segment_id
+                'part_price_segment_id' => $item->part_price_segment_id,
+                'spare_part_id' => $item->spare_part_id
             ];
 
             if ($className == 'StoreTransfer' && $concession->type == 'add') {

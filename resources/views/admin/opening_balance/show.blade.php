@@ -102,6 +102,7 @@
                                 <tr>
                                     <th width="5%">#</th>
                                     <th width="16%"> {{ __('Name') }} </th>
+                                    <th width="10%"> {{ __('Part Type') }} </th>
                                     <th width="10%"> {{ __('opening-balance.default-quantity') }} </th>
                                     <th width="10%"> {{ __('opening-balance.units') }} </th>
                                     <th width="13%"> {{ __('opening-balance.price-segment') }} </th>
@@ -116,13 +117,11 @@
                                 @foreach($openingBalance->items as $index=>$item)
 
                                     <tr>
-
                                         <td>
                                             <span>{{$index+1}}</span>
                                         </td>
 
                                         <td>
-
                                              <span style="width:180px; cursor: pointer"
                                                    data-img="{{$item->part->image}}" data-toggle="modal"
                                                    data-target="#part_img" title="Part image"
@@ -130,8 +129,9 @@
                                                    id="part_img_id_{{$index}}">
                                                  {{$item->part->name}}
                                              </span>
-
                                         </td>
+
+                                        <td>{{$item->sparePart ? $item->sparePart->type : '---' }}</td>
 
                                         <td class="inline-flex-span">
                                             <span> {{isset($item) && $item->partPrice ? $item->partPrice->quantity : $part->first_price_quantity}} </span>

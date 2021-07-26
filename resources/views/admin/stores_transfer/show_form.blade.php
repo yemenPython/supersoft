@@ -86,6 +86,7 @@
         <tr>
             <th width="2%"> #</th>
             <th width="16%"> {{ __('Name') }} </th>
+            <th width="12%"> {{ __('Part Type') }} </th>
             <th width="12%"> {{ __('Unit Quantity') }} </th>
             <th width="12%"> {{ __('Unit') }} </th>
             <th width="13%"> {{ __('Price Segments') }} </th>
@@ -115,6 +116,9 @@
                                id="part_img_id_{{$index}}">
                              {{$part->name}}
                          </span>
+                    </td>
+                    <td>
+                        {{$item->sparePart ? $item->sparePart->type : '---'}}
                     </td>
 
                     <td class="inline-flex-span">
@@ -161,6 +165,7 @@
         <tr>
             <th width="2%"> #</th>
             <th width="16%"> {{ __('Name') }} </th>
+            <th width="12%"> {{ __('Part Type') }} </th>
             <th width="12%"> {{ __('Unit Quantity') }} </th>
             <th width="12%"> {{ __('Unit') }} </th>
             <th width="13%"> {{ __('Price Segments') }} </th>

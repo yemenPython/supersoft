@@ -16,6 +16,23 @@
         <input style="width: 150px !important;" type="hidden" value="{{$part->id}}" name="items[{{$index}}][part_id]" class="form-control" style="text-align: center;">
     </td>
 
+    <td>
+        <div class="input-group" style="width: 180px !important;">
+
+            <select class="form-control js-example-basic-single" name="items[{{$index}}][spare_part_id]"
+                    id="spare_part_id_{{$index}}">
+
+                @foreach($part->part_types_tree as $sparePartId => $sparePartValue)
+                    <option value="{{$sparePartId}}"
+                        {{isset($item) && $item->spare_part_id == $sparePartId ? 'selected':''}}
+                    >
+                        {{$sparePartValue}}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+    </td>
+
     <td class="inline-flex-span" style="">
 
         <span id="unit_quantity_{{$index}}">

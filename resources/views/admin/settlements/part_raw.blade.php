@@ -5,7 +5,8 @@
     </td>
 
     <td>
-            <span style="width: 150px !important;display:block; cursor: pointer" data-img="{{$part->image}}" data-toggle="modal"
+            <span style="width: 150px !important;display:block; cursor: pointer" data-img="{{$part->image}}"
+                  data-toggle="modal"
                   data-target="#part_img" title="Part image" onclick="getPartImage('{{$index}}')"
                   id="part_img_id_{{$index}}" data-img="{{$part->img}}">
 
@@ -18,18 +19,36 @@
                id="max_quantity_part_{{$index}}" style="text-align: center;">
     </td>
 
+    <td>
+        <div class="input-group" style="width: 180px !important;">
+
+            <select class="form-control js-example-basic-single" name="items[{{$index}}][spare_part_id]"
+                    id="spare_part_id_{{$index}}">
+
+                @foreach($part->part_types_tree as $sparePartId => $sparePartValue)
+                    <option value="{{$sparePartId}}"
+                        {{isset($item) && $item->spare_part_id == $sparePartId ? 'selected':''}}
+                    >
+                        {{$sparePartValue}}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+    </td>
+
     <td class="inline-flex-span">
-    <span id="unit_quantity_{{$index}}">
-    {{isset($item) && $item->partPrice ? $item->partPrice->quantity : $part->first_price_quantity}}
-    </span>
-    <span class="part-unit-span"> {{ $part->sparePartsUnit->unit }}  </span>
+        <span id="unit_quantity_{{$index}}">
+        {{isset($item) && $item->partPrice ? $item->partPrice->quantity : $part->first_price_quantity}}
+        </span>
+        <span class="part-unit-span"> {{ $part->sparePartsUnit->unit }}  </span>
 
     </td>
 
     <td>
         <div class="input-group">
 
-            <select style="width: 150px !important;" class="form-control js-example-basic-single" name="items[{{$index}}][part_price_id]"
+            <select style="width: 150px !important;" class="form-control js-example-basic-single"
+                    name="items[{{$index}}][part_price_id]"
                     id="prices_part_{{$index}}" onchange="priceSegments('{{$index}}');">
 
                 @foreach($part->prices as $price)
@@ -47,7 +66,8 @@
     <td>
         <div class="input-group" id="price_segments_part_{{$index}}">
 
-            <select style="width: 150px !important;" class="form-control js-example-basic-single" name="items[{{$index}}][part_price_segment_id]"
+            <select style="width: 150px !important;" class="form-control js-example-basic-single"
+                    name="items[{{$index}}][part_price_segment_id]"
                     id="price_segments_part_{{$index}}"
                     onchange="getPurchasePrice('{{$index}}'); calculateItem('{{$index}}') ">
 
@@ -69,7 +89,8 @@
                         <option value="">{{__('Select Segment')}}</option>
 
                         @foreach($part->first_price_segments as $priceSegment)
-                            <option value="{{$priceSegment->id}}" data-purchase_price="{{$priceSegment->purchase_price}}"
+                            <option value="{{$priceSegment->id}}"
+                                    data-purchase_price="{{$priceSegment->purchase_price}}"
                                 {{isset($item) && $item->part_price_segment_id == $priceSegment->id  ? 'selected':''}}>
                                 {{$priceSegment->name}}
                             </option>
@@ -84,7 +105,8 @@
 
     <td>
         <div class="input-group">
-            <select style="width: 150px !important;" class="form-control js-example-basic-single" name="items[{{$index}}][store_id]" id="store_part_{{$index}}"
+            <select style="width: 150px !important;" class="form-control js-example-basic-single"
+                    name="items[{{$index}}][store_id]" id="store_part_{{$index}}"
                     onchange="partQuantityInStore('{{$index}}'); checkPartQuantity('{{$index}}');">
 
                 @foreach($part->stores as $store)
@@ -106,7 +128,8 @@
     </td>
 
     <td>
-        <input style="width: 150px !important;" type="text" id="price_{{$index}}" class="form-control border2" onkeyup="calculateItem('{{$index}}')"
+        <input style="width: 150px !important;" type="text" id="price_{{$index}}" class="form-control border2"
+               onkeyup="calculateItem('{{$index}}')"
                value="{{isset($item) ? $item->price : $part->default_purchase_price}}" name="items[{{$index}}][price]">
     </td>
 

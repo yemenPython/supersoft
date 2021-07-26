@@ -132,77 +132,87 @@
                                 </tfoot>
 
                                 <tbody>
-                                @foreach($data['quotations'] as $purchaseQuotation)
-                                    @foreach($purchaseQuotation->items as $index => $item)
-                                        <tr>
-                                            <td>{{$purchaseQuotation->number}}</td>
-                                            <td>
+                                @foreach($data['quotationItems'] as $purchaseQuotationItems)
+
+                                    @php
+                                        $purchaseQuotation = $purchaseQuotationItems->purchaseQuotation;
+                                    @endphp
+
+                                    <tr>
+                                        <td>{{$purchaseQuotation ? $purchaseQuotation->number : '---'}}</td>
+                                        <td>
 
                                             <span class="part-unit-span">
                                                 {{$purchaseQuotation->purchaseRequest ? $purchaseQuotation->purchaseRequest->number : __('Not determined')}}
                                             </span>
-                                            </td>
-                                            <td>{{optional($purchaseQuotation->supplier)->name}}</td>
 
-                                            <td>
-                                                <span style="cursor: pointer" data-img="{{optional($item->part)->image}}" data-toggle="modal"
-                                                      data-target="#part_img" title="Part image"  class="part_img_id_{{optional($item->part)->id}}"
-                                                      onclick="getPartImage('{{optional($item->part)->id}}')" >
-                                                    {{optional($item->part)->name}}
+                                        </td>
+
+                                        <td>{{$purchaseQuotation && $purchaseQuotation->supplier ? $purchaseQuotation->supplier->name : '---'}}</td>
+
+                                        <td>
+                                                <span style="cursor: pointer"
+                                                      data-img="{{optional($purchaseQuotationItems->part)->image}}" data-toggle="modal"
+                                                      data-target="#part_img" title="Part image"
+                                                      class="part_img_id_{{optional($purchaseQuotationItems->part)->id}}"
+                                                      onclick="getPartImage('{{optional($purchaseQuotationItems->part)->id}}')">
+                                                    {{optional($purchaseQuotationItems->part)->name}}
                                                 </span>
-                                            </td>
+                                        </td>
 
-                                            <td>{{$item->sparePart ? $item->sparePart->type : '---'}}</td>
-                                            <td>{{optional($item->partPrice->unit)->unit}}</td>
-                                            <td>
+                                        <td>{{$purchaseQuotationItems->sparePart ? $purchaseQuotationItems->sparePart->type : '---'}}</td>
+                                        <td>
+                                            {{ $purchaseQuotationItems->partPrice && $purchaseQuotationItems->partPrice->unit ? $purchaseQuotationItems->partPrice->unit->unit : '---' }}
+                                        </td>
+                                        <td>
                                             <span class="price-span">
-                                            {{$item->partPriceSegment ? $item->partPriceSegment->name : __('Not determined')}}
+                                            {{$purchaseQuotationItems->partPriceSegment ? $purchaseQuotationItems->partPriceSegment->name : __('Not determined')}}
                                             </span>
-                                            </td>
-                                            <td class="text-danger">
-                                                {{$item->quantity}}
-                                            </td>
-                                            <td style="background:#FBFAD4 !important">
-                                                {{$item->price}}
-                                            </td>
+                                        </td>
+                                        <td class="text-danger">
+                                            {{$purchaseQuotationItems->quantity}}
+                                        </td>
+                                        <td style="background:#FBFAD4 !important">
+                                            {{$purchaseQuotationItems->price}}
+                                        </td>
 
-                                            <td>{{__($item->discount_type)}}</td>
-                                            <td style="background:#E3F6FB !important">
-                                                {{$item->discount}}
-                                            </td>
-                                            <td style="background:#FBE3EA !important">
-                                                {{$item->sub_total}}
-                                            </td>
-                                            <td style="background:#E3F6FB !important">
-                                                {{$item->total_after_discount}}
-                                            </td>
-                                            <td>
+                                        <td>{{__($purchaseQuotationItems->discount_type)}}</td>
+                                        <td style="background:#E3F6FB !important">
+                                            {{$purchaseQuotationItems->discount}}
+                                        </td>
+                                        <td style="background:#FBE3EA !important">
+                                            {{$purchaseQuotationItems->sub_total}}
+                                        </td>
+                                        <td style="background:#E3F6FB !important">
+                                            {{$purchaseQuotationItems->total_after_discount}}
+                                        </td>
+                                        <td>
                                             <span style="background:#F7F8CC !important">
-                                                {{$item->tax}}
-                                                </span>
-                                            </td>
-                                            <td style="background:#FBFAD4 !important">
-                                                {{$item->total}}
-                                            </td>
-                                            <td>
-                                                <a style="cursor:pointer" class="btn btn-print-wg text-white  "
-                                                   data-toggle="modal"
-                                                   onclick="getPrintData({{$purchaseQuotation->id}})"
-                                                   data-target="#boostrapModal" title="{{__('print')}}">
-                                                    <i class="fa fa-print"></i> {{__('Show quotation')}}
-                                                </a>
-                                            </td>
-                                            <td>
-                                                <div class="col-md-2" style="margin-top: 10px;">
-                                                    <div class="form-group has-feedback">
-                                                        <input type="checkbox" class="item_of_all"
-                                                               name="purchase_quotations_items[]"
-                                                               value="{{$item->id}}">
-                                                    </div>
+                                                {{$purchaseQuotationItems->tax}}
+                                            </span>
+                                        </td>
+                                        <td style="background:#FBFAD4 !important">
+                                            {{$purchaseQuotationItems->total}}
+                                        </td>
+                                        <td>
+                                            <a style="cursor:pointer" class="btn btn-print-wg text-white  "
+                                               data-toggle="modal"
+                                               onclick="getPrintData({{$purchaseQuotation->id}})"
+                                               data-target="#boostrapModal" title="{{__('print')}}">
+                                                <i class="fa fa-print"></i> {{__('Show quotation')}}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div class="col-md-2" style="margin-top: 10px;">
+                                                <div class="form-group has-feedback">
+                                                    <input type="checkbox" class="item_of_all"
+                                                           name="purchase_quotations_items[]"
+                                                           value="{{$purchaseQuotationItems->id}}">
                                                 </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {{--                                    @endforeach--}}
                                 @endforeach
                                 </tbody>
                             </table>

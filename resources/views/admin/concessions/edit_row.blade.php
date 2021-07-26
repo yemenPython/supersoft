@@ -7,6 +7,10 @@
             </span>
     </td>
 
+    <td>
+        <span > {{ $item->sparePart ? $item->sparePart->type : '---' }} </span>
+    </td>
+
     <td class="inline-flex-span">
     <span>{{optional($item->partPrice)->quantity}}</span>
         <span class="part-unit-span"> {{ $item->part && $item->part->sparePartsUnit ? $item->part->sparePartsUnit->unit : '---' }}  </span>
