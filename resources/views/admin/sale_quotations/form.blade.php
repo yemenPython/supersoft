@@ -206,10 +206,10 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="col-md-1">
+<div class="col-md-4">
+<label style="display:block">{{__('Quotation type')}}</label>
+                <div class="col-xs-4" style="padding:0">
                     <div class="radio primary ">
-                        <label style="opacity:0">{{__('select')}}</label>
 
                         <input type="radio" name="type" value="cash" id="cash"
                             {{ !isset($saleQuotation) ? 'checked':'' }}
@@ -218,17 +218,16 @@
                     </div>
                 </div>
 
-                <div class="col-md-1">
+                <div class="col-xs-4" style="padding:0">
 
                     <div class="radio primary ">
-                        <label style="opacity:0">{{__('select')}}</label>
 
                         <input type="radio" name="type" id="credit" value="credit"
                             {{isset($saleQuotation) && $saleQuotation->type == 'credit' ? 'checked':''}} >
                         <label for="credit">{{__('Credit')}}</label>
                     </div>
                 </div>
-
+                </div>
             </div>
         </div>
 

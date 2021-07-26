@@ -168,7 +168,7 @@
 
     <td>
         <div class="btn-group" style="display:flex !important;align-items:center">
-    <span type="button" class="fa fa-eye dropdown-toggle" data-toggle="dropdown"
+    <span type="button" class="fa fa-eye eye-table-wg dropdown-toggle" data-toggle="dropdown"
           style="
     color: #a776e7;
     padding: 6px 10px;

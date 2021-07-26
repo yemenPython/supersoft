@@ -265,13 +265,10 @@
                 </div>
 
                 <div class="col-md-4">
+                <label for="date" class="control-label">{{__('Quotation type')}}</label>
                 <div class="form-group">
-               <label for="date" class="control-label">{{__('Quotation type')}}</label>
-
                 <div class="col-xs-4">
                     <div class="radio primary ">
-                        <label style="opacity:0">{{__('select')}}</label>
-
                         <input type="radio" name="quotation_type" value="cash" id="cash"
                             {{ !isset($purchaseQuotation) ? 'checked':'' }}
                             {{isset($purchaseQuotation) && $purchaseQuotation->quotation_type == 'cash' ? 'checked':''}} >
@@ -283,7 +280,6 @@
                 <div class="col-xs-4">
 
                     <div class="radio primary ">
-                        <label style="opacity:0">{{__('select')}}</label>
 
                         <input type="radio" name="quotation_type" id="credit" value="credit"
                             {{isset($purchaseQuotation) && $purchaseQuotation->quotation_type == 'credit' ? 'checked':''}} >

@@ -105,7 +105,7 @@
 
     <td>
     <div class="btn-group" style="display:flex !important;align-items:center">
-    <span type="button" class="fa fa-eye dropdown-toggle" data-toggle="dropdown"
+    <span type="button" class="fa fa-eye dropdown-toggle eye-table-wg" data-toggle="dropdown"
                   style="
     color: #a776e7;
     padding: 6px 10px;
@@ -191,7 +191,7 @@
 <ul class="dropdown-menu dropdown-wg">
 
 
-<li class="btn-style-drop">
+<li class="btn-style-drop" style="margin-bottom:2px !important">
 
             <button type="button" class="btn btn-danger fa fa-trash" onclick="removeItem('{{$index}}')">
             <i class="fa fa-trash"></i>  {{__('Delete')}}

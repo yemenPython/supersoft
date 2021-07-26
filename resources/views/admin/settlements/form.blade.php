@@ -83,18 +83,28 @@
                 </div>
 
                 <div class="col-md-4">
-                <div class="radio primary col-md-6" style="margin-top: 37px;">
+                <label class="control-label" style="display:block">نوع التلف</label>
+
+                <ul class="list-inline">
+                    <li>
+                    <div class="radio primary" >
                     <input type="radio" name="type" value="positive" id="positive"
                         {{ !isset($settlement) ? 'checked':'' }}
                         {{isset($settlement) && $settlement->type == 'positive' ? 'checked':''}} >
                     <label for="positive">{{__('Positive')}}</label>
                 </div>
-
-                <div class="radio primary col-md-6" style="margin-top: 37px;">
+                    </li>
+                    <li>
+                    <div class="radio primary" >
                     <input type="radio" name="type" id="negative" value="negative"
                         {{isset($settlement) && $settlement->type == 'negative' ? 'checked':''}} >
                     <label for="negative">{{__('Negative')}}</label>
                 </div>
+                    </li>
+                </ul>
+
+
+
 
             </div>
             </div>

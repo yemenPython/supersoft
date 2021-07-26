@@ -83,18 +83,28 @@
         </div>
 
         <div class="col-md-4">
-        <div class="radio primary col-md-6" style="margin-top: 37px;">
+        <label class="control-label" style="display:block">نوع التلف</label>
+
+            <ul class="list-inline">
+                <li>
+                <div class="radio primary">
             <input type="radio" name="type" value="natural" id="natural" onchange="showEmployeePercent()"
                 {{ !isset($damegeStock) ? 'checked':'' }}
                 {{isset($damagedStock) && $damagedStock->type == 'natural' ? 'checked':''}} >
             <label for="natural">{{__('Natural')}}</label>
         </div>
-
-        <div class="radio primary col-md-6" style="margin-top: 37px;">
+                </li>
+                <li>
+                <div class="radio primary">
             <input type="radio" name="type" id="un_natural" value="un_natural" onchange="showEmployeePercent()"
                 {{isset($damagedStock) && $damagedStock->type == 'un_natural' ? 'checked':''}} >
             <label for="un_natural">{{__('un_natural')}}</label>
         </div>
+                </li>
+            </ul>
+
+
+
         </div>
         </div>
         </div>
