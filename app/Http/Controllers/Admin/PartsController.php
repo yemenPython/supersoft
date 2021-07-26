@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Part;
 use App\Models\PartPrice;
 use App\Models\PartPriceSegment;
@@ -14,21 +15,19 @@ use App\Models\TaxesFees;
 use App\Services\PartPriceServices;
 use App\Traits\SubTypesServices;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Models\SparePartUnit;
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\ExportPrinterFactory;
-use App\Http\Controllers\DataExportCore\SpareParts;
 use CodeItNow\BarcodeBundle\Utils\BarcodeGenerator;
 use App\Http\Requests\Admin\Parts\CreatePartsRequest;
 use App\Http\Requests\Admin\Parts\UpdatePartsRequest;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use function GuzzleHttp\Promise\all;
-use function Matrix\trace;
+use Yajra\DataTables\DataTables;
 
-class PartsController extends AbstractController
+class PartsController extends Controller
 {
     use SubTypesServices;
 
@@ -48,94 +47,33 @@ class PartsController extends AbstractController
         $this->partPriceServices = new PartPriceServices();
     }
 
-    public function getSortFields(): array
-    {
-       return [
-           'id' => 'id',
-           'name' => 'name_' . $this->getLang(),
-           'quantity' => 'quantity',
-           'status' => 'status',
-           'reviewable' => 'reviewable',
-           'taxable' => 'taxable',
-           'created-at' => 'created_at',
-           'updated-at' => 'updated_at'
-       ];
-    }
-
     public function index(Request $request)
     {
         if (!auth()->user()->can('view_parts')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
-        $parts = Part::with(['alternative', 'sparePartsType']);
-        if ($request->has('part_name') && $request['part_name'] != '') {
-            $parts->where('id', $request['part_name']);
-        }
-
-        if ($request->has('partId') && $request['partId'] != '') {
-            $sparePart = SparePart::find($request['partId']);
-            session()->forget('ids');
-            getSparePartsIds($sparePart);
-            $parts->whereHas('spareParts', function ($q) use ($request) {
-                $q->whereIn('spare_part_type_id', array_unique(session('ids')));
-            });
-        }
-
-        if ($request->has('barcode') && $request['barcode'] != '') {
-            $parts->whereHas('prices', function ($q) use ($request) {
-                $q->where('barcode', $request['barcode']);
-            });
-        }
-
-        if ($request->has('supplier_barcode') && $request['supplier_barcode'] != '') {
-            $parts->whereHas('prices', function ($q) use ($request) {
-                $q->where('supplier_barcode', $request['supplier_barcode']);
-            });
-        }
-
-        if ($request->has('store_id') && $request['store_id'] != '') {
-            $parts->whereHas('stores', function ($q) use ($request) {
-                $q->where('store_id', $request['store_id']);
-            });
-        }
-
-        if ($request->has('active') && $request['active'] != '') {
-            $parts->where('status', 1);
-        }
-
-        if ($request->has('inactive') && $request['inactive'] != '') {
-            $parts->where('status', 0);
-        }
-
-        if ($request->has('supplier_id') && $request['supplier_id'] != '') {
-            $parts->where('suppliers_ids', $request['supplier_id']);
-        }
-
-        if ($request->has('key')) {
-            $key = $request->key;
-            $parts->where(function ($q) use ($key) {
-                $q->where('name_en', 'like', "%$key%")
-                    ->orWhere('name_ar', 'like', "%$key%");
-            });
-        }
-
-        if ($request->has('invoker') && in_array($request->invoker, ['print', 'excel'])) {
-            $visible_columns = $request->has('visible_columns') ? $request->visible_columns : [];
-            return (new ExportPrinterFactory(new SpareParts($parts, $visible_columns), $request->invoker))();
-        }
-
-        $rows = $request->has('rows') ? $request->rows : 25;
-        $parts = $this->implementDataTableSearch($parts, $request);
-        $parts = $parts->paginate($rows)->appends(request()->query());
+        $parts = Part::with(['alternative', 'sparePartsType'])->latest();
+        $parts = $this->filter($request, $parts);
         $partsSearch = filterSetting() ? Part::all()->pluck('name', 'id') : null;
         $stores = filterSetting() ? Store::all()->pluck('name', 'id') : null;
         $sparesPartsTypes = filterSetting() ? SparePart::with('parent')->where('spare_part_id', null)
             ->select('id', 'type_' . $this->lang)->get() : null;
         $suppliers = filterSetting() ? Supplier::all()->pluck('name', 'id') : null;
         $taxes = TaxesFees::where('on_parts', true)->get();
-        return view('admin.parts.index',
-            compact('parts', 'partsSearch', 'sparesPartsTypes', 'stores', 'suppliers', 'taxes'));
+        if ($request->isDataTable) {
+            return $this->dataTableColumns($parts);
+        } else {
+            return view('admin.parts.index', [
+                'parts' => $parts,
+                'partsSearch' => $partsSearch,
+                'sparesPartsTypes' => $sparesPartsTypes,
+                'stores' => $stores,
+                'suppliers' => $suppliers,
+                'taxes' => $taxes,
+                'js_columns' => Part::getJsDataTablesColumns(),
+            ]);
+        }
     }
 
     public function create(Request $request)
@@ -634,5 +572,114 @@ class PartsController extends AbstractController
         } catch (Exception $exception) {
             return response()->json('sorry, please try later', 400);
         }
+    }
+
+
+    private function filter(Request $request, Builder $parts): Builder
+    {
+        if ($request->has('part_name') && $request['part_name'] != '') {
+            $parts = $parts->where('id', $request['part_name']);
+        }
+
+        if ($request->has('partId') && $request['partId'] != '') {
+            $sparePart = SparePart::find($request['partId']);
+            session()->forget('ids');
+            getSparePartsIds($sparePart);
+            $parts = $parts->whereHas('spareParts', function ($q) use ($request) {
+                $q->whereIn('spare_part_type_id', array_unique(session('ids')));
+            });
+        }
+
+        if ($request->has('barcode') && $request['barcode'] != '') {
+            $parts = $parts->whereHas('prices', function ($q) use ($request) {
+                $q->where('barcode', $request['barcode']);
+            });
+        }
+
+        if ($request->has('supplier_barcode') && $request['supplier_barcode'] != '') {
+            $parts = $parts->whereHas('prices', function ($q) use ($request) {
+                $q->where('supplier_barcode', $request['supplier_barcode']);
+            });
+        }
+
+        if ($request->has('store_id') && $request['store_id'] != '') {
+            $parts = $parts->whereHas('stores', function ($q) use ($request) {
+                $q->where('store_id', $request['store_id']);
+            });
+        }
+
+        if ($request->has('active') && $request['active'] != '') {
+            $parts = $parts->where('status', 1);
+        }
+
+        if ($request->has('inactive') && $request['inactive'] != '') {
+            $parts = $parts->where('status', 0);
+        }
+
+        if ($request->has('supplier_id') && $request['supplier_id'] != '') {
+            $parts = $parts->where('suppliers_ids', $request['supplier_id']);
+        }
+
+        if ($request->has('key')) {
+            $key = $request->key;
+            $parts = $parts->where(function ($q) use ($key) {
+                $q->where('name_en', 'like', "%$key%")
+                    ->orWhere('name_ar', 'like', "%$key%");
+            });
+        }
+        return $parts;
+    }
+
+    /**
+     * @param Builder $parts
+     * @return mixed
+     * @throws \Throwable
+     */
+    private function dataTableColumns(Builder $parts)
+    {
+        return DataTables::of($parts)->addIndexColumn()
+            ->addColumn('name', function ($part) {
+                $withPartImage = true;
+                return view('admin.parts.datatables-options.options',
+                    compact('part', 'withPartImage'))->render();
+            })
+            ->addColumn('sparePart', function ($part) {
+                $withSparePart = true;
+                return view('admin.parts.datatables-options.options',
+                    compact('part', 'withSparePart'))->render();
+            })
+            ->addColumn('quantity', function ($part) {
+                $withQ = true;
+                return view('admin.parts.datatables-options.options',
+                    compact('part', 'withQ'))->render();
+            })
+            ->addColumn('status', function ($part) {
+                $withStatus = true;
+                return view('admin.parts.datatables-options.options',
+                    compact('part', 'withStatus'))->render();
+            })
+            ->addColumn('reviewable', function ($part) {
+                $witReviewable = true;
+                return view('admin.parts.datatables-options.options',
+                    compact('part', 'witReviewable'))->render();
+            })
+            ->addColumn('taxable', function ($part) {
+                $witTaxable = true;
+                return view('admin.parts.datatables-options.options',
+                    compact('part', 'witTaxable'))->render();
+            })
+            ->addColumn('created_at', function ($part) {
+                return $part->created_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('updated_at', function ($part) {
+                return $part->updated_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('action', function ($part) {
+                $withActions = true;
+                return view('admin.parts.datatables-options.options', compact('part', 'withActions'))->render();
+            })->addColumn('options', function ($part) {
+                $withOptions = true;
+                return view('admin.parts.datatables-options.options', compact('part', 'withOptions'))->render();
+            })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
     }
 }

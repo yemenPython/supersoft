@@ -45,6 +45,22 @@ class Part extends Model
 
     protected $table = 'parts';
 
+    /**
+     * @var string[]
+     */
+    protected static $dataTableColumns = [
+        'DT_RowIndex' => 'DT_RowIndex',
+        'name' => 'name',
+        'sparePart' => 'sparePart',
+        'quantity' => 'quantity',
+        'status' => 'status',
+        'reviewable' => 'reviewable',
+        'taxable' => 'taxable',
+        'created_at' => 'created_at',
+        'updated_at' => 'updated_at',
+        'action' => 'action',
+        'options' => 'options'
+    ];
     public function getActiveAttribute()
     {
         return $this->status == 1 ? __('Active') : __('inActive');
@@ -252,5 +268,13 @@ class Part extends Model
         }
 
         return null;
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getJsDataTablesColumns(): array
+    {
+        return self::$dataTableColumns;
     }
 }

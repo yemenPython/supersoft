@@ -10,17 +10,9 @@
         </h4>
         <!-- /.box-title -->
         <div class="card-content js__card_content">
-            <form action="{{route('admin:parts.index')}}" method="get" id="filtration-form">
-                <input type="hidden" name="rows" value="{{ isset($_GET['rows']) ? $_GET['rows'] : '' }}"/>
-                <input type="hidden" name="key" value="{{ isset($_GET['key']) ? $_GET['key'] : '' }}"/>
-                <input type="hidden" name="sort_method" value="{{ isset($_GET['sort_method']) ? $_GET['sort_method'] : 'asc' }}"/>
-                <input type="hidden" name="sort_by" value="{{ isset($_GET['sort_by']) ? $_GET['sort_by'] : '' }}"/>
-                <input type="hidden" name="invoker" value="search"/>
-
+            <form  onsubmit="filterFunction($(this));return false;">
                 <div class="list-inline margin-bottom-0 row">
-
                     <div class="col-md-12">
-
                         @if (authIsSuperAdmin())
                             <li class="form-group col-md-12">
                                 <div class="form-group">
@@ -36,13 +28,11 @@
                                 </div>
                             </li>
                         @endif
-
                         <div class="form-group col-md-4">
                             <label> {{ __('spart') }} </label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-file-o"></span>
                                 {!! drawSelect2ByAjax('part_name','Part', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('parts'),request()->part_name) !!}
-
                             </div>
                         </div>
 
@@ -74,13 +64,6 @@
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-user"></span>
                                 {!! drawSelect2ByAjax('supplier_id','Supplier','name_'.app()->getLocale(),'name_'.app()->getLocale(),__('Select supplier'), request()->supplier_id) !!}
-
-                                {{--                                <select name="supplier_id" class="form-control js-example-basic-single">--}}
-{{--                                    <option value="">{{__('Select supplier')}}</option>--}}
-{{--                                    @foreach($suppliers as $k=>$v)--}}
-{{--                                        <option value="{{$k}}">{{$v}}</option>--}}
-{{--                                    @endforeach--}}
-{{--                                </select>--}}
                             </div>
                         </div>
 

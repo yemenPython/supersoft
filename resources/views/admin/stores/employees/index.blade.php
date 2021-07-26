@@ -76,7 +76,7 @@
 
                 </div>
                 <div class="modal-footer">
-              
+
                     <button class="btn btn-primary waves-effect waves-light" type="submit">
                         {{__('save')}}
                     </button>
@@ -113,7 +113,7 @@
                     </h4>
                     <!-- /.box-title -->
                     <div class="card-content js__card_content">
-                        <form action="{{route('admin:store_employee_history.index',$store->id)}}" method="get">
+                        <form  onsubmit="filterFunction($(this));return false;">
                             <div class="list-inline margin-bottom-0 row">
                                 <div class="form-group col-md-3">
                                     <label> {{ __('Employee name') }} </label>
@@ -153,7 +153,7 @@
                             <button type="submit"
                                     class="btn sr4-wg-btn waves-effect waves-light hvr-rectangle-out"><i
                                     class=" fa fa-search"></i> {{__('Search')}} </button>
-                            <a href="{{\Illuminate\Support\Facades\URL::previous()}}"
+                            <a href="javascript:void(0);" onclick="window.location.reload();"
                                class="btn bc-wg-btn waves-effect waves-light hvr-rectangle-out"><i
                                     class="fa fa-reply"></i> {{__('Back')}}
                             </a>
@@ -224,79 +224,6 @@
                                 <th scope="col">{!! __('Select') !!}</th>
                             </tr>
                             </tfoot>
-                            <tbody>
-                            @if($employees)
-                                @foreach($employees as $storeEmployee)
-                                    <tr>
-                                        <td>{{$loop->iteration}}</td>
-                                        <td>
-                                            @if ($storeEmployee->status )
-                                            <span class="label label-success wg-label">{{__('Active')}}</span>
-                                            @else
-                                            <span class="label label-danger wg-label">{{__('inActive')}}</span>
-                                            @endif
-                                        </td>
-                                        <td> {{ $storeEmployee->employee->name }} </td>
-                                        <td> {{ $storeEmployee->employee->phone1 }} </td>
-
-                                        <td> 
-                                        <span style="background:#F7F8CC !important">    
-                                        {{ $storeEmployee->start }}
-                                        </span>
-                                        </td>
-                                 
-                                        <td> 
-                                        <span style="background:rgb(253, 215, 215) !important">      
-                                        {{ $storeEmployee->end }} 
-                                        </span>
-                                        </td>
-                                        <td>
-                                            <div class="btn-group margin-top-10">
-
-                                                <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="ico fa fa-bars"></i>
-                                                    {{__('Options')}} <span class="caret"></span>
-
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-wg">
-                                                    <li>
-                                                        <a style=" margin-bottom: 12px; border-radius: 5px"
-                                                           type="button"
-                                                           data-toggle="modal" data-target="#add-employee-modal"
-                                                           data-asset_employee_id ="{{ $storeEmployee->id }}"
-                                                           data-employee_id="{{ $storeEmployee->employee_id }}"
-                                                           data-phone="{{ $storeEmployee->employee->phone1 }}"
-                                                           data-start_date="{{ $storeEmployee->start }}"
-                                                           data-end_date="{{ $storeEmployee->end }}"
-                                                           data-status="{{ $storeEmployee->status }}"
-                                                           data-title="{{__('Edit asset employee')}}"
-                                                           class="btn btn-print-wg text-white">
-                                                            <i class="fa fa-edit"></i>
-                                                            {{__('Edit')}}
-                                                        </a>
-                                                    </li>
-                                                    <li class="btn-style-drop">
-                                                        @component('admin.buttons._delete_button',[
-                                                        'id'=> $storeEmployee->id,
-                                                        'route' => 'admin:store_employee_history.destroy',
-                                                         ])
-                                                        @endcomponent
-                                                    </li>
-
-                                                </ul>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            @component('admin.buttons._delete_selected',[
-                                                'id' =>  $storeEmployee->id,
-                                                'route' => 'admin:store_employee_history.deleteSelected',
-                                            ])
-                                            @endcomponent
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @endif
-                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -311,7 +238,6 @@
     {!! JsValidator::formRequest('App\Http\Requests\Admin\Store\StoreEmployeeRequest')->selector('#newAssetEmployee-form'); !!}
     <script type="application/javascript">
         $(document).ready(function () {
-            invoke_datatable($('#datatable-with-btns'))
             $(".select2").select2();
 
             $('#add-employee-modal').on('show.bs.modal', function (event) {
@@ -363,5 +289,15 @@
             });
         });
 
+        server_side_datatable('#datatable-with-btns');
+        function filterFunction($this) {
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout( function () {
+                $("#loaderSearch").hide();
+            }, 1000)
+        }
     </script>
 @stop

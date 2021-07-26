@@ -43,167 +43,46 @@
                     @php
                         $view_path = 'admin.stores_transfer.options-datatable';
                     @endphp
-
-                    @include($view_path . '.option-row')
-
                     <div class="clearfix"></div>
-                  <div class="table-responsive">
-                    <table id="stores" class="table table-bordered wg-table-print table-hover" style="width:100%;margin-top:15px">
-                    <tr>
-                        <th class="text-center column-index" scope="col">#</th>
+                    <div class="table-responsive">
+                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover" style="width:100%;margin-top:15px">
+                        <thead>
+                        <tr>
+                            <th class="text-center" scope="col">#</th>
                             @if(authIsSuperAdmin())
-                                <th scope="col" class="text-center column-branch">{!! __('Branch') !!}</th>
+                                <th scope="col" class="text-center">{!! __('Branch') !!}</th>
                             @endif
-                        <th class="text-center column-transfer-date" scope="col">{!! __('words.transfer-date') !!}</th>
-
-                            <th class="text-center column-transfer-number" scope="col">{{ __('opening-balance.serial-number') }}</th>
-
-                            <th class="text-center column-store-from" scope="col">{!! __('words.store-from') !!}</th>
-                            <th class="text-center column-store-to" scope="col">{!! __('words.store-to') !!}</th>
-                            <th class="text-center column-total" scope="col">{!! __('Total') !!}</th>
-                            <th class="text-center column-status" scope="col">{!! __('Concession Status') !!}</th>
-                            <th class="text-center column-created-at" scope="col">{!! __('Created At') !!}</th>
-                            <th class="text-center column-updated-at" scope="col">{!! __('Updated At') !!}</th>
+                            <th class="text-center" scope="col">{!! __('words.transfer-date') !!}</th>
+                            <th class="text-center" scope="col">{{ __('opening-balance.serial-number') }}</th>
+                            <th class="text-center" scope="col">{!! __('words.store-from') !!}</th>
+                            <th class="text-center" scope="col">{!! __('words.store-to') !!}</th>
+                            <th class="text-center" scope="col">{!! __('Total') !!}</th>
+                            <th class="text-center" scope="col">{!! __('Concession Status') !!}</th>
+                            <th class="text-center" scope="col">{!! __('Created At') !!}</th>
+                            <th class="text-center" scope="col">{!! __('Updated At') !!}</th>
                             <th scope="col">{!! __('Options') !!}</th>
                             <th scope="col">{!! __('Select') !!}</th>
                         </tr>
+                        </thead>
                         <tfoot>
                         <tr>
-                        <th class="text-center column-index" scope="col">#</th>
+                        <th class="text-center" scope="col">#</th>
                             @if(authIsSuperAdmin())
-                                <th scope="col" class="text-center column-branch">{!! __('Branch') !!}</th>
+                                <th scope="col" class="text-center">{!! __('Branch') !!}</th>
                             @endif
-                        <th class="text-center column-transfer-date" scope="col">{!! __('words.transfer-date') !!}</th>
-
-                            <th class="text-center column-transfer-number" scope="col">{{ __('opening-balance.serial-number') }}</th>
-
-                            <th class="text-center column-store-from" scope="col">{!! __('words.store-from') !!}</th>
-                            <th class="text-center column-store-to" scope="col">{!! __('words.store-to') !!}</th>
-                            <th class="text-center column-total" scope="col">{!! __('Total') !!}</th>
-                            <th class="text-center column-status" scope="col">{!! __('Concession Status') !!}</th>
-                            <th class="text-center column-created-at" scope="col">{!! __('Created At') !!}</th>
-                            <th class="text-center column-updated-at" scope="col">{!! __('Updated At') !!}</th>
+                        <th class="text-center" scope="col">{!! __('words.transfer-date') !!}</th>
+                            <th class="text-center" scope="col">{{ __('opening-balance.serial-number') }}</th>
+                            <th class="text-center" scope="col">{!! __('words.store-from') !!}</th>
+                            <th class="text-center" scope="col">{!! __('words.store-to') !!}</th>
+                            <th class="text-center" scope="col">{!! __('Total') !!}</th>
+                            <th class="text-center" scope="col">{!! __('Concession Status') !!}</th>
+                            <th class="text-center" scope="col">{!! __('Created At') !!}</th>
+                            <th class="text-center" scope="col">{!! __('Updated At') !!}</th>
                             <th scope="col">{!! __('Options') !!}</th>
                             <th scope="col">{!! __('Select') !!}</th>
                         </tr>
                         </tfoot>
-                        <tbody>
-                        @foreach($collection as $index => $store_transfer)
-                            <tr>
-                            <td class="text-center column-index">{{ $index+1 }}</td>
-                                @if(authIsSuperAdmin())
-                                    <td class="text-danger column-branch">{!! optional($store_transfer->branch)->name !!}</td>
-                                @endif
-                            <td class="text-center column-transfer-date text-danger">{!! $store_transfer->transfer_date !!}</td>
-
-
-
-                                <td class="text-center column-transfer-number">{!! $store_transfer->transfer_number !!}</td>
-                                <td class="text-center column-store-from">
-                                <span class="label wg-label" style="background:#7165DA !important">
-                                    {!! $lang == 'ar' ? optional($store_transfer->store_from)->name_ar : optional($store_transfer->store_from)->name_en !!}
-                                    </span>
-                                </td>
-                                <td class="text-center column-store-to">
-                                <span class="label wg-label" style="background:#7165DA !important">
-
-                                {!! $lang == 'ar' ? optional($store_transfer->store_to)->name_ar : optional($store_transfer->store_to)->name_en !!}
-
-
-                                 </span>
-
-                                </td>
-                                <td class="text-center column-total">
-                                <span style="background:#F7F8CC !important">
-                                    {!! $store_transfer->total !!}
-                                    </span>
-                                </td>
-                                <td class="text-center column-status" > 
-                                @if( $store_transfer->concession )                 
-
-@if( $store_transfer->concession->status == 'pending' )
-<span class="label label-info wg-label"> {{__('Pending')}}</span>
-@elseif( $store_transfer->concession->status == 'accepted' )
-<span class="label label-success wg-label"> {{__('Accepted')}} </span>
-@elseif( $store_transfer->concession->status == 'rejected' )
-<span class="label label-danger wg-label"> {{__('Rejected')}} </span>
-@endif
-
-@else
-<span class="label label-warning wg-label">  {{__('Not determined')}} </span>
-@endif
-
-                                                                <td class="text-center column-created-at">{!! optional($store_transfer->created_at)->format('y-m-d h:i:s A') !!}</td>
-                                <td class="text-center column-updated-at">{!! optional($store_transfer->updated_at)->format('y-m-d h:i:s A') !!}</td>
-                                <td>
-
-                                <div class="btn-group margin-top-10">
-
-                                        <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="ico fa fa-bars"></i>
-                                        {{__('Options')}} <span class="caret"></span>
-
-                                    </button>
-                                        <ul class="dropdown-menu dropdown-wg">
-                                            <li>
-                                            @component('admin.buttons._show_button',[
-                                         'id' => $store_transfer->id,
-                                         'route'=>'admin:stores-transfers.show'
-                                          ])
-                                        @endcomponent
-
-                                            </li>
-                                            <li>
-                                            @component('admin.buttons._edit_button',[
-                                        'id' => $store_transfer->id,
-                                        'route' => 'admin:stores-transfers.edit',
-                                    ])
-                                    @endcomponent
-
-                                            </li>
-
-                                            <li class="btn-style-drop">
-                                  @component('admin.buttons._delete_button',[
-                                        'id' => $store_transfer->id,
-                                        'route' => 'admin:stores-transfers.destroy',
-                                    ])
-                                    @endcomponent
-                                            </li>
-
-                                        </ul>
-                                    </div>
-<!--
-                                @component('admin.buttons._show_button',[
-                                         'id' => $store_transfer->id,
-                                         'route'=>'admin:stores-transfers.show'
-                                          ])
-                                        @endcomponent
-                                    @component('admin.buttons._edit_button',[
-                                        'id' => $store_transfer->id,
-                                        'route' => 'admin:stores-transfers.edit',
-                                    ])
-                                    @endcomponent
-                                    @component('admin.buttons._delete_button',[
-                                        'id' => $store_transfer->id,
-                                        'route' => 'admin:stores-transfers.destroy',
-                                    ])
-                                    @endcomponent
-
- -->
-
-                                </td>
-                                <td>
-                                    @component('admin.buttons._delete_selected',[
-                                        'id' => $store_transfer->id,
-                                        'route' => 'admin:stores-transfers.deleteSelected',
-                                    ])
-                                    @endcomponent
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
                     </table></div>
-                    {{ $collection->links() }}
                 </div>
             </div>
         </div>
@@ -259,6 +138,17 @@
                     $("#store-transfer-print").html(response.code)
                 }
             });
+        }
+
+        server_side_datatable('#datatable-with-btns');
+        function filterFunction($this) {
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout( function () {
+                $("#loaderSearch").hide();
+            }, 1000)
         }
     </script>
     @include('opening-balance.common-script')

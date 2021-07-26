@@ -10,17 +10,16 @@ use App\Traits\SubTypesServices;
 use Exception;
 use App\Models\Part;
 use App\Models\Store;
-use App\Scopes\BranchScope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Models\StoreTransfer;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\ExportPrinterFactory;
 use App\Http\Requests\Admin\StoresTransfersRequest;
-use App\Http\Controllers\DataExportCore\StoresTransfers;
 use App\Models\StoreTransferItem;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\DataTables;
 use function foo\func;
 
 class StoreTransferCont extends Controller
@@ -46,11 +45,9 @@ class StoreTransferCont extends Controller
         }
 
         $branch_id = NULL;
-
         if (authIsSuperAdmin()) {
             $branch_id = $request->has('branch_id') ? $request->branch_id : NULL;
         }
-
         $total = $request->has('total') ? $request->total : NULL;
         $concession_status = $request->has('concession_status') ? $request->concession_status : NULL;
         $store_from = $request->has('store_from') ? $request->store_from : NULL;
@@ -63,36 +60,9 @@ class StoreTransferCont extends Controller
         $partId = $request->has('partId') ? $request->partId : NULL;
         $key = $request->has('key') ? $request->key : NULL;
         $rows = $request->has('rows') ? $request->rows : 10;
-
-        $orderBy = 'id';
-        $orderMethod = 'DESC';
-
-        if ($request->has('sort_by') && $request->sort_by != '') {
-            $sort_by = $request->sort_by;
-            $sort_method = $request->has('sort_method') ? $request->sort_method : 'asc';
-            if (!in_array($sort_method, ['asc', 'desc'])) $sort_method = 'desc';
-            $sort_fields = [
-                'transfer-number' => 'transfer_number',
-                'transfer-date' => 'transfer_date',
-                'store-from' => 'store_from_id',
-                'store-to' => 'store_to_id',
-                'total' => 'total',
-                'created_at' => 'created_at',
-                'updated_at' => 'updated_at'
-            ];
-            if (authIsSuperAdmin()) {
-                $sort_fields['branch'] = 'branch_id';
-            }
-            $orderBy = $sort_fields[$sort_by];
-            $orderMethod = $sort_method;
-        }
-
         $stores = Store::select('id', 'name_ar', 'name_en')->get();
-
         $parts = Part::select('id', 'name_' . $this->lang)->get();
-
         $numbers = StoreTransfer::select('id', 'transfer_number')->get();
-
         $collection = StoreTransfer::with(['store_from', 'store_to'])
             ->when($store_from, function ($q) use ($store_from) {
                 $q->where('store_from_id', $store_from);
@@ -144,40 +114,32 @@ class StoreTransferCont extends Controller
                 });
 
             })->when($concession_status, function ($q) use ($concession_status) {
-
                 if ($concession_status == 'not_found') {
-
                     $q->doesntHave('concession');
-
                 } else {
-
                     $q->whereHas('concession', function ($concession) use ($concession_status) {
                         $concession->where('status', $concession_status);
                     });
                 }
-
-            })->orderBy($orderBy, $orderMethod);
+            })->latest();
 
         if ($request->has('part_id') && $request['part_id'] != '') {
-
             $collection->whereHas('items', function ($q) use ($request) {
-
                 $q->where('part_id', $request['part_id']);
             });
         }
 
-        if ($request->has('invoker') && in_array($request->invoker, ['print', 'excel'])) {
-            $visible_columns = $request->has('visible_columns') ? $request->visible_columns : [];
-            return (new ExportPrinterFactory(new StoresTransfers($collection, $visible_columns), $request->invoker))();
+        if ($request->isDataTable) {
+            return $this->dataTableColumns($collection);
+        } else {
+            return view(self::view_path . 'index', [
+                'collection' => $collection,
+                'stores' => $stores,
+                'numbers' => $numbers,
+                'parts' => $parts,
+                'js_columns' => StoreTransfer::getJsDataTablesColumns(),
+            ]);
         }
-
-        $collection = $collection->paginate($rows)->appends(request()->query());
-        return view(self::view_path . 'index', [
-            'collection' => $collection,
-            'stores' => $stores,
-            'numbers' => $numbers,
-            'parts' => $parts
-        ]);
     }
 
     public function create(Request $request)
@@ -566,5 +528,61 @@ class StoreTransferCont extends Controller
             return response()->json('sorry, please try later', 400);
         }
 
+    }
+
+    /**
+     * @param Builder $storeTransfers
+     * @return mixed
+     * @throws \Throwable
+     */
+    private function dataTableColumns(Builder $storeTransfers)
+    {
+        return DataTables::of($storeTransfers)->addIndexColumn()
+            ->addColumn( 'branch_id', function ($storeTransfer) {
+                $withBranch = true;
+                return view(self::view_path.'options-datatable.options',
+                    compact('storeTransfer', 'withBranch'))->render();
+            })
+            ->addColumn('transfer_date', function ($storeTransfer) {
+                $withOperationData = true;
+                return view(self::view_path.'options-datatable.options',
+                    compact('storeTransfer', 'withOperationData'))->render();
+            })
+            ->addColumn('transfer_number', function ($storeTransfer) {
+                return $storeTransfer->transfer_number;
+            })
+            ->addColumn('store_from', function ($storeTransfer) {
+                $withStoreFrom = true;
+                return view(self::view_path.'options-datatable.options',
+                    compact('storeTransfer', 'withStoreFrom'))->render();
+            })
+            ->addColumn('store_to', function ($storeTransfer) {
+                $withStoreTo = true;
+                return view(self::view_path.'options-datatable.options',
+                    compact('storeTransfer', 'withStoreTo'))->render();
+            })
+            ->addColumn('total', function ($storeTransfer) {
+                $withTotal = true;
+                return view(self::view_path.'options-datatable.options',
+                    compact('storeTransfer', 'withTotal'))->render();
+            })
+            ->addColumn('status', function ($storeTransfer) {
+                $withStatus = true;
+                return view(self::view_path.'options-datatable.options',
+                    compact('storeTransfer', 'withStatus'))->render();
+            })
+            ->addColumn('created_at', function ($storeTransfer) {
+                return $storeTransfer->created_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('updated_at', function ($storeTransfer) {
+                return $storeTransfer->updated_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('action', function ($storeTransfer) {
+                $withActions = true;
+                return view(self::view_path.'options-datatable.options', compact('storeTransfer', 'withActions'))->render();
+            })->addColumn('options', function ($storeTransfer) {
+                $withOptions = true;
+                return view(self::view_path.'options-datatable.options', compact('storeTransfer', 'withOptions'))->render();
+            })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
     }
 }
