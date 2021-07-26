@@ -1,7 +1,7 @@
 <div class="row">
 <div class="col-xs-12">
 
-<div class="row top-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+<div class="row top-data-wg for-error-margin-group" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
     @if(authIsSuperAdmin())
         <div class="col-md-12">

@@ -36,7 +36,7 @@
                                     src="{{asset('assets/images/f3.png')}}"></button>
 						</span>
                 </h4>
-                <div class="box-content">
+                <div class="box-content for-error-margin-group">
                     <form method="post" action="{{ route('admin:assets.store') }}">
                         @csrf
 
