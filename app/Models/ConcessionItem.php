@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class ConcessionItem extends Model
 {
     protected $fillable = ['concession_id', 'part_id', 'part_price_id', 'store_id', 'quantity', 'price',
-        'part_price_segment_id', 'accepted_status', 'log_message'];
+        'part_price_segment_id', 'accepted_status', 'log_message', 'spare_part_id'];
 
     protected $table = 'concession_items';
 
@@ -34,5 +34,10 @@ class ConcessionItem extends Model
     public function partPriceSegment()
     {
         return $this->belongsTo(PartPriceSegment::class, 'part_price_segment_id')->withTrashed();
+    }
+
+    public function sparePart()
+    {
+        return $this->belongsTo(SparePart::class, 'spare_part_id');
     }
 }

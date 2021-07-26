@@ -9,73 +9,84 @@ use App\Models\PurchaseQuotationItem;
 
 class PurchaseQuotationCompareServices
 {
-    public function filter ($request, $branch_id) {
+    public function filter($request, $branch_id)
+    {
 
-        $quotations = PurchaseQuotation::with('items')->where('branch_id', $branch_id);
+        $quotationItems = PurchaseQuotationItem::with('purchaseQuotation')
+            ->whereHas('purchaseQuotation', function ($q) use ($branch_id) {
+                $q->where('branch_id', $branch_id);
+            });
 
         if ($request->has('part_id') && $request['part_id'] != null) {
-
-            $quotations->whereHas('items', function ($q) use($request) {
-               $q->where('part_id', $request['part_id']);
-            });
+            $quotationItems->where('part_id', $request['part_id']);
         }
 
         if ($request->has('part_type_id') && $request['part_type_id'] != null) {
-            $quotations->whereHas('items', function ($q) use ($request) {
-                $q->whereHas('part', function ($q) use ($request) {
-                    $q->whereHas('spareParts', function ($q) use ($request) {
-                        $q->where('spare_part_type_id', $request['part_type_id']);
-                    });
+            $quotationItems->whereHas('part', function ($q) use ($request) {
+                $q->whereHas('spareParts', function ($q) use ($request) {
+                    $q->where('spare_part_type_id', $request['part_type_id']);
                 });
             });
         }
 
         if ($request->has('supplier_id') && $request['supplier_id'] != null) {
-            $quotations->where('supplier_id', $request['supplier_id']);
+
+            $quotationItems->whereHas('purchaseQuotation', function ($q) use ($request) {
+                $q->where('supplier_id', $request['supplier_id']);
+            });
         }
 
         if ($request->has('quotation_number') && $request['quotation_number'] != null) {
-            $quotations->where('number', $request['quotation_number']);
+
+            $quotationItems->whereHas('purchaseQuotation', function ($q) use ($request) {
+                $q->where('number', $request['quotation_number']);
+            });
         }
 
         if ($request->has('purchase_request_id') && $request['purchase_request_id'] != null) {
-            $quotations->where('purchase_request_id', $request['purchase_request_id']);
+
+            $quotationItems->whereHas('purchaseQuotation', function ($q) use ($request) {
+                $q->where('purchase_request_id', $request['purchase_request_id']);
+            });
         }
 
         if ($request->has('date_from') && $request['date_from'] != null) {
-            $quotations->where('created_at', '>=', $request['date_from']);
+
+            $quotationItems->whereHas('purchaseQuotation', function ($q) use ($request) {
+                $q->where('created_at', '>=', $request['date_from']);
+            });
         }
 
         if ($request->has('date_to') && $request['date_to'] != null) {
-            $quotations->where('created_at', '<=', $request['date_to']);
+
+            $quotationItems->whereHas('purchaseQuotation', function ($q) use ($request) {
+                $q->where('created_at', '<=', $request['date_to']);
+            });
         }
 
         if ($request->has('part_barcode') && $request['part_barcode'] != null) {
-            $quotations->whereHas('items', function ($q) use ($request) {
-                $q->whereHas('part', function ($q) use ($request) {
-                    $q->whereHas('prices', function ($q) use ($request) {
-                        $q->where('barcode', 'like', '%'. $request['part_barcode'] . '%');
-                    });
+            $quotationItems->whereHas('part', function ($q) use ($request) {
+                $q->whereHas('prices', function ($q) use ($request) {
+                    $q->where('barcode', 'like', '%' . $request['part_barcode'] . '%');
                 });
             });
         }
 
         if ($request->has('supplier_barcode') && $request['supplier_barcode'] != null) {
-            $quotations->whereHas('items', function ($q) use ($request) {
-                $q->whereHas('part', function ($q) use ($request) {
-                    $q->whereHas('prices', function ($q) use ($request) {
-                        $q->where('supplier_barcode', 'like', '%'. $request['supplier_barcode'] . '%');
-                    });
+            $quotationItems->whereHas('part', function ($q) use ($request) {
+                $q->whereHas('prices', function ($q) use ($request) {
+                    $q->where('supplier_barcode', 'like', '%' . $request['supplier_barcode'] . '%');
                 });
             });
         }
 
-        $quotations = $quotations->select('id', 'number', 'purchase_request_id', 'supplier_id')->get();
+        $quotationItems = $quotationItems->get();
 
-        return $quotations;
+        return $quotationItems;
     }
 
-    public function checkItems ($purchaseQuotationsItems) {
+    public function checkItems($purchaseQuotationsItems)
+    {
 
         $data = ['status' => true];
         $suppliers = [];

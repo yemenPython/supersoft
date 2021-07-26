@@ -34,6 +34,7 @@ class CreateRequest extends FormRequest
             'items.*.part_price_segment_id' => 'nullable',
             'items.*.quantity' => 'required|integer|min:0',
             'items.*.price' => 'required|numeric|min:0',
+            'items.*.spare_part_id' => 'required|integer|exists:spare_parts,id',
         ];
 
         if (request()->has('employees')){

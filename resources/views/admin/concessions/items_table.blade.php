@@ -5,6 +5,7 @@
     <tr>
         <th width="2%"> {{ __('#') }} </th>
         <th width="16%"> {{ __('Name') }} </th>
+        <th width="16%"> {{ __('Part Type') }} </th>
         <th width="16%"> {{ __('Unit Quantity') }} </th>
         <th width="12%"> {{ __('Unit') }} </th>
         <th width="12%"> {{ __('Price Segments') }} </th>
@@ -24,6 +25,7 @@
     <tr>
         <th width="13%"> {{ __('#') }} </th>
         <th width="5%"> {{ __('Name') }} </th>
+        <th width="16%"> {{ __('Part Type') }} </th>
         <th width="16%"> {{ __('Unit Quantity') }} </th>
         <th width="12%"> {{ __('Unit') }} </th>
         <th width="12%"> {{ __('Price Segments') }} </th>

@@ -30,7 +30,7 @@
 {{ __('Withdrawal Concession') }} </span>
 @endif
 </h3>
-        
+
     </div>
 </div>
 
@@ -79,7 +79,7 @@
                                <td>{{__($concession->status)}}</td>
                                <th>{{__('Execution Status')}}</th>
                                <td>@if($concession->concessionExecution)
-        
+
         @if($concession->concessionExecution ->status == 'pending' )
                 {{__('Processing')}}
 
@@ -97,7 +97,7 @@
                                     @endif</td>
                              </tr>
 
-                           
+
                         </tbody></table>
 
 
@@ -114,6 +114,7 @@
     <tr class="spacer" style="border-radius: 30px;">
       <th scope="col">#</th>
       <th scope="col">{{__('Name')}}</th>
+      <th scope="col">{{__('Part Type')}}</th>
       <th scope="col">{{__('Unit')}}</th>
       <th scope="col">{{__('Quantity')}}</th>
       <th scope="col">{{__('Price')}}</th>
@@ -127,6 +128,7 @@
     <tr class="spacer">
     <td>{{$index + 1}}</td>
     <td>{{optional($item->part)->name}}</td>
+    <td> {{ $item->sparePart ? $item->sparePart->type : '---' }}</td>
     <td>{{$item->partPrice && $item->partPrice->unit ? $item->partPrice->unit->unit : __('Not determined')}}</td>
     <td>{{$item->quantity}}</td>
     <td>{{$item->price}}</td>
@@ -143,13 +145,13 @@
          <h5 class="title">{{__('Notes')}}</h5>
          <p style="width: 80%;font-size:12px">
          {!! $concession->description !!}
-        
+
     </p>
 
         </div>
     <div class="col-xs-5 text-center">
 
-      
+
       <div class="row last-total">
           <div class="col-xs-6">
               <h6>{{__('Total Price')}}<h6>
@@ -159,7 +161,7 @@
           </div>
       </div>
     </div>
-</div>  
+</div>
 
 <div class="print-foot-wg">
     <div class="row">
@@ -195,12 +197,12 @@
                       <div class="col-xs-4">
                           <h6>{{optional($branchToPrint)->phone1}}</h6>
                       </div>
-                      
+
                       <div class="col-xs-4">
                           <h6>{{optional($branchToPrint)->phone2}}</h6>
                       </div>
                   </div>
-                </div>   
+                </div>
                 </div>
             </div>
         </div>
@@ -211,7 +213,7 @@
 
 
 
-<!-- 
+<!--
 
 Old data
 
@@ -564,7 +566,7 @@ Static design
           </div>
       </div>
     </div>
-</div>  
+</div>
 
 <div class="print-foot-wg">
     <div class="row">
@@ -608,7 +610,7 @@ Static design
                 </div>
                 <div class="col-xs-5">
 
-</div>   
+</div>
                 </div>
             </div>
         </div>

@@ -34,6 +34,7 @@ class StoresTransfersRequest extends FormRequest
             'items.*.part_price_id' => 'required|integer|exists:part_prices,id',
             'items.*.part_price_segment_id' => 'nullable|integer|exists:part_price_segments,id',
             'items.*.quantity' => 'required|integer|min:1',
+            'items.*.spare_part_id' => 'required|integer|exists:spare_parts,id',
             'description' => 'nullable:string'
         ];
 

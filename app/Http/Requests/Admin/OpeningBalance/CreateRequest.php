@@ -30,6 +30,7 @@ class CreateRequest extends FormRequest
             'items.*.quantity' => 'required|integer|min:1',
             'items.*.buy_price' => 'required|numeric|min:0',
             'items.*.store_id' => 'required|integer|exists:stores,id',
+            'items.*.spare_part_id' => 'required|integer|exists:spare_parts,id',
             'items.*.part_price_price_segment_id' => 'nullable|integer|exists:part_price_segments,id'
 
         ];

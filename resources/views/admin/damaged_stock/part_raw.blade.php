@@ -1,15 +1,13 @@
 <tr class="text-center-inputs" id="tr_part_{{$index}}">
 
     <td>
-
         <span id="item_number_{{$index}}">{{$index}}</span>
     </td>
 
     <td>
-
-            <span style="width: 150px !important;display:block; cursor: pointer" data-img="{{$part->image}}" data-toggle="modal"
-                  data-target="#part_img" title="Part image" onclick="getPartImage('{{$index}}')"
-                  id="part_img_id_{{$index}}" data-img="{{$part->img}}">
+        <span style="width: 150px !important;display:block; cursor: pointer" data-img="{{$part->image}}" data-toggle="modal"
+              data-target="#part_img" title="Part image" onclick="getPartImage('{{$index}}')"
+              id="part_img_id_{{$index}}" data-img="{{$part->img}}">
 
             {{$part->name}}
         </span>
@@ -17,6 +15,23 @@
         <input type="hidden" value="{{$part->id}}" name="items[{{$index}}][part_id]" class="form-control" style="text-align: center;">
         <input type="hidden" value="{{isset($item) ? $max : $part->first_store_quantity}}"
                class="form-control" id="max_quantity_part_{{$index}}" style="text-align: center;">
+    </td>
+
+    <td>
+        <div class="input-group" style="width: 180px !important;">
+
+            <select class="form-control js-example-basic-single" name="items[{{$index}}][spare_part_id]"
+                    id="spare_part_id_{{$index}}">
+
+                @foreach($part->part_types_tree as $sparePartId => $sparePartValue)
+                    <option value="{{$sparePartId}}"
+                        {{isset($item) && $item->spare_part_id == $sparePartId ? 'selected':''}}
+                    >
+                        {{$sparePartValue}}
+                    </option>
+                @endforeach
+            </select>
+        </div>
     </td>
 
     <td class="inline-flex-span">

@@ -40,7 +40,7 @@ class PurchaseQuotationCompareController extends Controller
     {
         $branch_id = $request->has('branch_id') ? $request['branch_id'] : auth()->user()->branch_id;
 
-        $data['quotations'] = $this->purchaseQuotationCompareServices->filter($request, $branch_id);
+        $data['quotationItems'] = $this->purchaseQuotationCompareServices->filter($request, $branch_id);
 
         $data['purchase_quotations'] = PurchaseQuotation::where('branch_id', $branch_id)
             ->select('id', 'number')
@@ -166,6 +166,9 @@ class PurchaseQuotationCompareController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
+
+            dd($e->getMessage());
+
             return redirect()->back()->with(['message' => __('sorry, please try later'), 'alert-type' => 'error']);
         }
 

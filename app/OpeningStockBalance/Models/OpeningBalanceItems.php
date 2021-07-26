@@ -5,6 +5,7 @@ namespace App\OpeningStockBalance\Models;
 use App\Models\Part;
 use App\Models\PartPrice;
 use App\Models\PartPriceSegment;
+use App\Models\SparePart;
 use App\Models\Store;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\OpeningBalance;
@@ -13,7 +14,7 @@ class OpeningBalanceItems extends Model
 {
     protected $fillable = [
         'opening_balance_id' ,'part_id' ,'part_price_id' ,'part_price_price_segment_id' ,
-        'quantity' ,'default_unit_quantity', 'buy_price' ,'store_id'
+        'quantity' ,'default_unit_quantity', 'buy_price' ,'store_id', 'spare_part_id'
     ];
 
     function opening_balance() {
@@ -49,5 +50,10 @@ class OpeningBalanceItems extends Model
     public function getPartPriceSegmentIdAttribute()
     {
         return $this->part_price_price_segment_id;
+    }
+
+    function sparePart()
+    {
+        return $this->belongsTo(SparePart::class ,'spare_part_id');
     }
 }

@@ -6,7 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class DamagedStockItem extends Model
 {
-    protected $fillable = ['damaged_stock_id', 'part_id', 'store_id', 'part_price_id', 'part_price_segment_id', 'quantity', 'price'];
+    protected $fillable = ['damaged_stock_id', 'part_id', 'store_id', 'part_price_id', 'part_price_segment_id',
+        'quantity', 'price', 'spare_part_id'];
 
     protected $table = 'damaged_stock_items';
 
@@ -28,6 +29,11 @@ class DamagedStockItem extends Model
     public function partPrice()
     {
         return $this->belongsTo(PartPrice::class, 'part_price_id')->withTrashed();
+    }
+
+    function sparePart()
+    {
+        return $this->belongsTo(SparePart::class ,'spare_part_id');
     }
 
 }
