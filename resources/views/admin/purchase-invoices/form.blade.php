@@ -1,7 +1,7 @@
 <div class="row">
 <div class="col-xs-12">
 
-<div class="row top-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+<div class="row top-data-wg for-error-margin-group" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
     @if(authIsSuperAdmin())
         <div class="col-md-12">
@@ -188,9 +188,11 @@
         </div>
 
         <div class="col-md-3">
-        <div class="col-md-6">
+        <label style="display:block">{{__('Quotation type')}}</label>
+
+        <div class="col-md-6" style="padding:0">
+
             <div class="radio primary ">
-            <label style="opacity:0">{{__('select')}}</label>
 
                 <input type="radio" name="type" value="cash" id="cash"
                     {{ !isset($purchaseInvoice) ? 'checked':'' }}
@@ -199,10 +201,9 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6" style="padding:0">
 
             <div class="radio primary ">
-            <label style="opacity:0">{{__('select')}}</label>
 
                 <input type="radio" name="type" id="credit" value="credit"
                     {{isset($purchaseInvoice) && $purchaseInvoice->type == 'credit' ? 'checked':''}} >

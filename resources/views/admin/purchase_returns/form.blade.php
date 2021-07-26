@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-xs-12">
 
-        <div class="row top-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+        <div class="row top-data-wg for-error-margin-group" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
             @if(authIsSuperAdmin())
                 <div class="col-md-12">
@@ -110,10 +110,10 @@
                         {{input_error($errors,'status')}}
                     </div>
                 </div>
-
-                <div class="col-md-1">
+<div class="col-md-3">
+<label style="display:block">{{__('Quotation type')}}</label>
+<div class="col-xs-6">
                     <div class="radio primary ">
-                    <label style="opacity:0">{{__('select')}}</label>
 
                         <input type="radio" name="type" value="cash" id="cash"
                             {{ !isset($purchaseReturn) ? 'checked':'' }}
@@ -122,15 +122,16 @@
                     </div>
                 </div>
 
-                <div class="col-md-2">
+                <div class="col-xs-6">
                     <div class="radio primary ">
-                    <label style="opacity:0;display:block">{{__('select')}}</label>
 
                         <input type="radio" name="type" id="credit" value="credit"
                             {{isset($purchaseReturn) && $purchaseReturn->type == 'credit' ? 'checked':''}} >
                         <label for="credit">{{__('Credit')}}</label>
                     </div>
                 </div>
+</div>
+
 
                 {{--  Type  --}}
                 <div class="col-md-3">
@@ -224,14 +225,14 @@
                 <div class="input-group">
                 <label style="opacity:0">{{__('select')}}</label>
                 <ul class="list-inline" style="display:flex">
-                <li class="col-md-6">
+                <li class="">
                                            <button type="button" onclick="getPurchaseReceipts(); changeType()"
                                     class="btn btn-new1 waves-effect waves-light btn-xs">
                                     <i class="fa fa-file-text-o"></i> 
                                     {{__('Get Purchase Receipt')}}
                             </button>
                 </li>
-                <li class="col-md-6">
+                <li class="">
                     <button type="button" class="btn btn-new2 waves-effect waves-light btn-xs"
                                     data-toggle="modal" data-target="#purchase_receipts" style="margin-right: 10px;">
                                     <i class="fa fa-file-text-o"></i> 

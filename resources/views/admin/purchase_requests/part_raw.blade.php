@@ -89,11 +89,11 @@
 <ul class="dropdown-menu dropdown-wg">
 
 
-<li class="btn-style-drop">
+<li class="btn-style-drop" style="margin-bottom:2px !important">
   {{--        @if(!isset($request_type) || ( isset($request_type) && $request_type != 'approval'))--}}
-            <button type="button" class="btn btn-danger" onclick="removeItem('{{$index}}')">
+            <a type="button" class="btn btn-danger" onclick="removeItem('{{$index}}')">
             <i class="fa fa-trash"></i>  {{__('Delete')}}
-        </button>
+        </a>
 
 {{--        @endif--}}
   </li>
