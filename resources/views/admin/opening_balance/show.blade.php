@@ -101,7 +101,7 @@
                                 <thead>
                                 <tr>
                                     <th width="5%">#</th>
-                                    <th width="16%"> {{ __('Name') }} </th>
+                                    <th> {{ __('opening-balance.part') }} </th>
                                     <th width="10%"> {{ __('Part Type') }} </th>
                                     <th width="10%"> {{ __('opening-balance.default-quantity') }} </th>
                                     <th width="10%"> {{ __('opening-balance.units') }} </th>
@@ -183,13 +183,14 @@
                                 <tr>
                                     <th width="2%">#</th>
                                     <th> {{ __('opening-balance.part') }} </th>
-                                    <th> {{ __('opening-balance.default-quantity') }} </th>
-                                    <th> {{ __('opening-balance.units') }} </th>
-                                    <th> {{ __('opening-balance.price-segment') }} </th>
-                                    <th> {{ __('opening-balance.quantity') }} </th>
-                                    <th> {{ __('opening-balance.buy-price') }} </th>
-                                    <th> {{ __('opening-balance.total') }} </th>
-                                    <th> {{ __('opening-balance.store') }} </th>
+                                    <th width="10%"> {{ __('Part Type') }} </th>
+                                    <th width="10%"> {{ __('opening-balance.default-quantity') }} </th>
+                                    <th width="10%"> {{ __('opening-balance.units') }} </th>
+                                    <th width="13%"> {{ __('opening-balance.price-segment') }} </th>
+                                    <th width="10%"> {{ __('opening-balance.quantity') }} </th>
+                                    <th width="13%"> {{ __('opening-balance.buy-price') }} </th>
+                                    <th width="13%"> {{ __('opening-balance.total') }} </th>
+                                    <th width="13%"> {{ __('opening-balance.store') }} </th>
                                 </tr>
                                 </tfoot>
                             </table>

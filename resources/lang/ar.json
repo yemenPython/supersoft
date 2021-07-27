@@ -2161,6 +2161,7 @@
     "supply order Number": "رقم أمر التوريد",
     "No Additional Founded" : "لا توجد مدفوعات",
     "Create Sale Quotation" : "إضافة عرض سعر مبيعات جديد",
-    "Edit Sale Quotation" : "تعديل بيانات عرض سعر المبيعات"
+    "Edit Sale Quotation" : "تعديل بيانات عرض سعر المبيعات",
+    "Damage type" : "نوع التلف"
 
 }
