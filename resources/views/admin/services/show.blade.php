@@ -46,23 +46,24 @@
                                     <tbody>
 
                                         <tr>
-                                        <th scope="row">{{__('Service Name Ar')}}</th>
+                                        <th>{{__('Service Name Ar')}}</th>
                                         <td>{{$service->name_ar}}</td>
                                         </tr> 
 
                                         <tr>
-                                        <th scope="row">{{__('Branch')}}</th>
+                                        <th>{{__('Branch')}}</th>
                                         <td>{{optional($service->branch)->name}}</td>
                                         </tr> 
 
                                         <tr>
-                                        <th scope="row">{{__('Price')}}</th>
+                                        <th>{{__('Price')}}</th>
                                         <td>{{$service->price}}</td>
                                         </tr> 
 
                                         <tr>
-                                        <th scope="row">{{__('Minutes')}}</th>
-                                        <td>{{$service->minutes}}</td>
+                                        <th>{{__('Description')}}</th>
+                                        <td>{{$service->description}}</td>
+
                                         </tr> 
                                         
 
@@ -76,23 +77,23 @@
                                     <tbody>
 
                                        <tr>
-                                        <th scope="row">{{__('Service Name En')}}</th>
+                                        <th>{{__('Service Name En')}}</th>
                                         <td>{{$service->name_en}}</td>
                                         </tr> 
 
                                         <tr>
-                                        <th scope="row">{{__('Status')}}</th>
+                                        <th>{{__('Status')}}</th>
                                         <td>{{$service->active}}</td>
                                         </tr> 
 
                                         <tr>
-                                        <th scope="row">{{__('Hours')}}</th>
+                                        <th>{{__('Hours')}}</th>
                                         <td>{{$service->hours}}</td>
                                         </tr> 
 
                                         <tr>
-                                        <th scope="row">{{__('Description')}}</th>
-                                        <td>{{$service->description}}</td>
+                                        <th>{{__('Minutes')}}</th>
+                                        <td>{{$service->minutes}}</td>
                                         </tr> 
                        
 

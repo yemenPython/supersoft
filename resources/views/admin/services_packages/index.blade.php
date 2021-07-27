@@ -41,7 +41,7 @@
                     <thead>
                     <tr>
                         <th scope="col">{!! __('#') !!}</th>
-                        <th scope="col">{!! __('Service Package') !!}</th>
+                        <th scope="col">{!! __('Service Package name') !!}</th>
                         <th scope="col">{!! __('Total Before Discount') !!}</th>
                         <th scope="col">{!! __('Total After Discount') !!}</th>
                         <th scope="col">{!! __('Hours') !!}</th>
@@ -59,7 +59,7 @@
                     <tfoot>
                     <tr>
                         <th scope="col">{!! __('#') !!}</th>
-                        <th scope="col">{!! __('Service Package') !!}</th>
+                        <th scope="col">{!! __('Service Package name') !!}</th>
                         <th scope="col">{!! __('Total Before Discount') !!}</th>
                         <th scope="col">{!! __('Total After Discount') !!}</th>
                         <th scope="col">{!! __('Hours') !!}</th>
@@ -82,8 +82,17 @@
                                 $hours = floor($package->number_of_min  / 60);
                                 $min = ($package->number_of_min  -   floor($package->number_of_min  / 60) * 60);
                             @endphp
-                            <td>{!! $package->number_of_hours + $hours!!}</td>
-                            <td>{!! $min !!}</td>
+
+                            <td> <span class="part-unit-span">
+                                {!! $package->number_of_hours + $hours!!}
+                            </span>
+                            </td>
+
+                            <td> <span class="part-unit-span">
+                                {!! $min !!}
+                                </span>
+                            </td>
+
                             <td>{!! $package->created_at->format('y-m-d h:i:s A') !!}</td>
                             <td>{!! $package->updated_at->format('y-m-d h:i:s A') !!}</td>
                             <td>
@@ -95,6 +104,17 @@
                                                 {{__('Options')}} <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu dropdown-wg">
+
+                                            <li>
+                                    <a style="cursor:pointer" class="btn btn-print-wg text-white  "
+                                       data-toggle="modal"
+
+                                       onclick="getPrintData({{$package->id}})"
+                                       data-target="#boostrapModal" title="{{__('print')}}">
+                                        <i class="fa fa-print"></i> {{__('Print')}}
+                                    </a>
+                                    </li>
+
                                                 <li>
 
 
@@ -111,15 +131,7 @@
                                                        ])
                                     @endcomponent
                                     </li>
-                                <li>
-                                    <a style="cursor:pointer" class="btn btn-print-wg text-white  "
-                                       data-toggle="modal"
 
-                                       onclick="getPrintData({{$package->id}})"
-                                       data-target="#boostrapModal" title="{{__('print')}}">
-                                        <i class="fa fa-print"></i> {{__('Print')}}
-                                    </a>
-                                    </li>
                             </td>
                             <td>
                                 @component('admin.buttons._delete_selected',[
