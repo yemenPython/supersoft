@@ -1891,7 +1891,7 @@
     "Requested Qty": "الكمية المطلوبة",
     "Stores Qty": "كمية المخزون",
     "normal Purchase Request": "طلب شراء أصناف",
-    "normal": "طلب شراء أصناف",
+    "normal": "أمر توريد مباشر",
     "under_processing": "جاري التنفيذ",
     "ready_for_approval": "جاهز للإعتماد",
     "accept_approval": "تم القبول",
@@ -1914,7 +1914,7 @@
     "From Purchase Request": "تابع لطلب شراء",
     "out_purchase_request": "تابع لطلب شراء",
     "Out Purchase Request": "عرض سعر مباشر",
-    "from_purchase_request": "عرض سعر مباشر",
+    "from_purchase_request": "تابع لطلب شراء",
     "Purchase Quotation Execution": "فترة تنفيذ عروض أسعار المشتريات",
     "Terms": "الشروط",
     "Supply Terms": "شروط التوريد",
@@ -2162,6 +2162,14 @@
     "No Additional Founded" : "لا توجد مدفوعات",
     "Create Sale Quotation" : "إضافة عرض سعر مبيعات جديد",
     "Edit Sale Quotation" : "تعديل بيانات عرض سعر المبيعات",
-    "Damage type" : "نوع التلف"
+    "Damage type" : "نوع التلف",
+    "Sale Supply Orders" : "أوامر توريد المبيعات",
+    "Create Sale Supply Orders" : "إضافة أمر توريد مبيعات جديد",
+    "Normal Sale Supply Order" : "أمر توريد مبيعات مباشر",
+    "From Sale Quotation" : "تابع لعروض أسعار مبيعات",
+    "Period of sale supply order from" : "تاريخ التوريد من",
+    "Period of sale supply order to" : "تاريخ التوريد إلى",
+    "Show Sale Quotations" : "تحديد عروض أسعار المبيعات",
+    "Customer name" : "اسم العميل"
 
 }

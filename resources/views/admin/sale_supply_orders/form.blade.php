@@ -72,7 +72,7 @@
 
                                 <option value="normal"
                                     {{isset($aleSupplyOrder) && $aleSupplyOrder->type == 'normal'? 'selected':'' }}>
-                                    {{ __('Normal') }}
+                                    {{ __('Normal Sale Supply Order') }}
                                 </option>
 
                             </select>
@@ -158,9 +158,10 @@
                 </div>
 
             </div>
+            
             <div class="col-md-12">
 
-                <div class="col-md-6 sale_quotation_type"
+                <div class="col-md-3 sale_quotation_type"
                      style="{{isset($aleSupplyOrder) && $aleSupplyOrder->type != 'from_sale_quotation'? 'display:none':''}}">
                     <div class="form-group">
 
@@ -183,13 +184,10 @@
                     </div>
                 </div>
 
-            </div>
 
-            <div class="col-md-12">
-
-                <div class="col-md-8">
+                <div class="col-md-6">
                     <div class="form-group has-feedback">
-                        <label for="inputStore" class="control-label">{{__('Customers')}}</label>
+                        <label for="inputStore" class="control-label">{{__('Customer name')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon fa fa-user"></span>
 
@@ -215,7 +213,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group has-feedback">
                         <label for="inputStore" class="control-label">{{__('Status')}}</label>
                         <div class="input-group">
