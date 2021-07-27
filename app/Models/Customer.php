@@ -235,6 +235,28 @@ class Customer extends Authenticatable
     {
         return $this->hasMany(BankAccount::class, 'customer_id');
     }
+
+    public function getGroupSalesDiscountAttribute () {
+
+        $category = $this->customerCategory;
+
+        if ($category && $category->status == 1) {
+            return $category->sales_discount;
+        }
+
+        return 0;
+    }
+
+    public function getGroupSalesDiscountTypeAttribute () {
+
+        $category = $this->customerCategory;
+
+        if ($category && $category->status == 1) {
+            return $category->sales_discount_type;
+        }
+
+        return 'amount';
+    }
 }
 
 /**
