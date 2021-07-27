@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Admin\SupplyOrders;
+namespace App\Http\Requests\Admin\SaleSupplyOrder;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -28,13 +28,15 @@ class CreateRequest extends FormRequest
 
             'date' => 'required|date',
             'time' => 'required',
-            'date_from' => 'nullable|date',
-            'date_to' => 'nullable|date|after_or_equal:date_from',
-            'supplier_id' => 'required|integer|exists:suppliers,id',
+            'supply_date_from' => 'nullable|date',
+            'supply_date_to' => 'nullable|date|after_or_equal:date_from',
+            'customer_id' => 'required|integer|exists:customers,id',
             'discount' => 'required|numeric|min:0',
             'discount_type' => 'required|string|in:amount,percent',
-            'supplier_discount'=>'required|numeric|min:0',
-            'supplier_discount_type'=>'required|string|in:amount,percent',
+            'customer_discount'=>'required|numeric|min:0',
+            'customer_discount_type'=>'required|string|in:amount,percent',
+            'status'=>'required|string|in:pending,processing,finished',
+            'type'=>'required|string|in:from_sale_quotation,normal',
 
             'items.*.part_id' => 'required|integer|exists:parts,id',
             'items.*.part_price_id' => 'required|integer|exists:part_prices,id',
@@ -55,14 +57,10 @@ class CreateRequest extends FormRequest
             $branch_id = request()['branch_id'];
         }
 
-        if (request()->has('type') && request()->type == 'from_purchase_request') {
-            $rules['purchase_request_id'] = 'required|integer|exists:purchase_requests,id';
-        }
-
         $rules['number'] =
             [
                 'required','string', 'max:50',
-                Rule::unique('supply_orders')->where(function ($query) use($branch_id) {
+                Rule::unique('sale_supply_orders')->where(function ($query) use($branch_id) {
                     return $query->where('number', request()->number)
                         ->where('branch_id', $branch_id)
 //                        ->where('deleted_at', null)

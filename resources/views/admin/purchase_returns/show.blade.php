@@ -48,6 +48,11 @@
                         <th style="background:#CCC !important;color:black" scope="row">{{__('Date')}}</th>
                         <td>{{$purchase_invoice->date}} - {{$purchase_invoice->time}}</td>
                     </tr>
+
+                    <tr>
+                        <th style="background:#CCC !important;color:black" scope="row">{{__('Type')}}</th>
+                        <td>{{$purchase_invoice->invoice_type}} </td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -66,6 +71,32 @@
                         <th style="background:#CCC !important;color:black" scope="row">{{__('Payment status')}}</th>
                         <td>{{$purchase_invoice->remaining == 0 ? __('Completed') : __('Remaining')}}</td>
                     </tr>
+
+                    @if($purchase_invoice->invoice_type == 'from_supply_order')
+                        <tr>
+
+                            <th style="background:#CCC !important;color:black">{{__('Supply order Number')}}</th>
+                            <td>
+                                @foreach($purchase_invoice->supplyOrders as $index=>$supplyOrder)
+                                    <span>{{$supplyOrder->number}} ,</span>
+                                @endforeach
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <th style="background:#CCC !important;color:black">{{__('Purchase Receipts Numbers')}}</th>
+                            <td>
+                                @foreach($purchase_invoice->purchaseReceipts as $index=>$purchaseReceipt)
+
+                                    <span>{{$purchaseReceipt->number}} ,</span>
+
+                                @endforeach
+
+                            </td>
+                        </tr>
+
+                    @endif
+
                     </tbody>
                 </table>
             </div>

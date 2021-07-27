@@ -183,4 +183,9 @@ class PurchaseInvoice extends Model
     {
         return $this->belongsToMany(SupplyTerm::class, 'purchase_invoice_supply_terms', 'purchase_invoice_id', 'supply_term_id');
     }
+
+    public function supplyOrder ()
+    {
+        return $this->belongsTo(SupplyOrder::class, 'supply_order_id');
+    }
 }

@@ -163,7 +163,7 @@
 
 @section('js-validation')
 
-    {{--    {!! JsValidator::formRequest('App\Http\Requests\Admin\SaleSupplyOrders\CreateRequest', '.form'); !!}--}}
+        {!! JsValidator::formRequest('App\Http\Requests\Admin\SaleSupplyOrder\CreateRequest', '.form'); !!}
     @include('admin.partial.sweet_alert_messages')
 
 @endsection

@@ -208,12 +208,14 @@
                                                 <li>
                                                     @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])
                                                 </li>
+                                            </ul>
+                                        </div>
 
                                     </td>
                                     <td>
                                         @component('admin.buttons._delete_selected',[
                                                    'id' => $item->id,
-                                                    'route' => 'admin:sale-supply-orders.deleteSelected',
+                                                    'route' => 'admin:sale.supply.orders.deleteSelected',
                                                     ])
                                         @endcomponent
                                     </td>

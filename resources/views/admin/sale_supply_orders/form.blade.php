@@ -3,7 +3,6 @@
 
         <div class="row top-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
-
             @if(authIsSuperAdmin())
                 <div class="col-md-12">
                     <div class="col-md-12">
@@ -158,7 +157,7 @@
                 </div>
 
             </div>
-            
+
             <div class="col-md-12">
 
                 <div class="col-md-3 sale_quotation_type"

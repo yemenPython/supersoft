@@ -49,6 +49,7 @@
 
 
                                 <th scope="col">{!! __('Quotation type') !!}</th>
+                                <th scope="col">{!! __('Customer') !!}</th>
 
                                 <th scope="col">{!! __('Total') !!}</th>
 
@@ -81,10 +82,10 @@
 
 
                                 <th scope="col">{!! __('Quotation type') !!}</th>
+                                <th scope="col">{!! __('Customer') !!}</th>
 
-                        
                                 <th scope="col">{!! __('Total') !!}</th>
-      
+
                                 <th scope="col">{{__('quotation days')}}</th>
                                 <th scope="col">{!! __('Remaining Days') !!}</th>
 
@@ -119,9 +120,10 @@
                                         @endif
                                     </td>
 
+                                    <td><span style="background:#F7F8CC !important">{{ $item->customer ? $item->customer->name :'---' }} </span></td>
                                     <td><span style="background:#F7F8CC !important">{{ __($item->total) }} </span></td>
 
-                                   
+
                                     <td><span class="part-unit-span">{{ $item->different_days }} </span></td>
                                     <td><span class="price-span">{{ $item->remaining_days }} </span></td>
 
@@ -160,7 +162,7 @@
 
                                     </td>
 
-                                    
+
                                     <td>{{ $item->created_at }}</td>
                                     <td>{{ $item->updated_at }}</td>
 

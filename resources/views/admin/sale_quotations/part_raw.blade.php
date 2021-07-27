@@ -17,7 +17,7 @@
                style="text-align: center;">
     </td>
 
-    
+
     <td>
         <div class="input-group"  style="width: 180px !important;">
 
@@ -53,7 +53,7 @@
                 @foreach($part->prices as $price)
                     <option value="{{$price->id}}"
                             data-quantity="{{$price->quantity}}"
-                            data-purchase-price="{{$price->purchase_price}}"
+                            data-purchase-price="{{$price->selling_price}}"
                             data-big-percent-discount="{{$price->biggest_percent_discount}}"
                             data-big-amount-discount="{{$price->biggest_amount_discount}}"
                         {{isset($item) && $item->part_price_id == $price->id ? 'selected':''}}
@@ -80,7 +80,7 @@
 
                     @foreach($item->partPrice->partPriceSegments as $priceSegment)
                         <option value="{{$priceSegment->id}}"
-                                data-purchase-price="{{$priceSegment->purchase_price}}"
+                                data-purchase-price="{{$priceSegment->sales_price}}"
                             {{isset($item) && $item->part_price_segment_id == $priceSegment->id  ? 'selected':''}}
                         >
                             {{$priceSegment->name}}
@@ -95,7 +95,7 @@
 
                         @foreach($part->first_price_segments as $priceSegment)
                             <option value="{{$priceSegment->id}}"
-                                    data-purchase-price="{{$priceSegment->purchase_price}}"
+                                    data-purchase-price="{{$priceSegment->sales_price}}"
                                 {{isset($item) && $item->part_price_segment_id == $priceSegment->id  ? 'selected':''}}>
                                 {{$priceSegment->name}}
                             </option>
@@ -119,7 +119,7 @@
 
     <td>
         <input style="width: 150px !important;" type="number" class="form-control border2" id="price_{{$index}}"
-               value="{{isset($item) ? $item->price : $part->default_purchase_price}}"
+               value="{{isset($item) ? $item->price : $part->default_sale_price}}"
                min="0" name="items[{{$index}}][price]"
                onchange="calculateItem('{{$index}}')" onkeyup="calculateItem('{{$index}}')">
     </td>

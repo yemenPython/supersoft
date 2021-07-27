@@ -3,26 +3,22 @@
 
 namespace App\Services;
 
-
 use App\Models\Customer;
-use App\Models\Supplier;
 use App\Models\TaxesFees;
 
-class SaleQuotationServices
+class SaleSupplyOrderService
 {
-
-    public function saleQuotationItemData($item)
+    public function supplyOrderItemData($item)
     {
         $data = [
             'part_id' => $item['part_id'],
+            'spare_part_id' => $item['spare_part_id'],
             'part_price_id' => $item['part_price_id'],
             'part_price_segment_id' => isset($item['part_price_segment_id']) ? $item['part_price_segment_id'] : null,
             'quantity' => $item['quantity'],
             'price' => $item['price'],
             'discount' => $item['discount'],
             'discount_type' => $item['discount_type'],
-            'spare_part_id' => $item['spare_part_id'],
-            'active' => isset($item['checked']) ? 1 : 0,
             'sub_total' => $item['quantity'] * $item['price']
         ];
 
@@ -39,17 +35,15 @@ class SaleQuotationServices
         return $data;
     }
 
-    public function saleQuotationData($requestData)
+    public function supplyOrderData($requestData)
     {
         $data = [
             'number' => $requestData['number'],
             'type' => $requestData['type'],
             'date' => $requestData['date'],
             'time' => $requestData['time'],
-            'date_from' => $requestData['date_from'],
-            'date_to' => $requestData['date_to'],
-            'supply_date_from' => $requestData['supply_date_from'],
-            'supply_date_to' => $requestData['supply_date_to'],
+            'supply_date_from' => isset($requestData['supply_date_from']) ? $requestData['supply_date_from'] : null,
+            'supply_date_to' => isset($requestData['supply_date_to']) ? $requestData['supply_date_to'] : null ,
             'customer_id' => $requestData['customer_id'],
             'discount' => $requestData['discount'],
             'discount_type' => $requestData['discount_type'],
@@ -67,11 +61,8 @@ class SaleQuotationServices
 
             foreach ($requestData['items'] as $item) {
 
-                if (isset($item['checked'])) {
-
-                    $itemData = $this->saleQuotationItemData($item);
-                    $data['sub_total'] += $itemData['total'];
-                }
+                $itemData = $this->supplyOrderItemData($item);
+                $data['sub_total'] += $itemData['total'];
             }
         }
 
@@ -150,56 +141,20 @@ class SaleQuotationServices
         return $value;
     }
 
-    function resetSaleQuotationItems($saleQuotation)
+    function resetSupplyOrderDataItems($supplyOrder)
     {
 
-        foreach ($saleQuotation->items as $item) {
+        foreach ($supplyOrder->items as $item) {
             $item->delete();
         }
 
-        $saleQuotation->taxes()->detach();
+        $supplyOrder->taxes()->detach();
+        $supplyOrder->purchaseQuotations()->detach();
     }
 
-    public function getPartTypes($partMainTypes, $part_id)
+    public function supplyOrderTaxes($supplyOrder, $data)
     {
 
-        $data = [];
-
-        $level = 1;
-
-        foreach ($partMainTypes as $type) {
-
-            $data[$type->id] = $level . '.' . $type->type;
-            $this->getChildrenTypes($type, $part_id, $level, $data);
-            $level++;
-        }
-
-        return $data;
-    }
-
-    public function getChildrenTypes($partType, $part_id, $level, &$data)
-    {
-        $counter = 1;
-
-        $types = $partType->children()->whereHas('allParts', function ($q) use ($part_id) {
-            $q->where('part_id', $part_id);
-        })->get();
-
-        $depthCounter = $level . '.' . $counter;
-
-        foreach ($types as $type) {
-            $data[$type->id] = $depthCounter . '.' . $type->type;
-
-            if ($type->children) {
-                $this->getChildrenTypes($type, $part_id, $depthCounter, $data);
-            }
-
-            $counter++;
-        }
-    }
-
-    public function saleQuotationTaxes($saleQuotation, $data)
-    {
         $taxes = [];
 
         if (isset($data['taxes'])) {
@@ -211,7 +166,7 @@ class SaleQuotationServices
         }
 
         if (!empty($taxes)) {
-            $saleQuotation->taxes()->attach($taxes);
+            $supplyOrder->taxes()->attach($taxes);
         }
     }
 
@@ -222,5 +177,4 @@ class SaleQuotationServices
 
         return $this->discountValue($customer_discount_type, $customer_discount, $total);
     }
-
 }
