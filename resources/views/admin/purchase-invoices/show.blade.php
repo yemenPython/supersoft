@@ -69,6 +69,11 @@
                         <th style="background:#CCC !important;color:black" scope="row">{{__('Payment status')}}</th>
                         <td>{{$purchase_invoice->remaining == 0 ? __('Completed') : __('Not Completed')}}</td>
                     </tr>
+
+                    <tr>
+                        <th style="background:#CCC !important;color:black" scope="row">{{__('Type')}}</th>
+                        <td>{{__($purchase_invoice->invoice_type)}}</td>
+                    </tr>
                     </tbody>
                 </table>
             </div>
@@ -83,6 +88,28 @@
                         <th style="background:#CCC !important;color:black" scope="row">{{__('Supplier Phone')}}</th>
                         <td>{{optional($purchase_invoice->supplier)->phone_1}}</td>
                     </tr>
+
+                    @if($purchase_invoice->invoice_type == 'from_supply_order')
+                        <tr>
+
+                            <th style="background:#CCC !important;color:black">{{__('Supply order Number')}}</th>
+                            <td> {{__($purchase_invoice->supplyOrder ? $purchase_invoice->supplyOrder->number : '---')}} </td>
+
+                        </tr>
+                        <tr>
+                            <th style="background:#CCC !important;color:black">{{__('Purchase Receipts Numbers')}}</th>
+                            <td>
+                                @foreach($purchase_invoice->purchaseReceipts as $index=>$purchaseReceipt)
+
+                                    <span>{{$purchaseReceipt->number}} ,</span>
+
+                                @endforeach
+
+                            </td>
+                        </tr>
+
+                    @endif
+
                     </tbody>
                 </table>
             </div>
@@ -117,7 +144,7 @@
                     <tr class="item">
                         <td>{{$index+1}}</td>
                         <td>{{optional($item->part)->name}}</td>
-                        <td>{{optional($item->partPrice->unit)->unit}}</td>
+                        <td>{{ $item->partPrice && $item->partPrice->unit ? $item->partPrice->unit->unit : '---'   }}</td>
                         <td>{{optional($item->sparePart)->type}}</td>
                         <td>
                             @if($item->partPriceSegment)
@@ -143,37 +170,37 @@
         </div>
     </div>
 
-{{--    <div class="col-xs-12 wg-tb-snd">--}}
-{{--        <div style="margin:10px 15px">--}}
-{{--            <table class="table table-bordered">--}}
-{{--                <thead>--}}
-{{--                <tr class="heading">--}}
-{{--                    <th style="background:#CCC !important;color:black">{{__('Tax Name')}}</th>--}}
-{{--                    <th style="background:#CCC !important;color:black">{{__('Tax Type')}}</th>--}}
-{{--                    <th style="background:#CCC !important;color:black">{{__('Tax Value')}}</th>--}}
-{{--                    <th style="background:#CCC !important;color:black">{{__('Invoice Tax')}}</th>--}}
-{{--                </tr>--}}
-{{--                </thead>--}}
-{{--                <tbody>--}}
-{{--                @foreach($purchase_invoice->taxes as $tax)--}}
-{{--                    <tr class="item">--}}
-{{--                        <td>{{$tax->name}}</td>--}}
-{{--                        <td>{{__($tax->tax_type)}}</td>--}}
-{{--                        <td>{{$tax->value}}</td>--}}
-{{--                        <td><span>---</span></td>--}}
-{{--                    </tr>--}}
-{{--                @endforeach--}}
+    {{--    <div class="col-xs-12 wg-tb-snd">--}}
+    {{--        <div style="margin:10px 15px">--}}
+    {{--            <table class="table table-bordered">--}}
+    {{--                <thead>--}}
+    {{--                <tr class="heading">--}}
+    {{--                    <th style="background:#CCC !important;color:black">{{__('Tax Name')}}</th>--}}
+    {{--                    <th style="background:#CCC !important;color:black">{{__('Tax Type')}}</th>--}}
+    {{--                    <th style="background:#CCC !important;color:black">{{__('Tax Value')}}</th>--}}
+    {{--                    <th style="background:#CCC !important;color:black">{{__('Invoice Tax')}}</th>--}}
+    {{--                </tr>--}}
+    {{--                </thead>--}}
+    {{--                <tbody>--}}
+    {{--                @foreach($purchase_invoice->taxes as $tax)--}}
+    {{--                    <tr class="item">--}}
+    {{--                        <td>{{$tax->name}}</td>--}}
+    {{--                        <td>{{__($tax->tax_type)}}</td>--}}
+    {{--                        <td>{{$tax->value}}</td>--}}
+    {{--                        <td><span>---</span></td>--}}
+    {{--                    </tr>--}}
+    {{--                @endforeach--}}
 
-{{--                <tr class="item">--}}
-{{--                    <th style="background:#CCC !important;color:black" colspan="2">{{__('Total Tax')}}</th>--}}
-{{--                    <td>{{$totalTax}}</td>--}}
-{{--                    <td>{{$purchase_invoice->taxes()->sum('value')}}</td>--}}
-{{--                    <td>{{$purchase_invoice->tax}}</td>--}}
-{{--                </tr>--}}
-{{--                </tbody>--}}
-{{--            </table>--}}
-{{--        </div>--}}
-{{--    </div>--}}
+    {{--                <tr class="item">--}}
+    {{--                    <th style="background:#CCC !important;color:black" colspan="2">{{__('Total Tax')}}</th>--}}
+    {{--                    <td>{{$totalTax}}</td>--}}
+    {{--                    <td>{{$purchase_invoice->taxes()->sum('value')}}</td>--}}
+    {{--                    <td>{{$purchase_invoice->tax}}</td>--}}
+    {{--                </tr>--}}
+    {{--                </tbody>--}}
+    {{--            </table>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
 
 
     <div class="wg-tb-snd" style="border:1px solid #AAA;margin:5px 20px 20px;padding:10px;border-radius:5px">
@@ -251,7 +278,8 @@
                         @endforeach
 
                         <tr class="item">
-                            <th style="background:#CCC !important;color:black" colspan="2">{{__('Total Additional Payments')}}</th>
+                            <th style="background:#CCC !important;color:black"
+                                colspan="2">{{__('Total Additional Payments')}}</th>
                             <td>{{$tax_value}}</td>
                             <td>{{$purchase_invoice->additional_payments}}</td>
                         </tr>

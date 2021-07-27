@@ -26,7 +26,6 @@ class CreateRequest extends FormRequest
     {
         $rules = [
 
-//            'number'=>'required|string|max:50',
             'date' => 'required|date',
             'time' => 'required',
             'date_from' => 'nullable|date',

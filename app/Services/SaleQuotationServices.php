@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Models\Customer;
 use App\Models\Supplier;
 use App\Models\TaxesFees;
 
@@ -49,10 +50,10 @@ class SaleQuotationServices
             'date_to' => $requestData['date_to'],
             'supply_date_from' => $requestData['supply_date_from'],
             'supply_date_to' => $requestData['supply_date_to'],
-            'supplier_id' => $requestData['supplier_id'],
+            'customer_id' => $requestData['customer_id'],
             'discount' => $requestData['discount'],
             'discount_type' => $requestData['discount_type'],
-            'supplier_discount_active'=> 0,
+            'customer_discount_active'=> 0,
         ];
 
         if (isset($requestData['status'])) {
@@ -60,7 +61,7 @@ class SaleQuotationServices
         }
 
         $data['sub_total'] = 0;
-        $supplier_discount = 0;
+        $customer_discount = 0;
 
         if (isset($requestData['items'])) {
 
@@ -74,20 +75,20 @@ class SaleQuotationServices
             }
         }
 
-        if (isset($requestData['supplier_discount_active'])) {
+        if (isset($requestData['customer_discount_active'])) {
 
-            $supplier = Supplier::find($data['supplier_id']);
+            $customer = Customer::find($data['customer_id']);
 
-            $data['supplier_discount_active'] = 1;
-            $data['supplier_discount'] = $supplier->group_discount;
-            $data['supplier_discount_type'] = $supplier->group_discount_type;
+            $data['customer_discount_active'] = 1;
+            $data['customer_discount'] = $customer->group_sales_discount;
+            $data['customer_discount_type'] = $customer->group_sales_discount_type;
 
-            $supplier_discount = $this->supplierDiscount($supplier, $data['sub_total']);
+            $customer_discount = $this->customerDiscount($customer, $data['sub_total']);
         }
 
         $discountValue = $this->discountValue($data['discount_type'], $data['discount'], $data['sub_total']);
 
-        $totalDiscount = $discountValue + $supplier_discount;
+        $totalDiscount = $discountValue + $customer_discount;
 
         $data['total_after_discount'] = $data['sub_total'] - $totalDiscount;
 
@@ -214,12 +215,12 @@ class SaleQuotationServices
         }
     }
 
-    public function supplierDiscount($supplier, $total)
+    public function customerDiscount($customer, $total)
     {
-        $supplier_discount = $supplier->group_discount;
-        $supplier_discount_type = $supplier->group_discount_type;
+        $customer_discount = $customer->group_sales_discount;
+        $customer_discount_type = $customer->group_sales_discount_type;
 
-        return $this->discountValue($supplier_discount_type, $supplier_discount, $total);
+        return $this->discountValue($customer_discount_type, $customer_discount, $total);
     }
 
 }

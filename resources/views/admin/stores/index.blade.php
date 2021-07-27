@@ -71,6 +71,83 @@
                                 <th scope="col">{!! __('Select') !!}</th>
                             </tr>
                             </tfoot>
+<!-- 
+                            <tbody>
+                            @foreach($stores as $index=>$store)
+                                <tr>
+                                    <td>{!! $index +1 !!}</td>
+                                    @if(authIsSuperAdmin())
+                                        <td class="text-danger">{!! optional($store->branch)->name !!}</td>
+                                    @endif
+                                    <td>{!! $store->name !!}</td>
+                                    <td>
+
+                                     <span class="label label-success m-5 ">
+                                         <a style="color: white !important;font-size: 14px"
+                                            target="_blank" href="{{route('admin:store_employee_history.index', ['store' => $store->id])}}">
+                                             {{count($store->storeEmployeeHistories->where('status', 1))}}
+                                         </a>
+                                     </span>
+
+                                    </td>
+
+                                    <td>{!! $store->created_at->format('y-m-d h:i:s A') !!}</td>
+                                    <td>{!! $store->updated_at->format('y-m-d h:i:s A') !!}</td>
+                                    <td>
+
+                                    <div class="btn-group margin-top-10">
+
+                                        <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="ico fa fa-bars"></i>
+                                        {{__('Options')}} <span class="caret"></span>
+
+                                    </button>
+                                        <ul class="dropdown-menu dropdown-wg">
+                                            <li>
+
+
+                                            <a class="btn btn-wg-show hvr-radial-out" onclick="loadDataWithModal('{{$store->id}}')" data-id="{{$store->id}}">
+                                                <i class="fa fa-eye"></i> {{__('Show')}}
+                                            </a>
+
+                                            </li>
+                                            <li>
+
+                                            @component('admin.buttons._edit_button',[
+                                                    'id'=>$store->id,
+                                                    'route' => 'admin:stores.edit',
+                                                     ])
+                                        @endcomponent
+                                            </li>
+
+                                            <li class="btn-style-drop">
+                                            @component('admin.buttons._delete_button',[
+                                                    'id'=> $store->id,
+                                                    'route' => 'admin:stores.destroy',
+                                                     ])
+                                        @endcomponent
+                                            </li>
+                                            <li>
+                                                <a class="btn btn-wg-show hvr-radial-out" target="_blank"
+                                                   href="{{route('admin:store_employee_history.index', ['store' => $store->id])}}" >
+                                                    <i class="fa fa-eye"></i> {{ __( 'employees history' )}}</a>
+
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                    </td>
+                                    <td>
+                                    @component('admin.buttons._delete_selected',[
+                                         'id' => $store->id,
+                                          'route' => 'admin:stores.deleteSelected',
+                                          ])
+                                        @endcomponent
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody> -->
+
                         </table>
                         </div>
                 </div>

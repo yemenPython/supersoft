@@ -193,7 +193,7 @@
 
 <li class="btn-style-drop" style="margin-bottom:2px !important">
 
-            <button type="button" class="btn btn-danger fa fa-trash" onclick="removeItem('{{$index}}')">
+            <button type="button" class="btn btn-danger" onclick="removeItem('{{$index}}')">
             <i class="fa fa-trash"></i>  {{__('Delete')}}
         </button>
         </li>

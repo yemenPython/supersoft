@@ -231,6 +231,12 @@ class Part extends Model
         return $firstPrice ? $firstPrice->purchase_price : 0;
     }
 
+    public function getDefaultSalePriceAttribute()
+    {
+        $firstPrice = $this->prices->first();
+        return $firstPrice ? $firstPrice->selling_price : 0;
+    }
+
     public function getDefaultDamagePriceAttribute()
     {
         $firstPrice = $this->prices->first();

@@ -1,4 +1,5 @@
 <div id="concession_to_print">
+    <div class="print-header-wg">
     <div class="top-logo-print">
         <div class="logo-print text-center">
             <ul class="list-inline" style="margin:0">
@@ -20,6 +21,7 @@
     </div>
 
 
+
     <div class="row row-right-data">
         <div class="col-xs-6"></div>
         <div class="col-xs-6 right-top-detail">
@@ -29,8 +31,12 @@
 
         </div>
     </div>
+    </div>
 
-    <div class="invoice-to">
+
+<div class="middle-data-h-print">
+
+    <div class="invoice-to print-padding-top">
         <div clas="row">
             <div class="col-xs-6">
                 <h5>{{__('Purchase Quotation data')}}</h5>
@@ -171,7 +177,7 @@
     </div>
 
 
-    <div class="row right-peice-wg" style="padding:0 30px 50px 30px;margin-bottom:30px">
+    <div class="row right-peice-wg" style="padding:0 30px 50px 30px">
 
         <div class="col-xs-6">
             <table class="table table-bordered static-table-wg">
@@ -403,6 +409,8 @@
 
     </div>
 
+
+    </div>
 
     <div class="print-foot-wg">
         <div class="row">

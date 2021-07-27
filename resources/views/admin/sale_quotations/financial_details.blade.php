@@ -56,35 +56,35 @@
 
         <table class="table table-bordered">
             <tr>
-                <th style="width:40%;height:50px;background:#D2F4F6 !important;color:black !important">{!! __('Supplier Discount') !!}</th>
+                <th style="width:40%;height:50px;background:#D2F4F6 !important;color:black !important">{!! __('Customer Discount') !!}</th>
                 <td style="background:#D2F4F6 !important;color:black!important">
                     <ul class="list-inline flex-div-cen">
                         <li>
                             <div class="has-feedback">
                                 <input type="checkbox"
-                                       id="supplier_discount_check" name="supplier_discount_active"
+                                       id="supplier_discount_check" name="customer_discount_active"
                                        onclick="calculateTotal()"
-                                    {{isset($saleQuotation) && $saleQuotation->supplier_discount_active ? 'checked' : ''}}>
+                                    {{isset($saleQuotation) && $saleQuotation->customer_discount_active ? 'checked' : ''}}>
                             </div>
                         </li>
 
                         <li>
-                            <input type="number" name="supplier_discount" min="0" readonly="readonly"
+                            <input type="number" name="customer_discount" min="0" readonly="readonly"
                                    style="background:#D2F4F6; border:none;text-align:center !important;"
                                    class="form-control text-center supplier_discount"
-                                   value="{{isset($saleQuotation) ? $saleQuotation->supplier_discount : 0}}">
+                                   value="{{isset($saleQuotation) ? $saleQuotation->customer_discount : 0}}">
                         </li>
 
                         <li>
                             <input type="text" disabled="disabled"
 
                                    class="form-control text-center supplier_discount_type"
-                                   value="{{isset($saleQuotation) && $saleQuotation->supplier_discount_type == 'percent' ? '%' : '$'}}"
+                                   value="{{isset($saleQuotation) && $saleQuotation->customer_discount_type == 'percent' ? '%' : '$'}}"
                                    style="width: 42px;">
 
-                            <input type="hidden" name="supplier_discount_type"
-                                   class="supplier_discount_type_value"
-                                   value="{{isset($saleQuotation) ? $saleQuotation->supplier_discount_type : 'amount'}}">
+                            <input type="hidden" name="customer_discount_type"
+                                   class="customer_discount_type_value"
+                                   value="{{isset($saleQuotation) ? $saleQuotation->customer_discount_type : 'amount'}}">
 
                         </li>
                     </ul>

@@ -180,7 +180,9 @@
 
     <td>
     <div style="padding:5px !important;">
-            <button type="button" class="btn btn-danger fa fa-trash" onclick="removeItem('{{$index}}')"></button>
+            <button type="button" class="btn btn-danger" onclick="removeItem('{{$index}}')">
+            <i class="fa fa-trash"></i>  {{__('Delete')}}
+        </button>
 
             <button type="button" class="btn btn-primary waves-effect waves-light btn-xs" onclick="storeQuantity('{{$part->id}}')"
                     data-toggle="modal" data-target="#part_quantity" style="margin-right: 10px;margin-top:5px">

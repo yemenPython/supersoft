@@ -45,7 +45,7 @@
 
             <div class="col-md-12">
 
-                <div class="col-md-3">
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="inputNameAr" class="control-label">{{__('Number')}}</label>
                         <div class="input-group">
@@ -58,32 +58,8 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="date" class="control-label">{{__('Date')}}</label>
-                        <div class="input-group">
-                            <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                            <input type="date" name="date" class="form-control" id="date"
-                                   value="{{old('date', isset($settlement)? $settlement->date : \Carbon\Carbon::now()->format('Y-m-d'))}}">
-                        </div>
-                        {{input_error($errors,'date')}}
-                    </div>
-                </div>
-
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label for="date" class="control-label">{{__('Time')}}</label>
-                        <div class="input-group">
-                            <span class="input-group-addon"><li class="fa fa-clock-o"></li></span>
-                            <input type="time" name="time" class="form-control" id="time"
-                                   value="{{old('time', isset($settlement)? $settlement->time : \Carbon\Carbon::now()->format('H:i:s'))}}">
-                        </div>
-                        {{input_error($errors,'time')}}
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                <label class="control-label" style="display:block">نوع التلف</label>
+                <div class="col-md-6">
+                <label class="control-label" style="display:block"> {{__('settlement type')}}</label>
 
                 <ul class="list-inline">
                     <li>
@@ -100,14 +76,42 @@
                         {{isset($settlement) && $settlement->type == 'negative' ? 'checked':''}} >
                     <label for="negative">{{__('Negative')}}</label>
                 </div>
+
+                </div>
+</div>
+
+<div class="col-md-12">
+
+<div class="col-md-6">
+                    <div class="form-group">
+                        <label for="date" class="control-label">{{__('Date')}}</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
+                            <input type="date" name="date" class="form-control" id="date"
+                                   value="{{old('date', isset($settlement)? $settlement->date : \Carbon\Carbon::now()->format('Y-m-d'))}}">
+                        </div>
+                        {{input_error($errors,'date')}}
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="date" class="control-label">{{__('Time')}}</label>
+                        <div class="input-group">
+                            <span class="input-group-addon"><li class="fa fa-clock-o"></li></span>
+                            <input type="time" name="time" class="form-control" id="time"
+                                   value="{{old('time', isset($settlement)? $settlement->time : \Carbon\Carbon::now()->format('H:i:s'))}}">
+                        </div>
+                        {{input_error($errors,'time')}}
+                    </div>
+                </div>
+
+                
+                </div>
+              
                     </li>
                 </ul>
 
-
-
-
-            </div>
-            </div>
 
         </div>
     </div>
