@@ -45,109 +45,42 @@
 
                 <div class="clearfix"></div>
                 <div class="card-content">
-                    <div class="table-responsive index-table">
-                        @include('admin.opening_balance.optional-datatable.option-row')
-                        <table class="table table-responsive table-bordered wg-table-print table-hover"
-                               id='opening-balance-table'>
-                            @include('admin.opening_balance.optional-datatable.table-thead')
-                            <tbody>
-                            @foreach($collection as $index=>$c)
-                                <tr>
-                                    <td class="column-id"> {{ $index+1 }} </td>
-                                    @if(authIsSuperAdmin())
-                                        <td class="text-danger column-name"> {{ optional($c->branch)->name }} </td>
-                                    @endif
-                                    <td class="text-danger column-operation_date"> {{ $c->operation_date }} </td>
-                                    <td class="column-serial_number"> {{ $c->serial_number }} </td>
-                                    <td  class="column-total_money"> <span style="background:#F7F8CC !important"> {{ $c->total_money }} </span></td>
-
-                                    <td class="column-status">
-                                    @if( $c->concession )
-
-@if( $c->concession->status == 'pending' )
-<span class="label label-info wg-label"> {{__('Pending')}}</span>
-@elseif( $c->concession->status == 'accepted' )
-<span class="label label-success wg-label"> {{__('Accepted')}} </span>
-@elseif( $c->concession->status == 'rejected' )
-<span class="label label-danger wg-label"> {{__('Rejected')}} </span>
-@endif
-
-@else
-<span class="label label-warning wg-label">  {{__('Not determined')}} </span>
-@endif
-
-
-                                    </td>
-
-                                    <td class="column-created_at"> {{ $c->created_at }} </td>
-                                    <td class="column-updated_at"> {{ $c->updated_at }} </td>
-                                    <td>
-                                        <div class="btn-group margin-top-10">
-                                            <button type="button" class="btn btn-options dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="ico fa fa-bars"></i>
-                                                {{__('Options')}} <span class="caret"></span>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-wg">
-                                                <li>
-                                                    @component('admin.buttons._show_button',[
-                                                               'id' => $c->id,
-                                                               'route'=>'admin:opening-balance.show'
-                                                                ])
-                                                    @endcomponent
-
-                                                </li>
-                                                <li>
-
-                                                    <a class="btn btn-wg-edit hvr-radial-out"
-                                                       href="{{ route('admin:opening-balance.edit', $c->id) }}">
-                                                        <i class="fa fa-edit"></i>
-                                                        {{__('Edit')}}
-                                                    </a>
-
-                                                </li>
-
-                                                <li class="btn-style-drop">
-                                                    @component('admin.buttons._delete_button',[
-                                                   'id'=> $c->id,
-                                                   'route' => 'admin:opening-balance.destroy',
-                                                    ])
-                                                    @endcomponent
-                                                </li>
-
-                                            </ul>
-                                        </div>
-
-{{--                                   @component('admin.buttons._show_button',[--}}
-{{--                                                       'id' => $c->id,--}}
-{{--                                                       'route'=>'admin:opening-balance.show'--}}
-{{--                                                        ])--}}
-{{--                                    @endcomponent--}}
-
-
-
-                                    <td>
-                                        @component('admin.buttons._delete_selected',[
-                                            'id' => $c->id,
-                                            'route' => 'opening-balance.deleteSelected',
-                                        ])
-                                        @endcomponent
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
+                    <div class="table-responsive">
+                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th class="text-center column-id">#</th>
+                                @if(authIsSuperAdmin())
+                                    <th class="text-center column-name"> {{ __('opening-balance.branch') }} </th>
+                                @endif
+                                <th class="text-center"> {{ __('opening-balance.operation-date') }} </th>
+                                <th class="text-center"> {{ __('opening-balance.serial-number') }} </th>
+                                <th class="text-center"> {{ __('opening-balance.total') }} </th>
+                                <th class="text-center"> {{ __('opening-balance.status') }} </th>
+                                <th class="text-center"> {{ __('created at') }} </th>
+                                <th class="text-center"> {{ __('Updated at') }} </th>
+                                <th class="text-center"> {{ __('Options') }} </th>
+                                <th scope="col">
+                                    <div class="checkbox danger">
+                                        <input type="checkbox" id="select-all">
+                                        <label for="select-all"></label>
+                                    </div>
+                                    {!! __('Select') !!}
+                                </th>
+                            </tr>
+                            </thead>
                             <tfoot>
                             <tr>
                                 <th class="text-center column-id">#</th>
                                 @if(authIsSuperAdmin())
                                     <th class="text-center column-name"> {{ __('opening-balance.branch') }} </th>
                                 @endif
-                                <th class="text-center column-operation_date"> {{ __('opening-balance.operation-date') }} </th>
-                                <th class="text-center column-serial_number"> {{ __('opening-balance.serial-number') }} </th>
-                                <th class="text-center column-total_money"> {{ __('opening-balance.total') }} </th>
-                                <th class="text-center column-status"> {{ __('opening-balance.status') }} </th>
-                                <th class="text-center column-created_at"> {{ __('created at') }} </th>
-                                <th class="text-center column-updated_at"> {{ __('Updated at') }} </th>
+                                <th class="text-center"> {{ __('opening-balance.operation-date') }} </th>
+                                <th class="text-center"> {{ __('opening-balance.serial-number') }} </th>
+                                <th class="text-center"> {{ __('opening-balance.total') }} </th>
+                                <th class="text-center"> {{ __('opening-balance.status') }} </th>
+                                <th class="text-center"> {{ __('created at') }} </th>
+                                <th class="text-center"> {{ __('Updated at') }} </th>
                                 <th class="text-center"> {{ __('Options') }} </th>
                                 <th scope="col">
                                     <div class="checkbox danger">
@@ -217,7 +150,16 @@
                 }
             })
         }
+        server_side_datatable('#datatable-with-btns');
+        function filterFunction($this) {
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout( function () {
+                $("#loaderSearch").hide();
+            }, 1000)
+        }
     </script>
     @include('opening-balance.common-script')
-    <script type="application/javascript" src="{{ asset('accounting-module/options-for-dt.js') }}"></script>
 @endsection

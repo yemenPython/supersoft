@@ -23,6 +23,22 @@ class OpeningBalance extends Model
 
     protected $table = 'opening_balances';
 
+    /**
+     * @var string[]
+     */
+    protected static $dataTableColumns = [
+        'DT_RowIndex' => 'DT_RowIndex',
+        'branch_id' => 'branch_id',
+        'operation_date' => 'operation_date',
+        'serial_number' => 'serial_number',
+        'total_money' => 'total_money',
+        'status' => 'status',
+        'created_at' => 'created_at',
+        'updated_at' => 'updated_at',
+        'action' => 'action',
+        'options' => 'options'
+    ];
+
     function branch()
     {
         return $this->belongsTo(Branch::class, 'branch_id');
@@ -57,5 +73,16 @@ class OpeningBalance extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getJsDataTablesColumns(): array
+    {
+        if (!authIsSuperAdmin()) {
+            unset(self::$dataTableColumns['branch_id']);
+        }
+        return self::$dataTableColumns;
     }
 }

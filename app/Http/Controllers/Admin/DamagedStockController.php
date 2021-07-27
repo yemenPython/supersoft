@@ -16,13 +16,15 @@ use App\Models\SparePart;
 use App\Models\Store;
 use App\Services\DamagedStockServices;
 use App\Traits\SubTypesServices;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\DataTables;
 
-class DamagedStockController extends AbstractController
+class DamagedStockController extends Controller
 {
     use SubTypesServices;
 
@@ -42,19 +44,6 @@ class DamagedStockController extends AbstractController
         $this->damagedStockFilter = $damagedStockFilter;
     }
 
-    public function getSortFields(): array
-    {
-        return [
-            'id' => 'id',
-            'branch' => 'branch',
-            'date' => 'date',
-            'number' => 'number',
-            'total' => 'total',
-            'created-at' => 'created_at',
-            'updated-at' => 'updated_at',
-        ];
-    }
-
     public function index(Request $request)
     {
         $dataQuery = DamagedStock::query();
@@ -70,14 +59,14 @@ class DamagedStockController extends AbstractController
         ) {
             $dataQuery = $this->damagedStockFilter->filter($request);
         }
-        $data = $this->implementDataTableSearch($dataQuery, $request);
-         if ($request->has('invoker') && in_array($request->invoker, ['print', 'excel'])) {
-            $visible_columns = $request->has('visible_columns') ? $request->visible_columns : [];
-            return (new ExportPrinterFactory(new DamagedStockPrintExcel($data, $visible_columns), $request->invoker))();
+        if ($request->isDataTable) {
+            return $this->dataTableColumns($dataQuery);
+        } else {
+            return view('admin.damaged_stock.index', [
+                'data' => $dataQuery,
+                'js_columns' => DamagedStock::getJsDataTablesColumns(),
+            ]);
         }
-        $rows = $request->has('rows') ? $request->rows : 25;
-        $data = $data->with('branch')->paginate($rows);
-        return view('admin.damaged_stock.index', compact('data'));
     }
 
     public function create(Request $request)
@@ -413,5 +402,54 @@ class DamagedStockController extends AbstractController
             return redirect(route('admin:damaged-stock.index'))->with(['message' => __('Damaged-stock.deleted'), 'alert-type' => 'success']);
         }
         return redirect(route('admin:damaged-stock.index'))->with(['message' => __('words.select-one-least'), 'alert-type' => 'error']);
+    }
+
+    /**
+     * @param Builder $damagedStocks
+     * @return mixed
+     * @throws \Throwable
+     */
+    private function dataTableColumns(Builder $damagedStocks)
+    {
+        return DataTables::of($damagedStocks)->addIndexColumn()
+            ->addColumn( 'branch_id', function ($damagedStock) {
+                $withBranch = true;
+                return view('admin.damaged_stock.optional-datatable.options',
+                    compact('damagedStock', 'withBranch'))->render();
+            })
+            ->addColumn('date', function ($damagedStock) {
+               return $damagedStock->date;
+            })
+            ->addColumn('number', function ($damagedStock) {
+                return $damagedStock->number;
+            })
+            ->addColumn('type', function ($damagedStock) {
+                $withDamageType = true;
+                return view('admin.damaged_stock.optional-datatable.options',
+                    compact('damagedStock', 'withDamageType'))->render();
+            })
+            ->addColumn('total', function ($damagedStock) {
+                $withTotal = true;
+                return view('admin.damaged_stock.optional-datatable.options',
+                    compact('damagedStock', 'withTotal'))->render();
+            })
+            ->addColumn('status', function ($damagedStock) {
+                $withStatus = true;
+                return view('admin.damaged_stock.optional-datatable.options',
+                    compact('damagedStock', 'withStatus'))->render();
+            })
+            ->addColumn('created_at', function ($damagedStock) {
+                return $damagedStock->created_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('updated_at', function ($damagedStock) {
+                return $damagedStock->updated_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('action', function ($damagedStock) {
+                $withActions = true;
+                return view('admin.damaged_stock.optional-datatable.options', compact('damagedStock', 'withActions'))->render();
+            })->addColumn('options', function ($damagedStock) {
+                $withOptions = true;
+                return view('admin.damaged_stock.optional-datatable.options', compact('damagedStock', 'withOptions'))->render();
+            })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
     }
 }

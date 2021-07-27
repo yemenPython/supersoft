@@ -28,8 +28,34 @@ class StoreEmployeeHistory extends Model
       'status' => 'boolean'
     ];
 
+    /**
+     * @var string[]
+     */
+    protected static $dataTableColumns = [
+        'DT_RowIndex' => 'DT_RowIndex',
+        'status' => 'status',
+        'name' => 'name',
+        'phone1' => 'phone1',
+        'start' => 'start',
+        'end' => 'end',
+        'action' => 'action',
+        'options' => 'options'
+    ];
+
     public function employee(): BelongsTo
     {
         return $this->belongsTo(EmployeeData::class, 'employee_id');
+    }
+
+
+    /**
+     * @return string[]
+     */
+    public static function getJsDataTablesColumns(): array
+    {
+//        if (!authIsSuperAdmin()) {
+//            unset(self::$dataTableColumns['branch_id']);
+//        }
+        return self::$dataTableColumns;
     }
 }

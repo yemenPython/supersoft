@@ -191,6 +191,7 @@ class AssetsController extends Controller
                     'asset_status' => 'assets_tb.asset_status',
                     'annual_consumtion_rate' => 'assets_tb.annual_consumtion_rate',
                     'asset_age' => 'assets_tb.asset_age',
+                    'employees_active_count' => 'employees_active_count',
                     'created_at' => 'assets_tb.created_at',
                     'updated_at' => 'assets_tb.updated_at',
                     'action' => 'action',
@@ -200,7 +201,7 @@ class AssetsController extends Controller
             else {
                 $js_columns = [
                     'DT_RowIndex' => 'DT_RowIndex',
-                
+
                     'name' => 'assets_tb.name_' . app()->getLocale(),
                     'asset_group_id' => 'assets_tb.asset_group_id',
                     'asset_status' => 'assets_tb.asset_status',

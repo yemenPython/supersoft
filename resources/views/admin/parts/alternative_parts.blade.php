@@ -1,9 +1,9 @@
-<a data-remodal-target="m-{{$part->id}}" title="alternative parts" class="btn btn-warning" style="margin-bottom:5px">
+<a onclick="showAlternativeParts('{{$part->id}}')" title="alternative parts" class="btn btn-warning" style="margin-bottom:5px">
     <i class="fa fa-adjust"> </i> {{__('Alternative Parts')}}
 </a>
 
 <div class="remodal" data-remodal-id="m-{{$part->id}}" role="dialog"
-     aria-labelledby="modal1Title" aria-describedby="modal1Desc">
+     aria-labelledby="modal1Title" aria-describedby="modal1Desc" id="m-{{$part->id}}">
 
     <div class="remodal-content">
         <!-- <div class="card box-content-wg-new bordered-all primary"> -->
