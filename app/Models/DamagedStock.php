@@ -16,6 +16,23 @@ class DamagedStock extends Model
 
     protected $table = 'damaged_stocks';
 
+    /**
+     * @var string[]
+     */
+    protected static $dataTableColumns = [
+        'DT_RowIndex' => 'DT_RowIndex',
+        'branch_id' => 'branch_id',
+        'date' => 'date',
+        'number' => 'number',
+        'type' => 'type',
+        'total' => 'total',
+        'status' => 'status',
+        'created_at' => 'created_at',
+        'updated_at' => 'updated_at',
+        'action' => 'action',
+        'options' => 'options'
+    ];
+
     protected static function boot()
     {
         parent::boot();
@@ -51,5 +68,16 @@ class DamagedStock extends Model
 
         return $this->belongsToMany(EmployeeData::class, 'damaged_stock_employee_data', 'damaged_stock_id', 'employee_data_id')
             ->withPivot('id','percent', 'amount');
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getJsDataTablesColumns(): array
+    {
+        if (!authIsSuperAdmin()) {
+            unset(self::$dataTableColumns['branch_id']);
+        }
+        return self::$dataTableColumns;
     }
 }

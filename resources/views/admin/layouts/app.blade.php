@@ -96,7 +96,11 @@
             direction: {{app()->isLocale('ar') ? 'rtl' : 'ltr'}};
             /* font-family: 'Almarai', sans-serif !important */
         }
-
+        .dataTables_length {
+            position: absolute;
+            top: 31.6%;
+            right: 40%;
+        }
     </style>
 
 
@@ -530,7 +534,7 @@
             serverSide: false,
             responsive: false,
             "iDisplayLength": 25,
-            dom: 'Bfrtip',
+            dom: 'Bfrtipl',
             "ajax": {
                 "url": "{{url()->full()}}",
                 "type": "GET",
@@ -589,6 +593,9 @@
                 @endforeach
                 @endif
             ],
+            pageLength: 25,
+            lengthMenu: [ [25 , 50, 100, -1], [25, 50, 100, "الكل"] ],
+            "lengthChange": true,
         });
     }
 </script>

@@ -13,6 +13,24 @@ class StoreTransfer extends Model
         'transfer_number' ,'transfer_date' ,'store_from_id' ,'store_to_id' ,'branch_id','total','time','user_id', 'description'
     ];
 
+    /**
+     * @var string[]
+     */
+    protected static $dataTableColumns = [
+        'DT_RowIndex' => 'DT_RowIndex',
+        'branch_id' => 'branch_id',
+        'transfer_date' => 'transfer_date',
+        'transfer_number' => 'transfer_number',
+        'store_from' => 'store_from',
+        'store_to' => 'store_to',
+        'total' => 'total',
+        'status' => 'status',
+        'created_at' => 'created_at',
+        'updated_at' => 'updated_at',
+        'action' => 'action',
+        'options' => 'options'
+    ];
+
     function items() {
         return $this->hasMany(StoreTransferItem::class ,'store_transfer_id');
     }
@@ -47,5 +65,16 @@ class StoreTransfer extends Model
     protected static function boot() {
         parent::boot();
         static::addGlobalScope(new BranchScope());
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getJsDataTablesColumns(): array
+    {
+        if (!authIsSuperAdmin()) {
+            unset(self::$dataTableColumns['branch_id']);
+        }
+        return self::$dataTableColumns;
     }
 }

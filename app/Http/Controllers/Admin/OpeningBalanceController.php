@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Filters\OpeningBalanceFilter;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\DataExportCore\OpeningBalancePrintExcel;
 use App\Http\Controllers\ExportPrinterFactory;
 use App\Http\Requests\Admin\OpeningBalance\CreateRequest;
@@ -14,12 +15,14 @@ use App\Models\SparePart;
 use App\OpeningStockBalance\Models\OpeningBalanceItems;
 use App\Services\OpeningBalanceServices;
 use App\Traits\SubTypesServices;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\DataTables;
 
-class OpeningBalanceController extends AbstractController
+class OpeningBalanceController extends Controller
 {
     use SubTypesServices;
 
@@ -45,25 +48,12 @@ class OpeningBalanceController extends AbstractController
         $this->openingBalanceServices = $openingBalanceServices;
     }
 
-    public function getSortFields(): array
-    {
-        return [
-            'id' => 'id',
-            'operation_date' => 'operation_date',
-            'serial_number' => 'serial_number',
-            'total_money' => 'total_money',
-            'created-at' => 'created_at',
-            'updated-at' => 'updated_at',
-        ];
-    }
-
     function index(Request $request)
     {
         if (!auth()->user()->can('view_opening-balance')) {
             return redirect(route('admin:home'))->with(['authorization' => 'error']);
         }
-
-        $collection = OpeningBalance::query();
+        $collection = OpeningBalance::query()->latest();
         if ($request->hasAny((new OpeningBalance())->getFillable())
             || $request->has('dateFrom')
             || $request->has('dateTo')
@@ -74,15 +64,14 @@ class OpeningBalanceController extends AbstractController
         ) {
             $collection = $this->openingBalanceFilter->filter($request);
         }
-        $collection = $this->implementDataTableSearch($collection, $request);
-        if ($request->has('invoker') && in_array($request->invoker, ['print', 'excel'])) {
-            $visible_columns = $request->has('visible_columns') ? $request->visible_columns : [];
-            return (new ExportPrinterFactory(new OpeningBalancePrintExcel($collection, $visible_columns), $request->invoker))();
+        if ($request->isDataTable) {
+            return $this->dataTableColumns($collection);
+        } else {
+            return view('admin.opening_balance.index', [
+                'collection' => $collection,
+                'js_columns' => OpeningBalance::getJsDataTablesColumns(),
+            ]);
         }
-        $rows = $request->has('rows') ? $request->rows : 25;
-        $collection = $collection->with('branch')->paginate($rows)->appends(request()->query());
-
-        return view('admin.opening_balance.index', compact('collection'));
     }
 
     public function create(Request $request)
@@ -351,5 +340,51 @@ class OpeningBalanceController extends AbstractController
 
             return response()->json('sorry, please try later', 400);
         }
+    }
+
+    /**
+     * @param Builder $openingBalances
+     * @return mixed
+     * @throws \Throwable
+     */
+    private function dataTableColumns(Builder $openingBalances)
+    {
+        return DataTables::of($openingBalances)->addIndexColumn()
+            ->addColumn( 'branch_id', function ($openingBalances) {
+                $withBranch = true;
+                return view('admin.opening_balance.optional-datatable.options',
+                    compact('openingBalances', 'withBranch'))->render();
+            })
+            ->addColumn('operation_date', function ($openingBalances) {
+                $withOperationData = true;
+                return view('admin.opening_balance.optional-datatable.options',
+                    compact('openingBalances', 'withOperationData'))->render();
+            })
+            ->addColumn('serial_number', function ($openingBalances) {
+               return $openingBalances->serial_number;
+            })
+            ->addColumn('total_money', function ($openingBalances) {
+                $withTotal = true;
+                return view('admin.opening_balance.optional-datatable.options',
+                    compact('openingBalances', 'withTotal'))->render();
+            })
+            ->addColumn('status', function ($openingBalances) {
+                $withStatus = true;
+                return view('admin.opening_balance.optional-datatable.options',
+                    compact('openingBalances', 'withStatus'))->render();
+            })
+            ->addColumn('created_at', function ($openingBalances) {
+                return $openingBalances->created_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('updated_at', function ($openingBalances) {
+                return $openingBalances->updated_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('action', function ($openingBalances) {
+                $withActions = true;
+                return view('admin.opening_balance.optional-datatable.options', compact('openingBalances', 'withActions'))->render();
+            })->addColumn('options', function ($openingBalances) {
+                $withOptions = true;
+                return view('admin.opening_balance.optional-datatable.options', compact('openingBalances', 'withOptions'))->render();
+            })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
     }
 }

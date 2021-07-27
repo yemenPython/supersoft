@@ -11,13 +11,7 @@
             </h4>
             <!-- /.box-title -->
             <div class="card-content js__card_content" style="padding:20px">
-                <form action="{{route('admin:opening-balance.index')}}" method="get" id="filtration-form">
-                    <input type="hidden" name="rows" value="{{ isset($_GET['rows']) ? $_GET['rows'] : '' }}"/>
-                    <input type="hidden" name="key" value="{{ isset($_GET['key']) ? $_GET['key'] : '' }}"/>
-                    <input type="hidden" name="sort_method"
-                           value="{{ isset($_GET['sort_method']) ? $_GET['sort_method'] : 'asc' }}"/>
-                    <input type="hidden" name="sort_by" value="{{ isset($_GET['sort_by']) ? $_GET['sort_by'] : '' }}"/>
-                    <input type="hidden" name="invoker" value="search"/>
+                <form onsubmit="filterFunction($(this));return false;">
                     <ul class="list-inline margin-bottom-0 row">
                         @if (authIsSuperAdmin())
                             <li class="form-group col-md-12">
@@ -64,7 +58,8 @@
                             <label>{{__('Date From')}}</label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-calendar"></span>
-                                <input type="date" name="dateFrom" class="form-control" value=" {{$_GET['dateFrom'] ?? null  }}">
+                                <input type="date" name="dateFrom" class="form-control"
+                                       value=" {{$_GET['dateFrom'] ?? null  }}">
                             </div>
                         </li>
 
@@ -73,25 +68,18 @@
                             <label>{{__('Date To')}}</label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-calendar"></span>
-                                <input type="date" name="dateTo" class="form-control" value=" {{ $_GET['dateTo'] ?? null  }}">
+                                <input type="date" name="dateTo" class="form-control"
+                                       value=" {{ $_GET['dateTo'] ?? null  }}">
                             </div>
                         </li>
-
-                        {{--                            <li class="form-group col-md-4">--}}
-                        {{--                                <label> {{ __('Type') }} </label>--}}
-                        {{--                                <select name="type" class="form-control js-example-basic-single">--}}
-                        {{--                                    <option value="">{{__('Select Type')}}</option>--}}
-                        {{--                                    {!! loadPartTypeSelectAsTree() !!}--}}
-                        {{--                                </select>--}}
-                        {{--                            </li>--}}
-
 
                         <li class="form-group col-md-4">
                             <label>{{ __('Barcode') }} </label>
 
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-barcode"></span>
-                                <input type="text" name="barcode" class="form-control" value=" {{ $_GET['barcode'] ?? null  }}">
+                                <input type="text" name="barcode" class="form-control"
+                                       value=" {{ $_GET['barcode'] ?? null  }}">
                             </div>
                         </li>
 
@@ -99,7 +87,8 @@
                             <label> {{ __('Supplier Barcode') }} </label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-barcode"></span>
-                                <input type="text" name="supplier_barcode" class="form-control" value=" {{ $_GET['supplier_barcode'] ?? null  }}">
+                                <input type="text" name="supplier_barcode" class="form-control"
+                                       value=" {{ $_GET['supplier_barcode'] ?? null  }}">
                             </div>
                         </li>
                         <li class="form-group col-md-4">
@@ -119,10 +108,14 @@
                                 <select class="form-control js-example-basic-single" name="concession_status">
                                     <option value="">{{__('Select Status')}}</option>
 
-                                    <option value="pending"  {{ isset($_GET['concession_status']) && $_GET['concession_status'] == 'pending' ? 'selected' : '' }}>{{__('Pending')}}</option>
-                                    <option value="accepted" {{ isset($_GET['concession_status']) && $_GET['concession_status'] == 'accepted' ? 'selected' : '' }}>{{__('Accepted')}}</option>
-                                    <option value="rejected" {{ isset($_GET['concession_status']) && $_GET['concession_status'] == 'rejected' ? 'selected' : '' }}>{{__('Rejected')}}</option>
-                                    <option value="rejected" {{ isset($_GET['concession_status']) && $_GET['concession_status'] == 'not_found' ? 'selected' : '' }}>{{__('Not determined')}}</option>
+                                    <option
+                                        value="pending" {{ isset($_GET['concession_status']) && $_GET['concession_status'] == 'pending' ? 'selected' : '' }}>{{__('Pending')}}</option>
+                                    <option
+                                        value="accepted" {{ isset($_GET['concession_status']) && $_GET['concession_status'] == 'accepted' ? 'selected' : '' }}>{{__('Accepted')}}</option>
+                                    <option
+                                        value="rejected" {{ isset($_GET['concession_status']) && $_GET['concession_status'] == 'rejected' ? 'selected' : '' }}>{{__('Rejected')}}</option>
+                                    <option
+                                        value="rejected" {{ isset($_GET['concession_status']) && $_GET['concession_status'] == 'not_found' ? 'selected' : '' }}>{{__('Not determined')}}</option>
                                 </select>
                             </div>
                         </li>

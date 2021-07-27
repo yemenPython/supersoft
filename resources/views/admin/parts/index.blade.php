@@ -48,164 +48,39 @@
 
                     </ul>
                     <div class="clearfix"></div>
-                    <div class="table-responsive table-for-font-size">
-                        @php
-                            $view_path = 'admin.parts.options-datatable';
-                        @endphp
-                        @include($view_path . '.option-row')
-                        <div class="clearfix"></div>
-                        <table id="currencies" class="table table-bordered table-hover"
-                               style="width:100%;margin-top: 15px">
-                            @include($view_path . '.table-thead')
+                    <div class="table-responsive">
+                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th class="text-center " scope="col">{!! __('#') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Name') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Type') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Quantity') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Status') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Reviewable') !!}</th>
+                                <th class="text-center" scope="col">{!! __('taxable') !!}</th>
+                                <th class="text-center" scope="col">{!! __('created at') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Updated at') !!}</th>
+                                <th scope="col">{!! __('Options') !!}</th>
+                                <th scope="col">{!! __('Select') !!}</th>
+                            </tr>
+                            </thead>
                             <tfoot>
                             <tr>
-                                <th class="text-center column-id" scope="col">{!! __('#') !!}</th>
-                                <th class="text-center column-name" scope="col">{!! __('Name') !!}</th>
-                                <th class="text-center column-type" scope="col">{!! __('Type') !!}</th>
-                                <th class="text-center column-quantity" scope="col">{!! __('Quantity') !!}</th>
-                                <th class="text-center column-status" scope="col">{!! __('Status') !!}</th>
-                                <th class="text-center column-reviewable" scope="col">{!! __('Reviewable') !!}</th>
-                                <th class="text-center column-taxable" scope="col">{!! __('taxable') !!}</th>
-                                <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
-                                <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
+                                <th class="text-center" scope="col">{!! __('#') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Name') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Type') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Quantity') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Status') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Reviewable') !!}</th>
+                                <th class="text-center" scope="col">{!! __('taxable') !!}</th>
+                                <th class="text-center" scope="col">{!! __('created at') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Updated at') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">{!! __('Select') !!}</th>
                             </tr>
                             </tfoot>
-                            <tbody>
-                            @foreach($parts as $index=>$part)
-                                <tr>
-
-                                    <td class="text-center column-id">{!! $index +1 !!}</td>
-                                    <td class="text-center column-name">
-                                        <span style="cursor: pointer" data-toggle="modal" data-target="#part_img" title="Part image" id="part_id_{{$part->id}}"
-                                              onclick="getPartImage('{{$part->id}}')"
-                                              data-img="{{$part->image}}">
-                                            {!! $part->name !!}
-                                        </span>
-                                    </td>
-                                    <td class="text-center column-type">
-                                        <span class="text-danger">
-                                            {{$part->spareParts->first() ? $part->spareParts->first()->type : '---'}}
-                                        </span>
-                                    </td>
-
-                                    <td class="text-center column-quantity">
-
-                                        <a data-toggle="modal" data-target="#part_quantity_{{$part->id}}"
-                                           title="Part quantit" class="btn btn-info">
-                                            {!! $part->quantity !!}
-                                        </a>
-
-                                    </td>
-
-
-                                    <td class="text-center column-status">
-                                        @if($part->status == 1 )
-                                            <span class="label label-success wg-label"> {{ __('Active') }} </span>
-                                        @else
-                                            <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
-                                        @endif
-                                    </td>
-
-
-                                    <td class="text-center column-reviewable">
-                                        @if($part->reviewable == 1 )
-                                            <span class="label label-success wg-label"> {{ __('Reviewed') }} </span>
-                                        @else
-                                            <span class="label label-danger wg-label"> {{ __('Not reviewed') }} </span>
-                                        @endif
-                                    </td>
-
-                                    <td class="text-center column-taxable">
-                                        @if($part->taxable == 1 )
-                                            <span class="label label-success wg-label"> {{ __('Active') }} </span>
-                                        @else
-                                            <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
-                                        @endif
-                                    </td>
-
-                                    <td class="text-center column-created-at">{!! $part->created_at->format('y-m-d h:i:s A') !!}</td>
-                                    <td class="text-center column-updated-at">{!! $part->updated_at->format('y-m-d h:i:s A') !!}</td>
-
-
-                                    <td>
-
-                                        <div class="btn-group margin-top-10">
-
-                                            <button type="button" class="btn btn-options dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="ico fa fa-bars"></i>
-                                                {{__('Options')}} <span class="caret"></span>
-
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-wg">
-                                                <li>
-
-                                                    @component('admin.buttons._show_button',[
-                                                               'id' => $part->id,
-                                                               'route'=>'admin:parts.show'
-                                                                ])
-                                                    @endcomponent
-
-
-                                                </li>
-                                                <li>
-                                                    @component('admin.buttons._edit_button',[
-                                                            'id' => $part->id,
-                                                            'route'=>'admin:parts.edit'
-                                                             ])
-                                                    @endcomponent
-
-                                                </li>
-
-                                                <li class="btn-style-drop">
-                                                    @component('admin.buttons._delete_button',[
-                                                            'id'=>$part->id,
-                                                            'route' => 'admin:parts.destroy',
-                                                            'tooltip' => __('Delete '.$part['name']),
-                                                             ])
-                                                    @endcomponent
-                                                </li>
-
-                                                <li>
-                                                    <a data-toggle="modal" data-target="#boostrapModal-2"
-                                                       onclick="getLibraryPartId('{{$part->id}}')"
-                                                       title="Part Library" class="btn btn-warning"
-                                                       style="margin-bottom:5px">
-                                                        <i class="fa fa-plus"> </i> {{__('Library')}}
-                                                    </a>
-                                                </li>
-
-                                                <li>
-                                                    @include('admin.parts.alternative_parts')
-                                                </li>
-
-                                                <li>
-                                                    <a data-toggle="modal" data-target="#part_taxes_{{$part->id}}"
-                                                       onclick="partTaxable('{{$part->id}}')"
-                                                       title="Part taxes" class="btn btn-info">
-                                                        <i class="fa fa-money"> </i> {{__('Taxes')}}
-                                                    </a>
-
-                                                </li>
-
-                                            </ul>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        @component('admin.buttons._delete_selected',[
-                                                         'id' => $part->id,
-                                                          'route' => 'admin:parts.deleteSelected',
-                                                          ])
-                                        @endcomponent
-                                    </td>
-
-                                </tr>
-                            @endforeach
-                            </tbody>
                         </table>
-                        {{ $parts->links() }}
                     </div>
                 </div>
 
@@ -217,18 +92,13 @@
 
 @endsection
 
-@section('accounting-module-modal-area')
-    @include($view_path . '.column-visible')
-@endsection
+
 
 @section('modals')
 
     @include('admin.parts.quantity_modal')
-
     @include('admin.parts.taxes_modal')
-
     @include('admin.partial.part_image')
-
     <div class="modal fade modal-bg-wg" id="boostrapModal-2" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
@@ -280,15 +150,12 @@
             </div>
         </div>
     </div>
-
 @endsection
 
 @section('js')
 
     <script type="application/javascript">
-
         $("#selectAll").click(function () {
-
             $(".to_checked").prop("checked", $(this).prop("checked"));
         });
 
@@ -429,29 +296,33 @@
         }
 
         function partTaxable(part_id) {
-
             if ($('#taxable-' + part_id).is(':checked')) {
-
                 $('.part_taxable').prop('disabled', false);
-
             } else {
-
                 $('.part_taxable').prop('disabled', true);
             }
         }
 
         function getPartImage(index) {
-
             let image_path = $('#part_id_' + index).data('img');
             $('#part_image').attr('src', image_path);
         }
 
-    </script>
+        server_side_datatable('#datatable-with-btns');
+        function filterFunction($this) {
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout( function () {
+                $("#loaderSearch").hide();
+            }, 1000)
+        }
 
-    <script type="application/javascript">
-        // invoke_datatable($('#currencies'))
+        function showAlternativeParts(id) {
+            var modal = $("#m-"+id).remodal();
+            modal.open();
+        }
     </script>
-
-    <script type="application/javascript" src="{{ asset('accounting-module/options-for-dt.js') }}"></script>
     @include('opening-balance.common-script')
 @endsection

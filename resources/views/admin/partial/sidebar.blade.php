@@ -144,6 +144,7 @@ route('admin:supply-orders.index'),
 route('admin:purchase.quotations.compare.index'),
 route('admin:purchase-receipts.index'),
 route('admin:sale-quotations.index'),
+route('admin:sale-supply-orders.index'),
                      ])}}">
                     <a class="parent-item js__control" href="#"><i style="color:#C3333C !important"
                                                                      class="menu-icon fa fa-building-o"></i><span>{{__('Items management')}}</span><span
@@ -234,6 +235,12 @@ route('admin:sale-quotations.index'),
                         <li class="{{setActivationClass(route('admin:sale-quotations.index'))}}">
                             <a href="{{route('admin:sale-quotations.index')}}">
                                 {{__('Sale Quotations')}}
+                            </a>
+                        </li>
+
+                        <li class="{{setActivationClass(route('admin:sale-supply-orders.index'))}}">
+                            <a href="{{route('admin:sale-supply-orders.index')}}">
+                                {{__('Sale Supply Orders')}}
                             </a>
                         </li>
 
@@ -434,7 +441,7 @@ route('admin:customers.requests.index'),
                             <a href="{{route('admin:customers.index')}}">{{__('Customers')}}</a>
                         </li>
 
-                        <!-- 
+                        <!--
                         <li class="{{setActivationClass(route('admin:customers.requests.index'))}}">
                             <a href="{{route('admin:customers.requests.index')}}">{{__('Customers Requests')}}</a>
                         </li> -->
