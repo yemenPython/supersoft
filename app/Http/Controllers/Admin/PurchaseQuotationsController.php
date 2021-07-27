@@ -17,11 +17,13 @@ use App\Models\TaxesFees;
 use App\Services\PurchaseQuotationServices;
 use App\Traits\SubTypesServices;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\DataTables;
 
 class PurchaseQuotationsController extends Controller
 {
@@ -36,17 +38,24 @@ class PurchaseQuotationsController extends Controller
         $this->purchaseQuotationServices = new PurchaseQuotationServices();
     }
 
-    public function index (Request $request) {
-
-        $data = PurchaseQuotation::get();
-
+    public function index (Request $request)
+    {
+        $data = PurchaseQuotation::query();
         $paymentTerms = SupplyTerm::where('for_purchase_quotation', 1)->where('status', 1)->where('type', 'payment')
             ->select('id', 'term_' . $this->lang)->get();
 
         $supplyTerms = SupplyTerm::where('for_purchase_quotation', 1)->where('status', 1)->where('type', 'supply')
             ->select('id', 'term_' . $this->lang)->get();
-
-        return view('admin.purchase_quotations.index', compact('data', 'supplyTerms', 'paymentTerms'));
+        if ($request->isDataTable) {
+            return $this->dataTableColumns($data);
+        } else {
+            return view('admin.purchase_quotations.index', [
+                'data' => $data,
+                'paymentTerms' => $paymentTerms,
+                'supplyTerms' => $supplyTerms,
+                'js_columns' => PurchaseQuotation::getJsDataTablesColumns(),
+            ]);
+        }
     }
 
     public function create (Request $request) {
@@ -399,5 +408,64 @@ class PurchaseQuotationsController extends Controller
         }catch (\Exception $e) {
             return response()->json('sorry, please try later', 400);
         }
+    }
+
+    /**
+     * @param Builder $items
+     * @return mixed
+     * @throws Throwable
+     */
+    private function dataTableColumns(Builder $items)
+    {
+        $viewPath = 'admin.purchase_quotations.datatables.options';
+        return DataTables::of($items)->addIndexColumn()
+            ->addColumn('branch_id', function ($item) use ($viewPath) {
+                $withBranch = true;
+                return view($viewPath, compact('item', 'withBranch'))->render();
+            })
+            ->addColumn('date', function ($item) use ($viewPath) {
+                $withDate = true;
+                return view($viewPath, compact('item', 'withDate'))->render();
+            })
+            ->addColumn('number', function ($item) {
+                return $item->number;
+            })
+            ->addColumn('quotation_type', function ($item) use ($viewPath) {
+                $quotation_type = true;
+                return view($viewPath, compact('item', 'quotation_type'))->render();
+            })
+            ->addColumn('total', function ($item) use ($viewPath) {
+                $total = true;
+                return view($viewPath, compact('item', 'total'))->render();
+            })
+            ->addColumn('different_days', function ($item) use ($viewPath) {
+                $different_days = true;
+                return view($viewPath, compact('item', 'different_days'))->render();
+            })
+            ->addColumn('remaining_days', function ($item) use ($viewPath) {
+                $remaining_days = true;
+                return view($viewPath, compact('item', 'remaining_days'))->render();
+            })
+            ->addColumn('status', function ($item) use ($viewPath) {
+                $withStatus = true;
+                return view($viewPath, compact('item', 'withStatus'))->render();
+            })
+            ->addColumn('executionStatus', function ($item) use ($viewPath) {
+                $executionStatus = true;
+                return view($viewPath, compact('item', 'executionStatus'))->render();
+            })
+            ->addColumn('created_at', function ($item) {
+                return $item->created_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('updated_at', function ($item) {
+                return $item->updated_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('action', function ($item) use ($viewPath) {
+                $withActions = true;
+                return view($viewPath, compact('item', 'withActions'))->render();
+            })->addColumn('options', function ($item) use ($viewPath) {
+                $withOptions = true;
+                return view($viewPath, compact('item', 'withOptions'))->render();
+            })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
     }
 }

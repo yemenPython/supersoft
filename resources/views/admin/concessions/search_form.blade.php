@@ -11,11 +11,7 @@
 
             <!-- /.box-title -->
             <div class="card-content js__card_content">
-                <form action="{{route('admin:concessions.index')}}" method="get" id="filtration-form">
-                    <input type="hidden" name="rows" value="{{ isset($_GET['rows']) ? $_GET['rows'] : '' }}"/>
-                    <input type="hidden" name="key" value="{{ isset($_GET['key']) ? $_GET['key'] : '' }}"/>
-                    <input type="hidden" name="sort_method" value="{{ isset($_GET['sort_method']) ? $_GET['sort_method'] : 'asc' }}"/>
-                    <input type="hidden" name="sort_by" value="{{ isset($_GET['sort_by']) ? $_GET['sort_by'] : '' }}"/>
+                <form onsubmit="filterFunction($(this));return false;">
                     <div class="list-inline margin-bottom-0 row">
                         @if(authIsSuperAdmin())
 
@@ -27,105 +23,99 @@
                                 </div>
                             </div>
                         @endif
-                        <!-- <div class="form-group col-md-4">
-                            <label> {{ __('UserName') }} </label>
-                            <div class="input-group">
-
-<span class="input-group-addon fa fa-user"></span>
-                            {!! drawSelect2ByAjax('user_id','User','name','name',__('Select Name'), request()->name) !!}
-                        </div>
-                        </div> -->
 
                         <div class="form-group col-md-4">
                             <label> {{ __('Date From') }} </label>
                             <div class="input-group">
 
-<span class="input-group-addon fa fa-calendar"></span>
-                            <input type="date" name="date_from" class="form-control">
-                        </div>
+                                <span class="input-group-addon fa fa-calendar"></span>
+                                <input type="date" name="date_from" class="form-control">
+                            </div>
                         </div>
 
                         <div class="form-group col-md-4">
                             <label> {{ __('Date To') }} </label>
                             <div class="input-group">
 
-<span class="input-group-addon fa fa-calendar"></span>
-                            <input type="date" name="date_to" class="form-control">
-                        </div>
+                                <span class="input-group-addon fa fa-calendar"></span>
+                                <input type="date" name="date_to" class="form-control">
+                            </div>
                         </div>
 
                         <div class="form-group col-md-4">
                             <label> {{ __('Status') }} </label>
                             <div class="input-group">
 
-<span class="input-group-addon fa fa-info"></span>
-                            <select class="form-control js-example-basic-single" name="status">
-                                <option value="">{{__('Select Status')}}</option>
-                                <option value="pending">{{__('Pending')}}</option>
-                                <option value="accepted">{{__('Accepted')}}</option>
-                                <option value="rejected">{{__('Rejected')}}</option>
-                            </select>
-                        </div>
+                                <span class="input-group-addon fa fa-info"></span>
+                                <select class="form-control js-example-basic-single" name="status">
+                                    <option value="">{{__('Select Status')}}</option>
+                                    <option value="pending">{{__('Pending')}}</option>
+                                    <option value="accepted">{{__('Accepted')}}</option>
+                                    <option value="rejected">{{__('Rejected')}}</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="form-group col-md-4">
                             <label> {{ __('Execution Status') }} </label>
                             <div class="input-group">
 
-<span class="input-group-addon fa fa-info"></span>
-                            <select class="form-control js-example-basic-single" name="execution_status">
-                                <option value="">{{__('Select Status')}}</option>
-                                <option value="pending">{{__('Pending')}}</option>
-                                <option value="late">{{__('Late')}}</option>
-                                <option value="finished">{{__('Finished')}}</option>
-                            </select>
-                        </div>
+                                <span class="input-group-addon fa fa-info"></span>
+                                <select class="form-control js-example-basic-single" name="execution_status">
+                                    <option value="">{{__('Select Status')}}</option>
+                                    <option value="pending">{{__('Pending')}}</option>
+                                    <option value="late">{{__('Late')}}</option>
+                                    <option value="finished">{{__('Finished')}}</option>
+                                </select>
+                            </div>
                         </div>
 
                         <div class="form-group col-md-4">
                             <label> {{ __('Concession Type') }} </label>
                             <div class="input-group">
 
-<span class="input-group-addon fa fa-file-o"></span>
-                            <div class="input-group" id="concession_types">
+                                <span class="input-group-addon fa fa-file-o"></span>
+                                <div class="input-group" id="concession_types">
 
-                                <select class="form-control js-example-basic-single" id="concession_type_id"
-                                        name="concession_type_id" onchange="getConcessionItems()">
-                                    <option value="">{{__('Select Type')}}</option>
-                                    @foreach($concessionTypes as $type)
-                                        <option value="{{$type->id}}">{{$type->name}}</option>
+                                    <select class="form-control js-example-basic-single" id="concession_type_id"
+                                            name="concession_type_id" onchange="getConcessionItems()">
+                                        <option value="">{{__('Select Type')}}</option>
+                                        @foreach($concessionTypes as $type)
+                                            <option value="{{$type->id}}">{{$type->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-4">
+                            <label> {{ __('Items') }} </label>
+                            <div class="input-group">
+
+                                <span class="input-group-addon fa fa-file-o"></span>
+
+                                <select name="concession_id"
+                                        class="form-control js-example-basic-single concessions_numbers">
+                                    <option value class="remove_concession_for_new">{{__('Select')}}</option>
+                                    @foreach($additionalData['concessions'] as $concession)
+                                        <option value="{{$concession->id}}"
+                                                class="remove_concession_for_new">{{$concession->number}}</option>
                                     @endforeach
                                 </select>
                             </div>
                         </div>
-                        </div>
 
                         <div class="form-group col-md-4">
-                        <label> {{ __('Items') }} </label>
-                        <div class="input-group">
 
-<span class="input-group-addon fa fa-file-o"></span>
-                        
-                            <select name="concession_id" class="form-control js-example-basic-single concessions_numbers">
-                                <option value class="remove_concession_for_new">{{__('Select')}}</option>
-                                @foreach($additionalData['concessions'] as $concession)
-                                    <option value="{{$concession->id}}" class="remove_concession_for_new">{{$concession->number}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                           
                             <label> {{ __('Doc. number') }} </label>
                             <div class="input-group">
 
-<span class="input-group-addon fa fa-file-text-o"></span>
-                            <div class="input-group" id="concession_items">
-                                <select class="form-control js-example-basic-single " name="item_id" id>
-                                    <option value="">{{__('Select')}}</option>
-                                </select>
-                            </div>
+                                <span class="input-group-addon fa fa-file-text-o"></span>
+                                <div class="input-group" id="concession_items">
+                                    <select class="form-control js-example-basic-single " name="item_id" id>
+                                        <option value="">{{__('Select')}}</option>
+                                    </select>
+                                </div>
                             </div>
 
                             <input type="hidden" name="model_name" id="model_name">

@@ -563,7 +563,7 @@
                         win.document.title = page_title
                         setTimeout(function () {
                             win.print()
-                        }, 5000)
+                        }, 500)
                     }
                 },
                 {
