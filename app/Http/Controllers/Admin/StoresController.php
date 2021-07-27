@@ -45,7 +45,7 @@ class StoresController extends Controller
         if (!auth()->user()->can('view_stores')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
-        $stores = Store::query();
+        $stores = Store::query()->latest();
         if ($request->hasAny((new Store())->getFillable()) || $request->filled('store_id')) {
             $stores = $this->storeFilter->filter($request);
         }

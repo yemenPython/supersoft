@@ -56,6 +56,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [
         include 'purchase_quotations_compare.php';
         include 'purchase_receipts.php';
         include 'sale_quotations.php';
+        include 'sale_supply_order.php';
+        include 'library.php';
 
         include 'notifications.php';
         include 'notification_setting.php';

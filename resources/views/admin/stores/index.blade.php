@@ -71,6 +71,7 @@
                                 <th scope="col">{!! __('Select') !!}</th>
                             </tr>
                             </tfoot>
+<!-- 
                             <tbody>
                             @foreach($stores as $index=>$store)
                                 <tr>
@@ -89,8 +90,7 @@
                                      </span>
 
                                     </td>
-                                    <!-- <td>{!! $store->store_phone !!}</td> -->
-                                    <!-- <td>{!! $store->store_address !!}</td> -->
+
                                     <td>{!! $store->created_at->format('y-m-d h:i:s A') !!}</td>
                                     <td>{!! $store->updated_at->format('y-m-d h:i:s A') !!}</td>
                                     <td>
@@ -130,29 +130,12 @@
                                             <li>
                                                 <a class="btn btn-wg-show hvr-radial-out" target="_blank"
                                                    href="{{route('admin:store_employee_history.index', ['store' => $store->id])}}" >
-                                                    <i class="fa fa-eye"></i>{{ __( 'employees history' )}}</a>
+                                                    <i class="fa fa-eye"></i> {{ __( 'employees history' )}}</a>
 
                                             </li>
 
                                         </ul>
                                     </div>
-<!--
-                                    <a class="btn btn-wg-show hvr-radial-out" onclick="loadDataWithModal('{{$store->id}}')" data-id="{{$store->id}}">
-                                                <i class="fa fa-eye"></i> {{__('Show')}}
-                                            </a>
-
-                                        @component('admin.buttons._edit_button',[
-                                                    'id'=>$store->id,
-                                                    'route' => 'admin:stores.edit',
-                                                     ])
-                                        @endcomponent
-
-                                        @component('admin.buttons._delete_button',[
-                                                    'id'=> $store->id,
-                                                    'route' => 'admin:stores.destroy',
-                                                     ])
-                                        @endcomponent -->
-
                                     </td>
                                     <td>
                                     @component('admin.buttons._delete_selected',[
@@ -163,7 +146,8 @@
                                     </td>
                                 </tr>
                             @endforeach
-                            </tbody>
+                            </tbody> -->
+
                         </table>
                         </div>
                 </div>

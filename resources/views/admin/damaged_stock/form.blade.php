@@ -46,7 +46,7 @@
 
     <div class="col-md-12">
 
-        <div class="col-md-3">
+        <div class="col-md-6">
             <div class="form-group">
                 <label for="inputNameAr" class="control-label">{{__('Number')}}</label>
                 <div class="input-group">
@@ -58,32 +58,8 @@
             </div>
         </div>
 
-        <div class="col-md-3">
-            <div class="form-group">
-                <label for="date" class="control-label">{{__('Date')}}</label>
-                <div class="input-group">
-                <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                    <input type="date" name="date" class="form-control" id="date"
-                           value="{{old('date', isset($damagedStock)? $damagedStock->date : \Carbon\Carbon::now()->format('Y-m-d'))}}">
-                </div>
-                {{input_error($errors,'date')}}
-            </div>
-        </div>
-
-        <div class="col-md-2">
-            <div class="form-group">
-                <label for="date" class="control-label">{{__('Time')}}</label>
-                <div class="input-group">
-                <span class="input-group-addon"><li class="fa fa-clock-o"></li></span>
-                    <input type="time" name="time" class="form-control" id="time"
-                           value="{{old('time', isset($damagedStock)? $damagedStock->time : \Carbon\Carbon::now()->format('H:i:s'))}}">
-                </div>
-                {{input_error($errors,'time')}}
-            </div>
-        </div>
-
-        <div class="col-md-4">
-        <label class="control-label" style="display:block">نوع التلف</label>
+        <div class="col-md-6">
+        <label class="control-label" style="display:block">{{__('Damage type')}}</label>
 
             <ul class="list-inline">
                 <li>
@@ -100,13 +76,43 @@
                 {{isset($damagedStock) && $damagedStock->type == 'un_natural' ? 'checked':''}} >
             <label for="un_natural">{{__('un_natural')}}</label>
         </div>
+
+
+        </div>
+        </div>
+
+        <div class="col-md-12">
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="date" class="control-label">{{__('Date')}}</label>
+                <div class="input-group">
+                <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
+                    <input type="date" name="date" class="form-control" id="date"
+                           value="{{old('date', isset($damagedStock)? $damagedStock->date : \Carbon\Carbon::now()->format('Y-m-d'))}}">
+                </div>
+                {{input_error($errors,'date')}}
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="date" class="control-label">{{__('Time')}}</label>
+                <div class="input-group">
+                <span class="input-group-addon"><li class="fa fa-clock-o"></li></span>
+                    <input type="time" name="time" class="form-control" id="time"
+                           value="{{old('time', isset($damagedStock)? $damagedStock->time : \Carbon\Carbon::now()->format('H:i:s'))}}">
+                </div>
+                {{input_error($errors,'time')}}
+            </div>
+        </div>
+
+        </div>
+
+        
                 </li>
             </ul>
 
-
-
-        </div>
-        </div>
         </div>
         </div>
         </div>
