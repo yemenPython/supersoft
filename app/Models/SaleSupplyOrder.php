@@ -34,14 +34,14 @@ class SaleSupplyOrder extends Model
         return $this->hasMany(SaleSupplyOrderItem::class, 'sale_supply_order_id');
     }
 
-//    public function taxes()
-//    {
-//        return $this->belongsToMany(TaxesFees::class, 'supply_order_taxes_fees', 'supply_order_id', 'tax_id');
-//    }
+    public function taxes()
+    {
+        return $this->belongsToMany(TaxesFees::class, 'sale_supply_order_taxes_fees', 'supply_order_id', 'tax_id');
+    }
 
     public function purchaseQuotations()
     {
-        return $this->belongsToMany(PurchaseQuotation::class, 'purchase_quotation_supply_orders',
+        return $this->belongsToMany(PurchaseQuotation::class, 'purchase_quotation_sale_supply_orders',
             'supply_order_id', 'purchase_quotation_id');
     }
 

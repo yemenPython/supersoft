@@ -112,26 +112,26 @@
 
                 <div class="col-md-6">
                     <div class="form-group has-feedback">
-                        <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
+                        <label for="inputStore" class="control-label">{{__('Customers')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon fa fa-user"></span>
-                            <select class="form-control js-example-basic-single" name="supplier_id" id="supplier_id"
+                            <select class="form-control js-example-basic-single" name="customer_id" id="supplier_id"
                                     onchange="selectSupplier()">
                                 <option value="">{{__('Select')}}</option>
 
-                                @foreach($suppliers as $supplier)
-                                    <option value="{{$supplier->id}}"
-                                            data-discount="{{$supplier->group_discount}}"
-                                            data-discount-type="{{$supplier->group_discount_type}}"
-                                        {{isset($saleQuotation) && $saleQuotation->supplier_id == $supplier->id? 'selected':''}}>
-                                        {{$supplier->name}}
+                                @foreach($customers as $customer)
+                                    <option value="{{$customer->id}}"
+                                            data-discount="{{$customer->group_sales_discount}}"
+                                            data-discount-type="{{$customer->group_sales_discount_type}}"
+                                        {{isset($saleQuotation) && $saleQuotation->customer_id == $customer->id? 'selected':''}}>
+                                        {{$customer->name}}
                                     </option>
                                 @endforeach
 
                             </select>
                         </div>
 
-                        {{input_error($errors,'supplier_id')}}
+                        {{input_error($errors,'customer_id')}}
 
                     </div>
 

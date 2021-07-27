@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\SaleQuotation\CreateRequest;
 use App\Http\Requests\Admin\SaleQuotation\UpdateRequest;
 use App\Models\Branch;
+use App\Models\Customer;
 use App\Models\Part;
 use App\Models\PartPriceSegment;
 use App\Models\PurchaseQuotation;
@@ -67,11 +68,6 @@ class SaleQuotationController extends Controller
             ->select('name_' . $this->lang, 'id')
             ->get();
 
-        $suppliers = Supplier::where('status', 1)
-            ->where('branch_id', $branch_id)
-            ->select('id','name_' . $this->lang, 'group_id', 'sub_group_id')
-            ->get();
-
         $taxes = TaxesFees::where('active_offers', 1)
             ->where('branch_id', $branch_id)
             ->where('type', 'tax')
@@ -84,8 +80,13 @@ class SaleQuotationController extends Controller
             ->select('id','value', 'tax_type','execution_time', 'name_' . $this->lang)
             ->get();
 
+        $customers = Customer::where('status', 1)
+            ->where('branch_id', $branch_id)
+            ->select('id', 'name_' . $this->lang, 'customer_category_id')
+            ->get();
+
         return view('admin.sale_quotations.create',
-            compact('branches', 'mainTypes', 'subTypes','additionalPayments', 'parts', 'suppliers', 'taxes'));
+            compact('branches', 'mainTypes', 'subTypes','additionalPayments', 'parts', 'suppliers', 'taxes', 'customers'));
     }
 
     public function store(CreateRequest $request) {
@@ -124,6 +125,7 @@ class SaleQuotationController extends Controller
         }catch (\Exception $e) {
             DB::rollBack();
 
+            dd($e->getMessage());
             return redirect()->back()->with(['message'=>'sorry, please try later', 'alert-type'=>'error']);
         }
 
@@ -166,9 +168,14 @@ class SaleQuotationController extends Controller
             ->select('id','value', 'tax_type','execution_time', 'name_' . $this->lang)
             ->get();
 
+        $customers = Customer::where('status', 1)
+            ->where('branch_id', $branch_id)
+            ->select('id', 'name_' . $this->lang, 'customer_category_id')
+            ->get();
+
         return view('admin.sale_quotations.edit',
             compact('branches', 'mainTypes', 'subTypes', 'parts', 'saleQuotation', 'suppliers', 'taxes',
-                'additionalPayments'));
+                'additionalPayments', 'customers'));
     }
 
     public function update (UpdateRequest $request, SaleQuotation $saleQuotation) {

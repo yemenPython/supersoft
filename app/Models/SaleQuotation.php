@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class SaleQuotation extends Model
 {
-    protected $fillable = ['number', 'branch_id', 'purchase_request_id', 'date', 'time', 'user_id', 'supplier_id', 'status', 'library_path',
+    protected $fillable = ['number', 'branch_id', 'purchase_request_id', 'date', 'time', 'user_id', 'customer_id', 'status', 'library_path',
         'supply_date_from', 'supply_date_to', 'sub_total', 'discount', 'discount_type', 'total_after_discount',
-        'tax', 'total', 'type', 'additional_payments', 'supplier_discount_active', 'supplier_discount_type',
-        'supplier_discount', 'date_from', 'date_to', 'quotation_type'];
+        'tax', 'total', 'type', 'additional_payments', 'customer_discount_active', 'customer_discount_type',
+        'customer_discount', 'date_from', 'date_to', 'quotation_type'];
 
     protected $table = 'sale_quotations';
 
@@ -31,9 +31,9 @@ class SaleQuotation extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function supplier()
+    public function customer()
     {
-        return $this->belongsTo(Supplier::class, 'supplier_id');
+        return $this->belongsTo(Customer::class, 'customer_id');
     }
 
     public function items()

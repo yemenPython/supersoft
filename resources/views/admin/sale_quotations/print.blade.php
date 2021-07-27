@@ -76,8 +76,8 @@
                     </tr>
 
                     <tr>
-                        <th style="background:#CCC !important;color:black" scope="row">{{__('Supplier')}}</th>
-                        <td>{{ $saleQuotation->supplier ? $saleQuotation->supplier->name : '---'}}</td>
+                        <th style="background:#CCC !important;color:black" scope="row">{{__('Customer')}}</th>
+                        <td>{{ $saleQuotation->customer ? $saleQuotation->customer->name : '---'}}</td>
                     </tr>
 
                     </tbody>

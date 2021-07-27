@@ -26,10 +26,10 @@ class SaleSupplyOrderItem extends Model
         return $this->belongsTo(PartPrice::class, 'part_price_id');
     }
 
-//    public function taxes()
-//    {
-//        return $this->belongsToMany(TaxesFees::class, 'supply_order_item_taxes_fees', 'item_id', 'tax_id');
-//    }
+    public function taxes()
+    {
+        return $this->belongsToMany(TaxesFees::class, 'sale_supply_order_item_taxes_fees', 'item_id', 'tax_id');
+    }
 
     public function partPriceSegment()
     {

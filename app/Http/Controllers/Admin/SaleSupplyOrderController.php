@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Admin\SupplyOrders\CreateRequest;
-use App\Http\Requests\Admin\SupplyOrders\UpdateRequest;
+use App\Http\Requests\Admin\SaleSupplyOrder\CreateRequest;
+use App\Http\Requests\Admin\SaleSupplyOrder\UpdateRequest;
 use App\Models\Branch;
 use App\Models\Customer;
 use App\Models\Part;
@@ -12,12 +12,14 @@ use App\Models\PurchaseQuotation;
 use App\Models\PurchaseRequest;
 use App\Models\SaleQuotation;
 use App\Models\SaleSupplyOrder;
+use App\Models\SaleSupplyOrderItem;
 use App\Models\SparePart;
 use App\Models\Supplier;
 use App\Models\SupplyOrder;
 use App\Models\SupplyOrderItem;
 use App\Models\SupplyTerm;
 use App\Models\TaxesFees;
+use App\Services\SaleSupplyOrderService;
 use App\Services\SupplyOrderServices;
 use App\Traits\SubTypesServices;
 use Illuminate\Http\RedirectResponse;
@@ -32,12 +34,12 @@ class SaleSupplyOrderController extends Controller
     use SubTypesServices;
 
     public $lang;
-    public $supplyOrderServices;
+    public $saleSupplyOrderServices;
 
     public function __construct()
     {
         $this->lang = App::getLocale();
-        $this->supplyOrderServices = new SupplyOrderServices();
+        $this->saleSupplyOrderServices = new SaleSupplyOrderService();
     }
 
     public function index()
@@ -98,7 +100,6 @@ class SaleSupplyOrderController extends Controller
 
     public function store(CreateRequest $request)
     {
-
         if (!$request->has('items')) {
             return redirect()->back()->with(['message' => 'sorry, please select items', 'alert-type' => 'error']);
         }
@@ -109,14 +110,14 @@ class SaleSupplyOrderController extends Controller
 
             $data = $request->all();
 
-            $supplyOrderData = $this->supplyOrderServices->supplyOrderData($data);
+            $supplyOrderData = $this->saleSupplyOrderServices->supplyOrderData($data);
 
             $supplyOrderData['user_id'] = auth()->id();
             $supplyOrderData['branch_id'] = authIsSuperAdmin() ? $data['branch_id'] : auth()->user()->branch_id;
 
-            $supplyOrder = SupplyOrder::create($supplyOrderData);
+            $supplyOrder = SaleSupplyOrder::create($supplyOrderData);
 
-            $this->supplyOrderServices->supplyOrderTaxes($supplyOrder, $data);
+            $this->saleSupplyOrderServices->supplyOrderTaxes($supplyOrder, $data);
 
             if (isset($data['purchase_quotations'])) {
                 $supplyOrder->purchaseQuotations()->attach($data['purchase_quotations']);
@@ -124,9 +125,9 @@ class SaleSupplyOrderController extends Controller
 
             foreach ($data['items'] as $item) {
 
-                $itemData = $this->supplyOrderServices->supplyOrderItemData($item);
-                $itemData['supply_order_id'] = $supplyOrder->id;
-                $supplyOrderItem = SupplyOrderItem::create($itemData);
+                $itemData = $this->saleSupplyOrderServices->supplyOrderItemData($item);
+                $itemData['sale_supply_order_id'] = $supplyOrder->id;
+                $supplyOrderItem = SaleSupplyOrderItem::create($itemData);
 
                 if (isset($item['taxes'])) {
                     $supplyOrderItem->taxes()->attach($item['taxes']);
@@ -136,11 +137,11 @@ class SaleSupplyOrderController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-
+            
             return redirect()->back()->with(['message' => 'sorry, please try later', 'alert-type' => 'error']);
         }
 
-        return redirect(route('admin:supply-orders.index'))->with(['message' => __('supply.orders.created.successfully'), 'alert-type' => 'success']);
+        return redirect(route('admin:sale-supply-orders.index'))->with(['message' => __('supply.orders.created.successfully'), 'alert-type' => 'success']);
     }
 
     public function edit(SupplyOrder $supplyOrder)
@@ -302,12 +303,12 @@ class SaleSupplyOrderController extends Controller
             return response()->json($validator->errors()->first(), 400);
         }
 
+
         try {
 
             $saleQuotations = SaleQuotation::with('items')
                 ->whereIn('id', $request['sale_quotations'])
                 ->get();
-
 
             $customers = [];
             $itemsCount = 0;
