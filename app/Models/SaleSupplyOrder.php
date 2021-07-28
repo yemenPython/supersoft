@@ -14,6 +14,25 @@ class SaleSupplyOrder extends Model
 
     protected $table = 'sale_supply_orders';
 
+    /**
+     * @var string[]
+     */
+    protected static $dataTableColumns = [
+        'DT_RowIndex' => 'DT_RowIndex',
+        'date' => 'date',
+        'branch_id' => 'branch_id',
+        'number' => 'number',
+        'total' => 'total',
+        'different_days' => 'different_days',
+        'remaining_days' => 'remaining_days',
+        'status' => 'status',
+        'statusExecution' => 'statusExecution',
+        'created_at' => 'created_at',
+        'updated_at' => 'updated_at',
+        'action' => 'action',
+        'options' => 'options'
+    ];
+
     public function branch()
     {
         return $this->belongsTo(Branch::class, 'branch_id');
@@ -75,5 +94,16 @@ class SaleSupplyOrder extends Model
         $endDate = Carbon::create($this->supply_date_to);
 
         return $dateNow->diffInDays($endDate, false);
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getJsDataTablesColumns(): array
+    {
+        if (!authIsSuperAdmin()) {
+            unset(self::$dataTableColumns['branch_id']);
+        }
+        return self::$dataTableColumns;
     }
 }

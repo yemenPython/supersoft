@@ -50,21 +50,15 @@
                         @php
                             $view_path = 'admin.purchase-invoices.options-datatable';
                         @endphp
-                        @include($view_path . '.option-row')
                         <div class="clearfix"></div>
-                        <table id="purchaseInvoices" class="table table-bordered wg-table-print table-hover" style="width:100%">
-                            @include($view_path . '.table-thead')
-                            <tfoot>
-
+                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover" style="width:100%">
+                            <thead>
                             <tr>
                                 <th class="text-center column-index" scope="col">{!! __('#') !!}</th>
-
                                 <th class="text-center column-invoice-number" scope="col">{!! __('Invoice Number') !!}</th>
-
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Invoice Type') !!}</th>
                                 <th class="text-center column-paid" scope="col">{!! __('Total') !!}</th>
-
                                 <th class="text-center column-paid" scope="col">{!! __('Paid') !!}</th>
                                 <th class="text-center column-remaining" scope="col">{!! __('Remaining') !!}</th>
                                 <th scope="col">{!! __('Status') !!}</th>
@@ -72,170 +66,30 @@
                                     scope="col">{!! __('Execution Status') !!}</th>
                                 <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
                                 <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
+                                <th scope="col">{!! __('Options') !!}</th>
+                                <th scope="col">{!! __('Select') !!}</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
 
+                            <tr>
+                                <th class="text-center column-index" scope="col">{!! __('#') !!}</th>
+                                <th class="text-center column-invoice-number" scope="col">{!! __('Invoice Number') !!}</th>
+                                <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
+                                <th class="text-center column-invoice-type" scope="col">{!! __('Invoice Type') !!}</th>
+                                <th class="text-center column-paid" scope="col">{!! __('Total') !!}</th>
+                                <th class="text-center column-paid" scope="col">{!! __('Paid') !!}</th>
+                                <th class="text-center column-remaining" scope="col">{!! __('Remaining') !!}</th>
+                                <th scope="col">{!! __('Status') !!}</th>
+                                <th class="text-center column-execution-status"
+                                    scope="col">{!! __('Execution Status') !!}</th>
+                                <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
+                                <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">{!! __('Select') !!}</th>
                             </tr>
                             </tfoot>
-                            <tbody>
-
-                            @php
-                                $showRowsPerPage = request()->has('rows') ? request()['rows'] : 10;
-                                $page = request()->has('page') ? request()['page'] : 1;
-                            @endphp
-
-                            @foreach($invoices as $index=>$invoice)
-
-                                <tr>
-                                    <td class="text-center column-invoice-number">{!! (($page - 1) * $showRowsPerPage) + $index+1 !!}</td>
-
-                                    <td class="text-center column-invoice-number">{!! $invoice->invoice_number !!}</td>
-
-                                    <td class="text-center column-supplier">{!! optional($invoice->supplier)->name !!}</td>
-
-                                    <td class="text-center column-invoice-type">
-                                    @if ($invoice->type === "cash")
-                                            <span class="label label-primary wg-label">
-                                    {{__($invoice->type)}}
-                                    </span>
-                                        @else
-                                    <span class="label label-danger wg-label">
-                                    {{__($invoice->type)}}
-                                    </span>
-                                        @endif
-                                    </td>
-
-                                    <td class="text-center column-paid">
-                                        <span style="background:#F7F8CC !important">
-                                        {!! number_format($invoice->total, 2) !!}
-                                        </span>
-                                    </td>
-                                    <td class="text-center column-paid">
-                                        <span style="background:#D7FDF9 !important">
-                                        {!! number_format($invoice->paid, 2) !!}
-                                        </span>
-                                    </td>
-                                    <td class="text-center column-remaining">
-                                        <span style="background:#FDD7D7 !important">
-                                        {!! number_format($invoice->remaining ,2)!!}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        @if($invoice->status == 'pending' )
-                                        <span class="label label-info wg-label"> {{__('processing')}}</span>
-                                        @elseif($invoice->status == 'accept' )
-                                        <span
-        class="label label-success wg-label"> {{__('Accept Approval')}} </span>
-                                        @else
-                                        <span class="label label-danger wg-label">  {{__('Reject Approval')}} </span>
-                                        @endif
-
-                                    </td>
-
-                                    <td class="text-center column-date">
-
-                                        @if($invoice->execution)
-
-                                            @if($invoice->execution ->status == 'pending' )
-                                                <span class="label label-info wg-label"> {{__('Processing')}}</span>
-
-                                            @elseif($invoice->execution ->status == 'finished' )
-                                                <span class="label label-success wg-label"> {{__('Finished')}} </span>
-
-                                            @elseif($invoice->execution ->status == 'late' )
-                                                <span class="label label-danger wg-label"> {{__('Late')}} </span>
-                                            @endif
-
-                                        @else
-                                            <span class="label label-warning wg-label">
-                                                {{__('Not determined')}}
-                                            </span>
-                                        @endif
-
-                                    </td>
-
-                                    <td class="text-center column-created-at">{!! $invoice->created_at->format('y-m-d h:i:s A') !!}</td>
-                                    <td class="text-center column-updated-at">{!! $invoice->updated_at->format('y-m-d h:i:s A')!!}</td>
-
-                                    <td>
-                                        <div class="btn-group margin-top-10">
-
-                                            <button type="button" class="btn btn-options dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="ico fa fa-bars"></i>
-                                                {{__('Options')}} <span class="caret"></span>
-
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-wg">
-                                                <li>
-
-                                                    @component('admin.buttons._edit_button',[
-                                                                'id'=>$invoice->id,
-                                                                'route' => 'admin:purchase-invoices.edit',
-                                                                 ])
-                                                    @endcomponent
-                                                </li>
-                                                <li class="btn-style-drop">
-
-                                                    @component('admin.buttons._delete_button',[
-                                                                'id'=> $invoice->id,
-                                                                'route' => 'admin:purchase-invoices.destroy',
-                                                                 ])
-                                                    @endcomponent
-                                                </li>
-
-                                                <li>
-
-                                                    @component('admin.purchase-invoices.parts.print',[
-                                                                'id'=> $invoice->id,
-                                                                'invoice'=> $invoice,
-                                                                 ])
-                                                    @endcomponent
-                                                </li>
-
-                                                <li>
-                                                    <a style="cursor:pointer"
-                                                       class="btn btn-terms-wg text-white hvr-radial-out"
-                                                       data-toggle="modal" data-target="#terms_{{$invoice->id}}"
-                                                       title="{{__('Terms')}}">
-                                                        <i class="fa fa-check-circle"></i> {{__('Terms')}}
-                                                    </a>
-                                                </li>
-
-                                                <li>
-
-                                                    <a href="{{route('admin:purchase-invoices.expenses', ['id' => $invoice->id])}}"
-                                                       class="btn btn-info-wg hvr-radial-out  ">
-                                                        <i class="fa fa-money"></i> {{__('Payments')}}
-                                                    </a>
-                                                </li>
-
-                                                <li>
-
-                                                    @include('admin.partial.execution_period', ['id'=> $invoice->id])
-                                                </li>
-
-                                                <li>
-                                                    @include('admin.partial.upload_library.btn_upload', ['id'=> $invoice->id])
-                                                </li>
-                                            </ul>
-                                        </div>
-
-
-                                    </td>
-                                    <td>
-                                        @component('admin.buttons._delete_selected',[
-                                                   'id' => $invoice->id,
-                                                   'route' => 'admin:purchase-invoices.deleteSelected',
-
-                                                    ])
-                                        @endcomponent
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
                         </table>
-                        {{ $invoices->links() }}
                     </div>
                 </div>
             </div>
@@ -278,8 +132,6 @@
         </div>
     </div>
 
-    @include($view_path . '.column-visible')
-
     @include('admin.purchase-invoices.terms.supply_terms', ['items' => $invoices])
 @endsection
 
@@ -301,7 +153,6 @@
 
         @endif
 
-        // invoke_datatable($('#purchaseInvoices'))
 
         function printDownPayment() {
             var element_id = 'purchase_invoice_print', page_title = document.title
@@ -319,6 +170,16 @@
                 }
             });
         }
+
+        server_side_datatable('#datatable-with-btns');
+        function filterFunction($this) {
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout( function () {
+                $("#loaderSearch").hide();
+            }, 1000)
+        }
     </script>
-    <script type="application/javascript" src="{{ asset('accounting-module/options-for-dt.js') }}"></script>
 @endsection

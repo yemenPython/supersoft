@@ -43,7 +43,7 @@ class SettlementController extends Controller
 
     public function index(Request $request)
     {
-        $dataQuery = Settlement::query();
+        $dataQuery = Settlement::query()->latest();
         if ($request->hasAny((new Settlement())->getFillable())
             || $request->has('dateFrom')
             || $request->has('dateTo')

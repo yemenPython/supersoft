@@ -42,7 +42,7 @@ class SaleAssetsController extends Controller
     public function index(Request $request)
     {
         if ($request->isDataTable) {
-            $saleAssets = SaleAsset::with('items')->select( ['*'] );
+            $saleAssets = SaleAsset::with('items')->select( ['*'] )->latest();
 //            $saleAssets = SaleAsset::select( [
 //                'sale_assets.id',
 //                'number',
@@ -178,7 +178,7 @@ class SaleAssetsController extends Controller
                 'number' => 'sale_assets.number',
                 'type' => 'sale_assets.type',
                 'total_sale_amount' => 'sale_assets.total_sale_amount',
-            
+
                 'created_at' => 'sale_assets.created_at',
                 'updated_at' => 'sale_assets.updated_at',
                 'action' => 'action',
@@ -191,7 +191,7 @@ class SaleAssetsController extends Controller
                 'number' => 'sale_assets.number',
                 'type' => 'sale_assets.type',
                 'total_sale_amount' => 'sale_assets.total_sale_amount',
-        
+
                 'created_at' => 'sale_assets.created_at',
                 'updated_at' => 'sale_assets.updated_at',
                 'action' => 'action',

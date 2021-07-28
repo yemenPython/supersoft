@@ -8,12 +8,14 @@ use App\Models\PurchaseReceipt;
 use App\Models\SupplyOrder;
 use App\Services\PurchaseReceiptServices;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\DataTables;
 
 class PurchaseReceiptsController extends Controller
 {
@@ -26,10 +28,17 @@ class PurchaseReceiptsController extends Controller
         $this->purchaseReceiptServices = new PurchaseReceiptServices();
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $data['purchase_receipts'] = PurchaseReceipt::get();
-        return view('admin.purchase_receipts.index', compact('data'));
+        $purchase_receipts = PurchaseReceipt::query()->latest();
+        if ($request->isDataTable) {
+            return $this->dataTableColumns($purchase_receipts);
+        } else {
+            return view('admin.purchase_receipts.index', [
+                'purchase_receipts' => $purchase_receipts,
+                'js_columns' => PurchaseReceipt::getJsDataTablesColumns(),
+            ]);
+        }
     }
 
     public function create(Request $request)
@@ -249,5 +258,60 @@ class PurchaseReceiptsController extends Controller
         $view = view('admin.purchase_receipts.print', compact('purchaseReceipt'))->render();
 
         return response()->json(['view' => $view]);
+    }
+
+    /**
+     * @param Builder $items
+     * @return mixed
+     * @throws Throwable
+     */
+    private function dataTableColumns(Builder $items)
+    {
+        $viewPath = 'admin.purchase_receipts.datatables.options';
+        return DataTables::of($items)->addIndexColumn()
+            ->addColumn('date', function ($item) use ($viewPath) {
+                $withDate = true;
+                return view($viewPath, compact('item', 'withDate'))->render();
+            })
+            ->addColumn('branch_id', function ($item) use ($viewPath) {
+                $withBranch = true;
+                return view($viewPath, compact('item', 'withBranch'))->render();
+            })
+            ->addColumn('number', function ($item) {
+                return $item->number;
+            })
+            ->addColumn('total', function ($item) use ($viewPath) {
+                $total = true;
+                return view($viewPath, compact('item', 'total'))->render();
+            })
+            ->addColumn('total_accepted', function ($item) use ($viewPath) {
+                $total_accepted = true;
+                return view($viewPath, compact('item', 'total_accepted'))->render();
+            })
+            ->addColumn('total_rejected', function ($item) use ($viewPath) {
+                $total_rejected = true;
+                return view($viewPath, compact('item', 'total_rejected'))->render();
+            })
+            ->addColumn('status', function ($item) use ($viewPath) {
+                $withStatus = true;
+                return view($viewPath, compact('item', 'withStatus'))->render();
+            })
+            ->addColumn('executionStatus', function ($item) use ($viewPath) {
+                $executionStatus = true;
+                return view($viewPath, compact('item', 'executionStatus'))->render();
+            })
+            ->addColumn('created_at', function ($item) {
+                return $item->created_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('updated_at', function ($item) {
+                return $item->updated_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('action', function ($item) use ($viewPath) {
+                $withActions = true;
+                return view($viewPath, compact('item', 'withActions'))->render();
+            })->addColumn('options', function ($item) use ($viewPath) {
+                $withOptions = true;
+                return view($viewPath, compact('item', 'withOptions'))->render();
+            })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
     }
 }

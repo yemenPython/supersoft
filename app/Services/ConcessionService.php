@@ -146,7 +146,7 @@ class ConcessionService
             $concessions->where('concessionable_id', $request['item_id'])->where('concessionable_type', $model);
         }
 
-        return $concessions;
+        return $concessions->latest();
     }
 
     public function acceptQuantity($concession)
