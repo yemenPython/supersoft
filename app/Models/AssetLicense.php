@@ -40,6 +40,19 @@ class AssetLicense extends Model
         'asset_id',
     ];
 
+    /**
+     * @var string[]
+     */
+    protected static $dataTableColumns = [
+        'DT_RowIndex' => 'DT_RowIndex',
+        'status' => 'status',
+        'license_details' => 'license_details',
+        'start_date' => 'start_date',
+        'end_date' => 'end_date',
+        'action' => 'action',
+        'options' => 'options'
+    ];
+
     protected static $logOnlyDirty = true;
 
     public function getDescriptionForEvent(string $eventName): string
@@ -47,7 +60,12 @@ class AssetLicense extends Model
         return "This model has been {$eventName}";
     }
 
-
-
+    /**
+     * @return string[]
+     */
+    public static function getJsDataTablesColumns(): array
+    {
+        return self::$dataTableColumns;
+    }
 
 }

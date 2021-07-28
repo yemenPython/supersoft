@@ -102,7 +102,7 @@
                     </h4>
                     <!-- /.box-title -->
                     <div class="card-content js__card_content">
-                        <form method="get">
+                        <form  onsubmit="filterFunction($(this));return false;">
                             <div class="list-inline margin-bottom-0 row">
                                 <div class="form-group col-md-3">
                                     <label> {{ __('Name') }} </label>
@@ -214,67 +214,6 @@
                                 <th scope="col">{!! __('Select') !!}</th>
                             </tr>
                             </tfoot>
-                            <tbody>
-                            @if($assetsExaminations)
-                                @foreach($assetsExaminations as $assetExamination)
-                                    <tr>
-                                        <td>{{$loop->iteration}}</td>
-                                        <td>{{$assetExamination->status?__('Active'):__('In-active')}}</td>
-                                        <td> {{ $assetExamination->examination_details }} </td>
-                                        <td> {{ $assetExamination->start_date }} </td>
-                                        <td> {{ $assetExamination->end_date }} </td>
-                                        <td>
-                                            <div class="btn-group margin-top-10">
-
-                                                <button type="button" class="btn btn-options dropdown-toggle"
-                                                        data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                    <i class="ico fa fa-bars"></i>
-                                                    {{__('Options')}} <span class="caret"></span>
-
-                                                </button>
-                                                <ul class="dropdown-menu dropdown-wg">
-                                                    <li>
-                                                        <a style=" margin-bottom: 12px; border-radius: 5px"
-                                                           type="button"
-                                                           data-toggle="modal" data-target="#add-employee-modal"
-                                                           data-examination_id="{{ $assetExamination->id }}"
-                                                           data-name="{{ $assetExamination->examination_details }}"
-                                                           data-start_date="{{ $assetExamination->start_date }}"
-                                                           data-end_date="{{ $assetExamination->end_date }}"
-                                                           data-status="{{ $assetExamination->status }}"
-                                                           data-title="{{__('Edit asset Examination')}}"
-                                                           class="btn btn-print-wg text-white">
-                                                           <i class="fa fa-edit"></i>
-                                                            {{__('Edit')}}
-
-                                                        </a>
-
-                                                    </li>
-                                                    <li class="btn-style-drop">
-
-                                                        @component('admin.buttons._delete_button',[
-                                                        'id'=> $assetExamination->id,
-                                                        'route' => 'admin:assetsExaminations.destroy',
-                                                         ])
-                                                        @endcomponent
-
-                                                    </li>
-
-                                                </ul>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            @component('admin.buttons._delete_selected',[
-                                                'id' =>  $assetExamination->id,
-                                                'route' => 'admin:assetsExaminations.deleteSelected',
-                                            ])
-                                            @endcomponent
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @endif
-                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -290,7 +229,6 @@
     {!! JsValidator::formRequest('App\Http\Requests\Admin\Asset\AssetExaminationRequest')->selector('#newAssetEmployee-form'); !!}
     <script type="application/javascript">
         $(document).ready(function () {
-            invoke_datatable($('#datatable-with-btns'))
             $(".select2").select2();
 
         });
@@ -314,6 +252,15 @@
             $('#myModalLabel-1').text(title);
         });
 
-
+        server_side_datatable('#datatable-with-btns');
+        function filterFunction($this) {
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout( function () {
+                $("#loaderSearch").hide();
+            }, 1000)
+        }
     </script>
 @stop

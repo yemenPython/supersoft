@@ -120,7 +120,7 @@
                     </h4>
                     <!-- /.box-title -->
                     <div class="card-content js__card_content">
-                        <form action="{{route('admin:assetsEmployees.index',$asset->id)}}" method="get">
+                        <form  onsubmit="filterFunction($(this));return false;">
                             <div class="list-inline margin-bottom-0 row">
                                 <div class="form-group col-md-3">
                                     <label> {{ __('Employee name') }} </label>
@@ -176,7 +176,7 @@
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control">
-                    <i class="fa fa-cubes"></i>[{{count($assetsEmployees)}}] {{ __('Asset employees'). " " .$asset->name }}
+                    <i class="fa fa-cubes"></i>[{{count($assetsEmployees->get())}}] {{ __('Asset employees'). " " .$asset->name }}
                 </h4>
 
                 <div class="card-content js__card_content" style="">
@@ -207,7 +207,6 @@
                                style="width:100%">
                             <thead>
                             <tr>
-
                                 <th scope="col"> {{ __('#') }} </th>
                                 <th scope="col"> {{ __('status') }} </th>
                                 <th scope="col"> {{ __('name') }} </th>
@@ -235,77 +234,6 @@
                                 <th scope="col">{!! __('Select') !!}</th>
                             </tr>
                             </tfoot>
-                            <tbody>
-                            @if($assetsEmployees)
-                                @foreach($assetsEmployees as $assetEmployee)
-                                    <tr>
-                                        <td>{{$loop->iteration}}</td>
-                                        <td>
-                                        @if ($assetEmployee->status )
-                                            <span class="label label-success wg-label">{{__('Active')}}</span>
-                                            @else
-                                            <span class="label label-danger wg-label">{{__('inActive')}}</span>
-                                            @endif    
-                                        </td>
-                                        <td> {{ $assetEmployee->employee->name }} </td>
-                                        <td> {{ $assetEmployee->employee->phone1 }} </td>
-                                        <td> {{ $assetEmployee->start_date }} </td>
-                                        <td> {{ $assetEmployee->end_date }} </td>
-                                        <td>
-                                        <div class="btn-group margin-top-10">
-
-                                        <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="ico fa fa-bars"></i>
-                                        {{__('Options')}} <span class="caret"></span>
-
-                                    </button>
-                                        <ul class="dropdown-menu dropdown-wg">
-                                            <li>
-                                                        <a style=" margin-bottom: 12px; border-radius: 5px"
-                                                           type="button"
-                                                           data-toggle="modal" data-target="#add-employee-modal"
-                                                           data-asset_employee_id ="{{ $assetEmployee->id }}"
-                                                           data-employee_id="{{ $assetEmployee->employee_id }}"
-                                                           data-phone="{{ $assetEmployee->employee->phone1 }}"
-                                                           data-start_date="{{ $assetEmployee->start_date }}"
-                                                           data-end_date="{{ $assetEmployee->end_date }}"
-                                                           data-status="{{ $assetEmployee->status }}"
-                                                           data-title="{{__('Edit asset employee')}}"
-                                                           class="btn btn-print-wg text-white">
-                                                           <i class="fa fa-edit"></i>
-                                                            {{__('Edit')}}
-                                                        </a>
-
-
-                                                </li>
-                                                    <li class="btn-style-drop">
-
-
-                                                        @component('admin.buttons._delete_button',[
-                                                        'id'=> $assetEmployee->id,
-                                                        'route' => 'admin:assetsEmployees.destroy',
-                                                         ])
-                                                        @endcomponent
-
-                                                    </li>
-
-                                                </ul>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            @component('admin.buttons._delete_selected',[
-                                                'id' =>  $assetEmployee->id,
-                                                'route' => 'admin:assetsEmployees.deleteSelected',
-                                            ])
-                                            @endcomponent
-                                        </td>
-                                    </tr>
-
-
-
-                                @endforeach
-                            @endif
-                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -320,11 +248,21 @@
 @section('js')
     {!! JsValidator::formRequest('App\Http\Requests\Admin\Asset\AssetEmployeeRequest')->selector('#newAssetEmployee-form'); !!}
     <script type="application/javascript">
-        $(document).ready(function () {
-            invoke_datatable($('#datatable-with-btns'))
-            $(".select2").select2();
+        server_side_datatable('#datatable-with-btns');
+        function filterFunction($this) {
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout( function () {
+                $("#loaderSearch").hide();
+            }, 1000)
+        }
 
+        $(document).ready(function () {
+            $(".select2").select2();
             $('#add-employee-modal').on('show.bs.modal', function (event) {
+                $('#employee_id').select2();
                 var button = $(event.relatedTarget);
 
                 var asset_employee_id = button.data('asset_employee_id');

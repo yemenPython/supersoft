@@ -15,6 +15,28 @@ class SaleQuotation extends Model
 
     protected $table = 'sale_quotations';
 
+    /**
+     * @var string[]
+     */
+    protected static $dataTableColumns = [
+        'DT_RowIndex' => 'DT_RowIndex',
+        'date' => 'date',
+        'branch_id' => 'branch_id',
+        'number' => 'number',
+        'type' => 'type',
+        'customer' => 'customer',
+        'total' => 'total',
+        'different_days' => 'different_days',
+        'remaining_days' => 'remaining_days',
+        'status' => 'status',
+        'executionStatus' => 'executionStatus',
+        'created_at' => 'created_at',
+        'updated_at' => 'updated_at',
+        'action' => 'action',
+        'options' => 'options'
+    ];
+
+
     public function branch()
     {
         return $this->belongsTo(Branch::class, 'branch_id');
@@ -79,4 +101,14 @@ class SaleQuotation extends Model
         return $dateNow->diffInDays($endDate, false);
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getJsDataTablesColumns(): array
+    {
+        if (!authIsSuperAdmin()) {
+            unset(self::$dataTableColumns['branch_id']);
+        }
+        return self::$dataTableColumns;
+    }
 }

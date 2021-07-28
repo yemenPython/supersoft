@@ -37,7 +37,7 @@
                     <div class="clearfix"></div>
 
                     <div class="table-responsive">
-                        <table id="cities" class="table table-bordered wg-table-print table-hover" style="width:100%">
+                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover" style="width:100%">
                             <thead>
                             <tr>
                                 <th scope="col">{!! __('#') !!}</th>
@@ -97,139 +97,6 @@
                                 <th scope="col">{!! __('Select') !!}</th>
                             </tr>
                             </tfoot>
-                            <tbody>
-                            @foreach($data as $index => $item)
-                                <tr>
-                                    <td>{!! $index +1 !!}</td>
-                                    <td class="text-danger">{{ $item->date }}</td>
-                                    @if(authIsSuperAdmin())
-                                        <td class="text-danger">{!! optional($item->branch)->name !!}</td>
-                                    @endif
-
-                                    <td>{{ $item->number }}</td>
-
-                                    <td>
-                                        @if ($item->type === "cash")
-                                            <span class="label label-primary wg-label">
-                                    {{__($item->type)}}
-                                    </span>
-                                        @else
-                                            <span class="label label-danger wg-label">
-                                                {{__($item->type)}}
-                                            </span>
-                                        @endif
-                                    </td>
-
-                                    <td><span style="background:#F7F8CC !important">{{ $item->customer ? $item->customer->name :'---' }} </span></td>
-                                    <td><span style="background:#F7F8CC !important">{{ __($item->total) }} </span></td>
-
-
-                                    <td><span class="part-unit-span">{{ $item->different_days }} </span></td>
-                                    <td><span class="price-span">{{ $item->remaining_days }} </span></td>
-
-                                    <td>
-                                        @if($item->status == 'pending' )
-                                        <span class="label label-info wg-label"> {{__('processing')}}</span>
-                                        @elseif($item->status == 'accept' )
-                                        <span
-        class="label label-success wg-label"> {{__('Accept Approval')}} </span>
-                                        @else
-                                        <span class="label label-danger wg-label"> {{__('Reject Approval')}} </span>
-                                        @endif
-
-                                    </td>
-
-                                    <td class="text-center column-date">
-
-                                        @if($item->execution)
-
-                                            @if($item->execution->status == 'pending' )
-                                                <span class="label label-info wg-label"> {{__('Processing')}}</span>
-
-                                            @elseif($item->execution ->status == 'finished' )
-                                                <span class="label label-success wg-label"> {{__('Finished')}} </span>
-
-                                            @elseif($item->execution ->status == 'late' )
-                                                <span class="label label-danger wg-label"> {{__('Late')}} </span>
-                                            @endif
-
-                                        @else
-                                            <span class="label label-warning wg-label">
-                                                {{__('Not determined')}}
-                                            </span>
-
-                                        @endif
-
-                                    </td>
-
-
-                                    <td>{{ $item->created_at }}</td>
-                                    <td>{{ $item->updated_at }}</td>
-
-                                    <td>
-
-                                        <div class="btn-group margin-top-10">
-
-                                            <button type="button" class="btn btn-options dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="ico fa fa-bars"></i>
-                                                {{__('Options')}} <span class="caret"></span>
-
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-wg">
-
-                                                <li>
-                                                    @component('admin.buttons._edit_button',[
-                                                            'id'=>$item->id,
-                                                            'route' => 'admin:sale-quotations.edit',
-                                                             ])
-                                                    @endcomponent
-
-                                                </li>
-                                                <li class="btn-style-drop">
-
-                                                    @component('admin.buttons._delete_button',[
-                                                            'id'=> $item->id,
-                                                            'route' => 'admin:sale-quotations.destroy',
-                                                             ])
-                                                    @endcomponent
-                                                </li>
-
-                                                <li>
-                                                    <a style="cursor:pointer" class="btn btn-print-wg text-white" data-toggle="modal"
-                                                       onclick="getPrintData({{$item->id}})"
-                                                       data-target="#boostrapModal" title="{{__('print')}}">
-                                                        <i class="fa fa-print"></i> {{__('Print')}}
-                                                    </a>
-                                                </li>
-
-                                                <li>
-                                                    <a style="cursor:pointer"
-                                                       class="btn btn-terms-wg text-white hvr-radial-out" data-toggle="modal"
-                                                       data-target="#terms_{{$item->id}}" title="{{__('Terms')}}">
-                                                        <i class="fa fa-check-circle"></i> {{__('Terms')}}
-                                                    </a>
-                                                </li>
-
-
-                                                <li>
-                                                    @include('admin.partial.execution_period', ['id'=> $item->id])
-                                                </li>
-
-                                                <li>
-                                                    @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])                                            </li>
-
-                                            </ul>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        @component('admin.buttons._delete_selected',
-                                           ['id' => $item->id,'route' => 'admin:sale-quotations.deleteSelected',])
-                                        @endcomponent
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -241,7 +108,7 @@
 @section('modals')
 
     @include('admin.partial.execution_period_form', [
-    'items'=> $data, 'url'=> route('admin:sale.quotations.execution.save'), 'title' => __('Purchase Quotation Execution') ])
+    'items'=> $data->get(), 'url'=> route('admin:sale.quotations.execution.save'), 'title' => __('Purchase Quotation Execution') ])
 
     @include('admin.partial.upload_library.form', ['url'=> route('admin:sale.quotations.upload_library')])
 
@@ -249,7 +116,7 @@
 
     @include('admin.partial.print_modal', ['title'=> __('Sale Requests')])
 
-    @include('admin.sale_quotations.terms.supply_terms', ['items' => $data])
+    @include('admin.sale_quotations.terms.supply_terms', ['items' => $data->get()])
 
 @endsection
 
@@ -410,6 +277,15 @@
 
 @section('js')
     <script type="application/javascript">
-        invoke_datatable($('#cities'))
+        server_side_datatable('#datatable-with-btns');
+        function filterFunction($this) {
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout( function () {
+                $("#loaderSearch").hide();
+            }, 1000)
+        }
     </script>
 @endsection
