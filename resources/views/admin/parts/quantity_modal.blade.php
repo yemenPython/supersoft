@@ -1,4 +1,4 @@
-@foreach($parts as $part)
+@foreach($parts->get() as $part)
 
     <div class="modal fade" id="part_quantity_{{$part->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">

@@ -49,7 +49,6 @@ class AssetExpenseController extends Controller
 
     public function index(Request $request)
     {
-
         if ($request->isDataTable) {
             $assetExpenses = AssetExpense::select( ['*'] )->latest();
             if ($request->hasAny( (new AssetExpense())->getFillable() )

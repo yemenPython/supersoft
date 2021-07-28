@@ -4,7 +4,6 @@ namespace App\Filters;
 
 use App\Models\Asset;
 use App\Models\AssetExpense;
-use App\Models\AssetExpenseItem;
 use App\Models\AssetsItemExpense;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -20,7 +19,7 @@ class AssetExpenseFilter
     {
         return AssetExpense::where(function ($query) use ($request) {
             if ($request->has('number') && $request->number != '' && $request->number != null) {
-                $query->where('number', $request->number);
+                $query->where('id', $request->number);
             }
 
             if ($request->has('status') && $request->status != '' && $request->status != null) {
