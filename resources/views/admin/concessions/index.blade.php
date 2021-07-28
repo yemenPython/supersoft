@@ -2,6 +2,15 @@
 @section('title')
     <title>{{ __('Concessions') }} </title>
 @endsection
+
+@section('style')
+    <style>
+        .wg-label {
+            font-size: 10px !important;
+            padding: 3px !important;
+        }
+    </style>
+@endsection
 @section('content')
     <div class="row small-spacing">
 
@@ -48,219 +57,42 @@
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
-                        @include('admin.concessions.options-datatable.option-row')
-                        <table id="test_data" class="table table-bordered wg-table-print table-hover" style="width:100%">
-                                                        @include('admin.concessions.options-datatable.table-thead')
-
+                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th scope="col" class="text-center">#</th>
+                                <th scope="col" class="text-center">{!! __('Date') !!}</th>
+                                <th scope="col" class="text-center">{!! __('Concession number') !!}</th>
+                                <th scope="col" class="text-center">{!! __('Total') !!}</th>
+                                <th scope="col" class="text-center">{!! __('Type') !!}</th>
+                                <th scope="col" class="text-center">{!! __('Item Number') !!}</th>
+                                <th scope="col" class="text-center">{!! __('Concession Type') !!}</th>
+                                <th scope="col" class="text-center">{!! __('Status') !!}</th>
+                                <th scope="col" class="text-center">{!! __('Execution Status') !!}</th>
+                                <th class="text-center" scope="col">{!! __('created at') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Updated at') !!}</th>
+                                <th scope="col" class="text-center">{!! __('Options') !!}</th>
+                                <th scope="col" class="text-center">{!! __('Select') !!}</th>
+                            </tr>
+                            </thead>
                             <tfoot>
                             <tr>
-                                <th scope="col" class="text-center column-index">#</th>
-                                <th scope="col" class="text-center column-date">{!! __('Date') !!}</th>
-                                <th scope="col" class="text-center column-number">{!! __('Concession number') !!}</th>
-                                <th scope="col" class="text-center column-total">{!! __('Total') !!}</th>
-                                <th scope="col" class="text-center column-type">{!! __('Type') !!}</th>
-                                <th scope="col" class="text-center column-execution">{!! __('Item Number') !!}</th>
-                                <th scope="col" class="text-center column-concession-type">{!! __('Concession Type') !!}</th>
-                                <th scope="col" class="text-center column-status">{!! __('Status') !!}</th>
-                                <th scope="col" class="text-center column-execution">{!! __('Execution Status') !!}</th>
-                                <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
-                                <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
-                                <th scope="col" class="text-center column-options">{!! __('Options') !!}</th>
-                                <th scope="col" class="text-center column-select-all">{!! __('Select') !!}</th>
+                                <th scope="col" class="text-center">#</th>
+                                <th scope="col" class="text-center">{!! __('Date') !!}</th>
+                                <th scope="col" class="text-center">{!! __('Concession number') !!}</th>
+                                <th scope="col" class="text-center">{!! __('Total') !!}</th>
+                                <th scope="col" class="text-center">{!! __('Type') !!}</th>
+                                <th scope="col" class="text-center">{!! __('Item Number') !!}</th>
+                                <th scope="col" class="text-center">{!! __('Concession Type') !!}</th>
+                                <th scope="col" class="text-center">{!! __('Status') !!}</th>
+                                <th scope="col" class="text-center">{!! __('Execution Status') !!}</th>
+                                <th class="text-center" scope="col">{!! __('created at') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Updated at') !!}</th>
+                                <th scope="col" class="text-center">{!! __('Options') !!}</th>
+                                <th scope="col" class="text-center">{!! __('Select') !!}</th>
                             </tr>
                             </tfoot>
-                            <tbody>
-
-                            @if($concessions->count())
-
-                                @foreach($concessions as $index=>$concession)
-                                    <tr>
-
-                                        <td class="text-center column-id">
-                                            {{ $index + 1 }}
-                                        </td>
-
-                                        <td class="text-center column-date text-danger">{{ $concession->date }}</td>
-
-                                        <td class="text-center column-number">
-                                            {{ $concession->type == 'add' ? $concession->add_number : $concession->withdrawal_number }}
-                                        </td>
-
-                                        <td class="text-center column-total">
-                                        <span style="background:#F7F8CC !important">
-                                        {{$concession->total}}
-                                        </span>
-                                        </td>
-
-                                        <td class="text-center column-type">
-
-                                        @if($concession->type == 'add' )
-                                        <span class="label label-primary wg-label"> {{ __('Add Concession') }} </span>
-                                        @else
-                                        <span class="label label-info wg-label"> {{ __('Withdrawal Concession') }} </span>
-                                        @endif
-                                        </td>
-                                        <td class="text-center column-date">{{ optional($concession->concessionable)->number }}</td>
-
-                                        <td class="text-center column-concession-type" >
-                                        <span class="label wg-label" style="background: rgb(113, 101, 218) !important;">
-                                            {{ optional($concession->concessionType)->name }}
-                            </span>
-                                        </td>
-
-                                        <td class="text-center column-status">
-
-                                        @if($concession->status == 'pending' )
-                                        <span class="label label-info wg-label"> {{__('Pending')}}</span>
-                                        @elseif($concession->status == 'accepted' )
-                                        <span class="label label-success wg-label"> {{__('Accepted')}} </span>
-                                        @else
-                                        <span class="label label-danger wg-label"> {{__('Rejected')}} </span>
-                                        @endif
-
-                                        </td>
-
-
-
-                                        <td class="text-center column-date">
-
-                                        @if($concession->concessionExecution)
-
-
-                                        @if($concession->concessionExecution ->status == 'pending' )
-                                        <span class="label label-info wg-label"> {{__('Processing')}}</span>
-
-                                        @elseif($concession->concessionExecution ->status == 'finished' )
-                                        <span class="label label-success wg-label"> {{__('Finished')}} </span>
-
-                                        @elseif($concession->concessionExecution ->status == 'late' )
-                                        <span class="label label-danger wg-label"> {{__('Late')}} </span>
-                                        @endif
-
-
-                                        @else
-                                        <span class="label label-warning wg-label">
-                                        {{__('Not determined')}}
-                                        </span>
-
-                                        @endif
-
-                                        </td>
-
-
-
-                                        <td class="text-center column-created-at">{{ $concession->created_at }}</td>
-                                        <td class="text-center column-created-at">{{ $concession->updated_at }}</td>
-                                        <td class="text-center column-options">
-
-                                        <div class="btn-group margin-top-10">
-
-                                        <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="ico fa fa-bars"></i>
-                                        {{__('Options')}} <span class="caret"></span>
-
-                                    </button>
-                                        <ul class="dropdown-menu dropdown-wg">
-                                            <li>
-
-                                            @component('admin.buttons._edit_button',[
-                                                        'id'=>$concession->id,
-                                                        'route' => 'admin:concessions.edit',
-                                                         ])
-                                            @endcomponent
-
-                                            </li>
-                                            <li class="btn-style-drop">
-
-                                            @component('admin.buttons._delete_button',[
-                                                        'id'=> $concession->id,
-                                                        'route' => 'admin:concessions.destroy',
-                                                         ])
-                                            @endcomponent
-
-                                            </li>
-
-                                            <li class="btn-style-drop">
-                                            @component('admin.buttons._add_to_archive',[
-                                                              'id'=>$concession->id,
-                                                              'route' => 'admin:concessions.archiveData',
-                                                              'tooltip' => __('Delete '.$concession['name']),
-                                                          ])
-                                            @endcomponent
-                                            </li>
-
-
-                                            <li>
-                                            <a style="cursor:pointer" class="btn btn-print-wg text-white  "
-                                               data-toggle="modal"
-
-                                               onclick="getPrintData({{$concession->id}})"
-                                               data-target="#boostrapModal" title="{{__('print')}}">
-                                                <i class="fa fa-print"></i> {{__('Print')}}
-                                            </a>
-                                            </li>
-
-
-                                            <li>
-                                            @include('admin.partial.execution_period', ['id'=> $concession->id])
-                                            </li>
-
-
-                                            <li>
-                                            @include('admin.partial.upload_library.btn_upload', ['id'=> $concession->id])
-
-                                            </li>
-
-                                        </ul>
-                                    </div>
-<!--
-                                            @component('admin.buttons._edit_button',[
-                                                        'id'=>$concession->id,
-                                                        'route' => 'admin:concessions.edit',
-                                                         ])
-                                            @endcomponent
-
-                                            @component('admin.buttons._delete_button',[
-                                                        'id'=> $concession->id,
-                                                        'route' => 'admin:concessions.destroy',
-                                                         ])
-                                            @endcomponent
-                                            @component('admin.buttons._add_to_archive',[
-                                                              'id'=>$concession->id,
-                                                              'route' => 'admin:concessions.archiveData',
-                                                              'tooltip' => __('Delete '.$concession['name']),
-                                                          ])
-                                            @endcomponent
-
-                                            <a style="cursor:pointer" class="btn btn-print-wg text-white  "
-                                               data-toggle="modal"
-
-                                               onclick="getPrintData({{$concession->id}})"
-                                               data-target="#boostrapModal" title="{{__('print')}}">
-                                                <i class="fa fa-print"></i> {{__('Print')}}
-                                            </a>
-
-                                            @include('admin.partial.execution_period', ['id'=> $concession->id])
-                                            @include('admin.partial.upload_library.btn_upload', ['id'=> $concession->id]) -->
-
-                                        </td>
-                                        <td>
-                                            @component('admin.buttons._delete_selected',[
-                                                       'id' => $concession->id,
-                                                        'route' => 'admin:concessions.deleteSelected',
-                                                        ])
-                                            @endcomponent
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            @else
-                                <tr>
-                                    <td colspan="10"><span>{{__('NO DATA FOUND')}}</span></td>
-                                </tr>
-                            @endif
-                            </tbody>
                         </table>
-                        {{ $concessions->links() }}
                     </div>
                 </div>
             </div>
@@ -269,9 +101,7 @@
 @endsection
 
 @section('modals')
-    @include('admin.concessions.options-datatable.column-visible')
-    @include('admin.partial.execution_period_form', ['items'=> $concessions, 'url'=> route('admin:concessions.execution.save'), 'title' => __('Concession Execution') ])
-
+    @include('admin.partial.execution_period_form', ['items'=> $concessions->get(), 'url'=> route('admin:concessions.execution.save'), 'title' => __('Concession Execution') ])
     @include('admin.partial.upload_library.form', ['url'=> route('admin:concession.upload_library')])
 
     <div class="modal fade" id="boostrapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
@@ -290,27 +120,13 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span>
                     </button>
-                    <!-- <h4 class="modal-title" id="myModalLabel-1">{{__('Concession')}}</h4> -->
                 </div>
 
                 <div class="modal-body print-border" id="invoiceDatatoPrint" style="border:1px solid #3b3b3b;margin:0 20px;border-radius:5px">
 
-
                 </div>
                 <div class="modal-footer" style="text-align:center">
-
-                    <!-- <button type="button" class="btn btn-primary waves-effect waves-light"
-                            onclick="printDownPayment()" id="print_sales_invoice">
-                        <i class='fa fa-print'></i>
-                        {{__('Print')}}
-                    </button>
-
-                    <button type="button" class="btn btn-danger waves-effect waves-light"
-                            data-dismiss="modal"><i class='fa fa-close'></i>
-                        {{__('Close')}}</button> -->
-
                 </div>
-
             </div>
         </div>
     </div>
@@ -333,106 +149,74 @@
                 url: "{{ route('admin:concessions.show') }}?concession_id=" + id,
                 method: 'GET',
                 success: function (data) {
-
                     $("#invoiceDatatoPrint").html(data.view)
                 }
             });
         }
 
         function getLibraryFiles(id) {
-
             $("#library_item_id").val(id);
-
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
             $.ajax({
-
                 type: 'post',
                 url: '{{route('admin:concession.library.get.files')}}',
                 data: {
                     _token: CSRF_TOKEN,
                     id: id,
                 },
-
                 beforeSend: function () {
-                    // $("#loader_get_test_video").show();
                 },
-
                 success: function (data) {
-
                     $("#files_area").html(data.view);
                 },
 
                 error: function (jqXhr, json, errorThrown) {
-                    // $("#loader_save_goals").hide();
                     var errors = jqXhr.responseJSON;
                     swal({text: errors, icon: "error"})
                 }
             });
-
         }
 
         function removeFile(id) {
-
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
             swal({
-
                 title: "Delete File",
                 text: "Are you sure want to delete this file ?",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
-
             }).then((willDelete) => {
-
                 if (willDelete) {
-
                     $.ajax({
-
                         type: 'post',
                         url: '{{route('admin:concession.library.file.delete')}}',
                         data: {
                             _token: CSRF_TOKEN,
                             id: id,
                         },
-
                         beforeSend: function () {
-                            // $("#loader_get_test_video").show();
                         },
-
                         success: function (data) {
-
                             $("#file_" + data.id).remove();
-
                             swal({text: 'file deleted successfully', icon: "success"});
                         },
-
                         error: function (jqXhr, json, errorThrown) {
-                            // $("#loader_save_goals").hide();
                             var errors = jqXhr.responseJSON;
                             swal({text: errors, icon: "error"})
                         }
                     });
                 }
             });
-
         }
 
         function uploadFiles() {
-
             var form_data = new FormData();
-
             var item_id = $("#library_item_id").val();
-
             var totalfiles = document.getElementById('files').files.length;
-
             for (var index = 0; index < totalfiles; index++) {
                 form_data.append("files[]", document.getElementById('files').files[index]);
             }
-
             form_data.append("item_id", item_id);
-
             $.ajax({
                 url: "{{route('admin:concession.upload_library')}}",
                 type: "post",
@@ -550,11 +334,16 @@
                 }
             });
         }
-
+        server_side_datatable('#datatable-with-btns');
+        function filterFunction($this) {
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout( function () {
+                $("#loaderSearch").hide();
+            }, 1000)
+        }
     </script>
 
-@endsection
-
-@section('js')
-    <script type="application/javascript" src="{{ asset('accounting-module/options-for-dt.js') }}"></script>
 @endsection

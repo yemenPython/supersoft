@@ -3,27 +3,24 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Filters\SettlementFilter;
-use App\Http\Controllers\DataExportCore\SettlementPrintExcel;
-use App\Http\Controllers\ExportPrinterFactory;
 use App\Http\Requests\Admin\Settlements\CreateRequest;
 use App\Models\Branch;
-use App\Models\DamagedStock;
-use App\Models\DamagedStockItem;
 use App\Models\Part;
 use App\Models\PartPriceSegment;
 use App\Models\Settlement;
 use App\Models\SettlementItem;
 use App\Models\SparePart;
-use App\Models\Store;
 use App\Services\SettlementServices;
 use App\Traits\SubTypesServices;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\DataTables;
 
-class SettlementController extends AbstractController
+class SettlementController extends Controller
 {
 
     use SubTypesServices;
@@ -44,19 +41,6 @@ class SettlementController extends AbstractController
         $this->settlementFilter = $settlementFilter;
     }
 
-    public function getSortFields(): array
-    {
-        return [
-            'id' => 'id',
-            'branch' => 'branch',
-            'date' => 'date',
-            'number' => 'number',
-            'total' => 'total',
-            'created-at' => 'created_at',
-            'updated-at' => 'updated_at',
-        ];
-    }
-
     public function index(Request $request)
     {
         $dataQuery = Settlement::query();
@@ -71,15 +55,14 @@ class SettlementController extends AbstractController
         ) {
             $dataQuery = $this->settlementFilter->filter($request);
         }
-        $data = $this->implementDataTableSearch($dataQuery, $request);
-        if ($request->has('invoker') && in_array($request->invoker, ['print', 'excel'])) {
-            $visible_columns = $request->has('visible_columns') ? $request->visible_columns : [];
-            return (new ExportPrinterFactory(new SettlementPrintExcel($data, $visible_columns), $request->invoker))();
+        if ($request->isDataTable) {
+            return $this->dataTableColumns($dataQuery);
+        } else {
+            return view('admin.settlements.index', [
+                'data' => $dataQuery,
+                'js_columns' => Settlement::getJsDataTablesColumns(),
+            ]);
         }
-        $rows = $request->has('rows') ? $request->rows : 25;
-        $data = $data->paginate($rows);
-
-        return view('admin.settlements.index', compact('data'));
     }
 
     public function create(Request $request)
@@ -338,5 +321,52 @@ class SettlementController extends AbstractController
             return redirect(route('admin:settlements.index'))->with(['message'=> __('Settlement.deleted'), 'alert-type' => 'success']);
         }
         return redirect(route('admin:settlements.index'))->with(['message' => __('words.select-one-least'), 'alert-type' => 'error']);
+    }
+
+    /**
+     * @param Builder $items
+     * @return mixed
+     * @throws Throwable
+     */
+    private function dataTableColumns(Builder $items)
+    {
+        $viewPath = 'admin.settlements.optional-datatable.options';
+        return DataTables::of($items)->addIndexColumn()
+            ->addColumn('branch_id', function ($item) use ($viewPath) {
+                $withBranch = true;
+                return view($viewPath, compact('item', 'withBranch'))->render();
+            })
+            ->addColumn('date', function ($item) use ($viewPath) {
+                $withDate = true;
+                return view($viewPath, compact('item', 'withDate'))->render();
+            })
+            ->addColumn('number', function ($item) {
+                return $item->number;
+            })
+            ->addColumn('type', function ($item) use ($viewPath) {
+                $withType = true;
+                return view($viewPath, compact('item', 'withType'))->render();
+            })
+            ->addColumn('total', function ($item) use ($viewPath) {
+                $withTotal = true;
+                return view($viewPath, compact('item', 'withTotal'))->render();
+            })
+            ->addColumn('status', function ($item) use ($viewPath) {
+                $withStatus = true;
+                return view($viewPath, compact('item', 'withStatus'))->render();
+            })
+            ->addColumn('created_at', function ($item) {
+                return $item->created_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('updated_at', function ($item) {
+                return $item->updated_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('action', function ($item) use ($viewPath) {
+                $withActions = true;
+                return view($viewPath, compact('item', 'withActions'))->render();
+            })->addColumn('options', function ($item) use ($viewPath) {
+                $withOptions = true;
+                return view($viewPath, compact('item', 'withOptions'))->render();
+            })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
     }
 }

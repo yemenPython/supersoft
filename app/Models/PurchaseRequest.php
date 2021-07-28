@@ -18,6 +18,24 @@ class PurchaseRequest extends Model
 
     protected $dates = ['deleted_at'];
 
+    /**
+     * @var string[]
+     */
+    protected static $dataTableColumns = [
+        'DT_RowIndex' => 'DT_RowIndex',
+        'branch_id' => 'branch_id',
+        'date' => 'date',
+        'number' => 'number',
+        'different_days' => 'different_days',
+        'remaining_days' => 'remaining_days',
+        'status' => 'status',
+        'executionStatus' => 'executionStatus',
+        'created_at' => 'created_at',
+        'updated_at' => 'updated_at',
+        'action' => 'action',
+        'options' => 'options'
+    ];
+
     protected static function boot()
     {
         parent::boot();
@@ -69,5 +87,16 @@ class PurchaseRequest extends Model
         $endDate = Carbon::create($this->date_to);
 
         return $dateNow->diffInDays($endDate, false);
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getJsDataTablesColumns(): array
+    {
+        if (!authIsSuperAdmin()) {
+            unset(self::$dataTableColumns['branch_id']);
+        }
+        return self::$dataTableColumns;
     }
 }

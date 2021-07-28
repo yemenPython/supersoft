@@ -41,136 +41,41 @@
                     <div class="clearfix"></div>
 
                     <div class="table-responsive">
-                        @include('admin.settlements.optional-datatable.option-row')
-                        <table id="cities" class="table table-bordered wg-table-print table-hover" style="width:100%">
-                            @include('admin.settlements.optional-datatable.table-thead')
+                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover" style="width:100%">
+                            <thead>
+                            <tr>
+                                <th scope="col" >{!! __('#') !!}</th>
+                                @if(authIsSuperAdmin())
+                                    <th scope="col" >{!! __('Branch') !!}</th>
+                                @endif
+                                <th scope="col" >{!! __('Date') !!}</th>
+                                <th scope="col">{!! __('Number') !!}</th>
+                                <th scope="col" >{{__('settlement type')}}</th>
+                                <th scope="col" >{!! __('Total') !!}</th>
+                                <th scope="col" >{!! __('Concession Status') !!}</th>
+                                <th scope="col" >{!! __('Created Date') !!}</th>
+                                <th scope="col" >{!! __('Updated Date') !!}</th>
+                                <th scope="col">{!! __('Options') !!}</th>
+                                <th scope="col">{!! __('Select') !!}</th>
+                            </tr>
+                            </thead>
                             <tfoot>
                             <tr>
-                                <th scope="col" class="column-id">{!! __('#') !!}</th>
+                                <th scope="col" >{!! __('#') !!}</th>
                                 @if(authIsSuperAdmin())
-                                <th scope="col" class="column-branch">{!! __('Branch') !!}</th>
+                                <th scope="col" >{!! __('Branch') !!}</th>
                                 @endif
-                                <th scope="col"  class="column-date">{!! __('Date') !!}</th>
-                                <th scope="col" class="column-number">{!! __('Number') !!}</th>
-                                <th scope="col" class="column-number">{{__('settlement type')}}</th>
-                                <th scope="col" class="column-total">{!! __('Total') !!}</th>
-                                <th scope="col" class="column-status">{!! __('Concession Status') !!}</th>
-                                <th scope="col" class="column-created_at">{!! __('Created Date') !!}</th>
-                                <th scope="col" class="column-updated_at">{!! __('Updated Date') !!}</th>
+                                <th scope="col" >{!! __('Date') !!}</th>
+                                <th scope="col">{!! __('Number') !!}</th>
+                                <th scope="col" >{{__('settlement type')}}</th>
+                                <th scope="col" >{!! __('Total') !!}</th>
+                                <th scope="col" >{!! __('Concession Status') !!}</th>
+                                <th scope="col" >{!! __('Created Date') !!}</th>
+                                <th scope="col" >{!! __('Updated Date') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">{!! __('Select') !!}</th>
                             </tr>
                             </tfoot>
-                            <tbody>
-                            @foreach($data as $index=>$item)
-                                <tr>
-                                    <td  class="column-id">{!! $index +1 !!}</td>
-                                    @if(authIsSuperAdmin())
-                                    <td class="text-danger column-branch">{!! optional($item->branch)->name !!}</td>
-                                    @endif
-
-                                    <td class="text-danger column-date">{{ $item->date }}</td>
-                                    <td class="column-number">{{ $item->number }}</td>
-                                    <td class="column-number">
-                                        
-                                        @if($item->type == 'positive' )
-                                            <span class="label label-primary wg-label"> {{__('Positive')}} </span>
-                                            @else
-                                            <span class="label label-danger wg-label"> {{__('Negative')}} </span>
-                                        @endif
-    
-                                        </td>
-                                    <td class="column-total">
-                                    <span style="background:#F7F8CC !important">
-                                    {{ $item->total }}
-                                    </span>
-                                    </td>
-                                    <td>
-                                    
-                                    @if( $item->concession )                 
-
-@if( $item->concession->status == 'pending' )
-<span class="label label-info wg-label"> {{__('Pending')}}</span>
-@elseif( $item->concession->status == 'accepted' )
-<span class="label label-success wg-label"> {{__('Accepted')}} </span>
-@elseif( $item->concession->status == 'rejected' )
-<span class="label label-danger wg-label"> {{__('Rejected')}} </span>
-@endif
-
-@else
-<span class="label label-warning wg-label">  {{__('Not determined')}} </span>
-@endif
-
-                                     </td>
-                                    <td class="column-created_at">{{ $item->created_at }}</td>
-                                    <td class="column-updated_at">{{ $item->updated_at }}</td>
-                                    <td>
-
-                                    <div class="btn-group margin-top-10">
-
-                                        <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="ico fa fa-bars"></i>
-                                        {{__('Options')}} <span class="caret"></span>
-
-                                    </button>
-                                        <ul class="dropdown-menu dropdown-wg">
-                                            <li>
-
-                                            @component('admin.buttons._show_button',[
-                                                        'id' => $item->id,
-                                                        'route'=>'admin:settlements.show'
-                                                         ])
-                                            @endcomponent
-
-                                            </li>
-                                            <li>
-
-                                            @component('admin.buttons._edit_button',[
-                                                    'id'=>$item->id,
-                                                    'route' => 'admin:settlements.edit',
-                                                     ])
-                                        @endcomponent
-
-                                            </li>
-                                            <li class="btn-style-drop">
-                                            @component('admin.buttons._delete_button',[
-                                                    'id'=> $item->id,
-                                                    'route' => 'admin:settlements.destroy',
-                                                     ])
-                                        @endcomponent
-                                            </li>
-
-                                        </ul>
-                                    </div>
-
-                                    <!-- @component('admin.buttons._show_button',[
-                                                        'id' => $item->id,
-                                                        'route'=>'admin:settlements.show'
-                                                         ])
-                                            @endcomponent
-                                        @component('admin.buttons._edit_button',[
-                                                    'id'=>$item->id,
-                                                    'route' => 'admin:settlements.edit',
-                                                     ])
-                                        @endcomponent
-
-                                        @component('admin.buttons._delete_button',[
-                                                    'id'=> $item->id,
-                                                    'route' => 'admin:settlements.destroy',
-                                                     ])
-                                        @endcomponent -->
-
-                                    </td>
-                                    <td>
-                                        @component('admin.buttons._delete_selected',[
-                                                   'id' => $item->id,
-                                                    'route' => 'admin:settlements.deleteSelected',
-                                                    ])
-                                        @endcomponent
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -182,5 +87,16 @@
 
 @section('js')
     @include('opening-balance.common-script')
-    <script type="application/javascript" src="{{ asset('accounting-module/options-for-dt.js') }}"></script>
+    <script>
+        server_side_datatable('#datatable-with-btns');
+        function filterFunction($this) {
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout( function () {
+                $("#loaderSearch").hide();
+            }, 1000)
+        }
+    </script>
 @endsection
