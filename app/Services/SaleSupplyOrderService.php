@@ -149,7 +149,7 @@ class SaleSupplyOrderService
         }
 
         $supplyOrder->taxes()->detach();
-        $supplyOrder->purchaseQuotations()->detach();
+        $supplyOrder->saleQuotations()->detach();
     }
 
     public function supplyOrderTaxes($supplyOrder, $data)

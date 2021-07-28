@@ -11,15 +11,11 @@
                 <li class="breadcrumb-item active"> {{__('Purchase Requests')}}</li>
             </ol>
         </nav>
-
-        {{--        @include('admin.damaged_stock.search_form')--}}
-
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control">
                     <i class="fa fa-file-text-o"></i> {{__('Purchase Requests')}}
                 </h4>
-
                 <div class="card-content js__card_content" style="">
                     <ul class="list-inline pull-left top-margin-wg">
 
@@ -31,13 +27,12 @@
                             @component('admin.buttons._confirm_delete_selected',['route' => 'admin:damaged-stock.create.deleteSelected',])
                             @endcomponent
                         </li>
-
                     </ul>
 
                     <div class="clearfix"></div>
 
                     <div class="table-responsive">
-                        <table id="cities" class="table table-bordered wg-table-print table-hover" style="width:100%">
+                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover" style="width:100%">
                             <thead>
                             <tr>
                                 <th scope="col">{!! __('#') !!}</th>
@@ -73,7 +68,6 @@
                                 <th scope="col">{!! __('Date') !!}</th>
                                 <th scope="col">{!! __('Purchase request Number') !!}</th>
 
-
                                 <th scope="col">{!! __('request days') !!}</th>
                                 <th scope="col">{!! __('Remaining Days') !!}</th>
                                 <th scope="col">{!! __('Status') !!}</th>
@@ -84,177 +78,6 @@
                                 <th scope="col">{!! __('Select') !!}</th>
                             </tr>
                             </tfoot>
-                            <tbody>
-                            @foreach($data as $index => $item)
-                                <tr>
-                                    <td>{!! $index +1 !!}</td>
-                                    @if(authIsSuperAdmin())
-                                        <td class="text-danger">{!! optional($item->branch)->name !!}</td>
-                                    @endif
-                                    <td class="text-danger">{{ $item->date }}</td>
-                                    <td>{{ $item->number }}</td>
-
-
-                                    <td> <span class="part-unit-span">{{ $item->different_days }} </span> </td>
-                                    <td> <span class="price-span">{{ $item->remaining_days }} </span></td>
-                                    <td>
-
-@if($item->status == 'under_processing' )
-    <span class="label label-info wg-label"> {{__('Under Processing')}}</span>
-@elseif($item->status == 'ready_for_approval' )
-    <span
-        class="label label-primary wg-label"> {{__('Ready For Approval')}} </span>
-@elseif($item->status == 'accept_approval' )
-    <span
-        class="label label-success wg-label"> {{__('Accept Approval')}} </span>
-@else
-    <span class="label label-danger wg-label"> {{__('Reject Approval')}} </span>
-@endif
-
-</td>
-<td class="text-center column-date">
-
-@if($item->execution)
-
-
-    @if($item->execution ->status == 'pending' )
-        <span class="label label-info wg-label"> {{__('Processing')}}</span>
-
-    @elseif($item->execution ->status == 'finished' )
-        <span class="label label-success wg-label"> {{__('Finished')}} </span>
-
-    @elseif($item->execution ->status == 'late' )
-        <span class="label label-danger wg-label"> {{__('Late')}} </span>
-    @endif
-
-
-@else
-    <span class="label label-warning wg-label">
-{{__('Not determined')}}
-</span>
-
-@endif
-
-</td>
-                                 
-                                    <td>{{ $item->created_at }}</td>
-                                    <td>{{ $item->updated_at }}</td>
-                                    <td>
-
-                                        <div class="btn-group margin-top-10">
-
-                                            <button type="button" class="btn btn-options dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="ico fa fa-bars"></i>
-                                                {{__('Options')}} <span class="caret"></span>
-
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-wg">
-                                                <li>
-                                                    <a style="cursor:pointer" class="btn btn-print-wg text-white"
-                                                       data-toggle="modal"
-                                                       onclick="getPrintData({{$item->id}})"
-                                                       data-target="#boostrapModal" title="{{__('print')}}">
-                                                        <i class="fa fa-print"></i> {{__('Print')}}
-                                                    </a>
-
-                                                </li>
-
-                                                <li>
-                                                    <a style="cursor:pointer" class="btn btn-print-wg text-white  "
-                                                       data-toggle="modal"
-                                                       onclick="shortPrintData({{$item->id}})"
-                                                       data-target="#boostrapModal" title="{{__('Short Print')}}">
-                                                        <i class="fa fa-print"></i> {{__('Short Print')}}
-                                                    </a>
-
-                                                </li>
-                                                <li>
-
-                                                    @component('admin.buttons._edit_button',[
-                                                            'id'=>$item->id,
-                                                            'route' => 'admin:purchase-requests.edit',
-                                                             ])
-                                                    @endcomponent
-                                                </li>
-
-                                                <li class="btn-style-drop">
-                                                    @component('admin.buttons._delete_button',[
-                                                            'id'=> $item->id,
-                                                            'route' => 'admin:purchase-requests.destroy',
-                                                             ])
-                                                    @endcomponent
-                                                </li>
-
-                                                @if($item->status == 'ready_for_approval')
-                                                    <li>
-
-
-                                                        <a href="{{route('admin:purchase-requests.edit', ['id'=> $item->id, 'request_type'=>'approval'])}}"
-                                                           class="btn btn-approval-wg text-white hvr-radial-out">
-                                                            <i class="fa fa-check"></i>
-                                                            {{__('Approval')}}
-                                                        </a>
-
-                                                    </li>
-                                                @endif
-
-
-                                                <li>
-                                                    @include('admin.partial.execution_period', ['id'=> $item->id])
-                                                </li>
-
-                                                <li>
-                                                    @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])
-                                                </li>
-
-                                            </ul>
-                                        </div>
-
-                                    <!-- <a style="cursor:pointer" class="btn btn-print-wg text-white  "
-                                           data-toggle="modal"
-                                           onclick="getPrintData({{$item->id}})"
-                                           data-target="#boostrapModal" title="{{__('print')}}">
-                                            <i class="fa fa-print"></i> {{__('Print')}}
-                                        </a>
-
-                                        @component('admin.buttons._edit_button',[
-                                                    'id'=>$item->id,
-                                                    'route' => 'admin:purchase-requests.edit',
-                                                     ])
-                                    @endcomponent
-
-                                    @component('admin.buttons._delete_button',[
-                                                'id'=> $item->id,
-                                                'route' => 'admin:purchase-requests.destroy',
-                                                 ])
-                                    @endcomponent
-
-
-
-                                    @if($item->status == 'ready_for_approval')
-
-                                        <a href="{{route('admin:purchase-requests.edit', ['id'=> $item->id, 'request_type'=>'approval'])}}"
-                                               class="btn btn-approval-wg text-white hvr-radial-out">
-                                                <i class="fa fa-check"></i>
-                                                {{__('Approval')}}
-                                            </a>
-                                        @endif
-
-                                    @include('admin.partial.execution_period', ['id'=> $item->id])
-                                    @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id]) -->
-
-                                    </td>
-                                    <td>
-                                        @component('admin.buttons._delete_selected',[
-                                                   'id' => $item->id,
-                                                    'route' => 'admin:purchase-requests.deleteSelected',
-                                                    ])
-                                        @endcomponent
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -266,7 +89,7 @@
 @section('modals')
 
     @include('admin.partial.execution_period_form', [
-    'items'=> $data, 'url'=> route('admin:purchase.requests.execution.save'), 'title' => __('Purchase Requests Execution') ])
+    'items'=> $data->get(), 'url'=> route('admin:purchase.requests.execution.save'), 'title' => __('Purchase Requests Execution') ])
 
     @include('admin.partial.upload_library.form', ['url'=> route('admin:purchase.requests.upload_library')])
 
@@ -430,14 +253,15 @@
                 },
             });
         }
-
-    </script>
-
-    {{--    <script type="application/javascript" src="{{ asset('accounting-module/options-for-dt.js') }}"></script>--}}
-@endsection
-
-@section('js')
-    <script type="application/javascript">
-        invoke_datatable($('#cities'))
+        server_side_datatable('#datatable-with-btns');
+        function filterFunction($this) {
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout( function () {
+                $("#loaderSearch").hide();
+            }, 1000)
+        }
     </script>
 @endsection

@@ -11,6 +11,25 @@ class PurchaseReceipt extends Model
 
     protected $table = 'purchase_receipts';
 
+    /**
+     * @var string[]
+     */
+    protected static $dataTableColumns = [
+        'DT_RowIndex' => 'DT_RowIndex',
+        'date' => 'date',
+        'branch_id' => 'branch_id',
+        'number' => 'number',
+        'total' => 'total',
+        'total_accepted' => 'total_accepted',
+        'total_rejected' => 'total_rejected',
+        'status' => 'status',
+        'executionStatus' => 'executionStatus',
+        'created_at' => 'created_at',
+        'updated_at' => 'updated_at',
+        'action' => 'action',
+        'options' => 'options'
+    ];
+
     public function branch()
     {
         return $this->belongsTo(Branch::class, 'branch_id');
@@ -55,5 +74,16 @@ class PurchaseReceipt extends Model
     {
         return $this->belongsToMany(PurchaseInvoice::class, 'purchase_invoice_purchase_receipts',
             'purchase_receipt_id', 'purchase_invoice_id');
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getJsDataTablesColumns(): array
+    {
+        if (!authIsSuperAdmin()) {
+            unset(self::$dataTableColumns['branch_id']);
+        }
+        return self::$dataTableColumns;
     }
 }

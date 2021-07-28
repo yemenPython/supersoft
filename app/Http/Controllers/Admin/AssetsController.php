@@ -49,7 +49,7 @@ class AssetsController extends Controller
                 'asset_age',
                 'created_at',
                 'updated_at',
-            ] );
+            ] )->latest();
 //                ->orderBy('id','desc');
             if ($request->has( 'name' ) && !empty( $request['name'] ))
                 $assets->where( 'id', [$request->name] );

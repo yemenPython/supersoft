@@ -53,7 +53,7 @@ class ConsumptionAssetsController extends Controller
                 'consumption_assets.updated_at',
                 'consumption_assets.total_replacement'
             ])
-                ->leftjoin('consumption_asset_items', 'consumption_assets.id', '=', 'consumption_asset_items.consumption_asset_id');
+                ->leftjoin('consumption_asset_items', 'consumption_assets.id', '=', 'consumption_asset_items.consumption_asset_id')->latest();
 
             if ($request->has('branch_id') && !empty($request['branch_id']))
                 $consumptionAssets->where('consumption_assets.branch_id', $request['branch_id']);

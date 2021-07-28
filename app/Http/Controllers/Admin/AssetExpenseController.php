@@ -51,7 +51,7 @@ class AssetExpenseController extends Controller
     {
 
         if ($request->isDataTable) {
-            $assetExpenses = AssetExpense::select( ['*'] );
+            $assetExpenses = AssetExpense::select( ['*'] )->latest();
             if ($request->hasAny( (new AssetExpense())->getFillable() )
                 || $request->has( 'dateFrom' )
                 || $request->has( 'dateTo' )
@@ -148,7 +148,7 @@ class AssetExpenseController extends Controller
                 'branch_id' => 'asset_expenses.branch_id',
                 'date' => 'date',
                 'number' => 'asset_expenses.number',
-               
+
                 'status' => 'asset_expenses.status',
                 'total' => 'asset_expenses.total',
                 'created_at' => 'asset_expenses.created_at',
@@ -163,7 +163,7 @@ class AssetExpenseController extends Controller
 
                 'date' => 'date',
                 'number' => 'asset_expenses.number',
-               
+
                 'status' => 'asset_expenses.status',
                 'total' => 'asset_expenses.total',
                 'created_at' => 'asset_expenses.created_at',

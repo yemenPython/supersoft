@@ -18,6 +18,25 @@ class Concession extends Model
 
     protected $table = 'concessions';
 
+    /**
+     * @var string[]
+     */
+    protected static $dataTableColumns = [
+        'DT_RowIndex' => 'DT_RowIndex',
+        'date' => 'date',
+        'numberType' => 'numberType',
+        'total' => 'total',
+        'type' => 'type',
+        'number' => 'number',
+        'ConcessionType' => 'ConcessionType',
+        'status' => 'status',
+        'concessionStatus' => 'concessionStatus',
+        'created_at' => 'created_at',
+        'updated_at' => 'updated_at',
+        'action' => 'action',
+        'options' => 'options'
+    ];
+
     public function concessionable()
     {
         return $this->morphTo();
@@ -89,5 +108,13 @@ class Concession extends Model
         }
 
         return $total;
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getJsDataTablesColumns(): array
+    {
+        return self::$dataTableColumns;
     }
 }

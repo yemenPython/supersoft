@@ -63,7 +63,7 @@ class StoreTransferCont extends Controller
         $stores = Store::select('id', 'name_ar', 'name_en')->get();
         $parts = Part::select('id', 'name_' . $this->lang)->get();
         $numbers = StoreTransfer::select('id', 'transfer_number')->get();
-        $collection = StoreTransfer::with(['store_from', 'store_to'])
+        $collection = StoreTransfer::with(['store_from', 'store_to'])->latest()
             ->when($store_from, function ($q) use ($store_from) {
                 $q->where('store_from_id', $store_from);
             })

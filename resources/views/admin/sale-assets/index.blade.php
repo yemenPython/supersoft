@@ -230,7 +230,7 @@
                                     scope="col">{!! __('Type') !!}</th>
                                 <th class="text-center column-type"
                                     scope="col">{!! __('total sale amount') !!}</th>
-                               
+
                                 <th class="text-center" scope="col">{!! __('Created At') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Updated At') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -257,7 +257,7 @@
                                     scope="col">{!! __('Type') !!}</th>
                                 <th class="text-center column-type"
                                     scope="col">{!! __('total sale amount') !!}</th>
-                         
+
                                 <th class="text-center" scope="col">{!! __('Created At') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Updated At') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -298,9 +298,13 @@
         }
 
         function filterFunction($this) {
+            $("#loaderSearch").show();
             $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
             $datatable.ajax.url($url).load();
             $(".js__card_minus").trigger("click");
+            setTimeout(function () {
+                $("#loaderSearch").hide();
+            }, 1000)
         }
 
         $('#branch_id').on('change', function () {

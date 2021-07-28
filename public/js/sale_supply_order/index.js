@@ -2,6 +2,8 @@ function quotationType() {
 
     let quotation_type = $('#quotation_type').find(":selected").val();
 
+
+
     if (quotation_type == 'from_sale_quotation') {
 
         $(".out_sale_quotations_type").hide();
@@ -336,11 +338,11 @@ function selectSaleQuotation(index) {
 
     if ($('.sale_quotation_box_' + index).is(':checked')) {
 
-        $('#real_sale_quotation_box_' + index).prop('checked', true);
+        $('.real_sale_quotation_box_' + index).prop('checked', true);
 
     } else {
 
-        $('#real_sale_quotation_box_' + index).prop('checked', false);
+        $('.real_sale_quotation_box_' + index).prop('checked', false);
     }
 }
 

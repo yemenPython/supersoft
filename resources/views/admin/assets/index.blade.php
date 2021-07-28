@@ -487,9 +487,13 @@
         });
 
         function filterFunction($this) {
-                $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
-                $datatable.ajax.url($url).load();
-            $( ".js__card_minus" ).trigger( "click" );
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout(function () {
+                $("#loaderSearch").hide();
+            }, 1000)
         }
 
     </script>

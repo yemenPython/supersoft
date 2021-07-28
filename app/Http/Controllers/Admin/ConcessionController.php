@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\DataExportCore\SpareParts;
-use App\Http\Controllers\ExportPrinterFactory;
-use App\Http\Requests\Admin\Concession\CreateRequest;
+use App\Http\Controllers\Controller;
+use Exception;
 use App\Models\Branch;
 use App\Models\Concession;
-use App\Models\ConcessionType;
-use App\Models\ConcessionTypeItem;
-use App\Services\ConcessionService;
-use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\App;
+use App\Models\ConcessionType;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\App;
+use App\Services\ConcessionService;
+use App\Http\Requests\Admin\Concession\CreateRequest;
+use Throwable;
+use Yajra\DataTables\DataTables;
 
-class ConcessionController extends AbstractController
+class ConcessionController extends Controller
 {
     public $lang;
     public $concessionService;
@@ -27,29 +27,21 @@ class ConcessionController extends AbstractController
         $this->concessionService = new ConcessionService();
     }
 
-    public function getSortFields(): array
-    {
-        return [
-            'id' => 'id',
-            'date' => 'date',
-            'number' => 'number',
-            'total_quantity' => 'total_quantity',
-            'type' => 'type',
-            'status' => 'status',
-            'created-at' => 'created_at',
-            'updated-at' => 'updated_at',
-        ];
-    }
-
     public function index(Request $request)
     {
-        $rows = $request->has('rows') ? $request->rows : 25;
         $concessions = $this->concessionService->search($request);
-        $concessions = $this->implementDataTableSearch($concessions, $request);
-        $concessions = $concessions->paginate($rows);
         $additionalData['concessions'] = Concession::select('id', 'number')->get();
         $concessionTypes = ConcessionType::select('id', 'name_' . $this->lang)->get();
-        return view('admin.concessions.index', compact('concessions', 'concessionTypes', 'additionalData'));
+        if ($request->isDataTable) {
+            return $this->dataTableColumns($concessions);
+        } else {
+            return view('admin.concessions.index', [
+                'concessions' => $concessions,
+                'concessionTypes' => $concessionTypes,
+                'additionalData' => $additionalData,
+                'js_columns' => Concession::getJsDataTablesColumns(),
+            ]);
+        }
     }
 
     public function archive(Request $request)
@@ -124,13 +116,13 @@ class ConcessionController extends AbstractController
 
             if ($concession->status == 'accepted') {
 
-               $acceptQuantityData = $this->concessionService->acceptQuantity($concession);
+                $acceptQuantityData = $this->concessionService->acceptQuantity($concession);
 
-               if (isset($acceptQuantityData['status']) && !$acceptQuantityData['status']) {
+                if (isset($acceptQuantityData['status']) && !$acceptQuantityData['status']) {
 
-                   $message = isset($acceptQuantityData['message']) ? $acceptQuantityData['message'] : __('sorry, please try later');
-                   return redirect()->back()->with(['message' => $message, 'alert-type' => 'error']);
-               }
+                    $message = isset($acceptQuantityData['message']) ? $acceptQuantityData['message'] : __('sorry, please try later');
+                    return redirect()->back()->with(['message' => $message, 'alert-type' => 'error']);
+                }
             }
 
             DB::commit();
@@ -365,5 +357,60 @@ class ConcessionController extends AbstractController
     {
         $concession->delete();
         return redirect()->back()->with(['message' => __('words.words.data-archived-success'), 'alert-type' => 'success']);
+    }
+
+    /**
+     * @param Builder $items
+     * @return mixed
+     * @throws Throwable
+     */
+    private function dataTableColumns(Builder $items)
+    {
+        $viewPath = 'admin.concessions.options-datatable.options';
+        return DataTables::of($items)->addIndexColumn()
+            ->addColumn('date', function ($item) use ($viewPath) {
+                $withDate = true;
+                return view($viewPath, compact('item', 'withDate'))->render();
+            })
+            ->addColumn('numberType', function ($item) use ($viewPath) {
+                $withNumber = true;
+                return view($viewPath, compact('item', 'withNumber'))->render();
+            })
+            ->addColumn('total', function ($item) use ($viewPath) {
+                $withTotal = true;
+                return view($viewPath, compact('item', 'withTotal'))->render();
+            })
+            ->addColumn('type', function ($item) use ($viewPath) {
+                $withType = true;
+                return view($viewPath, compact('item', 'withType'))->render();
+            })
+            ->addColumn('number', function ($item) {
+                return optional($item->concessionable)->number;
+            })
+            ->addColumn('ConcessionType', function ($item) use ($viewPath) {
+                $withConcessionType = true;
+                return view($viewPath, compact('item', 'withConcessionType'))->render();
+            })
+            ->addColumn('status', function ($item) use ($viewPath) {
+                $withStatus = true;
+                return view($viewPath, compact('item', 'withStatus'))->render();
+            })
+            ->addColumn('concessionStatus', function ($item) use ($viewPath) {
+                $withConcessionStatus = true;
+                return view($viewPath, compact('item', 'withConcessionStatus'))->render();
+            })
+            ->addColumn('created_at', function ($item) {
+                return $item->created_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('updated_at', function ($item) {
+                return $item->updated_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('action', function ($item) use ($viewPath) {
+                $withActions = true;
+                return view($viewPath, compact('item', 'withActions'))->render();
+            })->addColumn('options', function ($item) use ($viewPath) {
+                $withOptions = true;
+                return view($viewPath, compact('item', 'withOptions'))->render();
+            })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
     }
 }

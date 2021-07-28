@@ -9,10 +9,29 @@ class SaleSupplyOrder extends Model
 {
     protected $fillable = ['number', 'branch_id', 'date', 'time', 'user_id', 'customer_id', 'status',
         'sub_total', 'discount', 'discount_type', 'total_after_discount', 'tax', 'total', 'type',
-        'additional_payments', 'description', 'library_path', 'supplier_discount', 'supplier_discount_type',
-        'supplier_discount_active', 'supply_date_from', 'supply_date_to'];
+        'additional_payments', 'description', 'library_path', 'customer_discount', 'customer_discount_type',
+        'customer_discount_active', 'supply_date_from', 'supply_date_to'];
 
     protected $table = 'sale_supply_orders';
+
+    /**
+     * @var string[]
+     */
+    protected static $dataTableColumns = [
+        'DT_RowIndex' => 'DT_RowIndex',
+        'date' => 'date',
+        'branch_id' => 'branch_id',
+        'number' => 'number',
+        'total' => 'total',
+        'different_days' => 'different_days',
+        'remaining_days' => 'remaining_days',
+        'status' => 'status',
+        'statusExecution' => 'statusExecution',
+        'created_at' => 'created_at',
+        'updated_at' => 'updated_at',
+        'action' => 'action',
+        'options' => 'options'
+    ];
 
     public function branch()
     {
@@ -39,16 +58,16 @@ class SaleSupplyOrder extends Model
         return $this->belongsToMany(TaxesFees::class, 'sale_supply_order_taxes_fees', 'supply_order_id', 'tax_id');
     }
 
-    public function purchaseQuotations()
+    public function saleQuotations()
     {
-        return $this->belongsToMany(PurchaseQuotation::class, 'purchase_quotation_sale_supply_orders',
-            'supply_order_id', 'purchase_quotation_id');
+        return $this->belongsToMany(SaleQuotation::class, 'sale_quotation_sale_supply_orders',
+            'supply_order_id', 'sale_quotation_id');
     }
 
-//    public function terms()
-//    {
-//        return $this->belongsToMany(SupplyTerm::class, 'supply_order_supply_terms', 'supply_order_id', 'supply_term_id');
-//    }
+    public function terms()
+    {
+        return $this->belongsToMany(SupplyTerm::class, 'sale_supply_order_supply_terms', 'supply_order_id', 'supply_term_id');
+    }
 //
 //    public function execution()
 //    {
@@ -75,5 +94,16 @@ class SaleSupplyOrder extends Model
         $endDate = Carbon::create($this->supply_date_to);
 
         return $dateNow->diffInDays($endDate, false);
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getJsDataTablesColumns(): array
+    {
+        if (!authIsSuperAdmin()) {
+            unset(self::$dataTableColumns['branch_id']);
+        }
+        return self::$dataTableColumns;
     }
 }

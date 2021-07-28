@@ -54,6 +54,23 @@ class PurchaseReturn extends Model
 
     protected static $logOnlyDirty = true;
 
+    /**
+     * @var string[]
+     */
+    protected static $dataTableColumns = [
+        'DT_RowIndex' => 'DT_RowIndex',
+        'invoice_number' => 'invoice_number',
+        'supplier_name' => 'supplier_name',
+        'type' => 'type',
+        'total' => 'total',
+        'paid' => 'paid',
+        'remaining' => 'remaining',
+        'created_at' => 'created_at',
+        'updated_at' => 'updated_at',
+        'action' => 'action',
+        'options' => 'options'
+    ];
+
     public function getDescriptionForEvent(string $eventName): string
     {
         return "This model has been {$eventName}";
@@ -212,4 +229,11 @@ class PurchaseReturn extends Model
         return $this->belongsToMany(SupplyTerm::class, 'purchase_return_supply_terms', 'purchase_return_id', 'supply_term_id');
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getJsDataTablesColumns(): array
+    {
+        return self::$dataTableColumns;
+    }
 }

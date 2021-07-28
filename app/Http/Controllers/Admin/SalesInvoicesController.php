@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Part;
+use App\Models\PartPriceSegment;
 use App\Models\PointRule;
+use App\Models\SaleSupplyOrder;
+use App\Models\Supplier;
+use App\Models\SupplyOrder;
+use App\Models\SupplyTerm;
 use App\Models\User;
 use App\Models\Branch;
 use App\Models\Setting;
@@ -15,6 +20,8 @@ use App\Notifications\LessPartsNotifications;
 use App\Services\MailServices;
 use App\Services\NotificationServices;
 use App\Services\PointsServices;
+use App\Traits\SubTypesServices;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\View\View;
 use App\Models\SalesInvoice;
@@ -38,15 +45,21 @@ class SalesInvoicesController extends Controller
 {
     use  \App\Services\SalesInvoice, SampleSalesInvoiceServices, NotificationServices, MailServices, PointsServices;
 
+    use SubTypesServices;
+
+    public $lang;
+
     public function __construct()
     {
+        $this->lang = App::getLocale();
+
 //        $this->middleware('permission:view_sales_invoices');
 //        $this->middleware('permission:create_sales_invoices',['only'=>['create','store']]);
 //        $this->middleware('permission:update_sales_invoices',['only'=>['edit','update']]);
 //        $this->middleware('permission:delete_sales_invoices',['only'=>['destroy','deleteSelected']]);
     }
 
-    public function index(Request $request)
+    public function oldIndex(Request $request)
     {
         if (!auth()->user()->can('view_sales_invoices')) {
             return redirect()->back()->with(['authorization' => 'error']);
@@ -119,7 +132,7 @@ class SalesInvoicesController extends Controller
             compact('invoices', 'users', 'customers', 'branches', 'salesInvoices'));
     }
 
-    public function create(Request $request)
+    public function oldCreate(Request $request)
     {
         if (!auth()->user()->can('create_sales_invoices')) {
             return redirect()->back()->with(['authorization' => 'error']);
@@ -495,4 +508,144 @@ class SalesInvoicesController extends Controller
         return redirect()->back()
             ->with(['message' => __('words.select-row-least'), 'alert-type' => 'error']);
     }
+
+//   new version
+
+    public function index (Request $request) {
+
+        $data['paymentTerms'] = SupplyTerm::where('purchase_invoice', 1)->where('status', 1)->where('type', 'payment')
+            ->select('id', 'term_' . $this->lang)->get();
+
+        $data['supplyTerms'] = SupplyTerm::where('purchase_invoice', 1)->where('status', 1)->where('type', 'supply')
+            ->select('id', 'term_' . $this->lang)->get();
+
+        return view('admin.sales_invoice.index', compact('data'));
+    }
+
+    public function create(Request $request)
+    {
+        $branch_id = $request->has('branch_id') ? $request['branch_id'] : auth()->user()->branch_id;
+
+        $data['branches'] = Branch::where('status', 1)->select('id', 'name_' . $this->lang)->get();
+
+        $data['mainTypes'] = SparePart::where('status', 1)
+            ->where('branch_id', $branch_id)
+            ->where('spare_part_id', null)
+            ->select('id', 'type_' . $this->lang)
+            ->get();
+
+        $data['subTypes'] = $this->getSubPartTypes($data['mainTypes']);
+
+        $data['parts'] = Part::where('status', 1)
+            ->where('branch_id', $branch_id)
+            ->select('name_' . $this->lang, 'id')
+            ->get();
+
+        $data['taxes'] = TaxesFees::where('active_invoices', 1)
+            ->where('branch_id', $branch_id)
+            ->where('type', 'tax')
+            ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
+            ->get();
+
+        $data['additionalPayments'] = TaxesFees::where('active_invoices', 1)
+            ->where('branch_id', $branch_id)
+            ->where('type', 'additional_payments')
+            ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
+            ->get();
+
+        $data['suppliers'] = Supplier::where('status', 1)
+            ->where('branch_id', $branch_id)
+            ->select('id', 'name_' . $this->lang, 'group_id', 'sub_group_id')
+            ->get();
+
+        $data['customers'] = Customer::where('status', 1)
+            ->where('branch_id', $branch_id)
+            ->select('id', 'name_' . $this->lang, 'customer_category_id')
+            ->get();
+
+        return view('admin.sales_invoice.create', compact('data'));
+    }
+
+    public function selectPartRaw(Request $request)
+    {
+        $rules = [
+            'part_id' => 'required|integer|exists:parts,id',
+            'index' => 'required|integer'
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        try {
+
+            $index = $request['index'] + 1;
+
+            $part = Part::find($request['part_id']);
+
+            $view = view('admin.sales_invoice.part_raw', compact('part', 'index'))->render();
+
+            return response()->json(['parts' => $view, 'index' => $index], 200);
+
+        } catch (\Exception $e) {
+            return response()->json('sorry, please try later', 400);
+        }
+    }
+
+    public function print(Request $request)
+    {
+        $saleSupplyOrder = SaleSupplyOrder::findOrFail($request['sale_supply_order_id']);
+
+        $view = view('admin.sale_supply_orders.print', compact('saleSupplyOrder'))->render();
+
+        return response()->json(['view' => $view]);
+    }
+
+    public function terms(Request $request)
+    {
+        $this->validate($request, [
+            'sale_supply_order_id' => 'required|integer|exists:sale_supply_orders,id'
+        ]);
+
+        try {
+
+            $supplyOrder = SaleSupplyOrder::find($request['sale_supply_order_id']);
+
+            $supplyOrder->terms()->sync($request['terms']);
+
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['message' => 'sorry, please try later', 'alert-type' => 'error']);
+        }
+
+        return redirect(route('admin:sale-supply-orders.index'))->with(['message' => __('supply.orders.terms.successfully'), 'alert-type' => 'success']);
+    }
+
+    public function priceSegments(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'price_id' => 'required|integer|exists:part_prices,id',
+            'index' => 'required|integer'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        try {
+
+            $index = $request['index'];
+
+            $priceSegments = PartPriceSegment::where('part_price_id', $request['price_id'])->get();
+
+            $view = view('admin.sales_invoice.ajax_price_segments', compact('priceSegments', 'index'))->render();
+
+            return response()->json(['view' => $view], 200);
+
+        } catch (\Exception $e) {
+            return response()->json('sorry, please try later', 400);
+        }
+    }
+
 }

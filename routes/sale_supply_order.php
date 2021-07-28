@@ -1,13 +1,13 @@
 <?php
 Route::post('sale-supply-orders-deleteSelected', 'SaleSupplyOrderController@deleteSelected')->name('sale.supply.orders.deleteSelected');
 
-Route::resource('/sale-supply-orders', 'SaleSupplyOrderController');
+Route::resource('sale-supply-orders', 'SaleSupplyOrderController');
 
 //purchase quotations
 Route::post('/sale-supply-orders/add-sale-quotations', 'SaleSupplyOrderController@addSaleQuotations')->name('sale.supply.orders.add.sale.quotations');
 
 Route::post('/sale-supply-orders/select-part', 'SaleSupplyOrderController@selectPartRaw')->name('sale.supply.orders.select.part');
-Route::get('/sale-supply-orders/print/data', 'SupplyOrderController@print')->name('sale.supply.orders.print');
+Route::get('/sale-supply-orders/print/data', 'SaleSupplyOrderController@print')->name('sale.supply.orders.print');
 Route::post('/sale-supply-orders/terms', 'SaleSupplyOrderController@terms')->name('sale.supply.orders.terms');
 
 // PRICE SEGMENTS

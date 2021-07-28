@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Edit Supply Orders') }} </title>
+    <title>{{ __('Edit Sale Supply Orders') }} </title>
 @endsection
 
 @section('style')
@@ -16,8 +16,8 @@
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
                 <li class="breadcrumb-item active"><a
-                        href="{{route('admin:supply-orders.index')}}"> {{__('Supply Orders')}}</a></li>
-                <li class="breadcrumb-item active"> {{__('Edit Supply Orders')}}</li>
+                        href="{{route('admin:sale-supply-orders.index')}}"> {{__('Sale Supply Orders')}}</a></li>
+                <li class="breadcrumb-item active"> {{__('Edit Sale Supply Orders')}}</li>
             </ol>
         </nav>
 
@@ -28,7 +28,7 @@
             <div class=" card box-content-wg-new bordered-all primary">
 
                 <h4 class="box-title with-control" style="text-align: initial"><i class="fa fa-file-text-o"></i>
-                    {{__('Edit Supply Orders')}}
+                    {{__('Edit Sale Supply Orders')}}
                     <span class="controls hidden-sm hidden-xs pull-left">
                       <button class="control text-white"
                               style="background:none;border:none;font-size:14px;font-weight:normal !important;">{{__('Save')}}
@@ -47,12 +47,12 @@
                 </h4>
 
                 <div class="box-content">
-                    <form method="post" action="{{route('admin:supply-orders.update', $supplyOrder->id)}}" class="form"
+                    <form method="post" action="{{route('admin:sale-supply-orders.update', $saleSupplyOrder->id)}}" class="form"
                           enctype="multipart/form-data">
                         @csrf
                         @method('PATCH')
 
-                        @include('admin.supply_orders.form')
+                        @include('admin.sale_supply_orders.form')
 
                         <div class="form-group col-sm-12">
                             @include('admin.buttons._save_buttons')
@@ -74,14 +74,14 @@
 
     <div class="modal fade" id="purchase_quotations" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content wg-content">
+            <div class="modal-content wg-content">
                 <div class="modal-header">
 
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
 
-                    <h4 class="modal-title" id="myModalLabel-1">{{__('Purchase Quotations')}}</h4>
+                    <h4 class="modal-title" id="myModalLabel-1">{{__('Sale Quotations')}}</h4>
                 </div>
 
                 <div class="modal-body">
@@ -89,24 +89,40 @@
                     <div class="row">
 
                         <div class="col-md-12 margin-bottom-20">
-                            <table id="purchase_quotations_table" class="table table-bordered" style="width:100%">
+                            <table id="sale_quotations_table" class="table table-bordered" style="width:100%">
                                 <thead>
                                 <tr>
                                     <th scope="col">{!! __('Check') !!}</th>
-                                    <th scope="col">{!! __('Purchase Quotation num.') !!}</th>
-                                    <th scope="col">{!! __('Supplier name') !!}</th>
+                                    <th scope="col">{!! __('Sale Quotation num.') !!}</th>
+                                    <th scope="col">{!! __('Customer name') !!}</th>
                                 </tr>
                                 </thead>
 
-                                <form id="purchase_quotation_form" method="post">
+                                <form id="sale_quotation_form" method="post">
                                     @csrf
 
-                                    <tbody id="purchase_quotation_data">
+                                    <tbody id="sale_quotation_data">
 
-                                        @if(isset($supplyOrder))
-                                            @include('admin.supply_orders.purchase_quotations', ['purchaseQuotations'=> $data['purchaseQuotations'],
-                                            'supply_order_quotations' => $supplyOrder->purchaseQuotations->pluck('id')->toArray()])
-                                        @endif
+                                    @foreach( $data['saleQuotations'] as $saleQuotation)
+
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" name="sale_quotations[]"
+                                                       value="{{$saleQuotation->id}}"
+                                                       onclick="selectSaleQuotation('{{$saleQuotation->id}}')"
+                                                       class="sale_quotation_box_{{$saleQuotation->id}}"
+                                                       {{isset($saleSupplyOrder) && in_array($saleQuotation->id, $saleSupplyOrder->saleQuotations->pluck('id')->toArray()) ? 'checked':'' }}
+                                                >
+                                            </td>
+                                            <td>
+                                                <span>{{$saleQuotation->number}}</span>
+                                            </td>
+                                            <td>
+                                                <span>{{$saleQuotation->customer ? $saleQuotation->customer->name : '---'}}</span>
+                                            </td>
+                                        </tr>
+
+                                    @endforeach
 
                                     </tbody>
 
@@ -120,8 +136,9 @@
 
                 <div class="modal-footer">
 
+
                     <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
-                            onclick="addSelectedPurchaseQuotations()">
+                            onclick="addSelectedSaleQuotations()">
                         {{__('Add Item')}}
                     </button>
 
@@ -129,6 +146,7 @@
                             data-dismiss="modal">
                         {{__('Close')}}
                     </button>
+
                 </div>
             </div>
         </div>
@@ -144,20 +162,24 @@
 
 @section('js-validation')
 
-    {!! JsValidator::formRequest('App\Http\Requests\Admin\SupplyOrders\UpdateRequest', '.form'); !!}
+    {!! JsValidator::formRequest('App\Http\Requests\Admin\SaleSupplyOrder\UpdateRequest', '.form'); !!}
     @include('admin.partial.sweet_alert_messages')
 
 @endsection
 
 @section('js')
 
-    <script src="{{asset('js/supply_orders/index.js')}}"></script>
+    <script src="{{asset('js/sale_supply_order/index.js')}}"></script>
+
+    <script type="application/javascript">
+        invoke_datatable($('#sale_quotations_table'))
+    </script>
 
     <script type="application/javascript">
 
         function changeBranch() {
             let branch_id = $('#branch_id').find(":selected").val();
-            window.location.href = "{{route('admin:supply-orders.create')}}" + "?branch_id=" + branch_id;
+            window.location.href = "{{route('admin:sale-supply-orders.create')}}" + "?branch_id=" + branch_id;
         }
 
         function dataByMainType() {
@@ -245,7 +267,7 @@
 
                 type: 'post',
 
-                url: '{{route('admin:supply.orders.select.part')}}',
+                url: '{{route('admin:sale.supply.orders.select.part')}}',
 
                 data: {
                     _token: CSRF_TOKEN,
@@ -280,7 +302,7 @@
 
                 type: 'post',
 
-                url: '{{route('admin:supply.orders.price.segments')}}',
+                url: '{{route('admin:sale.supply.orders.price.segments')}}',
 
                 data: {
                     _token: CSRF_TOKEN,
@@ -318,82 +340,38 @@
 
                     $('#tr_part_' + index).remove();
                     $('#part_types_' + index).remove();
+
+                    // let items_count = $('#items_count').val();
+                    //
+                    // $('#items_count').val();
+
                     calculateItem(index);
                     reorderItems();
                 }
             });
-
         }
 
-        function getPurchaseQuotations() {
-
-            if (!checkBranchValidation()) {
-                swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
-                return false;
-            }
-
-            $("#purchase_quotations_table").dataTable().fnDestroy()
-
-            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            let purchase_request_id = $('#purchase_request_id').find(":selected").val();
-
-            let data = {
-                _token: CSRF_TOKEN,
-                purchase_request_id: purchase_request_id
-            }
-
-            let supplier = $('#supplier_id').val();
-
-            if (supplier.length) {
-                data.supplier_id = supplier
-            }
-
-            $.ajax({
-
-                type: 'post',
-                url: '{{route('admin:supply.orders.purchase-quotations')}}',
-                data: data,
-
-                success: function (data) {
-
-                    $("#purchase_quotation_data").html(data.view);
-
-                    $("#purchase_quotations_selected").html(data.real_purchase_quotations);
-
-                    $("#purchase_quotations").modal('show');
-
-                    $('.js-example-basic-single').select2();
-
-                    invoke_datatable_quotations($('#purchase_quotations_table'));
-                },
-
-                error: function (jqXhr, json, errorThrown) {
-                    var errors = jqXhr.responseJSON;
-                    swal({text: errors, icon: "error"})
-                }
-            });
-        }
-
-        function addSelectedPurchaseQuotations() {
+        function addSelectedSaleQuotations() {
 
             let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
             var selected = [];
 
-            $('#purchase_quotation_data input:checked').each(function() {
+            $('#sale_quotation_data input:checked').each(function () {
                 selected.push($(this).attr('value'));
             });
+
             $.ajax({
 
                 type: 'post',
 
-                url: '{{route('admin:supply.orders.add.purchase-quotations')}}',
+                url: '{{route('admin:sale.supply.orders.add.sale.quotations')}}',
 
-                data: {_token:CSRF_TOKEN, purchase_quotations:selected} ,
+                data: {_token: CSRF_TOKEN, sale_quotations: selected},
 
                 success: function (data) {
 
-                    $("#supplier_id").val(data.supplierId).change();
+                    $("#customer_id").val(data.customerId).change();
 
                     $("#parts_data").html(data.view);
 
@@ -409,6 +387,7 @@
                     swal({text: errors, icon: "error"})
                 }
             });
+
         }
 
         function reorderItems() {
@@ -422,7 +401,7 @@
                 if ($('#price_' + i).length) {
                     $('#item_number_' + i).text(index);
 
-                }else {
+                } else {
                     continue;
                 }
 
@@ -447,7 +426,7 @@
             return false;
         }
 
-        function invoke_datatable_quotations (selector ,load_at_end_selector ,last_child_allowed) {
+        function invoke_datatable_quotations(selector, load_at_end_selector, last_child_allowed) {
             var selector_id = selector.attr("id")
             var page_title = $("title").text()
             $("#" + selector_id).DataTable({
@@ -465,9 +444,7 @@
             });
         }
 
-        $('.dropdown-toggle').dropdown();
-
-        function getDate () {
+        function getDate() {
 
             let start_date = $('#date_from').val();
             let end_date = $('#date_to').val();
@@ -476,7 +453,7 @@
             const date2 = new Date(end_date);
 
             const now = new Date();
-            let dateNow = now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate();
+            let dateNow = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
             const date0 = new Date(dateNow);
 
             var diff = date2.getTime() - date1.getTime();
@@ -492,13 +469,13 @@
             $('#remaining_days').val(remainingTimeDays.toFixed(0));
         }
 
-        function defaultUnitQuantity (index) {
+        function defaultUnitQuantity(index) {
 
             let unit_quantity = $('#prices_part_' + index).find(":selected").data('quantity');
             $('#unit_quantity_' + index).text(unit_quantity);
         }
 
-        function getPartImage (index) {
+        function getPartImage(index) {
 
             let image_path = $('#part_img_id_' + index).data('img');
             $('#part_image').attr('src', image_path);

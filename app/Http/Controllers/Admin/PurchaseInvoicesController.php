@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-//use App\Http\Requests\Admin\PurchaseQuotation\UpdateRequest;
 use App\Models\PartPrice;
 use App\Models\PartPriceSegment;
-use App\Models\PurchaseQuotation;
 use App\Models\PurchaseReceipt;
 use App\Models\SupplyOrder;
 use App\Models\SupplyTerm;
@@ -17,6 +15,7 @@ use App\Models\Branch;
 use App\Models\Supplier;
 use App\Models\SparePart;
 use App\Models\TaxesFees;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\App;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
@@ -30,10 +29,9 @@ use App\Filters\PurchaseInvoiceFilter;
 use Illuminate\Support\Facades\Response;
 use App\Services\PurchaseInvoiceServices;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Controllers\ExportPrinterFactory;
-use App\Http\Controllers\DataExportCore\Invoices\Purchase;
 use App\Http\Requests\Admin\PurchaseInvoice\PurchaseInvoiceRequest;
 use App\Http\Requests\Admin\PurchaseInvoice\UpdateRequest;
+use Yajra\DataTables\DataTables;
 
 class PurchaseInvoicesController extends Controller
 {
@@ -68,27 +66,9 @@ class PurchaseInvoicesController extends Controller
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
-        $invoices = PurchaseInvoice::query();
+        $invoices = PurchaseInvoice::query()->latest();
         if ($request->hasAny((new PurchaseInvoice())->getFillable())) {
             $invoices = $this->purchaseInvoiceFilter->filter($request);
-        }
-        if ($request->has('sort_by') && $request->sort_by != '') {
-            $sort_by = $request->sort_by;
-            $sort_method = $request->has('sort_method') ? $request->sort_method : 'asc';
-            if (!in_array($sort_method, ['asc', 'desc'])) $sort_method = 'desc';
-            $sort_fields = [
-                'invoice-number' => 'invoice_number',
-                'supplier' => 'supplier_id',
-                'invoice-type' => 'type',
-                'payment' => 'remaining',
-                'paid' => 'paid',
-                'remaining' => 'remaining',
-                'created-at' => 'created_at',
-                'updated-at' => 'updated_at'
-            ];
-            $invoices = $invoices->orderBy($sort_fields[$sort_by], $sort_method);
-        } else {
-            $invoices = $invoices->orderBy('id', 'DESC');
         }
         if ($request->has('key')) {
             $key = $request->key;
@@ -98,21 +78,20 @@ class PurchaseInvoicesController extends Controller
                     ->orWhere('paid', 'like', "%$key%");
             });
         }
-        if ($request->has('invoker') && in_array($request->invoker, ['print', 'excel'])) {
-            $visible_columns = $request->has('visible_columns') ? $request->visible_columns : [];
-            return (new ExportPrinterFactory(new Purchase($invoices->with('supplier'), $visible_columns), $request->invoker))();
-        }
-        $rows = $request->has('rows') ? $request->rows : 10;
-
-        $invoices = $invoices->paginate($rows)->appends(request()->query());
-
         $data['paymentTerms'] = SupplyTerm::where('purchase_invoice', 1)->where('status', 1)->where('type', 'payment')
             ->select('id', 'term_' . $this->lang)->get();
 
         $data['supplyTerms'] = SupplyTerm::where('purchase_invoice', 1)->where('status', 1)->where('type', 'supply')
             ->select('id', 'term_' . $this->lang)->get();
-
-        return view('admin.purchase-invoices.index', compact('invoices', 'data'));
+        if ($request->isDataTable) {
+            return $this->dataTableColumns($invoices);
+        } else {
+            return view('admin.purchase-invoices.index', [
+                'invoices' => $invoices,
+                'data' => $data,
+                'js_columns' => PurchaseInvoice::getJsDataTablesColumns(),
+            ]);
+        }
     }
 
     public function create(Request $request)
@@ -842,5 +821,59 @@ src="' . $imageUrl . '" id="output_image"/>
         }
 
         return redirect()->back()->with(['message' => __('purchase.invoice.terms.successfully'), 'alert-type' => 'success']);
+    }
+
+    /**
+     * @param Builder $items
+     * @return mixed
+     * @throws Throwable
+     */
+    private function dataTableColumns(Builder $items)
+    {
+        $viewPath = 'admin.purchase-invoices.datatables.options';
+        return DataTables::of($items)->addIndexColumn()
+            ->addColumn('invoice_number', function ($item) use ($viewPath) {
+               return $item->invoice_number;
+            })
+            ->addColumn('supplier_name', function ($item)  {
+                return optional($item->supplier)->name;
+            })
+            ->addColumn('type', function ($item) use ($viewPath) {
+                $type = true;
+                return view($viewPath, compact('item', 'type'))->render();
+            })
+            ->addColumn('total', function ($item) use ($viewPath) {
+                $total = true;
+                return view($viewPath, compact('item', 'total'))->render();
+            })
+            ->addColumn('paid', function ($item) use ($viewPath) {
+                $paid = true;
+                return view($viewPath, compact('item', 'paid'))->render();
+            })
+            ->addColumn('remaining', function ($item) use ($viewPath) {
+                $remaining = true;
+                return view($viewPath, compact('item', 'remaining'))->render();
+            })
+            ->addColumn('status', function ($item) use ($viewPath) {
+                $withStatus = true;
+                return view($viewPath, compact('item', 'withStatus'))->render();
+            })
+            ->addColumn('executionStatus', function ($item) use ($viewPath) {
+                $executionStatus = true;
+                return view($viewPath, compact('item', 'executionStatus'))->render();
+            })
+            ->addColumn('created_at', function ($item) {
+                return $item->created_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('updated_at', function ($item) {
+                return $item->updated_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('action', function ($item) use ($viewPath) {
+                $withActions = true;
+                return view($viewPath, compact('item', 'withActions'))->render();
+            })->addColumn('options', function ($item) use ($viewPath) {
+                $withOptions = true;
+                return view($viewPath, compact('item', 'withOptions'))->render();
+            })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
     }
 }

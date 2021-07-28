@@ -11,12 +11,7 @@
         </h4>
         <!-- /.box-title -->
         <div class="card-content js__card_content">
-            <form id="filtration-form">
-                <input type="hidden" name="rows" value="{{ isset($_GET['rows']) ? $_GET['rows'] : '' }}"/>
-                <input type="hidden" name="key" value="{{ isset($_GET['key']) ? $_GET['key'] : '' }}"/>
-                <input type="hidden" name="sort_method" value="{{ isset($_GET['sort_method']) ? $_GET['sort_method'] : '' }}"/>
-                <input type="hidden" name="sort_by" value="{{ isset($_GET['sort_by']) ? $_GET['sort_by'] : '' }}"/>
-                <input type="hidden" name="invoker"/>
+            <form  onsubmit="filterFunction($(this));return false;">
                 <div class="list-inline margin-bottom-0 row">
                     @if(authIsSuperAdmin())
                             <div class="form-group col-md-12">
@@ -41,7 +36,7 @@
 
                         <div class="form-group col-md-4">
                         <label> {{ __('Invoice Return Number') }} </label>
-                            <select name="invoice_return_number" class="form-control js-example-basic-single">
+                            <select name="invoice_number" class="form-control js-example-basic-single">
                                 <option value="">{{__('Select Invoice Return Number')}}</option>
                                 @foreach(\App\Model\PurchaseReturn::all() as $invoice)
                                     <option value="{{$invoice->invoice_number}}">{{$invoice->invoice_number}}</option>
