@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Edit Sale Supply Orders') }} </title>
+    <title>{{ __('Create Sales Invoice') }} </title>
 @endsection
 
 @section('style')
@@ -15,9 +15,9 @@
         <nav>
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
-                <li class="breadcrumb-item active"><a
-                        href="{{route('admin:sale-supply-orders.index')}}"> {{__('Sale Supply Orders')}}</a></li>
-                <li class="breadcrumb-item active"> {{__('Edit Sale Supply Orders')}}</li>
+                <li class="breadcrumb-item active">
+                    <a href="{{route('admin:sales.invoices.index')}}"> {{__('Sales Invoices')}}</a></li>
+                <li class="breadcrumb-item active"> {{__('Create Sales Invoice')}}</li>
             </ol>
         </nav>
 
@@ -28,7 +28,7 @@
             <div class=" card box-content-wg-new bordered-all primary">
 
                 <h4 class="box-title with-control" style="text-align: initial"><i class="fa fa-file-text-o"></i>
-                    {{__('Edit Sale Supply Orders')}}
+                    {{__('Create Sales Invoice')}}
                     <span class="controls hidden-sm hidden-xs pull-left">
                       <button class="control text-white"
                               style="background:none;border:none;font-size:14px;font-weight:normal !important;">{{__('Save')}}
@@ -47,12 +47,12 @@
                 </h4>
 
                 <div class="box-content">
-                    <form method="post" action="{{route('admin:sale-supply-orders.update', $saleSupplyOrder->id)}}" class="form"
+                    <form method="post" action="{{route('admin:sales.invoices.store')}}" class="form"
                           enctype="multipart/form-data">
                         @csrf
-                        @method('PATCH')
+                        @method('post')
 
-                        @include('admin.sale_supply_orders.form')
+                        @include('admin.sales_invoice.form')
 
                         <div class="form-group col-sm-12">
                             @include('admin.buttons._save_buttons')
@@ -72,16 +72,16 @@
 
 @section('modals')
 
-    <div class="modal fade" id="purchase_quotations" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
+    <div class="modal fade" id="purchase_receipts" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content wg-content">
+        <div class="modal-content wg-content">
                 <div class="modal-header">
 
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
 
-                    <h4 class="modal-title" id="myModalLabel-1">{{__('Sale Quotations')}}</h4>
+                    <h4 class="modal-title" id="myModalLabel-1">{{__('Purchase Receipts')}}</h4>
                 </div>
 
                 <div class="modal-body">
@@ -89,40 +89,19 @@
                     <div class="row">
 
                         <div class="col-md-12 margin-bottom-20">
-                            <table id="sale_quotations_table" class="table table-bordered" style="width:100%">
+                            <table id="purchase_quotations_table" class="table table-bordered" style="width:100%">
                                 <thead>
                                 <tr>
                                     <th scope="col">{!! __('Check') !!}</th>
-                                    <th scope="col">{!! __('Sale Quotation num.') !!}</th>
-                                    <th scope="col">{!! __('Customer name') !!}</th>
+                                    <th scope="col">{!! __('Purchase Receipt Number') !!}</th>
+                                    <th scope="col">{!! __('Supplier name') !!}</th>
                                 </tr>
                                 </thead>
 
-                                <form id="sale_quotation_form" method="post">
+                                <form id="purchase_quotation_form" method="post">
                                     @csrf
 
-                                    <tbody id="sale_quotation_data">
-
-                                    @foreach( $data['saleQuotations'] as $saleQuotation)
-
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" name="sale_quotations[]"
-                                                       value="{{$saleQuotation->id}}"
-                                                       onclick="selectSaleQuotation('{{$saleQuotation->id}}')"
-                                                       class="sale_quotation_box_{{$saleQuotation->id}}"
-                                                       {{isset($saleSupplyOrder) && in_array($saleQuotation->id, $saleSupplyOrder->saleQuotations->pluck('id')->toArray()) ? 'checked':'' }}
-                                                >
-                                            </td>
-                                            <td>
-                                                <span>{{$saleQuotation->number}}</span>
-                                            </td>
-                                            <td>
-                                                <span>{{$saleQuotation->customer ? $saleQuotation->customer->name : '---'}}</span>
-                                            </td>
-                                        </tr>
-
-                                    @endforeach
+                                    <tbody id="purchase_receipts_data">
 
                                     </tbody>
 
@@ -137,8 +116,8 @@
                 <div class="modal-footer">
 
 
-                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
-                            onclick="addSelectedSaleQuotations()">
+                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
+                            onclick="addSelectedPurchaseReceipts()">
                         {{__('Add Item')}}
                     </button>
 
@@ -162,24 +141,21 @@
 
 @section('js-validation')
 
-    {!! JsValidator::formRequest('App\Http\Requests\Admin\SaleSupplyOrder\UpdateRequest', '.form'); !!}
+    {!! JsValidator::formRequest('App\Http\Requests\Admin\PurchaseInvoice\PurchaseInvoiceRequest', '.form'); !!}
+
     @include('admin.partial.sweet_alert_messages')
 
 @endsection
 
 @section('js')
 
-    <script src="{{asset('js/sale_supply_order/index.js')}}"></script>
-
-    <script type="application/javascript">
-        invoke_datatable($('#sale_quotations_table'))
-    </script>
+    <script src="{{asset('js/purchase_invoice/index.js')}}"></script>
 
     <script type="application/javascript">
 
         function changeBranch() {
             let branch_id = $('#branch_id').find(":selected").val();
-            window.location.href = "{{route('admin:sale-supply-orders.create')}}" + "?branch_id=" + branch_id;
+            window.location.href = "{{route('admin:sales.invoices.create')}}" + "?branch_id=" + branch_id;
         }
 
         function dataByMainType() {
@@ -267,7 +243,7 @@
 
                 type: 'post',
 
-                url: '{{route('admin:sale.supply.orders.select.part')}}',
+                url: '{{route('admin:sales.invoices.select.part')}}',
 
                 data: {
                     _token: CSRF_TOKEN,
@@ -302,7 +278,7 @@
 
                 type: 'post',
 
-                url: '{{route('admin:sale.supply.orders.price.segments')}}',
+                url: '{{route('admin:sales.invoices.price.segments')}}',
 
                 data: {
                     _token: CSRF_TOKEN,
@@ -314,6 +290,7 @@
 
                     $("#price_segments_part_" + index).html(data.view);
                     $('.js-example-basic-single').select2();
+
                     defaultUnitQuantity(index);
                 },
 
@@ -349,45 +326,6 @@
                     reorderItems();
                 }
             });
-        }
-
-        function addSelectedSaleQuotations() {
-
-            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
-            var selected = [];
-
-            $('#sale_quotation_data input:checked').each(function () {
-                selected.push($(this).attr('value'));
-            });
-
-            $.ajax({
-
-                type: 'post',
-
-                url: '{{route('admin:sale.supply.orders.add.sale.quotations')}}',
-
-                data: {_token: CSRF_TOKEN, sale_quotations: selected},
-
-                success: function (data) {
-
-                    $("#customer_id").val(data.customerId).change();
-
-                    $("#parts_data").html(data.view);
-
-                    $("#items_count").val(data.index);
-
-                    $('.js-example-basic-single').select2();
-
-                    executeAllItems();
-                },
-
-                error: function (jqXhr, json, errorThrown) {
-                    var errors = jqXhr.responseJSON;
-                    swal({text: errors, icon: "error"})
-                }
-            });
-
         }
 
         function reorderItems() {
@@ -444,38 +382,13 @@
             });
         }
 
-        function getDate() {
-
-            let start_date = $('#date_from').val();
-            let end_date = $('#date_to').val();
-
-            const date1 = new Date(start_date);
-            const date2 = new Date(end_date);
-
-            const now = new Date();
-            let dateNow = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
-            const date0 = new Date(dateNow);
-
-            var diff = date2.getTime() - date1.getTime();
-
-            var remainingTime = date2.getTime() - date0.getTime();
-
-            var daydiff = diff / (1000 * 60 * 60 * 24);
-
-            var remainingTimeDays = remainingTime / (1000 * 60 * 60 * 24);
-
-            $('#different_days').val(daydiff.toFixed(0));
-
-            $('#remaining_days').val(remainingTimeDays.toFixed(0));
-        }
-
-        function defaultUnitQuantity(index) {
+        function defaultUnitQuantity (index) {
 
             let unit_quantity = $('#prices_part_' + index).find(":selected").data('quantity');
             $('#unit_quantity_' + index).text(unit_quantity);
         }
 
-        function getPartImage(index) {
+        function getPartImage (index) {
 
             let image_path = $('#part_img_id_' + index).data('img');
             $('#part_image').attr('src', image_path);

@@ -6,8 +6,7 @@
             <tr>
                 <th style="width:40%;height:50px;background:#F9EFB7 !important;color:black !important">{!! __('Total') !!}</th>
                 <td style="background:#F9EFB7">
-                    <input type="text" class="form-control"
-                           style="background:#F9EFB7; border:none;text-align:center !important;"
+                    <input type="text" class="form-control" style="background:#F9EFB7; border:none;text-align:center !important;"
                            readonly name="sub_total" id="sub_total"
                            value="{{isset($saleSupplyOrder) ? $saleSupplyOrder->sub_total : 0}}">
                 </td>

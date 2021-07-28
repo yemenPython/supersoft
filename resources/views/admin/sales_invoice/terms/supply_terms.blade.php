@@ -1,8 +1,8 @@
 @foreach($items as $item)
     <div class="modal fade" id="terms_{{$item->id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
+        <div class="modal-content wg-content">
+            <div class="modal-header">
 
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -11,7 +11,7 @@
                     <h4 class="modal-title" id="myModalLabel-1">{{__('Supply & payments')}}</h4>
                 </div>
 
-                <form action="{{route('admin:sale.supply.orders.terms')}}" method="post">
+                <form action="{{route('admin:purchase.invoices.terms')}}" method="post">
                     @csrf
 
                     <div class="modal-body">
@@ -94,7 +94,7 @@
                                 <!-- /.tab-content -->
                             </div>
 
-                            <input type="hidden" name="sale_supply_order_id"  value="{{$item->id}}">
+                            <input type="hidden" name="purchase_invoice_id"  value="{{$item->id}}">
                         </div>
 
                     </div>

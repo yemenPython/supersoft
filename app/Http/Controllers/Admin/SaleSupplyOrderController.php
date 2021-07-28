@@ -119,8 +119,8 @@ class SaleSupplyOrderController extends Controller
 
             $this->saleSupplyOrderServices->supplyOrderTaxes($supplyOrder, $data);
 
-            if (isset($data['purchase_quotations'])) {
-                $supplyOrder->purchaseQuotations()->attach($data['purchase_quotations']);
+            if (isset($data['sale_quotations'])) {
+                $supplyOrder->saleQuotations()->attach($data['sale_quotations']);
             }
 
             foreach ($data['items'] as $item) {
@@ -144,14 +144,9 @@ class SaleSupplyOrderController extends Controller
         return redirect(route('admin:sale-supply-orders.index'))->with(['message' => __('supply.orders.created.successfully'), 'alert-type' => 'success']);
     }
 
-    public function edit(SupplyOrder $supplyOrder)
+    public function edit(SaleSupplyOrder $saleSupplyOrder)
     {
-
-        if ($supplyOrder->purchaseReceipts->count()) {
-            return redirect()->back()->with(['message' => 'sorry, this supply order has purchase receipts', 'alert-type' => 'error']);
-        }
-
-        $branch_id = $supplyOrder->branch_id;
+        $branch_id = $saleSupplyOrder->branch_id;
 
         $data['branches'] = Branch::select('id', 'name_' . $this->lang)->get();
 
@@ -168,14 +163,9 @@ class SaleSupplyOrderController extends Controller
             ->select('name_' . $this->lang, 'id')
             ->get();
 
-        $data['purchaseRequests'] = PurchaseRequest::where('status', 'accept_approval')
+        $data['customers'] = Customer::where('status', 1)
             ->where('branch_id', $branch_id)
-            ->select('id', 'number')
-            ->get();
-
-        $data['suppliers'] = Supplier::where('status', 1)
-            ->where('branch_id', $branch_id)
-            ->select('id', 'name_' . $this->lang, 'group_id', 'sub_group_id')
+            ->select('id', 'name_' . $this->lang, 'customer_category_id')
             ->get();
 
         $data['taxes'] = TaxesFees::where('supply_order', 1)
@@ -190,24 +180,28 @@ class SaleSupplyOrderController extends Controller
             ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
             ->get();
 
-        $data['purchaseQuotations'] = PurchaseQuotation::where('purchase_request_id', $supplyOrder->purchase_request_id)
-            ->where(function ($q) use ($supplyOrder) {
+//        $data['purchaseQuotations'] = PurchaseQuotation::where('purchase_request_id', $supplyOrder->purchase_request_id)
+//            ->where(function ($q) use ($supplyOrder) {
+//
+//                $q->doesntHave('supplyOrders')
+//                    ->orWhereHas('supplyOrders', function ($supply) use ($supplyOrder) {
+//                        $supply->where('supply_order_id', $supplyOrder->id);
+//                    });
+//            })
+//            ->where('supplier_id', $supplyOrder->supplier_id)
+//            ->select('id', 'number', 'supplier_id')->get();
 
-                $q->doesntHave('supplyOrders')
-                    ->orWhereHas('supplyOrders', function ($supply) use ($supplyOrder) {
-                        $supply->where('supply_order_id', $supplyOrder->id);
-                    });
-            })
-            ->where('supplier_id', $supplyOrder->supplier_id)
-            ->select('id', 'number', 'supplier_id')->get();
+        $data['saleQuotations'] = SaleQuotation::where('branch_id', $branch_id)
+            ->select('id', 'number')
+            ->get();
 
-        return view('admin.supply_orders.edit', compact('data', 'supplyOrder'));
+        return view('admin.sale_supply_orders.edit', compact('data', 'saleSupplyOrder'));
     }
 
-    public function update(UpdateRequest $request, SupplyOrder $supplyOrder)
+    public function update(UpdateRequest $request, SaleSupplyOrder $saleSupplyOrder)
     {
-        if ($supplyOrder->purchaseReceipts->count()) {
-            return redirect()->back()->with(['message' => 'sorry, this supply order has purchase receipts', 'alert-type' => 'error']);
+        if ($saleSupplyOrder->status == 'finished') {
+            return redirect()->back()->with(['message' => 'sorry, this supply order finished', 'alert-type' => 'error']);
         }
 
         if (!$request->has('items')) {
@@ -218,25 +212,25 @@ class SaleSupplyOrderController extends Controller
 
             DB::beginTransaction();
 
-            $this->supplyOrderServices->resetSupplyOrderDataItems($supplyOrder);
+            $this->saleSupplyOrderServices->resetSupplyOrderDataItems($saleSupplyOrder);
 
             $data = $request->all();
 
-            $supplyOrderData = $this->supplyOrderServices->supplyOrderData($data);
+            $supplyOrderData = $this->saleSupplyOrderServices->supplyOrderData($data);
 
-            $supplyOrder->update($supplyOrderData);
+            $saleSupplyOrder->update($supplyOrderData);
 
-            $this->supplyOrderServices->supplyOrderTaxes($supplyOrder, $data);
+            $this->saleSupplyOrderServices->supplyOrderTaxes($saleSupplyOrder, $data);
 
-            if (isset($data['purchase_quotations'])) {
-                $supplyOrder->purchaseQuotations()->attach($data['purchase_quotations']);
+            if (isset($data['sale_quotations'])) {
+                $saleSupplyOrder->saleQuotations()->attach($data['sale_quotations']);
             }
 
             foreach ($data['items'] as $item) {
 
-                $itemData = $this->supplyOrderServices->supplyOrderItemData($item);
-                $itemData['supply_order_id'] = $supplyOrder->id;
-                $supplyOrderItem = SupplyOrderItem::create($itemData);
+                $itemData = $this->saleSupplyOrderServices->supplyOrderItemData($item);
+                $itemData['sale_supply_order_id'] = $saleSupplyOrder->id;
+                $supplyOrderItem = SaleSupplyOrderItem::create($itemData);
 
                 if (isset($item['taxes'])) {
                     $supplyOrderItem->taxes()->attach($item['taxes']);
@@ -250,19 +244,18 @@ class SaleSupplyOrderController extends Controller
             return redirect()->back()->with(['message' => 'sorry, please try later', 'alert-type' => 'error']);
         }
 
-        return redirect(route('admin:supply-orders.index'))->with(['message' => __('supply.orders.created.successfully'), 'alert-type' => 'success']);
+        return redirect(route('admin:sale-supply-orders.index'))->with(['message' => __('supply.orders.created.successfully'), 'alert-type' => 'success']);
     }
 
-    public function destroy(SupplyOrder $supplyOrder)
+    public function destroy(SaleSupplyOrder $saleSupplyOrder)
     {
-
-        if ($supplyOrder->purchaseReceipts->count()) {
-            return redirect()->back()->with(['message' => 'sorry, this supply order has purchase receipts', 'alert-type' => 'error']);
+        if ($saleSupplyOrder->status == 'finished') {
+            return redirect()->back()->with(['message' => 'sorry, this supply order finished', 'alert-type' => 'error']);
         }
 
         try {
 
-            $supplyOrder->delete();
+            $saleSupplyOrder->delete();
 
         } catch (\Exception $e) {
             return redirect()->back()->with(['message' => 'sorry, please try later', 'alert-type' => 'error']);
@@ -271,22 +264,29 @@ class SaleSupplyOrderController extends Controller
         return redirect()->back()->with(['message' => __('supply.orders.deleted.successfully'), 'alert-type' => 'success']);
     }
 
-    public function deleteSelected(Request $request): RedirectResponse
+    public function deleteSelected(Request $request)
     {
+
         if (!isset($request->ids)) {
             return redirect()->back()->with(['message' => __('words.select-one-least'), 'alert-type' => 'error']);
         }
+
         try {
-            $supplyOrders = SupplyOrder::whereIn('id', array_unique($request->ids))->get();
+            $supplyOrders = SaleSupplyOrder::whereIn('id', array_unique($request->ids))->get();
+
             foreach ($supplyOrders as $supplyOrder) {
-                if ($supplyOrder->purchaseReceipts->count()) {
-                    return redirect()->back()->with(['message' => 'sorry, this supply order has purchase receipts', 'alert-type' => 'error']);
+
+                if ($supplyOrder->status == 'finished') {
+                    return redirect()->back()->with(['message' => 'sorry, this supply order finished', 'alert-type' => 'error']);
                 }
+
                 $supplyOrder->delete();
             }
-        } catch (Exception $e) {
+
+        } catch (\Exception $e) {
             return redirect()->back()->with(['message' => __('sorry, please try later'), 'alert-type' => 'error']);
         }
+
         return redirect()->back()->with(['message' => __('supply.orders.deleted.successfully'), 'alert-type' => 'success']);
     }
 
@@ -365,23 +365,22 @@ class SaleSupplyOrderController extends Controller
 
     public function print(Request $request)
     {
-        $supplyOrder = SupplyOrder::findOrFail($request['supply_order_id']);
+        $saleSupplyOrder = SaleSupplyOrder::findOrFail($request['sale_supply_order_id']);
 
-        $view = view('admin.supply_orders.print', compact('supplyOrder'))->render();
+        $view = view('admin.sale_supply_orders.print', compact('saleSupplyOrder'))->render();
 
         return response()->json(['view' => $view]);
     }
 
     public function terms(Request $request)
     {
-
         $this->validate($request, [
-            'supply_order_id' => 'required|integer|exists:supply_orders,id'
+            'sale_supply_order_id' => 'required|integer|exists:sale_supply_orders,id'
         ]);
 
         try {
 
-            $supplyOrder = SupplyOrder::find($request['supply_order_id']);
+            $supplyOrder = SaleSupplyOrder::find($request['sale_supply_order_id']);
 
             $supplyOrder->terms()->sync($request['terms']);
 
@@ -389,7 +388,7 @@ class SaleSupplyOrderController extends Controller
             return redirect()->back()->with(['message' => 'sorry, please try later', 'alert-type' => 'error']);
         }
 
-        return redirect(route('admin:supply-orders.index'))->with(['message' => __('supply.orders.terms.successfully'), 'alert-type' => 'success']);
+        return redirect(route('admin:sale-supply-orders.index'))->with(['message' => __('supply.orders.terms.successfully'), 'alert-type' => 'success']);
     }
 
     public function priceSegments(Request $request)
