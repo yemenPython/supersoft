@@ -48,7 +48,7 @@ class PurchaseAssetsController extends Controller
                 'purchase_assets.total_purchase_cost',
                 'purchase_assets.total_past_consumtion',
                 'purchase_assets.type',
-            ] )->leftjoin( 'purchase_asset_items', 'purchase_assets.id', '=', 'purchase_asset_items.purchase_asset_id' );
+            ] )->leftjoin( 'purchase_asset_items', 'purchase_assets.id', '=', 'purchase_asset_items.purchase_asset_id' )->latest();
 
             if ($request->has( 'branch_id' ) && !empty( $request['branch_id'] ))
                 $purchaseAssets->where( 'purchase_assets.branch_id', $request['branch_id'] );
@@ -84,7 +84,7 @@ class PurchaseAssetsController extends Controller
                     return $saleAsset->invoice_number;
 
                 } )
-               
+
                 ->addColumn( 'supplier_id', function ($purchaseAsset) {
                     return optional( $purchaseAsset->supplier )->name;
                 } )
@@ -168,7 +168,7 @@ class PurchaseAssetsController extends Controller
                     'branch_id' => 'purchase_assets.branch_id',
                     'date' => 'date',
                     'invoice_number' => 'purchase_assets.invoice_number',
-                    
+
                     'supplier_id' => 'purchase_assets.supplier_id',
                     'type' => 'purchase_assets.type',
                     'total_purchase_cost' => 'purchase_assets.total_purchase_cost',
@@ -185,7 +185,7 @@ class PurchaseAssetsController extends Controller
                     'DT_RowIndex' => 'DT_RowIndex',
                     'date' => 'date',
                     'invoice_number' => 'purchase_assets.invoice_number',
-            
+
                     'supplier_id' => 'purchase_assets.supplier_id',
                     'type' => 'purchase_assets.type',
                     'total_purchase_cost' => 'purchase_assets.total_purchase_cost',

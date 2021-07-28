@@ -11,21 +11,19 @@ use App\Models\SupplyTerm;
 use App\Services\PurchaseReturnServices;
 use Exception;
 use App\Models\Part;
-use App\Models\Store;
 use App\Models\TaxesFees;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Model\PurchaseReturn;
 use App\Models\RevenueReceipt;
 use App\Models\PurchaseInvoice;
-use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
 use App\Filters\PurchaseReturnInvoiceFilter;
-use App\Http\Controllers\ExportPrinterFactory;
 use App\Http\Requests\Admin\PurchaseReturn\PurchaseReturnRequest;
-use App\Http\Controllers\DataExportCore\Invoices\PurchaseReturn as InvoicesPurchaseReturn;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\DataTables;
 
 class PurchaseReturnsController extends Controller
 {
@@ -47,12 +45,6 @@ class PurchaseReturnsController extends Controller
         $this->lang = App::getLocale();
         $this->purchaseReturnInvoiceFilter = $purchaseReturnInvoiceFilter;
         $this->purchaseReturnServices = new PurchaseReturnServices();
-
-
-//        $this->middleware('permission:view_purchase_return_invoices');
-//        $this->middleware('permission:create_purchase_return_invoices', ['only' => ['create', 'store']]);
-//        $this->middleware('permission:update_purchase_return_invoices', ['only' => ['edit', 'update']]);
-//        $this->middleware('permission:delete_purchase_return_invoices', ['only' => ['destroy', 'deleteSelected']]);
     }
 
     public function index(Request $request)
@@ -61,60 +53,32 @@ class PurchaseReturnsController extends Controller
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
-        $invoices = PurchaseReturn::query();
+        $invoices = PurchaseReturn::query()->latest();
         if ($request->hasAny((new PurchaseReturn())->getFillable())) {
             $invoices = $this->purchaseReturnInvoiceFilter->filter($request);
         }
-        if ($request->has('sort_by') && $request->sort_by != '') {
-            $sort_by = $request->sort_by;
 
-            $sort_method = $request->has('sort_method') ? $request->sort_method : 'asc';
-
-            if (!in_array($sort_method, ['asc', 'desc'])) $sort_method = 'desc';
-
-            $sort_fields = [
-                'invoice-number' => 'invoice_number',
-//                'supplier' => 'supplier_id',
-                'invoice-type' => 'type',
-//                'payment' => 'remaining',
-//                'paid' => 'paid',
-//                'remaining' => 'remaining',
-                'created-at' => 'created_at',
-                'updated-at' => 'updated_at',
-                'total' => 'total'
-            ];
-
-            if (isset($sort_fields[$sort_by])) {
-                $invoices = $invoices->orderBy($sort_fields[$sort_by], $sort_method);
-            }
-
-        } else {
-            $invoices = $invoices->orderBy('id', 'DESC');
-        }
         if ($request->has('key')) {
             $key = $request->key;
             $invoices->where(function ($q) use ($key) {
                 $q->where('invoice_number', 'like', "%$key%");
-//                    ->orWhere('remaining', 'like', "%$key%")
-//                    ->orWhere('paid', 'like', "%$key%");
             });
         }
-        if ($request->has('invoker') && in_array($request->invoker, ['print', 'excel'])) {
-            $visible_columns = $request->has('visible_columns') ? $request->visible_columns : [];
-            return (new ExportPrinterFactory(new InvoicesPurchaseReturn($invoices, $visible_columns), $request->invoker))();
-        }
-
-        $rows = $request->has('rows') ? $request->rows : 10;
-
-        $invoices = $invoices->paginate($rows)->appends(request()->query());
-
         $data['paymentTerms'] = SupplyTerm::where('purchase_return', 1)->where('status', 1)->where('type', 'payment')
             ->select('id', 'term_' . $this->lang)->get();
 
         $data['supplyTerms'] = SupplyTerm::where('purchase_return', 1)->where('status', 1)->where('type', 'supply')
             ->select('id', 'term_' . $this->lang)->get();
 
-        return view('admin.purchase_returns.index', compact('invoices', 'data'));
+        if ($request->isDataTable) {
+            return $this->dataTableColumns($invoices);
+        } else {
+            return view('admin.purchase_returns.index', [
+                'invoices' => $invoices,
+                'data' => $data,
+                'js_columns' => PurchaseReturn::getJsDataTablesColumns(),
+            ]);
+        }
     }
 
     public function create(Request $request)
@@ -581,5 +545,51 @@ class PurchaseReturnsController extends Controller
         }
 
         return redirect()->back()->with(['message' => __('purchase.return.terms.successfully'), 'alert-type' => 'success']);
+    }
+
+    /**
+     * @param Builder $items
+     * @return mixed
+     * @throws Throwable
+     */
+    private function dataTableColumns(Builder $items)
+    {
+        $viewPath = 'admin.purchase_returns.datatables.options';
+        return DataTables::of($items)->addIndexColumn()
+            ->addColumn('invoice_number', function ($item) use ($viewPath) {
+                return $item->invoice_number;
+            })
+            ->addColumn('supplier_name', function ($item)  {
+                return $item->supplier_name;
+            })
+            ->addColumn('type', function ($item) use ($viewPath) {
+                $type = true;
+                return view($viewPath, compact('item', 'type'))->render();
+            })
+            ->addColumn('total', function ($item) use ($viewPath) {
+                $total = true;
+                return view($viewPath, compact('item', 'total'))->render();
+            })
+            ->addColumn('paid', function ($item) use ($viewPath) {
+                $paid = true;
+                return view($viewPath, compact('item', 'paid'))->render();
+            })
+            ->addColumn('remaining', function ($item) use ($viewPath) {
+                $remaining = true;
+                return view($viewPath, compact('item', 'remaining'))->render();
+            })
+            ->addColumn('created_at', function ($item) {
+                return $item->created_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('updated_at', function ($item) {
+                return $item->updated_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('action', function ($item) use ($viewPath) {
+                $withActions = true;
+                return view($viewPath, compact('item', 'withActions'))->render();
+            })->addColumn('options', function ($item) use ($viewPath) {
+                $withOptions = true;
+                return view($viewPath, compact('item', 'withOptions'))->render();
+            })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
     }
 }

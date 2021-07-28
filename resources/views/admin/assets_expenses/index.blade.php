@@ -49,7 +49,7 @@
                         @endif
                         <th scope="col">{!! __('Date') !!}</th>
                         <th scope="col">{!! __('Number') !!}</th>
-                 
+
                         <th scope="col">{!! __('Status') !!}</th>
                         <th scope="col">{!! __('Total') !!}</th>
                         <th scope="col">{!! __('Created at') !!}</th>
@@ -70,7 +70,7 @@
                         @endif
                         <th scope="col">{!! __('Date') !!}</th>
                         <th scope="col">{!! __('Number') !!}</th>
-                 
+
                         <th scope="col">{!! __('Status') !!}</th>
                         <th scope="col">{!! __('Total') !!}</th>
                         <th scope="col">{!! __('Created at') !!}</th>
@@ -155,9 +155,13 @@
             });
         }
         function filterFunction($this) {
+            $("#loaderSearch").show();
             $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
             $datatable.ajax.url($url).load();
             $(".js__card_minus").trigger("click");
+            setTimeout(function () {
+                $("#loaderSearch").hide();
+            }, 1000)
         }
     </script>
 @endsection

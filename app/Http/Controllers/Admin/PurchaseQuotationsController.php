@@ -40,7 +40,7 @@ class PurchaseQuotationsController extends Controller
 
     public function index (Request $request)
     {
-        $data = PurchaseQuotation::query();
+        $data = PurchaseQuotation::query()->latest();
         $paymentTerms = SupplyTerm::where('for_purchase_quotation', 1)->where('status', 1)->where('type', 'payment')
             ->select('id', 'term_' . $this->lang)->get();
 

@@ -53,6 +53,25 @@ class PurchaseInvoice extends Model
 
     protected static $logOnlyDirty = true;
 
+    /**
+     * @var string[]
+     */
+    protected static $dataTableColumns = [
+        'DT_RowIndex' => 'DT_RowIndex',
+        'invoice_number' => 'invoice_number',
+        'supplier_name' => 'supplier_name',
+        'type' => 'type',
+        'total' => 'total',
+        'paid' => 'paid',
+        'remaining' => 'remaining',
+        'status' => 'status',
+        'executionStatus' => 'executionStatus',
+        'created_at' => 'created_at',
+        'updated_at' => 'updated_at',
+        'action' => 'action',
+        'options' => 'options'
+    ];
+
     public function getDescriptionForEvent(string $eventName): string
     {
         return "This model has been {$eventName}";
@@ -187,5 +206,13 @@ class PurchaseInvoice extends Model
     public function supplyOrder ()
     {
         return $this->belongsTo(SupplyOrder::class, 'supply_order_id');
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getJsDataTablesColumns(): array
+    {
+        return self::$dataTableColumns;
     }
 }

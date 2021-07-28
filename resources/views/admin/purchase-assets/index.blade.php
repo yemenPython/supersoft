@@ -4,11 +4,6 @@
     <title>{{ __('Purchase Assets') }} </title>
 @endsection
 
-@section('style')
-    {{--    <link href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" rel="stylesheet">--}}
-    {{--    <link href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css" rel="stylesheet">--}}
-    {{--    <link rel="stylesheet" href="{{ asset('accounting-module/daily-restriction.css') }}"/>--}}
-@endsection
 
 @section('content')
     <div class="row small-spacing">
@@ -277,7 +272,6 @@
     <script type="application/javascript">
 
         $(document).ready(function () {
-            // invoke_datatable($('#datatable-with-btns'));
             server_side_datatable('#datatable-with-btns');
             $(".select2").select2()
         })
@@ -298,9 +292,13 @@
         }
 
         function filterFunction($this) {
+            $("#loaderSearch").show();
             $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
             $datatable.ajax.url($url).load();
             $(".js__card_minus").trigger("click");
+            setTimeout(function () {
+                $("#loaderSearch").hide();
+            }, 1000)
         }
 
         $('#branch_id').on('change', function () {

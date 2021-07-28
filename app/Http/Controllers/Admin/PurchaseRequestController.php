@@ -35,7 +35,7 @@ class PurchaseRequestController extends Controller
 
     public function index(Request $request)
     {
-        $data = PurchaseRequest::query();
+        $data = PurchaseRequest::query()->latest();
         if ($request->isDataTable) {
             return $this->dataTableColumns($data);
         } else {

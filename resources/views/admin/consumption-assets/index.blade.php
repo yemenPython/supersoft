@@ -346,12 +346,15 @@
         });
 
         function filterFunction($this) {
+            $("#loaderSearch").show();
             $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
             $datatable.ajax.url($url).load();
-            $( ".js__card_minus" ).trigger( "click" );
+            $(".js__card_minus").trigger("click");
+            setTimeout(function () {
+                $("#loaderSearch").hide();
+            }, 1000)
         }
     </script>
-{{--    <script type="application/javascript" src="{{ asset('accounting-module/options-for-dt.js') }}"></script>--}}
 @stop
 @section('modals')
     <div class="modal fade" id="boostrapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">

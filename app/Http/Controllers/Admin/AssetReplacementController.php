@@ -51,7 +51,7 @@ class AssetReplacementController extends Controller
                 'asset_replacements.created_at',
                 'asset_replacements.updated_at',
             ])
-                ->leftjoin( 'asset_replacement_items', 'asset_replacements.id', '=', 'asset_replacement_items.asset_replacement_id' );
+                ->leftjoin( 'asset_replacement_items', 'asset_replacements.id', '=', 'asset_replacement_items.asset_replacement_id' )->latest();
 
 
 
@@ -142,14 +142,14 @@ class AssetReplacementController extends Controller
                 ->make( true );
         } else {
 
-               
+
             if (authIsSuperAdmin()) {
                 $js_columns = [
                     'DT_RowIndex' => 'DT_RowIndex',
                     'branch_id' => 'asset_replacements.branch_id',
                     'date' => 'date',
                     'number' => 'asset_replacements.number',
-           
+
                     'total_before_replacement' => 'asset_replacements.total_before_replacement',
                     'total_after_replacement' => 'asset_replacements.total_after_replacement',
                     'created_at' => 'asset_replacements.created_at',
