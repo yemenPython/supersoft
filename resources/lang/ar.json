@@ -2176,6 +2176,11 @@
     "per page" : "قيم كل صفحه",
     "sale supply order days" : "فترة أمر التوريد بالأيام",
     "Sale Invoices" : "فواتير المبيعات",
-    "Normal sale invoice" : "فاتورة مبيعات مباشرة"
+    "Normal sale invoice" : "فاتورة مبيعات مباشرة",
+    "Purchase Invoice data" : "بيانات فاتورة المشتريات",
+    "Supply order Number" : "رقم أمر التوريد",
+    "Purchase Receipts Numbers" : "أرقام محضر الإستلام",
+    "Purchase Invoice items" : "أصناف فاتورة المشتريات",
+    "from_supply_order" : "تابع أمر توريد"
 
 }

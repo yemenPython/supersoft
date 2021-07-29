@@ -1,3 +1,12 @@
+
+
+
+
+
+
+
+
+
 <div class="row small-spacing" id="purchase_invoice_print">
 
 

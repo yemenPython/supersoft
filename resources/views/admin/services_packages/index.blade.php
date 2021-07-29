@@ -75,8 +75,16 @@
                         <tr>
                             <td>{!! $index+1 !!}</td>
                             <td>{!! $package->name !!}</td>
-                            <td class="text-danger">{!! $package->total_before_discount !!}</td>
-                            <td class="text-danger">{!! $package->total_after_discount !!}</td>
+                            <td>
+                            <span style="background:#CDE8FF !important">    
+                            {!! $package->total_before_discount !!}
+                            </span>
+                            </td>
+                            <td class="text-danger">
+                            <span style="background:#CDE8FF !important">      
+                            {!! $package->total_after_discount !!}
+                            </span>
+                           </td>
                             @php
 
                                 $hours = floor($package->number_of_min  / 60);
