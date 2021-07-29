@@ -203,7 +203,7 @@
 
 <li class="btn-style-drop">
 
-            <button type="button" class="btn btn-primary waves-effect waves-light btn-xs" onclick="storeQuantity('{{$part->id}}')"
+            <button type="button" class="btn btn-primary waves-effect waves-light" onclick="storeQuantity('{{$part->id}}')"
                     data-toggle="modal" data-target="#part_quantity" >
 
                     <li class="fa fa-cubes"></li> {{__('Stores Qty')}}

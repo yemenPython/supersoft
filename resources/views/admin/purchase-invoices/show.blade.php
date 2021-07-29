@@ -1,5 +1,5 @@
 
-<div id="concession_to_print" >
+<div id="purchase_invoice_print" >
     <div class="border-container" style="border: 1px solid #3b3b3b;">
 
     <div class="print-header-wg">
@@ -58,15 +58,14 @@
                             <td style="font-weight: normal !important;">{{optional($purchase_invoice->user)->name}}</td>
                         </tr>
                     </table>
-                </div>
-
-            </div>
-        </div>
-    </div>
+                    </div>
 
 </div>
 </div>
+</div>
 
+</div>
+</div>
 
 <div class="col-xs-12">
 
@@ -233,6 +232,8 @@
                     </tbody>
                 </table>
             </div>
+        
+           
 
 
 
@@ -388,10 +389,10 @@
 
 
             </div>
-
+      
 
             <div class="col-xs-12" style="padding:0 !important">
-                <br>
+          
                 <div class="col-xs-6">
                     <h5 class="title">{{__('Supply Terms')}}</h5>
                     <p style="font-size:14px">
@@ -419,212 +420,51 @@
                         </h5>
                 </div>
 
-            </div>
-
-
-        </div>
-
-
-<!-- 
-
-<div class="row small-spacing" id="purchase_invoice_print">
+  
 
 
 
 
-    <div class="wg-tb-snd" style="border:1px solid #AAA;margin:5px 20px 20px;padding:10px;border-radius:5px">
+        <div class="print-foot-wg position-relative ml-0" >
+        <div class="row" style="display: flex;
+    align-items: flex-end;">
+            <div class="col-xs-7">
+                <div class="row">
+                    <div class="col-xs-12">
 
-        <div class="row">
-            <div class="col-xs-12 wg-tb-snd">
-                <div style="margin:10px 15px">
+                        <div class="media">
+                            <div class="media-left">
+                                <h6 class="media-heading" style="line-height:30px;">{{__('address')}} </h6>
+                            </div>
 
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr class="heading">
-                            <th style="background:#CCC !important;color:black">{{__('Tax Name')}}</th>
-                            <th style="background:#CCC !important;color:black">{{__('Tax Type')}}</th>
-                            <th style="background:#CCC !important;color:black">{{__('Tax Value')}}</th>
-                            <th style="background:#CCC !important;color:black">{{__('Calculated Tax Value')}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+                            <div class="media-body">
+                                <h6 style="padding:0 15px">{{optional($branchToPrint)->address_ar}} </h6>
+                            </div>
+                        </div>
 
-                        @php
-                            $tax_value = 0;
-                        @endphp
+                    </div>
+                    <div class="col-xs-6">
 
-                        @foreach($purchase_invoice->taxes()->where('type', 'tax')->get() as $tax)
+                    </div>
+                    <div class="col-xs-6">
 
-                            @php
-                                $tax_value += $tax->value;
-                            @endphp
-
-                            <tr class="item">
-                                <td>{{$tax->name}}</td>
-                                <td>{{__($tax->tax_type)}}</td>
-                                <td>{{$tax->value}}</td>
-                                <td>{{round(taxValueCalculated($purchase_invoice->total_after_discount - $purchase_invoice->tax,
-                                    $purchase_invoice->subtotal, $tax),2)}}</td>
-                            </tr>
-                        @endforeach
-
-                        <tr class="item">
-                            <th style="background:#CCC !important;color:black" colspan="2">{{__('Total Tax')}}</th>
-                            <td>{{$tax_value}}</td>
-                            <td>{{$purchase_invoice->tax}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr class="heading">
-                            <th style="background:#CCC !important;color:black">{{__('Tax Name')}}</th>
-                            <th style="background:#CCC !important;color:black">{{__('Tax Type')}}</th>
-                            <th style="background:#CCC !important;color:black">{{__('Tax Value')}}</th>
-                            <th style="background:#CCC !important;color:black">{{__('Calculated Tax Value')}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                        @php
-                            $tax_value = 0;
-                        @endphp
-
-                        @foreach($purchase_invoice->taxes()->where('type', 'additional_payments')->get() as $tax)
-
-                            @php
-                                $tax_value += $tax->value;
-                            @endphp
-
-                            <tr class="item">
-                                <td>{{$tax->name}}</td>
-                                <td>{{__($tax->tax_type)}}</td>
-                                <td>{{$tax->value}}</td>
-                                <td>{{round(taxValueCalculated($purchase_invoice->total_after_discount - $purchase_invoice->tax,
-                                    $purchase_invoice->subtotal, $tax),2)}}</td>
-                            </tr>
-                        @endforeach
-
-                        <tr class="item">
-                            <th style="background:#CCC !important;color:black"
-                                colspan="2">{{__('Total Additional Payments')}}</th>
-                            <td>{{$tax_value}}</td>
-                            <td>{{$purchase_invoice->additional_payments}}</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    </div>
                 </div>
+
             </div>
+            <div class="col-xs-5 small-data-wg">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <h6>{{__('contact numbers')}} : </h6>
+                    </div>
+                    <div class="col-xs-4">
+                        <h6>{{optional($branchToPrint)->phone1}}</h6>
+                    </div>
 
-        </div>
-    </div>
-
-    <div class="wg-tb-snd" style="border:1px solid #AAA;margin:5px 20px 20px;padding:10px;border-radius:5px">
-
-        <div class="row">
-
-            <div class="col-xs-4">
-                <table class="table table-bordered">
-                    <tbody>
-                    <tr>
-                        <th style="background:#CCC !important;color:black" scope="row">{{__('Discount Type')}}</th>
-                        <td>{{__($purchase_invoice->discount_type)}}</td>
-                    </tr>
-                    <tr>
-                        <th style="background:#CCC !important;color:black" scope="row">{{__('Discount')}} </th>
-                        <td>{{$purchase_invoice->discount}}</td>
-                    </tr>
-
-                    </tbody>
-                </table>
-            </div>
-
-
-            <div class="col-xs-4">
-                <table class="table table-bordered">
-                    <tbody>
-                    <tr>
-                        <th style="background:#CCC !important;color:black" scope="row">{{__('Paid')}}</th>
-                        <td>{{$purchase_invoice->paid}}</td>
-                    </tr>
-                    <tr>
-                        <th style="background:#CCC !important;color:black" scope="row">{{__('Remaining')}}</th>
-                        <td>{{$purchase_invoice->remaining}}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="col-xs-4">
-                <table class="table table-bordered">
-                    <tbody>
-                    <tr>
-                        <th style="background:#CCC !important;color:black" scope="row">{{__('Total in Numbers')}}</th>
-                        <td>{{$purchase_invoice->total}}</td>
-                    </tr>
-                    <tr>
-                        <td id="totalInLetters">{{$purchase_invoice->total}}</td>
-                    </tr>
-
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="wg-tb-snd" style="border:1px solid #AAA;margin:5px 20px 20px;padding:10px;border-radius:5px">
-
-        <div class="row">
-            <div class="col-xs-12 wg-tb-snd">
-                <h4 class="text-center">{{__('Supply Terms')}}</h4>
-                <div style="margin:10px 15px">
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr class="heading">
-                            <th style="background:#CCC !important;color:black">#</th>
-                            <th style="background:#CCC !important;color:black">{{__('Term')}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                        @foreach($purchase_invoice->terms()->where('type','supply')->get() as $index=>$term)
-                            <tr class="item">
-                                <td>{{$index+1}}</td>
-                                <td>{{$term->term}}</td>
-                            </tr>
-                        @endforeach
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="col-xs-12 wg-tb-snd">
-                <h4 class="text-center">{{__('Payment Terms')}}</h4>
-                <div style="margin:10px 15px">
-                    <table class="table table-bordered">
-                        <thead>
-                        <tr class="heading">
-                            <th style="background:#CCC !important;color:black">#</th>
-                            <th style="background:#CCC !important;color:black">{{__('Term')}}</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                        @foreach($purchase_invoice->terms()->where('type','payment')->get() as $index=>$term)
-                            <tr class="item">
-                                <td>{{$index+1}}</td>
-                                <td>{{$term->term}}</td>
-                            </tr>
-                        @endforeach
-
-                        </tbody>
-                    </table>
+                    <div class="col-xs-4">
+                        <h6>{{optional($branchToPrint)->phone2}}</h6>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
- -->

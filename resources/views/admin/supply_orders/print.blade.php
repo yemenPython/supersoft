@@ -347,7 +347,7 @@
                 <div class="row last-total" style="background-color:#ddd !important">
 
                     <div class="col-xs-12">
-                        <h6 data-id="data-totalInLetters" id="totalInLetters"> {{$supplyOrder->total}} </h6>
+                    <h6 data-id="data-totalInLetters" id="totalInLetters">{{$supplyOrder->total}}</h6>
                     </div>
                 </div>
 

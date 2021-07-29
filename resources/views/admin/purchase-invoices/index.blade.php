@@ -100,10 +100,11 @@
 @section('modals')
 
     @include('admin.partial.execution_period_form', [
-   'items'=> $invoices, 'url'=> route('admin:purchase.invoices.execution.save'), 'title' => __('Purchase Invoice Execution') ])
+   'items'=> $invoices->get(), 'url'=> route('admin:purchase.invoices.execution.save'), 'title' => __('Purchase Invoice Execution') ])
 
     @include('admin.partial.upload_library.form', ['url'=> route('admin:purchase.invoices.upload_library')])
 
+    
     <div class="modal fade" id="boostrapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -133,7 +134,7 @@
         </div>
     </div>
 
-    @include('admin.purchase-invoices.terms.supply_terms', ['items' => $invoices])
+    @include('admin.purchase-invoices.terms.supply_terms', ['items' => $invoices->get()])
 @endsection
 
 @section('js')
