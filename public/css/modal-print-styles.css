@@ -46,7 +46,7 @@ table th {
 
 .logo-print {
     background: #333 !important;
-    width: 400px !important;
+    width: 500px !important;
     border-radius: 0 0 115px 0 !important;
     padding: 10px !important;
     border-right: 9px solid #526cc2 !important;
@@ -78,7 +78,8 @@ table th {
 
 .right-top-detail h3 {
     color: #526cc2 !important;
-    font-weight: bold !important
+    font-weight: bold !important;
+    font-size: 35px !important
 }
 
 .invoice-to {
@@ -276,7 +277,7 @@ table th {
 
 @media (max-width:992px) {
     .right-top-detail h3 {
-        font-size: 12px !important
+        font-size: 35px !important
     }
 }
 

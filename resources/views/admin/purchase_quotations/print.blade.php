@@ -71,7 +71,7 @@
         </div>
     </div>
 
-        <div class="col-xs-12">
+        <div class="col-xs-12 table-responsive">
 
             <table class="table static-table-wg">
                 <tbody>
@@ -131,7 +131,7 @@
         <div style="padding:0 20px;">
             <h5 class="invoice-to-title">{{__('Purchase Quotation items')}}</h5>
 
-
+<div class="table-responsive">
             <table class="table print-table-wg table-borderless" @if(!$loop->first) style="margin-top: 20px;" @endif>
                 <thead>
 
@@ -185,7 +185,7 @@
                 </tbody>
             </table>
 
-
+            </div>
         </div>
 
 @if( $loop->last)
@@ -260,7 +260,7 @@
             </div>
 
             <div class="col-xs-12" style="padding:0 !important">
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px">
 
 
                     <div class="row last-total">
@@ -274,7 +274,7 @@
 
                 </div>
 
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px">
 
 
                     <div class="row last-total">
@@ -288,7 +288,7 @@
 
                 </div>
 
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px">
 
 
                     <div class="row last-total">
@@ -304,7 +304,7 @@
             </div>
 
             <div class="col-xs-12" style="padding:0 !important">
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px">
 
 
                     <div class="row last-total">
@@ -319,7 +319,7 @@
                 </div>
 
 
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px">
 
 
                     <div class="row last-total">
@@ -335,7 +335,7 @@
 
                 </div>
 
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px">
 
 
                     <div class="row last-total">
@@ -352,8 +352,8 @@
                 </div>
             </div>
 
-            <div class="col-xs-12" style="padding:0 !important">
-                <div class="col-xs-12 text-center">
+            <div class="col-xs-12" style="padding:0px !important">
+                <div class="col-xs-12 text-center" style="padding:5px !important">
 
 
                     <div class="row last-total" style="background-color:#ddd !important">
@@ -371,7 +371,7 @@
             </div>
 
             <div class="col-xs-12" style="padding:0 !important">
-                <div class="col-xs-12 text-center">
+                <div class="col-xs-12 text-center" style="padding:5px !important">
 
 
                     <div class="row last-total" style="background-color:#ddd !important">

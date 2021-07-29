@@ -7295,6 +7295,24 @@ html[dir="ltr"] .right-top-detail {
         padding-right: 20px;
         text-align: center !important
     }
+    .logo-print {
+        width: 300px !important;
+    }
+}
+
+@media (min-width:992px) {
+    .right-top-detail h3 {
+        font-size: 20px !important;
+        text-align: right !important;
+        padding-right: 20px;
+        text-align: center !important
+    }
+}
+
+@media (max-width:567px) {
+    .logo-print {
+        width: 230px !important;
+    }
 }
 
 .static-table-wg>tbody>tr>td,

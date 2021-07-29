@@ -150,8 +150,10 @@ style="background:#D2F4F6; border:none;text-align:center !important;"
 <div class="col-md-6">
 <table class="table table-bordered">
       <tr>
-      <th style="width:40%;height:50px;background:#FFC5D7 !important;color:black !important">
-                <div class="btn-group group-eye-wg-one" style="">
+      <th style="width:40%;height:50px;background:#FFC5D7 !important;color:black !important;">
+                <div class="btn-group group-eye-wg-one" style="position: absolute;
+    top: 22px;
+    right: 81px;">
 
                     <span type="button" class="fa fa-eye eye-design-one dropdown-toggle" data-toggle="dropdown"
 
