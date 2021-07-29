@@ -23,8 +23,7 @@
                     id="spare_part_id_{{$index}}">
                 @foreach($part->part_types_tree as $sparePartId => $sparePartValue)
                     <option value="{{$sparePartId}}"
-                        {{isset($update_item) && $update_item->spare_part_id == $sparePartId ? 'selected':''}}
-                        {{isset($itemType) && $itemType->id == $sparePartId ? 'selected':''}}
+                        {{isset($item) && $item->spare_part_id == $sparePartId ? 'selected':''}}
                     >
                         {{$sparePartValue}}
                     </option>
@@ -37,13 +36,9 @@
     <td class="inline-flex-span">
 
         <span id="unit_quantity_{{$index}}">
-            @if(isset($item))
-                {{ $item->supplyOrderItem && $item->supplyOrderItem->partPrice ? $item->supplyOrderItem->partPrice->quantity : $part->first_price_quantity}}
-            @elseif (isset($update_item))
-                {{ $update_item->partPrice ? $update_item->partPrice->quantity : $part->first_price_quantity}}
-            @else
-                {{ $part->first_price_quantity}}
-            @endif
+
+            {{ isset($update_item) && $update_item->partPrice ? $update_item->partPrice->quantity : $part->first_price_quantity}}
+
         </span>
 
         <span class="part-unit-span"> {{ $part->sparePartsUnit->unit }}  </span>
@@ -59,10 +54,9 @@
 
                 @foreach($part->prices as $price)
                     <option
-                        {{isset($update_item) && $update_item->part_price_id == $price->id ? 'selected':''}}
-                        {{isset($item) && $item->supplyOrderItem && $item->supplyOrderItem ->part_price_id == $price->id ? 'selected':''}}
+                        {{isset($item) && $item->part_price_id == $price->id ? 'selected':''}}
                         data-quantity="{{$price->quantity}}"
-                        data-purchase-price="{{$price->purchase_price}}"
+                        data-purchase-price="{{$price->selling_price}}"
                         data-big-percent-discount="{{$price->biggest_percent_discount}}"
                         data-big-amount-discount="{{$price->biggest_amount_discount}}"
                         value="{{$price->id}}">
@@ -83,14 +77,14 @@
                     id="price_segments_part_{{$index}}"
                     onchange="getPurchasePriceFromSegments('{{$index}}'); calculateItem('{{$index}}') ">
 
-                @if(isset($update_item) && $update_item->partPrice)
+                @if(isset($item) && $item->partPrice)
 
                     <option value="">{{__('Select Segment')}}</option>
 
-                    @foreach($update_item->partPrice->partPriceSegments as $priceSegment)
+                    @foreach($item->partPrice->partPriceSegments as $priceSegment)
                         <option value="{{$priceSegment->id}}"
-                                data-purchase-price="{{$priceSegment->purchase_price}}"
-                            {{isset($update_item) && $update_item->part_price_segment_id == $priceSegment->id  ? 'selected':''}}>
+                                data-purchase-price="{{$priceSegment->sales_price}}"
+                            {{isset($item) && $item->part_price_segment_id == $priceSegment->id  ? 'selected':''}}>
                             {{$priceSegment->name}}
                         </option>
                     @endforeach
@@ -103,8 +97,7 @@
 
                         @foreach($part->first_price_segments as $priceSegment)
                             <option value="{{$priceSegment->id}}"
-                                    data-purchase-price="{{$priceSegment->purchase_price}}"
-                                {{isset($item) && $item->supplyOrderItem && $item->supplyOrderItem->part_price_segment_id == $priceSegment->id  ? 'selected':''}}>
+                                    data-purchase-price="{{$priceSegment->sales_price}}">
                                 {{$priceSegment->name}}
                             </option>
                         @endforeach
@@ -118,37 +111,17 @@
 
 
     <td>
-
-        @if(isset($item))
-
-            <input style="width: 100px !important;" type="number" class="form-control border1" id="quantity_{{$index}}"
-                   value="{{ $item->quantity}}" min="0"
-                   name="items[{{$index}}][quantity]"
-                   onchange="calculateItem('{{$index}}')" onkeyup="calculateItem('{{$index}}')">
-
-        @else
-            <input style="width: 100px !important;" type="number" class="form-control border1" id="quantity_{{$index}}"
-                   value="{{isset($update_item) ? $update_item->quantity : 0}}" min="0"
-                   name="items[{{$index}}][quantity]"
-                   onchange="calculateItem('{{$index}}')" onkeyup="calculateItem('{{$index}}')">
-
-        @endif
+        <input style="width: 100px !important;" type="number" class="form-control border1" id="quantity_{{$index}}"
+               value="{{isset($item) ? $item->quantity : 0}}" min="0" name="items[{{$index}}][quantity]"
+               onchange="calculateItem('{{$index}}')" onkeyup="calculateItem('{{$index}}')">
     </td>
 
     <td>
-        @if(isset($item))
+        <input style="width: 150px !important;" type="number" class="form-control border2" id="price_{{$index}}"
+               value="{{isset($item) ? $item->price : $part->default_sale_price}}"
+               min="0" name="items[{{$index}}][price]"
+               onchange="calculateItem('{{$index}}')" onkeyup="calculateItem('{{$index}}')">
 
-            <input style="width: 150px !important;" type="number" class="form-control border2" id="price_{{$index}}"
-                   value="{{$item->price}}"
-                   min="0" name="items[{{$index}}][price]"
-                   onchange="calculateItem('{{$index}}')" onkeyup="calculateItem('{{$index}}')">
-        @else
-
-            <input style="width: 150px !important;" type="number" class="form-control border2" id="price_{{$index}}"
-                   value="{{isset($update_item) ? $update_item->price : $part->default_purchase_price}}"
-                   min="0" name="items[{{$index}}][price]"
-                   onchange="calculateItem('{{$index}}')" onkeyup="calculateItem('{{$index}}')">
-        @endif
     </td>
 
     <td>
@@ -156,14 +129,14 @@
             <input style="width: 150px !important;" type="radio" name="items[{{$index}}][discount_type]"
                    id="discount_type_amount_{{$index}}"
                    value="amount" {{!isset($update_item) ? 'checked':''}} onclick="calculateItem('{{$index}}')"
-                {{isset($update_item) && $update_item->discount_type == 'amount'? 'checked' : '' }}
+                {{isset($item) && $item->discount_type == 'amount'? 'checked' : '' }}
             >
             <label for="discount_type_amount_{{$index}}">{{__('amount')}}</label>
         </div>
         <div class="radio primary">
             <input style="width: 150px !important;" type="radio" name="items[{{$index}}][discount_type]"
                    id="discount_type_percent_{{$index}}" value="percent"
-                   {{isset($update_item) && $update_item->discount_type == 'percent'? 'checked' : '' }}
+                   {{isset($item) && $item->discount_type == 'percent'? 'checked' : '' }}
                    onclick="calculateItem('{{$index}}')">
             <label for="discount_type_percent_{{$index}}">{{__('Percent')}}</label>
         </div>
@@ -172,7 +145,7 @@
 
     <td>
         <input style="width: 150px !important;" type="number" class="form-control border4" id="discount_{{$index}}"
-               value="{{isset($update_item) ? $update_item->discount : 0 }}" min="0"
+               value="{{isset($item) ? $item->discount : 0 }}" min="0"
                name="items[{{$index}}][discount]"
                onkeyup="calculateItem('{{$index}}')" onchange="calculateItem('{{$index}}')">
     </td>
@@ -180,21 +153,21 @@
     <td>
         <input style="width: 150px !important;" type="number" class="form-control border2"
                id="total_before_discount_{{$index}}"
-               value="{{isset($update_item) ? $update_item->subtotal : 0 }}" min="0"
-               name="items[{{$index}}][total_before_discount]" disabled>
+               value="{{isset($item) ? $item->subtotal : 0 }}" min="0"
+               name="items[{{$index}}][sub_total]" disabled>
     </td>
 
     <td>
         <input style="width: 150px !important;" type="number" class="form-control border2"
                id="total_after_discount_{{$index}}"
-               value="{{isset($update_item) ? $update_item->total_after_discount - $update_item->tax : 0 }}" min="0"
+               value="{{isset($item) ? $item->total_after_discount : 0 }}" min="0"
                name="items[{{$index}}][total_after_discount]" disabled>
     </td>
 
     <td>
         <div class="btn-group" style="display:flex !important;align-items:center">
             <span type="button" class="fa fa-eye dropdown-toggle eye-table-wg" data-toggle="dropdown"
-          style="
+                  style="
     color: #a776e7;
     padding: 6px 10px;
     border-radius: 0;
@@ -202,7 +175,7 @@
     cursor: pointer;
     font-size: 20px;
 }"
-          aria-haspopup="true" aria-expanded="false">
+                  aria-haspopup="true" aria-expanded="false">
             </span>
 
             <ul class="dropdown-menu" style="margin-top: 19px;">
@@ -222,13 +195,13 @@
                                        data-tax-type="{{$tax->tax_type}}"
                                        data-tax-execution-time="{{$tax->execution_time}}"
                                        onclick="calculateItem('{{$index}}')"
-                                    {{!isset($update_item) ? 'checked':''}}
-                                    {{isset($update_item) && in_array($tax->id, $update_item->taxes->pluck('id')->toArray()) ? 'checked':''}}
+                                    {{!isset($item) ? 'checked':''}}
+                                    {{isset($item) && in_array($tax->id, $item->taxes->pluck('id')->toArray()) ? 'checked':''}}
                                 >
                                 <span>
                                     {{$tax->name}} ( {{ $tax->value }} {{$tax->tax_type == 'amount' ? '$':'%'}} ) =
                                     <span id="calculated_tax_value_{{$tax_index}}_{{$index}}">
-                                         {{isset($update_item) ? taxValueCalculated($update_item->total_after_discount - $update_item->tax, $update_item->subtotal, $tax ) : 0}}
+                                         {{isset($item) ? taxValueCalculated($item->total_after_discount , $item->subtotal, $tax ) : 0}}
                                     </span>
                                 </span>
                             </a>
@@ -246,16 +219,15 @@
 
             <input type="hidden" id="tax_count_{{$index}}" value="{{$part->taxes->count()}}">
 
-            <input style="width: 120px !important;  margin: 0 5px;" type="number" class="form-control border5"
-                   id="tax_{{$index}}"
-                   value="{{isset($update_item) ? $update_item->tax : 0 }}"
+            <input style="width: 120px !important;  margin: 0 5px;" type="number" class="form-control border5" id="tax_{{$index}}"
+                   value="{{isset($item) ? $item->tax : 0 }}"
                    min="0" name="items[{{$index}}][tax]" disabled>
         </div>
     </td>
 
     <td>
         <input style="width: 150px !important;" type="number" class="form-control border3" id="total_{{$index}}"
-               value="{{isset($update_item) ? $update_item->total_after_discount : 0}}" min="0"
+               value="{{isset($item) ? $item->total_after_discount : 0}}" min="0"
                name="items[{{$index}}][total]" disabled>
     </td>
 
@@ -266,7 +238,7 @@
 
                 @foreach($part->stores as $store)
                     <option value="{{$store->id}}"
-                        {{isset($update_item) && $update_item->store_id == $store->id ? 'selected':'' }}>
+                        {{isset($item) && $item->store_id == $store->id ? 'selected':'' }}>
                         {{$store->name}}
                     </option>
                 @endforeach

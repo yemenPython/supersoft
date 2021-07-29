@@ -4,13 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Asset\AssetExaminationRequest;
-use App\Models\AssetGroup;
 use App\Models\AssetExamination;
-use App\Models\AssetInsurance;
 use App\Models\Asset;
-use App\Models\Branch;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Throwable;
+use Yajra\DataTables\DataTables;
 
 class AssetsExaminationsController extends Controller
 {
@@ -25,7 +24,6 @@ class AssetsExaminationsController extends Controller
 
     public function index(asset $asset,Request $request)
     {
-//        dd($request->all());
         $assetsExaminations = AssetExamination::where("asset_id" , $asset->id)->orderBy('id' ,'desc');
         if ($request->has( 'name' ) && $request['name'] != '')
             $assetsExaminations->where( 'id',$request['name'] );
@@ -42,8 +40,18 @@ class AssetsExaminationsController extends Controller
         if ($request->has( 'inactive' ) && $request['inactive'] != '')
             $assetsExaminations->where( 'status', '0' );
 
-        $assetsExaminations = $assetsExaminations->get();
-        return view('admin.assetsExaminations.index', compact('asset' , 'assetsExaminations'));
+        if ($request->isDataTable) {
+            try {
+                return $this->dataTableColumns($assetsExaminations);
+            } catch (Throwable $e) {
+            }
+        } else {
+            return view('admin.assetsExaminations.index', [
+                'asset' => $asset,
+                'assetsExaminations' => $assetsExaminations,
+                'js_columns' => AssetExamination::getJsDataTablesColumns(),
+            ]);
+        }
     }
 
 
@@ -114,5 +122,36 @@ class AssetsExaminationsController extends Controller
                 ->with(['message' => __('words.selected-row-deleted'), 'alert-type' => 'success']);
         }
 
+    }
+
+    /**
+     * @param Builder $items
+     * @return mixed
+     * @throws Throwable
+     */
+    private function dataTableColumns(Builder $items)
+    {
+        $viewPath = 'admin.assetsExaminations.options';
+        return DataTables::of($items)->addIndexColumn()
+            ->addColumn('status', function ($item) use ($viewPath) {
+                $withStatus = true;
+                return view($viewPath, compact('item', 'withStatus'))->render();
+            })
+            ->addColumn('examination_details', function ($item) use ($viewPath) {
+                return  $item->examination_details;
+            })
+            ->addColumn('start_date', function ($item) {
+                return $item->start_date;
+            })
+            ->addColumn('end_date', function ($item) {
+                return $item->end_date;
+            })
+            ->addColumn('action', function ($item) use ($viewPath) {
+                $withActions = true;
+                return view($viewPath, compact('item', 'withActions'))->render();
+            })->addColumn('options', function ($item) use ($viewPath) {
+                $withOptions = true;
+                return view($viewPath, compact('item', 'withOptions'))->render();
+            })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
     }
 }

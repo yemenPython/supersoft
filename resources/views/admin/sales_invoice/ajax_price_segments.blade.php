@@ -4,7 +4,7 @@
     <option value="">{{__('Select Segment')}}</option>
 
     @foreach($priceSegments as $priceSegment)
-        <option value="{{$priceSegment->id}}" data-purchase-price="{{$priceSegment->purchase_price}}">
+        <option value="{{$priceSegment->id}}" data-purchase-price="{{$priceSegment->sales_price}}">
             {{$priceSegment->name}}
         </option>
     @endforeach

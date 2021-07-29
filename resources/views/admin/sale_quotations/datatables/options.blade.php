@@ -8,18 +8,21 @@
     <span class="text-danger">{!! $item->date !!}</span>
 @endif
 
-@if (isset($quotation_type))
-    @if ($item->quotation_type === "cash")
+@if (isset($type))
+    @if ($item->type === "cash")
         <span class="label label-primary wg-label">
-                                    {{__($item->quotation_type)}}
-                                    </span>
+            {{__($item->type)}}
+        </span>
     @else
         <span class="label label-danger wg-label">
-                                    {{__($item->quotation_type)}}
-                                    </span>
+            {{__($item->type)}}
+        </span>
     @endif
 @endif
 
+@if (isset($withCustomer))
+    <span style="background:#F7F8CC !important">{{ $item->customer ? $item->customer->name :'---' }} </span>
+@endif
 @if (isset($total))
     <span style="background:#F7F8CC !important">{{ __($item->total) }} </span>
 @endif
@@ -37,7 +40,7 @@
         <span class="label label-info wg-label"> {{__('processing')}}</span>
     @elseif($item->status == 'accept' )
         <span
-            class="label label-success wg-label">  {{__('Accept Approval')}} </span>
+            class="label label-success wg-label"> {{__('Accept Approval')}} </span>
     @else
         <span class="label label-danger wg-label"> {{__('Reject Approval')}} </span>
     @endif
@@ -48,22 +51,20 @@
 @if (isset($executionStatus))
     @if($item->execution)
 
-
         @if(optional($item->execution)->status == 'pending' )
             <span class="label label-info wg-label"> {{__('Processing')}}</span>
 
         @elseif(optional($item->execution)->status == 'finished' )
             <span class="label label-success wg-label"> {{__('Finished')}} </span>
 
-        @elseif(optional($item->execution) == 'late' )
+        @elseif(optional($item->execution)->status == 'late' )
             <span class="label label-danger wg-label"> {{__('Late')}} </span>
         @endif
 
-
     @else
         <span class="label label-warning wg-label">
-      {{__('Not determined')}}
-</span>
+                                                {{__('Not determined')}}
+                                            </span>
 
     @endif
 @endif
@@ -82,7 +83,7 @@
             <li>
                 @component('admin.buttons._edit_button',[
                         'id'=>$item->id,
-                        'route' => 'admin:purchase-quotations.edit',
+                        'route' => 'admin:sale-quotations.edit',
                          ])
                 @endcomponent
 
@@ -91,27 +92,22 @@
 
                 @component('admin.buttons._delete_button',[
                         'id'=> $item->id,
-                        'route' => 'admin:purchase-quotations.destroy',
+                        'route' => 'admin:sale-quotations.destroy',
                          ])
                 @endcomponent
             </li>
 
             <li>
-                <a style="cursor:pointer" class="btn btn-print-wg text-white"
-                   data-toggle="modal"
+                <a style="cursor:pointer" class="btn btn-print-wg text-white" data-toggle="modal"
                    onclick="getPrintData({{$item->id}})"
                    data-target="#boostrapModal" title="{{__('print')}}">
                     <i class="fa fa-print"></i> {{__('Print')}}
                 </a>
             </li>
 
-
             <li>
-
-
                 <a style="cursor:pointer"
-                   class="btn btn-terms-wg text-white hvr-radial-out"
-                   data-toggle="modal"
+                   class="btn btn-terms-wg text-white hvr-radial-out" data-toggle="modal"
                    data-target="#terms_{{$item->id}}" title="{{__('Terms')}}">
                     <i class="fa fa-check-circle"></i> {{__('Terms')}}
                 </a>
@@ -130,9 +126,7 @@
 @endif
 
 @if (isset($withOptions))
-    @component('admin.buttons._delete_selected', [
-    'id' => $item->id,
-    'route' => 'admin:purchase-quotations.deleteSelected',
-    ])
+    @component('admin.buttons._delete_selected',
+                                         ['id' => $item->id,'route' => 'admin:sale-quotations.deleteSelected',])
     @endcomponent
 @endif

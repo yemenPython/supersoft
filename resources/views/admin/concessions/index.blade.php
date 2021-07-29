@@ -72,7 +72,11 @@
                                 <th class="text-center" scope="col">{!! __('created at') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Updated at') !!}</th>
                                 <th scope="col" class="text-center">{!! __('Options') !!}</th>
-                                <th scope="col" class="text-center">{!! __('Select') !!}</th>
+                                <th scope="col">
+                                    <div class="checkbox danger">
+                                        <input type="checkbox"  id="select-all">
+                                        <label for="select-all"></label>
+                                    </div>{!! __('Select') !!}</th>
                             </tr>
                             </thead>
                             <tfoot>

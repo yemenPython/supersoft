@@ -37,7 +37,7 @@
                     <div class="clearfix"></div>
 
                     <div class="table-responsive">
-                        <table id="cities" class="table table-bordered wg-table-print table-hover" style="width:100%">
+                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover" style="width:100%">
                             <thead>
                             <tr>
                                 <th scope="col">{!! __('#') !!}</th>
@@ -97,6 +97,7 @@
                                 <th scope="col">{!! __('Select') !!}</th>
                             </tr>
                             </tfoot>
+
                             <tbody>
                             @foreach($data as $index => $item)
                                 <tr>
@@ -232,6 +233,7 @@
                                 </tr>
                             @endforeach
                             </tbody>
+
                         </table>
                     </div>
                 </div>
@@ -243,7 +245,7 @@
 @section('modals')
 
     @include('admin.partial.execution_period_form', [
-    'items'=> $data, 'url'=> route('admin:sale.quotations.execution.save'), 'title' => __('Purchase Quotation Execution') ])
+    'items'=> $data->get(), 'url'=> route('admin:sale.quotations.execution.save'), 'title' => __('Purchase Quotation Execution') ])
 
     @include('admin.partial.upload_library.form', ['url'=> route('admin:sale.quotations.upload_library')])
 
@@ -251,7 +253,7 @@
 
     @include('admin.partial.print_modal', ['title'=> __('Sale Requests')])
 
-    @include('admin.sale_quotations.terms.supply_terms', ['items' => $data])
+    @include('admin.sale_quotations.terms.supply_terms', ['items' => $data->get()])
 
 @endsection
 
@@ -412,6 +414,15 @@
 
 @section('js')
     <script type="application/javascript">
-        invoke_datatable($('#cities'))
+        server_side_datatable('#datatable-with-btns');
+        function filterFunction($this) {
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout( function () {
+                $("#loaderSearch").hide();
+            }, 1000)
+        }
     </script>
 @endsection

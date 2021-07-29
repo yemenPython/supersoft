@@ -3,7 +3,7 @@
         <span>{{$index}}</span>
     </td>
 
-    
+
     <td class="inline-flex-span">
         <span style="width: 150px !important;display:block">{{$asset?$asset->name:''}}</span>
         <input type="hidden" class="assetExist" value="{{$asset?$asset->id:''}}" name="items[{{$index}}][asset_id]">
@@ -49,7 +49,7 @@
                    class="replacement_cost_{{$index}} border4 form-control valid replacement_cost"
                    onchange="total_replacement_cost('{{$index}}')"
                    onkeyup="total_replacement_cost('{{$index}}')"
-                   value="{{ optional($asset->assetReplacementItem)->value_replacement}}"
+                   value="{{ optional($asset->assetReplacementItem)->value_replacement ?? 0}}"
                    name="items[{{$index}}][replacement_cost]">
 
     </td>
@@ -67,17 +67,17 @@
 
 
     <td>
-  
+
             <input type="text" readonly style="width: 100px !important;"
                    class="final_total_consumtion_{{$index}} border2 form-control valid final_total_consumtion"
                    onchange="total_final_total_consumtion('{{$index}}')"
                    onkeyup="total_final_total_consumtion('{{$index}}')"
                    value="{{$asset->past_consumtion + $asset->total_current_consumtion}}"
                    name="items[{{$index}}][final_total_consumtion]">
-    
+
     </td>
     <td>
-    
+
             <input type="text" style="width: 100px !important;"
                    class="sale_amount_{{$index}} border6 form-control valid sale_amount"
                    onchange="totalSaleAmount();"
@@ -85,7 +85,7 @@
                    value="{{isset($saleAsset) ?$update_item->sale_amount:''}}"
                    required
                    name="items[{{$index}}][sale_amount]">
-  
+
     </td>
 
     <td>

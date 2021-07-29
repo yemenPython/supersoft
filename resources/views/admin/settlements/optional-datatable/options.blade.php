@@ -29,11 +29,11 @@
 @endif
 
 @if (isset($withStatus))
-    @if( $item->concession->status == 'pending' )
+    @if(optional( $item->concession)->status == 'pending' )
         <span class="label label-info wg-label"> {{__('Pending')}}</span>
-    @elseif( $item->concession->status == 'accepted' )
+    @elseif(optional( $item->concession)->status == 'accepted' )
         <span class="label label-success wg-label"> {{__('Accepted')}} </span>
-    @elseif( $item->concession->status == 'rejected' )
+    @elseif( optional( $item->concession)->status == 'rejected' )
         <span class="label label-danger wg-label"> {{__('Rejected')}} </span>
     @else
     <span class="label label-warning wg-label">  {{__('Not determined')}} </span>

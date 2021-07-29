@@ -40,33 +40,26 @@ class AssetReplacementController extends Controller
     {
 
         if ($request->isDataTable) {
-            $assetsReplacements = AssetReplacement::select([
-                'asset_replacements.id',
-                'asset_replacements.number',
-                'asset_replacements.date',
-                'asset_replacements.time',
-                'asset_replacements.total_after_replacement',
-                'asset_replacements.total_before_replacement',
-                'asset_replacements.branch_id',
-                'asset_replacements.created_at',
-                'asset_replacements.updated_at',
-            ])
-                ->leftjoin( 'asset_replacement_items', 'asset_replacements.id', '=', 'asset_replacement_items.asset_replacement_id' )->latest();
-
-
-
+            $assetsReplacements = AssetReplacement::query()->latest();
             if ($request->has( 'branch_id' ) && !empty( $request['branch_id'] ))
                 $assetsReplacements->where( 'asset_replacements.branch_id', $request['branch_id'] );
 
-            if ($request->has( 'number' ) && !empty( $request['number'] ))
+            if ($request->has( 'number' ) &&  $request->number != 0 && !empty( $request['number'] ))
                 $assetsReplacements->where( 'asset_replacements.number', $request['number'] );
 
+            if ($request->has('asset_group_id') && $request->asset_group_id != '' &&  $request->asset_group_id != 0 && $request->asset_group_id != null) {
+                $asset = Asset::where('asset_group_id', $request->asset_group_id)->first();
+                $assetReplacementItemIds = AssetReplacementItem::where('asset_id', $asset->id)->get()->pluck('asset_replacement_id')->toArray();
+                if (!empty($assetReplacementItemIds)) {
+                    $assetsReplacements->whereIn( 'id', $assetReplacementItemIds);
+                }
+            }
 
-            if ($request->has( 'asset_group_id' ) && !empty( $request->asset_group_id ))
-                $assetsReplacements->where( 'asset_replacement_items.asset_group_id', $request['asset_group_id'] );
-
-            if ($request->has( 'asset_id' ) && !empty( $request->asset_id ))
-                $assetsReplacements->where( 'asset_replacement_items.asset_id', $request['asset_id'] );
+            if ($request->has('asset_id') && $request->asset_id != '' && $request->asset_id != 0 && $request->asset_id != null) {
+                $assetsReplacements->whereHas('assetReplacementItems', function ($q) use ($assetsReplacements, $request) {
+                    $q->where('asset_id', $request->asset_id);
+                });
+            }
 
             whereBetween($assetsReplacements,'DATE(asset_replacements.date)',$request->date_from,$request->date_to);
             whereBetween( $assetsReplacements, 'asset_replacement_items.value_replacement', $request->value_replacement_from, $request->value_replacement_to );

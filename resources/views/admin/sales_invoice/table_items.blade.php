@@ -6,12 +6,7 @@
                 <th width="2%"> #</th>
                 <th width="9%"> {{ __('Name') }} </th>
 
-                    <th width="15%"
-{{--                        class="part_types_head" --}}
-{{--                        style="{{isset($purchaseInvoice) && $purchaseInvoice->invoice_type == 'normal' ? '':'display:none;' }}"--}}
-                    >
-                        {{ __('Part Types') }}
-                    </th>
+                <th width="15%">{{ __('Part Types') }}</th>
 
                 <th width="10%"> {{ __('Unit Quantity') }} </th>
                 <th width="8%"> {{ __('Unit') }} </th>
@@ -30,14 +25,14 @@
             </thead>
             <tbody id="parts_data">
 
-            @if(isset($purchaseInvoice))
+            @if(isset($salesInvoice))
 
-                @foreach ($purchaseInvoice->items as $index => $update_item)
+                @foreach ($salesInvoice->items as $index => $item)
                     @php
                         $index +=1;
-                        $part = $update_item->part;
+                        $part = $item->part;
                     @endphp
-                    @include('admin.purchase-invoices.part_raw')
+                    @include('admin.sales_invoices.part_raw')
                 @endforeach
             @endif
 
@@ -47,12 +42,7 @@
             <tr>
                 <th width="2%"> #</th>
                 <th width="9%"> {{ __('Name') }} </th>
-                <th width="15%"
-{{--                    class="part_types_head" --}}
-{{--                    style="{{isset($purchaseInvoice) && $purchaseInvoice->invoice_type == 'normal' ? '':'display:none;' }}"--}}
-                >
-                    {{ __('Part Types') }}
-                </th>
+                <th width="15%">{{ __('Part Types') }}</th>
                 <th width="10%"> {{ __('Unit Quantity') }} </th>
                 <th width="8%"> {{ __('Unit') }} </th>
                 <th width="8%"> {{ __('Price Segments') }} </th>
@@ -70,8 +60,7 @@
             </tr>
             </tfoot>
 
-            <input type="hidden" name="index" id="items_count"
-                   value="{{isset($purchaseInvoice) ? $purchaseInvoice->items->count() : 0}}">
+            <input type="hidden" name="index" id="items_count" value="{{isset($salesInvoice) ? $salesInvoice->items->count() : 0}}">
         </table>
     </div>
 </div>

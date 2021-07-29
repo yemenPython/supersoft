@@ -104,7 +104,7 @@
                 </h4>
                 <!-- /.box-title -->
                 <div class="card-content js__card_content">
-                    <form  method="get">
+                    <form  onsubmit="filterFunction($(this));return false;">
                         <div class="list-inline margin-bottom-0 row">
                             <div class="form-group col-md-3">
                                 <label> {{ __('Name') }} </label>
@@ -291,7 +291,6 @@
 {!! JsValidator::formRequest('App\Http\Requests\Admin\Asset\AssetInsuranceRequest')->selector('#newAssetEmployee-form'); !!}
     <script type="application/javascript">
         $(document).ready(function () {
-            invoke_datatable($('#datatable-with-btns'))
             $(".select2").select2();
         });
 
@@ -317,6 +316,15 @@
             $('#myModalLabel-1').text(title);
         });
 
-
+        server_side_datatable('#datatable-with-btns');
+        function filterFunction($this) {
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout( function () {
+                $("#loaderSearch").hide();
+            }, 1000)
+        }
     </script>
 @stop

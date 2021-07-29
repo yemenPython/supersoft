@@ -13,6 +13,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 class AssetEmployee extends Model
 {
     use ColumnTranslation, LogsActivity, SoftDeletes;
+
     /**
      * @var string
      */
@@ -37,12 +38,21 @@ class AssetEmployee extends Model
         'start_date',
         'end_date',
     ];
-//    protected static function boot()
-//    {
-//        parent::boot();
-//
-//        static::addGlobalScope(new BranchScope());
-//    }
+
+    /**
+     * @var string[]
+     */
+    protected static $dataTableColumns = [
+        'DT_RowIndex' => 'DT_RowIndex',
+        'status' => 'status',
+        'name' => 'name',
+        'phone' => 'phone',
+        'start_date' => 'start_date',
+        'end_date' => 'end_date',
+        'action' => 'action',
+        'options' => 'options'
+    ];
+
     protected static $logOnlyDirty = true;
 
     public function getDescriptionForEvent(string $eventName): string
@@ -50,13 +60,21 @@ class AssetEmployee extends Model
         return "This model has been {$eventName}";
     }
 
-    function asset() {
-        return $this->belongsTo(Asset::class ,'asset_id');
+    function asset()
+    {
+        return $this->belongsTo(Asset::class, 'asset_id');
     }
+
     public function employee()
     {
-        return $this->belongsTo(EmployeeData::class,'employee_id');
+        return $this->belongsTo(EmployeeData::class, 'employee_id');
     }
 
-
+    /**
+     * @return string[]
+     */
+    public static function getJsDataTablesColumns(): array
+    {
+        return self::$dataTableColumns;
+    }
 }
