@@ -7,12 +7,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SalesInvoiceItems extends Model
 {
-    use SoftDeletes;
-
-    protected $dates = ['deleted_at'];
-
-    protected $fillable = ['sales_invoice_id','purchase_invoice_id','part_id','available_qty','sold_qty','last_selling_price',
-        'selling_price','discount_type','discount','sub_total','total_after_discount','total'];
+    protected $fillable = ['sales_invoice_id','part_id','quantity', 'price','discount_type','discount','sub_total',
+        'total_after_discount','total', 'store_id', 'spare_part_id', 'part_price_segment_id', 'part_price_id', 'tax' ];
 
     protected $table = 'sales_invoice_items';
 
@@ -22,5 +18,30 @@ class SalesInvoiceItems extends Model
 
     public function part(){
         return $this->belongsTo(Part::class, 'part_id')->withTrashed();
+    }
+
+    public function store()
+    {
+        return $this->belongsTo(Store::class, 'store_id')->withTrashed();
+    }
+
+    public function taxes()
+    {
+        return $this->belongsToMany(TaxesFees::class, 'sales_invoice_items_taxes_fees' ,'item_id', 'tax_id');
+    }
+
+    public function partPrice()
+    {
+        return $this->belongsTo(PartPrice::class, 'part_price_id')->withTrashed();
+    }
+
+    public function partPriceSegment()
+    {
+        return $this->belongsTo(PartPriceSegment::class, 'part_price_segment_id');
+    }
+
+    public function sparePart()
+    {
+        return $this->belongsTo(SparePart::class, 'spare_part_id');
     }
 }

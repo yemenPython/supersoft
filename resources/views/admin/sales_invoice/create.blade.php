@@ -72,68 +72,64 @@
 
 @section('modals')
 
-    <div class="modal fade" id="purchase_receipts" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
-        <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content wg-content">
-                <div class="modal-header">
+{{--    <div class="modal fade" id="purchase_receipts" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">--}}
+{{--        <div class="modal-dialog modal-lg" role="document">--}}
+{{--        <div class="modal-content wg-content">--}}
+{{--                <div class="modal-header">--}}
 
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+{{--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
+{{--                        <span aria-hidden="true">&times;</span>--}}
+{{--                    </button>--}}
 
-                    <h4 class="modal-title" id="myModalLabel-1">{{__('Purchase Receipts')}}</h4>
-                </div>
+{{--                    <h4 class="modal-title" id="myModalLabel-1">{{__('Purchase Receipts')}}</h4>--}}
+{{--                </div>--}}
 
-                <div class="modal-body">
+{{--                <div class="modal-body">--}}
 
-                    <div class="row">
+{{--                    <div class="row">--}}
 
-                        <div class="col-md-12 margin-bottom-20">
-                            <table id="purchase_quotations_table" class="table table-bordered" style="width:100%">
-                                <thead>
-                                <tr>
-                                    <th scope="col">{!! __('Check') !!}</th>
-                                    <th scope="col">{!! __('Purchase Receipt Number') !!}</th>
-                                    <th scope="col">{!! __('Supplier name') !!}</th>
-                                </tr>
-                                </thead>
+{{--                        <div class="col-md-12 margin-bottom-20">--}}
+{{--                            <table id="purchase_quotations_table" class="table table-bordered" style="width:100%">--}}
+{{--                                <thead>--}}
+{{--                                <tr>--}}
+{{--                                    <th scope="col">{!! __('Check') !!}</th>--}}
+{{--                                    <th scope="col">{!! __('Purchase Receipt Number') !!}</th>--}}
+{{--                                    <th scope="col">{!! __('Supplier name') !!}</th>--}}
+{{--                                </tr>--}}
+{{--                                </thead>--}}
 
-                                <form id="purchase_quotation_form" method="post">
-                                    @csrf
+{{--                                <form id="purchase_quotation_form" method="post">--}}
+{{--                                    @csrf--}}
 
-                                    <tbody id="purchase_receipts_data">
+{{--                                    <tbody id="purchase_receipts_data">--}}
 
-                                    </tbody>
+{{--                                    </tbody>--}}
 
-                                </form>
-                            </table>
-                        </div>
+{{--                                </form>--}}
+{{--                            </table>--}}
+{{--                        </div>--}}
 
-                    </div>
+{{--                    </div>--}}
 
-                </div>
+{{--                </div>--}}
 
-                <div class="modal-footer">
+{{--                <div class="modal-footer">--}}
 
 
-                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
-                            onclick="addSelectedPurchaseReceipts()">
-                        {{__('Add Item')}}
-                    </button>
+{{--                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"--}}
+{{--                            onclick="addSelectedPurchaseReceipts()">--}}
+{{--                        {{__('Add Item')}}--}}
+{{--                    </button>--}}
 
-                    <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"
-                            data-dismiss="modal">
-                        {{__('Close')}}
-                    </button>
+{{--                    <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"--}}
+{{--                            data-dismiss="modal">--}}
+{{--                        {{__('Close')}}--}}
+{{--                    </button>--}}
 
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="modals_part_types">
-
-    </div>
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 
     @include('admin.partial.part_image')
 
@@ -141,7 +137,7 @@
 
 @section('js-validation')
 
-    {!! JsValidator::formRequest('App\Http\Requests\Admin\PurchaseInvoice\PurchaseInvoiceRequest', '.form'); !!}
+    {!! JsValidator::formRequest('App\Http\Requests\Admin\salesInvoice\CreateSalesInvoiceRequest', '.form'); !!}
 
     @include('admin.partial.sweet_alert_messages')
 
@@ -149,7 +145,7 @@
 
 @section('js')
 
-    <script src="{{asset('js/purchase_invoice/index.js')}}"></script>
+    <script src="{{asset('js/sales_invoice/index.js')}}"></script>
 
     <script type="application/javascript">
 

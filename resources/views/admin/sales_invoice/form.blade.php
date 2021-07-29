@@ -14,13 +14,13 @@
                                 <span class="input-group-addon fa fa-file"></span>
 
                                 <select class="form-control js-example-basic-single" name="branch_id" id="branch_id"
-                                        onchange="changeBranch()" {{isset($purchaseInvoice) ? 'disabled':''}}
+                                        onchange="changeBranch()" {{isset($salesInvoice) ? 'disabled':''}}
                                 >
                                     <option value="">{{__('Select Branch')}}</option>
 
                                     @foreach($data['branches'] as $branch)
                                         <option value="{{$branch->id}}"
-                                            {{isset($saleInvoice) && $saleInvoice->branch_id == $branch->id? 'selected':''}}
+                                            {{isset($salesInvoice) && $salesInvoice->branch_id == $branch->id? 'selected':''}}
                                             {{request()->has('branch_id') && request()->branch_id == $branch->id? 'selected':''}}
                                         >
                                             {{$branch->name}}
@@ -31,8 +31,8 @@
 
                             {{input_error($errors,'branch_id')}}
 
-                            @if(isset($saleInvoice))
-                                <input type="hidden" name="branch_id" value="{{$saleInvoice->branch_id}}">
+                            @if(isset($salesInvoice))
+                                <input type="hidden" name="branch_id" value="{{$salesInvoice->branch_id}}">
                             @endif
                         </div>
 
@@ -47,8 +47,8 @@
                         <label for="inputNameAr" class="control-label">{{__('Number')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-bars"></li></span>
-                            <input type="text" name="invoice_number" class="form-control" placeholder="{{__('Number')}}"
-                                   value="{{old('invoice_number', isset($saleInvoice)? $saleInvoice->number :'')}}">
+                            <input type="text" name="number" class="form-control" placeholder="{{__('Number')}}"
+                                   value="{{old('number', isset($salesInvoice)? $salesInvoice->number :'')}}">
                         </div>
 
                         {{input_error($errors,'number')}}
@@ -67,7 +67,7 @@
                                     onchange="changeType()">
 
                                 <option value="normal"
-                                    {{isset($saleInvoice) && $saleInvoice->invoice_type == 'normal'? 'selected':'' }}>
+                                    {{isset($salesInvoice) && $salesInvoice->invoice_type == 'normal'? 'selected':'' }}>
                                     {{ __('Normal sale invoice') }}
                                 </option>
 
@@ -83,7 +83,7 @@
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
                             <input type="date" name="date" class="form-control" id="date"
-                                   value="{{old('date', isset($saleInvoice) ? $saleInvoice->date : \Carbon\Carbon::now()->format('Y-m-d'))}}">
+                                   value="{{old('date', isset($salesInvoice) ? $salesInvoice->date : \Carbon\Carbon::now()->format('Y-m-d'))}}">
                         </div>
                         {{input_error($errors,'date')}}
                     </div>
@@ -95,7 +95,7 @@
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-clock-o"></li></span>
                             <input type="time" name="time" class="form-control" id="time"
-                                   value="{{old('time',  isset($saleInvoice) ? $saleInvoice->time : \Carbon\Carbon::now()->format('H:i:s'))}}">
+                                   value="{{old('time',  isset($salesInvoice) ? $salesInvoice->time : \Carbon\Carbon::now()->format('H:i:s'))}}">
                         </div>
                         {{input_error($errors,'time')}}
                     </div>
@@ -131,21 +131,47 @@
 {{--                </div>--}}
 
 
-                <div class="col-md-6">
+                <div class="col-md-3">
+                    <label style="display:block">{{__('Invoice type form')}}</label>
+
+                    <div class="col-md-6" style="padding:0">
+
+                        <div class="radio primary ">
+
+                            <input type="radio" name="type_for" value="customer" id="customer_radio" onclick="changeTypeFor()"
+                                {{ !isset($salesInvoice) ? 'checked':'' }}
+                                {{isset($salesInvoice) && $salesInvoice->type_for == 'customer' ? 'checked':''}} >
+                            <label for="customer_radio">{{__('Customer')}}</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" style="padding:0">
+
+                        <div class="radio primary ">
+
+                            <input type="radio" name="type_for" id="supplier_radio" value="supplier" onclick="changeTypeFor()"
+                                {{isset($salesInvoice) && $salesInvoice->type_for == 'supplier' ? 'checked':''}} >
+                            <label for="supplier_radio">{{__('Supplier')}}</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3" id="suppliers_data" style="{{!isset($salesInvoice) ? 'display:none;':'' }}">
                     <div class="form-group has-feedback">
                         <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon fa fa-user"></span>
 
-                            <select class="form-control js-example-basic-single" name="supplier_id" id="supplier_id"
-                                    onchange="selectSupplier()">
+                            <select class="form-control js-example-basic-single" name="salesable_id" id="supplier_id"
+                                {{!isset($salesInvoice) ? 'disabled':''}}>
+
                                 <option value="">{{__('Select')}}</option>
 
                                 @foreach($data['suppliers'] as $supplier)
                                     <option value="{{$supplier->id}}"
                                             data-discount="{{$supplier->group_discount}}"
                                             data-discount-type="{{$supplier->group_discount_type}}"
-                                        {{isset($saleInvoice) && $saleInvoice->supplier_id == $supplier->id? 'selected':''}}>
+                                        {{isset($salesInvoice) && $salesInvoice->salesable_id == $supplier->id? 'selected':''}}>
                                         {{$supplier->name}}
                                     </option>
                                 @endforeach
@@ -153,20 +179,48 @@
                             </select>
                         </div>
 
-                        {{input_error($errors,'supplier_id')}}
+                        {{input_error($errors,'salesable_id')}}
                     </div>
                 </div>
 
+                <div class="col-md-3" id="customers_data">
+                    <div class="form-group has-feedback">
+                        <label for="inputStore" class="control-label">{{__('Customer name')}}</label>
+                        <div class="input-group">
+                            <span class="input-group-addon fa fa-user"></span>
+
+                            <select class="form-control js-example-basic-single" name="salesable_id" id="customer_id">
+                                <option value="">{{__('Select')}}</option>
+
+                                @foreach($data['customers'] as $customer)
+                                    <option value="{{$customer->id}}"
+
+                                            data-discount="{{$customer->group_sales_discount}}"
+                                            data-discount-type="{{$customer->group_sales_discount_type}}"
+
+                                        {{isset($salesInvoice) && $salesInvoice->salesable_id == $customer->id? 'selected':''}}>
+                                        {{$customer->name}}
+                                    </option>
+                                @endforeach
+
+                            </select>
+                        </div>
+
+                        {{input_error($errors,'salesable_id')}}
+                    </div>
+                </div>
+
+
                 <div class="col-md-3">
-                    <label style="display:block">{{__('Quotation type')}}</label>
+                    <label style="display:block">{{__('Invoice type')}}</label>
 
                     <div class="col-md-6" style="padding:0">
 
                         <div class="radio primary ">
 
                             <input type="radio" name="type" value="cash" id="cash"
-                                {{ !isset($saleInvoice) ? 'checked':'' }}
-                                {{isset($saleInvoice) && $saleInvoice->type == 'cash' ? 'checked':''}} >
+                                {{ !isset($salesInvoice) ? 'checked':'' }}
+                                {{isset($salesInvoice) && $salesInvoice->type == 'cash' ? 'checked':''}} >
                             <label for="cash">{{__('Cash')}}</label>
                         </div>
                     </div>
@@ -176,7 +230,7 @@
                         <div class="radio primary ">
 
                             <input type="radio" name="type" id="credit" value="credit"
-                                {{isset($saleInvoice) && $saleInvoice->type == 'credit' ? 'checked':''}} >
+                                {{isset($salesInvoice) && $salesInvoice->type == 'credit' ? 'checked':''}} >
                             <label for="credit">{{__('Credit')}}</label>
                         </div>
                     </div>
@@ -193,18 +247,18 @@
                             <select class="form-control js-example-basic-single" name="status">
 
                                 <option value="pending"
-                                    {{isset($saleInvoice) && $saleInvoice->status == 'pending'? 'selected':'' }}>
-                                    {{ __('processing') }}
+                                    {{isset($salesInvoice) && $salesInvoice->status == 'pending'? 'selected':'' }}>
+                                    {{ __('pending') }}
                                 </option>
 
-                                <option value="accept"
-                                    {{isset($saleInvoice) && $saleInvoice->status == 'accept' ? 'selected':''}}>
-                                    {{ __('Accept') }}
+                                <option value="processing"
+                                    {{isset($salesInvoice) && $salesInvoice->status == 'processing' ? 'selected':''}}>
+                                    {{ __('Processing') }}
                                 </option>
 
-                                <option value="reject"
-                                    {{isset($saleInvoice) && $saleInvoice->status == 'reject' ? 'selected':''}}>
-                                    {{ __('Reject') }}
+                                <option value="finished"
+                                    {{isset($salesInvoice) && $salesInvoice->status == 'finished' ? 'selected':''}}>
+                                    {{ __('Finished') }}
                                 </option>
 
                             </select>
@@ -218,8 +272,7 @@
 
         <div class="row center-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
-            <div class="col-md-4 out_purchase_request_type"
-                 style="{{isset($saleInvoice) && $saleInvoice->invoice_type == 'from_supply_order'? 'display:none':''}}">
+            <div class="col-md-4 out_purchase_request_type">
                 <div class="form-group has-feedback">
                     <label for="inputStore" class="control-label text-new1">{{__('Main Types')}}</label>
                     <div class="input-group" id="main_types">
@@ -241,9 +294,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4 out_purchase_request_type"
-                 style="{{isset($saleInvoice) && $saleInvoice->invoice_type == 'from_supply_order'? 'display:none':''}}"
-            >
+            <div class="col-md-4 out_purchase_request_type">
                 <div class="form-group has-feedback">
                     <label for="inputStore" class="control-label text-new1">{{__('Sub Types')}}</label>
                     <div class="input-group" id="sub_types">
@@ -265,8 +316,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4 out_purchase_request_type"
-                 style="{{isset($saleInvoice) && $saleInvoice->invoice_type == 'from_supply_order'? 'display:none':''}}">
+            <div class="col-md-4 out_purchase_request_type">
                 <div class="form-group has-feedback">
                     <label for="inputStore" class="control-label text-new1">{{__('Parts')}}</label>
                     <div class="input-group" id="parts">

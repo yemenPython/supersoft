@@ -20,6 +20,7 @@ use App\Notifications\LessPartsNotifications;
 use App\Services\MailServices;
 use App\Services\NotificationServices;
 use App\Services\PointsServices;
+use App\Services\SalesInvoiceServices;
 use App\Traits\SubTypesServices;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Notification;
@@ -48,10 +49,12 @@ class SalesInvoicesController extends Controller
     use SubTypesServices;
 
     public $lang;
+    public $salesInvoiceServices;
 
     public function __construct()
     {
         $this->lang = App::getLocale();
+        $this->salesInvoiceServices = new SalesInvoiceServices();
 
 //        $this->middleware('permission:view_sales_invoices');
 //        $this->middleware('permission:create_sales_invoices',['only'=>['create','store']]);
@@ -170,7 +173,7 @@ class SalesInvoicesController extends Controller
             'partsTypes', 'taxes', 'customer_categories'));
     }
 
-    public function store(CreateSalesInvoiceRequest $request)
+    public function oldStore(CreateSalesInvoiceRequest $request)
     {
         if (!auth()->user()->can('create_sales_invoices')) {
             return redirect()->back()->with(['authorization' => 'error']);
@@ -470,38 +473,40 @@ class SalesInvoicesController extends Controller
     public function destroy(SalesInvoice $invoice)
     {
 
-        if (!auth()->user()->can('delete_sales_invoices')) {
-            return redirect()->back()->with(['authorization' => 'error']);
-        }
+//        if (!auth()->user()->can('delete_sales_invoices')) {
+//            return redirect()->back()->with(['authorization' => 'error']);
+//        }
 
         $invoice->delete();
 
-        $this->sendNotification('sales_invoice', 'customer',
-            [
-                'sales_invoice' => $invoice,
-                'message' => 'Your sales invoice deleted, please check'
-            ]);
+//        $this->sendNotification('sales_invoice', 'customer',
+//            [
+//                'sales_invoice' => $invoice,
+//                'message' => 'Your sales invoice deleted, please check'
+//            ]);
 
-        if ($invoice->customer && $invoice->customer->email) {
-
-            $this->sendMail($invoice->customer->email, 'sales_invoice_status', 'sales_invoice_delete', 'App\Mail\SalesInvoice');
-        }
+//        if ($invoice->customer && $invoice->customer->email) {
+//
+//            $this->sendMail($invoice->customer->email, 'sales_invoice_status', 'sales_invoice_delete', 'App\Mail\SalesInvoice');
+//        }
 
         return redirect()->back()->with(['message' => __('words.sale-invoice-deleted'), 'alert-type' => 'success']);
     }
 
     public function deleteSelected(Request $request)
     {
-        if (!auth()->user()->can('delete_sales_invoices')) {
-            return redirect()->back()->with(['authorization' => 'error']);
-        }
+//        if (!auth()->user()->can('delete_sales_invoices')) {
+//            return redirect()->back()->with(['authorization' => 'error']);
+//        }
 
         try {
             if (isset($request->ids) && is_array($request->ids)) {
+
                 SalesInvoice::whereIn('id', array_unique($request->ids))->delete();
-                return redirect()->back()
-                    ->with(['message' => __('words.selected-row-deleted'), 'alert-type' => 'success']);
+
+                return redirect()->back()->with(['message' => __('words.selected-row-deleted'), 'alert-type' => 'success']);
             }
+
         } catch (\Exception $e) {
             return redirect()->back()->with(['message' => __('words.try-agian'), 'alert-type' => 'error']);
         }
@@ -509,9 +514,11 @@ class SalesInvoicesController extends Controller
             ->with(['message' => __('words.select-row-least'), 'alert-type' => 'error']);
     }
 
-//   new version
+//  ////////////////// new version /////////////////////////////////
 
     public function index (Request $request) {
+
+        $data['invoices'] = SalesInvoice::get();
 
         $data['paymentTerms'] = SupplyTerm::where('purchase_invoice', 1)->where('status', 1)->where('type', 'payment')
             ->select('id', 'term_' . $this->lang)->get();
@@ -564,6 +571,55 @@ class SalesInvoicesController extends Controller
             ->get();
 
         return view('admin.sales_invoice.create', compact('data'));
+    }
+
+    public function store(CreateSalesInvoiceRequest $request)
+    {
+
+        try {
+
+            DB::beginTransaction();
+
+            $data = $request->all();
+
+            $invoice_data = $this->salesInvoiceServices->prepareInvoiceData($data);
+
+            $invoice_data['created_by'] =  auth()->id();
+            $invoice_data['branch_id'] = authIsSuperAdmin() ? $request['branch_id'] : auth()->user()->branch_id;
+
+            $salesInvoice = SalesInvoice::create($invoice_data);
+
+            $this->salesInvoiceServices->salesInvoiceTaxes($salesInvoice, $data);
+
+            foreach ($data['items'] as $item) {
+
+                $item_data = $this->salesInvoiceServices->calculateItemTotal($item);
+
+                $item_data['sales_invoice_id'] = $salesInvoice->id;
+
+                $purchaseInvoiceItem = SalesInvoiceItems::create($item_data);
+
+                if (isset($item['taxes'])) {
+                    $purchaseInvoiceItem->taxes()->attach($item['taxes']);
+                }
+
+//                if ($purchaseInvoice->status == 'accept' && $purchaseInvoice->invoice_type = 'normal') {
+//                    $this->affectedPart($purchaseInvoiceItem);
+//                }
+            }
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            dd($e->getMessage());
+
+            return redirect()->back()->with(['message' => __('words.sales-invoice-cant-created'), 'alert-type' => 'error']);
+        }
+
+        return redirect()->to(route('admin:sales.invoices.index'))
+            ->with(['message' => __('words.sales-invoice-created'), 'alert-type' => 'success']);
+
     }
 
     public function selectPartRaw(Request $request)
