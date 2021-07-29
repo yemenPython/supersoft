@@ -332,3 +332,11 @@ table th {
 .middle-data-h-print {
     margin: 50px 0 !important
 }
+
+html[dir="ltr"] .print-foot-wg .col-xs-7 {
+    background: #333;
+    color: white !important;
+    border-radius: 100px 0 0 0 !important;
+    border-left: 15px solid #526cc2 !important;
+    border-right: none !important;
+}
