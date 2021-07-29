@@ -130,10 +130,10 @@
                             <li>
                                 <div class="radio info">
                                     <input id="radio_status_delay" type="radio" name="type"
-                                           @if(isset($purchaseAsset) && $purchaseAsset->type=='delay')
+                                           @if(isset($purchaseAsset) && $purchaseAsset->type=='credit')
                                            checked
                                            @endif
-                                           value="delay">
+                                           value="credit">
                                     <label for="radio_status_delay">{{ __('Credit') }}</label>
                                 </div>
                             </li>

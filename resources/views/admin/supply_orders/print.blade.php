@@ -347,7 +347,7 @@
                 <div class="row last-total" style="background-color:#ddd !important">
 
                     <div class="col-xs-12">
-                        <h6 data-id="data-totalInLetters" id="totalInLetters"> {{$supplyOrder->total}} </h6>
+                    <h6 data-id="data-totalInLetters" id="totalInLetters">{{$supplyOrder->total}}</h6>
                     </div>
                 </div>
 
@@ -392,8 +392,9 @@
     </div>
 
 
-    <div class="print-foot-wg">
-        <div class="row">
+    <div class="print-foot-wg position-relative ml-0" >
+        <div class="row" style="display: flex;
+    align-items: flex-end;">
             <div class="col-xs-7">
                 <div class="row">
                     <div class="col-xs-12">
@@ -434,8 +435,8 @@
             </div>
         </div>
     </div>
-</div>
-</div>
+
+    </div>
 </div>
 
 </section>

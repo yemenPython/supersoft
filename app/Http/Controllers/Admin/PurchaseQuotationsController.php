@@ -358,8 +358,17 @@ class PurchaseQuotationsController extends Controller
 
     public function print(Request $request)
     {
+        // is first page 
         $purchaseQuotation = PurchaseQuotation::findOrFail($request['purchase_quotation_id']);
-
+        // header 6 row 
+        // items 21 row 
+        // 3 row
+        // 30 
+        // taxes rows 
+        // is last page 
+        
+        // show footer 
+        //
         $view = view('admin.purchase_quotations.print', compact('purchaseQuotation'))->render();
 
         return response()->json(['view' => $view]);

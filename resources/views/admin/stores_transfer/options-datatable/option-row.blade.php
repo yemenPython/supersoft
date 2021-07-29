@@ -31,7 +31,7 @@
             500
         </option>
     </select>
-    قيم كل صفحه
+   {{__('per page')}}
 
 
 </div>

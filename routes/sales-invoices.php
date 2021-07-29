@@ -6,18 +6,19 @@ Route::get('/sales-invoices', 'SalesInvoicesController@index')->name('sales.invo
 Route::get('/sales-invoices/create', 'SalesInvoicesController@create')->name('sales.invoices.create');
 Route::post('/sales-invoices/store', 'SalesInvoicesController@store')->name('sales.invoices.store');
 //
-////front end routes
+
+//front end routes
 Route::post('/sales-invoices-add-customer', 'SalesInvoicesFrontEndController@addCustomer')->name('sales.invoices.add.customer');
 Route::post('/sales-invoices-customer-balance', 'SalesInvoicesFrontEndController@customerBalance')->name('sales.invoice.customer.balance');
-//
-//// data by branch
+
+// data by branch
 Route::post('/sales-invoices-data-by-branch', 'SalesInvoicesFrontEndController@dataByBranch')->name('sales.invoices.data.by.branches');
-//
-////invoice items
+
+//invoice items
 Route::post('/sales-invoices-parts-details', 'SalesInvoicesFrontEndController@partDetails')->name('sales.invoices.parts.details');
 Route::post('/sales.invoices.get.purchase.invoice.data','SalesInvoicesFrontEndController@purchaseInvoiceData')
-    ->name('sales.invoices.get.purchase.invoice.data');
-//
+   ->name('sales.invoices.get.purchase.invoice.data');
+
 //// store invoice
 ////Route::post('/sales-invoices-store', 'SalesInvoicesController@store')->name('sales.invoices.store');
 //

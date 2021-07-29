@@ -149,52 +149,53 @@
 </div>
 
 
+<div class="print-foot-wg position-relative ml-0" >
+        <div class="row" style="display: flex;
+    align-items: flex-end;">
+            <div class="col-xs-7">
+                <div class="row">
+                    <div class="col-xs-12">
 
-<div class="print-foot-wg">
-    <div class="row">
-        <div class="col-xs-7">
-            <div class="row">
-            <div class="col-xs-12">
+                        <div class="media">
+                            <div class="media-left">
+                                <h6 class="media-heading" style="line-height:30px;">{{__('address')}} </h6>
+                            </div>
 
-                    <div class="media">
-                    <div class="media-left">
-                        <h6 class="media-heading" style="line-height:30px;">{{__('address')}} </h6>
+                            <div class="media-body">
+                                <h6 style="padding:0 15px">{{optional($branchToPrint)->address_ar}} </h6>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-xs-6">
+
+                    </div>
+                    <div class="col-xs-6">
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xs-5 small-data-wg">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <h6>{{__('contact numbers')}} : </h6>
+                    </div>
+                    <div class="col-xs-4">
+                        <h6>{{optional($branchToPrint)->phone1}}</h6>
                     </div>
 
-                    <div class="media-body">
-                        <h6 style="padding:0 15px">{{optional($branchToPrint)->address_ar}} </h6>
+                    <div class="col-xs-4">
+                        <h6>{{optional($branchToPrint)->phone2}}</h6>
                     </div>
-                    </div>
-
-                </div>
-                <div class="col-xs-6">
-
-                </div>
-                <div class="col-xs-6">
-
-                </div>
-                </div>
-
-                </div>
-                <div class="col-xs-5 small-data-wg">
-                  <div class="row">
-                      <div class="col-xs-4">
-                          <h6>{{__('contact numbers')}} : </h6>
-                      </div>
-                      <div class="col-xs-4">
-                          <h6>{{optional($branchToPrint)->phone1}}</h6>
-                      </div>
-                      
-                      <div class="col-xs-4">
-                          <h6>{{optional($branchToPrint)->phone2}}</h6>
-                      </div>
-                  </div>
-                </div>   
                 </div>
             </div>
         </div>
     </div>
+
+    </div>
 </div>
+
 
 </section>
 

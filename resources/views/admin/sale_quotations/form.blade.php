@@ -112,7 +112,7 @@
 
                 <div class="col-md-6">
                     <div class="form-group has-feedback">
-                        <label for="inputStore" class="control-label">{{__('Customers')}}</label>
+                        <label for="inputStore" class="control-label">{{__('Customer name')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon fa fa-user"></span>
                             <select class="form-control js-example-basic-single" name="customer_id" id="supplier_id"

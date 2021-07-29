@@ -31,6 +31,10 @@
                                     src="{{asset('assets/images/f3.png')}}"></button>
 						</span>
                 </h1>
+
+                <div class="row top-data-wg for-error-margin-group" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+
+
                 <div class="box-content">
                     <form method="post" action="{{route('admin:services_packages.store')}}" class="form">
                         @csrf
@@ -70,8 +74,11 @@
                             </div>
                             {{input_error($errors,'name_en')}}
                         </div>
-                        <div class="clearfix"></div>
+                        </div>
+    </div>
 
+
+    <div class="row center-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
             <div class="row products-details-wg">
 <div class="col-lg-5 col-md-6 col-sm-12 col-xs-12">
@@ -169,57 +176,187 @@
 </div>
 
 
-
-                        </div>
-
-
+</div>
+</div>
 
 
 
-                        <div class="form-group has-feedback col-sm-12">
+
+
+                        <div class="row bottom-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+
+
+                        <div class="col-md-12 input-height">
+
+<div class="col-md-4">
+   
+<table class="table table-bordered">
+
+<tr>
+      <th style="width:40%;height:50px;background:#F9EFB7 !important;color:black !important">{!! __('Service Total Price') !!}</th>
+      <td style="background:#F9EFB7">
+      <input type="text"
+      style="background:#F9EFB7; border:none;text-align:center !important;"
+      class="form-control" readonly name="total_before_discount"
+                                               id="total_before_discount" value="0">    
+      </td>
+      </tr>
+</table>
+</div>
+
+<div class="col-md-4">
+
+<table class="table table-bordered">
+      <tr>
+      <th style="width:40%;height:50px;background:#F9EFB7 !important;color:black !important">{!! __('Total Hours') !!}</th>
+      <td style="background:#F9EFB7">   
+      <input type="text"
+      style="background:#F9EFB7; border:none;text-align:center !important;"
+      class="form-control" readonly name="number_of_hours"
+                                               value="0" id="serviceH">
+                                               </td>
+      </tr>
+</table>
+</div>
+
+
+
+<div class="col-md-4">
+
+<table class="table table-bordered">
+      <tr>
+      <th style="width:40%;height:50px;background:#F9EFB7 !important;color:black !important">{!! __('Total Minutes') !!}</th>
+      <td style="background:#F9EFB7">
+      <input type="text"
+      style="background:#F9EFB7; border:none;text-align:center !important;"
+      class="form-control" readonly name="number_of_min"
+                                               value="0" id="serviceM">
+      
+                                               
+                       </td>
+      </tr>
+</table>
+</div>
+      
+
+<div class="col-md-4">
+
+<table class="table table-bordered">
+      <tr>
+      <th style="width:40%;height:50px;background:rgb(210, 244, 246) !important;color:black !important">{!! __('Total Service Number') !!}</th>
+      <td style="background:rgb(210, 244, 246)">
+
+      <input type="text"
+      style="background:rgb(210, 244, 246); border:none;text-align:center !important;"
+      class="form-control" readonly name="services_number"
+                                               value="0" id="serviceNumber">
+                                               
+                       </td>
+      </tr>
+</table>
+</div>
+
+<div class="col-md-4">
+
+<table class="table table-bordered">
+      <tr>
+      <th style="width:40%;height:50px;background:rgb(210, 244, 246) !important;color:black !important">{!! __('Discount Type') !!}</th>
+      <td style="background:rgb(210, 244, 246)">
+
+      <select name="discount_type" id="discount_type"
+                                                class="form-control js-example-basic-single">
+                                            <option value="value">{{__('Value')}}</option>
+                                            <option value="percent">{{__('Percent')}}</option>
+                                        </select>
+                       </td>
+      </tr>
+</table>
+</div>
+
+<div class="col-md-4">
+
+<table class="table table-bordered">
+      <tr>
+      <th style="width:40%;height:50px;background:rgb(210, 244, 246) !important;color:black !important">{!! __('Discount') !!}</th>
+      <td style="background:rgb(210, 244, 246)">
+
+      <input type="text"
+      style="background:rgb(210, 244, 246); border:none;text-align:center !important;"
+
+      class="form-control" value="0" id="discount_value"
+                                               name="discount_value">             
+                       </td>
+      </tr>
+</table>
+</div>
+
+<div class="col-md-12">
+
+<table class="table table-bordered">
+      <tr>
+      <th style="width:31%;height:50px;background:rgb(255, 197, 215) !important;color:black !important">{!! __('Total After Discount') !!}</th>
+      <td style="background:rgb(255, 197, 215)">
+
+      <input type="text"
+      style="background:rgb(255, 197, 215); border:none;text-align:center !important;"
+
+      class="form-control" readonly value="0" name="total_after_discount" id="total_after_discount">         
+      </td>
+      </tr>
+</table>
+<br>
+</div>
+</div>
+
+</div>
+
+      <!-- <div class="form-group has-feedback col-sm-12">
                             <table class="table table-bordered" style="width:100%">
                                 <thead>
-                                <tr>
-                                    <th scope="col">{!! __('Service Total Price') !!}</th>
-                                    <th scope="col">{!! __('Total Hours') !!}</th>
-                                    <th scope="col">{!! __('Total Minutes') !!}</th>
-                                    <th scope="col">{!! __('Total Service Number') !!}</th>
-                                    <th scope="col" style="width:20%">{!! __('Discount Type') !!}</th>
-                                    <th scope="col">{!! __('Discount') !!}</th>
-                                    <th scope="col">{!! __('Total After Discount') !!}</th>
-                                </tr>
+                                <tr> -->
+                                    <!-- <th scope="col">{!! __('Service Total Price') !!}</th> -->
+                                    <!-- <th scope="col">{!! __('Total Hours') !!}</th> -->
+                                    <!-- <th scope="col">{!! __('Total Minutes') !!}</th> -->
+                                    <!-- <th scope="col">{!! __('Total Service Number') !!}</th> -->
+                                    <!-- <th scope="col" style="width:20%">{!! __('Discount Type') !!}</th> -->
+                                    <!-- <th scope="col">{!! __('Discount') !!}</th> -->
+                                    <!-- <th scope="col">{!! __('Total After Discount') !!}</th> -->
+                                <!-- </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td><input type="text" class="form-control" readonly name="total_before_discount"
-                                               id="total_before_discount" value="0"></td>
-                                    <td><input type="text" class="form-control" readonly name="number_of_hours"
-                                               value="0" id="serviceH"></td>
-                                    <td><input type="text" class="form-control" readonly name="number_of_min"
-                                               value="0" id="serviceM"></td>
-                                    <td><input type="text" class="form-control" readonly name="services_number"
-                                               value="0" id="serviceNumber"></td>
-                                    <td>
+                                <tr> -->
+                                    <!-- <td><input type="text" class="form-control" readonly name="total_before_discount"
+                                               id="total_before_discount" value="0"></td> -->
+                                    <!-- <td><input type="text" class="form-control" readonly name="number_of_hours"
+                                               value="0" id="serviceH"></td> -->
+                                    <!-- <td><input type="text" class="form-control" readonly name="number_of_min"
+                                               value="0" id="serviceM"></td> -->
+                                    <!-- <td><input type="text" class="form-control" readonly name="services_number"
+                                               value="0" id="serviceNumber"></td> -->
+                                    <!-- <td>
                                         <select name="discount_type" id="discount_type"
                                                 class="form-control js-example-basic-single">
                                             <option value="value">{{__('Value')}}</option>
                                             <option value="percent">{{__('Percent')}}</option>
                                         </select>
-                                    </td>
-                                    <td><input type="text" class="form-control" value="0" id="discount_value"
-                                               name="discount_value"></td>
-                                    <td><input type="text" class="form-control" readonly value="0"
-                                               name="total_after_discount" id="total_after_discount"></td>
-                                </tr>
+                                    </td> -->
+                                    <!-- <td><input type="text" class="form-control" value="0" id="discount_value"
+                                               name="discount_value"></td> -->
+                                    <!-- <td><input type="text" class="form-control" readonly value="0"
+                                               name="total_after_discount" id="total_after_discount"></td> -->
+                                <!-- </tr>
                                 </tbody>
                             </table>
                         </div>
 
-                        <div class="form-group col-sm-12">
+                        </div> -->
+
+                    
                             @include('admin.buttons._save_buttons')
-                        </div>
-                    </form>
-                </div>
+                     
+                  
+                </form>
+               
                 <!-- /.box-content -->
             </div>
         </div>

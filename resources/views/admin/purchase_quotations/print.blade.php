@@ -1,6 +1,6 @@
 
 <div id="concession_to_print" >
-    <div class="border-container" style="    border: 1px solid #3b3b3b;">
+    <div class="border-container" style="border: 1px solid #3b3b3b;">
 @foreach($purchaseQuotation->items()->where('active', 1)->get()->chunk(15) as $one)
 
 

@@ -10,7 +10,7 @@
         <button class="dt-button buttons-collection buttons-colvis" onclick="change_columns(event)">
             <i class="fa fa-tasks"></i> {{ __('accounting-module.column-visibility') }}
         </button>
-        عرض
+        {{__('Show')}}
         <select onchange="change_rows(event)" class="wg-select">
             <option {{ isset($_GET['rows']) && $_GET['rows'] == 25 ? 'selected' : '' }} value="25">
                 25
@@ -29,7 +29,7 @@
                 500
             </option>
         </select>
-        قيم كل صفحه
+        {{__('per page')}}
     </div>
 
 <div class="col-md-4 col-sm-4 col-xs-12 text-left-wg" style="padding-right: 0;margin-top:10px">

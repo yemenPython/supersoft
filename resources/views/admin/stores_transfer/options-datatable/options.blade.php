@@ -32,7 +32,7 @@
 @if (isset($withStatus))
     @if( $storeTransfer->concession )
         @if( $storeTransfer->concession->status == 'pending' )
-            <span class="label label-info wg-label"> {{__('Pending')}}</span>
+        <span class="label label-info wg-label"> {{__('Pending')}}</span>
         @elseif( $storeTransfer->concession->status == 'accepted' )
             <span class="label label-success wg-label"> {{__('Accepted')}} </span>
         @elseif( $storeTransfer->concession->status == 'rejected' )
