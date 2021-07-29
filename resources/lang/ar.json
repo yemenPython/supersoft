@@ -2171,6 +2171,11 @@
     "Period of sale supply order to" : "تاريخ التوريد إلى",
     "Show Sale Quotations" : "تحديد عروض أسعار المبيعات",
     "Customer name" : "اسم العميل",
-    "Service Package name" : "اسم الباكيدج"
+    "Service Package name" : "اسم الباكيدج",
+    "taxable" : "الضرائب",
+    "per page" : "قيم كل صفحه",
+    "sale supply order days" : "فترة أمر التوريد بالأيام",
+    "Sale Invoices" : "فواتير المبيعات",
+    "Normal sale invoice" : "فاتورة مبيعات مباشرة"
 
 }

@@ -86,7 +86,7 @@ class SaleQuotationController extends Controller
             ->get();
 
         return view('admin.sale_quotations.create',
-            compact('branches', 'mainTypes', 'subTypes','additionalPayments', 'parts', 'suppliers', 'taxes', 'customers'));
+            compact('branches', 'mainTypes', 'subTypes','additionalPayments', 'parts', 'taxes', 'customers'));
     }
 
     public function store(CreateRequest $request) {
@@ -174,7 +174,7 @@ class SaleQuotationController extends Controller
             ->get();
 
         return view('admin.sale_quotations.edit',
-            compact('branches', 'mainTypes', 'subTypes', 'parts', 'saleQuotation', 'suppliers', 'taxes',
+            compact('branches', 'mainTypes', 'subTypes', 'parts', 'saleQuotation', 'taxes',
                 'additionalPayments', 'customers'));
     }
 

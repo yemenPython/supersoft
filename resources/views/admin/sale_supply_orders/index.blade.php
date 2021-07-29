@@ -49,7 +49,7 @@
 
                                 <th scope="col">{!! __('Total') !!}</th>
 
-                                <th scope="col">{!! __('sal supply order days') !!}</th>
+                                <th scope="col">{!! __('sale supply order days') !!}</th>
                                 <th scope="col">{!! __('Remaining Days') !!}</th>
                                 <th scope="col">{!! __('Status') !!}</th>
                                 <th scope="col">{!! __('Execution Status') !!}</th>

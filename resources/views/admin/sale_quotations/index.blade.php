@@ -47,9 +47,9 @@
                                 @endif
                                 <th scope="col">{!! __('Quotation Number') !!}</th>
 
-
+                                <th scope="col">{!! __('Customer name') !!}</th>
                                 <th scope="col">{!! __('Quotation type') !!}</th>
-                                <th scope="col">{!! __('Customer') !!}</th>
+                           
 
                                 <th scope="col">{!! __('Total') !!}</th>
 
@@ -80,9 +80,9 @@
                                 @endif
                                 <th scope="col">{!! __('Quotation Number') !!}</th>
 
-
+                                <th scope="col">{!! __('Customer name') !!}</th>
                                 <th scope="col">{!! __('Quotation type') !!}</th>
-                                <th scope="col">{!! __('Customer') !!}</th>
+                               
 
                                 <th scope="col">{!! __('Total') !!}</th>
 
@@ -108,6 +108,9 @@
 
                                     <td>{{ $item->number }}</td>
 
+                                    <td>{{ $item->customer ? $item->customer->name :__('Not determined') }} </td>
+
+
                                     <td>
                                         @if ($item->type === "cash")
                                             <span class="label label-primary wg-label">
@@ -120,7 +123,6 @@
                                         @endif
                                     </td>
 
-                                    <td><span style="background:#F7F8CC !important">{{ $item->customer ? $item->customer->name :'---' }} </span></td>
                                     <td><span style="background:#F7F8CC !important">{{ __($item->total) }} </span></td>
 
 

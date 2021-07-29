@@ -33,7 +33,7 @@
         <li>
             <a class="btn btn-wg-show hvr-radial-out" target="_blank"
                href="{{route('admin:store_employee_history.index', ['store' => $store->id])}}" >
-                <i class="fa fa-eye"></i>{{ __( 'employees history' )}}</a>
+                <i class="fa fa-eye"></i> {{ __( 'employees history' )}}</a>
 
         </li>
 

@@ -4,12 +4,12 @@
 @endsection
 
 @section('style')
-    <style>
+    <!-- <style>
         .wg-label {
             font-size: 10px !important;
             padding: 3px !important;
         }
-    </style>
+    </style> -->
 @endsection
 @section('content')
     <div class="row small-spacing">

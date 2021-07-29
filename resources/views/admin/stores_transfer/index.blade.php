@@ -6,12 +6,12 @@
 
 @section('style')
     <link rel="stylesheet" href="{{ asset('accounting-module/daily-restriction.css') }}"/>
-    <style>
+    <!-- <style>
         .wg-label {
             font-size: 10px !important;
             padding: 2px !important;
         }
-    </style>
+    </style> -->
 @endsection
 
 @section('content')
