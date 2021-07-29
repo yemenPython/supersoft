@@ -86,10 +86,10 @@
 
 </button>
 
-<ul class="dropdown-menu dropdown-wg">
+<ul class="dropdown-menu dropdown-wg border-bottom-wg-chos">
 
 
-<li class="btn-style-drop" style="margin-bottom:2px !important">
+<li class="btn-style-drop" style="">
   {{--        @if(!isset($request_type) || ( isset($request_type) && $request_type != 'approval'))--}}
             <a type="button" class="btn btn-danger" onclick="removeItem('{{$index}}')">
             <i class="fa fa-trash"></i>  {{__('Delete')}}

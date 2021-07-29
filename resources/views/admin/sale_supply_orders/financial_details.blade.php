@@ -146,7 +146,7 @@
         <table class="table table-bordered">
             <tr>
                 <th style="width:40%;height:50px;background:#FFC5D7 !important;color:black !important">
-                    <div class="btn-group group-eye-wg-one" style="position: relative;top: -2px;">
+                    <div class="btn-group group-eye-wg-one" style="position: absolute;top: 22px;right:81px">
                     <span type="button" class="fa fa-eye eye-design-one dropdown-toggle" data-toggle="dropdown"
 
                           aria-haspopup="true" aria-expanded="false"> </span>
@@ -216,7 +216,7 @@
         <table class="table table-bordered">
             <tr>
                 <th style="width:40%;height:50px;background:#D2CCF8 !important;color:black !important">
-                    <div class="btn-group  group-eye-wg" style="position: relative;top: -2px;">
+                    <div class="btn-group  group-eye-wg" style="position: absolute;top: 22px;right:70px">
                     <span type="button" class="fa fa-eye eye-design-two dropdown-toggle" data-toggle="dropdown"
 
                           aria-haspopup="true" aria-expanded="false"> </span>

@@ -816,12 +816,29 @@ background-image: linear-gradient(0deg, #1d92af 0%, #1d5697 100%); */
             }
             .text-for-official {
                 padding: 0 30px;
-                color: #E7515A;
+                color: #bbb9b9;
                 font-size: 13px;
                 text-align: center;
             }
             .no-officials .icon-official i {
                 font-size: 19px;
+            }
+            .group-eye-wg {
+                position: inherit !important;
+                display: block !important;
+                width: fit-content;
+                margin: 0px auto 9px;
+            }
+            .group-eye-wg-one {
+                position: inherit !important;
+                display: block !important;
+                width: fit-content;
+                margin: 0px auto 9px;
+            }
+            .group-eye-wg-one .eye-design-one,
+            .group-eye-wg .eye-design-two {
+                position: inherit !important;
+                display: flex;
             }
         }
         
@@ -891,4 +908,8 @@ background-image: linear-gradient(0deg, #1d92af 0%, #1d5697 100%); */
         
         .for-error-margin-group .form-group {
             margin-bottom: 30px !important
+        }
+        
+        .border-bottom-wg-chos li {
+            margin-bottom: 2px !important
         }

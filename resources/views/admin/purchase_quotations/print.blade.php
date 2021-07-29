@@ -424,7 +424,7 @@
 
 @endif
     <div class="print-foot-wg position-relative ml-0" >
-        <div class="row" style="display: flex;
+        <div class="row for-reverse-en" style="display: flex;
     align-items: flex-end;">
             <div class="col-xs-7">
                 <div class="row">
