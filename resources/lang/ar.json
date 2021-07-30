@@ -2219,7 +2219,14 @@
     "Receive Date" : "تاريخ الإستلام",
     "Delivery Date" : "تاريخ التسليم",
     "Receive Time" : "وقت الإستلام",
-    "Delivery Time" : "وقت التسليم"
+    "Delivery Time" : "وقت التسليم",
+    "Asset Expenses invoice" : "فاتورة مصروفات أصول",
+    "Asset Expenses invoice data" : "بيانات فاتورة مصروفات أصول",
+    "Asset expense Number" : "رقم الفاتورة",
+    "Asset expense Type" : "حالة الفاتورة",
+    "total cost" : "إجمالي التكلفة",
+    "Assets Replacements data" : "بيانات فاتورة التجديد والإحلال",
+    "Asset Replacement items" : "الأصول التى تم تجديدها"
 
 
 }

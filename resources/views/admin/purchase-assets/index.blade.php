@@ -291,6 +291,19 @@
             });
         }
 
+        function getPrintData(id) {
+            $.ajax({
+                url: "{{ route('admin:purchase-assets.show') }}?id=" + id,
+                method: 'GET',
+                success: function (data) {
+                    $("#invoiceDatatoPrint").html(data.invoice)
+                    let total = $("#totalInLetters").text()
+                    $("#totalInLetters").html(new Tafgeet(total, '{{config("currency.defualt_currency")}}').parse())
+                }
+            });
+        }
+
+
         function filterFunction($this) {
             $("#loaderSearch").show();
             $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();

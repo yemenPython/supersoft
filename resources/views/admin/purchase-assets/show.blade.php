@@ -136,7 +136,7 @@
                 <div class="col-xs-6 text-center">
 
 
-                    <div class="row last-total">
+                    <div class="row last-total" style="background-color:#ddd !important">
                         <div class="col-xs-7">
                             <h6>{{__('total purchase cost')}}</h6>
                         </div>
@@ -192,6 +192,23 @@
                 </div>
              
                 </div>
+
+                <div class="col-xs-12" style="padding:0 !important">
+                <div class="col-xs-12 text-center" style="padding:5px !important">
+
+
+                    <div class="row last-total" style="background-color:#ddd !important">
+
+                        <div class="col-xs-12">
+                            <h6 data-id="data-totalInLetters" id="totalInLetters"> {{$asset->total_purchase_cost}} </h6>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+      
 
                 
                 <div class="row right-peice-wg" style="padding:0 30px 50px 30px;margin-bottom:30px">
