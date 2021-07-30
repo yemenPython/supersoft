@@ -597,6 +597,10 @@
             lengthMenu: [ [25 , 50, 100, 250, 500, -1], [25, 50, 100, 250, 500, "{{__('All')}}"] ],
             "lengthChange": true,
         });
+        $datatable.on( 'length', function (e,settings,len ) {
+            var url = '{{url()->full()}}?&filter=';
+            $datatable.ajax.url(url).load();
+        } );
     }
 </script>
 
