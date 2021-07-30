@@ -41,6 +41,9 @@ class PurchaseQuotationsController extends Controller
     public function index (Request $request)
     {
         $data = PurchaseQuotation::query()->latest();
+        if ($request->filled('filter')) {
+            $data = $this->filter($request, $data);
+        }
         $paymentTerms = SupplyTerm::where('for_purchase_quotation', 1)->where('status', 1)->where('type', 'payment')
             ->select('id', 'term_' . $this->lang)->get();
 
@@ -358,16 +361,16 @@ class PurchaseQuotationsController extends Controller
 
     public function print(Request $request)
     {
-        // is first page 
+        // is first page
         $purchaseQuotation = PurchaseQuotation::findOrFail($request['purchase_quotation_id']);
-        // header 6 row 
-        // items 21 row 
+        // header 6 row
+        // items 21 row
         // 3 row
-        // 30 
-        // taxes rows 
-        // is last page 
-        
-        // show footer 
+        // 30
+        // taxes rows
+        // is last page
+
+        // show footer
         //
         $view = view('admin.purchase_quotations.print', compact('purchaseQuotation'))->render();
 
@@ -476,5 +479,43 @@ class PurchaseQuotationsController extends Controller
                 $withOptions = true;
                 return view($viewPath, compact('item', 'withOptions'))->render();
             })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
+    }
+
+
+    private function filter(Request $request, Builder $data): Builder
+    {
+        return $data->where(function ($query) use ($request) {
+            if ($request->filled('branch_id')) {
+                $query->where('branch_id', $request->branch_id);
+            }
+
+            if ($request->filled('number')) {
+                $query->where('id', $request->number);
+            }
+
+            if ($request->filled('type')) {
+                $query->where('type', $request->type);
+            }
+
+            if ($request->filled('date_add_from') && $request->filled('date_add_to')){
+                $query->whereBetween('date', [$request->date_add_from, $request->date_add_to]);
+            }
+
+            if ($request->filled('date_from')){
+                $query->whereDate('date_from', $request->date_from);
+            }
+
+            if ($request->filled('date_to')){
+                $query->whereDate('date_to', $request->date_to);
+            }
+
+            if ($request->filled('supply_date_from')){
+                $query->whereDate('supply_date_from', $request->supply_date_from);
+            }
+
+            if ($request->filled('supply_date_to')){
+                $query->whereDate('supply_date_to', $request->supply_date_to);
+            }
+        });
     }
 }

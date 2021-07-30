@@ -21,6 +21,7 @@
             </ol>
         </nav>
 
+        @include('admin.purchase_requests.search_form')
 
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">

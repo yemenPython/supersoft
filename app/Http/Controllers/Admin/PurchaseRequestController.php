@@ -36,6 +36,10 @@ class PurchaseRequestController extends Controller
     public function index(Request $request)
     {
         $data = PurchaseRequest::query()->latest();
+        if ($request->filled('filter')) {
+            $data = $this->filter($request, $data);
+        }
+
         if ($request->isDataTable) {
             return $this->dataTableColumns($data);
         } else {
@@ -383,5 +387,29 @@ class PurchaseRequestController extends Controller
                 $withOptions = true;
                 return view($viewPath, compact('item', 'withOptions'))->render();
             })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
+    }
+
+    private function filter(Request $request, Builder $data)
+    {
+        return $data->where(function ($query) use ($request) {
+            if ($request->filled('branch_id')) {
+                $query->where('branch_id', $request->branch_id);
+            }
+
+            if ($request->filled('number')) {
+                $query->where('id', $request->number);
+            }
+
+            if ($request->filled('date_add_from') && $request->filled('date_add_to')){
+                $query->whereBetween('date', [$request->date_add_from, $request->date_add_to]);
+            }
+
+            if ($request->filled('date_request_from')){
+                $query->whereDate('date_from', $request->date_request_from);
+            }
+            if ($request->filled('date_request_to')){
+                $query->whereDate('date_from', $request->date_request_to);
+            }
+        });
     }
 }
