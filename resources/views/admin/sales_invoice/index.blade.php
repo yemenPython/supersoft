@@ -46,6 +46,7 @@
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
                                 <th scope="col">{!! __('Number') !!}</th>
+                                <th scope="col">{!! __('Client') !!}</th>
 
                                 <th scope="col">{!! __('Total') !!}</th>
 
@@ -72,10 +73,8 @@
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
                                 <th scope="col">{!! __('Number') !!}</th>
-
-
+                                <th scope="col">{!! __('Client') !!}</th>
                                 <th scope="col">{!! __('Total') !!}</th>
-
                                 <th scope="col">{!! __('Status') !!}</th>
                                 <th scope="col">{!! __('Execution Status') !!}</th>
                                 <th scope="col">{!! __('Created Date') !!}</th>
@@ -95,6 +94,7 @@
                                     @endif
 
                                     <td>{{ $item->number }}</td>
+                                    <td>{{ $item->salesable ? $item->salesable->name : '---'  }}</td>
 
 
                                     <td>
@@ -220,9 +220,9 @@
 
     {{--    @include('admin.partial.upload_library.form', ['url'=> route('admin:supply.orders.upload_library')])--}}
 
-{{--    @include('admin.partial.print_modal', ['title'=> __('Sale Supply Orders')])--}}
+    @include('admin.partial.print_modal', ['title'=> __('Sales Invoice')])
 
-{{--    @include('admin.sale_supply_orders.terms.supply_terms', ['items' => $data['sale_supply_orders']])--}}
+    @include('admin.sales_invoice.terms.supply_terms', ['items' => $data['invoices']])
 
 @endsection
 
@@ -240,7 +240,7 @@
         function getPrintData(id) {
 
             $.ajax({
-                url: "{{ route('admin:sale.supply.orders.print') }}?sale_supply_order_id=" + id,
+                url: "{{ route('admin:sales.invoices.print') }}?sales_invoice_id=" + id,
                 method: 'GET',
                 success: function (data) {
                     $("#data_to_print").html(data.view);

@@ -27,8 +27,8 @@ Route::get('/sales-invoices-revenue-receipts/{invoice}', 'SalesInvoicesControlle
     ->name('sales.invoices.revenue.receipts');
 
 //// Edit sales-invoice
-Route::get('/sales-invoices/edit/{invoice}', 'SalesInvoicesController@edit')->name('sales.invoices.edit');
-Route::post('/sales-invoices/update/{invoice}', 'SalesInvoicesController@update')->name('sales.invoices.update');
+Route::get('/sales-invoices/edit/{salesInvoice}', 'SalesInvoicesController@edit')->name('sales.invoices.edit');
+Route::post('/sales-invoices/update/{salesInvoice}', 'SalesInvoicesController@update')->name('sales.invoices.update');
 
 //// delete Invoice
 Route::delete('/sales-invoices/delete/{invoice}', 'SalesInvoicesController@destroy')->name('sales.invoices.destroy');
@@ -36,6 +36,7 @@ Route::post('sales-invoices-deleteSelected', 'SalesInvoicesController@deleteSele
 //
 //// show Invoice
 Route::get('/sales-invoices/show', 'SalesInvoicesController@show')->name('sales.invoices.show');
+Route::get('/sales-invoices/print', 'SalesInvoicesController@print')->name('sales.invoices.print');
 //
 //// points discount (get points rules )
 Route::post('/customer/points/rules', 'SalesInvoicesFrontEndController@customerPointsRules')->name('customer.points.rules');

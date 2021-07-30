@@ -11,7 +11,7 @@
                     <h4 class="modal-title" id="myModalLabel-1">{{__('Supply & payments')}}</h4>
                 </div>
 
-                <form action="{{route('admin:purchase.invoices.terms')}}" method="post">
+                <form action="{{route('admin:sales.invoices.terms')}}" method="post">
                     @csrf
 
                     <div class="modal-body">
@@ -94,7 +94,7 @@
                                 <!-- /.tab-content -->
                             </div>
 
-                            <input type="hidden" name="purchase_invoice_id"  value="{{$item->id}}">
+                            <input type="hidden" name="sales_invoice_id"  value="{{$item->id}}">
                         </div>
 
                     </div>

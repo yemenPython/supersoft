@@ -1,4 +1,4 @@
-<div class="row small-spacing" id="purchase_invoice_print">
+<div class="row small-spacing" id="concession_to_print">
 
 
     <div class="print-wg-fatora">
@@ -6,163 +6,125 @@
             <div class="col-xs-4">
 
                 <div style="text-align: right ">
-                    <h5><i class="fa fa-home"></i> {{optional($purchase_invoice->branch)->name_ar}}</h5>
-                    <h5><i class="fa fa-phone"></i> {{optional($purchase_invoice->branch)->phone1}} </h5>
-                    <h5><i class="fa fa-globe"></i> {{optional($purchase_invoice->branch)->address}} </h5>
-                    <h5><i class="fa fa-fax"></i> {{optional($purchase_invoice->branch)->fax}}</h5>
-                    <h5><i class="fa fa-adjust"></i> {{optional($purchase_invoice->branch)->tax_card}}</h5>
+                    <h5><i class="fa fa-home"></i> {{optional($salesInvoice->branch)->name_ar}}</h5>
+                    <h5><i class="fa fa-phone"></i> {{optional($salesInvoice->branch)->phone1}} </h5>
+                    <h5><i class="fa fa-globe"></i> {{optional($salesInvoice->branch)->address}} </h5>
+                    <h5><i class="fa fa-fax"></i> {{optional($salesInvoice->branch)->fax}}</h5>
+                    <h5><i class="fa fa-adjust"></i> {{optional($salesInvoice->branch)->tax_card}}</h5>
                 </div>
             </div>
+
             <div class="col-xs-4">
 
                 <img class="text-center center-block" style="width: 100px; height: 100px;margin-top:20px"
-                     src="{{isset($branchToPrint->logo) ? asset('storage/images/branches/'.$branchToPrint->logo) : env('DEFAULT_IMAGE_PRINT')}}">
+                     src="{{$salesInvoice->branch->logo_img}}">
             </div>
             <div class="col-xs-4">
 
                 <div style="text-align: left" class="my-1">
-                    <h5>{{optional($purchase_invoice->branch)->name_en}} <i class="fa fa-home"></i></h5>
-                    <h5>{{optional($purchase_invoice->branch)->phone1}} <i class="fa fa-phone"></i></h5>
-                    <h5>{{optional($purchase_invoice->branch)->address}} <i class="fa fa-globe"></i></h5>
-                    <h5>{{optional($purchase_invoice->branch)->fax}} <i class="fa fa-fax"></i></h5>
-                    <h5>{{optional($purchase_invoice->branch)->tax_card}}<i class="fa fa-adjust"></i></h5>
+                    <h5>{{optional($salesInvoice->branch)->name_en}} <i class="fa fa-home"></i></h5>
+                    <h5>{{optional($salesInvoice->branch)->phone1}} <i class="fa fa-phone"></i></h5>
+                    <h5>{{optional($salesInvoice->branch)->address}} <i class="fa fa-globe"></i></h5>
+                    <h5>{{optional($salesInvoice->branch)->fax}} <i class="fa fa-fax"></i></h5>
+                    <h5>{{optional($salesInvoice->branch)->tax_card}} <i class="fa fa-adjust"></i></h5>
                 </div>
             </div>
         </div>
     </div>
 
-    <h4 class="text-center">{{__('Purchase Invoice')}}</h4>
+    {{--    <h4 class="text-center">{{__($salesInvoice->type . ' Purchase Request')}}</h4>--}}
+
     <div class="wg-tb-snd" style="border:1px solid #AAA;margin:5px 20px 20px;padding:10px;border-radius:5px">
-
-
         <div class="row">
             <div class="col-xs-4">
                 <table class="table table-bordered">
                     <tbody>
                     <tr>
-                        <th style="background:#CCC !important;color:black" scope="row">{{__('Invoice Number')}}</th>
-                        <td>{{$purchase_invoice->invoice_number}}</td>
+                        <th style="background:#CCC !important;color:black" scope="row">{{__('Number')}}</th>
+                        <td>{{$salesInvoice->number }}</td>
                     </tr>
                     <tr>
                         <th style="background:#CCC !important;color:black" scope="row">{{__('Date')}}</th>
-                        <td>{{$purchase_invoice->date}}</td>
+                        <td>{{$salesInvoice->time}} - {{$salesInvoice->date}}</td>
                     </tr>
-                    <!-- <tr>
-                <th style="background:#CCC !important;color:black" scope="row">{{__('Invoice Type')}}</th>
-                <td>{{__($purchase_invoice->type)}}</td>
-                </tr> -->
+
                     </tbody>
                 </table>
             </div>
             <div class="col-xs-4">
                 <table class="table table-bordered">
                     <tbody>
-                    <!-- <tr>
-                <th style="background:#CCC !important;color:black" scope="row">{{__('Time')}}</th>
-                <td>{{$purchase_invoice->time}}</td>
-                </tr> -->
                     <tr>
                         <th style="background:#CCC !important;color:black" scope="row">{{__('User Name')}}</th>
-                        <td>{{auth()->user()->name}}</td>
-                    </tr>
-                    <tr>
-                        <th style="background:#CCC !important;color:black" scope="row">{{__('Payment status')}}</th>
-                        <td>{{$purchase_invoice->remaining == 0 ? __('Completed') : __('Not Completed')}}</td>
+                        <td>{{optional($salesInvoice->user)->name}}</td>
                     </tr>
 
                     <tr>
-                        <th style="background:#CCC !important;color:black" scope="row">{{__('Type')}}</th>
-                        <td>{{__($purchase_invoice->invoice_type)}}</td>
+                        <th style="background:#CCC !important;color:black" scope="row">{{__('Status')}}</th>
+                        <td>{{__($salesInvoice->status)}}</td>
                     </tr>
                     </tbody>
                 </table>
             </div>
+
             <div class="col-xs-4">
                 <table class="table table-bordered">
                     <tbody>
                     <tr>
-                        <th style="background:#CCC !important;color:black" scope="row">{{__('Supplier Name')}}</th>
-                        <td>{{optional($purchase_invoice->supplier)->name}}</td>
+                        <th style="background:#CCC !important;color:black" scope="row">{{__('Type')}}</th>
+                        <td>{{__($salesInvoice->type )}}</td>
                     </tr>
+
                     <tr>
-                        <th style="background:#CCC !important;color:black" scope="row">{{__('Supplier Phone')}}</th>
-                        <td>{{optional($purchase_invoice->supplier)->phone_1}}</td>
+                        <th style="background:#CCC !important;color:black" scope="row">{{__($salesInvoice->type_for)}}</th>
+                        <td>{{ $salesInvoice->salesable ? $salesInvoice->salesable->name : '---'}}</td>
                     </tr>
-
-                    @if($purchase_invoice->invoice_type == 'from_supply_order')
-                        <tr>
-
-                            <th style="background:#CCC !important;color:black">{{__('Supply order Number')}}</th>
-                            <td> {{__($purchase_invoice->supplyOrder ? $purchase_invoice->supplyOrder->number : '---')}} </td>
-
-                        </tr>
-                        <tr>
-                            <th style="background:#CCC !important;color:black">{{__('Purchase Receipts Numbers')}}</th>
-                            <td>
-                                @foreach($purchase_invoice->purchaseReceipts as $index=>$purchaseReceipt)
-
-                                    <span>{{$purchaseReceipt->number}} ,</span>
-
-                                @endforeach
-
-                            </td>
-                        </tr>
-
-                    @endif
 
                     </tbody>
                 </table>
             </div>
+
         </div>
     </div>
 
     <div class="col-xs-12 wg-tb-snd">
         <div style="margin:10px 15px">
             <table class="table table-bordered">
-
                 <thead>
                 <tr class="heading">
                     <th style="background:#CCC !important;color:black">{{__('#')}}</th>
-                    <th style="background:#CCC !important;color:black">{{__('spart')}}</th>
-                    <th style="background:#CCC !important;color:black">{{__('Unit')}}</th>
+                    <th style="background:#CCC !important;color:black">{{__('Name')}}</th>
                     <th style="background:#CCC !important;color:black">{{__('Part Type')}}</th>
-                    <th style="background:#CCC !important;color:black">{{__('Price Segment')}}</th>
-                    <th style="background:#CCC !important;color:black">{{__('Purchase Quantity')}}</th>
-                    <th style="background:#CCC !important;color:black">{{__('Purchase Price')}}</th>
-                    <th style="background:#CCC !important;color:black">{{__('Store')}}</th>
+                    <th style="background:#CCC !important;color:black">{{__('Unit')}}</th>
+                    <th style="background:#CCC !important;color:black">{{__('Quantity')}}</th>
+                    <th style="background:#CCC !important;color:black">{{__('Price')}}</th>
                     <th style="background:#CCC !important;color:black">{{__('Discount Type')}}</th>
                     <th style="background:#CCC !important;color:black">{{__('Discount')}}</th>
+                    <th style="background:#CCC !important;color:black">{{__('Sub Total')}}</th>
                     <th style="background:#CCC !important;color:black">{{__('Total After Discount')}}</th>
                     <th style="background:#CCC !important;color:black">{{__('Tax')}}</th>
                     <th style="background:#CCC !important;color:black">{{__('Total')}}</th>
-
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($purchase_invoice->items as $index=>$item)
+
+                @foreach($salesInvoice->items()->get() as $index=>$item)
 
                     <tr class="item">
-                        <td>{{$index+1}}</td>
+                        <td>{{$index + 1}}</td>
                         <td>{{optional($item->part)->name}}</td>
-                        <td>{{ $item->partPrice && $item->partPrice->unit ? $item->partPrice->unit->unit : '---'   }}</td>
-                        <td>{{optional($item->sparePart)->type}}</td>
-                        <td>
-                            @if($item->partPriceSegment)
-                                {{$item->partPriceSegment->name}}
-                            @else
-                                <span>---</span>
-                            @endif
-                        </td>
-
-                        <td>{{$item->purchase_qty}}</td>
-                        <td>{{$item->purchase_price}}</td>
-                        <td>{{optional($item->store)->name}}</td>
-                        <td>{{__($item->discount_type)}}</td>
+                        <td>{{ $item->sparePart ? $item->sparePart->type : '---'}}</td>
+                        <td>{{$item->partPrice && $item->partPrice->unit ? $item->partPrice->unit->unit : '---'}}</td>
+                        <td>{{$item->quantity}}</td>
+                        <td>{{$item->price}}</td>
+                        <td>{{$item->discount_type}}</td>
                         <td>{{$item->discount}}</td>
-                        <td>{{number_format(($item->total_after_discount - $item->tax),2)}}</td>
-                        <td>{{number_format($item->tax, 2)}}</td>
-                        <td>{{number_format($item->total_after_discount, 2)}}</td>
+                        <td>{{$item->sub_total}}</td>
+                        <td>{{$item->total_after_discount}}</td>
+                        <td>{{$item->tax}}</td>
+                        <td>{{$item->total}}</td>
                     </tr>
+
                 @endforeach
                 </tbody>
 
@@ -170,45 +132,11 @@
         </div>
     </div>
 
-    {{--    <div class="col-xs-12 wg-tb-snd">--}}
-    {{--        <div style="margin:10px 15px">--}}
-    {{--            <table class="table table-bordered">--}}
-    {{--                <thead>--}}
-    {{--                <tr class="heading">--}}
-    {{--                    <th style="background:#CCC !important;color:black">{{__('Tax Name')}}</th>--}}
-    {{--                    <th style="background:#CCC !important;color:black">{{__('Tax Type')}}</th>--}}
-    {{--                    <th style="background:#CCC !important;color:black">{{__('Tax Value')}}</th>--}}
-    {{--                    <th style="background:#CCC !important;color:black">{{__('Invoice Tax')}}</th>--}}
-    {{--                </tr>--}}
-    {{--                </thead>--}}
-    {{--                <tbody>--}}
-    {{--                @foreach($purchase_invoice->taxes as $tax)--}}
-    {{--                    <tr class="item">--}}
-    {{--                        <td>{{$tax->name}}</td>--}}
-    {{--                        <td>{{__($tax->tax_type)}}</td>--}}
-    {{--                        <td>{{$tax->value}}</td>--}}
-    {{--                        <td><span>---</span></td>--}}
-    {{--                    </tr>--}}
-    {{--                @endforeach--}}
-
-    {{--                <tr class="item">--}}
-    {{--                    <th style="background:#CCC !important;color:black" colspan="2">{{__('Total Tax')}}</th>--}}
-    {{--                    <td>{{$totalTax}}</td>--}}
-    {{--                    <td>{{$purchase_invoice->taxes()->sum('value')}}</td>--}}
-    {{--                    <td>{{$purchase_invoice->tax}}</td>--}}
-    {{--                </tr>--}}
-    {{--                </tbody>--}}
-    {{--            </table>--}}
-    {{--        </div>--}}
-    {{--    </div>--}}
-
-
     <div class="wg-tb-snd" style="border:1px solid #AAA;margin:5px 20px 20px;padding:10px;border-radius:5px">
 
         <div class="row">
             <div class="col-xs-12 wg-tb-snd">
                 <div style="margin:10px 15px">
-
                     <table class="table table-bordered">
                         <thead>
                         <tr class="heading">
@@ -224,7 +152,7 @@
                             $tax_value = 0;
                         @endphp
 
-                        @foreach($purchase_invoice->taxes()->where('type', 'tax')->get() as $tax)
+                        @foreach($salesInvoice->taxes()->where('type', 'tax')->get() as $tax)
 
                             @php
                                 $tax_value += $tax->value;
@@ -234,18 +162,18 @@
                                 <td>{{$tax->name}}</td>
                                 <td>{{__($tax->tax_type)}}</td>
                                 <td>{{$tax->value}}</td>
-                                <td>{{round(taxValueCalculated($purchase_invoice->total_after_discount - $purchase_invoice->tax,
-                                    $purchase_invoice->subtotal, $tax),2)}}</td>
+                                <td>{{round(taxValueCalculated($salesInvoice->total_after_discount, $salesInvoice->sub_total, $tax),2)}}</td>
                             </tr>
                         @endforeach
 
                         <tr class="item">
                             <th style="background:#CCC !important;color:black" colspan="2">{{__('Total Tax')}}</th>
                             <td>{{$tax_value}}</td>
-                            <td>{{$purchase_invoice->tax}}</td>
+                            <td>{{$salesInvoice->tax}}</td>
                         </tr>
                         </tbody>
                     </table>
+
 
                     <table class="table table-bordered">
                         <thead>
@@ -262,7 +190,7 @@
                             $tax_value = 0;
                         @endphp
 
-                        @foreach($purchase_invoice->taxes()->where('type', 'additional_payments')->get() as $tax)
+                        @foreach($salesInvoice->taxes()->where('type', 'additional_payments')->get() as $tax)
 
                             @php
                                 $tax_value += $tax->value;
@@ -272,78 +200,63 @@
                                 <td>{{$tax->name}}</td>
                                 <td>{{__($tax->tax_type)}}</td>
                                 <td>{{$tax->value}}</td>
-                                <td>{{round(taxValueCalculated($purchase_invoice->total_after_discount - $purchase_invoice->tax,
-                                    $purchase_invoice->subtotal, $tax),2)}}</td>
+                                <td>{{round(taxValueCalculated($salesInvoice->total_after_discount, $salesInvoice->sub_total, $tax),2)}}</td>
                             </tr>
                         @endforeach
 
                         <tr class="item">
-                            <th style="background:#CCC !important;color:black"
-                                colspan="2">{{__('Total Additional Payments')}}</th>
+                            <th style="background:#CCC !important;color:black" colspan="2">{{__('Total Additional Payments')}}</th>
                             <td>{{$tax_value}}</td>
-                            <td>{{$purchase_invoice->additional_payments}}</td>
+                            <td>{{$salesInvoice->additional_payments}}</td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
 
-        </div>
-    </div>
-
-    <div class="wg-tb-snd" style="border:1px solid #AAA;margin:5px 20px 20px;padding:10px;border-radius:5px">
-
-    <!-- <h4 class="text-center" style="font-weight:bold;margin-bottom:15px">{{__('Buy Invoice')}}</h4> -->
-        <div class="row">
-
             <div class="col-xs-4">
                 <table class="table table-bordered">
                     <tbody>
                     <tr>
-                        <th style="background:#CCC !important;color:black" scope="row">{{__('Discount Type')}}</th>
-                        <td>{{__($purchase_invoice->discount_type)}}</td>
+                        <th style="background:#CCC !important;color:black" scope="row">{{__('SubTotal')}} </th>
+                        <td>{{$salesInvoice->sub_total}}</td>
                     </tr>
+                    <tr>
+                        <th style="background:#CCC !important;color:black"
+                            scope="row">{{__('Total After Discount')}}</th>
+                        <td>{{__($salesInvoice->total_after_discount)}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-xs-4">
+                <table class="table table-bordered">
+                    <tbody>
                     <tr>
                         <th style="background:#CCC !important;color:black" scope="row">{{__('Discount')}} </th>
-                        <td>{{$purchase_invoice->discount}}</td>
-                    </tr>
-
-                    </tbody>
-                </table>
-            </div>
-
-
-            <div class="col-xs-4">
-                <table class="table table-bordered">
-                    <tbody>
-                    <tr>
-                        <th style="background:#CCC !important;color:black" scope="row">{{__('Paid')}}</th>
-                        <td>{{$purchase_invoice->paid}}</td>
+                        <td>{{$salesInvoice->discount}}</td>
                     </tr>
                     <tr>
-                        <th style="background:#CCC !important;color:black" scope="row">{{__('Remaining')}}</th>
-                        <td>{{$purchase_invoice->remaining}}</td>
+                        <th style="background:#CCC !important;color:black" scope="row">{{__('Discount Type')}}</th>
+                        <td>{{__($salesInvoice->discount_type)}}</td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-
             <div class="col-xs-4">
                 <table class="table table-bordered">
                     <tbody>
                     <tr>
                         <th style="background:#CCC !important;color:black" scope="row">{{__('Total in Numbers')}}</th>
-                        <td>{{$purchase_invoice->total}}</td>
+                        <td>{{$salesInvoice->total}}</td>
                     </tr>
                     <tr>
-                    <!-- <th style="background:#CCC !important;color:black" scope="row">{{__('Total in letters')}}</th> -->
-                        <td id="totalInLetters">{{$purchase_invoice->total}}</td>
+                        <th style="background:#CCC !important;color:black" scope="row">{{__('Total in letters')}}</th>
+                        <td data-id="data-totalInLetters" id="totalInLetters">{{$salesInvoice->total}}</td>
                     </tr>
-
                     </tbody>
                 </table>
             </div>
-
         </div>
     </div>
 
@@ -362,7 +275,7 @@
                         </thead>
                         <tbody>
 
-                        @foreach($purchase_invoice->terms()->where('type','supply')->get() as $index=>$term)
+                        @foreach($salesInvoice->terms()->where('type','supply')->get() as $index=>$term)
                             <tr class="item">
                                 <td>{{$index+1}}</td>
                                 <td>{{$term->term}}</td>
@@ -385,7 +298,7 @@
                         </thead>
                         <tbody>
 
-                        @foreach($purchase_invoice->terms()->where('type','payment')->get() as $index=>$term)
+                        @foreach($salesInvoice->terms()->where('type','payment')->get() as $index=>$term)
                             <tr class="item">
                                 <td>{{$index+1}}</td>
                                 <td>{{$term->term}}</td>
@@ -399,5 +312,3 @@
         </div>
     </div>
 </div>
-
-

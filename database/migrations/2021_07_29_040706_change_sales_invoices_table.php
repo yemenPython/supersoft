@@ -18,7 +18,7 @@ class ChangeSalesInvoicesTable extends Migration
         Schema::table('sales_invoices', function (Blueprint $table) {
             $table->renameColumn('invoice_number','number');
 
-            $table->dropForeign('sales_invoices_customer_id_foreign');
+            $table->dropForeign('customer_id');
 
             $table->dropColumn(['customer_id', 'number_of_items', 'customer_discount_status', 'customer_discount',
                 'customer_discount_type', 'points_discount', 'points_rule_id', 'deleted_at']);

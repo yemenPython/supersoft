@@ -14,7 +14,7 @@ class SalesInvoice extends Model
     use LogsActivity;
 
     protected $fillable = ['number', 'branch_id', 'created_by', 'date', 'time', 'type', 'discount_type', 'discount', 'tax',
-        'sub_total', 'total_after_discount', 'total', 'salesable_id', 'salesable_type', 'type_for'];
+        'sub_total', 'total_after_discount', 'total', 'salesable_id', 'salesable_type', 'type_for', 'additional_payments', 'status'];
 
     protected $table = 'sales_invoices';
 
@@ -185,5 +185,15 @@ class SalesInvoice extends Model
     public function taxes()
     {
         return $this->belongsToMany(TaxesFees::class, 'sales_invoice_taxes_fees', 'sales_invoice_id', 'tax_id');
+    }
+
+    public function terms()
+    {
+        return $this->belongsToMany(SupplyTerm::class, 'sales_invoice_supply_terms', 'sales_invoice_id', 'supply_term_id');
+    }
+
+    public function salesable()
+    {
+        return $this->morphTo();
     }
 }
