@@ -239,7 +239,7 @@
 
 
             <div class="col-xs-12" style="padding:0 !important">
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px !important">
 
 
                     <div class="row last-total">
@@ -253,7 +253,7 @@
 
                 </div>
 
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px !important">
 
 
                     <div class="row last-total">
@@ -267,7 +267,7 @@
 
                 </div>
 
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px !important">
 
 
                     <div class="row last-total">
@@ -283,7 +283,7 @@
             </div>
 
             <div class="col-xs-12" style="padding:0 !important">
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px !important">
 
 
                     <div class="row last-total">
@@ -298,7 +298,7 @@
                 </div>
 
 
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px !important">
 
 
                     <div class="row last-total">
@@ -314,7 +314,7 @@
 
                 </div>
 
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px !important">
 
 
                     <div class="row last-total">
@@ -332,7 +332,7 @@
             </div>
 
             <div class="col-xs-12" style="padding:0 !important">
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px !important">
 
 
                     <div class="row last-total">
@@ -346,7 +346,7 @@
 
                 </div>
 
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding: 5px !important">
 
 
                     <div class="row last-total">
@@ -361,7 +361,7 @@
 
 </div>
 
-<div class="col-xs-4 text-center">
+<div class="col-xs-4 text-center" style="padding:5px !important">
 
                     <div class="row last-total" style="background-color:#ddd !important">
                         <div class="col-xs-7">
@@ -375,7 +375,7 @@
                 </div>
 
             <div class="col-xs-12" style="padding:0 !important">
-                <div class="col-xs-12 text-center">
+                <div class="col-xs-12 text-center" style="padding:5px !important">
 
 
                     <div class="row last-total" style="background-color:#ddd !important">

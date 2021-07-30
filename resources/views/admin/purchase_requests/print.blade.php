@@ -96,7 +96,7 @@
 </div>
 
 
-<div  style="padding:0 20px;">
+<div class="table-responsive" style="padding:0 20px;">
 <table class="table print-table-wg table-borderless">
   <thead>
 
