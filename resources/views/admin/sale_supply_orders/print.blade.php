@@ -88,7 +88,7 @@
             <tr>
                 @if($saleSupplyOrder->type == 'from_sale_quotation')
                     <th>{{__('Sale Quotations Number')}}</th>
-                    <td>
+                    <td colspan="6">
                         @foreach($saleSupplyOrder->saleQuotations as $index=>$saleQuotation)
 
                             <span>{{$saleQuotation->number}} ,</span>

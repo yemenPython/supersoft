@@ -198,7 +198,7 @@
                 <td>{{$tax->name}}</td>
             <!-- <td>{{__($tax->tax_type)}}</td>
             <td>{{$tax->value}}</td> -->
-            <td>{{round(taxValueCalculated($purchaseQuotation->total_after_discount, $purchaseQuotation->sub_total, $tax),2)}}</td>
+            <td>{{round(taxValueCalculated($saleQuotation->total_after_discount, $saleQuotation->sub_total, $tax),2)}}</td>
             </tr>
         @endforeach
 
@@ -240,6 +240,222 @@
 </div>
 
 
+
+
+<div class="col-xs-12" style="padding:0 !important">
+                <div class="col-xs-4 text-center" style="padding:5px">
+
+
+                    <div class="row last-total">
+                        <div class="col-xs-7">
+                            <h6>{{__('Total Price')}}</h6>
+                        </div>
+                        <div class="col-xs-5">
+                            <h6> {{$saleQuotation->sub_total}} </h6>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-xs-4 text-center" style="padding:5px">
+
+
+                    <div class="row last-total">
+                        <div class="col-xs-7">
+                            <h6>{{__('Discount Type')}}</h6>
+                        </div>
+                        <div class="col-xs-5">
+                            <h6> {{__($saleQuotation->discount_type)}} </h6>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-xs-4 text-center" style="padding:5px">
+
+
+                    <div class="row last-total">
+                        <div class="col-xs-7">
+                            <h6>{{__('Discount')}}</h6>
+                        </div>
+                        <div class="col-xs-5">
+                            <h6> {{$saleQuotation->discount}} </h6>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-xs-12" style="padding:0 !important">
+                <div class="col-xs-4 text-center" style="padding:5px">
+
+
+                    <div class="row last-total">
+                        <div class="col-xs-7">
+                            <h6>{{__('Total After Discount')}}</h6>
+                        </div>
+                        <div class="col-xs-5">
+                            <h6> {{__($saleQuotation->total_after_discount)}} </h6>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="col-xs-4 text-center" style="padding:5px">
+
+
+                    <div class="row last-total">
+                        <div class="col-xs-7">
+                            <h6>{{__('Additional Payments')}}</h6>
+                        </div>
+                        <div class="col-xs-5">
+
+                            <h6> {{$saleQuotation->additional_payments}} </h6>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-xs-4 text-center" style="padding:5px">
+
+
+                    <div class="row last-total">
+                        <div class="col-xs-7">
+                            <h6>{{__('Total Tax')}}</h6>
+                        </div>
+                        <div class="col-xs-5">
+
+                            <h6> {{$saleQuotation->tax}} </h6>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-xs-12" style="padding:0px !important">
+                <div class="col-xs-12 text-center" style="padding:5px !important">
+
+
+                    <div class="row last-total" style="background-color:#ddd !important">
+                        <div class="col-xs-3">
+                            <h6>{{__('Final Total')}}</h6>
+                        </div>
+                        <div class="col-xs-9">
+                            <h6>{{$saleQuotation->total}}</h6>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <div class="col-xs-12" style="padding:0 !important">
+                <div class="col-xs-12 text-center" style="padding:5px !important">
+
+
+                    <div class="row last-total" style="background-color:#ddd !important">
+
+                        <div class="col-xs-12">
+                        <h6 data-id="data-totalInLetters" id="totalInLetters">{{$saleQuotation->total}}</h6>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="col-xs-12" style="padding:0 !important">
+                <br>
+                <div class="col-xs-6">
+                    <h5 class="title">{{__('Supply Terms')}}</h5>
+                    <p style="font-size:14px">
+                        @foreach($saleQuotation->terms()->where('type','supply')->get() as $index=>$term)
+
+                            {{$index+1}}.
+                            {{$term->term}}
+                            <br> <br>
+
+                        @endforeach
+                    </p>
+                </div>
+
+                <div class="col-xs-6">
+                    <h5 class="title">{{__('Payment Terms')}}</h5>
+                        <h5>
+                            <p style="font-size:14px">
+                                @foreach($saleQuotation->terms()->where('type','payment')->get() as $index=>$term)
+
+                                    {{$index+1}}.
+                                    {{$term->term}}
+                                    <br> <br>
+
+                                @endforeach
+                            </p>
+                        </h5>
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    <div class="print-foot-wg position-relative ml-0" >
+        <div class="row for-reverse-en" style="display: flex;
+    align-items: flex-end;">
+            <div class="col-xs-7">
+                <div class="row">
+                    <div class="col-xs-12">
+
+                        <div class="media">
+                            <div class="media-left">
+                                <h6 class="media-heading" style="line-height:30px;">{{__('address')}} </h6>
+                            </div>
+
+                            <div class="media-body">
+                                <h6 style="padding:0 15px">{{optional($branchToPrint)->address_ar}} </h6>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-xs-6">
+
+                    </div>
+                    <div class="col-xs-6">
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-xs-5 small-data-wg">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <h6>{{__('contact numbers')}} : </h6>
+                    </div>
+                    <div class="col-xs-4">
+                        <h6>{{optional($branchToPrint)->phone1}}</h6>
+                    </div>
+
+                    <div class="col-xs-4">
+                        <h6>{{optional($branchToPrint)->phone2}}</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+</div>
+
+
+
+<!-- 
             <div class="col-xs-4">
                 <table class="table table-bordered">
                     <tbody>
@@ -338,11 +554,4 @@
         </div>
     </div>
 
-    {{--    @if($purchaseRequest->description)--}}
-    {{--        <div class="col-xs-12 wg-tb-snd">--}}
-    {{--            <div class="wg-tb-snd" style="border:1px solid #AAA;margin:5px 20px 20px;padding:10px;border-radius:5px">--}}
-    {{--                {!! $purchaseRequest->description !!}--}}
-    {{--            </div>--}}
-    {{--        </div>--}}
-    {{--    @endif--}}
-</div>
+</div> -->

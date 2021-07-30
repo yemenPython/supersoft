@@ -55,6 +55,7 @@
                             <thead>
                             <tr>
                                 <th class="text-center column-index" scope="col">{!! __('#') !!}</th>
+                                <!-- <th class="text-center column-index" scope="col">{!! __('date') !!}</th> -->
                                 <th class="text-center column-invoice-number" scope="col">{!! __('Invoice Number') !!}</th>
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Invoice Type') !!}</th>
@@ -74,6 +75,7 @@
 
                             <tr>
                                 <th class="text-center column-index" scope="col">{!! __('#') !!}</th>
+                                <!-- <th class="text-center column-index" scope="col">{!! __('date') !!}</th> -->
                                 <th class="text-center column-invoice-number" scope="col">{!! __('Invoice Number') !!}</th>
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Invoice Type') !!}</th>

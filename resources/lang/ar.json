@@ -2201,7 +2201,14 @@
 
     "Date Add From" : "تاريخ الاضافة من",
     "Date Add To" : "تاريخ الاضافة الى",
-    "Select Purchase request Number" : "أختر رقم طلب الشراء"
+    "Select Purchase request Number" : "أختر رقم طلب الشراء",
+    "Sale Supply Order" : "أمر توريد مبيعات",
+    "Sale Supply Order items" : "الأصناف المراد توريدها",
+    "Sale Quotations Number" : "رقم عرض السعر",
+    "from_sale_quotation" : "تابع لعرض سعر",
+    "Invoice number" : "رقم الفاتورة",
+    "sale Invoice" : "فاتورة مبيعات",
+    "sale Invoice data" : "أصناف فاتورة المبيعات"
 
 
 }
