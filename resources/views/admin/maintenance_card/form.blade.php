@@ -45,7 +45,7 @@
                     <span class="input-group-addon fa fa-file"></span>
 
                     <select class="form-control js-example-basic-single" name="asset_group_id" id="asset_group_id"
-                            onchange="getAsset()"
+                            onchange="getAssets()"
                     >
                         <option value="">{{__('Select Group')}}</option>
 
@@ -178,10 +178,10 @@
 
         <div class="form-group col-md-4">
             <div class="form-group">
-                <label for="type_en" class="control-label">{{__('Delivery Car Time')}}</label>
+                <label for="type_en" class="control-label">{{__('Delivery Time')}}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><li class="fa fa-clock-o"></li></span>
-                    <input type="time" name="delivery_car_time" class="form-control"
+                    <input type="time" name="delivery_time" class="form-control"
                            value="{{ isset($workCard)? $workCard->delivery_time : now()->format('h:i')}}"
                     >
                 </div>

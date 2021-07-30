@@ -140,6 +140,10 @@ class ConcessionServiceController extends Controller
             $data->where('invoice_type', 'from_supply_order')->where('status', 'finished');
         }
 
+        if ($concessionTypeItem->model == 'SalesInvoice') {
+            $data->where('status', 'finished');
+        }
+
         if ($concessionTypeItem->model == 'StoreTransfer' && $concessionType->type == 'add') {
 
             $data->whereDoesntHave('concession', function ($q) use ($concession_id) {
