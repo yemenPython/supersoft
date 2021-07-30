@@ -34,5 +34,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ConcessionItemsV3Seeder::class);
         $this->call(ConcessionItemsV4Seeder::class);
         $this->call(ConcessionItemsV5Seeder::class);
+        $this->call(ConcessionItemsV6Seeder::class);
     }
 }

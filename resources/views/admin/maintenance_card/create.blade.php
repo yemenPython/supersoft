@@ -20,11 +20,21 @@
                 <h1 class="box-title bg-info" style="text-align: initial"><i class="fa fa-car"></i>
                     {{__('Create Card')}}
                     <span class="controls hidden-sm hidden-xs pull-left">
-                    <button class="control text-white" style="background:none;border:none;font-size:12px">{{__('Save')}}<img class="img-fluid" style="width:50px;height:50px;margin-top:-20px;margin-bottom:-13px" src="{{asset('assets/images/f1.png')}}"></button>
-							<button class="control text-white" style="background:none;border:none;font-size:12px">{{__('Reset')}}<img class="img-fluid" style="width:50px;height:50px;margin-top:-20px;margin-bottom:-13px" src="{{asset('assets/images/f2.png')}}"></button>
-							<button class="control text-white" style="background:none;border:none;font-size:12px"> {{__('Back')}} <img class="img-fluid" style="width:50px;height:50px;margin-top:-20px;margin-bottom:-13px" src="{{asset('assets/images/f3.png')}}"></button>
-
+                      <button class="control text-white"
+                              style="background:none;border:none;font-size:14px;font-weight:normal !important;">{{__('Save')}}
+                      <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
+                           src="{{asset('assets/images/f1.png')}}">
+                  </button>
+                        <button class="control text-white" style="background:none;border:none;font-size:14px;font-weight:normal !important;">
+                            {{__('Reset')}}
+                            <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
+                                 src="{{asset('assets/images/f2.png')}}"></button>
+							<button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
+                                    class="img-fluid"
+                                    style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
+                                    src="{{asset('assets/images/f3.png')}}"></button>
 						</span>
+                </h4>
                 </h1>
                 <div class="box-content">
 
@@ -52,7 +62,7 @@
 @endsection
 
 @section('js-validation')
-    {!! JsValidator::formRequest('App\Http\Requests\Admin\WorkCards\CreateWorkCardRequest', '.form'); !!}
+{{--    {!! JsValidator::formRequest('App\Http\Requests\Admin\WorkCards\CreateWorkCardRequest', '.form'); !!}--}}
     @include('admin.partial.sweet_alert_messages')
 @endsection
 
@@ -68,6 +78,35 @@
         function changeBranch() {
             let branch_id = $('#branch_id').find(":selected").val();
             window.location.href = "{{route('admin:maintenance-cards.create')}}" + "?branch_id=" + branch_id;
+        }
+
+        function getAssets() {
+
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            let group_id = $('#asset_group_id').find(":selected").val();
+
+            $.ajax({
+
+                type: 'post',
+
+                url: '{{route('admin:maintenance.cards.assets')}}',
+
+                data: {
+                    _token: CSRF_TOKEN,
+                    group_id:group_id
+                },
+
+                success: function (data) {
+
+                    $("#asset_id").html(data.view);
+                    $('.js-example-basic-single').select2();
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
         }
 
     </script>

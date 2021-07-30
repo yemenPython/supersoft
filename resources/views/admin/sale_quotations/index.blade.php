@@ -47,9 +47,9 @@
                                 @endif
                                 <th scope="col">{!! __('Quotation Number') !!}</th>
 
-                                <th scope="col">{!! __('Customer name') !!}</th>
+                              
                                 <th scope="col">{!! __('Quotation type') !!}</th>
-                           
+                                <th scope="col">{!! __('Customer name') !!}</th>
 
                                 <th scope="col">{!! __('Total') !!}</th>
 
@@ -80,9 +80,9 @@
                                 @endif
                                 <th scope="col">{!! __('Quotation Number') !!}</th>
 
-                                <th scope="col">{!! __('Customer name') !!}</th>
+                              
                                 <th scope="col">{!! __('Quotation type') !!}</th>
-                               
+                                <th scope="col">{!! __('Customer name') !!}</th>
 
                                 <th scope="col">{!! __('Total') !!}</th>
 
@@ -277,7 +277,7 @@
                     $("#data_to_print").html(data.view);
 
                     let total = $("#totalInLetters").text()
-                    $("#totalInLetters").html(new Tafgeet(total, '{{config("currency.defualt_currency")}}').parse())
+                    $("#totalInLetters").html(new Tafgeet(parseFloat(total), '{{config("currency.defualt_currency")}}').parse())
                 }
             });
         }

@@ -91,7 +91,7 @@
                     <td> {{__($supplyOrder->purchaseRequest ? $supplyOrder->purchaseRequest->number : '---')}} </td>
 
                     <th>{{__('Purchase Quotations Numbers')}}</th>
-                    <td>
+                    <td colspan="6">
                         @foreach($supplyOrder->purchaseQuotations as $index=>$purchaseQuotation)
 
                             <span>{{$purchaseQuotation->number}} ,</span>
@@ -229,43 +229,43 @@
             </table>
         </div>
 
-        <div class="col-xs-12">
-            <div class="col-xs-4 text-center">
+        <div class="col-xs-12" style="padding:0px !important">
+            <div class="col-xs-4 text-center" style="padding:5px !important">
 
 
                 <div class="row last-total">
-                    <div class="col-xs-6">
+                    <div class="col-xs-6" style="padding:0px !important">
                         <h6>{{__('Total Price')}}<h6>
                     </div>
-                    <div class="col-xs-6">
+                    <div class="col-xs-6" style="padding:0px !important">
                         <h6> {{$supplyOrder->sub_total}} </h6>
                     </div>
                 </div>
 
             </div>
 
-            <div class="col-xs-4 text-center">
+            <div class="col-xs-4 text-center" style="padding:5px !important">
 
 
                 <div class="row last-total">
-                    <div class="col-xs-6">
+                    <div class="col-xs-6" style="padding:0px !important">
                         <h6>{{__('Discount Type')}}<h6>
                     </div>
-                    <div class="col-xs-6">
+                    <div class="col-xs-6" style="padding:0px !important">
                         <h6> {{__($supplyOrder->discount_type)}} </h6>
                     </div>
                 </div>
 
             </div>
 
-            <div class="col-xs-4 text-center">
+            <div class="col-xs-4 text-center" style="padding:5px !important">
 
 
                 <div class="row last-total">
-                    <div class="col-xs-6">
+                    <div class="col-xs-6" style="padding:0px !important">
                         <h6>{{__('Discount')}}<h6>
                     </div>
-                    <div class="col-xs-6">
+                    <div class="col-xs-6" style="padding:0px !important">
                         <h6> {{$supplyOrder->discount}} </h6>
                     </div>
                 </div>
@@ -273,15 +273,15 @@
             </div>
         </div>
 
-        <div class="col-xs-12">
-            <div class="col-xs-4 text-center">
+        <div class="col-xs-12" style="padding:0px !important">
+            <div class="col-xs-4 text-center" style="padding:5px !important">
 
 
                 <div class="row last-total">
-                    <div class="col-xs-6">
+                    <div class="col-xs-6" style="padding:0px !important">
                         <h6>{{__('Total After Discount')}}<h6>
                     </div>
-                    <div class="col-xs-6">
+                    <div class="col-xs-6" style="padding:0px !important">
                         <h6> {{__($supplyOrder->total_after_discount)}} </h6>
                     </div>
                 </div>
@@ -289,14 +289,14 @@
             </div>
 
 
-            <div class="col-xs-4 text-center">
+            <div class="col-xs-4 text-center" style="padding:5px !important">
 
 
                 <div class="row last-total">
-                    <div class="col-xs-6">
+                    <div class="col-xs-6" style="padding:0px !important">
                         <h6>{{__('Additional Payments')}}<h6>
                     </div>
-                    <div class="col-xs-6">
+                    <div class="col-xs-6" style="padding:0px !important">
 
                         <h6> {{$supplyOrder->additional_payments}} </h6>
 
@@ -305,14 +305,14 @@
 
             </div>
 
-            <div class="col-xs-4 text-center">
+            <div class="col-xs-4 text-center" style="padding:5px !important">
 
 
                 <div class="row last-total">
-                    <div class="col-xs-6">
+                    <div class="col-xs-6" style="padding:0px !important">
                         <h6>{{__('Total Tax')}}<h6>
                     </div>
-                    <div class="col-xs-6">
+                    <div class="col-xs-6" style="padding:0px !important">
 
                         <h6> {{$supplyOrder->tax}} </h6>
 
@@ -322,8 +322,8 @@
             </div>
         </div>
 
-        <div class="col-xs-12">
-            <div class="col-xs-12 text-center">
+        <div class="col-xs-12" style="padding:0px !important">
+            <div class="col-xs-12 text-center" style="padding:5px !important">
 
 
                 <div class="row last-total" style="background-color:#ddd !important">
@@ -340,8 +340,8 @@
 
         </div>
 
-        <div class="col-xs-12">
-            <div class="col-xs-12 text-center">
+        <div class="col-xs-12"style="padding:0px !important">
+            <div class="col-xs-12 text-center" style="padding:5px !important">
 
 
                 <div class="row last-total" style="background-color:#ddd !important">

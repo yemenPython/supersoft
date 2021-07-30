@@ -216,7 +216,7 @@
         <table class="table table-bordered">
             <tr>
                 <th style="width:40%;height:50px;background:#D2CCF8 !important;color:black !important">
-                    <div class="btn-group  group-eye-wg" style="position: absolute;top: 22px;right:70px">
+                    <div class="btn-group  group-eye-wg" style="position: absolute;top: 22px;right:55px">
                     <span type="button" class="fa fa-eye eye-design-two dropdown-toggle" data-toggle="dropdown"
 
                           aria-haspopup="true" aria-expanded="false"> </span>

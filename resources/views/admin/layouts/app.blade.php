@@ -97,10 +97,12 @@
             /* font-family: 'Almarai', sans-serif !important */
         }
         .dataTables_length {
-            position: absolute;
+            /* position: absolute;
             top: 31.6%;
-            right: 40%;
+            right: 40%; */
+            margin:0 20px
         }
+
     </style>
 
 

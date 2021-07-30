@@ -74,6 +74,9 @@ class AssetExpenseController extends Controller
                     return $assetExpense->number;
 
                 } )
+                ->addColumn( 'total', function ($assetsReplacement) {
+                    return '<span style="background:#F7F8CC !important">' .number_format($assetsReplacement->total, 2) . '</span>';
+                } )
 
                 ->addColumn( 'status', function ($assetExpense) {
                     if ($assetExpense->status == 'pending') {
@@ -86,9 +89,7 @@ class AssetExpenseController extends Controller
                         return '<span class="label label-danger wg-label" >'.__('Rejected').'</span>';
                     }
                 } )
-                ->addColumn( 'total', function ($assetsReplacement) {
-                    return '<span style="background:#F7F8CC !important">' .number_format($assetsReplacement->total, 2) . '</span>';
-                } )
+
                 ->addColumn( 'created_at', function ($assetsReplacement) {
                     return $assetsReplacement->created_at;
                 } )
@@ -147,9 +148,9 @@ class AssetExpenseController extends Controller
                 'branch_id' => 'asset_expenses.branch_id',
                 'date' => 'date',
                 'number' => 'asset_expenses.number',
-
-                'status' => 'asset_expenses.status',
                 'total' => 'asset_expenses.total',
+                'status' => 'asset_expenses.status',
+              
                 'created_at' => 'asset_expenses.created_at',
                 'updated_at' => 'asset_expenses.updated_at',
                 'action' => 'action',
@@ -162,9 +163,9 @@ class AssetExpenseController extends Controller
 
                 'date' => 'date',
                 'number' => 'asset_expenses.number',
-
-                'status' => 'asset_expenses.status',
                 'total' => 'asset_expenses.total',
+                'status' => 'asset_expenses.status',
+              
                 'created_at' => 'asset_expenses.created_at',
                 'updated_at' => 'asset_expenses.updated_at',
                 'action' => 'action',

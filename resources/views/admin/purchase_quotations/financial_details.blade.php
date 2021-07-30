@@ -150,7 +150,7 @@
 </span>
 
 
-                    <ul class="dropdown-menu for-design-eye" style="margin-top: 19px;">
+                    <ul class="dropdown-menu for-design-eye" style="margin-top: 19px;position:absolute;right:-52px;left:auto;top:0">
                         @if($taxes->count())
                             @foreach($taxes as $tax_key => $tax)
 

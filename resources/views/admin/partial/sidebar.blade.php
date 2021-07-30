@@ -252,11 +252,6 @@ route('admin:maintenance-cards.index'),
                             </a>
                         </li>
 
-                        <li class="{{setActivationClass(route('admin:maintenance-cards.index'))}}">
-                            <a href="{{route('admin:maintenance-cards.index')}}">
-                                {{__('Maintenance Cards')}}
-                            </a>
-                        </li>
 
 
                     </ul>
@@ -379,6 +374,13 @@ route('admin:services_packages.index'),
                         <li class="{{setActivationClass(route('admin:maintenance-detections.index'))}}">
                             <a href="{{route('admin:maintenance-detections.index')}}">
                                 {{__('Maintenance Detection')}}
+                            </a>
+                        </li>
+
+                        
+                        <li class="{{setActivationClass(route('admin:maintenance-cards.index'))}}">
+                            <a href="{{route('admin:maintenance-cards.index')}}">
+                                {{__('Maintenance Cards')}}
                             </a>
                         </li>
 <!--

@@ -123,43 +123,43 @@
 <div class="row right-peice-wg" style="padding:0 30px 50px 30px;margin-bottom:30px">
 
 
-<div class="col-xs-12">
-    <div class="col-xs-4 text-center">
+<div class="col-xs-12" style="padding:0px !important">
+    <div class="col-xs-4 text-center" style="padding:5px !important">
 
       
       <div class="row last-total">
-          <div class="col-xs-6">
+          <div class="col-xs-6" style="padding:0px !important">
               <h6>{{__('Total Price')}}<h6>
           </div>
-          <div class="col-xs-6">
+          <div class="col-xs-6" style="padding:0px !important">
              <h6> {{$purchaseReceipt->total }} </h6>
           </div>
       </div>
       
     </div>
 
-    <div class="col-xs-4 text-center">
+    <div class="col-xs-4 text-center" style="padding:5px !important">
 
       
 <div class="row last-total">
-    <div class="col-xs-6">
+    <div class="col-xs-6" style="padding:0px !important">
         <h6>{{__('Total Accepted')}}<h6>
     </div>
-    <div class="col-xs-6">
+    <div class="col-xs-6" style="padding:0px !important">
        <h6> {{$purchaseReceipt->total_accepted }} </h6>
     </div>
 </div>
 
 </div>
 
-<div class="col-xs-4 text-center">
+<div class="col-xs-4 text-center" style="padding:5px !important">
 
       
 <div class="row last-total">
-    <div class="col-xs-6">
+    <div class="col-xs-6" style="padding:0px !important">
         <h6>{{__('Total Rejected')}}<h6>
     </div>
-    <div class="col-xs-6">
+    <div class="col-xs-6" style="padding:0px !important">
        <h6> {{$purchaseReceipt->total_rejected }} </h6>
     </div>
 </div>

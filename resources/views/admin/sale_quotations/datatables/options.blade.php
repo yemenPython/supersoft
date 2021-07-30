@@ -21,7 +21,7 @@
 @endif
 
 @if (isset($withCustomer))
-    <span style="background:#F7F8CC !important">{{ $item->customer ? $item->customer->name :'---' }} </span>
+    <span>{{ $item->customer ? $item->customer->name :__('Not determined') }} </span>
 @endif
 @if (isset($total))
     <span style="background:#F7F8CC !important">{{ __($item->total) }} </span>

@@ -129,6 +129,7 @@ class ConcessionController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
 
+            dd($e->getMessage());
             return redirect()->back()->with(['message' => 'sorry, please try later', 'alert-type' => 'error']);
         }
 
@@ -177,10 +178,6 @@ class ConcessionController extends Controller
             $concessionTypeItems->where('type', 'negative');
         }
 
-//        if ($modelName == 'PurchaseReturn') {
-//            $concessionTypeItems->where('invoice_type', 'from_supply_order')->where('status', 'finished');
-//        }
-
         if ($modelName == 'StoreTransfer' && $concession->type == 'add') {
 
             $concessionTypeItems->whereDoesntHave('concession', function ($q) use ($concession) {
@@ -195,6 +192,15 @@ class ConcessionController extends Controller
 
             $concessionTypeItems->where('invoice_type', 'from_supply_order')
                 ->where('status', 'finished')->where(function ($q) use ($concession) {
+
+                    $q->whereHas('concession', function ($q) use ($concession) {
+                        $q->where('concessionable_id', $concession->concessionable_id);
+                    })->orDoesntHave('concession');
+                });
+
+        }elseif ($modelName == 'SalesInvoice') {
+
+            $concessionTypeItems->where('status', 'finished')->where(function ($q) use ($concession) {
 
                     $q->whereHas('concession', function ($q) use ($concession) {
                         $q->where('concessionable_id', $concession->concessionable_id);
@@ -267,7 +273,7 @@ class ConcessionController extends Controller
 
             if ($concession->status == 'accepted') {
 
-                $this->concessionService->acceptQuantity($concession);
+                $acceptQuantityData = $this->concessionService->acceptQuantity($concession);
 
                 if (isset($acceptQuantityData['status']) && !$acceptQuantityData['status']) {
 
