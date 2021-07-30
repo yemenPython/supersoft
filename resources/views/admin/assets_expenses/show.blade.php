@@ -94,8 +94,8 @@
 
                 <tr class="spacer" style="border-radius: 30px;">
                 <th>{{__('#')}}</th>
-                    <th>{{__('Assets Groups')}}</th>
-                    <th>{{__('Assets')}}</th>
+                    <th>{{__('Asset Group')}}</th>
+                    <th>{{__('Asset name')}}</th>
                     <th>{{__('Expenses Types')}}</th>
                     <th>{{__('Expenses Items')}}</th>
                     <th>{{__('Expense Cost')}}</th>
