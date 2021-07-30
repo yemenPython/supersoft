@@ -153,7 +153,7 @@
     <td>
         <input style="width: 150px !important;" type="number" class="form-control border2"
                id="total_before_discount_{{$index}}"
-               value="{{isset($item) ? $item->subtotal : 0 }}" min="0"
+               value="{{isset($item) ? $item->sub_total : 0 }}" min="0"
                name="items[{{$index}}][sub_total]" disabled>
     </td>
 
@@ -227,7 +227,7 @@
 
     <td>
         <input style="width: 150px !important;" type="number" class="form-control border3" id="total_{{$index}}"
-               value="{{isset($item) ? $item->total_after_discount : 0}}" min="0"
+               value="{{isset($item) ? $item->total : 0}}" min="0"
                name="items[{{$index}}][total]" disabled>
     </td>
 

@@ -12,6 +12,8 @@ use App\Models\DamagedStock;
 use App\Models\EmployeeData;
 use App\Models\OpeningBalance;
 use App\Models\Part;
+use App\Models\PurchaseQuotation;
+use App\Models\PurchaseRequest;
 use App\Models\Settlement;
 use App\Models\Store;
 use App\Models\Supplier;
@@ -130,6 +132,12 @@ class AjaxController extends Controller
 
                 case 'AssetsItemExpense':
                     $data = $this->getAssetsItemExpenses($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'PurchaseRequest':
+                    $data = $this->getPurchaseRequestNumber($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'PurchaseQuotation':
+                    $data = $this->getPurchaseQuationNumber($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
                     break;
                 default:
                     break;
@@ -835,6 +843,66 @@ class AjaxController extends Controller
             $assetsItemExpenses = $assetsItemExpenses->where('assets_type_expenses_id', $this->asset_expense_type);
         }
 
+
+        $assetsItemExpenses = $assetsItemExpenses->limit($limit)->get();
+        foreach ($assetsItemExpenses as $assetsItemExpense) {
+            $data[] = [
+                'id' => $assetsItemExpense->id,
+                'text' => $this->buildSelectedColumnsAsText($assetsItemExpense, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+    public function getPurchaseRequestNumber(array $searchFields, $searchTerm, $selectedColumns, $limit, $branchId): array
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $assetsItemExpenses = PurchaseRequest::select(DB::raw($selectedColumns));
+
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $assetsItemExpenses = $assetsItemExpenses->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        if (!empty($branchId)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('branch_id', $branchId);
+        }
+
+        $assetsItemExpenses = $assetsItemExpenses->limit($limit)->get();
+        foreach ($assetsItemExpenses as $assetsItemExpense) {
+            $data[] = [
+                'id' => $assetsItemExpense->id,
+                'text' => $this->buildSelectedColumnsAsText($assetsItemExpense, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+    public function getPurchaseQuationNumber(array $searchFields, $searchTerm, $selectedColumns, $limit, $branchId): array
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $assetsItemExpenses = PurchaseQuotation::select(DB::raw($selectedColumns));
+
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $assetsItemExpenses = $assetsItemExpenses->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        if (!empty($branchId)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('branch_id', $branchId);
+        }
 
         $assetsItemExpenses = $assetsItemExpenses->limit($limit)->get();
         foreach ($assetsItemExpenses as $assetsItemExpense) {

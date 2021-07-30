@@ -2192,6 +2192,9 @@
     "Asset Purchase Invoice" : "فاتورة مشتريات أصول",
     "Asset Purchase Invoice data" : "بيانات فاتورة مشتريات الأصول",
     "Asset Purchase Invoice items" : "الأصول التى تم شرائها",
-    "Remaining Amount" : "المبلغ المتبقي"
+    "Remaining Amount" : "المبلغ المتبقي",
+    "Date Add From" : "تاريخ الاضافة من",
+    "Date Add To" : "تاريخ الاضافة الى",
+    "Select Purchase request Number" : "أختر رقم طلب الشراء"
 
 }

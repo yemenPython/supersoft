@@ -156,14 +156,15 @@
                     </div>
                 </div>
 
-                <div class="col-md-3" id="suppliers_data" style="{{!isset($salesInvoice) ? 'display:none;':'' }}">
+                <div class="col-md-3" id="suppliers_data"
+                     style="{{!isset($salesInvoice) || (isset($salesInvoice) && $salesInvoice->type_for == 'customer')? 'display:none;':'' }}">
                     <div class="form-group has-feedback">
                         <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon fa fa-user"></span>
 
                             <select class="form-control js-example-basic-single" name="salesable_id" id="supplier_id"
-                                {{!isset($salesInvoice) ? 'disabled':''}}>
+                                {{!isset($salesInvoice) || (isset($salesInvoice) && $salesInvoice->type_for == 'customer') ? 'disabled':''}}>
 
                                 <option value="">{{__('Select')}}</option>
 
@@ -171,7 +172,7 @@
                                     <option value="{{$supplier->id}}"
                                             data-discount="{{$supplier->group_discount}}"
                                             data-discount-type="{{$supplier->group_discount_type}}"
-                                        {{isset($salesInvoice) && $salesInvoice->salesable_id == $supplier->id? 'selected':''}}>
+                                        {{isset($salesInvoice) && $salesInvoice->type_for == 'supplier' && $salesInvoice->salesable_id == $supplier->id? 'selected':''}}>
                                         {{$supplier->name}}
                                     </option>
                                 @endforeach
@@ -183,13 +184,15 @@
                     </div>
                 </div>
 
-                <div class="col-md-3" id="customers_data">
+                <div class="col-md-3" id="customers_data"
+                     style="{{ (isset($salesInvoice) && $salesInvoice->type_for != 'customer')? 'display:none;':'' }}">
                     <div class="form-group has-feedback">
                         <label for="inputStore" class="control-label">{{__('Customer name')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon fa fa-user"></span>
 
-                            <select class="form-control js-example-basic-single" name="salesable_id" id="customer_id">
+                            <select class="form-control js-example-basic-single" name="salesable_id" id="customer_id"
+                                {{(isset($salesInvoice) && $salesInvoice->type_for != 'customer')? 'disabled':''}}>
                                 <option value="">{{__('Select')}}</option>
 
                                 @foreach($data['customers'] as $customer)
@@ -198,7 +201,7 @@
                                             data-discount="{{$customer->group_sales_discount}}"
                                             data-discount-type="{{$customer->group_sales_discount_type}}"
 
-                                        {{isset($salesInvoice) && $salesInvoice->salesable_id == $customer->id? 'selected':''}}>
+                                        {{isset($salesInvoice) && $salesInvoice->type_for == 'customer' && $salesInvoice->salesable_id == $customer->id? 'selected':''}}>
                                         {{$customer->name}}
                                     </option>
                                 @endforeach

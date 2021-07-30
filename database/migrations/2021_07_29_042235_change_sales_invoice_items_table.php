@@ -17,7 +17,7 @@ class ChangeSalesInvoiceItemsTable extends Migration
 
         Schema::table('sales_invoice_items', function (Blueprint $table) {
 
-            $table->dropForeign('sales_invoice_items_purchase_invoice_id_foreign');
+            $table->dropForeign('purchase_invoice_id');
 
             $table->dropColumn(['purchase_invoice_id', 'sold_qty', 'last_selling_price', 'deleted_at']);
 

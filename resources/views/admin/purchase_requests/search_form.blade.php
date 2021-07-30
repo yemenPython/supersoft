@@ -4,65 +4,82 @@
             <h4 class="box-title with-control">
                 <i class="fa fa-search"></i>{{__('Search filters')}}
                 <span class="controls">
-                    <button type="button" class="control fa fa-minus js__card_minus"></button>
-                    <button type="button" class="control fa fa-times js__card_remove"></button>
-                </span>
+							<button type="button" class="control fa fa-minus js__card_minus"></button>
+							<button type="button" class="control fa fa-times js__card_remove"></button>
+						</span>
+                <!-- /.controls -->
             </h4>
-
             <!-- /.box-title -->
-            <div class="card-content js__card_content">
-                <form action="{{route('admin:concession-types.index')}}" method="get" id="filtration-form">
-
+            <div class="card-content js__card_content" style="padding:30px">
+                <form onsubmit="filterFunction($(this));return false;">
+                    <input type="hidden" name="filter" value="1">
                     <div class="list-inline margin-bottom-0 row">
 
                         @if(authIsSuperAdmin())
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-12">
                                 <label> {{ __('Branches') }} </label>
-                                <select name="branch_id" class="form-control js-example-basic-single">
-                                    <option value="">{{__('Select branch')}}</option>
-                                    @foreach($branches as $k=>$branch)
-                                        <option value="{{$branch->id}}">{{$branch->name}}</option>
-                                    @endforeach
-                                </select>
+                                <div class="input-group">
+                                    <span class="input-group-addon fa fa-file"></span>
+                                    {!! drawSelect2ByAjax('branch_id','Branch','name_'.app()->getLocale(),'name_'.app()->getLocale(),__('Select Branch'),request()->branch_id) !!}
+                                </div>
                             </div>
                         @endif
 
-                        <div class="form-group col-md-4">
-                            <label> {{ __('Types') }} </label>
-                            <select name="type_id" class="form-control js-example-basic-single">
-                                <option value="">{{__('Select type')}}</option>
-                                @foreach($data['types'] as $k=>$type)
-                                    <option value="{{$type->id}}">{{$type->name}}</option>
-                                @endforeach
-                            </select>
+                        <div class="form-group col-md-6">
+                            <label> {{ __('Quotation Number') }} </label>
+                            <div class="input-group">
+                                <span class="input-group-addon fa fa-file"></span>
+                                {!! drawSelect2ByAjax('number','PurchaseQuotation','number', 'number',__('Select'),request()->number) !!}
+                            </div>
                         </div>
 
-{{--                        <div class="form-group col-md-4">--}}
-{{--                            <label> {{ __('Concession Name') }} </label>--}}
-{{--                            <input type="text" name="search" class="form-control" placeholder="{{__('Concession Name')}}">--}}
-{{--                        </div>--}}
-
-                        <div class="radio primary col-md-2" style="margin-top: 37px;">
-                            <input type="radio" name="type" value="add" id="add">
-                            <label for="add">{{__('Add Concession')}}</label>
+                        <div class="form-group col-md-6">
+                            <label> {{ __('Type') }} </label>
+                            <div class="input-group">
+                                <span class="input-group-addon fa fa-info"></span>
+                                <select class="form-control js-example-basic-single" name="type">
+                                    <option value="">{{ __('Select') }}</option>
+                                    <option value="from_purchase_request">{{ __('From Purchase Request') }}</option>
+                                    <option value="out_purchase_request">{{ __('Out Purchase Request') }}</option>
+                                </select>
+                            </div>
                         </div>
 
-                        <div class="radio primary col-md-2" style="margin-top: 37px;">
-                            <input type="radio" name="type" id="withdrawal" value="withdrawal">
-                            <label for="withdrawal">{{__('Withdrawal Concession')}}</label>
+                        <div class="form-group col-md-6">
+                            <label> {{ __('Date Add From') }}</label>
+                            <input type="date" class="form-control" name="date_add_from">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label> {{ __('Date Add To') }}</label>
+                            <input type="date" class="form-control" name="date_add_to">
                         </div>
 
-                        <div class="radio primary col-md-2" style="margin-top: 37px;">
-                            <input type="radio" name="type" id="all" value="all">
-                            <label for="all">{{__('All')}}</label>
+                        <div class="form-group col-md-6">
+                            <label> {{ __('Supply Date From') }}</label>
+                            <input type="date" class="form-control" name="supply_date_from">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label> {{ __('Supply Date To') }}</label>
+                            <input type="date" class="form-control" name="supply_date_to">
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label> {{ __('Period of quotation from') }}</label>
+                            <input type="date" class="form-control" name="date_from">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label> {{ __('Period of quotation to') }}</label>
+                            <input type="date" class="form-control" name="date_to">
                         </div>
 
                     </div>
-                    <button type="submit" class="btn sr4-wg-btn   waves-effect waves-light hvr-rectangle-out">
-                        <i class=" fa fa-search "></i> {{__('Search')}} </button>
-                    <a href="{{route('admin:concession-types.index')}}"
-                       class="btn bc-wg-btn   waves-effect waves-light hvr-rectangle-out">
-                        <i class=" fa fa-reply"></i> {{__('Back')}}
+
+                    <button type="submit"
+                            class="btn sr4-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
+                            class=" fa fa-search "></i> {{__('Search')}} </button>
+                    <a href="{{route('admin:purchase-requests.index')}}"
+                       class="btn bc-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
+                            class=" fa fa-reply"></i> {{__('Back')}}
                     </a>
 
                 </form>

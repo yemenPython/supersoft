@@ -32,7 +32,7 @@
                         $index +=1;
                         $part = $item->part;
                     @endphp
-                    @include('admin.sales_invoices.part_raw')
+                    @include('admin.sales_invoice.part_raw')
                 @endforeach
             @endif
 

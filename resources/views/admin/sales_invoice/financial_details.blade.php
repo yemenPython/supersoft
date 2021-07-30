@@ -8,7 +8,7 @@
                 <td style="background:#F9EFB7">
                     <input type="text" style="background:#F9EFB7; border:none;text-align:center !important;"
                            class="form-control" readonly name="sub_total" id="sub_total"
-                           value="{{isset($salesInvoice) ? $salesInvoice->subtotal : 0}}">
+                           value="{{isset($salesInvoice) ? $salesInvoice->sub_total : 0}}">
                 </td>
             </tr>
         </table>

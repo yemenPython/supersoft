@@ -26,18 +26,20 @@ class SalesInvoiceServices
             'part_price_id' => $item['part_price_id'],
             'part_price_segment_id' => isset($item['part_price_segment_id']) ? $item['part_price_segment_id'] : null,
 
-            'subtotal' => $item['quantity'] * $item['price']
+            'sub_total' => $item['quantity'] * $item['price']
         ];
 
-        $discount_value = $this->discountValue($data['discount_type'], $data['discount'], $data['subtotal']);
+        $discount_value = $this->discountValue($data['discount_type'], $data['discount'], $data['sub_total']);
 
-        $data['total_after_discount'] = $data['subtotal'] - $discount_value;
+        $data['total_after_discount'] = $data['sub_total'] - $discount_value;
 
         $taxIds = isset($item['taxes']) ? $item['taxes'] : [];
 
-        $data['tax'] = $this->taxesValue($data['total_after_discount'], $data['subtotal'], $taxIds);
+        $data['tax'] = $this->taxesValue($data['total_after_discount'], $data['sub_total'], $taxIds);
 
         $data['total'] = $data['total_after_discount'] + $data['tax'];
+
+//        dd($data);
 
         return $data;
     }
@@ -59,13 +61,13 @@ class SalesInvoiceServices
             'status' => $data_request['status']
         ];
 
-        $data['subtotal'] = 0;
+        $data['sub_total'] = 0;
         $customer_discount_value = 0;
 
         foreach ($data_request['items'] as $item) {
 
             $item_data = $this->calculateItemTotal($item);
-            $data['subtotal'] += $item_data['total'];
+            $data['sub_total'] += $item_data['total'];
         }
 
 //        if ($data_request['supplier_id'] != null && isset($data_request['supplier_discount_active'])) {
@@ -79,17 +81,17 @@ class SalesInvoiceServices
 //            $customer_discount_value = $this->discountValue($data['discount_group_type'], $data['discount_group_value'], $data['subtotal']);
 //        }
 
-        $discount = $this->discountValue($data['discount_type'], $data['discount'], $data['subtotal']);
+        $discount = $this->discountValue($data['discount_type'], $data['discount'], $data['sub_total']);
 
-        $data['total_after_discount'] = $data['subtotal'] - ($discount + $customer_discount_value);
+        $data['total_after_discount'] = $data['sub_total'] - ($discount + $customer_discount_value);
 
         $taxIds = isset($data_request['taxes']) ? $data_request['taxes'] : [];
 
-        $data['tax'] = $this->taxesValue($data['total_after_discount'], $data['subtotal'], $taxIds);
+        $data['tax'] = $this->taxesValue($data['total_after_discount'], $data['sub_total'], $taxIds);
 
         $additionalPayments = isset($data_request['additional_payments']) ? $data_request['additional_payments'] : [];
 
-        $data['additional_payments'] = $this->taxesValue($data['total_after_discount'], $data['subtotal'], $additionalPayments);
+        $data['additional_payments'] = $this->taxesValue($data['total_after_discount'], $data['sub_total'], $additionalPayments);
 
         $data['total'] = $data['total_after_discount'] + $data['tax'] + $data['additional_payments'];
 
@@ -200,16 +202,14 @@ class SalesInvoiceServices
         }
     }
 
-    function resetPurchaseInvoiceDataItems($purchaseInvoice)
+    function resetSalesInvoiceDataItems($salesInvoice)
     {
-
-        foreach ($purchaseInvoice->items as $item) {
+        foreach ($salesInvoice->items as $item) {
             $item->taxes()->detach();
             $item->delete();
         }
 
-        $purchaseInvoice->taxes()->detach();
-        $purchaseInvoice->purchaseReceipts()->detach();
+        $salesInvoice->taxes()->detach();
     }
 
     public function saveStoreQuantity($item)
