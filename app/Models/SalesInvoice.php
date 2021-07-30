@@ -196,4 +196,9 @@ class SalesInvoice extends Model
     {
         return $this->morphTo();
     }
+
+    public function concession()
+    {
+        return $this->morphOne(Concession::class, 'concessionable');
+    }
 }

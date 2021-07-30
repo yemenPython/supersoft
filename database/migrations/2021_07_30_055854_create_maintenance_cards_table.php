@@ -15,7 +15,7 @@ class CreateMaintenanceCardsTable extends Migration
     {
         Schema::create('maintenance_cards', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('number');
+            $table->string('number')->nullable();
             $table->string('type');
             $table->unsignedBigInteger('branch_id');
             $table->unsignedBigInteger('asset_id');
@@ -27,6 +27,7 @@ class CreateMaintenanceCardsTable extends Migration
             $table->tinyInteger('delivery_status')->default(0)->comment('0=>not_delivered, 1=>delivered');
             $table->date('delivery_date');
             $table->time('delivery_time');
+            $table->text('note')->nullable();
             $table->timestamps();
         });
     }

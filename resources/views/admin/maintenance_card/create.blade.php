@@ -52,7 +52,7 @@
 @endsection
 
 @section('js-validation')
-    {!! JsValidator::formRequest('App\Http\Requests\Admin\WorkCards\CreateWorkCardRequest', '.form'); !!}
+{{--    {!! JsValidator::formRequest('App\Http\Requests\Admin\WorkCards\CreateWorkCardRequest', '.form'); !!}--}}
     @include('admin.partial.sweet_alert_messages')
 @endsection
 
@@ -68,6 +68,35 @@
         function changeBranch() {
             let branch_id = $('#branch_id').find(":selected").val();
             window.location.href = "{{route('admin:maintenance-cards.create')}}" + "?branch_id=" + branch_id;
+        }
+
+        function getAssets() {
+
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            let group_id = $('#asset_group_id').find(":selected").val();
+
+            $.ajax({
+
+                type: 'post',
+
+                url: '{{route('admin:maintenance.cards.assets')}}',
+
+                data: {
+                    _token: CSRF_TOKEN,
+                    group_id:group_id
+                },
+
+                success: function (data) {
+
+                    $("#asset_id").html(data.view);
+                    $('.js-example-basic-single').select2();
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
         }
 
     </script>
