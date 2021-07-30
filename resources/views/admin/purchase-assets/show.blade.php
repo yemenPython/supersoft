@@ -194,7 +194,7 @@
                 </div>
 
                 <div class="col-xs-12" style="padding:0 !important">
-                <div class="col-xs-12 text-center" style="padding:5px !important">
+                <div class="col-xs-12 text-center">
 
 
                     <div class="row last-total" style="background-color:#ddd !important">

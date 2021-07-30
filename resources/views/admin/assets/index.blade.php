@@ -521,7 +521,7 @@
                         {{__('Close')}}</button>
                 </div>
 
-                <div class="modal-body" id="assetDatatoPrint">
+                <div class="modal-body" id="assetDatatoPrint" style="padding:0">
 
 
                 </div>

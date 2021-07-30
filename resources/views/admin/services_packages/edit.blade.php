@@ -86,13 +86,14 @@
 <div class="row center-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
 
-                        <div class="col-xs-12">
-                            <div class="row">
-                                <div class="row products-details-wg">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="">
+                            <div class="">
+                                <div class="products-details-wg">
+                                    <div class="">
 
-                                        <div class="form-group col-sm-6 widget-content widget-content-area"
+                                        <div class="form-group col-sm-6 widget-content-area"
                                              style="">
+                                             <div class="widget-content">
                                             <div class="top-exchange-rate-title">
                                                 <h6 style="font-weight:bold"
                                                     class="text-dark">{{__('Service Type')}}</h6>
@@ -133,9 +134,10 @@
                                                 </div>
                                             </ul>
                                         </div>
+                                        </div>
 
-
-                                        <div class="form-group col-sm-6 widget-content widget-content-area">
+                                        <div class="form-group col-sm-6 widget-content-area">
+                                            <div class="widget-content">
                                             <div class="top-exchange-rate-title">
                                                 <h6 style="font-weight:bold"
                                                     class="text-dark">{{__('Service Items')}}</h6>
@@ -167,7 +169,7 @@
                                                 @endif
                                             </ul>
                                         </div>
-
+                                        </div>
                                     </div>
 
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
