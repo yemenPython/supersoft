@@ -41,7 +41,7 @@
         </div>
         <div class="col-xs-6" style="padding-right: 50px;">
             <div class="row">
-                <div class="col-xs-12 table-responsive">
+                <div class="col-xs-12">
                     <table class="table table-time-user">
                         <tr>
                         <th style="font-weight: normal !important;">{{__('Time & Date')}}</th>

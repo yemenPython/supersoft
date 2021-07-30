@@ -2509,7 +2509,7 @@ input[type="time"]
                             }
                             
                             .right-top-detail h3 {
-                                color: #526cc2;
+                                color: #000;
                                 font-weight: bold;
                                 text-align: center !important
                             }
@@ -2583,7 +2583,7 @@ input[type="time"]
                             .last-total h6 {
                                 color: rgb(27, 27, 27) !important;
                                 font-weight: bold !important;
-                                font-size: 11px !important;
+                                font-size: 10.5px !important;
                                 margin: 6px !important
                             }
                             
@@ -2631,9 +2631,10 @@ input[type="time"]
                             }
                             
                             .small-data-wg {
+                                position: absolute;
                                 background: #526cc2;
                                 color: white;
-                                left: 13px;
+                                left: 0;
                                 bottom: 0;
                                 padding: 12px 30px 12px 12px;
                                 border-radius: 0 50px 0 0;
@@ -2682,7 +2683,7 @@ input[type="time"]
                             
                             @media (max-width:768px) {
                                 .right-top-detail h3 {
-                                    color: #526cc2 !important;
+                                    color: #000 !important;
                                     font-weight: bold !important;
                                 }
                             }
@@ -2692,7 +2693,8 @@ input[type="time"]
                                     font-size: 12px !important;
                                     text-align: right !important;
                                     padding-right: 20px;
-                                    text-align: center !important
+                                    text-align: center !important;
+                                    color: #000 !important
                                 }
                                 .logo-print {
                                     width: 500px !important;
@@ -2704,7 +2706,8 @@ input[type="time"]
                                     font-size: 20px !important;
                                     text-align: right !important;
                                     padding-right: 20px;
-                                    text-align: center !important
+                                    text-align: center !important;
+                                    color: #000 !important
                                 }
                             }
                             
@@ -2713,7 +2716,8 @@ input[type="time"]
                                     width: 390px !important;
                                 }
                                 .right-top-detail h3 {
-                                    font-size: 23px !important;
+                                    font-size: 20px !important;
+                                    color: #000 !important
                                 }
                             }
                             

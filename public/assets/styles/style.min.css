@@ -7109,7 +7109,7 @@ html[dir="ltr"] .right-top-detail {
 }
 
 .right-top-detail h3 {
-    color: #526cc2;
+    color: #000;
     font-weight: bold;
     text-align: center !important
 }
@@ -7293,7 +7293,8 @@ html[dir="ltr"] .right-top-detail {
         font-size: 12px !important;
         text-align: right !important;
         padding-right: 20px;
-        text-align: center !important
+        text-align: center !important;
+        color: #000 !important
     }
     .logo-print {
         width: 300px !important;
@@ -7305,13 +7306,18 @@ html[dir="ltr"] .right-top-detail {
         font-size: 20px !important;
         text-align: right !important;
         padding-right: 20px;
-        text-align: center !important
+        text-align: center !important;
+        color: #000 !important
     }
 }
 
 @media (max-width:567px) {
     .logo-print {
         width: 230px !important;
+    }
+    .right-top-detail h3 {
+        font-size: 20px !important;
+        color: #000 !important
     }
 }
 

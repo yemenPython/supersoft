@@ -118,7 +118,7 @@
         <div style="padding:0 20px;">
             <h5 class="invoice-to-title">{{__('Purchase Invoice items')}}</h5>
 
-
+<div class="table-responsive">
             <table class="table print-table-wg table-borderless">
                 <thead>
 
@@ -160,7 +160,7 @@
 </tbody>
 </table>
 </div>
-
+</div>
 
 <div class="row right-peice-wg" style="padding:0 30px 50px 30px;">
 
@@ -237,7 +237,7 @@
 
             
             <div class="col-xs-12" style="padding:0 !important">
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px">
 
 
                     <div class="row last-total">
@@ -251,7 +251,7 @@
 
                 </div>
 
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px">
 
 
                     <div class="row last-total">
@@ -265,7 +265,7 @@
 
                 </div>
 
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px">
 
 
                     <div class="row last-total">
@@ -281,7 +281,7 @@
             </div>
 
             <div class="col-xs-12" style="padding:0 !important">
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px">
 
 
                     <div class="row last-total">
@@ -296,7 +296,7 @@
                 </div>
 
 
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px">
 
 
                     <div class="row last-total">
@@ -312,7 +312,7 @@
 
                 </div>
 
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px">
 
 
                     <div class="row last-total">
@@ -330,7 +330,7 @@
             </div>
 
             <div class="col-xs-12" style="padding:0 !important">
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px">
 
 
                     <div class="row last-total">
@@ -344,7 +344,7 @@
 
                 </div>
 
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px">
 
 
                     <div class="row last-total">
@@ -359,7 +359,7 @@
 
 </div>
 
-<div class="col-xs-4 text-center">
+<div class="col-xs-4 text-center" style="padding:5px">
 
                     <div class="row last-total" style="background-color:#ddd !important">
                         <div class="col-xs-7">
@@ -373,12 +373,12 @@
                 </div>
 
                 <div class="col-xs-12" style="padding:0 !important">
-                <div class="col-xs-12 text-center">
+                <div class="col-xs-12 text-center" style="padding:5px">
 
 
                     <div class="row last-total" style="background-color:#ddd !important">
 
-                        <div class="col-xs-12">
+                        <div class="col-xs-12" style="padding:5px">
                         <h6 data-id="data-totalInLetters" id="totalInLetters">{{$purchase_invoice->total}}</h6>
                         </div>
                     </div>
