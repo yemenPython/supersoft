@@ -2478,6 +2478,14 @@ input[type="time"]
                             .for-width-select .select2 {
                                 width: 150px !important;
                             }
+                            
+                            .for-design-eye {
+                                margin-top: 19px !important;
+                                position: absolute !important;
+                                right: -52px !important;
+                                left: auto !important;
+                                top: 0px !important;
+                            }
                             /* أذونات البرنت */
                             
                             .print-border {
