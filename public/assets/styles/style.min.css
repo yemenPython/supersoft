@@ -7071,14 +7071,25 @@ div.bordered-div input {
     float: none
 }
 
-
-/* .group-eye-wg {
+html[dir="ltr"] .for-design-eye {
     margin-top: 19px !important;
     position: absolute !important;
-    left: -52px !important;
+    left: 183px !important;
     right: auto !important;
     top: 0px !important;
-} */
+}
+
+html[dir="ltr"] .group-eye-wg {
+    position: absolute;
+    left: 18px;
+    top: 24px;
+}
+
+html[dir="ltr"] .group-eye-wg-one {
+    position: absolute;
+    left: 8px;
+    top: 23px;
+}
 
 
 /* أذونات البرنت */

@@ -89,20 +89,21 @@
                         <div class="col-xs-12">
                             <div class="row">
                                 <div class="row products-details-wg">
-                                    <div class="col-lg-5 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
-                                        <div class="form-group col-sm-12 widget-content widget-content-area"
-                                             style="margin-top:30px">
+                                        <div class="form-group col-sm-6 widget-content widget-content-area"
+                                             style="">
                                             <div class="top-exchange-rate-title">
                                                 <h6 style="font-weight:bold"
                                                     class="text-dark">{{__('Service Type')}}</h6>
                                             </div>
-                                            <ul class="nav nav-pills nav-stacked right-list-wg anyClass list-inline">
-                                                <div class="nav-item">
+                                            <div class="nav-item">
                                                     <input class="form-control" type="text"
                                                            placeholder="{{__('Search')}}" id="searchInServiceType"
                                                            style="width: 100% !important">
                                                 </div>
+                                            <ul class="nav nav-pills nav-stacked right-list-wg anyClass list-inline">
+                  
                                                 <li class="nav-item  ">
                                                     <a class="nav-link active bg-danger text-white" href="#"
                                                        onclick="getServiceItemsById('all')" id="service_type"
@@ -134,7 +135,7 @@
                                         </div>
 
 
-                                        <div class="form-group col-sm-12 widget-content widget-content-area">
+                                        <div class="form-group col-sm-6 widget-content widget-content-area">
                                             <div class="top-exchange-rate-title">
                                                 <h6 style="font-weight:bold"
                                                     class="text-dark">{{__('Service Items')}}</h6>
@@ -169,7 +170,7 @@
 
                                     </div>
 
-                                    <div class="col-lg-7 col-md-6 col-sm-12 col-xs-12">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 
                                         <div class="form-group has-feedback">
 
