@@ -91,7 +91,7 @@
                     <td> {{__($supplyOrder->purchaseRequest ? $supplyOrder->purchaseRequest->number : '---')}} </td>
 
                     <th>{{__('Purchase Quotations Numbers')}}</th>
-                    <td>
+                    <td colspan="6">
                         @foreach($supplyOrder->purchaseQuotations as $index=>$purchaseQuotation)
 
                             <span>{{$purchaseQuotation->number}} ,</span>
