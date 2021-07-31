@@ -44,6 +44,9 @@ class SupplyOrderController extends Controller
     public function index(Request $request)
     {
         $supply_orders = SupplyOrder::query()->latest();
+        if ($request->filled('filter')) {
+            $supply_orders = $this->filter($request, $supply_orders);
+        }
         $data['paymentTerms'] = SupplyTerm::where('supply_order', 1)->where('status', 1)->where('type', 'payment')
             ->select('id', 'term_' . $this->lang)->get();
         $data['supplyTerms'] = SupplyTerm::where('supply_order', 1)->where('status', 1)->where('type', 'supply')
@@ -516,5 +519,45 @@ class SupplyOrderController extends Controller
                 $withOptions = true;
                 return view($viewPath, compact('item', 'withOptions'))->render();
             })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
+    }
+
+    private function filter(Request $request, Builder $data): Builder
+    {
+        return $data->where(function ($query) use ($request) {
+            if ($request->filled('branch_id')) {
+                $query->where('branch_id', $request->branch_id);
+            }
+
+            if ($request->filled('number')) {
+                $query->where('id', $request->number);
+            }
+
+            if ($request->filled('type')) {
+                $query->where('type', $request->type);
+            }
+
+
+            if ($request->filled('supplier_id')) {
+                $query->where('supplier_id', $request->supplier_id);
+            }
+
+            if ($request->filled('q_number')) {
+                $query->whereHas('purchaseQuotations', function ($q) use ($request) {
+                    $q->where('purchase_quotation_id', $request->q_number);
+                });
+            }
+
+            if ($request->filled('purchase_request_id')) {
+                $query->where('purchase_request_id', $request->purchase_request_id);
+            }
+
+            if ($request->filled('date_add_from') && $request->filled('date_add_to')){
+                $query->whereBetween('date', [$request->date_add_from, $request->date_add_to]);
+            }
+
+            if ($request->filled('date_from') && $request->filled('date_to')){
+                $query->whereBetween('date_from', [$request->date_from, $request->date_to]);
+            }
+        });
     }
 }

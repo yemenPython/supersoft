@@ -17,6 +17,7 @@ use App\Models\PurchaseRequest;
 use App\Models\Settlement;
 use App\Models\Store;
 use App\Models\Supplier;
+use App\Models\SupplyOrder;
 use Illuminate\Http\Request;
 use DB;
 
@@ -138,6 +139,9 @@ class AjaxController extends Controller
                     break;
                 case 'PurchaseQuotation':
                     $data = $this->getPurchaseQuationNumber($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'SupplyOrder':
+                    $data = $this->getSupplyOrders($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
                     break;
                 default:
                     break;
@@ -892,6 +896,36 @@ class AjaxController extends Controller
             $selectedColumns = $id . ' ' . $selectedColumns;
         }
         $assetsItemExpenses = PurchaseQuotation::select(DB::raw($selectedColumns));
+
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $assetsItemExpenses = $assetsItemExpenses->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        if (!empty($branchId)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('branch_id', $branchId);
+        }
+
+        $assetsItemExpenses = $assetsItemExpenses->limit($limit)->get();
+        foreach ($assetsItemExpenses as $assetsItemExpense) {
+            $data[] = [
+                'id' => $assetsItemExpense->id,
+                'text' => $this->buildSelectedColumnsAsText($assetsItemExpense, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+    public function getSupplyOrders(array $searchFields, $searchTerm, $selectedColumns, $limit, $branchId): array
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $assetsItemExpenses = SupplyOrder::select(DB::raw($selectedColumns));
 
         if (!empty($searchFields)) {
             foreach ($searchFields as $searchField) {

@@ -7,10 +7,30 @@ use Illuminate\Database\Eloquent\Model;
 
 class SupplyOrder extends Model
 {
-    protected $fillable = ['number', 'branch_id', 'purchase_request_id', 'date', 'time', 'user_id', 'supplier_id', 'status',
-        'sub_total', 'discount', 'discount_type', 'total_after_discount', 'tax', 'total', 'type',
-        'additional_payments', 'description', 'library_path', 'supplier_discount', 'supplier_discount_type',
-        'supplier_discount_active', 'date_from', 'date_to'];
+    protected $fillable = [
+        'number',
+        'branch_id',
+        'purchase_request_id',
+        'date', 'time',
+        'user_id',
+        'supplier_id',
+        'status',
+        'sub_total',
+        'discount',
+        'discount_type',
+        'total_after_discount',
+        'tax',
+        'total',
+        'type',
+        'additional_payments',
+        'description',
+        'library_path',
+        'supplier_discount',
+        'supplier_discount_type',
+        'supplier_discount_active',
+        'date_from',
+        'date_to'
+    ];
 
     protected $table = 'supply_orders';
 
