@@ -497,6 +497,18 @@ class PurchaseQuotationsController extends Controller
                 $query->where('type', $request->type);
             }
 
+            if ($request->filled('quotation_type')) {
+                $query->where('quotation_type', $request->quotation_type);
+            }
+
+            if ($request->filled('supplier_id')) {
+                $query->where('supplier_id', $request->supplier_id);
+            }
+
+            if ($request->filled('purchase_request_id')) {
+                $query->where('purchase_request_id', $request->purchase_request_id);
+            }
+
             if ($request->filled('date_add_from') && $request->filled('date_add_to')){
                 $query->whereBetween('date', [$request->date_add_from, $request->date_add_to]);
             }
