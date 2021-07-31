@@ -2239,7 +2239,10 @@
     "Sale assets Number" : "رقم العملية  ",
     "Sale assets Type" : "نوع العملية",
     "Sale assets items" : "الأصول التى تم بيعها أو إستبعادها",
-    "final total consumtion" :"إجمالى الإلهلاك"
+    "final total consumtion" :"إجمالى الإلهلاك",
+    "Asset Name" : "اسم الأصل",
+    "external" : "صيانة خارجية",
+    "internal" : "صيانة داخلية"
 
 
 }
