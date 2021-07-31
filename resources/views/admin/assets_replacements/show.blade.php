@@ -184,8 +184,8 @@
                     <div class="row last-total" style="background-color:#ddd !important">
 
                         <div class="col-xs-12">
-                            <h6 data-id="data-totalInLetters" id="totalInLetters"> {{isset($assetReplacement) ? $assetReplacement->total_after_replacement : 0}} </h6>
-                            </div>
+                        <h6 data-id="data-totalInLetters" id="totalInLetters">  {{isset($assetReplacement) ? $assetReplacement->total_after_replacement : 0}} </h6>
+                        </div>
                     </div>
 
                 </div>
