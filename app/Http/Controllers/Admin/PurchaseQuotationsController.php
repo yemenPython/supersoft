@@ -497,24 +497,28 @@ class PurchaseQuotationsController extends Controller
                 $query->where('type', $request->type);
             }
 
+            if ($request->filled('quotation_type')) {
+                $query->where('quotation_type', $request->quotation_type);
+            }
+
+            if ($request->filled('supplier_id')) {
+                $query->where('supplier_id', $request->supplier_id);
+            }
+
+            if ($request->filled('purchase_request_id')) {
+                $query->where('purchase_request_id', $request->purchase_request_id);
+            }
+
             if ($request->filled('date_add_from') && $request->filled('date_add_to')){
                 $query->whereBetween('date', [$request->date_add_from, $request->date_add_to]);
             }
 
-            if ($request->filled('date_from')){
-                $query->whereDate('date_from', $request->date_from);
+            if ($request->filled('date_from') && $request->filled('date_to')){
+                $query->whereBetween('date_from', [$request->date_from, $request->date_to]);
             }
 
-            if ($request->filled('date_to')){
-                $query->whereDate('date_to', $request->date_to);
-            }
-
-            if ($request->filled('supply_date_from')){
-                $query->whereDate('supply_date_from', $request->supply_date_from);
-            }
-
-            if ($request->filled('supply_date_to')){
-                $query->whereDate('supply_date_to', $request->supply_date_to);
+            if ($request->filled('supply_date_from') && $request->filled('supply_date_to')){
+                $query->whereBetween('supply_date_from', [$request->supply_date_from, $request->supply_date_to]);
             }
         });
     }

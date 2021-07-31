@@ -49,9 +49,8 @@
                         @endif
                         <th scope="col">{!! __('Date') !!}</th>
                         <th scope="col">{!! __('Number') !!}</th>
-
-                        <th scope="col">{!! __('Status') !!}</th>
                         <th scope="col">{!! __('Total') !!}</th>
+                        <th scope="col">{!! __('Status') !!}</th>
                         <th scope="col">{!! __('Created at') !!}</th>
                         <th scope="col">{!! __('Updated at') !!}</th>
                         <th scope="col">{!! __('Options') !!}</th>
@@ -70,9 +69,8 @@
                         @endif
                         <th scope="col">{!! __('Date') !!}</th>
                         <th scope="col">{!! __('Number') !!}</th>
-
-                        <th scope="col">{!! __('Status') !!}</th>
                         <th scope="col">{!! __('Total') !!}</th>
+                        <th scope="col">{!! __('Status') !!}</th>
                         <th scope="col">{!! __('Created at') !!}</th>
                         <th scope="col">{!! __('Updated at') !!}</th>
                         <th scope="col">{!! __('Options') !!}</th>
@@ -154,6 +152,7 @@
                 }
             });
         }
+
         function filterFunction($this) {
             $("#loaderSearch").show();
             $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
@@ -174,15 +173,6 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span>
                     </button>
-                <!-- <h4 class="modal-title" id="myModalLabel-1">{{__('Concession')}}</h4> -->
-                </div>
-
-                <div class="modal-body" id="assetDatatoPrint">
-
-
-                </div>
-                <div class="modal-footer" style="text-align:center">
-
                     <button type="button" class="btn btn-primary waves-effect waves-light"
                             onclick="printAsset()" id="print_sales_invoice">
                         <i class='fa fa-print'></i>
@@ -192,6 +182,15 @@
                     <button type="button" class="btn btn-danger waves-effect waves-light"
                             data-dismiss="modal"><i class='fa fa-close'></i>
                         {{__('Close')}}</button>
+                </div>
+
+                <div class="modal-body" id="assetDatatoPrint">
+
+
+                </div>
+                <div class="modal-footer" style="text-align:center">
+
+
 
                 </div>
 

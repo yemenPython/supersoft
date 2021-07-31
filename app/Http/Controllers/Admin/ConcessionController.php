@@ -128,7 +128,7 @@ class ConcessionController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            
+
             return redirect()->back()->with(['message' => 'sorry, please try later', 'alert-type' => 'error']);
         }
 

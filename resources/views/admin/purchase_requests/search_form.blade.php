@@ -1,3 +1,4 @@
+
 @if(filterSetting())
     <div class="col-xs-12">
         <div class="box-content card bordered-all js__card top-search">
@@ -26,50 +27,29 @@
                         @endif
 
                         <div class="form-group col-md-6">
-                            <label> {{ __('Quotation Number') }} </label>
+                            <label> {{ __('Purchase request Number') }} </label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-file"></span>
-                                {!! drawSelect2ByAjax('number','PurchaseQuotation','number', 'number',__('Select'),request()->number) !!}
+                                {!! drawSelect2ByAjax('number','PurchaseRequest','number', 'number',__('Select Purchase request Number'),request()->number) !!}
                             </div>
                         </div>
 
-                        <div class="form-group col-md-6">
-                            <label> {{ __('Type') }} </label>
-                            <div class="input-group">
-                                <span class="input-group-addon fa fa-info"></span>
-                                <select class="form-control js-example-basic-single" name="type">
-                                    <option value="">{{ __('Select') }}</option>
-                                    <option value="from_purchase_request">{{ __('From Purchase Request') }}</option>
-                                    <option value="out_purchase_request">{{ __('Out Purchase Request') }}</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                             <label> {{ __('Date Add From') }}</label>
                             <input type="date" class="form-control" name="date_add_from">
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                             <label> {{ __('Date Add To') }}</label>
                             <input type="date" class="form-control" name="date_add_to">
                         </div>
 
-                        <div class="form-group col-md-6">
-                            <label> {{ __('Supply Date From') }}</label>
-                            <input type="date" class="form-control" name="supply_date_from">
+                        <div class="form-group col-md-3">
+                            <label> {{ __('Period of request from') }}</label>
+                            <input type="date" class="form-control" name="date_request_from">
                         </div>
-                        <div class="form-group col-md-6">
-                            <label> {{ __('Supply Date To') }}</label>
-                            <input type="date" class="form-control" name="supply_date_to">
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label> {{ __('Period of quotation from') }}</label>
-                            <input type="date" class="form-control" name="date_from">
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label> {{ __('Period of quotation to') }}</label>
-                            <input type="date" class="form-control" name="date_to">
+                        <div class="form-group col-md-3">
+                            <label> {{ __('Period of request to') }}</label>
+                            <input type="date" class="form-control" name="date_request_to">
                         </div>
 
                     </div>

@@ -10,7 +10,8 @@
         <nav>
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
-                <li class="breadcrumb-item"><a href="{{route('admin:maintenance-cards.index')}}"> {{__('Maintenance Cards')}}</a></li>
+                <li class="breadcrumb-item"><a
+                        href="{{route('admin:maintenance-cards.index')}}"> {{__('Maintenance Cards')}}</a></li>
                 <li class="breadcrumb-item active"> {{__('Maintenance Card')}}</li>
             </ol>
         </nav>
@@ -20,15 +21,31 @@
                 <h1 class="box-title bg-info" style="text-align: initial"><i class="fa fa-car"></i>
                     {{__('Create Card')}}
                     <span class="controls hidden-sm hidden-xs pull-left">
-                    <button class="control text-white" style="background:none;border:none;font-size:12px">{{__('Save')}}<img class="img-fluid" style="width:50px;height:50px;margin-top:-20px;margin-bottom:-13px" src="{{asset('assets/images/f1.png')}}"></button>
-							<button class="control text-white" style="background:none;border:none;font-size:12px">{{__('Reset')}}<img class="img-fluid" style="width:50px;height:50px;margin-top:-20px;margin-bottom:-13px" src="{{asset('assets/images/f2.png')}}"></button>
-							<button class="control text-white" style="background:none;border:none;font-size:12px"> {{__('Back')}} <img class="img-fluid" style="width:50px;height:50px;margin-top:-20px;margin-bottom:-13px" src="{{asset('assets/images/f3.png')}}"></button>
 
+                      <button class="control text-white"
+                              style="background:none;border:none;font-size:14px;font-weight:normal !important;">{{__('Save')}}
+                      <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
+                           src="{{asset('assets/images/f1.png')}}">
+                  </button>
+                        <button class="control text-white"
+                                style="background:none;border:none;font-size:14px;font-weight:normal !important;">
+                            {{__('Reset')}}
+                            <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
+                                 src="{{asset('assets/images/f2.png')}}">
+                        </button>
+							<button class="control text-white"
+                                    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
+                                    class="img-fluid"
+                                    style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
+                                    src="{{asset('assets/images/f3.png')}}">
+                            </button>
 						</span>
+
                 </h1>
                 <div class="box-content">
 
-                    <form method="post" action="{{route('admin:maintenance-cards.update', $maintenanceCard->id)}}" class="form">
+                    <form method="post" action="{{route('admin:maintenance-cards.update', $maintenanceCard->id)}}"
+                          class="form">
                         @csrf
                         @method('PATCH')
 
@@ -52,7 +69,7 @@
 @endsection
 
 @section('js-validation')
-        {!! JsValidator::formRequest('App\Http\Requests\Admin\MaintenanceCard\CreateRequest', '.form'); !!}
+    {!! JsValidator::formRequest('App\Http\Requests\Admin\MaintenanceCard\CreateRequest', '.form'); !!}
     @include('admin.partial.sweet_alert_messages')
 @endsection
 
@@ -83,7 +100,7 @@
 
                 data: {
                     _token: CSRF_TOKEN,
-                    group_id:group_id
+                    group_id: group_id
                 },
 
                 success: function (data) {
@@ -99,13 +116,13 @@
             });
         }
 
-        function showSupplier () {
+        function showSupplier() {
 
             if ($('#external').is(':checked')) {
 
                 $('#suppliers_div').show();
 
-            }else {
+            } else {
 
                 $('#suppliers_div').hide();
             }

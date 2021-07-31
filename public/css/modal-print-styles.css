@@ -254,6 +254,13 @@ table th {
     font-weight: bold;
 }
 
+#invoiceDatatoPrint .top-logo-print,
+#assetDatatoPrint .top-logo-print,
+#assetDatatoPrint .top-logo-print {
+    position: absolute;
+    left: 0px !important;
+}
+
 
 /* .print-padding-top {
     padding-top: 100px !important
