@@ -18,6 +18,7 @@ class CreateMaintenanceCardsTable extends Migration
             $table->string('number')->nullable();
             $table->string('type');
             $table->unsignedBigInteger('branch_id');
+            $table->unsignedBigInteger('supplier_id')->nullable();
             $table->unsignedBigInteger('asset_id');
             $table->unsignedBigInteger('created_by');
             $table->tinyInteger('receive_status')->default(0)->comment('0=>not_received, 1=>received');;
