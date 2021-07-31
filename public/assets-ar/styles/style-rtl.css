@@ -2752,4 +2752,23 @@ input[type="time"]
                             .middle-data-h-print {
                                 margin: 50px 0 !important
                             }
+                            /* OSOL PRINT */
+                            
+                            #invoiceDatatoPrint .small-data-wg,
+                            #assetDatatoPrint .small-data-wg,
+                            #assetDatatoPrint .small-data-wg {
+                                bottom: 15px;
+                                left: 15px;
+                            }
+                            
+                            #invoiceDatatoPrint .top-logo-print,
+                            #assetDatatoPrint .top-logo-print,
+                            #assetDatatoPrint .top-logo-print {
+                                position: absolute;
+                                left: 15px;
+                            }
+                            /* .top-logo-print {
+                                position: absolute;
+                                left: 15px;
+                            } */
                             /* أذونات البرنت */
