@@ -220,13 +220,13 @@
                             <thead>
                             <tr>
                                 <th class="text-center column-card-number" scope="col">{!! __('#') !!}</th>
-                                <th class="text-center column-name" scope="col">{!! __('Number') !!}</th>
-                                <th class="text-center column-status" scope="col">{!! __('Status') !!}</th>
+                                <th class="text-center column-card-number" scope="col">{!! __('Number') !!}</th>
+                                <th class="text-center column-name" scope="col">{!! __('Asset Name') !!}</th>
+                                <th class="text-center column-name" scope="col">{!! __('Type') !!}</th>
                                 <th class="text-center column-receive" scope="col">{!! __('Receive Status') !!}</th>
                                 <th class="text-center column-delivery" scope="col">{!! __('Delivery Status') !!}</th>
                                 <th class="text-center column-created-at" scope="col">{!! __('Created at') !!}</th>
                                 <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
-                                <th scope="col">{!! __('Expenses') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">{!! __('Select') !!}</th>
                             </tr>
@@ -235,13 +235,13 @@
                             <tfoot>
                             <tr>
                                 <th class="text-center column-card-number" scope="col">{!! __('#') !!}</th>
-                                <th class="text-center column-name" scope="col">{!! __('Name') !!}</th>
-                                <th class="text-center column-status" scope="col">{!! __('Status') !!}</th>
+                                <th class="text-center column-card-number" scope="col">{!! __('Number') !!}</th>
+                                <th class="text-center column-name" scope="col">{!! __('Asset Name') !!}</th>
+                                <th class="text-center column-name" scope="col">{!! __('Type') !!}</th>
                                 <th class="text-center column-receive" scope="col">{!! __('Receive Status') !!}</th>
                                 <th class="text-center column-delivery" scope="col">{!! __('Delivery Status') !!}</th>
                                 <th class="text-center column-created-at" scope="col">{!! __('Created at') !!}</th>
                                 <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
-                                <th scope="col">{!! __('Expenses') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">{!! __('Select') !!}</th>
                             </tr>
@@ -249,19 +249,10 @@
                             <tbody>
                             @foreach($data['cards'] as $index=>$card)
                                 <tr>
+                                    <td class="text-center column-card-number">{!! $index+1 !!}</td>
                                     <td class="text-center column-card-number">{!! $card->number !!}</td>
-                                    <td class="text-center column-name">{!! $card->status !!}</td>
-                                    <td class="text-center column-status">
-                                        @if($card->status == 'pending')
-                                            <span class="label label-danger wg-label">{{__($card->status)}}</span>
-                                        @elseif($card->status == 'processing')
-                                            <span class="label label-warning wg-label">{{__($card->status)}}</span>
-                                        @elseif($card->status == 'finished')
-                                            <span class="label label-success wg-label">{{__($card->status)}}</span>
-                                        @else
-                                            <span class="label label-info wg-label">{{__($card->status)}}</span>
-                                        @endif
-                                    </td>
+                                    <td class="text-center column-name">{!! $card->asset ? $card->asset->name : '---'  !!}</td>
+                                    <td>{{__($card->type)}}</td>
                                     <td class="text-center column-delivery">
                                         <div class="switch success">
                                             <input disabled type="checkbox"
@@ -281,15 +272,6 @@
 
                                     <td class="text-center column-created-at">{!! $card->created_at->format('y-m-d h:i:s A') !!}</td>
                                     <td class="text-center column-updated-at">{!! $card->updated_at->format('y-m-d h:i:s A') !!}</td>
-
-                                    <td>
-                                        @if($card->cardInvoice)
-                                            <a href="{{route('admin:card.invoices.revenue.receipts',
-                                             ['id' => $card->cardInvoice->id])}}"
-                                               class="btn btn-info-wg hvr-radial-out  ">
-                                                <i class="fa fa-money"></i> {{__('Payments')}}
-                                        @endif
-                                    </td>
 
                                     <td>
 

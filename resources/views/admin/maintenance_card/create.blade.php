@@ -62,7 +62,7 @@
 @endsection
 
 @section('js-validation')
-{{--    {!! JsValidator::formRequest('App\Http\Requests\Admin\WorkCards\CreateWorkCardRequest', '.form'); !!}--}}
+    {!! JsValidator::formRequest('App\Http\Requests\Admin\MaintenanceCard\CreateRequest', '.form'); !!}
     @include('admin.partial.sweet_alert_messages')
 @endsection
 
@@ -107,6 +107,19 @@
                     swal({text: errors, icon: "error"})
                 }
             });
+        }
+
+        function showSupplier () {
+
+            if ($('#external').is(':checked')) {
+
+                $('#suppliers_div').show();
+
+            }else {
+
+                $('#suppliers_div').hide();
+            }
+
         }
 
     </script>
