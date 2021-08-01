@@ -232,6 +232,8 @@
                 method: 'GET',
                 success: function (data) {
                     $("#assetDatatoPrint").html(data.view)
+                    let total_after_replacement = $("#totalInLetters").text()
+                    $("#totalInLetters").html(new Tafgeet(total_after_replacement, '{{config("currency.defualt_currency")}}').parse())     
                 }
             });
         }

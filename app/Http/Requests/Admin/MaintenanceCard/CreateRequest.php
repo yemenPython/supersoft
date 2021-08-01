@@ -38,6 +38,10 @@ class CreateRequest extends FormRequest
             $rules['branch_id'] = 'required|integer|exists:branches,id';
         }
 
+        if (request()['type'] == 'external') {
+            $rules['supplier_id'] = 'required|integer|exists:suppliers,id';
+        }
+
         return $rules;
     }
 }

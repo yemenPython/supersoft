@@ -913,7 +913,3 @@ background-image: linear-gradient(0deg, #1d92af 0%, #1d5697 100%); */
         .border-bottom-wg-chos li {
             margin-bottom: 2px !important
         }
-        
-        #invoiceDatatoPrint {
-            padding: 0;
-        }

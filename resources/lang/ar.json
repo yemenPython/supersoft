@@ -2228,5 +2228,23 @@
     "Assets Replacements data" : "بيانات فاتورة التجديد والإحلال",
     "Asset Replacement items" : "الأصول التى تم تجديدها",
     "All Result" : "كل النتائج",
-    "Together" : "الأثنين معا"
+    "Together" : "الأثنين معا",
+    "Sale Supply Order data" : "بيانات أمر التوريد",
+    "consumtion Invoice" : "بيان إهلاك الأصول",
+    "consumtion Invoice data" : "بيانات بيان إهلاك الأصول",
+    "consumtion Invoice items" : "بيانات إهلاك الأصول",
+    "consumtion Number" : "رقم البيان",
+    "consumtion Type" : "حالة البيان",
+    "the total consumtion" : "إجمالي الإهلاك الحالي",
+    "Sale assets" : "بيع وإستبعاد الأصول",
+    "Sale assets data" : "بيانات بيع وإستبعاد الأصول",
+    "Sale assets Number" : "رقم العملية  ",
+    "Sale assets Type" : "نوع العملية",
+    "Sale assets items" : "الأصول التى تم بيعها أو إستبعادها",
+    "final total consumtion" :"إجمالى الإلهلاك",
+    "Asset Name" : "اسم الأصل",
+    "external" : "صيانة خارجية",
+    "internal" : "صيانة داخلية"
+
+
 }

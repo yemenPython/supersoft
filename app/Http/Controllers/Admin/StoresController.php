@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Filters\StoreFilter;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\store\StoreRequest;
-use App\Http\Requests\Admin\store\UpdateStoreRequest;
+use App\Http\Requests\Admin\Store\StoreRequest;
+use App\Http\Requests\Admin\Store\UpdateStoreRequest;
 use App\Models\EmployeeData;
 use App\Models\Store;
 use App\Models\StoreEmployeeHistory;

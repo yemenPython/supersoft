@@ -157,7 +157,7 @@
     <!-- /.row small-spacing -->
 @endsection
 @section('js-validation')
-    {!! JsValidator::formRequest('App\Http\Requests\Admin\store\StoreRequest', '.form'); !!}
+    {!! JsValidator::formRequest('App\Http\Requests\Admin\Store\StoreRequest', '.form'); !!}
     @include('admin.partial.sweet_alert_messages')
 
     <script type="text/javascript">
