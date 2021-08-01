@@ -37,7 +37,7 @@
                             <label> {{ __('Type') }} </label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-info"></span>
-                                <select class="form-control js-example-basic-single" name="type">
+                                <select class="form-control js-example-basic-single" name="type" id="type_of_purchase_quotation">
                                     <option value="">{{ __('Select') }}</option>
                                     <option value="from_purchase_request">{{ __('From Purchase Request') }}</option>
                                     <option value="out_purchase_request">{{ __('Out Purchase Request') }}</option>
@@ -113,15 +113,18 @@
                                     </div>
                                 </div>
 
+                                <div class="col-xs-4">
+                                    <div class="radio primary ">
+                                        <input type="radio" name="quotation_type" value="cash_credit" id="cash_credit">
+                                        <label for="cash_credit">{{__('Together')}}</label>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
                     </div>
-
-                    <button type="submit" class="btn sr4-wg-btn   waves-effect waves-light hvr-rectangle-out"><i class=" fa fa-search "></i> {{__('Search')}} </button>
-                    <a href="{{route('admin:purchase-requests.index')}}" class="btn bc-wg-btn   waves-effect waves-light hvr-rectangle-out"><i class=" fa fa-reply"></i> {{__('Back')}}
-                    </a>
-
+                    @include('admin.btns.btn_search')
                 </form>
             </div>
             <!-- /.card-content -->

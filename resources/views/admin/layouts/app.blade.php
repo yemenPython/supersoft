@@ -599,10 +599,11 @@
             lengthMenu: [ [25 , 50, 100, 250, 500, -1], [25, 50, 100, 250, 500, "{{__('All')}}"] ],
             "lengthChange": true,
         });
-        $datatable.on( 'length', function (e,settings,len ) {
-            var url = '{{url()->full()}}?&filter=';
-            $datatable.ajax.url(url).load();
-        } );
+        //please any body see this comment "don't delete it"
+        {{--$datatable.on( 'length', function (e,settings,len ) {--}}
+        {{--    --}}{{--var url = '{{url()->full()}}?&filter=';--}}
+        {{--    --}}{{--$datatable.ajax.url(url).load();--}}
+        {{--} );--}}
     }
 </script>
 
@@ -1043,7 +1044,29 @@ ${element_html}
     });
     @endif
 
+    //to reset the form of the search
+    $("#resetWithAllResult").on('click', function (e) {
+        e.preventDefault();
+        let searchForm = $(this).closest("form")[0];
+        let btnSubmit = $(this).siblings("button")[0];
+        searchForm.reset();
+        resetSelect2(searchForm);
+        btnSubmit.click();
+    })
 
+    $("#onlyReset").on('click', function (e) {
+        e.preventDefault();
+        let searchForm = $(this).closest("form")[0];
+        searchForm.reset();
+       resetSelect2(searchForm);
+    })
+
+    function resetSelect2(from_fields) {
+        $(from_fields).find("select").each(function (index, item) {
+            $(this).selectedIndex = 0;
+            $(this).val(null).trigger("change");
+        });
+    }
 </script>
 
 

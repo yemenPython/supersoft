@@ -97,7 +97,7 @@
                     <tr>
                         <th style="background:#CCC !important;color:black"
                             scope="row">{{__('total sale amount')}}</th>
-                        <td>{{$asset->total_sale_amount}}</td>
+                        <td id="totalInLetters">{{$asset->total_sale_amount}}</td>
                     </tr>
                     </tbody>
                 </table>

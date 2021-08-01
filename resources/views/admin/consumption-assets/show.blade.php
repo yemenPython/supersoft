@@ -114,7 +114,7 @@
                             <tr>
                                 <th style="background:#CCC !important;color:black"
                                     scope="row">{{__('consumption amount')}}</th>
-                                <td>{{$item->consumption_amount}}</td>
+                                <td id="totalInLetters">{{$item->consumption_amount}}</td>
                             </tr>
                             </tr>
                         @endforeach

@@ -293,6 +293,8 @@
                 success: function (data) {
 
                     $("#assetDatatoPrint").html(data.view)
+                    let total = $("#totalInLetters").text()
+                    $("#totalInLetters").html(new Tafgeet(total, '{{config("currency.defualt_currency")}}').parse())
                 }
             });
         }

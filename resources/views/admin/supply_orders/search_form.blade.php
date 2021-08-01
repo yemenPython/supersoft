@@ -37,10 +37,10 @@
                             <label> {{ __('Type') }} </label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-info"></span>
-                                <select class="form-control js-example-basic-single" name="type">
+                                <select class="form-control js-example-basic-single" name="type" id="supply_order_type">
                                     <option value="">{{ __('Select') }}</option>
                                     <option value="from_purchase_request">{{ __('From Purchase Request') }}</option>
-                                    <option value="out_purchase_request">{{ __('Out Purchase Request') }}</option>
+                                    <option value="normal">{{ __('Normal Purchase Request') }}</option>
                                 </select>
                             </div>
                         </div>
@@ -97,13 +97,7 @@
                         </div>
                     </div>
 
-                    <button type="submit"
-                            class="btn sr4-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
-                            class=" fa fa-search "></i> {{__('Search')}} </button>
-                    <a href="{{route('admin:supply-orders.index')}}"
-                       class="btn bc-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
-                            class=" fa fa-reply"></i> {{__('Back')}}
-                    </a>
+                   @include('admin.btns.btn_search')
 
                 </form>
             </div>
