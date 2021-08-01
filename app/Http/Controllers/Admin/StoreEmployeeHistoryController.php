@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\store\StoreEmployeeRequest;
+use App\Http\Requests\Admin\Store\StoreEmployeeRequest;
 use App\Models\EmployeeData;
 use App\Models\Store;
 use App\Models\StoreEmployeeHistory;
