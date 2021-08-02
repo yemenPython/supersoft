@@ -1,5 +1,5 @@
 <div id="purchase_invoice_print" >
-    <div class="border-container" style="border: 1px solid #3b3b3b;">
+    <div class="border-container" style="">
 
     <div class="print-header-wg">
         <div class="top-logo-print">
@@ -423,7 +423,7 @@
 
         </div>
 
-        <div class="print-foot-wg position-relative ml-0" >
+        <div class="print-foot-wg position-relative ml-0" style="position:fixed;bottom:0">
         <div class="row for-reverse-en" style="display: flex;
     align-items: flex-end;">
             <div class="col-xs-7">
@@ -450,7 +450,7 @@
                 </div>
 
             </div>
-            <div class="col-xs-5 small-data-wg">
+            <div class="col-xs-5 small-data-wg" style="left:30px">
                 <div class="row">
                     <div class="col-xs-4">
                         <h6>{{__('contact numbers')}} : </h6>

@@ -1,5 +1,5 @@
 <div id="asset_to_print" >
-    <div class="border-container" style="border: 1px solid #3b3b3b;">
+    <div class="border-container" style="">
 
     <div class="print-header-wg">
         <div class="top-logo-print">
@@ -132,7 +132,7 @@
 
 <div class="col-xs-12" style="padding:0 !important">
 
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px !important">
 
 
                     <div class="row last-total">
@@ -146,7 +146,7 @@
 
                 </div>
 
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px !important">
 
 
 <div class="row last-total">
@@ -161,7 +161,7 @@
 </div>
 
 
-<div class="col-xs-4 text-center">
+<div class="col-xs-4 text-center" style="padding:5px !important">
 
 
 <div class="row last-total">
@@ -180,7 +180,7 @@
 
                 <div class="col-xs-12" style="padding:0 !important">
 
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center" style="padding:5px !important">
 
 
                     <div class="row last-total">
@@ -194,7 +194,7 @@
 
                 </div>
 
-                <div class="col-xs-4 text-center">
+                <div class="col-xs-4 text-center"  style="padding:5px !important">
 
 
 <div class="row last-total">
@@ -209,7 +209,7 @@
 </div>
 
 
-<div class="col-xs-4 text-center">
+<div class="col-xs-4 text-center" style="padding:5px !important">
 
 
 <div class="row last-total">

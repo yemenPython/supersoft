@@ -7096,6 +7096,7 @@ html[dir="ltr"] .group-eye-wg-one {
 
 .print-border {
     padding: 0 !important;
+    border: none !important
 }
 
 .logo-print {
