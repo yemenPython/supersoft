@@ -497,8 +497,12 @@ class PurchaseQuotationsController extends Controller
                 $query->where('type', $request->type);
             }
 
-            if ($request->filled('quotation_type')) {
+            if ($request->filled('quotation_type') && $request->quotation_type != 'cash_credit') {
                 $query->where('quotation_type', $request->quotation_type);
+            }
+
+            if ($request->filled('quotation_type') && $request->quotation_type == 'cash_credit') {
+                $query->whereIn('quotation_type', ['cash', 'credit']);
             }
 
             if ($request->filled('supplier_id')) {

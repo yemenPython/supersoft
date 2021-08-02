@@ -28,6 +28,12 @@ class AjaxController extends Controller
     protected $serialNumber;
     protected $asset_group_name;
     protected $asset_expense_type;
+    protected $type_of_purchase_quotation;
+    protected $supplier_id;
+    protected $purchase_request_id;
+    protected $supply_order_type;
+    protected $quotation_type;
+    protected $number;
 
     public function AutoComplete(Request $request)
     {
@@ -56,6 +62,18 @@ class AjaxController extends Controller
                 && $request->asset_group_name != __('words.select-one')) ? $request->asset_group_name : '';
             $this->asset_expense_type = ($request->has('asset_expense_type') && !empty($request->asset_expense_type)
                 && $request->asset_expense_type != __('words.select-one')) ? $request->asset_expense_type : '';
+            $this->type_of_purchase_quotation = ($request->has('type_of_purchase_quotation') && !empty($request->type_of_purchase_quotation)
+                && $request->type_of_purchase_quotation != __('words.select-one')) ? $request->type_of_purchase_quotation : '';
+            $this->supplier_id = ($request->has('supplier_id') && !empty($request->supplier_id)
+                && $request->supplier_id != __('words.select-one')) ? $request->supplier_id : '';
+            $this->purchase_request_id = ($request->has('purchase_request_id') && !empty($request->purchase_request_id)
+                && $request->purchase_request_id != __('words.select-one')) ? $request->purchase_request_id : '';
+            $this->supply_order_type = ($request->has('supply_order_type') && !empty($request->supply_order_type)
+                && $request->supply_order_type != __('words.select-one')) ? $request->supply_order_type : '';
+            $this->quotation_type = ($request->has('quotation_type') && !empty($request->quotation_type)
+                && $request->quotation_type != __('words.select-one')) ? $request->quotation_type : '';
+            $this->number = ($request->has('number') && !empty($request->number)
+                && $request->number != __('words.select-one')) ? $request->number : '';
 
             switch ($request->model) {
                 case 'User':
@@ -878,6 +896,13 @@ class AjaxController extends Controller
             $assetsItemExpenses = $assetsItemExpenses->where('branch_id', $branchId);
         }
 
+        if (!empty($this->number)) {
+            $purchaseRId = SupplyOrder::find($this->number);
+           if ($purchaseRId) {
+               $assetsItemExpenses = $assetsItemExpenses->where('id', $purchaseRId->purchase_request_id);
+           }
+        }
+
         $assetsItemExpenses = $assetsItemExpenses->limit($limit)->get();
         foreach ($assetsItemExpenses as $assetsItemExpense) {
             $data[] = [
@@ -908,6 +933,32 @@ class AjaxController extends Controller
             $assetsItemExpenses = $assetsItemExpenses->where('branch_id', $branchId);
         }
 
+        if (!empty($this->type_of_purchase_quotation)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('type', $this->type_of_purchase_quotation);
+        }
+
+        if (!empty($this->supplier_id)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('supplier_id', $this->supplier_id);
+        }
+
+        if (!empty($this->purchase_request_id)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('purchase_request_id', $this->purchase_request_id);
+        }
+
+        if (!empty($this->quotation_type)) {
+            if ($this->quotation_type == 'cash_credit') {
+                $assetsItemExpenses = $assetsItemExpenses->whereIn('quotation_type', ['credit', 'cash']);
+            } else {
+                $assetsItemExpenses = $assetsItemExpenses->where('quotation_type', $this->quotation_type);
+            }
+
+        }
+
+        if (!empty($this->number)) {
+            $assetsItemExpenses = $assetsItemExpenses->whereHas('supplyOrders', function ($q) {
+                $q->where('supply_order_id', $this->number);
+            });
+        }
         $assetsItemExpenses = $assetsItemExpenses->limit($limit)->get();
         foreach ($assetsItemExpenses as $assetsItemExpense) {
             $data[] = [
@@ -936,6 +987,14 @@ class AjaxController extends Controller
         }
         if (!empty($branchId)) {
             $assetsItemExpenses = $assetsItemExpenses->where('branch_id', $branchId);
+        }
+
+        if (!empty($this->supply_order_type)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('type', $this->supply_order_type);
+        }
+
+        if (!empty($this->supplier_id)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('supplier_id', $this->supplier_id);
         }
 
         $assetsItemExpenses = $assetsItemExpenses->limit($limit)->get();

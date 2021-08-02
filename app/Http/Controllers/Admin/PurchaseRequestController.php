@@ -404,11 +404,8 @@ class PurchaseRequestController extends Controller
                 $query->whereBetween('date', [$request->date_add_from, $request->date_add_to]);
             }
 
-            if ($request->filled('date_request_from')){
-                $query->whereDate('date_from', $request->date_request_from);
-            }
-            if ($request->filled('date_request_to')){
-                $query->whereDate('date_from', $request->date_request_to);
+            if ($request->filled('date_request_from') && $request->filled('date_request_to')){
+                $query->whereBetween('date_from', [$request->date_request_from, $request->date_request_to]);
             }
         });
     }

@@ -109,6 +109,12 @@
                     searchData.serial_number  = $("#serial_number").val();
                     searchData.asset_group_name  = $("#asset_group_name").val();
                     searchData.asset_expense_type  = $("#asset_expense_type").val();
+                    searchData.type_of_purchase_quotation  = $("#type_of_purchase_quotation").val();
+                    searchData.supplier_id  = $("#supplier_id").val();
+                    searchData.purchase_request_id  = $("#purchase_request_id").val();
+                    searchData.supply_order_type  = $("#supply_order_type").val();
+                    searchData.quotation_type = $("input[name='quotation_type']:checked").val();
+                    searchData.number =  $("#number").val();
                     return searchData;
                 },
                 processResults: function (response) {

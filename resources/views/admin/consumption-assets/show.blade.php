@@ -126,7 +126,7 @@
 
 
 <div class="col-xs-12" style="padding:0 !important">
-               
+
 
                 <div class="col-xs-6 text-center">
 
@@ -158,7 +158,7 @@
                 </div>
 
                 <div class="col-xs-12" style="padding:0 !important">
-               
+
 
                 <div class="col-xs-12 text-center">
 
@@ -174,11 +174,11 @@
 
                 </div>
 
-                
-             
+
+
                 </div>
-<!-- 
-               
+<!--
+
                 <div class="col-xs-12" style="padding:0 !important">
                 <div class="col-xs-12 text-center">
 
@@ -194,21 +194,21 @@
 
 
             </div> -->
-      
-            </div>
- 
-      
 
-                
+            </div>
+
+
+
+
                 <div class="row right-peice-wg" style="padding:0 30px 50px 30px;margin-bottom:30px">
 <div class="col-xs-12">
 
 <div class="col-xs-12">
     <h5 class="title">{{__('Notes')}}<h5>
     <p style="font-size:14px">
-   
+
     {!! $asset->note !!}
-       
+
     </p>
 </div>
 </div>
@@ -217,7 +217,29 @@
 
 
 
-    
+            <div class="col-xs-12">
+                <table class="table table-bordered">
+                    <tbody>
+                    @if($asset->items->isNotEmpty())
+                        @foreach($asset->items as $item)
+                            <tr>
+                                <th style="background:#CCC !important;color:black" scope="row">{{__('Name')}}</th>
+                                <td>{{$item->asset->name}}</td>
+                            </tr>
+
+                            <tr>
+                                <th style="background:#CCC !important;color:black"
+                                    scope="row">{{__('consumption amount')}}</th>
+                                <td id="totalInLetters">{{$item->consumption_amount}}</td>
+                            </tr>
+                            </tr>
+                        @endforeach
+                    @endif
+
+                    </tbody>
+                </table>
+
+
         <div class="print-foot-wg position-relative ml-0" >
         <div class="row" style="display: flex;
     align-items: flex-end;">

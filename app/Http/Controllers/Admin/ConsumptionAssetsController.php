@@ -80,7 +80,7 @@ class ConsumptionAssetsController extends Controller
 
                 })
                 ->addColumn('date', function ($consumptionAsset) {
-                    return '<span class="text-danger">' . $consumptionAsset->date . ' ' . $consumptionAsset->time;
+                    return '<span class="text-danger">' . $consumptionAsset->date;
                 })
                 ->addColumn('number', function ($consumptionAsset) {
                     return $consumptionAsset->number;

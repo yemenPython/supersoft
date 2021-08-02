@@ -34,10 +34,21 @@
                         </div>
 
                         <div class="form-group col-md-3">
+                                <label for="inputStore" class="control-label">{{__('Purchase Requests')}}</label>
+                                <div class="input-group">
+
+                                    <span class="input-group-addon fa fa-file-text-o"></span>
+                                    {!! drawSelect2ByAjax('purchase_request_id','PurchaseRequest','number', 'number',__('Select Purchase request Number'),request()->number) !!}
+                                </div>
+                            </div>
+                 
+
+
+                        <div class="form-group col-md-2">
                             <label> {{ __('Type') }} </label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-info"></span>
-                                <select class="form-control js-example-basic-single" name="type">
+                                <select class="form-control js-example-basic-single" name="type" id="type_of_purchase_quotation">
                                     <option value="">{{ __('Select') }}</option>
                                     <option value="from_purchase_request">{{ __('From Purchase Request') }}</option>
                                     <option value="out_purchase_request">{{ __('Out Purchase Request') }}</option>
@@ -45,7 +56,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group has-feedback">
                                 <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
                                 <div class="input-group">
@@ -56,47 +67,35 @@
 
                         </div>
 
-                        <div class="col-md-3">
-                            <div class="form-group has-feedback">
-                                <label for="inputStore" class="control-label">{{__('Purchase Requests')}}</label>
-                                <div class="input-group">
-
-                                    <span class="input-group-addon fa fa-file-text-o"></span>
-                                    {!! drawSelect2ByAjax('purchase_request_id','PurchaseRequest','number', 'number',__('Select Purchase request Number'),request()->number) !!}
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                             <label> {{ __('Date Add From') }}</label>
                             <input type="date" class="form-control" name="date_add_from">
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                             <label> {{ __('Date Add To') }}</label>
                             <input type="date" class="form-control" name="date_add_to">
                         </div>
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                             <label> {{ __('Supply Date From') }}</label>
                             <input type="date" class="form-control" name="supply_date_from">
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                             <label> {{ __('Supply Date To') }}</label>
                             <input type="date" class="form-control" name="supply_date_to">
                         </div>
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                             <label> {{ __('Period of quotation from') }}</label>
                             <input type="date" class="form-control" name="date_from">
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-3">
                             <label> {{ __('Period of quotation to') }}</label>
                             <input type="date" class="form-control" name="date_to">
                         </div>
 
 
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label for="date" class="control-label">{{__('Quotation type')}}</label>
                             <div class="form-group">
                                 <div class="col-xs-4">
@@ -113,15 +112,18 @@
                                     </div>
                                 </div>
 
+                                <div class="col-xs-4">
+                                    <div class="radio primary ">
+                                        <input type="radio" name="quotation_type" value="cash_credit" id="cash_credit">
+                                        <label for="cash_credit">{{__('Together')}}</label>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
                     </div>
-
-                    <button type="submit" class="btn sr4-wg-btn   waves-effect waves-light hvr-rectangle-out"><i class=" fa fa-search "></i> {{__('Search')}} </button>
-                    <a href="{{route('admin:purchase-requests.index')}}" class="btn bc-wg-btn   waves-effect waves-light hvr-rectangle-out"><i class=" fa fa-reply"></i> {{__('Back')}}
-                    </a>
-
+                    @include('admin.btns.btn_search')
                 </form>
             </div>
             <!-- /.card-content -->

@@ -85,6 +85,80 @@
         </div>
 
 
+    <hr>
+
+    <h4 class="text-center">
+
+        {{ $asset->umber }}
+
+    </h4>
+
+    <div class="wg-tb-snd" style="border:1px solid #AAA;margin:5px 20px 20px;padding:10px;border-radius:5px">
+        <div class="row">
+
+            <div class="col-xs-6">
+                <table class="table table-bordered">
+                    <tbody>
+                    <tr>
+                        <th style="background:#CCC !important;color:black" scope="row">{{__('branch name')}}</th>
+                        <td>{{$asset->branch->name }}</td>
+                    </tr>
+                    <tr>
+                        <th style="background:#CCC !important;color:black" scope="row">{{__('Date')}}</th>
+                        <td>{{$asset->date}}</td>
+                    </tr>
+                    <tr>
+                        <th style="background:#CCC !important;color:black" scope="row">{{__('Time')}}</th>
+                        <td>{{$asset->time}}</td>
+                    </tr>
+                    <tr>
+                        <th style="background:#CCC !important;color:black" scope="row">{{__('Type')}}</th>
+                        <td>{{$asset->type === 'sale' ?  __('Sale') : __('exclusion')}}</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-xs-6">
+                <table class="table table-bordered">
+                    <tbody>
+
+                    <tr>
+                        <th style="background:#CCC !important;color:black"
+                            scope="row">{{__('total purchase cost')}}</th>
+                        <td>{{$asset->total_purchase_cost}}</td>
+                    </tr>
+
+                    <tr>
+                        <th style="background:#CCC !important;color:black"
+                            scope="row">{{__('total past consumtion')}}</th>
+                        <td>{{$asset->total_past_consumtion}}</td>
+                    </tr>
+                    <tr>
+                        <th style="background:#CCC !important;color:black"
+                            scope="row">{{__('total replacement')}}</th>
+                        <td>{{$asset->total_replacement}}</td>
+                    </tr>
+                    <tr>
+                        <th style="background:#CCC !important;color:black"
+                            scope="row">{{__('total consumtion')}}</th>
+                        <td>{{$asset->total_current_consumtion}}</td>
+                    </tr>
+                    <tr>
+                        <th style="background:#CCC !important;color:black"
+                            scope="row">{{__('final total consumtion')}}</th>
+                        <td>{{$asset->final_total_consumtion}}</td>
+                    </tr>
+                    <tr>
+                        <th style="background:#CCC !important;color:black"
+                            scope="row">{{__('total sale amount')}}</th>
+                        <td id="totalInLetters">{{$asset->total_sale_amount}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
         <div style="padding:0 20px;">
             <h5 class="invoice-to-title">{{__('Sale assets items')}}</h5>
 
@@ -117,7 +191,7 @@
                                 {{$item->sale_amount}}
                                 </td>
 
-                               
+
 </tr>
 
 @endforeach
@@ -241,19 +315,19 @@
 
 
             </div> -->
-      
 
 
-                
+
+
                 <div class="row right-peice-wg" style="padding:0 30px 50px 30px;margin-bottom:30px">
 <div class="col-xs-12">
 
 <div class="col-xs-12">
     <h5 class="title">{{__('Notes')}}<h5>
     <p style="font-size:14px">
-   
+
     {!! $asset->note !!}
-       
+
     </p>
 </div>
 </div>
@@ -262,7 +336,7 @@
 
 
 
-    
+
         <div class="print-foot-wg position-relative ml-0" >
         <div class="row" style="display: flex;
     align-items: flex-end;">
