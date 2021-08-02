@@ -33,7 +33,7 @@ class SettlementFilter
             }
 
             if ($request->has('number') && $request->number != '' && $request->number != null) {
-                $query->where('number', $request->number);
+                $query->where('id', $request->number);
             }
 
             if ($request->has('dateFrom') && $request->has('dateTo')

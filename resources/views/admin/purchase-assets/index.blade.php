@@ -154,13 +154,7 @@
                                     </div>
                             </div>
 
-                            <button type="submit"
-                                    class="btn sr4-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
-                                    class=" fa fa-search "></i> {{__('Search')}} </button>
-                            <a href="{{route('admin:purchase-assets.index')}}"
-                               class="btn bc-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
-                                    class=" fa fa-reply"></i> {{__('Back')}}
-                            </a>
+                            @include('admin.btns.btn_search')
 
                         </form>
                     </div>
@@ -469,13 +463,13 @@
                     <button type="button" class="btn btn-danger waves-effect waves-light" data-dismiss="modal">
                         <i class='fa fa-close'></i>
                         {{__('Close')}}</button>
-                    
+
                 </div>
 
                 <div class="modal-body" id="invoiceDatatoPrint">
                 </div>
                 <div class="modal-footer" style="text-align:center">
-                   
+
 
                 </div>
 

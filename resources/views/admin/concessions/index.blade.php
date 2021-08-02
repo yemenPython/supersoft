@@ -254,7 +254,6 @@
 
                     $('#upload_loader').hide();
                     var errors = jqXhr.responseJSON;
-                    swal("{{__('Sorry')}}", errors, "error");
                 },
             });
         }
@@ -283,7 +282,6 @@
                 error: function (jqXhr, json, errorThrown) {
                     // $("#loader_save_goals").hide();
                     var errors = jqXhr.responseJSON;
-                    swal({text: errors, icon: "error"})
                 }
             });
         }
@@ -334,7 +332,6 @@
                 error: function (jqXhr, json, errorThrown) {
                     // $("#loader_save_goals").hide();
                     var errors = jqXhr.responseJSON;
-                    swal({text: errors, icon: "error"})
                 }
             });
         }

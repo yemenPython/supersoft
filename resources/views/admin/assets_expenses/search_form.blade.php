@@ -28,7 +28,7 @@
                                 </select>
                                 </div>
                             </li>
-                            
+
                         @endif
 
 
@@ -36,7 +36,7 @@
                             <label> {{ __('opening-balance.serial-number') }}</label>
                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
-                                               
+
                             {!! drawSelect2ByAjax('number','AssetExpense','number', 'number', __('opening-balance.serial-number'),  request()->number) !!}
                             </div>
                         </li>
@@ -46,7 +46,7 @@
                             <label>{{__('Date From')}}</label>
                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                               
+
                             <input type="date" name="dateFrom" class="form-control">
                             </div>
                         </li>
@@ -54,7 +54,7 @@
                             <label>{{__('Date To')}}</label>
                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                               
+
                             <input type="date" name="dateTo" class="form-control">
                             </div>
                         </li>
@@ -64,7 +64,7 @@
                             <label>{{__('assets Groups')}}</label>
                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
-                                               
+
                             {!! drawSelect2ByAjax('asset_group_name','AssetGroup', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('opening-balance.select-one'), request()->asset_group_name) !!}
                             </div>
                         </li>
@@ -73,7 +73,7 @@
                             <label> {{ __('words.assets') }}</label>
                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
-                                               
+
                             {!! drawSelect2ByAjax('asset_name','Asset', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('opening-balance.select-one'), request()->asset_group_name) !!}
                             </div>
                         </li>
@@ -102,7 +102,7 @@
                                 <label> {{ __('Expenses Types') }}</label>
                                 <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-file-o"></i></span>
-                                               
+
                                 {!! drawSelect2ByAjax('asset_expense_type','AssetsTypeExpense', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('opening-balance.select-one'), request()->asset_expense_type) !!}
                                 </div>
                             </li>
@@ -111,20 +111,14 @@
                                 <label> {{ __('Expenses Items') }}</label>
                                 <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-file-o"></i></span>
-                                               
+
                                 {!! drawSelect2ByAjax('asset_expense_item','AssetsItemExpense', 'item_'.app()->getLocale(),'item_'.app()->getLocale(),  __('opening-balance.select-one'), request()->asset_expense_item) !!}
                                 </div>
                             </li>
 
 
                     </ul>
-                    <button type="submit"
-                            class="btn sr4-wg-btn waves-effect waves-light hvr-rectangle-out"><i
-                            class=" fa fa-search "></i> {{__('Search')}} </button>
-                    <a href="{{route('admin:assets_expenses.index')}}"
-                       class="btn bc-wg-btn waves-effect waves-light hvr-rectangle-out"><i
-                            class=" fa fa-reply"></i> {{__('Back')}}
-                    </a>
+                    @include('admin.btns.btn_search')
                 </form>
 
             </div>
