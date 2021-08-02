@@ -25,7 +25,7 @@
                             </div>
                         @endif
 
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
                             <label> {{ __('Number') }} </label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-file"></span>
@@ -33,7 +33,27 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-md-4">
+                        <div class="form-group col-md-3">
+                            <label> {{ __('Quotation Number') }} </label>
+                            <div class="input-group">
+                                <span class="input-group-addon fa fa-file"></span>
+                                {!! drawSelect2ByAjax('q_number','PurchaseQuotation','number', 'number',__('Select'),request()->number) !!}
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group has-feedback">
+                                <label for="inputStore" class="control-label">{{__('Purchase Requests')}}</label>
+                                <div class="input-group">
+
+                                    <span class="input-group-addon fa fa-file-text-o"></span>
+                                    {!! drawSelect2ByAjax('purchase_request_id','PurchaseRequest','number', 'number',__('Select Purchase request Number'),request()->number) !!}
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group col-md-3">
                             <label> {{ __('Type') }} </label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-info"></span>
@@ -45,7 +65,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <div class="form-group has-feedback">
                                 <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
                                 <div class="input-group">
@@ -56,32 +76,13 @@
 
                         </div>
 
-                        <div class="col-md-4">
-                            <div class="form-group has-feedback">
-                                <label for="inputStore" class="control-label">{{__('Purchase Requests')}}</label>
-                                <div class="input-group">
 
-                                    <span class="input-group-addon fa fa-file-text-o"></span>
-                                    {!! drawSelect2ByAjax('purchase_request_id','PurchaseRequest','number', 'number',__('Select Purchase request Number'),request()->number) !!}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            <label> {{ __('Quotation Number') }} </label>
-                            <div class="input-group">
-                                <span class="input-group-addon fa fa-file"></span>
-                                {!! drawSelect2ByAjax('q_number','PurchaseQuotation','number', 'number',__('Select'),request()->number) !!}
-                            </div>
-                        </div>
-
-
-                        <div class="form-group col-md-2">
+                        <div class="form-group col-md-3">
                             <label> {{ __('Date Add From') }}</label>
                             <input type="date" class="form-control" name="date_add_from">
                         </div>
 
-                        <div class="form-group col-md-2">
+                        <div class="form-group col-md-3">
                             <label> {{ __('Date Add To') }}</label>
                             <input type="date" class="form-control" name="date_add_to">
                         </div>
