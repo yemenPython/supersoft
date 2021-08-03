@@ -7,8 +7,7 @@
 
 @section('style')
 
-    <!-- Datepicker -->
-    <link rel="stylesheet" href="{{asset('assets/plugin/datepicker/css/bootstrap-datepicker.min.css')}}">
+
 @endsection
 
 @section('content')
@@ -164,17 +163,9 @@
     {!! JsValidator::formRequest('App\Http\Requests\Admin\PurchaseRequest\CreateRequest', '.form'); !!}
 
     @include('admin.partial.sweet_alert_messages')
-    <!-- Datepicker -->
-    <script src="{{asset('assets/plugin/datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+
 
     <script type="application/javascript">
-
-        if ($(".datepicker").length)
-            $('.datepicker').datepicker({
-                autoclose: true,
-                todayHighlight: true,
-                format: "yyyy-mm-dd",
-            });
 
         function dataByBranch() {
 

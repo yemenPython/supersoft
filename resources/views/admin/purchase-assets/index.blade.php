@@ -99,14 +99,14 @@
                                 <div class="input-group">
                     <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
 
-                                    <input type="date" class="form-control" name="date_from">
+                                    <input type="text" class="form-control datepicker" name="date_from">
                                 </div>
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label> {{ __('date To') }}</label>
                                     <div class="input-group">
                     <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                                    <input type="date" class="form-control" name="date_to">
+                                    <input type="text" class="form-control datepicker" name="date_to">
                                 </div>
                                 </div>
 

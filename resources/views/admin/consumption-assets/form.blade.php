@@ -59,7 +59,7 @@
                         <label for="date" class="control-label">{{__('Date')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                            <input type="date" name="date" class="form-control" id="date"
+                            <input type="text" name="date" class="form-control datepicker" id="date"
                                    value="{{old('date', isset($consumptionAsset) ? $consumptionAsset->date : \Carbon\Carbon::now()->format('Y-m-d'))}}">
                         </div>
                         {{input_error($errors,'date')}}
@@ -89,7 +89,7 @@
                     <label for="date" class="control-label text-new1">{{__('Date From')}}</label>
                     <div class="input-group">
                         <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                        <input type="date" name="date_from" class="form-control" id="date_from"
+                        <input type="text" name="date_from" class="form-control datepicker" id="date_from"
                                value="{{old('date_from', isset($consumptionAsset) ? $consumptionAsset->date_from : '')}}"
                         >
                     </div>
@@ -103,7 +103,7 @@
                     <label for="date" class="control-label text-new1">{{__('Date to')}}</label>
                     <div class="input-group">
                         <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                        <input type="date" name="date_to" class="form-control" id="date_to"
+                        <input type="text" name="date_to" class="form-control datepicker" id="date_to"
                                value="{{old('date_to', isset($consumptionAsset) ? $consumptionAsset->date_to :'')}}">
                     </div>
                     {{input_error($errors,'date_to')}}

@@ -62,7 +62,7 @@
                 <label for="date" class="control-label">{{__('Date')}}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                    <input type="date" name="operation_date" class="form-control" id="date"
+                    <input type="text" name="operation_date" class="form-control datepicker" id="date"
                            value="{{old('operation_date', isset($openingBalance)? $openingBalance->operation_date : \Carbon\Carbon::now()->format('Y-m-d'))}}">
                 </div>
                 {{input_error($errors,'operation_date')}}

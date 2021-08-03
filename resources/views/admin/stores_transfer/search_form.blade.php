@@ -105,7 +105,7 @@
                                 <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
                                 <input name="date_from"
                                        value="{{ isset($_GET['date_from']) ? $_GET['date_from'] : '' }}"
-                                       class="form-control date js-example-basic-single" type="date"/>
+                                       class="form-control date js-example-basic-single datepicker" type="text"/>
                             </div>
                         </div>
 
@@ -115,7 +115,7 @@
                                 <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
                                 <input name="date_from"
                                        value="{{ isset($_GET['date_from']) ? $_GET['date_from'] : '' }}"
-                                       class="form-control date js-example-basic-single" type="date"/>
+                                       class="form-control date js-example-basic-single datepicker" type="text"/>
                             </div>
                         </div>
 

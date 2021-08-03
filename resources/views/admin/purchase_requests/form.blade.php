@@ -128,7 +128,7 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-3">
             <div class="form-group">
                 <label for="date" class="control-label">{{__('Period of request from')}}</label>
                 <div class="input-group">
@@ -141,7 +141,7 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-3">
             <div class="form-group">
                 <label for="date" class="control-label">{{__('Period of request to')}}</label>
                 <div class="input-group">
@@ -154,7 +154,7 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-3">
             <div class="form-group">
                 <label for="date" class="control-label">{!! __('request days') !!}</label>
                 <div class="input-group">
@@ -165,7 +165,7 @@
             </div>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-3">
             <div class="form-group">
                 <label for="date" class="control-label">{{__('Remaining Days')}}</label>
                 <div class="input-group">

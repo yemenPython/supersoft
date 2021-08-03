@@ -117,7 +117,7 @@
                                     <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 
-                                    <input type="date" class="form-control" name="date_from">
+                                    <input type="text" class="form-control datepicker" name="date_from">
                                 </div>
                                 </div>
 
@@ -126,7 +126,7 @@
                                     <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 
-                                    <input type="date" class="form-control" name="date_to">
+                                    <input type="text" class="form-control datepicker" name="date_to">
                                 </div>
                                 </div>
 

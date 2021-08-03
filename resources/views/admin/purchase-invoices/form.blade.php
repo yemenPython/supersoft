@@ -86,7 +86,7 @@
                 <label for="date" class="control-label">{{__('Date')}}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                    <input type="date" name="date" class="form-control" id="date"
+                    <input type="text" name="date" class="form-control datepicker" id="date"
                            value="{{old('date', isset($purchaseInvoice) ? $purchaseInvoice->date : \Carbon\Carbon::now()->format('Y-m-d'))}}">
                 </div>
                 {{input_error($errors,'date')}}

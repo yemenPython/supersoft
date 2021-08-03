@@ -7,8 +7,7 @@
 @section('style')
     <link rel="stylesheet" href="{{asset('assets/plugin/treeview/bootstrap-treeview.min.css')}}">
 
-    <!-- Datepicker -->
-    <link rel="stylesheet" href="{{asset('assets/plugin/datepicker/css/bootstrap-datepicker.min.css')}}">
+
 @endsection
 
 @section('content')
@@ -94,18 +93,11 @@
     <script src="{{asset('assets/plugin/treeview/bootstrap-treeview.min.js')}}"></script>
     <script src="{{asset('assets/scripts/treeview.init.min.js')}}"></script>
 
-    <!-- Datepicker -->
-    <script src="{{asset('assets/plugin/datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+
 
     <script type="application/javascript">
 
-        if ($(".datepicker").length)
-            $('.datepicker').datepicker({
-                autoclose: true,
-                todayHighlight: true,
-                format: "yyyy-mm-dd",
-            });
-
+        
         function changeBranch () {
 
             let branch_id = $('#branch_id').find(":selected").val();

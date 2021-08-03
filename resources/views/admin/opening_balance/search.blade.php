@@ -58,7 +58,7 @@
                             <label>{{__('Date From')}}</label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-calendar"></span>
-                                <input type="date" name="dateFrom" class="form-control"
+                                <input type="text" name="dateFrom" class="form-control datepicker"
                                        value=" {{$_GET['dateFrom'] ?? null  }}">
                             </div>
                         </li>
@@ -68,7 +68,7 @@
                             <label>{{__('Date To')}}</label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-calendar"></span>
-                                <input type="date" name="dateTo" class="form-control"
+                                <input type="text" name="dateTo" class="form-control datepicker"
                                        value=" {{ $_GET['dateTo'] ?? null  }}">
                             </div>
                         </li>

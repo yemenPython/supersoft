@@ -85,7 +85,7 @@
                         <label for="date" class="control-label">{{__('Date')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                            <input type="date" name="date" class="form-control" id="date"
+                            <input type="text" name="date" class="form-control datepicker" id="date"
                                    value="{{old('date', isset($saleSupplyOrder) ? $saleSupplyOrder->date : \Carbon\Carbon::now()->format('Y-m-d'))}}">
                         </div>
                         {{input_error($errors,'date')}}
@@ -113,7 +113,7 @@
                         <label for="date" class="control-label">{{__('Period of sale supply order from')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                            <input type="date" name="supply_date_from" class="form-control" id="date_from"
+                            <input type="text" name="supply_date_from" class="form-control datepicker" id="date_from"
                                    onchange="getDate()"
                                    value="{{old('date_from', isset($saleSupplyOrder)? $saleSupplyOrder->supply_date_from : \Carbon\Carbon::now()->format('Y-m-d'))}}">
                         </div>
@@ -126,7 +126,7 @@
                         <label for="date" class="control-label">{{__('Period of sale supply order to')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                            <input type="date" name="supply_date_to" class="form-control" id="date_to"
+                            <input type="text" name="supply_date_to" class="form-control datepicker" id="date_to"
                                    onchange="getDate()"
                                    value="{{old('date_to', isset($saleSupplyOrder)? $saleSupplyOrder->supply_date_to : \Carbon\Carbon::now()->format('Y-m-d'))}}">
                         </div>

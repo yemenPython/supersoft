@@ -162,12 +162,12 @@
                 <div class="col-xs-12 text-center">
 
 
-                    <div class="row last-total">
+                <div class="row last-total" style="background-color:#ddd !important">
                         <div class="col-xs-7">
                             <h6>{{__('the total consumtion')}}</h6>
                         </div>
                         <div class="col-xs-5">
-                            <h6 id="totalInLetters">{{$asset->total_replacement}}</h6>
+                            <h6>{{$asset->total_replacement}}</h6>
                         </div>
                     </div>
 
@@ -175,6 +175,23 @@
 
 
             </div>
+
+            <div class="col-xs-12" style="padding:0 !important">
+
+
+<div class="col-xs-12 text-center">
+
+
+<div class="row last-total" style="background-color:#ddd !important">
+     
+            <h6 id="totalInLetters">{{$asset->total_replacement}}</h6>
+       
+    </div>
+
+</div>
+
+
+</div>
         </div>
 
 

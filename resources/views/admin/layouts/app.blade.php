@@ -74,6 +74,9 @@
     <link rel="stylesheet" href="{{ asset('css/overlay.css') }}">
     <link rel="stylesheet" href="{{ asset('css/lightbox.min.css') }}">
 
+    <!-- Datepicker -->
+    <link rel="stylesheet" href="{{asset('assets/plugin/datepicker/css/bootstrap-datepicker.min.css')}}">
+
 
     {{-- Flatpicker Buttons CSS --}}
 <!-- <link rel="stylesheet"
@@ -349,6 +352,10 @@
 <!-- Chart.js -->
 <script type="application/javascript" src="{{asset('assets/plugin/chart/chartjs/Chart.bundle.min.js')}}"></script>
 
+  <!-- Datepicker -->
+  <script src="{{asset('assets/plugin/datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+
+
 <!-- FullCalendar -->
 <script type="application/javascript" src="{{asset('assets/plugin/moment/moment.js')}}"></script>
 <script type="application/javascript" src="{{asset('assets/plugin/fullcalendar/fullcalendar.min.js')}}"></script>
@@ -392,6 +399,12 @@
 
     @endif
 
+if ($(".datepicker").length)
+            $('.datepicker').datepicker({
+                autoclose: true,
+                todayHighlight: true,
+                format: "yyyy-mm-dd",
+            });
 
 </script>
 

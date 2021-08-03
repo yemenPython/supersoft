@@ -167,20 +167,38 @@
 
                                     <div class="form-group col-md-2">
                                         <label> {{ __('purchase date From') }}</label>
-                                        <input type="date" class="form-control" name="purchase_date1">
+                                        <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                                        <input type="text" class="form-control datepicker" name="purchase_date1">
                                     </div>
+                                    </div>
+
                                         <div class="form-group col-md-2">
                                         <label> {{ __('purchase date To') }}</label>
-                                        <input type="date" class="form-control" name="purchase_date2">
+                                        <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                                        <input type="text" class="form-control datepicker" name="purchase_date2">
+                                    </div>
                                     </div>
 
                                         <div class="form-group col-md-2">
                                             <label> {{ __('work date From') }}</label>
-                                            <input type="date" class="form-control" name="date_of_work1">
+                                            <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                                            <input type="text" class="form-control datepicker" name="date_of_work1">
                                         </div>
+                                        </div>
+
                                         <div class="form-group col-md-2">
                                             <label> {{ __('work date To') }}</label>
-                                            <input type="date" class="form-control" name="date_of_work2">
+                                            <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                                            <input type="text" class="form-control datepicker" name="date_of_work2">
+                                        </div>
                                         </div>
 
                                         <div class="col-md-4">

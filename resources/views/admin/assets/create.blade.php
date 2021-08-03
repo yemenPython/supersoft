@@ -189,7 +189,7 @@
                                     <label> {{ __('asset purchase date') }} </label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input class="form-control datepicker" type="date" name="purchase_date"/>
+                                        <input class="form-control datepicker" type="text" name="purchase_date"/>
                                     </div>
                                     {{input_error($errors,'purchase_date')}}
                                 </div>
@@ -211,7 +211,7 @@
                                     <label> {{ __('date of work') }} </label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                        <input class="form-control datepicker" type="date" name="date_of_work"/>
+                                        <input class="form-control datepicker" type="text" name="date_of_work"/>
                                     </div>
                                     {{input_error($errors,'date_of_work')}}
                                 </div>

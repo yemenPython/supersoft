@@ -47,10 +47,10 @@
 
                 <div class="col-md-3">
                     <div class="form-group">
-                        <label for="date" class="control-label">{{__('Date And Time')}}</label>
+                        <label for="date" class="control-label">{{__('Date')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                            <input type="date" name="date" class="form-control" id="date"
+                            <input type="text" name="date" class="form-control datepicker" id="date"
                                    value="{{old('date', isset($assetExpense)? $assetExpense->date : \Carbon\Carbon::now()->format('Y-m-d'))}}">
                         </div>
                         {{input_error($errors,'dateTime')}}

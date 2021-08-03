@@ -47,7 +47,7 @@
                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 
-                            <input type="date" name="dateFrom" class="form-control">
+                            <input type="text" name="dateFrom" class="form-control datepicker">
                             </div>
                         </li>
                         <li class="form-group col-md-4">
@@ -55,7 +55,7 @@
                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 
-                            <input type="date" name="dateTo" class="form-control">
+                            <input type="text" name="dateTo" class="form-control datepicker">
                             </div>
                         </li>
 

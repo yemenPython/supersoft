@@ -69,31 +69,57 @@
 
                         <div class="form-group col-md-3">
                             <label> {{ __('Date Add From') }}</label>
-                            <input type="date" class="form-control" name="date_add_from">
+                            <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                            <input type="text" class="form-control datepicker" name="date_add_from">
                         </div>
+                        </div>
+                        
                         <div class="form-group col-md-3">
                             <label> {{ __('Date Add To') }}</label>
-                            <input type="date" class="form-control" name="date_add_to">
+                            <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                            <input type="text" class="form-control datepicker" name="date_add_to">
+                        </div>
                         </div>
 
                         <div class="form-group col-md-3">
                             <label> {{ __('Supply Date From') }}</label>
-                            <input type="date" class="form-control" name="supply_date_from">
+                            <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                            <input type="text" class="form-control datepicker" name="supply_date_from">
                         </div>
+                        </div>
+
                         <div class="form-group col-md-3">
                             <label> {{ __('Supply Date To') }}</label>
-                            <input type="date" class="form-control" name="supply_date_to">
+                            <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                            <input type="text" class="form-control datepicker" name="supply_date_to">
+                        </div>
                         </div>
 
                         <div class="form-group col-md-3">
                             <label> {{ __('Period of quotation from') }}</label>
-                            <input type="date" class="form-control" name="date_from">
+                            <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                            <input type="text" class="form-control datepicker" name="date_from">
                         </div>
-                        <div class="form-group col-md-3">
-                            <label> {{ __('Period of quotation to') }}</label>
-                            <input type="date" class="form-control" name="date_to">
                         </div>
 
+                        <div class="form-group col-md-3">
+                            <label> {{ __('Period of quotation to') }}</label>
+                            <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                            <input type="text" class="form-control datepicker" name="date_to">
+                        </div>
+                        </div>
 
                         <div class="col-md-6">
                             <label for="date" class="control-label">{{__('Quotation type')}}</label>

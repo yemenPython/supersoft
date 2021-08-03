@@ -114,7 +114,7 @@
                         <label for="date" class="control-label">{{__('Date')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                            <input type="date" name="date" class="form-control" id="date"
+                            <input type="text" name="date" class="form-control datepicker" id="date"
                                    {{isset($request_type) && $request_type == 'approval' ? 'disabled' : ''}}
                                    value="{{old('date', isset($purchaseQuotation) ? $purchaseQuotation->date : \Carbon\Carbon::now()->format('Y-m-d'))}}">
                         </div>
@@ -199,7 +199,7 @@
                         <label for="date" class="control-label">{{__('Supply Date From')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                            <input type="date" name="supply_date_from" class="form-control" id="supply_date_from"
+                            <input type="text" name="supply_date_from" class="form-control datepicker" id="supply_date_from"
                                    value="{{old('supply_date_from',  isset($purchaseQuotation) ? $purchaseQuotation->supply_date_from : \Carbon\Carbon::now()->format('Y-m-d'))}}">
                         </div>
                         {{input_error($errors,'supply_date_from')}}
@@ -211,7 +211,7 @@
                         <label for="date" class="control-label">{{__('Supply Date To')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                            <input type="date" name="supply_date_to" class="form-control" id="supply_date_to"
+                            <input type="text" name="supply_date_to" class="form-control datepicker" id="supply_date_to"
                                    value="{{old('supply_date_to',  isset($purchaseQuotation) ? $purchaseQuotation->supply_date_to : \Carbon\Carbon::now()->format('Y-m-d'))}}">
                         </div>
                         {{input_error($errors,'supply_date_to')}}
@@ -223,7 +223,7 @@
                         <label for="date" class="control-label">{{__('Period of quotation from')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                            <input type="date" name="date_from" class="form-control" id="date_from" onchange="getDate()"
+                            <input type="text" name="date_from" class="form-control datepicker" id="date_from" onchange="getDate()"
                                    value="{{old('date_from', isset($purchaseQuotation)? $purchaseQuotation->date_from : \Carbon\Carbon::now()->format('Y-m-d'))}}">
                         </div>
                         {{input_error($errors,'date_from')}}
@@ -235,7 +235,7 @@
                         <label for="date" class="control-label">{{__('Period of quotation to')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                            <input type="date" name="date_to" class="form-control" id="date_to" onchange="getDate()"
+                            <input type="text" name="date_to" class="form-control datepicker" id="date_to" onchange="getDate()"
                                    value="{{old('date_to', isset($purchaseQuotation)? $purchaseQuotation->date_to : \Carbon\Carbon::now()->format('Y-m-d'))}}">
                         </div>
                         {{input_error($errors,'date_to')}}

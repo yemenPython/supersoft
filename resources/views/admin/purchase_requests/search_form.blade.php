@@ -36,20 +36,34 @@
 
                         <div class="form-group col-md-3">
                             <label> {{ __('Date Add From') }}</label>
-                            <input type="date" class="form-control" name="date_add_from">
+                            <div class="input-group">
+                                <span class="input-group-addon fa fa-calendar"></span>
+                            <input type="text" class="form-control datepicker" name="date_add_from">
                         </div>
+                        </div>
+
                         <div class="form-group col-md-3">
                             <label> {{ __('Date Add To') }}</label>
-                            <input type="date" class="form-control" name="date_add_to">
+                            <div class="input-group">
+                                <span class="input-group-addon fa fa-calendar"></span>
+                            <input type="text" class="form-control datepicker" name="date_add_to">
+                        </div>
                         </div>
 
                         <div class="form-group col-md-3">
                             <label> {{ __('Period of request from') }}</label>
-                            <input type="date" class="form-control" name="date_request_from">
+                            <div class="input-group">
+                                <span class="input-group-addon fa fa-calendar"></span>
+                            <input type="text" class="form-control datepicker" name="date_request_from">
                         </div>
+                        </div>
+
                         <div class="form-group col-md-3">
                             <label> {{ __('Period of request to') }}</label>
-                            <input type="date" class="form-control" name="date_request_to">
+                            <div class="input-group">
+                                <span class="input-group-addon fa fa-calendar"></span>
+                            <input type="text" class="form-control datepicker" name="date_request_to">
+                        </div>
                         </div>
 
                     </div>

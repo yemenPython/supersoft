@@ -56,14 +56,18 @@
                             <div class="form-group col-md-4">
                                 <label for="dateFrom" class="control-label">{{__('Date From')}}</label>
                                 <div class="input-group">
-                                    <input type="date" name="dateFrom" class="form-control" value="" id="dateFrom" placeholder="{{__('Select Date')}}">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                                    <input type="text" name="dateFrom" class="form-control datepicker" value="" id="dateFrom" placeholder="{{__('Select Date')}}">
                                 </div>
                             </div>
 
                             <div class="form-group col-md-4">
                                 <label for="dateTo" class="control-label">{{__('Date To')}}</label>
                                 <div class="input-group">
-                                    <input type="date" name="dateTo" class="form-control" value="" id="dateTo" placeholder="{{__('Select Date')}}">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                                    <input type="text" name="dateTo" class="form-control datepicker" value="" id="dateTo" placeholder="{{__('Select Date')}}">
                                 </div>
                             </div>
 

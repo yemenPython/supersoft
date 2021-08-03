@@ -50,12 +50,18 @@
 
                         <li class="form-group col-md-2">
                             <label>{{__('Date From')}}</label>
-                            <input type="date" name="dateFrom" class="form-control">
+                            <div class="input-group">
+                                <span class="input-group-addon fa fa-calendar"></span>
+                            <input type="text" name="dateFrom" class="form-control datepicker">
+                            </div>
                         </li>
 
                         <li class="form-group col-md-2">
                             <label>{{__('Date To')}}</label>
-                            <input type="date" name="dateTo" class="form-control">
+                            <div class="input-group">
+                                <span class="input-group-addon fa fa-calendar"></span>
+                            <input type="text" name="dateTo" class="form-control datepicker">
+                            </div>
                         </li>
 
 
