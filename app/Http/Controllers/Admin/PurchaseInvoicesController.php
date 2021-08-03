@@ -832,6 +832,11 @@ src="' . $imageUrl . '" id="output_image"/>
     {
         $viewPath = 'admin.purchase-invoices.datatables.options';
         return DataTables::of($items)->addIndexColumn()
+
+            ->addColumn('date', function ($item) use ($viewPath) {
+                return $item->date;
+            })
+
             ->addColumn('invoice_number', function ($item) use ($viewPath) {
                return $item->invoice_number;
             })

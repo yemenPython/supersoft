@@ -41,14 +41,18 @@ class PurchaseQuotationsController extends Controller
     public function index (Request $request)
     {
         $data = PurchaseQuotation::query()->latest();
+
         if ($request->filled('filter')) {
             $data = $this->filter($request, $data);
         }
+
         $paymentTerms = SupplyTerm::where('for_purchase_quotation', 1)->where('status', 1)->where('type', 'payment')
             ->select('id', 'term_' . $this->lang)->get();
 
         $supplyTerms = SupplyTerm::where('for_purchase_quotation', 1)->where('status', 1)->where('type', 'supply')
             ->select('id', 'term_' . $this->lang)->get();
+
+
         if ($request->isDataTable) {
             return $this->dataTableColumns($data);
         } else {
@@ -430,11 +434,18 @@ class PurchaseQuotationsController extends Controller
     private function dataTableColumns(Builder $items)
     {
         $viewPath = 'admin.purchase_quotations.datatables.options';
+
         return DataTables::of($items)->addIndexColumn()
             ->addColumn('branch_id', function ($item) use ($viewPath) {
                 $withBranch = true;
                 return view($viewPath, compact('item', 'withBranch'))->render();
             })
+
+            ->addColumn('supplier_id', function ($item) use ($viewPath) {
+                $withSupplier = true;
+                return view($viewPath, compact('item', 'withSupplier'))->render();
+            })
+
             ->addColumn('date', function ($item) use ($viewPath) {
                 $withDate = true;
                 return view($viewPath, compact('item', 'withDate'))->render();

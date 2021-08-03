@@ -53,7 +53,7 @@
 			maxboostedstep: 10000000,
 			prefix: '$'
 		});
-	
+
 	if ($("input[name='demo_vertical']").length)
 		$("input[name='demo_vertical']").TouchSpin({
 			verticalbuttons: true

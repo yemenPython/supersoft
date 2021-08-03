@@ -556,6 +556,11 @@ class PurchaseReturnsController extends Controller
     {
         $viewPath = 'admin.purchase_returns.datatables.options';
         return DataTables::of($items)->addIndexColumn()
+
+            ->addColumn('date', function ($item) use ($viewPath) {
+                return $item->date;
+            })
+
             ->addColumn('invoice_number', function ($item) use ($viewPath) {
                 return $item->invoice_number;
             })

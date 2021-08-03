@@ -58,6 +58,7 @@ class PurchaseInvoice extends Model
      */
     protected static $dataTableColumns = [
         'DT_RowIndex' => 'DT_RowIndex',
+        'date' => 'date',
         'invoice_number' => 'invoice_number',
         'supplier_name' => 'supplier_name',
         'type' => 'type',

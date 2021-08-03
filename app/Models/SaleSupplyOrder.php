@@ -93,6 +93,12 @@ class SaleSupplyOrder extends Model
         $dateNow = Carbon::create($dateNowFormat);
         $endDate = Carbon::create($this->supply_date_to);
 
+        $remaining = $dateNow->diffInDays($endDate, false);
+
+        if (intval($remaining) < 0) {
+            return 0;
+        }
+
         return $dateNow->diffInDays($endDate, false);
     }
 

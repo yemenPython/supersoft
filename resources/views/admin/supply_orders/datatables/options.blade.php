@@ -3,6 +3,10 @@
     '<span class="text-danger">{{ optional($item->branch)->name}}</span>
 @endif
 
+@if (isset($withSupplier))
+    <span class="text-danger">{{ optional($item->supplier)->name}}</span>
+@endif
+
 
 @if (isset($withDate))
     <span class="text-danger">{!! $item->date !!}</span>

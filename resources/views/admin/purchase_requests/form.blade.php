@@ -62,9 +62,11 @@
                 <label for="date" class="control-label">{{__('Date')}}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                    <input type="date" name="date" class="form-control" id="date"
+
+                    <input type="text" class="form-control datepicker"  name="date" autocomplete="fales"
                            {{isset($request_type) && $request_type == 'approval' ? 'disabled' : ''}}
                            value="{{old('date', isset($purchaseRequest)? $purchaseRequest->date : \Carbon\Carbon::now()->format('Y-m-d'))}}">
+
                 </div>
                 {{input_error($errors,'date')}}
             </div>
@@ -131,7 +133,7 @@
                 <label for="date" class="control-label">{{__('Period of request from')}}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                    <input type="date" name="date_from" class="form-control" id="date_from"
+                    <input type="text" name="date_from" class="form-control datepicker" id="date_from" onchange="getDate()"
                            {{isset($request_type) && $request_type == 'approval' ? 'disabled' : ''}}
                            value="{{old('date_from', isset($purchaseRequest)? $purchaseRequest->date_from : \Carbon\Carbon::now()->format('Y-m-d'))}}">
                 </div>
@@ -144,7 +146,7 @@
                 <label for="date" class="control-label">{{__('Period of request to')}}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                    <input type="date" name="date_to" class="form-control" id="date_to" onchange="getDate()"
+                    <input type="text" name="date_to" class="form-control datepicker" id="date_to" onchange="getDate()"
                            {{isset($request_type) && $request_type == 'approval' ? 'disabled' : ''}}
                            value="{{old('date_to', isset($purchaseRequest)? $purchaseRequest->date_to : \Carbon\Carbon::now()->format('Y-m-d'))}}">
                 </div>

@@ -29,6 +29,7 @@ class PurchaseReturn extends Model
     protected $table = 'purchase_returns';
 
     protected $fillable = [
+        'date',
         'invoice_number',
         'branch_id',
         'purchase_invoice_id',
@@ -59,6 +60,7 @@ class PurchaseReturn extends Model
      */
     protected static $dataTableColumns = [
         'DT_RowIndex' => 'DT_RowIndex',
+        'date' => 'date',
         'invoice_number' => 'invoice_number',
         'supplier_name' => 'supplier_name',
         'type' => 'type',

@@ -18,6 +18,7 @@ class PurchaseReceipt extends Model
         'DT_RowIndex' => 'DT_RowIndex',
         'date' => 'date',
         'branch_id' => 'branch_id',
+        'supplier_id' => 'supplier_id',
         'number' => 'number',
         'total' => 'total',
         'total_accepted' => 'total_accepted',

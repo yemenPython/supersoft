@@ -44,6 +44,7 @@
                                 @if(authIsSuperAdmin())
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
+                                <th scope="col">{!! __('Supplier') !!}</th>
                                 <th scope="col">{!! __('Number') !!}</th>
 
                                 <th scope="col">{!! __('Total') !!}</th>
@@ -72,6 +73,7 @@
                                 @if(authIsSuperAdmin())
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
+                                <th scope="col">{!! __('Supplier') !!}</th>
                                 <th scope="col">{!! __('Number') !!}</th>
 
                                 <th scope="col">{!! __('Total') !!}</th>

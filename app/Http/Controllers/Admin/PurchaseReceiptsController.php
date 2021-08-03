@@ -277,6 +277,10 @@ class PurchaseReceiptsController extends Controller
                 $withBranch = true;
                 return view($viewPath, compact('item', 'withBranch'))->render();
             })
+            ->addColumn('supplier_id', function ($item) use ($viewPath) {
+                $withSupplier = true;
+                return view($viewPath, compact('item', 'withSupplier'))->render();
+            })
             ->addColumn('number', function ($item) {
                 return $item->number;
             })

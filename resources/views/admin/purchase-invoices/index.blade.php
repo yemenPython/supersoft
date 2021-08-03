@@ -55,7 +55,7 @@
                             <thead>
                             <tr>
                                 <th class="text-center column-index" scope="col">{!! __('#') !!}</th>
-                                <!-- <th class="text-center column-index" scope="col">{!! __('date') !!}</th> -->
+                                 <th class="text-center column-index" scope="col">{!! __('date') !!}</th>
                                 <th class="text-center column-invoice-number" scope="col">{!! __('Invoice Number') !!}</th>
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Invoice Type') !!}</th>
@@ -75,7 +75,7 @@
 
                             <tr>
                                 <th class="text-center column-index" scope="col">{!! __('#') !!}</th>
-                                <!-- <th class="text-center column-index" scope="col">{!! __('date') !!}</th> -->
+                                <th class="text-center column-index" scope="col">{!! __('date') !!}</th>
                                 <th class="text-center column-invoice-number" scope="col">{!! __('Invoice Number') !!}</th>
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
                                 <th class="text-center column-invoice-type" scope="col">{!! __('Invoice Type') !!}</th>
@@ -106,7 +106,7 @@
 
     @include('admin.partial.upload_library.form', ['url'=> route('admin:purchase.invoices.upload_library')])
 
-    
+
     <div class="modal fade" id="boostrapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -122,7 +122,7 @@
                     <button type="button" class="btn btn-danger waves-effect waves-light" data-dismiss="modal">
                         <i class='fa fa-close'></i>
                         {{__('Close')}}</button>
-                  
+
                 </div>
 
                 <div class="modal-body" id="invoiceDatatoPrint">
