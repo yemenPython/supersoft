@@ -2490,6 +2490,7 @@ input[type="time"]
                             
                             .print-border {
                                 padding: 0 !important;
+                                border: none !important
                             }
                             
                             .logo-print {
@@ -2754,7 +2755,6 @@ input[type="time"]
                             }
                             /* OSOL PRINT */
                             
-                            #invoiceDatatoPrint .small-data-wg,
                             #assetDatatoPrint .small-data-wg,
                             #assetDatatoPrint .small-data-wg {
                                 bottom: 15px;

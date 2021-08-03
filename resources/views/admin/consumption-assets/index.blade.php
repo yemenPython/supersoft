@@ -134,13 +134,8 @@
 
                             </div>
 
-                            <button type="submit"
-                                    class="btn sr4-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
-                                    class=" fa fa-search "></i> {{__('Search')}} </button>
-                            <a href="{{route('admin:assets.index')}}"
-                               class="btn bc-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
-                                    class=" fa fa-reply"></i> {{__('Back')}}
-                            </a>
+                            @include('admin.btns.btn_search')
+
 
                         </form>
                     </div>

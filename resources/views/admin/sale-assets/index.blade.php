@@ -171,13 +171,7 @@
 
                             </div>
 
-                            <button type="submit"
-                                    class="btn sr4-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
-                                    class=" fa fa-search "></i> {{__('Search')}} </button>
-                            <a href="{{route('admin:assets.index')}}"
-                               class="btn bc-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
-                                    class=" fa fa-reply"></i> {{__('Back')}}
-                            </a>
+                            @include('admin.btns.btn_search')
 
                         </form>
                     </div>
@@ -294,7 +288,7 @@
 
                     $("#assetDatatoPrint").html(data.view)
                     let total = $("#totalInLetters").text()
-                    $("#totalInLetters").html(new Tafgeet(total, '{{config("currency.defualt_currency")}}').parse())
+                    $("#totalInLetters").html(new Tafgeet(parseFloat(total), '{{config("currency.defualt_currency")}}').parse())
                 }
             });
         }

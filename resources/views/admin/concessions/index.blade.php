@@ -126,7 +126,7 @@
                     </button>
                 </div>
 
-                <div class="modal-body print-border" id="invoiceDatatoPrint" style="border:1px solid #3b3b3b;margin:0 20px;border-radius:5px">
+                <div class="modal-body" id="invoiceDatatoPrint">
 
                 </div>
                 <div class="modal-footer" style="text-align:center">
@@ -254,7 +254,6 @@
 
                     $('#upload_loader').hide();
                     var errors = jqXhr.responseJSON;
-                    swal("{{__('Sorry')}}", errors, "error");
                 },
             });
         }
@@ -283,7 +282,6 @@
                 error: function (jqXhr, json, errorThrown) {
                     // $("#loader_save_goals").hide();
                     var errors = jqXhr.responseJSON;
-                    swal({text: errors, icon: "error"})
                 }
             });
         }
@@ -334,7 +332,6 @@
                 error: function (jqXhr, json, errorThrown) {
                     // $("#loader_save_goals").hide();
                     var errors = jqXhr.responseJSON;
-                    swal({text: errors, icon: "error"})
                 }
             });
         }

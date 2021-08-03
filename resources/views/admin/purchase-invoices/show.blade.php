@@ -1,6 +1,6 @@
 
 <div id="purchase_invoice_print" >
-    <div class="border-container" style="border: 1px solid #3b3b3b;">
+    <div class="border-container" style="">
 
     <div class="print-header-wg">
         <div class="top-logo-print">
