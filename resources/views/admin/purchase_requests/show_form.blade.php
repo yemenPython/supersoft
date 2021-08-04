@@ -33,7 +33,8 @@
                 <label for="date" class="control-label">{{__('Date')}}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><li class="fa fa-dashcube"></li></span>
-                    <input type="date" name="date" class="form-control" id="date" disabled value="{{ $purchaseRequest->date}}">
+                    <input type="date" name="date" class="form-control" id="date" disabled
+                           value="{{ $purchaseRequest->date}}">
                 </div>
             </div>
         </div>
@@ -88,7 +89,8 @@
                 <label for="date" class="control-label">{{__('Date To')}}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><li class="fa fa-dashcube"></li></span>
-                    <input type="date" name="date_to" class="form-control" value="{{$purchaseRequest->date_to}}" disabled>
+                    <input type="date" name="date_to" class="form-control" value="{{$purchaseRequest->date_to}}"
+                           disabled>
                 </div>
             </div>
         </div>
@@ -98,7 +100,8 @@
                 <label for="inputNameAr" class="control-label">{{__('Requesting Party')}}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><li class="fa fa-pagelines"></li></span>
-                    <input type="text" name="requesting_party" class="form-control" placeholder="{{__('requesting_party')}}"
+                    <input type="text" name="requesting_party" class="form-control"
+                           placeholder="{{__('requesting_party')}}"
                            value="{{$purchaseRequest->requesting_party}}" disabled>
                 </div>
             </div>
@@ -116,18 +119,18 @@
         </div>
 
 
-{{--        <div class="radio primary col-md-1" style="margin-top: 37px;">--}}
-{{--            <input type="radio" name="type" value="positive" id="positive" disabled--}}
-{{--                {{ !isset($settlement) ? 'checked':'' }}--}}
-{{--                {{isset($settlement) && $settlement->type == 'positive' ? 'checked':''}} >--}}
-{{--            <label for="positive">{{__('Positive')}}</label>--}}
-{{--        </div>--}}
+        {{--        <div class="radio primary col-md-1" style="margin-top: 37px;">--}}
+        {{--            <input type="radio" name="type" value="positive" id="positive" disabled--}}
+        {{--                {{ !isset($settlement) ? 'checked':'' }}--}}
+        {{--                {{isset($settlement) && $settlement->type == 'positive' ? 'checked':''}} >--}}
+        {{--            <label for="positive">{{__('Positive')}}</label>--}}
+        {{--        </div>--}}
 
-{{--        <div class="radio primary col-md-2" style="margin-top: 37px;">--}}
-{{--            <input type="radio" name="type" id="negative" value="negative" disabled--}}
-{{--                {{isset($settlement) && $settlement->type == 'negative' ? 'checked':''}} >--}}
-{{--            <label for="negative">{{__('Negative')}}</label>--}}
-{{--        </div>--}}
+        {{--        <div class="radio primary col-md-2" style="margin-top: 37px;">--}}
+        {{--            <input type="radio" name="type" id="negative" value="negative" disabled--}}
+        {{--                {{isset($settlement) && $settlement->type == 'negative' ? 'checked':''}} >--}}
+        {{--            <label for="negative">{{__('Negative')}}</label>--}}
+        {{--        </div>--}}
 
     </div>
 
@@ -139,6 +142,7 @@
                 <th width="12%"> {{ __('Unit') }} </th>
                 <th width="5%"> {{ __('Quantity') }} </th>
                 <th width="5%"> {{ __('Approval Quantity') }} </th>
+                <th width="5%"> {{ __('Actions') }} </th>
             </tr>
             </thead>
             <tbody id="parts_data">
@@ -151,25 +155,36 @@
                     @endphp
                     <tr id="tr_part_{{$index}}">
                         <td>
-                            <input type="text" disabled value="{{$part->name}}" class="form-control" style="text-align: center;">
+                            <input type="text" disabled value="{{$part->name}}" class="form-control"
+                                   style="text-align: center;">
                         </td>
 
                         <td>
                             <div class="input-group">
-                                <input type="text" disabled value="{{optional($item->partPrice->unit)->unit}}" class="form-control" style="text-align: center;">
+                                <input type="text" disabled value="{{optional($item->partPrice->unit)->unit}}"
+                                       class="form-control" style="text-align: center;">
                             </div>
                         </td>
 
                         <td>
                             <input type="number" class="form-control" disabled
-                                   value="{{isset($item) ? $item->quantity : 0}}" min="0" name="items[{{$index}}][quantity]">
+                                   value="{{isset($item) ? $item->quantity : 0}}" min="0"
+                                   name="items[{{$index}}][quantity]">
                         </td>
 
                         <td>
-                            <input type="text" disabled class="form-control" value="{{isset($item) ? $item->approval_quantity : 0}}" >
+                            <input type="text" disabled class="form-control"
+                                   value="{{isset($item) ? $item->approval_quantity : 0}}">
                         </td>
 
+                        <td>
+                            <a data-toggle="modal" data-target="#part_types_{{$index}}" title="Part Types"
+                               class="btn btn-info">
+                                <i class="fa fa-cubes"></i>
+                            </a>
+                        </td>
                     </tr>
+
                 @endforeach
             @endif
             </tbody>
@@ -179,6 +194,7 @@
                 <th width="12%"> {{ __('Unit') }} </th>
                 <th width="5%"> {{ __('Quantity') }} </th>
                 <th width="5%"> {{ __('Approval Quantity') }} </th>
+                <th width="5%"> {{ __('Actions') }} </th>
             </tr>
             </tfoot>
         </table>
@@ -193,6 +209,5 @@
             </div>
         </div>
     </div>
-
 
 </div>

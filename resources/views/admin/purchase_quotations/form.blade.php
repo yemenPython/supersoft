@@ -275,7 +275,7 @@
                         <label for="cash">{{__('Cash')}}</label>
                     </div>
                 </div>
-           
+
 
                 <div class="col-xs-4">
 
@@ -368,13 +368,12 @@
                 </div>
             </div>
 
-
             @include('admin.purchase_quotations.table_items')
 
         </div>
     </div>
 </div>
-;   
+;
     <div class="row bottom-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
     @include('admin.purchase_quotations.financial_details')

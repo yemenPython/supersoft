@@ -124,7 +124,6 @@ class PurchaseRequestController extends Controller
     }
 
     public function show (PurchaseRequest $purchaseRequest) {
-
         return view('admin.purchase_requests.show', compact('purchaseRequest'));
     }
 

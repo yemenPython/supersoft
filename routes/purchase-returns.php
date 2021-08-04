@@ -25,3 +25,5 @@ Route::get('/purchase-returns/getInvoiceByBranch', 'PurchaseReturnsController@ge
 Route::post('/purchase-returns/delete-selected', 'PurchaseReturnsController@deleteSelected')->name('purchase_returns.deleteSelected');
 
 Route::post('/purchase-return/terms', 'PurchaseReturnsController@terms')->name('purchase.return.terms');
+
+Route::get('/purchase-returns/data/show/{purchaseReturn}', 'PurchaseReturnsController@showData')->name('purchase.returns.data.show');

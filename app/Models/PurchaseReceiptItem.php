@@ -77,4 +77,9 @@ class PurchaseReceiptItem extends Model
     {
         return $this->belongsTo(SparePart::class, 'spare_part_id');
     }
+
+    public function store()
+    {
+        return $this->belongsTo(Store::class, 'store_id');
+    }
 }

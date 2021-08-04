@@ -412,74 +412,6 @@ class PurchaseInvoicesController extends Controller
         return view('admin.purchase-invoices.parts.expenses', compact('expenses', 'invoice', 'expenseSum', 'remaining'));
     }
 
-    public function getPartsBySparePartId(Request $request)
-    {
-        if ($request->spare_part_id === 'all') {
-            if (authIsSuperAdmin()) {
-                $parts = Part::where('status', 1)->whereHas('store', function ($q) use ($request) {
-                    $q->where('branch_id', $request['branch_id']);
-                })->get();
-            }
-            if (false == authIsSuperAdmin()) {
-                $parts = Part::where('status', 1)->whereHas('store', function ($q) use ($request) {
-                    $q->where('branch_id', auth()->user()->branch_id);
-                })->get();
-            }
-        } else {
-            $parts = Part::where('spare_part_type_id', $request->spare_part_id)->where('status', 1)->get();
-        }
-
-        if ($parts->count() > 0) {
-            $htmlParts = '';
-            foreach ($parts as $part) {
-                $imageUrl = $part->img ? url('storage/images/parts/' . $part->img) : url('default-images/defualt.png');
-                $htmlParts .= '                                                    <td class="align-center col-xs-3">
-                <div class="card">
-    <div class="card__image-holder">
-    <a class="example-image-link" href="' . $imageUrl . '" data-lightbox="example-1">
-<img  class="example-image"
-src="' . $imageUrl . '" id="output_image"/>
-
-<div class="frame"></div>
-</a>
-    </div>
-    <a class="nav-link active" onclick="getPartsDetails(' . $part->id . ')" href="#" id="part_details">
-    <div class="card-title">
-    <h2 class="text-center h2-inv" style="font-size: 12px !important">
-            ' . $part->name . ' <p style="display: none">' . $part->barcode . '</p>
-            <i class="fa fa-plus"></i>
-        </h2>
-    </div>
-</div>
-</a>
-                </td>';
-            }
-            return response()->json([
-                'parts' => $htmlParts,
-            ]);
-        }
-        if ($parts->count() == 0) {
-            return response()->json([
-                'parts' => '<h4>' . __('words.No Data Available') . '</h4>',
-            ]);
-        }
-    }
-
-    public function getPartsDetailsByID(Request $request)
-    {
-        $items_count = $request['items_count'] + 1;
-        $parts_count = $request['parts_count'] + 1;
-
-        $part = Part::find($request->part_id);
-        $stores = Store::where('branch_id', $request['branch_id'])->get()->pluck('name', 'id');
-
-//        dd($part->prices->first());
-
-        $view = view('admin.purchase-invoices.parts.part_details', compact('stores', 'part', 'items_count'))->render();
-
-        return response()->json(['view' => $view, 'items_count' => $items_count, 'parts_count' => $parts_count]);
-    }
-
     public function addSupplier(Request $request)
     {
         try {
@@ -600,39 +532,23 @@ src="' . $imageUrl . '" id="output_image"/>
         return $data;
     }
 
-    public function getDataByBranch(Request $request)
-    {
-        $spareP = SparePart::where('status', 1)->where('branch_id', $request->branch_id);
-        $ids = $spareP->pluck('id')->toArray();
-        $spareParts = $spareP->get();
-        $parts = Part::where('status', 1)->whereIn('id', $ids)->get();
-        $supplires = Supplier::where('branch_id', $request->branch_id)->get();
-        $supHtml = '<option value="">' . __('Select Supplier') . '</option>';
-        foreach ($supplires as $supplire) {
-            $supHtml .= '<option value="' . $supplire->id . '">' . $supplire->name . '-' . $supplire->phone_1 . '</option>';
-        }
-        $view = view('admin.purchase-invoices.getPartsByajax', compact('parts', 'spareParts'))->render();
-        $spareHtmlSelect = ' <option value=""> ' . __('Select Spare Part Type') . '</option>';
-        foreach ($spareParts as $sp) {
-            $spareHtmlSelect .= '<option value="' . $sp->id . '">' . $sp->type . '</option>';
-        }
-        $partsHtmlSelect = ' <option value=""> ' . __('Select Part') . '</option>';
-        foreach ($parts as $part) {
-            $partsHtmlSelect .= '<option value="' . $part->id . '">' . $part->name . '</option>';
-        }
-        $bracodes = Part::whereIn('id', $ids)->where('status', 1)->where('barcode', '!=', null)->get();
-        $bracodesHtmlSelect = ' <option value=""> ' . __('Select BarCode') . '</option>';
-        foreach ($bracodes as $bracode) {
-            $bracodesHtmlSelect .= '<option value="' . $bracode->id . '">' . $bracode->barcode . '</option>';
-        }
-        return response()->json(
-            [
-                'invoice' => $view,
-                'suppliers' => $supHtml,
-                'sparePartsSelect' => $spareHtmlSelect,
-                'partsSelect' => $partsHtmlSelect,
-                'barcodeSelect' => $bracodesHtmlSelect,
-            ]);
+    public function showData (PurchaseInvoice $purchaseInvoice) {
+
+        $branch_id = $purchaseInvoice->branch_id;
+
+        $data['taxes'] = TaxesFees::where('active_purchase_invoice', 1)
+            ->where('branch_id', $branch_id)
+            ->where('type', 'tax')
+            ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
+            ->get();
+
+        $data['additionalPayments'] = TaxesFees::where('active_purchase_invoice', 1)
+            ->where('branch_id', $branch_id)
+            ->where('type', 'additional_payments')
+            ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
+            ->get();
+
+        return view('admin.purchase-invoices.info.show', compact('purchaseInvoice', 'data'));
     }
 
     public function unitPrices(Request $request)

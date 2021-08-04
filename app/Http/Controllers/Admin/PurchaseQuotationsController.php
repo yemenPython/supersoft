@@ -400,6 +400,25 @@ class PurchaseQuotationsController extends Controller
         return redirect(route('admin:purchase-quotations.index'))->with(['message'=> __('purchase.quotations.terms.successfully'), 'alert-type'=>'success']);
     }
 
+    public function show (PurchaseQuotation $purchaseQuotation) {
+
+        $branch_id = $purchaseQuotation->branch_id;
+
+        $taxes = TaxesFees::where('purchase_quotation', 1)
+            ->where('branch_id', $branch_id)
+            ->where('type', 'tax')
+            ->select('id','value', 'tax_type','execution_time', 'name_' . $this->lang)
+            ->get();
+
+        $additionalPayments = TaxesFees::where('purchase_quotation', 1)
+            ->where('branch_id', $branch_id)
+            ->where('type', 'additional_payments')
+            ->select('id','value', 'tax_type','execution_time', 'name_' . $this->lang)
+            ->get();
+
+        return view('admin.purchase_quotations.info.show', compact('purchaseQuotation', 'taxes', 'additionalPayments'));
+    }
+
     public function priceSegments(Request $request)
     {
         $validator = Validator::make($request->all(), [

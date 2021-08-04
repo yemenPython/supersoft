@@ -6,6 +6,7 @@ use App\Http\Requests\Admin\PurchaseReceipt\CreateRequest;
 use App\Models\Branch;
 use App\Models\PurchaseReceipt;
 use App\Models\SupplyOrder;
+use App\Models\TaxesFees;
 use App\Services\PurchaseReceiptServices;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -259,6 +260,12 @@ class PurchaseReceiptsController extends Controller
 
         return response()->json(['view' => $view]);
     }
+
+    public function showData (PurchaseReceipt $purchaseReceipt) {
+
+        return view('admin.purchase_receipts.info.show', compact('purchaseReceipt'));
+    }
+
 
     /**
      * @param Builder $items

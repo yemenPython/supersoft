@@ -111,13 +111,18 @@
 
 
             <li>
-
-
                 <a style="cursor:pointer"
                    class="btn btn-terms-wg text-white hvr-radial-out"
                    data-toggle="modal"
                    data-target="#terms_{{$item->id}}" title="{{__('Terms')}}">
                     <i class="fa fa-check-circle"></i> {{__('Terms')}}
+                </a>
+            </li>
+
+            <li>
+                <a href="{{route('admin:purchase-quotations.show', $item->id)}}" style="cursor:pointer"
+                   class="btn btn-terms-wg text-white hvr-radial-out" title="{{__('Show')}}">
+                    <i class="fa fa-eye"></i> {{__('Show')}}
                 </a>
             </li>
 

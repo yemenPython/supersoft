@@ -51,6 +51,8 @@ Route::post('/purchase-invoices/add-purchase-receipts', 'PurchaseInvoicesControl
 
 Route::post('/purchase-invoices/terms', 'PurchaseInvoicesController@terms')->name('purchase.invoices.terms');
 
+Route::get('/purchase-invoices/data/show/{purchaseInvoice}', 'PurchaseInvoicesController@showData')->name('purchase.invoices.data.show');
+
 
 
 

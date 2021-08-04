@@ -65,6 +65,14 @@
             </li>
 
             <li>
+                <a style="cursor:pointer" href="{{route('admin:purchase.returns.data.show', $item->id)}}"
+                   class="btn btn-terms-wg text-white hvr-radial-out" title="{{__('Show')}}">
+                    <i class="fa fa-eye"></i> {{__('Show')}}
+                </a>
+            </li>
+
+
+            <li>
                 <a style="cursor:pointer"
                    class="btn btn-terms-wg text-white hvr-radial-out"
                    data-toggle="modal" data-target="#terms_{{$item->id}}"

@@ -102,8 +102,6 @@
 
             @if($item->status == 'ready_for_approval')
                 <li>
-
-
                     <a href="{{route('admin:purchase-requests.edit', ['id'=> $item->id, 'request_type'=>'approval'])}}"
                        class="btn btn-approval-wg text-white hvr-radial-out">
                         <i class="fa fa-check"></i>
@@ -113,6 +111,14 @@
                 </li>
             @endif
 
+            <li>
+                <a href="{{route('admin:purchase-requests.show', ['id'=> $item->id])}}"
+                   class="btn btn-approval-wg text-white hvr-radial-out">
+                    <i class="fafa-eye"></i>
+                    {{__('Show')}}
+                </a>
+
+            </li>
 
             <li>
                 @include('admin.partial.execution_period', ['id'=> $item->id])
