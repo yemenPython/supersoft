@@ -11,27 +11,33 @@ class PurchaseInvoiceFilter
     public function filter(Request $request): Builder
     {
         return PurchaseInvoice::where(function ($query) use ($request) {
-            if ($request->has('invoice_number') && $request->invoice_number != '' && $request->invoice_number != null) {
-                $query->where('invoice_number', $request->invoice_number);
+            if ($request->filled('invoice_number')) {
+                $query->where('id', $request->invoice_number);
             }
 
-            if ($request->has('branch_id') && $request->branch_id != '' && $request->branch_id != null) {
-                $query->where('branch_id', $request->branch_id);
+            if ($request->filled('branchId')) {
+                $query->where('branch_id', $request->branchId);
             }
 
-            if ($request->has('type') && $request->type != '' && $request->type != null) {
+            if ($request->filled('invoice_type')) {
+                $query->where('invoice_type', $request->invoice_type);
+            }
+
+            if ($request->filled('type')) {
                 $query->where('type', $request->type);
             }
 
-             if ($request->has('supplier_id') && $request->supplier_id != '' && $request->supplier_id != null) {
-                 $query->where('supplier_id', $request->supplier_id);
-             }
+            if ($request->filled('supplier_id')) {
+                $query->where('supplier_id', $request->supplier_id);
+            }
 
-            if ($request->has('dateFrom') && $request->has('dateTo')
-                && $request->dateFrom != '' && $request->dateTo != ''
-                && $request->dateFrom != null && $request->dateTo != null) {
+            if ($request->filled('supply_order_number')) {
+                $query->where('supply_order_id', $request->supply_order_number);
+            }
 
-                $query->whereBetween('date', [$request->dateFrom, $request->dateTo]);
+            if ($request->filled('date_add_from') && $request->filled('date_add_to')) {
+
+                $query->whereBetween('date', [$request->date_add_from, $request->date_add_to]);
             }
 
         });

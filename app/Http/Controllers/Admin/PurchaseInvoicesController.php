@@ -67,7 +67,7 @@ class PurchaseInvoicesController extends Controller
         }
 
         $invoices = PurchaseInvoice::query()->latest();
-        if ($request->hasAny((new PurchaseInvoice())->getFillable())) {
+        if ($request->filled('filter')) {
             $invoices = $this->purchaseInvoiceFilter->filter($request);
         }
         if ($request->has('key')) {
