@@ -32,6 +32,9 @@ class PurchaseReceiptsController extends Controller
     public function index(Request $request)
     {
         $purchase_receipts = PurchaseReceipt::query()->latest();
+        if ($request->filled('filter')) {
+            $purchase_receipts = $this->filter($request, $purchase_receipts);
+        }
         if ($request->isDataTable) {
             return $this->dataTableColumns($purchase_receipts);
         } else {
@@ -324,5 +327,31 @@ class PurchaseReceiptsController extends Controller
                 $withOptions = true;
                 return view($viewPath, compact('item', 'withOptions'))->render();
             })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
+    }
+
+    private function filter(Request $request, Builder $data)
+    {
+        return $data->where(function ($query) use ($request) {
+            if ($request->filled('branchId')) {
+                $query->where('branch_id', $request->branchId);
+            }
+
+            if ($request->filled('number')) {
+                $query->where('id', $request->number);
+            }
+
+            if ($request->filled('supplier_id')) {
+                $query->where('supplier_id', $request->supplier_id);
+            }
+
+            if ($request->filled('supply_order_number')) {
+                $query->where('supply_order_id', $request->supply_order_number);
+            }
+
+            if ($request->filled('date_add_from') && $request->filled('date_add_to')){
+                $query->whereBetween('date', [$request->date_add_from, $request->date_add_to]);
+            }
+
+        });
     }
 }

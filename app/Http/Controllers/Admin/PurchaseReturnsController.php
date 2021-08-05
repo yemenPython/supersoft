@@ -54,7 +54,7 @@ class PurchaseReturnsController extends Controller
         }
 
         $invoices = PurchaseReturn::query()->latest();
-        if ($request->hasAny((new PurchaseReturn())->getFillable())) {
+        if ($request->filled('filter')) {
             $invoices = $this->purchaseReturnInvoiceFilter->filter($request);
         }
 

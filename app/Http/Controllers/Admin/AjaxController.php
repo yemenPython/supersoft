@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Model\PurchaseReturn;
 use App\Models\Asset;
 use App\Models\AssetExpense;
 use App\Models\AssetGroup;
@@ -12,7 +13,9 @@ use App\Models\DamagedStock;
 use App\Models\EmployeeData;
 use App\Models\OpeningBalance;
 use App\Models\Part;
+use App\Models\PurchaseInvoice;
 use App\Models\PurchaseQuotation;
+use App\Models\PurchaseReceipt;
 use App\Models\PurchaseRequest;
 use App\Models\Settlement;
 use App\Models\Store;
@@ -34,6 +37,8 @@ class AjaxController extends Controller
     protected $supply_order_type;
     protected $quotation_type;
     protected $number;
+    protected $supply_order_number;
+    protected $invoice_type;
 
     public function AutoComplete(Request $request)
     {
@@ -74,6 +79,11 @@ class AjaxController extends Controller
                 && $request->quotation_type != __('words.select-one')) ? $request->quotation_type : '';
             $this->number = ($request->has('number') && !empty($request->number)
                 && $request->number != __('words.select-one')) ? $request->number : '';
+            $this->supply_order_number = ($request->has('supply_order_number') && !empty($request->supply_order_number)
+                && $request->supply_order_number != __('words.select-one')) ? $request->supply_order_number : '';
+            $this->invoice_type = ($request->has('invoice_type') && !empty($request->invoice_type)
+                && $request->invoice_type != __('words.select-one')) ? $request->invoice_type : '';
+
 
             switch ($request->model) {
                 case 'User':
@@ -160,6 +170,15 @@ class AjaxController extends Controller
                     break;
                 case 'SupplyOrder':
                     $data = $this->getSupplyOrders($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'PurchaseReceipt':
+                    $data = $this->getPurchaseReceipts($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'PurchaseInvoice':
+                    $data = $this->getPurchaseInvoices($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'PurchaseReturn':
+                    $data = $this->getPurchaseReturns($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
                     break;
                 default:
                     break;
@@ -995,6 +1014,118 @@ class AjaxController extends Controller
 
         if (!empty($this->supplier_id)) {
             $assetsItemExpenses = $assetsItemExpenses->where('supplier_id', $this->supplier_id);
+        }
+
+        $assetsItemExpenses = $assetsItemExpenses->limit($limit)->get();
+        foreach ($assetsItemExpenses as $assetsItemExpense) {
+            $data[] = [
+                'id' => $assetsItemExpense->id,
+                'text' => $this->buildSelectedColumnsAsText($assetsItemExpense, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+    private function getPurchaseReceipts(array $searchFields, string $searchTerm, string $selectedColumns, int $limit, string $branchId): array
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $assetsItemExpenses = PurchaseReceipt::select(DB::raw($selectedColumns));
+
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $assetsItemExpenses = $assetsItemExpenses->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        if (!empty($branchId)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('branch_id', $branchId);
+        }
+
+        if (!empty($this->supply_order_number)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('supply_order_id', $this->supply_order_number);
+        }
+
+
+        $assetsItemExpenses = $assetsItemExpenses->limit($limit)->get();
+        foreach ($assetsItemExpenses as $assetsItemExpense) {
+            $data[] = [
+                'id' => $assetsItemExpense->id,
+                'text' => $this->buildSelectedColumnsAsText($assetsItemExpense, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+    private function getPurchaseInvoices(array $searchFields, string $searchTerm, string $selectedColumns, int $limit, string $branchId)
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $assetsItemExpenses = PurchaseInvoice::select(DB::raw($selectedColumns));
+
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $assetsItemExpenses = $assetsItemExpenses->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        if (!empty($branchId)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('branch_id', $branchId);
+        }
+
+        if (!empty($this->supplier_id)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('supplier_id', $this->supplier_id);
+        }
+
+        if (!empty($this->invoice_type)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('invoice_type', $this->invoice_type);
+        }
+
+        $assetsItemExpenses = $assetsItemExpenses->limit($limit)->get();
+        foreach ($assetsItemExpenses as $assetsItemExpense) {
+            $data[] = [
+                'id' => $assetsItemExpense->id,
+                'text' => $this->buildSelectedColumnsAsText($assetsItemExpense, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+
+    private function getPurchaseReturns(array $searchFields, string $searchTerm, string $selectedColumns, int $limit, string $branchId)
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $assetsItemExpenses = PurchaseReturn::select(DB::raw($selectedColumns));
+
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $assetsItemExpenses = $assetsItemExpenses->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        if (!empty($branchId)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('branch_id', $branchId);
+        }
+
+//        if (!empty($this->supplier_id)) {
+//            $assetsItemExpenses = $assetsItemExpenses->where('supplier_id', $this->supplier_id);
+//        }
+
+        if (!empty($this->invoice_type)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('invoice_type', $this->invoice_type);
         }
 
         $assetsItemExpenses = $assetsItemExpenses->limit($limit)->get();

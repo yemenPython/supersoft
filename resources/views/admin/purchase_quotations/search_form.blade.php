@@ -20,7 +20,7 @@
                                 <label> {{ __('Branches') }} </label>
                                 <div class="input-group">
                                     <span class="input-group-addon fa fa-file"></span>
-                                    {!! drawSelect2ByAjax('branch_id','Branch','name_'.app()->getLocale(),'name_'.app()->getLocale(),__('Select Branch'),request()->branch_id) !!}
+                                    {!! drawSelect2ByAjax('branchId','Branch','name_'.app()->getLocale(),'name_'.app()->getLocale(),__('Select Branch'),request()->branch_id) !!}
                                 </div>
                             </div>
                         @endif
@@ -41,7 +41,7 @@
                                     {!! drawSelect2ByAjax('purchase_request_id','PurchaseRequest','number', 'number',__('Select Purchase request Number'),request()->number) !!}
                                 </div>
                             </div>
-                 
+
 
 
                         <div class="form-group col-md-2">
@@ -75,7 +75,7 @@
                             <input type="text" class="form-control datepicker" name="date_add_from">
                         </div>
                         </div>
-                        
+
                         <div class="form-group col-md-3">
                             <label> {{ __('Date Add To') }}</label>
                             <div class="input-group">

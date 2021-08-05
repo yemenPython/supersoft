@@ -115,6 +115,8 @@
                     searchData.supply_order_type  = $("#supply_order_type").val();
                     searchData.quotation_type = $("input[name='quotation_type']:checked").val();
                     searchData.number =  $("#number").val();
+                    searchData.supply_order_number =  $("#supply_order_number").val();
+                    searchData.invoice_type =  $("#invoice_type").val();
                     return searchData;
                 },
                 processResults: function (response) {
