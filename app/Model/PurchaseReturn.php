@@ -48,6 +48,7 @@ class PurchaseReturn extends Model
         'sub_total',
         'status',
         'additional_payments',
+        'supplier_id'
     ];
 
 
@@ -89,7 +90,6 @@ class PurchaseReturn extends Model
         return $this->belongsTo(Branch::class, 'branch_id')->withTrashed();
     }
 
-//  NOT USED NOW IN NEW SCOPE
     public function supplier()
     {
         return $this->belongsTo(Supplier::class, 'supplier_id')->withTrashed();

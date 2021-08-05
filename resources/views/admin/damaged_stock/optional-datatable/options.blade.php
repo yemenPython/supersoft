@@ -73,6 +73,15 @@
                 @endcomponent
             </li>
 
+            <li>
+                <a style="cursor:pointer" class="btn btn-print-wg text-white"
+                   data-toggle="modal"
+                   onclick="getPrintData({{$damagedStock->id}})"
+                   data-target="#boostrapModal" title="{{__('print')}}">
+                    <i class="fa fa-print"></i> {{__('Print')}}
+                </a>
+            </li>
+
         </ul>
     </div>
 @endif

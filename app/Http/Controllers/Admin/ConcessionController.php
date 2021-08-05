@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\TaxesFees;
 use Exception;
 use App\Models\Branch;
 use App\Models\Concession;
@@ -362,6 +363,31 @@ class ConcessionController extends Controller
     {
         $concession->delete();
         return redirect()->back()->with(['message' => __('words.words.data-archived-success'), 'alert-type' => 'success']);
+    }
+
+    public function showData (Concession $concession) {
+
+        $branch_id = $concession->branch_id;
+
+        $data['taxes'] = TaxesFees::where('active_invoices', 1)
+            ->where('branch_id', $branch_id)
+            ->where('type', 'tax')
+            ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
+            ->get();
+
+        $data['additionalPayments'] = TaxesFees::where('active_invoices', 1)
+            ->where('branch_id', $branch_id)
+            ->where('type', 'additional_payments')
+            ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
+            ->get();
+
+        $totalPrice = 0;
+
+        foreach ($concession->concessionItems as $item) {
+            $totalPrice += $item->price * $item->quantity;
+        }
+
+        return view('admin.concessions.info.show', compact('concession', 'data', 'totalPrice'));
     }
 
     /**

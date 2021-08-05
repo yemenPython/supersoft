@@ -50,7 +50,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach($data['supplyTerms'] as $term)
+                                            @foreach($supplyTerms as $term)
                                                 <tr>
                                                     <td>
                                                         <input type="checkbox" name="terms[]" value="{{$term->id}}"
@@ -76,7 +76,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach($data['paymentTerms'] as $term)
+                                            @foreach($paymentTerms as $term)
                                                 <tr>
                                                     <td>
                                                         <input type="checkbox" name="terms[]" value="{{$term->id}}"

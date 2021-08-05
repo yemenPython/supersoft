@@ -74,6 +74,18 @@ class UpdateRequest extends FormRequest
                 }),
             ];
 
+        for ($i = 1; $i < 50; $i++) {
+
+            $rules['items[' . $i . '][part_id]'] = 'nullable|integer|min:1';
+            $rules['items[' . $i . '][part_price_id]'] = 'nullable|integer|exists:part_prices,id';
+            $rules['items[' . $i . '][part_price_segment_id]'] = 'nullable|integer|exists:part_price_segments,id';
+            $rules['items[' . $i . '][quantity]'] = 'nullable|integer|min:1';
+            $rules['items[' . $i . '][price]'] = 'nullable|numeric|min:1';
+            $rules['items[' . $i . '][discount]'] = 'nullable|numeric|min:0';
+            $rules['items[' . $i . '][discount_type]'] = 'nullable|string|in:amount,percent';
+            $rules['items[' . $i . '][spare_part_id]'] = 'nullable|integer|exists:spare_parts,id';
+        }
+
         return $rules;
     }
 }

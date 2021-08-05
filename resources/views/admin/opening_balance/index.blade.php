@@ -99,10 +99,36 @@
     </div>
 @endsection
 
+@section('modals')
+
+    @include('admin.partial.print_modal', ['title'=> __('Purchase Quotations')])
+
+@endsection
+
+
 @section('accounting-scripts')
     <script type="application/javascript" src="{{ asset('js/sweet-alert.js') }}"></script>
 
     <script type="application/javascript">
+
+        function printDownPayment() {
+            var element_id = 'data_to_print', page_title = document.title
+            print_element(element_id, page_title)
+        }
+
+        function getPrintData(id) {
+
+            $.ajax({
+                url: "{{ route('admin:opening.balance.print') }}?opening_balance_id=" + id,
+                method: 'GET',
+                success: function (data) {
+                    $("#data_to_print").html(data.view);
+                    let total = $("#totalInLetters").text()
+                    $("#totalInLetters").html(new Tafgeet(parseFloat(total), '{{config("currency.defualt_currency")}}').parse())
+                }
+            });
+        }
+
         function alert(message) {
             swal({
                 title: "{{ __('accounting-module.warning') }}",

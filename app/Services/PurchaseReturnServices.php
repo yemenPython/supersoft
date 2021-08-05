@@ -39,6 +39,7 @@ class PurchaseReturnServices
             'available_qty' => $availableQuantity,
         ];
 
+
         $discountValue = $this->discountValue($data['discount_type'], $data['discount'], $data['sub_total']);
 
         $data['total_after_discount'] = $data['sub_total'] - $discountValue;
@@ -71,6 +72,8 @@ class PurchaseReturnServices
         $supplier_discount = 0;
 
         $supplier = $this->getSupplier($requestData);
+
+        $data['supplier_id'] = $supplier ? $supplier->id : null;
 
         if (isset($requestData['items'])) {
 

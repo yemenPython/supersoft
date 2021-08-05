@@ -12,6 +12,41 @@ class PurchaseQuotationItem extends Model
 
     protected $table = 'purchase_quotation_items';
 
+    /**
+     * @var string[]
+     */
+    protected static $dataTableColumns = [
+        'DT_RowIndex' => 'DT_RowIndex',
+        'quotation_number' => 'quotation_number',
+        'purchase_request_number' => 'purchase_request_number',
+        'supplier_id' => 'supplier_id',
+        'part_id' => 'part_id',
+        'spare_part_id' => 'spare_part_id',
+        'part_price_id' => 'part_price_id',
+        'part_price_segment_id' => 'part_price_segment_id',
+        'quantity' => 'quantity',
+        'price' => 'price',
+        'discount_type' => 'discount_type',
+        'discount' => 'discount',
+        'sub_total' => 'sub_total',
+        'total_after_discount' => 'total_after_discount',
+        'tax' => 'tax',
+        'total' => 'total',
+        'action' => 'action',
+        'options' => 'options'
+    ];
+
+    /**
+     * @return string[]
+     */
+    public static function getJsDataTablesColumns(): array
+    {
+        if (!authIsSuperAdmin()) {
+            unset(self::$dataTableColumns['branch_id']);
+        }
+        return self::$dataTableColumns;
+    }
+
     public function purchaseQuotation()
     {
         return $this->belongsTo(PurchaseQuotation::class, 'purchase_quotation_id');

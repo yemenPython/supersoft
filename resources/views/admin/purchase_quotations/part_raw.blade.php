@@ -133,8 +133,6 @@
                    onchange="calculateItem('{{$index}}')" onkeyup="calculateItem('{{$index}}')">
 
         @endif
-
-        {{input_error($errors, 'items['.$index.'][quantity]')}}
     </td>
 
     <td>

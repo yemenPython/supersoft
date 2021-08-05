@@ -51,7 +51,15 @@
                     <i class="fa fa-edit"></i>
                     {{__('Edit')}}
                 </a>
+            </li>
 
+            <li>
+                <a style="cursor:pointer" class="btn btn-print-wg text-white"
+                   data-toggle="modal"
+                   onclick="getPrintData({{$openingBalances->id}})"
+                   data-target="#boostrapModal" title="{{__('print')}}">
+                    <i class="fa fa-print"></i> {{__('Print')}}
+                </a>
             </li>
 
             <li class="btn-style-drop">

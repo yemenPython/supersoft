@@ -404,6 +404,13 @@ class DamagedStockController extends Controller
         return redirect(route('admin:damaged-stock.index'))->with(['message' => __('words.select-one-least'), 'alert-type' => 'error']);
     }
 
+    public function print(Request $request)
+    {
+        $damagedStock = DamagedStock::findOrFail($request['damaged_stock_id']);
+        $view = view('admin.damaged_stock.print', compact('damagedStock'))->render();
+        return response()->json(['view' => $view]);
+    }
+
     /**
      * @param Builder $damagedStocks
      * @return mixed

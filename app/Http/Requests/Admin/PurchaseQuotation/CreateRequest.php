@@ -26,7 +26,7 @@ class CreateRequest extends FormRequest
     {
         $rules = [
 
-            'number'=>'required|string|max:50',
+            'number' => 'required|string|max:50',
             'date' => 'required|date',
             'date_from' => 'nullable|date',
             'date_to' => 'nullable|date|after_or_equal:date_from',
@@ -37,8 +37,10 @@ class CreateRequest extends FormRequest
             'supplier_id' => 'required|integer|exists:suppliers,id',
             'discount' => 'required|numeric|min:0',
             'discount_type' => 'required|string|in:amount,percent',
-            'supplier_discount'=>'required|numeric|min:0',
-            'supplier_discount_type'=>'required|string|in:amount,percent',
+            'supplier_discount' => 'required|numeric|min:0',
+            'supplier_discount_type' => 'required|string|in:amount,percent',
+
+            'items' => 'array',
 
             'items.*.part_id' => 'required|integer|exists:parts,id',
             'items.*.part_price_id' => 'required|integer|exists:part_prices,id',
@@ -50,7 +52,6 @@ class CreateRequest extends FormRequest
             'items.*.spare_part_id' => 'required|integer|exists:spare_parts,id',
 
             'taxes.*' => 'nullable|integer|exists:taxes_fees,id',
-            'terms.*' => 'nullable|integer|exists:supply_terms,id',
         ];
 
         $branch_id = auth()->user()->branch_id;
@@ -66,13 +67,24 @@ class CreateRequest extends FormRequest
 
         $rules['number'] =
             [
-                'required','string', 'max:50',
-                Rule::unique('purchase_quotations')->where(function ($query) use($branch_id) {
+                'required', 'string', 'max:50',
+                Rule::unique('purchase_quotations')->where(function ($query) use ($branch_id) {
                     return $query->where('number', request()->number)
-                        ->where('branch_id', $branch_id)
-                        ;
+                        ->where('branch_id', $branch_id);
                 }),
             ];
+
+        for ($i = 1; $i < 50; $i++) {
+
+            $rules['items[' . $i . '][part_id]'] = 'nullable|integer|min:1';
+            $rules['items[' . $i . '][part_price_id]'] = 'nullable|integer|exists:part_prices,id';
+            $rules['items[' . $i . '][part_price_segment_id]'] = 'nullable|integer|exists:part_price_segments,id';
+            $rules['items[' . $i . '][quantity]'] = 'nullable|integer|min:1';
+            $rules['items[' . $i . '][price]'] = 'nullable|numeric|min:1';
+            $rules['items[' . $i . '][discount]'] = 'nullable|numeric|min:0';
+            $rules['items[' . $i . '][discount_type]'] = 'nullable|string|in:amount,percent';
+            $rules['items[' . $i . '][spare_part_id]'] = 'nullable|integer|exists:spare_parts,id';
+        }
 
         return $rules;
     }

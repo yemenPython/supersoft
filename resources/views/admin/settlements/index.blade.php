@@ -3,9 +3,7 @@
     <title>{{ __('Settlements') }} </title>
 @endsection
 
-@section('modals')
-    @include('admin.settlements.optional-datatable.column-visible')
-@endsection
+
 @section('content')
     <div class="row small-spacing">
 
@@ -85,9 +83,35 @@
     </div>
 @endsection
 
+@section('modals')
+    @include('admin.settlements.optional-datatable.column-visible')
+
+    @include('admin.partial.print_modal', ['title'=> __('Settlement ')])
+
+@endsection
+
 @section('js')
     @include('opening-balance.common-script')
     <script>
+
+        function printDownPayment() {
+            var element_id = 'data_to_print', page_title = document.title
+            print_element(element_id, page_title)
+        }
+
+        function getPrintData(id) {
+
+            $.ajax({
+                url: "{{ route('admin:settlements.print') }}?settlement_id=" + id,
+                method: 'GET',
+                success: function (data) {
+                    $("#data_to_print").html(data.view);
+                    let total = $("#totalInLetters").text()
+                    $("#totalInLetters").html(new Tafgeet(parseFloat(total), '{{config("currency.defualt_currency")}}').parse())
+                }
+            });
+        }
+
         server_side_datatable('#datatable-with-btns');
         function filterFunction($this) {
             $("#loaderSearch").show();

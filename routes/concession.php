@@ -21,3 +21,5 @@ Route::delete('concessions-archiveData/{concession}', 'ConcessionController@arch
 // concession execution
 Route::post('/concessions-execution/save', 'ConcessionExecutionController@save')->name('concessions.execution.save');
 
+Route::get('/concessions/data/show/{concession}', 'ConcessionController@showData')->name('concessions.data.show');
+

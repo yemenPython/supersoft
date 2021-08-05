@@ -22,6 +22,7 @@ use App\Services\NotificationServices;
 use App\Services\PointsServices;
 use App\Services\SalesInvoiceServices;
 use App\Traits\SubTypesServices;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\View\View;
@@ -40,6 +41,7 @@ use App\Http\Controllers\ExportPrinterFactory;
 use App\Http\Controllers\DataExportCore\Invoices\Sales;
 use App\Http\Requests\Admin\salesInvoice\CreateSalesInvoiceRequest;
 use App\Http\Requests\Admin\salesInvoice\UpdateSalesInvoiceRequest;
+use Yajra\DataTables\DataTables;
 use function GuzzleHttp\Promise\all;
 
 
@@ -165,17 +167,33 @@ class SalesInvoicesController extends Controller
 
 //  ////////////////// new version /////////////////////////////////
 
-    public function index (Request $request) {
+    public function index(Request $request)
+    {
+        $data = SalesInvoice::query()->latest();
 
-        $data['invoices'] = SalesInvoice::get();
+        if ($request->filled('filter')) {
+            $data = $this->filter($request, $data);
+        }
 
-        $data['paymentTerms'] = SupplyTerm::where('purchase_invoice', 1)->where('status', 1)->where('type', 'payment')
+        $paymentTerms = SupplyTerm::where('purchase_invoice', 1)->where('status', 1)->where('type', 'payment')
             ->select('id', 'term_' . $this->lang)->get();
 
-        $data['supplyTerms'] = SupplyTerm::where('purchase_invoice', 1)->where('status', 1)->where('type', 'supply')
+        $supplyTerms = SupplyTerm::where('purchase_invoice', 1)->where('status', 1)->where('type', 'supply')
             ->select('id', 'term_' . $this->lang)->get();
 
-        return view('admin.sales_invoice.index', compact('data'));
+        if ($request->isDataTable) {
+
+            return $this->dataTableColumns($data);
+
+        } else {
+
+            return view('admin.sales_invoice.index', [
+                'data' => $data,
+                'paymentTerms' => $paymentTerms,
+                'supplyTerms' => $supplyTerms,
+                'js_columns' => SalesInvoice::getJsDataTablesColumns(),
+            ]);
+        }
     }
 
     public function create(Request $request)
@@ -233,7 +251,7 @@ class SalesInvoicesController extends Controller
 
             $invoice_data = $this->salesInvoiceServices->prepareInvoiceData($data);
 
-            $invoice_data['created_by'] =  auth()->id();
+            $invoice_data['created_by'] = auth()->id();
             $invoice_data['branch_id'] = authIsSuperAdmin() ? $request['branch_id'] : auth()->user()->branch_id;
 
             $salesInvoice = SalesInvoice::create($invoice_data);
@@ -269,7 +287,8 @@ class SalesInvoicesController extends Controller
 
     }
 
-    public function edit (SalesInvoice $salesInvoice) {
+    public function edit(SalesInvoice $salesInvoice)
+    {
 
         if (!auth()->user()->can('update_sales_invoices')) {
             return redirect()->back()->with(['authorization' => 'error']);
@@ -493,6 +512,96 @@ class SalesInvoicesController extends Controller
         } catch (\Exception $e) {
             return response()->json('sorry, please try later', 400);
         }
+    }
+
+    public function showData(SalesInvoice $salesInvoice)
+    {
+
+        $branch_id = $salesInvoice->branch_id;
+
+        $data['taxes'] = TaxesFees::where('active_invoices', 1)
+            ->where('branch_id', $branch_id)
+            ->where('type', 'tax')
+            ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
+            ->get();
+
+        $data['additionalPayments'] = TaxesFees::where('active_invoices', 1)
+            ->where('branch_id', $branch_id)
+            ->where('type', 'additional_payments')
+            ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
+            ->get();
+
+        return view('admin.sales_invoice.info.show', compact('salesInvoice', 'data'));
+    }
+
+    /**
+     * @param Builder $items
+     * @return mixed
+     * @throws Throwable
+     */
+    private function dataTableColumns(Builder $items)
+    {
+        $viewPath = 'admin.sales_invoice.datatables.options';
+
+        return DataTables::of($items)->addIndexColumn()
+            ->addColumn('date', function ($item) use ($viewPath) {
+                $withDate = true;
+                return view($viewPath, compact('item', 'withDate'))->render();
+            })
+            ->addColumn('branch_id', function ($item) use ($viewPath) {
+                $withBranch = true;
+                return view($viewPath, compact('item', 'withBranch'))->render();
+            })
+            ->addColumn('number', function ($item) {
+                return $item->number;
+            })
+            ->addColumn('salesable_id', function ($item) use ($viewPath) {
+                return $item->salesable ? $item->salesable->name : '---';
+            })
+            ->addColumn('total', function ($item) use ($viewPath) {
+                return $item->total;
+            })
+            ->addColumn('status', function ($item) use ($viewPath) {
+                $withStatus = true;
+                return view($viewPath, compact('item', 'withStatus'))->render();
+            })
+            ->addColumn('executionStatus', function ($item) use ($viewPath) {
+                $executionStatus = true;
+                return view($viewPath, compact('item', 'executionStatus'))->render();
+            })
+            ->addColumn('created_at', function ($item) {
+                return $item->created_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('updated_at', function ($item) {
+                return $item->updated_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('action', function ($item) use ($viewPath) {
+                $withActions = true;
+                return view($viewPath, compact('item', 'withActions'))->render();
+
+            })->addColumn('options', function ($item) use ($viewPath) {
+                $withOptions = true;
+                return view($viewPath, compact('item', 'withOptions'))->render();
+            })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
+    }
+
+    private function filter(Request $request, Builder $data): Builder
+    {
+        return $data->where(function ($query) use ($request) {
+
+            if ($request->filled('branch_id')) {
+                $query->where('branch_id', $request->branch_id);
+            }
+
+            if ($request->filled('number')) {
+                $query->where('number', $request->number);
+            }
+
+            if ($request->filled('type')) {
+                $query->where('type', $request->type);
+            }
+
+        });
     }
 
 }

@@ -96,6 +96,13 @@
             </li>
 
             <li>
+                <a style="cursor:pointer" href="{{route('admin:sale-supply-orders.show', $item->id)}}"
+                   class="btn btn-terms-wg text-white hvr-radial-out" title="{{__('Show')}}">
+                    <i class="fa fa-eye"></i> {{__('Show')}}
+                </a>
+            </li>
+
+            <li>
                 @include('admin.partial.execution_period', ['id'=> $item->id])
             </li>
 

@@ -9,20 +9,20 @@ use App\Models\PurchaseQuotationItem;
 
 class PurchaseQuotationCompareServices
 {
-    public function filter($request, $branch_id)
+    public function filter($request, $data, $branch_id)
     {
+//        $quotationItems = PurchaseQuotationItem::with('purchaseQuotation')
 
-        $quotationItems = PurchaseQuotationItem::with('purchaseQuotation')
-            ->whereHas('purchaseQuotation', function ($q) use ($branch_id) {
+          $data  ->whereHas('purchaseQuotation', function ($q) use ($branch_id) {
                 $q->where('branch_id', $branch_id);
             });
 
         if ($request->has('part_id') && $request['part_id'] != null) {
-            $quotationItems->where('part_id', $request['part_id']);
+            $data->where('part_id', $request['part_id']);
         }
 
         if ($request->has('part_type_id') && $request['part_type_id'] != null) {
-            $quotationItems->whereHas('part', function ($q) use ($request) {
+            $data->whereHas('part', function ($q) use ($request) {
                 $q->whereHas('spareParts', function ($q) use ($request) {
                     $q->where('spare_part_type_id', $request['part_type_id']);
                 });
@@ -31,41 +31,41 @@ class PurchaseQuotationCompareServices
 
         if ($request->has('supplier_id') && $request['supplier_id'] != null) {
 
-            $quotationItems->whereHas('purchaseQuotation', function ($q) use ($request) {
+            $data->whereHas('purchaseQuotation', function ($q) use ($request) {
                 $q->where('supplier_id', $request['supplier_id']);
             });
         }
 
         if ($request->has('quotation_number') && $request['quotation_number'] != null) {
 
-            $quotationItems->whereHas('purchaseQuotation', function ($q) use ($request) {
-                $q->where('number', $request['quotation_number']);
+            $data->whereHas('purchaseQuotation', function ($q) use ($request) {
+                $q->where('id', $request['quotation_number']);
             });
         }
 
         if ($request->has('purchase_request_id') && $request['purchase_request_id'] != null) {
 
-            $quotationItems->whereHas('purchaseQuotation', function ($q) use ($request) {
+            $data->whereHas('purchaseQuotation', function ($q) use ($request) {
                 $q->where('purchase_request_id', $request['purchase_request_id']);
             });
         }
 
         if ($request->has('date_from') && $request['date_from'] != null) {
 
-            $quotationItems->whereHas('purchaseQuotation', function ($q) use ($request) {
+            $data->whereHas('purchaseQuotation', function ($q) use ($request) {
                 $q->where('created_at', '>=', $request['date_from']);
             });
         }
 
         if ($request->has('date_to') && $request['date_to'] != null) {
 
-            $quotationItems->whereHas('purchaseQuotation', function ($q) use ($request) {
+            $data->whereHas('purchaseQuotation', function ($q) use ($request) {
                 $q->where('created_at', '<=', $request['date_to']);
             });
         }
 
         if ($request->has('part_barcode') && $request['part_barcode'] != null) {
-            $quotationItems->whereHas('part', function ($q) use ($request) {
+            $data->whereHas('part', function ($q) use ($request) {
                 $q->whereHas('prices', function ($q) use ($request) {
                     $q->where('barcode', 'like', '%' . $request['part_barcode'] . '%');
                 });
@@ -73,16 +73,18 @@ class PurchaseQuotationCompareServices
         }
 
         if ($request->has('supplier_barcode') && $request['supplier_barcode'] != null) {
-            $quotationItems->whereHas('part', function ($q) use ($request) {
+            $data->whereHas('part', function ($q) use ($request) {
                 $q->whereHas('prices', function ($q) use ($request) {
                     $q->where('supplier_barcode', 'like', '%' . $request['supplier_barcode'] . '%');
                 });
             });
         }
 
-        $quotationItems = $quotationItems->get();
+        return $data;
 
-        return $quotationItems;
+//        $quotationItems = $quotationItems->get();
+//
+//        return $quotationItems;
     }
 
     public function checkItems($purchaseQuotationsItems)

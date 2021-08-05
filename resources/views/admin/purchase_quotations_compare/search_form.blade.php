@@ -11,27 +11,12 @@
 
             <!-- /.box-title -->
             <div class="card-content js__card_content">
-                <form action="{{route('admin:purchase.quotations.compare.index')}}" method="get">
+{{--                action="{{route('admin:purchase.quotations.compare.index')}}" method="get"--}}
+
+                <form  onsubmit="filterFunction($(this));return false;">
+                    <input type="hidden" name="filter" value="1">
 
                     <div class="list-inline margin-bottom-0 row">
-
-                        {{--                        @if(authIsSuperAdmin())--}}
-                        {{--                            <div class="form-group col-md-4">--}}
-                        {{--                                <label> {{ __('Branches') }} </label>--}}
-                        {{--                                <div class="input-group">--}}
-                        {{--                                    <span class="input-group-addon fa fa-file"></span>--}}
-                        {{--                                    <select name="branch_id" id="branch_id" onchange="changeBranch()">--}}
-                        {{--                                        <option value="">{{__('Select')}}</option>--}}
-                        {{--                                        @foreach ($data['branches'] as $branch)--}}
-                        {{--                                            <option value="{{$branch->id}}"--}}
-                        {{--                                                {{request()->has('branch_id') && request()['branch_id'] == $branch->id ? 'selected':''}}>--}}
-                        {{--                                                {{$branch->name}}--}}
-                        {{--                                            </option>--}}
-                        {{--                                        @endforeach--}}
-                        {{--                                    </select>--}}
-                        {{--                                </div>--}}
-                        {{--                            </div>--}}
-                        {{--                        @endif--}}
 
                         <div class="form-group col-md-4">
                             <label> {{ __('Parts Types') }} </label>
@@ -39,7 +24,7 @@
                                 <span class="input-group-addon fa fa-file"></span>
                                 <select name="part_type_id" onchange="getParts()" id="spare_part_id">
                                     <option value="">{{__('Select')}}</option>
-                                    @foreach ($data['partsTypes'] as $key=>$value)
+                                    @foreach ($partsTypes as $key=>$value)
                                         <option value="{{$key}}">
                                             {{$value}}
                                         </option>
@@ -54,7 +39,7 @@
                                 <span class="input-group-addon fa fa-file"></span>
                                 <select name="part_id" id="parts_options">
                                     <option value="">{{__('Select')}}</option>
-                                    @foreach ($data['parts'] as $part)
+                                    @foreach ($parts as $part)
                                         <option value="{{$part->id}}">
                                             {{$part->name}}
                                         </option>
@@ -70,7 +55,7 @@
                                 <span class="input-group-addon fa fa-file"></span>
                                 <select name="supplier_id" onchange="getPurchaseQuotations('suppliers')" id="supplier">
                                     <option value="">{{__('Select')}}</option>
-                                    @foreach ($data['suppliers'] as $supplier)
+                                    @foreach ($suppliers as $supplier)
                                         <option value="{{$supplier->id}}">
                                             {{$supplier->name}}
                                         </option>
@@ -85,7 +70,7 @@
                                 <span class="input-group-addon fa fa-file"></span>
                                 <select name="purchase_request_id" onchange="getPurchaseQuotations('purchase_request')" id="purchase_request">
                                     <option value="">{{__('Select')}}</option>
-                                    @foreach ($data['purchase_request'] as $purchase_request)
+                                    @foreach ($purchase_requests as $purchase_request)
                                         <option value="{{$purchase_request->id}}">
                                             {{$purchase_request->number}}
                                         </option>
@@ -100,9 +85,9 @@
                                 <span class="input-group-addon fa fa-file"></span>
                                 <select name="quotation_number" id="purchase_quotations">
                                     <option value="">{{__('Select')}}</option>
-                                    @foreach ($data['purchase_quotations'] as $purchase_quotations)
-                                        <option value="{{$purchase_quotations->id}}">
-                                            {{$purchase_quotations->number}}
+                                    @foreach ($purchase_quotations as $purchase_quotation)
+                                        <option value="{{$purchase_quotation->id}}">
+                                            {{$purchase_quotation->number}}
                                         </option>
                                     @endforeach
                                 </select>
@@ -131,15 +116,17 @@
 
                     </div>
 
-                    <button type="submit" class="btn sr4-wg-btn   waves-effect waves-light hvr-rectangle-out">
-                        <i class=" fa fa-search "></i>
-                        {{__('Search')}}
-                    </button>
+                    @include('admin.btns.btn_search')
 
-                    <a href="{{route('admin:purchase.quotations.compare.index')}}"
-                       class="btn bc-wg-btn   waves-effect waves-light hvr-rectangle-out">
-                        <i class=" fa fa-reply"></i> {{__('Back')}}
-                    </a>
+{{--                    <button type="submit" class="btn sr4-wg-btn   waves-effect waves-light hvr-rectangle-out">--}}
+{{--                        <i class=" fa fa-search "></i>--}}
+{{--                        {{__('Search')}}--}}
+{{--                    </button>--}}
+
+{{--                    <a href="{{route('admin:purchase.quotations.compare.index')}}"--}}
+{{--                       class="btn bc-wg-btn   waves-effect waves-light hvr-rectangle-out">--}}
+{{--                        <i class=" fa fa-reply"></i> {{__('Back')}}--}}
+{{--                    </a>--}}
 
                 </form>
             </div>

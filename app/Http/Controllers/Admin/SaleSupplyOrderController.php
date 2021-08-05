@@ -426,6 +426,25 @@ class SaleSupplyOrderController extends Controller
         }
     }
 
+    public function show (SaleSupplyOrder $saleSupplyOrder) {
+
+        $branch_id = $saleSupplyOrder->branch_id;
+
+        $data['taxes'] = TaxesFees::where('supply_order', 1)
+            ->where('branch_id', $branch_id)
+            ->where('type', 'tax')
+            ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
+            ->get();
+
+        $data['additionalPayments'] = TaxesFees::where('supply_order', 1)
+            ->where('branch_id', $branch_id)
+            ->where('type', 'additional_payments')
+            ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
+            ->get();
+
+        return view('admin.sale_supply_orders.info.show', compact('saleSupplyOrder', 'data'));
+    }
+
     /**
      * @param Builder $items
      * @return mixed

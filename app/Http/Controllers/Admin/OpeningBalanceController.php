@@ -342,6 +342,13 @@ class OpeningBalanceController extends Controller
         }
     }
 
+    public function print(Request $request)
+    {
+        $openingBalance = OpeningBalance::findOrFail($request['opening_balance_id']);
+        $view = view('admin.opening_balance.print', compact('openingBalance'))->render();
+        return response()->json(['view' => $view]);
+    }
+
     /**
      * @param Builder $openingBalances
      * @return mixed

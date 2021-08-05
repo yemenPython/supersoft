@@ -36,6 +36,7 @@ Route::post('sales-invoices-deleteSelected', 'SalesInvoicesController@deleteSele
 //
 //// show Invoice
 Route::get('/sales-invoices/show', 'SalesInvoicesController@show')->name('sales.invoices.show');
+Route::get('/sales-invoices/data/show/{salesInvoice}', 'SalesInvoicesController@showData')->name('sales.invoices.show.data');
 Route::get('/sales-invoices/print', 'SalesInvoicesController@print')->name('sales.invoices.print');
 //
 //// points discount (get points rules )

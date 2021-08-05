@@ -12,3 +12,5 @@ Route::post('damaged-stock/price-segments', 'DamagedStockController@priceSegment
 Route::post('damaged-stock/employees-percent', 'DamagedStockController@newEmployeesPercent')->name('damage.stock.employees.percent');
 Route::post('damaged-stock/delete-employees', 'DamagedStockController@deleteEmployee')->name('damage.stock.delete.employee');
 Route::post('damaged-stock/deleteSelected', 'DamagedStockController@deleteSelected')->name('damage.stock.deleteSelected');
+
+Route::get('/damaged-stock/print/data', 'DamagedStockController@print')->name('damage.stock.print');

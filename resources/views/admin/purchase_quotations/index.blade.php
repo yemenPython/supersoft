@@ -124,8 +124,6 @@
 
     @include('admin.partial.print_modal', ['title'=> __('Purchase Quotations')])
 
-    @include('admin.partial.print_modal', ['title'=> __('Purchase Quotations')])
-
     @include('admin.purchase_quotations.terms.supply_terms', ['items' => $data->get()])
 
 @endsection
@@ -280,7 +278,9 @@
 
             $('#purchase_quotation_id').val(id);
         }
+
         server_side_datatable('#datatable-with-btns');
+
         function filterFunction($this) {
             $("#loaderSearch").show();
             $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();

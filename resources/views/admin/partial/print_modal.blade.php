@@ -16,8 +16,7 @@
                     {{__('Close')}}</button>
             </div>
 
-            <div class="modal-body print-border" id="data_to_print"
-              style="border:1px solid #3b3b3b;margin:0 20px;border-radius:5px">
+            <div class="modal-body print-border" id="data_to_print" style="border:1px solid #3b3b3b;margin:0 20px;border-radius:5px">
 
 
             </div>

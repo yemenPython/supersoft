@@ -37,7 +37,7 @@
                     <div class="clearfix"></div>
 
                     <div class="table-responsive">
-                        <table id="cities" class="table table-bordered wg-table-print table-hover" style="width:100%">
+                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover" style="width:100%">
                             <thead>
                             <tr>
                                 <th scope="col">{!! __('#') !!}</th>
@@ -45,24 +45,20 @@
                                 @if(authIsSuperAdmin())
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
-                                <th scope="col">{!! __('Invoice number') !!}</th>
-                                <th scope="col">{!! __('Customer name') !!}</th>
-
+                                <th scope="col">{!! __('Number') !!}</th>
+                                <th scope="col">{!! __('Client') !!}</th>
                                 <th scope="col">{!! __('Total') !!}</th>
-
                                 <th scope="col">{!! __('Status') !!}</th>
                                 <th scope="col">{!! __('Execution Status') !!}</th>
                                 <th scope="col">{!! __('Created Date') !!}</th>
                                 <th scope="col">{!! __('Updated Date') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
-
                                 <th scope="col">
                                     <div class="checkbox danger">
                                         <input type="checkbox" id="select-all">
                                         <label for="select-all"></label>
                                     </div>{!! __('Select') !!}
                                 </th>
-
                             </tr>
                             </thead>
                             <tfoot>
@@ -72,138 +68,24 @@
                                 @if(authIsSuperAdmin())
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
-                                <th scope="col">{!! __('Invoice number') !!}</th>
-                                <th scope="col">{!! __('Customer name') !!}</th>
+                                <th scope="col">{!! __('Number') !!}</th>
+                                <th scope="col">{!! __('Client') !!}</th>
                                 <th scope="col">{!! __('Total') !!}</th>
                                 <th scope="col">{!! __('Status') !!}</th>
                                 <th scope="col">{!! __('Execution Status') !!}</th>
                                 <th scope="col">{!! __('Created Date') !!}</th>
                                 <th scope="col">{!! __('Updated Date') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
-                                <th scope="col">{!! __('Select') !!}</th>
+                                <th scope="col">
+                                    <div class="checkbox danger">
+                                        <input type="checkbox" id="select-all">
+                                        <label for="select-all"></label>
+                                    </div>{!! __('Select') !!}
+                                </th>
                             </tr>
                             </tfoot>
                             <tbody>
-                            @foreach($data['invoices'] as $index => $item)
-                                <tr>
-                                    <td>{!! $index +1 !!}</td>
-                                    <td class="text-danger">{{ $item->date }}</td>
 
-                                    @if(authIsSuperAdmin())
-                                        <td class="text-danger">{!! optional($item->branch)->name !!}</td>
-                                    @endif
-
-                                    <td>{{ $item->number }}</td>
-                                    <td>{{ $item->salesable ? $item->salesable->name : '---'  }}</td>
-
-
-                                    <td>
-                                    <span style="background:#F7F8CC !important">
-                                    {{ __($item->total) }}
-                                    </span>
-                                    </td>
-
-                                    <td>
-                                        @if($item->status == 'pending' )
-                                            <span class="label label-info wg-label"> {{__('pending')}}</span>
-                                        @elseif($item->status == 'processing' )
-                                            <span class="label label-success wg-label"> {{__('processing')}} </span>
-                                        @else
-                                            <span class="label label-danger wg-label"> {{__('finished')}} </span>
-                                        @endif
-
-                                    </td>
-
-
-                                    <td class="text-center column-date">
-
-                                        @if($item->execution)
-
-                                            @if($item->execution ->status == 'pending' )
-                                                <span class="label label-info wg-label"> {{__('Processing')}}</span>
-                                            @elseif($item->execution ->status == 'finished' )
-                                                <span class="label label-success wg-label"> {{__('Finished')}} </span>
-
-                                            @elseif($item->execution ->status == 'late' )
-                                                <span class="label label-danger wg-label"> {{__('Late')}} </span>
-                                            @endif
-
-                                        @else
-                                            <span class="label label-warning wg-label">
-                                                {{__('Not determined')}}
-                                            </span>
-                                        @endif
-
-                                    </td>
-
-                                    <td>{{ $item->created_at }}</td>
-                                    <td>{{ $item->updated_at }}</td>
-
-                                    <td>
-
-                                        <div class="btn-group margin-top-10">
-
-                                            <button type="button" class="btn btn-options dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="ico fa fa-bars"></i>
-                                                {{__('Options')}} <span class="caret"></span>
-
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-wg">
-                                                <li>
-                                                    @component('admin.buttons._edit_button',[
-                                                                'id'=>$item->id,
-                                                                'route' => 'admin:sales.invoices.edit',
-                                                                 ])
-                                                    @endcomponent
-                                                </li>
-
-                                                <li class="btn-style-drop">
-                                                    @component('admin.buttons._delete_button',[
-                                                                'id'=> $item->id,
-                                                                'route' => 'admin:sales.invoices.destroy',
-                                                                 ])
-                                                    @endcomponent
-                                                </li>
-
-                                                <li>
-                                                    <a style="cursor:pointer" class="btn btn-print-wg text-white  "
-                                                       data-toggle="modal"
-                                                       onclick="getPrintData({{$item->id}})"
-                                                       data-target="#boostrapModal" title="{{__('print')}}">
-                                                        <i class="fa fa-print"></i> {{__('Print')}}
-                                                    </a>
-                                                </li>
-
-                                                <li>
-                                                    <a style="cursor:pointer"
-                                                       class="btn btn-terms-wg text-white hvr-radial-out"
-                                                       data-toggle="modal" data-target="#terms_{{$item->id}}"
-                                                       title="{{__('Terms')}}">
-                                                        <i class="fa fa-check-circle"></i> {{__('Terms')}}
-                                                    </a>
-                                                </li>
-
-{{--                                                <li>--}}
-{{--                                                    @include('admin.partial.execution_period', ['id'=> $item->id])--}}
-{{--                                                </li>--}}
-
-{{--                                                <li>--}}
-{{--                                                    @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])--}}
-{{--                                                </li>--}}
-                                            </ul>
-                                        </div>
-
-                                    </td>
-                                    <td>
-                                        @component('admin.buttons._delete_selected',[
-                                                   'id' => $item->id,
-                                                    'route' => 'admin:sales.invoices.deleteSelected',
-                                                    ])
-                                        @endcomponent
-                                    </td>
-                                </tr>
-                            @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -222,7 +104,7 @@
 
     @include('admin.partial.print_modal', ['title'=> __('Sales Invoice')])
 
-    @include('admin.sales_invoice.terms.supply_terms', ['items' => $data['invoices']])
+    @include('admin.sales_invoice.terms.supply_terms', ['items' => $data->get()])
 
 @endsection
 
@@ -376,6 +258,23 @@
         function getItemValue(id) {
 
             $('#purchase_quotation_id').val(id);
+        }
+
+        server_side_datatable('#datatable-with-btns');
+
+        function filterFunction($this) {
+
+            $("#loaderSearch").show();
+
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+
+            $datatable.ajax.url($url).load();
+
+            $(".js__card_minus").trigger("click");
+
+            setTimeout( function () {
+                $("#loaderSearch").hide();
+            }, 1000)
         }
 
     </script>

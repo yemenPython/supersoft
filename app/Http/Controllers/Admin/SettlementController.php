@@ -323,6 +323,13 @@ class SettlementController extends Controller
         return redirect(route('admin:settlements.index'))->with(['message' => __('words.select-one-least'), 'alert-type' => 'error']);
     }
 
+    public function print(Request $request)
+    {
+        $settlement = Settlement::findOrFail($request['settlement_id']);
+        $view = view('admin.settlements.print', compact('settlement'))->render();
+        return response()->json(['view' => $view]);
+    }
+
     /**
      * @param Builder $items
      * @return mixed

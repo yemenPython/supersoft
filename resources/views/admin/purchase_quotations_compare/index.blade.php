@@ -39,7 +39,7 @@
                                         >
                                             <option value="">{{__('Select Branch')}}</option>
 
-                                            @foreach($data['branches'] as $branch)
+                                            @foreach($branches as $branch)
                                                 <option value="{{$branch->id}}"
                                                     {{request()->has('branch_id') && request()->branch_id == $branch->id? 'selected':''}}
                                                 >
@@ -70,11 +70,12 @@
                         <div class="clearfix"></div>
 
                         <div class="table-responsive">
-                            <table class="table table-bordered wg-table-print table-hover" id="cities"
+                            <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover"
                                    style="width:100%">
 
                                 <thead>
                                 <tr>
+                                    <th scope="col">{!! __('#') !!}</th>
                                     <th scope="col">{!! __('Purchase Quotation Number') !!}</th>
                                     <th scope="col">{!! __('Purchase Request Number') !!}</th>
                                     <th scope="col">{!! __('Supplier name') !!}</th>
@@ -105,6 +106,7 @@
 
                                 <tfoot>
                                 <tr>
+                                    <th scope="col">{!! __('#') !!}</th>
                                     <th scope="col">{!! __('Purchase Quotation Number') !!}</th>
                                     <th scope="col">{!! __('Purchase Request Number') !!}</th>
                                     <th scope="col">{!! __('Supplier') !!}</th>
@@ -130,90 +132,7 @@
                                     </th>
                                 </tr>
                                 </tfoot>
-
                                 <tbody>
-                                @foreach($data['quotationItems'] as $purchaseQuotationItems)
-
-                                    @php
-                                        $purchaseQuotation = $purchaseQuotationItems->purchaseQuotation;
-                                    @endphp
-
-                                    <tr>
-                                        <td>{{$purchaseQuotation ? $purchaseQuotation->number : '---'}}</td>
-                                        <td>
-
-                                            <span class="part-unit-span">
-                                                {{$purchaseQuotation->purchaseRequest ? $purchaseQuotation->purchaseRequest->number : __('Not determined')}}
-                                            </span>
-
-                                        </td>
-
-                                        <td>{{$purchaseQuotation && $purchaseQuotation->supplier ? $purchaseQuotation->supplier->name : '---'}}</td>
-
-                                        <td>
-                                                <span style="cursor: pointer"
-                                                      data-img="{{optional($purchaseQuotationItems->part)->image}}" data-toggle="modal"
-                                                      data-target="#part_img" title="Part image"
-                                                      class="part_img_id_{{optional($purchaseQuotationItems->part)->id}}"
-                                                      onclick="getPartImage('{{optional($purchaseQuotationItems->part)->id}}')">
-                                                    {{optional($purchaseQuotationItems->part)->name}}
-                                                </span>
-                                        </td>
-
-                                        <td>{{$purchaseQuotationItems->sparePart ? $purchaseQuotationItems->sparePart->type : '---'}}</td>
-                                        <td>
-                                            {{ $purchaseQuotationItems->partPrice && $purchaseQuotationItems->partPrice->unit ? $purchaseQuotationItems->partPrice->unit->unit : '---' }}
-                                        </td>
-                                        <td>
-                                            <span class="price-span">
-                                            {{$purchaseQuotationItems->partPriceSegment ? $purchaseQuotationItems->partPriceSegment->name : __('Not determined')}}
-                                            </span>
-                                        </td>
-                                        <td class="text-danger">
-                                            {{$purchaseQuotationItems->quantity}}
-                                        </td>
-                                        <td style="background:#FBFAD4 !important">
-                                            {{$purchaseQuotationItems->price}}
-                                        </td>
-
-                                        <td>{{__($purchaseQuotationItems->discount_type)}}</td>
-                                        <td style="background:#E3F6FB !important">
-                                            {{$purchaseQuotationItems->discount}}
-                                        </td>
-                                        <td style="background:#FBE3EA !important">
-                                            {{$purchaseQuotationItems->sub_total}}
-                                        </td>
-                                        <td style="background:#E3F6FB !important">
-                                            {{$purchaseQuotationItems->total_after_discount}}
-                                        </td>
-                                        <td>
-                                            <span style="background:#F7F8CC !important">
-                                                {{$purchaseQuotationItems->tax}}
-                                            </span>
-                                        </td>
-                                        <td style="background:#FBFAD4 !important">
-                                            {{$purchaseQuotationItems->total}}
-                                        </td>
-                                        <td>
-                                            <a style="cursor:pointer" class="btn btn-print-wg text-white  "
-                                               data-toggle="modal"
-                                               onclick="getPrintData({{$purchaseQuotation->id}})"
-                                               data-target="#boostrapModal" title="{{__('print')}}">
-                                                <i class="fa fa-print"></i> {{__('Show quotation')}}
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <div class="col-md-2" style="margin-top: 10px;">
-                                                <div class="form-group has-feedback">
-                                                    <input type="checkbox" class="item_of_all"
-                                                           name="purchase_quotations_items[]"
-                                                           value="{{$purchaseQuotationItems->id}}">
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    {{--                                    @endforeach--}}
-                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -260,12 +179,6 @@
                 }
             });
         }
-
-        {{--function changeBranch() {--}}
-
-        {{--    let branch_id = $('#branch_id').find(":selected").val();--}}
-        {{--    window.location.href = "{{route('admin:purchase.quotations.compare.index')}}" + "?branch_id=" + branch_id;--}}
-        {{--}--}}
 
         function getParts() {
 
@@ -340,6 +253,23 @@
 
             let image_path = $('.part_img_id_' + index).data('img');
             $('#part_image').attr('src', image_path);
+        }
+
+        server_side_datatable('#datatable-with-btns');
+
+        function filterFunction($this) {
+
+            $("#loaderSearch").show();
+
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+
+            $datatable.ajax.url($url).load();
+
+            $(".js__card_minus").trigger("click");
+
+            setTimeout( function () {
+                $("#loaderSearch").hide();
+            }, 1000)
         }
 
     </script>

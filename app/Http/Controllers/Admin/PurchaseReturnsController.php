@@ -584,7 +584,7 @@ class PurchaseReturnsController extends Controller
                 return $item->invoice_number;
             })
             ->addColumn('supplier_name', function ($item)  {
-                return $item->supplier_name;
+                return $item->supplier ? $item->supplier->name : '---' ;
             })
             ->addColumn('type', function ($item) use ($viewPath) {
                 $type = true;

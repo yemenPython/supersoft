@@ -70,12 +70,21 @@
                 @endcomponent
 
             </li>
+
             <li class="btn-style-drop">
                 @component('admin.buttons._delete_button',[
                         'id'=> $item->id,
                         'route' => 'admin:settlements.destroy',
                          ])
                 @endcomponent
+            </li>
+
+            <li>
+                <a style="cursor:pointer" class="btn btn-print-wg text-white" data-toggle="modal"
+                   onclick="getPrintData({{$item->id}})"
+                   data-target="#boostrapModal" title="{{__('print')}}">
+                    <i class="fa fa-print"></i> {{__('Print')}}
+                </a>
             </li>
 
         </ul>

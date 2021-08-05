@@ -30,6 +30,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [
 
 //NEW OPENING BALANCE
 Route::resource('opening-balance', 'OpeningBalanceController');
+Route::get('/opening-balance/print/data', 'OpeningBalanceController@print')->name('opening.balance.print');
 Route::post('opening-balance/deleteSelected' ,'OpeningBalanceController@deleteSelected')->name('opening-balance.deleteSelected');
 
 //AJAX

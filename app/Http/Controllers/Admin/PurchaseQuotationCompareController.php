@@ -14,12 +14,14 @@ use App\Models\SupplyOrderItem;
 use App\Services\PurchaseQuotationCompareServices;
 use App\Services\SupplyOrderServices;
 use App\Traits\SubTypesServices;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\DataTables;
 
 class PurchaseQuotationCompareController extends Controller
 {
@@ -40,23 +42,21 @@ class PurchaseQuotationCompareController extends Controller
     {
         $branch_id = $request->has('branch_id') ? $request['branch_id'] : auth()->user()->branch_id;
 
-        $data['quotationItems'] = $this->purchaseQuotationCompareServices->filter($request, $branch_id);
-
-        $data['purchase_quotations'] = PurchaseQuotation::where('branch_id', $branch_id)
+        $purchase_quotations = PurchaseQuotation::where('branch_id', $branch_id)
             ->select('id', 'number')
             ->get();
 
-        $data['purchase_request'] = PurchaseRequest::where('branch_id', $branch_id)
+        $purchase_requests = PurchaseRequest::where('branch_id', $branch_id)
             ->select('id', 'number')
             ->get();
 
-        $data['parts'] = Part::where('branch_id', $branch_id)
+        $parts = Part::where('branch_id', $branch_id)
             ->select('id', 'name_' . $this->lang)
             ->get();
 
-        $data['branches'] = Branch::select('id', 'name_' . $this->lang)->get();
+        $branches = Branch::select('id', 'name_' . $this->lang)->get();
 
-        $data['suppliers'] = Supplier::where('branch_id', $branch_id)
+        $suppliers = Supplier::where('branch_id', $branch_id)
             ->select('id', 'name_' . $this->lang)
             ->get();
 
@@ -66,9 +66,32 @@ class PurchaseQuotationCompareController extends Controller
             ->select('id', 'type_' . $this->lang)
             ->get();
 
-        $data['partsTypes'] = $this->getAllPartTypes($mainTypes);
+        $partsTypes = $this->getAllPartTypes($mainTypes);
 
-        return view('admin.purchase_quotations_compare.index', compact('data'));
+        $data = PurchaseQuotationItem::query()->whereHas('purchaseQuotation', function ($q) use($branch_id){
+            $q->where('branch_id', $branch_id);
+        })->latest();
+
+        if ($request->filled('filter')) {
+            $data = $this->purchaseQuotationCompareServices->filter($request, $data, $branch_id);
+        }
+
+        if ($request->isDataTable) {
+            return $this->dataTableColumns($data);
+
+        } else {
+
+            return view('admin.purchase_quotations_compare.index', [
+                'data' => $data,
+                'purchase_quotations' => $purchase_quotations,
+                'purchase_requests' => $purchase_requests,
+                'parts' => $parts,
+                'suppliers' => $suppliers,
+                'branches' => $branches,
+                'partsTypes' => $partsTypes,
+                'js_columns' => PurchaseQuotationItem::getJsDataTablesColumns(),
+            ]);
+        }
     }
 
     public function store(Request $request)
@@ -254,4 +277,98 @@ class PurchaseQuotationCompareController extends Controller
             return response()->json('sorry, please try later', 400);
         }
     }
+
+    /**
+     * @param Builder $items
+     * @return mixed
+     * @throws Throwable
+     */
+    private function dataTableColumns(Builder $items)
+    {
+        $viewPath = 'admin.purchase_quotations_compare.datatables.options';
+
+        return DataTables::of($items)->addIndexColumn()
+
+            ->addColumn('quotation_number', function ($item) use ($viewPath) {
+
+                return $item->purchaseQuotation ? $item->purchaseQuotation->number : '---';
+            })
+            ->addColumn('purchase_request_number', function ($item) use ($viewPath) {
+                $withPurchaseRequest = true;
+                return view($viewPath, compact('item', 'withPurchaseRequest'))->render();
+            })
+            ->addColumn('supplier_id', function ($item) {
+                return $item->purchaseQuotation && $item->purchaseQuotation->supplier  ? $item->purchaseQuotation->supplier->name : '' ;
+            })
+            ->addColumn('part_id', function ($item) use ($viewPath) {
+                return $item->part ? $item->part->name : '---';
+            })
+            ->addColumn('spare_part_id', function ($item) use ($viewPath) {
+                return $item->sparePart ? $item->sparePart->type : '---';
+            })
+            ->addColumn('part_price_id', function ($item) use ($viewPath) {
+                return $item->partPrice &&  $item->partPrice->unit  ? $item->partPrice->unit->unit : '---';
+            })
+            ->addColumn('part_price_segment_id', function ($item) use ($viewPath) {
+                return $item->partPriceSegment ? $item->partPriceSegment->name : '---';
+            })
+            ->addColumn('quantity', function ($item) use ($viewPath) {
+                return $item->quantity ;
+            })
+            ->addColumn('price', function ($item) {
+                return $item->price;
+            })
+
+            ->addColumn('discount_type', function ($item) {
+                return $item->discount_type;
+            })
+            ->addColumn('discount', function ($item) {
+                return $item->discount;
+            })
+
+            ->addColumn('sub_total', function ($item) {
+                return $item->sub_total;
+            })
+
+            ->addColumn('total_after_discount', function ($item) {
+                return $item->total_after_discount;
+            })
+            ->addColumn('tax', function ($item) {
+                return $item->tax;
+            })
+
+            ->addColumn('total', function ($item) {
+                return $item->total;
+            })
+
+            ->addColumn('action', function ($item) use ($viewPath) {
+                $withActions = true;
+                return view($viewPath, compact('item', 'withActions'))->render();
+
+            })->addColumn('options', function ($item) use ($viewPath) {
+                $withOptions = true;
+                return view($viewPath, compact('item', 'withOptions'))->render();
+
+            })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
+    }
+
+//    private function filter(Request $request, Builder $data): Builder
+//    {
+//
+//        return $data->where(function ($query) use ($request) {
+//
+//            if ($request->filled('branch_id')) {
+//                $query->where('branch_id', $request->branch_id);
+//            }
+//
+//            if ($request->filled('number')) {
+//                $query->where('number', $request->number);
+//            }
+//
+//            if ($request->filled('type')) {
+//                $query->where('type', $request->type);
+//            }
+//
+//        });
+//    }
 }

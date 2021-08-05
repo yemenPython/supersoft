@@ -18,6 +18,35 @@ class SalesInvoice extends Model
 
     protected $table = 'sales_invoices';
 
+    /**
+     * @var string[]
+     */
+    protected static $dataTableColumns = [
+        'DT_RowIndex' => 'DT_RowIndex',
+        'date' => 'date',
+        'branch_id' => 'branch_id',
+        'number' => 'number',
+        'salesable_id' => 'salesable_id',
+        'total' => 'total',
+        'status' => 'status',
+        'executionStatus' => 'executionStatus',
+        'created_at' => 'created_at',
+        'updated_at' => 'updated_at',
+        'action' => 'action',
+        'options' => 'options'
+    ];
+
+    /**
+     * @return string[]
+     */
+    public static function getJsDataTablesColumns(): array
+    {
+        if (!authIsSuperAdmin()) {
+            unset(self::$dataTableColumns['branch_id']);
+        }
+        return self::$dataTableColumns;
+    }
+
     protected static $logAttributes = ['number', 'created_by', 'type', 'discount_type', 'total_after_discount', 'sub_total', 'total'];
 
     protected static $logOnlyDirty = true;

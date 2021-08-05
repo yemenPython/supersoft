@@ -113,13 +113,20 @@
                 </a>
             </li>
 
+            <li>
+                <a style="cursor:pointer" href="{{route('admin:sale-quotations.show', $item->id)}}"
+                   class="btn btn-terms-wg text-white hvr-radial-out" title="{{__('Show')}}">
+                    <i class="fa fa-eye"></i> {{__('Show')}}
+                </a>
+            </li>
 
             <li>
                 @include('admin.partial.execution_period', ['id'=> $item->id])
             </li>
 
             <li>
-                @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])                                            </li>
+                @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])
+            </li>
 
         </ul>
     </div>

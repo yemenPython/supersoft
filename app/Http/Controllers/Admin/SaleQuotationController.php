@@ -355,6 +355,25 @@ class SaleQuotationController extends Controller
         }
     }
 
+    public function show (SaleQuotation $saleQuotation) {
+
+        $branch_id = $saleQuotation->branch_id;
+
+        $taxes = TaxesFees::where('active_offers', 1)
+            ->where('branch_id', $branch_id)
+            ->where('type', 'tax')
+            ->select('id','value', 'tax_type','execution_time', 'name_' . $this->lang)
+            ->get();
+
+        $additionalPayments = TaxesFees::where('active_offers', 1)
+            ->where('branch_id', $branch_id)
+            ->where('type', 'additional_payments')
+            ->select('id','value', 'tax_type','execution_time', 'name_' . $this->lang)
+            ->get();
+
+        return view('admin.sale_quotations.info.show', compact('saleQuotation', 'taxes', 'additionalPayments'));
+    }
+
     /**
      * @param Builder $items
      * @return mixed
