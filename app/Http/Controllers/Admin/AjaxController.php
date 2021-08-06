@@ -39,6 +39,7 @@ class AjaxController extends Controller
     protected $number;
     protected $supply_order_number;
     protected $invoice_type;
+    protected $type;
 
     public function AutoComplete(Request $request)
     {
@@ -83,6 +84,8 @@ class AjaxController extends Controller
                 && $request->supply_order_number != __('words.select-one')) ? $request->supply_order_number : '';
             $this->invoice_type = ($request->has('invoice_type') && !empty($request->invoice_type)
                 && $request->invoice_type != __('words.select-one')) ? $request->invoice_type : '';
+            $this->type = ($request->has('type') && !empty($request->type)
+                && $request->type != __('words.select-one')) ? $request->type : '';
 
 
             switch ($request->model) {
@@ -1046,6 +1049,10 @@ class AjaxController extends Controller
             $assetsItemExpenses = $assetsItemExpenses->where('branch_id', $branchId);
         }
 
+        if (!empty($this->supplier_id)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('supplier_id', $this->supplier_id);
+        }
+
         if (!empty($this->supply_order_number)) {
             $assetsItemExpenses = $assetsItemExpenses->where('supply_order_id', $this->supply_order_number);
         }
@@ -1085,8 +1092,24 @@ class AjaxController extends Controller
             $assetsItemExpenses = $assetsItemExpenses->where('supplier_id', $this->supplier_id);
         }
 
+        if (!empty($this->supplier_id)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('supplier_id', $this->supplier_id);
+        }
+
+        if (!empty($this->supply_order_number)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('supply_order_id', $this->supply_order_number);
+        }
+
         if (!empty($this->invoice_type)) {
             $assetsItemExpenses = $assetsItemExpenses->where('invoice_type', $this->invoice_type);
+        }
+
+        if (!empty($this->type) && $this->type != 'together') {
+            $assetsItemExpenses = $assetsItemExpenses->where('type', $this->type);
+        }
+
+        if (!empty($this->type) && $this->type == 'together') {
+            $assetsItemExpenses = $assetsItemExpenses->whereIn('type', ['credit', 'cash']);
         }
 
         $assetsItemExpenses = $assetsItemExpenses->limit($limit)->get();
