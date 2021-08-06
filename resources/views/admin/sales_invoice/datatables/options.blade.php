@@ -50,7 +50,7 @@
             <li>
                 @component('admin.buttons._edit_button',[
                             'id'=>$item->id,
-                            'route' => 'admin:sale-supply-orders.edit',
+                            'route' => 'admin:sales.invoices.edit',
                              ])
                 @endcomponent
             </li>
@@ -58,7 +58,7 @@
             <li class="btn-style-drop">
                 @component('admin.buttons._delete_button',[
                             'id'=> $item->id,
-                            'route' => 'admin:sale-supply-orders.destroy',
+                            'route' => 'admin:sales.invoices.destroy',
                              ])
                 @endcomponent
             </li>
