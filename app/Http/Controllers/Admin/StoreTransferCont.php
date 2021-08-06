@@ -45,9 +45,11 @@ class StoreTransferCont extends Controller
         }
 
         $branch_id = NULL;
+
         if (authIsSuperAdmin()) {
             $branch_id = $request->has('branch_id') ? $request->branch_id : NULL;
         }
+
         $total = $request->has('total') ? $request->total : NULL;
         $concession_status = $request->has('concession_status') ? $request->concession_status : NULL;
         $store_from = $request->has('store_from') ? $request->store_from : NULL;
@@ -63,6 +65,7 @@ class StoreTransferCont extends Controller
         $stores = Store::select('id', 'name_ar', 'name_en')->get();
         $parts = Part::select('id', 'name_' . $this->lang)->get();
         $numbers = StoreTransfer::select('id', 'transfer_number')->get();
+
         $collection = StoreTransfer::with(['store_from', 'store_to'])->latest()
             ->when($store_from, function ($q) use ($store_from) {
                 $q->where('store_from_id', $store_from);

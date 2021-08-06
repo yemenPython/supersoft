@@ -52,47 +52,47 @@
                     <div class="clearfix"></div>
                     <div class="table-responsive">
                         <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover" style="width:100%;margin-top:15px">
-                        <thead>
-                        <tr>
-                            <th class="text-center" scope="col">#</th>
-                            @if(authIsSuperAdmin())
-                                <th scope="col" class="text-center">{!! __('Branch') !!}</th>
-                            @endif
-                            <th class="text-center" scope="col">{!! __('words.transfer-date') !!}</th>
-                            <th class="text-center" scope="col">{{ __('opening-balance.serial-number') }}</th>
-                            <th class="text-center" scope="col">{!! __('words.store-from') !!}</th>
-                            <th class="text-center" scope="col">{!! __('words.store-to') !!}</th>
-                            <th class="text-center" scope="col">{!! __('Total') !!}</th>
-                            <th class="text-center" scope="col">{!! __('Concession Status') !!}</th>
-                            <th class="text-center" scope="col">{!! __('Created At') !!}</th>
-                            <th class="text-center" scope="col">{!! __('Updated At') !!}</th>
-                            <th scope="col">{!! __('Options') !!}</th>
-                            <th scope="col">
-                                <div class="checkbox danger">
-                                    <input type="checkbox"  id="select-all">
-                                    <label for="select-all"></label>
-                                </div>{!! __('Select') !!}</th>
-                        </tr>
-                        </thead>
-                        <tfoot>
-                        <tr>
-                        <th class="text-center" scope="col">#</th>
-                            @if(authIsSuperAdmin())
-                                <th scope="col" class="text-center">{!! __('Branch') !!}</th>
-                            @endif
-                        <th class="text-center" scope="col">{!! __('words.transfer-date') !!}</th>
-                            <th class="text-center" scope="col">{{ __('opening-balance.serial-number') }}</th>
-                            <th class="text-center" scope="col">{!! __('words.store-from') !!}</th>
-                            <th class="text-center" scope="col">{!! __('words.store-to') !!}</th>
-                            <th class="text-center" scope="col">{!! __('Total') !!}</th>
-                            <th class="text-center" scope="col">{!! __('Concession Status') !!}</th>
-                            <th class="text-center" scope="col">{!! __('Created At') !!}</th>
-                            <th class="text-center" scope="col">{!! __('Updated At') !!}</th>
-                            <th scope="col">{!! __('Options') !!}</th>
-                            <th scope="col">{!! __('Select') !!}</th>
-                        </tr>
-                        </tfoot>
-                    </table></div>
+                            <thead>
+                            <tr>
+                                <th class="text-center" scope="col">#</th>
+                                @if(authIsSuperAdmin())
+                                    <th scope="col" class="text-center">{!! __('Branch') !!}</th>
+                                @endif
+                                <th class="text-center" scope="col">{!! __('words.transfer-date') !!}</th>
+                                <th class="text-center" scope="col">{{ __('opening-balance.serial-number') }}</th>
+                                <th class="text-center" scope="col">{!! __('words.store-from') !!}</th>
+                                <th class="text-center" scope="col">{!! __('words.store-to') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Total') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Concession Status') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Created At') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Updated At') !!}</th>
+                                <th scope="col">{!! __('Options') !!}</th>
+                                <th scope="col">
+                                    <div class="checkbox danger">
+                                        <input type="checkbox"  id="select-all">
+                                        <label for="select-all"></label>
+                                    </div>{!! __('Select') !!}</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                            <tr>
+                                <th class="text-center" scope="col">#</th>
+                                @if(authIsSuperAdmin())
+                                    <th scope="col" class="text-center">{!! __('Branch') !!}</th>
+                                @endif
+                                <th class="text-center" scope="col">{!! __('words.transfer-date') !!}</th>
+                                <th class="text-center" scope="col">{{ __('opening-balance.serial-number') }}</th>
+                                <th class="text-center" scope="col">{!! __('words.store-from') !!}</th>
+                                <th class="text-center" scope="col">{!! __('words.store-to') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Total') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Concession Status') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Created At') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Updated At') !!}</th>
+                                <th scope="col">{!! __('Options') !!}</th>
+                                <th scope="col">{!! __('Select') !!}</th>
+                            </tr>
+                            </tfoot>
+                        </table></div>
                 </div>
             </div>
         </div>
