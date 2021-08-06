@@ -86,17 +86,24 @@
 
                     <div class="col-md-4">
                         <label style="display:block">{{__('Quotation type')}}</label>
-                        <div class="col-md-6" style="padding:0">
+                        <div class="col-md-4" style="padding:0">
                             <div class="radio primary ">
                                 <input type="radio" name="type" value="cash" id="cash">
                                 <label for="cash">{{__('Cash')}}</label>
                             </div>
                         </div>
 
-                        <div class="col-md-6" style="padding:0">
+                        <div class="col-md-4" style="padding:0">
                             <div class="radio primary ">
                                 <input type="radio" name="type" id="credit" value="credit">
                                 <label for="credit">{{__('Credit')}}</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4" style="padding:0">
+                            <div class="radio primary ">
+                                <input type="radio" name="type" id="together" value="together">
+                                <label for="together">{{__('Together')}}</label>
                             </div>
                         </div>
                     </div>

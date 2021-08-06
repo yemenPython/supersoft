@@ -23,8 +23,12 @@ class PurchaseInvoiceFilter
                 $query->where('invoice_type', $request->invoice_type);
             }
 
-            if ($request->filled('type')) {
+            if ($request->filled('type') && $request->type != 'together') {
                 $query->where('type', $request->type);
+            }
+
+            if ($request->filled('type') && $request->type == 'together') {
+                $query->whereIn('type', ['credit', 'cash']);
             }
 
             if ($request->filled('supplier_id')) {
