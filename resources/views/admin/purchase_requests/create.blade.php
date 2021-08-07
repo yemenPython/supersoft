@@ -94,10 +94,8 @@
     <script src="{{asset('assets/scripts/treeview.init.min.js')}}"></script>
 
 
-
     <script type="application/javascript">
 
-        
         function changeBranch () {
 
             let branch_id = $('#branch_id').find(":selected").val();
@@ -350,6 +348,30 @@
 
             let image_path = $('#part_img_id_' + index).data('img');
             $('#part_image').attr('src', image_path);
+        }
+
+        function quantityValidation (index, message) {
+
+            let quantity = $('#quantity_' + index).val();
+
+            if (quantity <= 0) {
+
+                swal({text: message, icon: "warning"});
+
+                $('#quantity_' + index).val(1);
+            }
+        }
+
+        function approvalQuantityValidation (index, message) {
+
+            let quantity = $('.quantity_' + index).val();
+
+            if (quantity <= 0) {
+
+                swal({text: message, icon: "warning"});
+
+                $('.quantity_' + index).val(1);
+            }
         }
 
     </script>

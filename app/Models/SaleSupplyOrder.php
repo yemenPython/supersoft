@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class SaleSupplyOrder extends Model
 {
-    protected $fillable = ['number', 'branch_id', 'date', 'time', 'user_id', 'customer_id', 'status',
+    protected $fillable = ['number', 'branch_id', 'date', 'time', 'user_id', 'status',
         'sub_total', 'discount', 'discount_type', 'total_after_discount', 'tax', 'total', 'type',
         'additional_payments', 'description', 'library_path', 'customer_discount', 'customer_discount_type',
-        'customer_discount_active', 'supply_date_from', 'supply_date_to'];
+        'customer_discount_active', 'supply_date_from', 'supply_date_to', 'salesable_id', 'salesable_type', 'type_for'];
 
     protected $table = 'sale_supply_orders';
 
@@ -22,6 +22,8 @@ class SaleSupplyOrder extends Model
         'date' => 'date',
         'branch_id' => 'branch_id',
         'number' => 'number',
+        'type_for' => 'type_for',
+        'salesable_id' => 'salesable_id',
         'total' => 'total',
         'different_days' => 'different_days',
         'remaining_days' => 'remaining_days',
@@ -111,5 +113,10 @@ class SaleSupplyOrder extends Model
             unset(self::$dataTableColumns['branch_id']);
         }
         return self::$dataTableColumns;
+    }
+
+    public function salesable()
+    {
+        return $this->morphTo();
     }
 }

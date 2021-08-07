@@ -188,6 +188,8 @@
 
                     $('.js-example-basic-single').select2();
 
+                    executeAllItems();
+
                     reorderItems();
                 },
 
@@ -246,6 +248,23 @@
 
             let image_path = $('#part_img_id_' + index).data('img');
             $('#part_image').attr('src', image_path);
+        }
+
+        function checkBranchValidation() {
+
+            let branch_id = $('#branch_id').find(":selected").val();
+
+            let isSuperAdmin = '{{authIsSuperAdmin()}}';
+
+            if (!isSuperAdmin) {
+                return true;
+            }
+
+            if (branch_id) {
+                return true;
+            }
+
+            return false;
         }
 
     </script>

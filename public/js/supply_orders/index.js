@@ -388,4 +388,46 @@ function supplierDiscount () {
     }
 }
 
+function quantityValidation (index, message) {
+
+    let quantity = $('#quantity_' + index).val();
+
+    if (quantity <= 0) {
+
+        swal({text: message, icon: "warning"});
+
+        $('#quantity_' + index).val(1);
+
+        calculateItem(index);
+    }
+}
+
+function priceValidation (index, message) {
+
+    let price = $('#price_' + index).val();
+
+    if (price < 0) {
+
+        swal({text: message, icon: "warning"});
+
+        $('#price_' + index).val(0);
+
+        calculateItem(index);
+    }
+}
+
+function discountValidation (index, message) {
+
+    let discount = $('#discount_' + index).val();
+
+    if (discount < 0) {
+
+        swal({text: message, icon: "warning"});
+
+        $('#discount_' + index).val(0);
+
+        calculateItem(index);
+    }
+}
+
 

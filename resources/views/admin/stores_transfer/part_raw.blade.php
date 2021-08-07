@@ -104,9 +104,9 @@
 
     <td>
         <input style="width: 120px !important;" type="number" class="form-control border1" id="quantity_{{$index}}"
-               onkeyup="checkPartQuantity('{{$index}}'); calculateItem('{{$index}}')"
+               onkeyup="checkPartQuantity('{{$index}}'); calculateItem('{{$index}}'); quantityValidation('{{$index}}','{{__('sorry, quantity not  valid')}}')"
                onchange="checkPartQuantity('{{$index}}'); calculateItem('{{$index}}')"
-               value="{{isset($item) ? $item->quantity : 0}}" min="0" name="items[{{$index}}][quantity]">
+               value="{{isset($item) ? $item->quantity : 1}}" min="1" name="items[{{$index}}][quantity]">
     </td>
 
     <td>

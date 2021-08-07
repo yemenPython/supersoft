@@ -105,7 +105,6 @@
                 </div>
             </div>
 
-
             <div class="col-md-12">
 
                 <div class="col-md-3">
@@ -181,15 +180,72 @@
                     </div>
                 </div>
 
+                <div class="col-md-3">
 
-                <div class="col-md-6">
+                    <label style="display:block">{{__('Invoice type form')}}</label>
+
+                    <div class="col-md-6" style="padding:0">
+
+                        <div class="radio primary ">
+
+                            <input type="radio" name="type_for" value="customer" id="customer_radio" onclick="changeTypeFor()"
+                                {{ !isset($saleSupplyOrder) ? 'checked':'' }}
+                                {{isset($saleSupplyOrder) && $saleSupplyOrder->type_for == 'customer' ? 'checked':''}} >
+                            <label for="customer_radio">{{__('Customer')}}</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" style="padding:0">
+
+                        <div class="radio primary ">
+
+                            <input type="radio" name="type_for" id="supplier_radio" value="supplier" onclick="changeTypeFor()"
+                                {{isset($saleSupplyOrder) && $saleSupplyOrder->type_for == 'supplier' ? 'checked':''}} >
+                            <label for="supplier_radio">{{__('Supplier')}}</label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-3" id="suppliers_data"
+                     style="{{!isset($saleSupplyOrder) || (isset($saleSupplyOrder) && $saleSupplyOrder->type_for == 'customer')? 'display:none;':'' }}">
+                    <div class="form-group has-feedback">
+                        <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
+                        <div class="input-group">
+                            <span class="input-group-addon fa fa-user"></span>
+
+                            <select class="form-control js-example-basic-single {{(isset($saleSupplyOrder) && $saleSupplyOrder->type_for == 'supplier' ? 'client_select':'')}}"
+                                    name="salesable_id" id="supplier_id" onchange="selectClient()"
+                                {{!isset($saleSupplyOrder) || (isset($saleSupplyOrder) && $saleSupplyOrder->type_for == 'customer') ? 'disabled':''}}>
+
+                                <option value="">{{__('Select')}}</option>
+
+                                @foreach($data['suppliers'] as $supplier)
+                                    <option value="{{$supplier->id}}"
+                                            data-discount="{{$supplier->group_discount}}"
+                                            data-discount-type="{{$supplier->group_discount_type}}"
+                                        {{isset($saleSupplyOrder) && $saleSupplyOrder->type_for == 'supplier' && $saleSupplyOrder->salesable_id == $supplier->id? 'selected':''}}>
+                                        {{$supplier->name}}
+                                    </option>
+                                @endforeach
+
+                            </select>
+                        </div>
+
+                        {{input_error($errors,'salesable_id')}}
+                    </div>
+                </div>
+
+                <div class="col-md-3" id="customers_data"
+                     style="{{ (isset($saleSupplyOrder) && $saleSupplyOrder->type_for != 'customer')? 'display:none;':'' }}">
                     <div class="form-group has-feedback">
                         <label for="inputStore" class="control-label">{{__('Customer name')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon fa fa-user"></span>
 
-                            <select class="form-control js-example-basic-single" name="customer_id" id="customer_id"
-                                    onchange="quotationType(); selectSupplier()">
+                            <select class="form-control js-example-basic-single {{(isset($saleSupplyOrder) && $saleSupplyOrder->type_for != 'customer' ? '':'client_select')}}"
+                                    name="salesable_id" id="customer_id" onchange="selectClient()"
+                                {{(isset($saleSupplyOrder) && $saleSupplyOrder->type_for != 'customer')? 'disabled':''}}>
                                 <option value="">{{__('Select')}}</option>
 
                                 @foreach($data['customers'] as $customer)
@@ -198,7 +254,7 @@
                                             data-discount="{{$customer->group_sales_discount}}"
                                             data-discount-type="{{$customer->group_sales_discount_type}}"
 
-                                        {{isset($saleSupplyOrder) && $saleSupplyOrder->customer_id == $customer->id? 'selected':''}}>
+                                        {{isset($saleSupplyOrder) && $saleSupplyOrder->type_for == 'customer' && $saleSupplyOrder->salesable_id == $customer->id? 'selected':''}}>
                                         {{$customer->name}}
                                     </option>
                                 @endforeach
@@ -206,9 +262,38 @@
                             </select>
                         </div>
 
-                        {{input_error($errors,'customer_id')}}
+                        {{input_error($errors,'salesable_id')}}
                     </div>
                 </div>
+
+
+{{--                <div class="col-md-6">--}}
+{{--                    <div class="form-group has-feedback">--}}
+{{--                        <label for="inputStore" class="control-label">{{__('Customer name')}}</label>--}}
+{{--                        <div class="input-group">--}}
+{{--                            <span class="input-group-addon fa fa-user"></span>--}}
+
+{{--                            <select class="form-control js-example-basic-single" name="customer_id" id="customer_id"--}}
+{{--                                    onchange="quotationType(); selectSupplier()">--}}
+{{--                                <option value="">{{__('Select')}}</option>--}}
+
+{{--                                @foreach($data['customers'] as $customer)--}}
+{{--                                    <option value="{{$customer->id}}"--}}
+
+{{--                                            data-discount="{{$customer->group_sales_discount}}"--}}
+{{--                                            data-discount-type="{{$customer->group_sales_discount_type}}"--}}
+
+{{--                                        {{isset($saleSupplyOrder) && $saleSupplyOrder->customer_id == $customer->id? 'selected':''}}>--}}
+{{--                                        {{$customer->name}}--}}
+{{--                                    </option>--}}
+{{--                                @endforeach--}}
+
+{{--                            </select>--}}
+{{--                        </div>--}}
+
+{{--                        {{input_error($errors,'customer_id')}}--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
                 <div class="col-md-3">
                     <div class="form-group has-feedback">

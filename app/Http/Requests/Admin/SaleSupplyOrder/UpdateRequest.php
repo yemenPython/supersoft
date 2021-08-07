@@ -30,13 +30,13 @@ class UpdateRequest extends FormRequest
             'time' => 'required',
             'supply_date_from' => 'nullable|date',
             'supply_date_to' => 'nullable|date|after_or_equal:date_from',
-            'customer_id' => 'required|integer|exists:customers,id',
             'discount' => 'required|numeric|min:0',
             'discount_type' => 'required|string|in:amount,percent',
             'customer_discount'=>'required|numeric|min:0',
             'customer_discount_type'=>'required|string|in:amount,percent',
             'status'=>'required|string|in:pending,processing,finished',
             'type'=>'required|string|in:from_sale_quotation,normal',
+            'type_for' => 'required|string|in:supplier,customer',
 
             'items.*.part_id' => 'required|integer|exists:parts,id',
             'items.*.part_price_id' => 'required|integer|exists:part_prices,id',
@@ -68,6 +68,14 @@ class UpdateRequest extends FormRequest
                 }),
             ];
 
+
+        if (request()->type_for == 'supplier') {
+            $rules['salesable_id'] = 'required|integer|exists:suppliers,id';
+        }
+
+        if (request()->type_for == 'customer') {
+            $rules['salesable_id'] = 'required|integer|exists:customers,id';
+        }
 
         return $rules;
     }

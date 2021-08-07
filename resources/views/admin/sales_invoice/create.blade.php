@@ -255,6 +255,8 @@
 
                     $('.js-example-basic-single').select2();
 
+                    executeAllItems();
+
                     reorderItems();
                 },
 

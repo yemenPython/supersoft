@@ -204,6 +204,8 @@
 
                     $("#modals_part_types").append(data.partTypesView);
 
+                    executeAllItems();
+
                     $('.js-example-basic-single').select2();
 
                     reorderItems();
@@ -309,6 +311,8 @@
                     $("#parts_data").html(data.view);
                     $("#items_count").val(data.index);
                     $(".remove_for_new_purchase_request").remove();
+
+                    executeAllItems();
 
                     for (var i in data.partTypesViews) {
                         $("#modals_part_types").append(data.partTypesViews[i]);

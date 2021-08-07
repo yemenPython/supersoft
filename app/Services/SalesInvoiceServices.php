@@ -49,6 +49,7 @@ class SalesInvoiceServices
         $data = [
 
             'number' => $data_request['number'],
+            'invoice_type' => $data_request['invoice_type'],
             'type_for' => $data_request['type_for'],
             'salesable_id' => $data_request['salesable_id'] ?? null,
             'salesable_type' => $data_request['type_for'] == 'customer' ? 'App\Models\Customer':'App\Models\Supplier',

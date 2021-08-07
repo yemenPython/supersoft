@@ -90,16 +90,22 @@ class SaleQuotationController extends Controller
             ->select('id','value', 'tax_type','execution_time', 'name_' . $this->lang)
             ->get();
 
+        $suppliers = Supplier::where('status', 1)
+            ->where('branch_id', $branch_id)
+            ->select('id', 'name_' . $this->lang, 'group_id', 'sub_group_id')
+            ->get();
+
         $customers = Customer::where('status', 1)
             ->where('branch_id', $branch_id)
             ->select('id', 'name_' . $this->lang, 'customer_category_id')
             ->get();
 
         return view('admin.sale_quotations.create',
-            compact('branches', 'mainTypes', 'subTypes','additionalPayments', 'parts', 'taxes', 'customers'));
+            compact('branches', 'mainTypes', 'subTypes','additionalPayments', 'parts', 'taxes', 'customers', 'suppliers'));
     }
 
     public function store(CreateRequest $request) {
+
 
         if (!$request->has('items')) {
             return redirect()->back()->with(['message'=>'sorry, please select items', 'alert-type'=>'error']);
@@ -135,7 +141,6 @@ class SaleQuotationController extends Controller
         }catch (\Exception $e) {
             DB::rollBack();
 
-            dd($e->getMessage());
             return redirect()->back()->with(['message'=>'sorry, please try later', 'alert-type'=>'error']);
         }
 
@@ -161,11 +166,6 @@ class SaleQuotationController extends Controller
             ->select('name_' . $this->lang, 'id')
             ->get();
 
-        $suppliers = Supplier::where('status', 1)
-            ->where('branch_id', $branch_id)
-            ->select('id','name_' . $this->lang, 'group_id', 'sub_group_id')
-            ->get();
-
         $taxes = TaxesFees::where('active_offers', 1)
             ->where('branch_id', $branch_id)
             ->where('type', 'tax')
@@ -178,6 +178,11 @@ class SaleQuotationController extends Controller
             ->select('id','value', 'tax_type','execution_time', 'name_' . $this->lang)
             ->get();
 
+        $suppliers = Supplier::where('status', 1)
+            ->where('branch_id', $branch_id)
+            ->select('id', 'name_' . $this->lang, 'group_id', 'sub_group_id')
+            ->get();
+
         $customers = Customer::where('status', 1)
             ->where('branch_id', $branch_id)
             ->select('id', 'name_' . $this->lang, 'customer_category_id')
@@ -185,7 +190,7 @@ class SaleQuotationController extends Controller
 
         return view('admin.sale_quotations.edit',
             compact('branches', 'mainTypes', 'subTypes', 'parts', 'saleQuotation', 'taxes',
-                'additionalPayments', 'customers'));
+                'additionalPayments', 'customers', 'suppliers'));
     }
 
     public function update (UpdateRequest $request, SaleQuotation $saleQuotation) {
@@ -395,6 +400,15 @@ class SaleQuotationController extends Controller
             ->addColumn('number', function ($item) {
                 return $item->number;
             })
+
+            ->addColumn('type_for', function ($item) {
+                return $item->type_for ? $item->type_for : '---' ;
+            })
+
+            ->addColumn('salesable_id', function ($item) {
+                return $item->salesable ? $item->salesable->name : '---' ;
+            })
+
             ->addColumn('type', function ($item) use ($viewPath) {
                 $type = true;
                 return view($viewPath, compact('item', 'type'))->render();

@@ -71,6 +71,11 @@
                                     {{ __('Normal sale invoice') }}
                                 </option>
 
+                                <option value="direct_invoice"
+                                    {{isset($salesInvoice) && $salesInvoice->invoice_type == 'direct_invoice'? 'selected':'' }}>
+                                    {{ __('Direct Invoice') }}
+                                </option>
+
                             </select>
                         </div>
                         {{input_error($errors,'invoice_type')}}
@@ -184,7 +189,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-6" id="customers_data"
+                <div class="col-md-3" id="customers_data"
                      style="{{ (isset($salesInvoice) && $salesInvoice->type_for != 'customer')? 'display:none;':'' }}">
                     <div class="form-group has-feedback">
                         <label for="inputStore" class="control-label">{{__('Customer name')}}</label>

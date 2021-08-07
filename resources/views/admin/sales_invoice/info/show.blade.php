@@ -121,6 +121,15 @@
                                     </table>
                                 </div>
 
+                                    <div class="col-md-6">
+                                        <table class="table table-bordered">
+                                            <tbody>
+                                            <th style="width:50%;background:#ddd !important;color:black !important">{{ __('sales-invoices.invoice_type') }}</th>
+                                            <td>{{ __($salesInvoice->invoice_type)}}</td>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
                             </div>
                         </div>
                     </div>

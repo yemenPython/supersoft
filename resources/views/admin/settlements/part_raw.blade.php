@@ -122,14 +122,14 @@
 
     <td>
         <input style="width: 120px !important;" type="number" class="form-control border1" id="quantity_{{$index}}"
-               onkeyup="calculateItem('{{$index}}'); checkPartQuantity('{{$index}}');"
+               onkeyup="calculateItem('{{$index}}'); checkPartQuantity('{{$index}}'); quantityValidation('{{$index}}','{{__('sorry, quantity not valid')}}')"
                onchange="calculateItem('{{$index}}'); checkPartQuantity('{{$index}}');"
-               value="{{isset($item) ? $item->quantity : 0}}" min="0" name="items[{{$index}}][quantity]">
+               value="{{isset($item) ? $item->quantity : 1}}" min="1" name="items[{{$index}}][quantity]">
     </td>
 
     <td>
         <input style="width: 150px !important;" type="text" id="price_{{$index}}" class="form-control border2"
-               onkeyup="calculateItem('{{$index}}')"
+               onkeyup="calculateItem('{{$index}}'); priceValidation('{{$index}}','{{__('sorry, price not valid')}}')"
                value="{{isset($item) ? $item->price : $part->default_purchase_price}}" name="items[{{$index}}][price]">
     </td>
 

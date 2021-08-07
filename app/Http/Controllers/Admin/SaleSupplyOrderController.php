@@ -83,11 +83,6 @@ class SaleSupplyOrderController extends Controller
             ->select('name_' . $this->lang, 'id')
             ->get();
 
-        $data['customers'] = Customer::where('status', 1)
-            ->where('branch_id', $branch_id)
-            ->select('id', 'name_' . $this->lang, 'customer_category_id')
-            ->get();
-
         $data['taxes'] = TaxesFees::where('supply_order', 1)
             ->where('branch_id', $branch_id)
             ->where('type', 'tax')
@@ -102,6 +97,16 @@ class SaleSupplyOrderController extends Controller
 
         $data['saleQuotations'] = SaleQuotation::where('branch_id', $branch_id)
             ->select('id', 'number')
+            ->get();
+
+        $data['suppliers'] = Supplier::where('status', 1)
+            ->where('branch_id', $branch_id)
+            ->select('id', 'name_' . $this->lang, 'group_id', 'sub_group_id')
+            ->get();
+
+        $data['customers'] = Customer::where('status', 1)
+            ->where('branch_id', $branch_id)
+            ->select('id', 'name_' . $this->lang, 'customer_category_id')
             ->get();
 
         return view('admin.sale_supply_orders.create', compact('data'));
@@ -172,11 +177,6 @@ class SaleSupplyOrderController extends Controller
             ->select('name_' . $this->lang, 'id')
             ->get();
 
-        $data['customers'] = Customer::where('status', 1)
-            ->where('branch_id', $branch_id)
-            ->select('id', 'name_' . $this->lang, 'customer_category_id')
-            ->get();
-
         $data['taxes'] = TaxesFees::where('supply_order', 1)
             ->where('branch_id', $branch_id)
             ->where('type', 'tax')
@@ -187,6 +187,16 @@ class SaleSupplyOrderController extends Controller
             ->where('branch_id', $branch_id)
             ->where('type', 'additional_payments')
             ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
+            ->get();
+
+        $data['suppliers'] = Supplier::where('status', 1)
+            ->where('branch_id', $branch_id)
+            ->select('id', 'name_' . $this->lang, 'group_id', 'sub_group_id')
+            ->get();
+
+        $data['customers'] = Customer::where('status', 1)
+            ->where('branch_id', $branch_id)
+            ->select('id', 'name_' . $this->lang, 'customer_category_id')
             ->get();
 
 //        $data['purchaseQuotations'] = PurchaseQuotation::where('purchase_request_id', $supplyOrder->purchase_request_id)
@@ -464,6 +474,14 @@ class SaleSupplyOrderController extends Controller
             })
             ->addColumn('number', function ($item) {
                 return $item->number;
+            })
+
+            ->addColumn('type_for', function ($item) {
+                return $item->type_for ? $item->type_for : '---' ;
+            })
+
+            ->addColumn('salesable_id', function ($item) {
+                return $item->salesable ? $item->salesable->name : '---' ;
             })
             ->addColumn('total', function ($item) use ($viewPath) {
                 $withTotal = true;

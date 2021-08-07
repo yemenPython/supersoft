@@ -52,16 +52,14 @@
 
     <td>
         <input style="width: 130px !important;margin:0 auto;display:block" type="number" class="form-control border1"
-               id="quantity_{{$index}}"
-               value="{{isset($item) ? $item->quantity : 0}}" min="0"
+               id="quantity_{{$index}}"  onkeyup="quantityValidation('{{$index}}','{{__('sorry, quantity not valid')}}')"
+               value="{{isset($item) ? $item->quantity : 1}}" min="1"
                name="items[{{$index}}][quantity]" {{isset($request_type) && $request_type == 'approval' ? 'disabled' : ''}}>
 
         {{input_error($errors, 'items['.$index.'][quantity]')}}
     </td>
 
-    
 
-    
     @if(isset($request_type) && $request_type == 'approval')
         <td>
             <input style="width: 150px !important;" type="number" class="form-control border2"
@@ -69,9 +67,10 @@
         </td>
 
         <td>
-            <input style="width: 150px !important;" type="number" class="form-control border1" id="quantity_{{$index}}"
+            <input style="width: 150px !important;" type="number" class="form-control border1 quantity_{{$index}}" id="quantity_{{$index}}"
                    value="{{isset($item) ? $item->approval_quantity : 0}}"
-                   min="0" name="items[{{$index}}][approval_quantity]">
+                   min="0" name="items[{{$index}}][approval_quantity]"
+                   onkeyup="approvalQuantityValidation('{{$index}}','{{__('sorry, approval quantity not valid')}}')">
         </td>
     @endif
 
@@ -100,7 +99,7 @@
 
   <li class="btn-style-drop">
   <a data-toggle="modal" data-target="#part_types_{{$index}}" title="Part Types" class="btn btn-info">
-            <i class="fa fa-cubes"> </i> 
+            <i class="fa fa-cubes"> </i>
             {{__('Types')}}
         </a>
   </li>
@@ -109,7 +108,7 @@
             <li class="btn-style-drop">
                 <a data-toggle="modal" data-target="#part_quantity_{{$index}}"
                    title="Part quantity" class="btn btn-primary">
-                    <i class="fa fa-check-circle"></i> 
+                    <i class="fa fa-check-circle"></i>
                     {{__('Stores Qty')}}
                 </a>
                 </li>

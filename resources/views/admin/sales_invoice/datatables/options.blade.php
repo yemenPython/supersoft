@@ -50,7 +50,7 @@
             <li>
                 @component('admin.buttons._edit_button',[
                             'id'=>$item->id,
-                            'route' => 'admin:sale-supply-orders.edit',
+                            'route' => 'admin:sales.invoices.edit',
                              ])
                 @endcomponent
             </li>
@@ -58,7 +58,7 @@
             <li class="btn-style-drop">
                 @component('admin.buttons._delete_button',[
                             'id'=> $item->id,
-                            'route' => 'admin:sale-supply-orders.destroy',
+                            'route' => 'admin:sales.invoices.destroy',
                              ])
                 @endcomponent
             </li>
@@ -82,25 +82,25 @@
             </li>
 
             <li>
-                <a style="cursor:pointer" href="{{route('admin:sale-supply-orders.show', $item->id)}}"
+                <a style="cursor:pointer" href="{{route('admin:sales.invoices.show.data', $item->id)}}"
                    class="btn btn-terms-wg text-white hvr-radial-out" title="{{__('Show')}}">
                     <i class="fa fa-eye"></i> {{__('Show')}}
                 </a>
             </li>
 
-            <li>
-                @include('admin.partial.execution_period', ['id'=> $item->id])
-            </li>
+{{--            <li>--}}
+{{--                @include('admin.partial.execution_period', ['id'=> $item->id])--}}
+{{--            </li>--}}
 
-            <li>
-                @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])
-            </li>
+{{--            <li>--}}
+{{--                @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])--}}
+{{--            </li>--}}
 
         </ul>
     </div>
 @endif
 
 @if (isset($withOptions))
-    @component('admin.buttons._delete_selected',['id' => $item->id, 'route' => 'admin:sale.supply.orders.deleteSelected'])
+    @component('admin.buttons._delete_selected',['id' => $item->id, 'route' => 'admin:sales.invoices.deleteSelected'])
     @endcomponent
 @endif

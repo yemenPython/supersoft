@@ -46,13 +46,14 @@
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
                                 <th scope="col">{!! __('Quotation Number') !!}</th>
+                                <th scope="col">{!! __('Client Type') !!}</th>
+                                <th scope="col">{!! __('Client') !!}</th>
 
-                              
+
                                 <th scope="col">{!! __('Quotation type') !!}</th>
                                 <th scope="col">{!! __('Customer name') !!}</th>
 
                                 <th scope="col">{!! __('Total') !!}</th>
-
 
                                 <th scope="col">{{__('quotation days')}}</th>
                                 <th scope="col">{!! __('Remaining Days') !!}</th>
@@ -79,8 +80,10 @@
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
                                 <th scope="col">{!! __('Quotation Number') !!}</th>
+                                <th scope="col">{!! __('Client Type') !!}</th>
+                                <th scope="col">{!! __('Client') !!}</th>
 
-                              
+
                                 <th scope="col">{!! __('Quotation type') !!}</th>
                                 <th scope="col">{!! __('Customer name') !!}</th>
 

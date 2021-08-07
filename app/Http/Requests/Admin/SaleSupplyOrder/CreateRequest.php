@@ -30,8 +30,8 @@ class CreateRequest extends FormRequest
             'time' => 'required',
             'supply_date_from' => 'nullable|date',
             'supply_date_to' => 'nullable|date|after_or_equal:date_from',
-            'customer_id' => 'required|integer|exists:customers,id',
             'discount' => 'required|numeric|min:0',
+            'type_for' => 'required|string|in:supplier,customer',
             'discount_type' => 'required|string|in:amount,percent',
             'customer_discount'=>'required|numeric|min:0',
             'customer_discount_type'=>'required|string|in:amount,percent',
@@ -67,6 +67,14 @@ class CreateRequest extends FormRequest
                         ;
                 }),
             ];
+
+        if (request()->type_for == 'supplier') {
+            $rules['salesable_id'] = 'required|integer|exists:suppliers,id';
+        }
+
+        if (request()->type_for == 'customer') {
+            $rules['salesable_id'] = 'required|integer|exists:customers,id';
+        }
 
 
         return $rules;

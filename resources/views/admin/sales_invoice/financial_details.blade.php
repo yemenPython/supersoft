@@ -57,45 +57,44 @@
 
         <table class="table table-bordered">
             <tr>
-{{--                <th style="width:40%;height:50px;background:#D2F4F6 !important;color:black !important">{!! __('Supplier Discount') !!}</th>--}}
-{{--                <td style="background:#D2F4F6 !important;color:black!important">--}}
-{{--                    <ul class="list-inline flex-div-cen">--}}
-{{--                        <li>--}}
-{{--                            <div class="has-feedback">--}}
-{{--                                <input type="checkbox" id="supplier_discount_check" name="supplier_discount_active"--}}
-{{--                                       onclick="calculateTotal()"--}}
-{{--                                    {{isset($salesInvoice) && $salesInvoice->is_discount_group_added ? 'checked' : ''}}>--}}
-{{--                            </div>--}}
-{{--                        </li>--}}
+                <th style="width:40%;height:50px;background:#D2F4F6 !important;color:black !important">{!! __('Supplier Discount') !!}</th>
+                <td style="background:#D2F4F6 !important;color:black!important">
+                    <ul class="list-inline flex-div-cen">
+                        <li>
+                            <div class="has-feedback">
+                                <input type="checkbox" id="supplier_discount_check" name="customer_discount_active"
+                                       onclick="calculateTotal()"
+                                    {{isset($salesInvoice) && $salesInvoice->customer_discount_active ? 'checked' : ''}}>
+                            </div>
+                        </li>
 
 
-{{--                        <li>--}}
+                        <li>
 
-{{--                            <input type="number" name="supplier_discount" min="0" readonly="readonly"--}}
-{{--                                   style="background:#D2F4F6; border:none;text-align:center !important;"--}}
-{{--                                   class="form-control supplier_discount"--}}
-{{--                                   value="{{isset($purchaseInvoice) ? $purchaseInvoice->discount_group_value : 0}}"--}}
-{{--                            >--}}
+                            <input type="number" name="customer_discount" min="0" readonly="readonly"
+                                   style="background:#D2F4F6; border:none;text-align:center !important;"
+                                   class="form-control supplier_discount"
+                                   value="{{isset($salesInvoice) ? $salesInvoice->customer_discount : 0}}"
+                            >
+
+                        </li>
+
+                        <li>
+                            <input type="text" disabled="disabled" class="form-control supplier_discount_type"
+                                   value="{{isset($salesInvoice) && $salesInvoice->customer_discount_type == 'percent' ? '%' : '$'}}"
+                                   style="width: 42px;">
+
+                            <input type="hidden" name="customer_discount_type"
+                                   class="text-center supplier_discount_type_value"
+                                   value="{{isset($salesInvoice) ? $salesInvoice->customer_discount_type : 'amount'}}"
+                            >
+
+                        </li>
+
+                    </ul>
 
 
-{{--                        </li>--}}
-
-{{--                        <li>--}}
-{{--                            <input type="text" disabled="disabled" class="form-control supplier_discount_type"--}}
-{{--                                   value="{{isset($purchaseInvoice) && $purchaseInvoice->discount_group_type == 'percent' ? '%' : '$'}}"--}}
-{{--                                   style="width: 42px;">--}}
-
-{{--                            <input type="hidden" name="supplier_discount_type"--}}
-{{--                                   class="text-center supplier_discount_type_value"--}}
-{{--                                   value="{{isset($purchaseInvoice) ? $purchaseInvoice->discount_group_type : 'amount'}}"--}}
-{{--                            >--}}
-
-{{--                        </li>--}}
-
-{{--                    </ul>--}}
-
-
-{{--                </td>--}}
+                </td>
             </tr>
         </table>
     </div>

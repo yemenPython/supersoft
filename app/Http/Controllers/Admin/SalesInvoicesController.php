@@ -17,6 +17,7 @@ use App\Models\Quotation;
 use App\Models\SparePart;
 use App\Models\TaxesFees;
 use App\Notifications\LessPartsNotifications;
+use App\Services\HandleQuantityService;
 use App\Services\MailServices;
 use App\Services\NotificationServices;
 use App\Services\PointsServices;
@@ -53,11 +54,13 @@ class SalesInvoicesController extends Controller
 
     public $lang;
     public $salesInvoiceServices;
+    public $handleQuantityServices;
 
     public function __construct()
     {
         $this->lang = App::getLocale();
         $this->salesInvoiceServices = new SalesInvoiceServices();
+        $this->handleQuantityServices = new HandleQuantityService();
 
 //        $this->middleware('permission:view_sales_invoices');
 //        $this->middleware('permission:create_sales_invoices',['only'=>['create','store']]);
@@ -242,7 +245,6 @@ class SalesInvoicesController extends Controller
 
     public function store(CreateSalesInvoiceRequest $request)
     {
-
         try {
 
             DB::beginTransaction();
@@ -264,15 +266,23 @@ class SalesInvoicesController extends Controller
 
                 $item_data['sales_invoice_id'] = $salesInvoice->id;
 
-                $purchaseInvoiceItem = SalesInvoiceItems::create($item_data);
+                $salesInvoiceItem = SalesInvoiceItems::create($item_data);
 
                 if (isset($item['taxes'])) {
-                    $purchaseInvoiceItem->taxes()->attach($item['taxes']);
+                    $salesInvoiceItem->taxes()->attach($item['taxes']);
                 }
+            }
 
-//                if ($purchaseInvoice->status == 'accept' && $purchaseInvoice->invoice_type = 'normal') {
-//                    $this->affectedPart($purchaseInvoiceItem);
-//                }
+            if ($salesInvoice->status == 'finished' && $salesInvoice->invoice_type = 'direct_invoice') {
+
+                $acceptQuantityData = $this->handleQuantityServices->acceptQuantity($salesInvoice->items, 'pull');
+
+                if (isset($acceptQuantityData['status']) && !$acceptQuantityData['status']) {
+
+                    $message = isset($acceptQuantityData['message']) ? $acceptQuantityData['message'] : __('sorry, please try later');
+
+                    return redirect()->back()->with(['message' => $message, 'alert-type' => 'error']);
+                }
             }
 
             DB::commit();
@@ -374,6 +384,18 @@ class SalesInvoicesController extends Controller
                 }
             }
 
+            if ($salesInvoice->status == 'finished' && $salesInvoice->invoice_type = 'direct_invoice') {
+
+                $acceptQuantityData = $this->handleQuantityServices->acceptQuantity($salesInvoice->items, 'pull');
+
+                if (isset($acceptQuantityData['status']) && !$acceptQuantityData['status']) {
+
+                    $message = isset($acceptQuantityData['message']) ? $acceptQuantityData['message'] : __('sorry, please try later');
+
+                    return redirect()->back()->with(['message' => $message, 'alert-type' => 'error']);
+                }
+            }
+
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
@@ -386,7 +408,6 @@ class SalesInvoicesController extends Controller
 
     public function destroy(SalesInvoice $invoice)
     {
-
         if (!auth()->user()->can('delete_sales_invoices')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
@@ -516,7 +537,6 @@ class SalesInvoicesController extends Controller
 
     public function showData(SalesInvoice $salesInvoice)
     {
-
         $branch_id = $salesInvoice->branch_id;
 
         $data['taxes'] = TaxesFees::where('active_invoices', 1)
@@ -554,6 +574,9 @@ class SalesInvoicesController extends Controller
             })
             ->addColumn('number', function ($item) {
                 return $item->number;
+            })
+            ->addColumn('type_for', function ($item) {
+                return $item->type_for ? $item->type_for:'---';
             })
             ->addColumn('salesable_id', function ($item) use ($viewPath) {
                 return $item->salesable ? $item->salesable->name : '---';

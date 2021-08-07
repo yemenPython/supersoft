@@ -46,6 +46,8 @@
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
                                 <th scope="col">{!! __('Number') !!}</th>
+                                <th scope="col">{!! __('Client Type') !!}</th>
+                                <th scope="col">{!! __('Client') !!}</th>
 
                                 <th scope="col">{!! __('Total') !!}</th>
 
@@ -74,6 +76,8 @@
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
                                 <th scope="col">{!! __('Number') !!}</th>
+                                <th scope="col">{!! __('Client Type') !!}</th>
+                                <th scope="col">{!! __('Client') !!}</th>
 
 
                                 <th scope="col">{!! __('Total') !!}</th>

@@ -117,15 +117,17 @@
         @if(isset($item))
 
             <input style="width: 100px !important;" type="number" class="form-control border1" id="quantity_{{$index}}"
-                   value="{{ $item->quantity}}" min="0"
+                   value="{{ $item->quantity}}" min="1"
                    name="items[{{$index}}][quantity]"
-                   onchange="calculateItem('{{$index}}')" onkeyup="calculateItem('{{$index}}')">
+                   onchange="calculateItem('{{$index}}')"
+                   onkeyup="calculateItem('{{$index}}'); quantityValidation('{{$index}}','{{__('sorry, quantity not valid')}}') ">
 
         @else
             <input style="width: 100px !important;" type="number" class="form-control border1" id="quantity_{{$index}}"
-                   value="{{isset($update_item) ? $update_item->quantity : 0}}" min="0"
+                   value="{{isset($update_item) ? $update_item->quantity : 1}}" min="1"
                    name="items[{{$index}}][quantity]"
-                   onchange="calculateItem('{{$index}}')" onkeyup="calculateItem('{{$index}}')">
+                   onchange="calculateItem('{{$index}}')"
+                   onkeyup="calculateItem('{{$index}}'); quantityValidation('{{$index}}','{{__('sorry, quantity not valid')}}')">
 
         @endif
 
@@ -137,7 +139,8 @@
         <input style="width: 150px !important;" type="number" class="form-control border2" id="price_{{$index}}"
                value="{{isset($update_item) ? $update_item->price : $part->default_purchase_price}}"
                min="0" name="items[{{$index}}][price]"
-               onchange="calculateItem('{{$index}}')" onkeyup="calculateItem('{{$index}}')">
+               onchange="calculateItem('{{$index}}')"
+               onkeyup="calculateItem('{{$index}}'); priceValidation('{{$index}}','{{__('sorry, price not valid')}}')">
         {{input_error($errors, 'items['.$index.'][price]')}}
     </td>
 
@@ -145,7 +148,8 @@
     <td>
         <div class="radio primary">
             <input style="width: 150px !important;" type="radio" name="items[{{$index}}][discount_type]" id="discount_type_amount_{{$index}}"
-                   value="amount" {{!isset($update_item) ? 'checked':''}} onclick="calculateItem('{{$index}}')"
+                   value="amount" {{!isset($update_item) ? 'checked':''}}
+                   onclick="calculateItem('{{$index}}');"
                 {{isset($update_item) && $update_item->discount_type == 'amount'? 'checked' : '' }}
             >
             <label for="discount_type_amount_{{$index}}">{{__('amount')}}</label>
@@ -164,7 +168,8 @@
         <input style="width: 150px !important;" type="number" class="form-control border4" id="discount_{{$index}}"
                value="{{isset($update_item) ? $update_item->discount : 0 }}" min="0"
                name="items[{{$index}}][discount]"
-               onkeyup="calculateItem('{{$index}}')" onchange="calculateItem('{{$index}}')">
+               onkeyup="calculateItem('{{$index}}'); discountValidation('{{$index}}','{{__('sorry, discount not valid')}}')"
+               onchange="calculateItem('{{$index}}')">
     </td>
 
     <td>

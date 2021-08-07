@@ -33,7 +33,7 @@ class UpdateRequest extends FormRequest
             'type' => 'required|string|in:cash,credit',
             'supply_date_from' => 'nullable|date',
             'supply_date_to' => 'nullable|date|after_or_equal:date_from',
-            'customer_id' => 'required|integer|exists:customers,id',
+            'type_for' => 'required|string|in:supplier,customer',
             'discount' => 'required|numeric|min:0',
             'discount_type' => 'required|string|in:amount,percent',
             'customer_discount'=>'required|numeric|min:0',
@@ -68,6 +68,14 @@ class UpdateRequest extends FormRequest
                         ;
                 }),
             ];
+
+        if (request()->type_for == 'supplier') {
+            $rules['salesable_id'] = 'required|integer|exists:suppliers,id';
+        }
+
+        if (request()->type_for == 'customer') {
+            $rules['salesable_id'] = 'required|integer|exists:customers,id';
+        }
 
         return $rules;
     }

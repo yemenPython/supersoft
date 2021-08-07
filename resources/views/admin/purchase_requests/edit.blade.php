@@ -424,6 +424,30 @@
             $('#part_image').attr('src', image_path);
         }
 
+        function quantityValidation (index, message) {
+
+            let quantity = $('#quantity_' + index).val();
+
+            if (quantity <= 0) {
+
+                swal({text: message, icon: "warning"});
+
+                $('#quantity_' + index).val(1);
+            }
+        }
+
+        function approvalQuantityValidation (index, message) {
+
+            let quantity = $('.quantity_' + index).val();
+
+            if (quantity < 0) {
+
+                swal({text: message, icon: "warning"});
+
+                $('.quantity_' + index).val(0);
+            }
+        }
+
     </script>
 
 @endsection

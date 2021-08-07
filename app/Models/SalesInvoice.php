@@ -14,7 +14,8 @@ class SalesInvoice extends Model
     use LogsActivity;
 
     protected $fillable = ['number', 'branch_id', 'created_by', 'date', 'time', 'type', 'discount_type', 'discount', 'tax',
-        'sub_total', 'total_after_discount', 'total', 'salesable_id', 'salesable_type', 'type_for', 'additional_payments', 'status'];
+        'sub_total', 'total_after_discount', 'total', 'salesable_id', 'salesable_type', 'customer_discount_type',
+        'type_for', 'additional_payments', 'status', 'invoice_type', 'customer_discount_active', 'customer_discount'];
 
     protected $table = 'sales_invoices';
 
@@ -26,6 +27,7 @@ class SalesInvoice extends Model
         'date' => 'date',
         'branch_id' => 'branch_id',
         'number' => 'number',
+        'type_for' => 'type_for',
         'salesable_id' => 'salesable_id',
         'total' => 'total',
         'status' => 'status',

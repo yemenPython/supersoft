@@ -42,9 +42,13 @@ class SaleSupplyOrderService
             'type' => $requestData['type'],
             'date' => $requestData['date'],
             'time' => $requestData['time'],
+
+            'type_for' => $requestData['type_for'],
+            'salesable_id' => $requestData['salesable_id'] ?? null,
+            'salesable_type' => $requestData['type_for'] == 'customer' ? 'App\Models\Customer':'App\Models\Supplier',
+
             'supply_date_from' => isset($requestData['supply_date_from']) ? $requestData['supply_date_from'] : null,
             'supply_date_to' => isset($requestData['supply_date_to']) ? $requestData['supply_date_to'] : null ,
-            'customer_id' => $requestData['customer_id'],
             'discount' => $requestData['discount'],
             'discount_type' => $requestData['discount_type'],
             'customer_discount_active'=> 0,
@@ -68,13 +72,13 @@ class SaleSupplyOrderService
 
         if (isset($requestData['customer_discount_active'])) {
 
-            $customer = Customer::find($data['customer_id']);
+            $client = $data['salesable_type']::find($data['salesable_id']);
 
             $data['customer_discount_active'] = 1;
-            $data['customer_discount'] = $customer->group_sales_discount;
-            $data['customer_discount_type'] = $customer->group_sales_discount_type;
+            $data['customer_discount'] = $data['type_for'] == 'customer' ? $client->group_sales_discount : $client->group_discount;
+            $data['customer_discount_type'] = $data['type_for'] == 'customer' ? $client->group_sales_discount_type : $client->group_discount_type ;
 
-            $customer_discount = $this->customerDiscount($customer, $data['sub_total']);
+            $customer_discount = $this->customerDiscount($client, $data['sub_total'], $data['type_for']);
         }
 
         $discountValue = $this->discountValue($data['discount_type'], $data['discount'], $data['sub_total']);
@@ -170,10 +174,10 @@ class SaleSupplyOrderService
         }
     }
 
-    public function customerDiscount($customer, $total)
+    public function customerDiscount($client, $total, $type)
     {
-        $customer_discount = $customer->group_sales_discount;
-        $customer_discount_type = $customer->group_sales_discount_type;
+        $customer_discount = $type == 'customer' ? $client->group_sales_discount : $client->group_discount;;
+        $customer_discount_type = $type == 'customer' ? $client->group_sales_discount_type : $client->group_discount_type;
 
         return $this->discountValue($customer_discount_type, $customer_discount, $total);
     }

@@ -81,6 +81,7 @@ class CreateSalesInvoiceRequest extends FormRequest
             'type_for' => 'required|string|in:supplier,customer',
             'type' => 'required|string|in:cash,credit',
             'status' => 'required|string|in:pending,processing,finished',
+            'invoice_type'=>'required|string|in:normal,direct_invoice',
 
             'items.*.part_id' => 'required|integer|exists:parts,id',
             'items.*.part_price_id' => 'required|integer|exists:part_prices,id',
@@ -96,6 +97,8 @@ class CreateSalesInvoiceRequest extends FormRequest
             'taxes.*' => 'nullable|integer|exists:taxes_fees,id',
 
             'additional_payments.*' => 'nullable|integer|exists:taxes_fees,id',
+
+            'salesable_id'=>'required|integer'
         ];
 
         $branch_id = auth()->user()->branch_id;

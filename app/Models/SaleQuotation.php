@@ -11,7 +11,7 @@ class SaleQuotation extends Model
     protected $fillable = ['number', 'branch_id', 'purchase_request_id', 'date', 'time', 'user_id', 'customer_id', 'status', 'library_path',
         'supply_date_from', 'supply_date_to', 'sub_total', 'discount', 'discount_type', 'total_after_discount',
         'tax', 'total', 'type', 'additional_payments', 'customer_discount_active', 'customer_discount_type',
-        'customer_discount', 'date_from', 'date_to', 'quotation_type'];
+        'customer_discount', 'date_from', 'date_to', 'quotation_type', 'salesable_id', 'salesable_type', 'type_for'];
 
     protected $table = 'sale_quotations';
 
@@ -23,6 +23,8 @@ class SaleQuotation extends Model
         'date' => 'date',
         'branch_id' => 'branch_id',
         'number' => 'number',
+        'type_for' => 'type_for',
+        'salesable_id' => 'salesable_id',
         'type' => 'type',
         'customer' => 'customer',
         'total' => 'total',
@@ -116,5 +118,10 @@ class SaleQuotation extends Model
             unset(self::$dataTableColumns['branch_id']);
         }
         return self::$dataTableColumns;
+    }
+
+    public function salesable()
+    {
+        return $this->morphTo();
     }
 }

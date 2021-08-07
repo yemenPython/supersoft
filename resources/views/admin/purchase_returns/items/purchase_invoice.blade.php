@@ -49,14 +49,16 @@
     </td>
 
     <td>
-    <span class="part-unit-span"> {{$item->quantity}}</span>
+        <span class="part-unit-span"> {{$item->quantity}}</span>
     </td>
 
     <td>
         <input style="width: 100px !important;" type="number" class="form-control border1" id="quantity_{{$index}}"
                value="{{ $item->quantity}}" min="0" name="items[{{$index}}][quantity]"
                onchange="checkQuantity('{{$index}}'); calculateItem('{{$index}}')"
-               onkeyup="checkQuantity('{{$index}}'); calculateItem('{{$index}}')">
+
+               onkeyup="checkQuantity('{{$index}}'); calculateItem('{{$index}}');
+               quantityValidation('{{$index}}','{{__('sorry, quantity not valid')}}')">
 
         <input type="hidden" value="{{$item->quantity}}" id="max_quantity_item_{{$index}}">
     </td>
@@ -65,7 +67,8 @@
         <input style="width: 150px !important;" type="number" class="form-control" id="price_{{$index}}"
                value="{{$item->price}}"
                min="0" name="items[{{$index}}][price]"
-               onchange="calculateItem('{{$index}}')" onkeyup="calculateItem('{{$index}}')">
+               onchange="calculateItem('{{$index}}')"
+               onkeyup="calculateItem('{{$index}}'); priceValidation('{{$index}}','{{__('sorry, price not valid')}}')">
     </td>
 
     <td>
@@ -90,7 +93,8 @@
         <input style="width: 150px !important;" type="number" class="form-control border4" id="discount_{{$index}}"
                value="{{ $item->discount }}" min="0"
                name="items[{{$index}}][discount]"
-               onkeyup="calculateItem('{{$index}}')" onchange="calculateItem('{{$index}}')">
+               onkeyup="calculateItem('{{$index}}'); discountValidation('{{$index}}','{{__('sorry, discount not valid')}}')"
+               onchange="calculateItem('{{$index}}')">
     </td>
 
     <td>

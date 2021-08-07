@@ -20,6 +20,62 @@ function quotationType() {
     }
 }
 
+// function changeTypeFor() {
+//
+//     if ($('#supplier_radio').is(':checked')) {
+//
+//         $("#suppliers_data").show();
+//         $("#supplier_id").prop('disabled', false);
+//
+//         $("#customers_data").hide();
+//         $("#customer_id").prop('disabled', true);
+//
+//     } else {
+//
+//         $("#customers_data").show();
+//         $("#customer_id").prop('disabled', false);
+//
+//         $("#suppliers_data").hide();
+//         $("#supplier_id").prop('disabled', true);
+//
+//     }
+// }
+
+function changeTypeFor() {
+
+    if ($('#supplier_radio').is(':checked')) {
+
+        $("#suppliers_data").show();
+        $("#supplier_id").prop('disabled', false);
+
+        $("#customers_data").hide();
+        $("#customer_id").prop('disabled', true);
+
+        $("#supplier_id").addClass('client_select');
+        $("#customer_id").removeClass('client_select');
+
+        $("#customer_id").val('').change();
+
+    } else {
+
+        $("#customers_data").show();
+        $("#customer_id").prop('disabled', false);
+
+        $("#suppliers_data").hide();
+        $("#supplier_id").prop('disabled', true);
+
+        $("#customer_id").addClass('client_select');
+        $("#supplier_id").removeClass('client_select');
+
+        $("#supplier_id").val('').change();
+    }
+
+    $('.supplier_discount').val(0);
+
+    calculateTotal();
+}
+
+
 function getSellPrice(index) {
 
     let sale_price = $('#prices_part_' + index).find(":selected").data('sale-price');
@@ -163,7 +219,7 @@ function calculateInvoiceDiscount() {
     let discount = $("#discount").val();
     let total = $("#sub_total").val();
     let supplier_discount = 0;
-    let supplier_id = $('#supplier_id').find(":selected").val();
+    let client_id = $('.client_select').find(":selected").val();
 
     if (discount == "") {
         discount = 0;
@@ -179,8 +235,8 @@ function calculateInvoiceDiscount() {
         var price_after_discount = parseFloat(total) - parseFloat(discount_percent_value);
     }
 
-    if ($('#supplier_discount_check').is(':checked') && supplier_id != '') {
-        supplier_discount = supplierDiscount();
+    if ($('#supplier_discount_check').is(':checked') && client_id != '') {
+        supplier_discount = clientDiscount();
     }
 
     price_after_discount -= parseFloat(supplier_discount);
@@ -346,11 +402,11 @@ function selectSaleQuotation(index) {
     }
 }
 
-function selectSupplier () {
+function selectClient () {
 
-    let supplier_id = $('#supplier_id').find(":selected").val();
-    let discount = $('#customer_id').find(":selected").data('discount');
-    let discount_type = $('#customer_id').find(":selected").data('discount-type');
+    let supplier_id = $('.client_select').find(":selected").val();
+    let discount = $('.client_select').find(":selected").data('discount');
+    let discount_type = $('.client_select').find(":selected").data('discount-type');
 
     if (discount_type == 'amount') {
 
@@ -366,12 +422,14 @@ function selectSupplier () {
     calculateTotal();
 }
 
-function supplierDiscount () {
+function clientDiscount () {
 
     let total = $('#sub_total').val();
 
-    let discount = $('#customer_id').find(":selected").data('discount');
-    let discount_type = $('#customer_id').find(":selected").data('discount-type');
+    let discount = $('.client_select').find(":selected").data('discount');
+    let discount_type = $('.client_select').find(":selected").data('discount-type');
+
+    // console.log(discount);
 
     if (discount == "") {
         discount = 0;
@@ -388,6 +446,48 @@ function supplierDiscount () {
     }else {
 
         return  parseFloat(total) * parseFloat(discount) / parseFloat(100);
+    }
+}
+
+function quantityValidation (index, message) {
+
+    let quantity = $('#quantity_' + index).val();
+
+    if (quantity <= 0) {
+
+        swal({text: message, icon: "warning"});
+
+        $('#quantity_' + index).val(1);
+
+        calculateItem(index);
+    }
+}
+
+function priceValidation (index, message) {
+
+    let price = $('#price_' + index).val();
+
+    if (price < 0) {
+
+        swal({text: message, icon: "warning"});
+
+        $('#price_' + index).val(0);
+
+        calculateItem(index);
+    }
+}
+
+function discountValidation (index, message) {
+
+    let discount = $('#discount_' + index).val();
+
+    if (discount < 0) {
+
+        swal({text: message, icon: "warning"});
+
+        $('#discount_' + index).val(0);
+
+        calculateItem(index);
     }
 }
 

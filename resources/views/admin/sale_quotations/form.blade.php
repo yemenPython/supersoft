@@ -1,7 +1,8 @@
 <div class="row">
     <div class="col-xs-12">
 
-        <div class="row top-data-wg for-error-margin-group" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+        <div class="row top-data-wg for-error-margin-group"
+             style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
             @if(authIsSuperAdmin())
                 <div class="col-md-12">
@@ -110,39 +111,13 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
-                    <div class="form-group has-feedback">
-                        <label for="inputStore" class="control-label">{{__('Customer name')}}</label>
-                        <div class="input-group">
-                            <span class="input-group-addon fa fa-user"></span>
-                            <select class="form-control js-example-basic-single" name="customer_id" id="supplier_id"
-                                    onchange="selectSupplier()">
-                                <option value="">{{__('Select')}}</option>
-
-                                @foreach($customers as $customer)
-                                    <option value="{{$customer->id}}"
-                                            data-discount="{{$customer->group_sales_discount}}"
-                                            data-discount-type="{{$customer->group_sales_discount_type}}"
-                                        {{isset($saleQuotation) && $saleQuotation->customer_id == $customer->id? 'selected':''}}>
-                                        {{$customer->name}}
-                                    </option>
-                                @endforeach
-
-                            </select>
-                        </div>
-
-                        {{input_error($errors,'customer_id')}}
-
-                    </div>
-
-                </div>
-
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="date" class="control-label">{{__('Supply Date From')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                            <input type="text" name="supply_date_from" class="form-control datepicker" id="supply_date_from"
+                            <input type="text" name="supply_date_from" class="form-control datepicker"
+                                   id="supply_date_from"
                                    value="{{old('supply_date_from',  isset($saleQuotation) ? $saleQuotation->supply_date_from : \Carbon\Carbon::now()->format('Y-m-d'))}}">
                         </div>
                         {{input_error($errors,'supply_date_from')}}
@@ -166,7 +141,8 @@
                         <label for="date" class="control-label">{{__('Period of quotation from')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                            <input type="text" name="date_from" class="form-control datepicker" id="date_from" onchange="getDate()"
+                            <input type="text" name="date_from" class="form-control datepicker" id="date_from"
+                                   onchange="getDate()"
                                    value="{{old('date_from', isset($saleQuotation)? $saleQuotation->date_from : \Carbon\Carbon::now()->format('Y-m-d'))}}">
                         </div>
                         {{input_error($errors,'date_from')}}
@@ -178,7 +154,8 @@
                         <label for="date" class="control-label">{{__('Period of quotation to')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                            <input type="text" name="date_to" class="form-control datepicker" id="date_to" onchange="getDate()"
+                            <input type="text" name="date_to" class="form-control datepicker" id="date_to"
+                                   onchange="getDate()"
                                    value="{{old('date_to', isset($saleQuotation)? $saleQuotation->date_to : \Carbon\Carbon::now()->format('Y-m-d'))}}">
                         </div>
                         {{input_error($errors,'date_to')}}
@@ -206,28 +183,116 @@
                         </div>
                     </div>
                 </div>
-<div class="col-md-4">
-<label style="display:block">{{__('Quotation type')}}</label>
-                <div class="col-xs-4" style="padding:0">
-                    <div class="radio primary ">
 
-                        <input type="radio" name="type" value="cash" id="cash"
-                            {{ !isset($saleQuotation) ? 'checked':'' }}
-                            {{isset($saleQuotation) && $saleQuotation->type == 'cash' ? 'checked':''}} >
-                        <label for="cash">{{__('Cash')}}</label>
+                <div class="col-md-3">
+
+                    <label style="display:block">{{__('Invoice type form')}}</label>
+
+                    <div class="col-md-6" style="padding:0">
+
+                        <div class="radio primary ">
+
+                            <input type="radio" name="type_for" value="customer" id="customer_radio" onclick="changeTypeFor()"
+                                {{ !isset($saleQuotation) ? 'checked':'' }}
+                                {{isset($saleQuotation) && $saleQuotation->type_for == 'customer' ? 'checked':''}} >
+                            <label for="customer_radio">{{__('Customer')}}</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" style="padding:0">
+
+                        <div class="radio primary ">
+
+                            <input type="radio" name="type_for" id="supplier_radio" value="supplier" onclick="changeTypeFor()"
+                                {{isset($saleQuotation) && $saleQuotation->type_for == 'supplier' ? 'checked':''}} >
+                            <label for="supplier_radio">{{__('Supplier')}}</label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-md-3" id="suppliers_data"
+                     style="{{!isset($saleQuotation) || (isset($saleQuotation) && $saleQuotation->type_for == 'customer')? 'display:none;':'' }}">
+                    <div class="form-group has-feedback">
+                        <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
+                        <div class="input-group">
+                            <span class="input-group-addon fa fa-user"></span>
+
+                            <select class="form-control js-example-basic-single {{(isset($saleQuotation) && $saleQuotation->type_for == 'supplier' ? 'client_select':'')}}"
+                                    name="salesable_id" id="supplier_id" onchange="selectClient()"
+                                {{!isset($saleQuotation) || (isset($saleQuotation) && $saleQuotation->type_for == 'customer') ? 'disabled':''}}>
+
+                                <option value="">{{__('Select')}}</option>
+
+                                @foreach($suppliers as $supplier)
+                                    <option value="{{$supplier->id}}"
+                                            data-discount="{{$supplier->group_discount}}"
+                                            data-discount-type="{{$supplier->group_discount_type}}"
+                                        {{isset($saleQuotation) && $saleQuotation->type_for == 'supplier' && $saleQuotation->salesable_id == $supplier->id? 'selected':''}}>
+                                        {{$supplier->name}}
+                                    </option>
+                                @endforeach
+
+                            </select>
+                        </div>
+
+                        {{input_error($errors,'salesable_id')}}
                     </div>
                 </div>
 
-                <div class="col-xs-4" style="padding:0">
+                <div class="col-md-3" id="customers_data"
+                     style="{{ (isset($saleQuotation) && $saleQuotation->type_for != 'customer')? 'display:none;':'' }}">
+                    <div class="form-group has-feedback">
+                        <label for="inputStore" class="control-label">{{__('Customer name')}}</label>
+                        <div class="input-group">
+                            <span class="input-group-addon fa fa-user"></span>
 
-                    <div class="radio primary ">
+                            <select class="form-control js-example-basic-single {{(isset($saleQuotation) && $saleQuotation->type_for != 'customer' ? '':'client_select')}}"
+                                    name="salesable_id" id="customer_id" onchange="selectClient()"
+                                {{(isset($saleQuotation) && $saleQuotation->type_for != 'customer')? 'disabled':''}}>
+                                <option value="">{{__('Select')}}</option>
 
-                        <input type="radio" name="type" id="credit" value="credit"
-                            {{isset($saleQuotation) && $saleQuotation->type == 'credit' ? 'checked':''}} >
-                        <label for="credit">{{__('Credit')}}</label>
+                                @foreach($customers as $customer)
+                                    <option value="{{$customer->id}}"
+
+                                            data-discount="{{$customer->group_sales_discount}}"
+                                            data-discount-type="{{$customer->group_sales_discount_type}}"
+
+                                        {{isset($saleQuotation) && $saleQuotation->type_for == 'customer' && $saleQuotation->salesable_id == $customer->id? 'selected':''}}>
+                                        {{$customer->name}}
+                                    </option>
+                                @endforeach
+
+                            </select>
+                        </div>
+
+                        {{input_error($errors,'salesable_id')}}
                     </div>
                 </div>
+
+                <div class="col-md-4">
+                    <label style="display:block">{{__('Quotation type')}}</label>
+                    <div class="col-xs-4" style="padding:0">
+                        <div class="radio primary ">
+
+                            <input type="radio" name="type" value="cash" id="cash"
+                                {{ !isset($saleQuotation) ? 'checked':'' }}
+                                {{isset($saleQuotation) && $saleQuotation->type == 'cash' ? 'checked':''}} >
+                            <label for="cash">{{__('Cash')}}</label>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-4" style="padding:0">
+
+                        <div class="radio primary ">
+
+                            <input type="radio" name="type" id="credit" value="credit"
+                                {{isset($saleQuotation) && $saleQuotation->type == 'credit' ? 'checked':''}} >
+                            <label for="credit">{{__('Credit')}}</label>
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
 
@@ -306,7 +371,7 @@
     </div>
 </div>
 
-    <div class="row bottom-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+<div class="row bottom-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
     @include('admin.sale_quotations.financial_details')
 
