@@ -2755,6 +2755,7 @@ input[type="time"]
                             }
                             /* OSOL PRINT */
                             
+                            #invoiceDatatoPrint .small-data-wg,
                             #assetDatatoPrint .small-data-wg,
                             #assetDatatoPrint .small-data-wg {
                                 bottom: 15px;

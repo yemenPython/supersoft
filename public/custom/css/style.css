@@ -913,3 +913,12 @@ background-image: linear-gradient(0deg, #1d92af 0%, #1d5697 100%); */
         .border-bottom-wg-chos li {
             margin-bottom: 2px !important
         }
+        
+        span.select2-selection.select2-selection--multiple {
+            display: grid !important
+        }
+        
+        #invoiceDatatoPrint {
+            position: relative;
+            padding: 0 15px;
+        }
