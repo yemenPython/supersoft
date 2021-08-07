@@ -50,7 +50,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-md-12">
                                     <label for="status" class="control-label">{{__('Status')}}</label>
                                     <div class="switch primary" style="margin-top: 15px">
@@ -63,7 +63,7 @@
 
 
 
-                            
+
 
 
                 </div>
@@ -141,13 +141,7 @@
 
                         </div>
 
-                        <button type="submit"
-                                class="btn sr4-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
-                                class=" fa fa-search "></i> {{__('Search')}} </button>
-                        <a href="{{\Illuminate\Support\Facades\URL::previous()}}"
-                           class="btn bc-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
-                                class=" fa fa-reply"></i> {{__('Back')}}
-                        </a>
+                        @include('admin.btns.btn_search')
 
                     </form>
                 </div>
@@ -216,66 +210,6 @@
                             <th scope="col">{!! __('Select') !!}</th>
                         </tr>
                     </tfoot>
-                    <tbody>
-                    @if($assetsLicenses)
-                        @foreach($assetsLicenses as $assetLicense)
-                            <tr>
-                                <td>{{$loop->iteration}}</td>
-                                <td>{{$assetLicense->status?__('Active'):__('In-active')}}</td>
-                                <td> {{ $assetLicense->license_details }} </td>
-                                <td> {{ $assetLicense->start_date }} </td>
-                                <td> {{ $assetLicense->end_date }} </td>
-                                <td>
-                                <div class="btn-group margin-top-10">
-
-                                        <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="ico fa fa-bars"></i>
-                                        {{__('Options')}} <span class="caret"></span>
-
-                                    </button>
-                                        <ul class="dropdown-menu dropdown-wg">
-                                            <li>
-                                                <a style=" margin-bottom: 12px; border-radius: 5px"
-                                                   type="button"
-                                                   data-toggle="modal" data-target="#add-employee-modal"
-                                                   data-license_id ="{{ $assetLicense->id }}"
-                                                   data-name="{{ $assetLicense->license_details }}"
-                                                   data-start_date="{{ $assetLicense->start_date }}"
-                                                   data-end_date="{{ $assetLicense->end_date }}"
-                                                   data-status="{{ $assetLicense->status }}"
-                                                   data-title="{{__('Edit asset License')}}"
-                                                   class="btn btn-print-wg text-white">
-                                                           <i class="fa fa-edit"></i>
-                                                            {{__('Edit')}}
-
-
-                                                </a>
-
-                                                </li>
-                                            <li class="btn-style-drop">
-
-                                            @component('admin.buttons._delete_button',[
-                                            'id'=> $assetLicense->id,
-                                            'route' => 'admin:assetsLicenses.destroy',
-                                             ])
-                                @endcomponent
-
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                </td>
-                                <td>
-                                    @component('admin.buttons._delete_selected',[
-                                        'id' =>  $assetLicense->id,
-                                        'route' => 'admin:assetsLicenses.deleteSelected',
-                                    ])
-                                    @endcomponent
-                                </td>
-                            </tr>
-                        @endforeach
-                    @endif
-                    </tbody>
                 </table>
             </div>
         </div>
@@ -297,6 +231,7 @@
 
         $('#add-employee-modal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget);
+            console.log(button)
             var license_id = button.data('license_id');
             $('#asset_license_id').val(license_id);
             var name = button.data('name');
@@ -314,6 +249,17 @@
                 $('#myModalLabel-1').text('{{__('Add new asset License')}}');
             }
             $('#myModalLabel-1').text(title);
+        });
+
+        $('#add-employee-modal').on('hide.bs.modal', function (event) {
+            $("#empId").select2("val", '');
+            $("#newAssetEmployee-form").get(0).reset();
+            $(".error-help-block").each(function (index , element) {
+                element.remove();
+            })
+            $("form#newAssetEmployee-form .form-group").each(function(){
+                $(this).removeClass('has-error');
+            });
         });
 
         server_side_datatable('#datatable-with-btns');

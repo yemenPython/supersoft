@@ -28,7 +28,7 @@
                                             <label>{{ __('name') }} </label>
                                             <div class="input-group">
                                                 <span class="input-group-addon fa fa-user"></span>
-                                                <select class="form-control select2" name="employee_id" id="employee_id">
+                                                <select class="form-control select2" name="employee_id" id="empId">
                                                     <option value="0"> {{ __('Select Employee') }} </option>
                                                     @foreach($employees as $employee)
                                                         <option
@@ -75,7 +75,7 @@
                                 </div>
 
 
-           
+
 
 
 
@@ -156,13 +156,7 @@
 
                             </div>
 
-                            <button type="submit"
-                                    class="btn sr4-wg-btn waves-effect waves-light hvr-rectangle-out"><i
-                                    class=" fa fa-search"></i> {{__('Search')}} </button>
-                            <a href="{{\Illuminate\Support\Facades\URL::previous()}}"
-                               class="btn bc-wg-btn waves-effect waves-light hvr-rectangle-out"><i
-                                    class="fa fa-reply"></i> {{__('Back')}}
-                            </a>
+                            @include('admin.btns.btn_search')
 
                         </form>
                     </div>
@@ -259,16 +253,17 @@
         }
 
         $(document).ready(function () {
-            $(".select2").select2();
             $('#add-employee-modal').on('show.bs.modal', function (event) {
-                $('#employee_id').select2();
+                $('#empId').select2({
+                    dropdownParent: $('#add-employee-modal')
+                });
                 var button = $(event.relatedTarget);
 
                 var asset_employee_id = button.data('asset_employee_id');
                 $('#asset_employee_id').val(asset_employee_id);
                 var employee_id = button.data('employee_id');
 
-                $('#employee_id').val(employee_id);
+                $('#empId').val(employee_id);
                 var phone = button.data('phone');
                 $('#phone').val(phone);
                 var start_date = button.data('start_date');
@@ -278,10 +273,10 @@
                 var status = button.data('status');
                 $('.status').val(status);
                 if (employee_id && employee_id != '') {
-                    $('#employee_id').val(employee_id).trigger('change');
+                    $('#empId').val(employee_id).trigger('change');
                 } else {
-                    $('#employee_id').val(0).trigger('change');
-                    $("#employee_id").select2("val", '');
+                    $('#empId').val(0).trigger('change');
+                    $("#empId").select2("val", '');
                 }
                 var title = button.data('title');
                 if (title === undefined){
@@ -290,7 +285,7 @@
                 $('#myModalLabel-1').text(title);
             });
 
-            $('#employee_id').on('change', function () {
+            $('#empId').on('change', function () {
                 const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
                 const employee_id = $(this).val();
                 $.ajax({
@@ -307,6 +302,18 @@
                         var errors = jqXhr.responseJSON;
                         swal({text: errors, icon: "error"})
                     }
+                });
+            });
+
+
+            $('#add-employee-modal').on('hide.bs.modal', function (event) {
+                $("#empId").select2("val", '');
+                $("#newAssetEmployee-form").get(0).reset();
+                $(".error-help-block").each(function (index , element) {
+                    element.remove();
+                })
+                $("form#newAssetEmployee-form .form-group").each(function(){
+                    $(this).removeClass('has-error');
                 });
             });
         });

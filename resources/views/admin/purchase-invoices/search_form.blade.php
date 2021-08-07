@@ -65,6 +65,14 @@
                             </div>
                         </div>
 
+                            <div class="form-group col-md-4">
+                                <label> {{ __('Purchase Receipts') }} </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon fa fa-file"></span>
+                                    {!! drawSelect2ByAjax('purchase_receipt_id','PurchaseReceipt','number', 'number',__('Select'),request()->number) !!}
+                                </div>
+                            </div>
+
 
 
                         <div class="form-group col-md-4">

@@ -63,7 +63,7 @@
                                 <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
                                 <div class="input-group">
                                     <span class="input-group-addon fa fa-user"></span>
-                                    {!! drawSelect2ByAjax('pending','Supplier','name_'.app()->getLocale(),'name_'.app()->getLocale(),__('Select'),request()->supplier_id) !!}
+                                    {!! drawSelect2ByAjax('supplier_id','Supplier','name_'.app()->getLocale(),'name_'.app()->getLocale(),__('Select'),request()->supplier_id) !!}
                                 </div>
                             </div>
                         </div>
@@ -87,17 +87,25 @@
 
                     <div class="col-md-4">
                         <label style="display:block">{{__('Quotation type')}}</label>
-                        <div class="col-md-6" style="padding:0">
+                        <div class="col-md-4" style="padding:0">
                             <div class="radio primary ">
                                 <input type="radio" name="type" value="cash" id="cash">
                                 <label for="cash">{{__('Cash')}}</label>
                             </div>
                         </div>
 
-                        <div class="col-md-6" style="padding:0">
+                        <div class="col-md-4" style="padding:0">
                             <div class="radio primary ">
                                 <input type="radio" name="type" id="credit" value="credit">
                                 <label for="credit">{{__('Credit')}}</label>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-4" style="padding:0">
+                            <div class="radio primary ">
+                                <input type="radio" name="type" id="together" value="together">
+                                <label for="together">{{__('Together')}}</label>
                             </div>
                         </div>
                     </div>

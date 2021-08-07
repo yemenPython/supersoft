@@ -3,6 +3,7 @@
 namespace App\Filters;
 
 use App\Models\PurchaseInvoice;
+use App\Models\PurchaseReceipt;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
@@ -37,6 +38,13 @@ class PurchaseInvoiceFilter
 
             if ($request->filled('supply_order_number')) {
                 $query->where('supply_order_id', $request->supply_order_number);
+            }
+
+            if ($request->filled('purchase_receipt_id')) {
+                $purchaseReceipt = PurchaseReceipt::where('id',  $request->purchase_receipt_id)->first();
+               if ($purchaseReceipt &&  $purchaseReceipt->supply_order_id) {
+                   $query->where('supply_order_id', $purchaseReceipt->supply_order_id);
+               }
             }
 
             if ($request->filled('date_add_from') && $request->filled('date_add_to')) {

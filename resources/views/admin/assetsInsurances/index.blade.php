@@ -63,7 +63,7 @@
                                 </div>
                                 </div>
 
-  
+
 
 
 
@@ -143,14 +143,7 @@
 
                             </div>
 
-                            <button type="submit"
-                                    class="btn sr4-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
-                                    class=" fa fa-search "></i> {{__('Search')}} </button>
-                            <a href="{{\Illuminate\Support\Facades\URL::previous()}}"
-                               class="btn bc-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
-                                    class=" fa fa-reply"></i> {{__('Back')}}
-                            </a>
-
+                            @include('admin.btns.btn_search')
                         </form>
                     </div>
                     <!-- /.card-content -->
@@ -254,6 +247,16 @@
                 $('#myModalLabel-1').text('{{__('Add new asset Insurance')}}');
             }
             $('#myModalLabel-1').text(title);
+        });
+
+        $('#add-employee-modal').on('hide.bs.modal', function (event) {
+            $("#newAssetEmployee-form").get(0).reset();
+            $(".error-help-block").each(function (index , element) {
+                element.remove();
+            })
+            $("form#newAssetEmployee-form .form-group").each(function(){
+                $(this).removeClass('has-error');
+            });
         });
 
         server_side_datatable('#datatable-with-btns');

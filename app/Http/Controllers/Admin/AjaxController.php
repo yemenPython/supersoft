@@ -1143,9 +1143,23 @@ class AjaxController extends Controller
             $assetsItemExpenses = $assetsItemExpenses->where('branch_id', $branchId);
         }
 
-//        if (!empty($this->supplier_id)) {
-//            $assetsItemExpenses = $assetsItemExpenses->where('supplier_id', $this->supplier_id);
-//        }
+        if (!empty($this->supply_order_number)) {
+            $assetsItemExpenses->whereHas('supplyOrders', function ($q)  {
+                $q->where('supply_order_id', $this->supply_order_number);
+            });
+        }
+
+        if (!empty($this->type) && $this->type != 'together') {
+            $assetsItemExpenses = $assetsItemExpenses->where('type', $this->type);
+        }
+
+        if (!empty($this->type) && $this->type == 'together') {
+            $assetsItemExpenses = $assetsItemExpenses->whereIn('type', ['credit', 'cash']);
+        }
+
+        if (!empty($this->supplier_id)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('supplier_id', $this->supplier_id);
+        }
 
         if (!empty($this->invoice_type)) {
             $assetsItemExpenses = $assetsItemExpenses->where('invoice_type', $this->invoice_type);

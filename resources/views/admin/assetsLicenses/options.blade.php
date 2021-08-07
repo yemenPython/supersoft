@@ -24,7 +24,7 @@
                    type="button"
                    data-toggle="modal" data-target="#add-employee-modal"
                    data-insurance_id="{{ $item->id }}"
-                   data-name="{{ $item->insurance_details }}"
+                   data-name="{{ $item->license_details }}"
                    data-start_date="{{ $item->start_date }}"
                    data-end_date="{{ $item->end_date }}"
                    data-status="{{ $item->status }}"
