@@ -208,7 +208,7 @@
 
 
             <div class="print-foot-wg position-relative ml-0">
-                <div class="row" style="display:flex;align-items:flex-end;">
+                <div class="row " style="display:flex;align-items:flex-end;">
                     <div class="col-xs-7">
                         <div class="row">
                             <div class="col-xs-12">

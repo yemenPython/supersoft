@@ -19,7 +19,6 @@
             <form id="newAssetEmployee-form" method="post" action="{{ route('admin:assetsInsurances.store') }}">
                 <div class="modal-body">
 
-                    <div class="col-xs-12">
 
 
                                 <div class="row">
@@ -33,7 +32,7 @@
                                             <input type="text" name="name" id="name" class="form-control">
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="">
                                         <div class="form-group col-md-6">
                                             <label> {{ __('words.date-from') }} </label>
                                             <div class="input-group">
@@ -54,9 +53,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                </div>
-
-                                <div class="col-md-2">
+                                <div class="col-md-12">
                                     <label for="status" class="control-label">{{__('Status')}}</label>
                                     <div class="switch primary" style="margin-top: 15px">
                                         <input type="hidden" name="status" value="0">
@@ -64,10 +61,12 @@
                                         <label for="switch-1">{{__('Active')}}</label>
                                     </div>
                                 </div>
+                                </div>
+
+  
 
 
 
-                    </div>
 
                 </div>
                 <div class="modal-footer">

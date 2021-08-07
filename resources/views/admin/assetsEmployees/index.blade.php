@@ -17,7 +17,6 @@
             <form id="newAssetEmployee-form" method="post" action="{{ route('admin:assetsEmployees.store') }}">
                 <div class="modal-body">
 
-                    <div class="col-xs-12">
 
 
                                 <div class="row">
@@ -65,10 +64,7 @@
                                                    class="form-control date js-example-basic-single" type="date"/>
                                         </div>
                                     </div>
-                                </div>
-
-
-                                <div class="col-md-2">
+                                    <div class="col-md-12">
                                     <label for="status" class="control-label">{{__('Status')}}</label>
                                     <div class="switch primary" style="margin-top: 15px">
                                         <input type="hidden"  name="status" value="0">
@@ -76,9 +72,12 @@
                                         <label for="switch-1">{{__('Active')}}</label>
                                     </div>
                                 </div>
+                                </div>
 
 
-                            </div>
+           
+
+
 
                 </div>
                 <div class="modal-footer">
