@@ -50,19 +50,7 @@ class UpdateSuppliersRequest extends FormRequest
             'commercial_record_area' => 'nullable',
             'tax_file_number' => 'nullable',
             'company_code' => 'nullable',
-
-            'contacts' => 'nullable',
-            'contacts.*.phone_1' => 'required|string',
-            'contactsUpdate.*.phone_1' => 'required|string',
-            'contacts.*.phone_2' => 'nullable|string',
-            'contacts.*.address' => 'nullable|string',
-            'contacts.*.name' => 'required|string|min:1|max:100',
-            'contactsUpdate.*.name' => 'required|string|min:1|max:100',
             'supplier_type' => 'required|in:supplier,contractor,both_together',
-            'bankAccount.*.bank_name' => 'required',
-            'bankAccount.*.account_number' => 'required',
-            'bankAccountUpdate.*.bank_name' => 'required',
-            'bankAccountUpdate.*.account_number' => 'required',
         ];
 
         if (authIsSuperAdmin()) {

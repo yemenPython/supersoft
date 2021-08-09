@@ -327,6 +327,13 @@
 
                                                 </li>
 
+                                                <li>
+                                                    <a class="btn btn-wg-show hvr-radial-out" target="_blank"
+                                                       href="{{route('admin:suppliers_bank_account.index', ['supplier' => $supplier->id])}}" >
+                                                        <i class="fa fa-eye"></i> {{ __( 'Bank Accounts' )}}</a>
+
+                                                </li>
+
                                     </td>
                                     <td>
                                         @component('admin.buttons._delete_selected',[
