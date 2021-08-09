@@ -86,6 +86,7 @@ class UpdateSalesInvoiceRequest extends FormRequest
             'type_for' => 'required|string|in:supplier,customer',
             'type' => 'required|string|in:cash,credit',
             'status' => 'required|string|in:pending,processing,finished',
+            'invoice_type'=>'required|string|in:normal,direct_invoice,direct_sale_quotations',
 
             'items.*.part_id' => 'required|integer|exists:parts,id',
             'items.*.part_price_id' => 'required|integer|exists:part_prices,id',
@@ -101,6 +102,8 @@ class UpdateSalesInvoiceRequest extends FormRequest
             'taxes.*' => 'nullable|integer|exists:taxes_fees,id',
 
             'additional_payments.*' => 'nullable|integer|exists:taxes_fees,id',
+
+            'sale_quotation_ids.*'=>'nullable|integer|exists:sale_quotations,id'
         ];
 
         $branch_id = auth()->user()->branch_id;

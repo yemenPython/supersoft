@@ -72,64 +72,84 @@
 
 @section('modals')
 
-{{--    <div class="modal fade" id="purchase_receipts" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">--}}
-{{--        <div class="modal-dialog modal-lg" role="document">--}}
-{{--        <div class="modal-content wg-content">--}}
-{{--                <div class="modal-header">--}}
+    <div class="modal fade" id="purchase_quotations" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content wg-content">
+                <div class="modal-header">
 
-{{--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
-{{--                        <span aria-hidden="true">&times;</span>--}}
-{{--                    </button>--}}
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
 
-{{--                    <h4 class="modal-title" id="myModalLabel-1">{{__('Purchase Receipts')}}</h4>--}}
-{{--                </div>--}}
+                    <h4 class="modal-title" id="myModalLabel-1">{{__('Sale Quotations')}}</h4>
+                </div>
 
-{{--                <div class="modal-body">--}}
+                <div class="modal-body">
 
-{{--                    <div class="row">--}}
+                    <div class="row">
 
-{{--                        <div class="col-md-12 margin-bottom-20">--}}
-{{--                            <table id="purchase_quotations_table" class="table table-bordered" style="width:100%">--}}
-{{--                                <thead>--}}
-{{--                                <tr>--}}
-{{--                                    <th scope="col">{!! __('Check') !!}</th>--}}
-{{--                                    <th scope="col">{!! __('Purchase Receipt Number') !!}</th>--}}
-{{--                                    <th scope="col">{!! __('Supplier name') !!}</th>--}}
-{{--                                </tr>--}}
-{{--                                </thead>--}}
+                        <div class="col-md-12 margin-bottom-20">
+                            <table id="sale_quotations_table" class="table table-bordered" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th scope="col">{!! __('Check') !!}</th>
+                                    <th scope="col">{!! __('Sale Quotation num.') !!}</th>
+                                    <th scope="col">{!! __('Customer name') !!}</th>
+                                </tr>
+                                </thead>
 
-{{--                                <form id="purchase_quotation_form" method="post">--}}
-{{--                                    @csrf--}}
+                                <form id="sale_quotation_form" method="post">
+                                    @csrf
 
-{{--                                    <tbody id="purchase_receipts_data">--}}
+                                    <tbody id="sale_quotation_data">
 
-{{--                                    </tbody>--}}
+                                    @foreach( $data['saleQuotations'] as $saleQuotation)
 
-{{--                                </form>--}}
-{{--                            </table>--}}
-{{--                        </div>--}}
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" name="sale_quotations[]"
+                                                       value="{{$saleQuotation->id}}"
+{{--                                                       onclick="selectSaleQuotation('{{$saleQuotation->id}}')"--}}
+                                                       class="sale_quotation_box_{{$saleQuotation->id}}"
+                                                >
+                                            </td>
+                                            <td>
+                                                <span>{{$saleQuotation->number}}</span>
+                                            </td>
+                                            <td>
+                                                <span>{{optional($saleQuotation->salesable)->name}}</span>
+                                            </td>
+                                        </tr>
 
-{{--                    </div>--}}
+                                    @endforeach
 
-{{--                </div>--}}
+                                    </tbody>
 
-{{--                <div class="modal-footer">--}}
+                                </form>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
 
 
-{{--                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"--}}
-{{--                            onclick="addSelectedPurchaseReceipts()">--}}
-{{--                        {{__('Add Item')}}--}}
-{{--                    </button>--}}
+                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
+                            onclick="addSelectedSaleQuotations()">
+                        {{__('Add Item')}}
+                    </button>
 
-{{--                    <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"--}}
-{{--                            data-dismiss="modal">--}}
-{{--                        {{__('Close')}}--}}
-{{--                    </button>--}}
+                    <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"
+                            data-dismiss="modal">
+                        {{__('Close')}}
+                    </button>
 
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
+                </div>
+            </div>
+        </div>
+    </div>
 
     @include('admin.partial.part_image')
 
@@ -220,6 +240,52 @@
                     swal({text: errors, icon: "error"})
                 }
             });
+        }
+
+        function addSelectedSaleQuotations() {
+
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            var selected = [];
+
+            $('#sale_quotation_data input:checked').each(function () {
+                selected.push($(this).attr('value'));
+            });
+
+            $('#sale_quotation_ids').empty();
+
+            for(var i = 0; i< selected.length; i++) {
+                $('#sale_quotation_ids').append(' <input type="hidden" name="sale_quotation_ids[]" value="'+selected[i]+'">');
+            }
+
+            $.ajax({
+
+                type: 'post',
+
+                url: '{{route('admin:sales.invoices.add.sale.quotations')}}',
+
+                data: {_token: CSRF_TOKEN, sale_quotations: selected},
+
+                success: function (data) {
+
+                    $("#parts_data").html(data.view);
+
+                    $("#items_count").val(data.index);
+
+                    $('.js-example-basic-single').select2();
+
+                    executeAllItems();
+
+
+
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
         }
 
         function selectPart() {
@@ -392,6 +458,10 @@
             $('#part_image').attr('src', image_path);
         }
 
+    </script>
+
+    <script type="application/javascript">
+        invoke_datatable($('#sale_quotations_table'))
     </script>
 
 @endsection

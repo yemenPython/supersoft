@@ -1,18 +1,18 @@
 function changeType() {
 
-    let quotation_type = $('#quotation_type').find(":selected").val();
+    let types = ["normal", "direct_invoice"];
 
-    if (quotation_type == 'from_supply_order') {
+    let invoice_type = $('#invoice_type').find(":selected").val();
 
-        $(".purchase_request_type").show();
-        $(".out_purchase_request_type").hide();
-        $(".part_types_head").hide();
+    if (types.includes(invoice_type)) {
 
-    } else {
+        $(".normal").show();
+        $(".un_normal").hide();
+    }
 
-        $(".purchase_request_type").hide();
-        $(".out_purchase_request_type").show();
-        $(".part_types_head").show();
+    if (invoice_type == 'direct_sale_quotations' || invoice_type == 'from_sale_quotations') {
+        $(".direct_sale_quotations").show();
+        $(".normal").hide();
     }
 
     $(".remove_on_change_branch").remove();
@@ -31,6 +31,11 @@ function changeTypeFor() {
         $("#customers_data").hide();
         $("#customer_id").prop('disabled', true);
 
+        $("#supplier_id").addClass('client_select');
+        $("#customer_id").removeClass('client_select');
+
+        $("#customer_id").val('').change();
+
     } else {
 
         $("#customers_data").show();
@@ -39,8 +44,17 @@ function changeTypeFor() {
         $("#suppliers_data").hide();
         $("#supplier_id").prop('disabled', true);
 
+        $("#customer_id").addClass('client_select');
+        $("#supplier_id").removeClass('client_select');
+
+        $("#supplier_id").val('').change();
     }
+
+    $('.supplier_discount').val(0);
+
+    calculateTotal();
 }
+
 
 function getPurchasePrice(index) {
 
@@ -185,7 +199,7 @@ function calculateInvoiceDiscount() {
     let discount = $("#discount").val();
     let total = $("#sub_total").val();
     let supplier_discount = 0;
-    let supplier_id = $('#supplier_id').find(":selected").val();
+    let client_id = $('.client_select').find(":selected").val();
 
     if (discount == "") {
         discount = 0;
@@ -201,8 +215,8 @@ function calculateInvoiceDiscount() {
         var price_after_discount = parseFloat(total) - parseFloat(discount_percent_value);
     }
 
-    if ($('#supplier_discount_check').is(':checked') && supplier_id != '') {
-        supplier_discount = supplierDiscount();
+    if ($('#supplier_discount_check').is(':checked') && client_id != '') {
+        supplier_discount = clientDiscount();
     }
 
     price_after_discount -= parseFloat(supplier_discount);
@@ -367,11 +381,11 @@ function selectPurchaseQuotation(index) {
     }
 }
 
-function selectSupplier () {
+function selectClient () {
 
-    let supplier_id = $('#supplier_id').find(":selected").val();
-    let discount = $('#supplier_id').find(":selected").data('discount');
-    let discount_type = $('#supplier_id').find(":selected").data('discount-type');
+    let supplier_id = $('.client_select').find(":selected").val();
+    let discount = $('.client_select').find(":selected").data('discount');
+    let discount_type = $('.client_select').find(":selected").data('discount-type');
 
     if (discount_type == 'amount') {
 
@@ -387,12 +401,14 @@ function selectSupplier () {
     calculateTotal();
 }
 
-function supplierDiscount () {
+function clientDiscount () {
 
     let total = $('#sub_total').val();
 
-    let discount = $('#supplier_id').find(":selected").data('discount');
-    let discount_type = $('#supplier_id').find(":selected").data('discount-type');
+    let discount = $('.client_select').find(":selected").data('discount');
+    let discount_type = $('.client_select').find(":selected").data('discount-type');
+
+    // console.log(discount);
 
     if (discount == "") {
         discount = 0;

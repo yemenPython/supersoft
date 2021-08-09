@@ -19,8 +19,7 @@
 
     <td>
         <div class="input-group" style="width: 180px !important;">
-            <select class="form-control js-example-basic-single" name="items[{{$index}}][spare_part_id]"
-                    id="spare_part_id_{{$index}}">
+            <select class="form-control js-example-basic-single" name="items[{{$index}}][spare_part_id]" id="spare_part_id_{{$index}}">
                 @foreach($part->part_types_tree as $sparePartId => $sparePartValue)
                     <option value="{{$sparePartId}}"
                         {{isset($item) && $item->spare_part_id == $sparePartId ? 'selected':''}}
@@ -37,7 +36,7 @@
 
         <span id="unit_quantity_{{$index}}">
 
-            {{ isset($update_item) && $update_item->partPrice ? $update_item->partPrice->quantity : $part->first_price_quantity}}
+            {{ isset($item) && $item->partPrice ? $item->partPrice->quantity : $part->first_price_quantity}}
 
         </span>
 
@@ -109,7 +108,6 @@
         </div>
     </td>
 
-
     <td>
         <input style="width: 100px !important;" type="number" class="form-control border1" id="quantity_{{$index}}"
                value="{{isset($item) ? $item->quantity : 1}}" min="1" name="items[{{$index}}][quantity]"
@@ -130,11 +128,12 @@
         <div class="radio primary">
             <input style="width: 150px !important;" type="radio" name="items[{{$index}}][discount_type]"
                    id="discount_type_amount_{{$index}}"
-                   value="amount" {{!isset($update_item) ? 'checked':''}} onclick="calculateItem('{{$index}}')"
+                   value="amount" {{!isset($item) ? 'checked':''}} onclick="calculateItem('{{$index}}')"
                 {{isset($item) && $item->discount_type == 'amount'? 'checked' : '' }}
             >
             <label for="discount_type_amount_{{$index}}">{{__('amount')}}</label>
         </div>
+
         <div class="radio primary">
             <input style="width: 150px !important;" type="radio" name="items[{{$index}}][discount_type]"
                    id="discount_type_percent_{{$index}}" value="percent"
@@ -216,7 +215,6 @@
                             <span>{{ __('No Taxes Founded') }}</span>
                         </a>
                     </li>
-
                 @endif
             </ul>
 

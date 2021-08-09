@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Part;
 use App\Models\PartPriceSegment;
 use App\Models\PointRule;
+use App\Models\SaleQuotation;
 use App\Models\SaleSupplyOrder;
 use App\Models\Supplier;
 use App\Models\SupplyOrder;
@@ -240,11 +241,20 @@ class SalesInvoicesController extends Controller
             ->select('id', 'name_' . $this->lang, 'customer_category_id')
             ->get();
 
+        $data['saleQuotations'] = SaleQuotation::where('branch_id', $branch_id)
+            ->where('status','finished')
+            ->select('id', 'number', 'salesable_id', 'salesable_type')
+            ->get();
+
         return view('admin.sales_invoice.create', compact('data'));
     }
 
     public function store(CreateSalesInvoiceRequest $request)
     {
+        if (!$request->has('items')) {
+            return redirect()->back()->with(['message' => __('sorry,  items required'), 'alert-type' => 'error']);
+        }
+
         try {
 
             DB::beginTransaction();
@@ -260,6 +270,10 @@ class SalesInvoicesController extends Controller
 
             $this->salesInvoiceServices->salesInvoiceTaxes($salesInvoice, $data);
 
+            if (in_array($salesInvoice->invoice_type, ['direct_sale_quotations', 'from_sale_quotations'])) {
+                $salesInvoice->saleQuotations()->attach($request['sale_quotation_ids']);
+            }
+
             foreach ($data['items'] as $item) {
 
                 $item_data = $this->salesInvoiceServices->calculateItemTotal($item);
@@ -273,7 +287,7 @@ class SalesInvoicesController extends Controller
                 }
             }
 
-            if ($salesInvoice->status == 'finished' && $salesInvoice->invoice_type = 'direct_invoice') {
+            if ($salesInvoice->status == 'finished' && in_array($salesInvoice->invoice_type, ['direct_invoice', 'direct_sale_quotations'])) {
 
                 $acceptQuantityData = $this->handleQuantityServices->acceptQuantity($salesInvoice->items, 'pull');
 
@@ -347,14 +361,20 @@ class SalesInvoicesController extends Controller
             ->select('id', 'name_' . $this->lang, 'customer_category_id')
             ->get();
 
+        $data['saleQuotations'] = SaleQuotation::where('branch_id', $branch_id)
+            ->where('status','finished')
+            ->select('id', 'number', 'salesable_id', 'salesable_type')
+            ->get();
+
         return view('admin.sales_invoice.edit', compact('data', 'salesInvoice'));
 
     }
 
     public function update(UpdateSalesInvoiceRequest $request, SalesInvoice $salesInvoice)
     {
+
         if ($salesInvoice->status == 'finished') {
-            return redirect()->back()->with(['message' => __('words.cant.update.finished.items'), 'alert-type' => 'success']);
+            return redirect()->back()->with(['message' => __('words.cant.update.finished.items'), 'alert-type' => 'error']);
         }
 
         try {
@@ -371,6 +391,10 @@ class SalesInvoicesController extends Controller
 
             $this->salesInvoiceServices->salesInvoiceTaxes($salesInvoice, $data);
 
+            if (in_array($salesInvoice->invoice_type, ['direct_sale_quotations', 'from_sale_quotations'])) {
+                $salesInvoice->saleQuotations()->attach($request['sale_quotation_ids']);
+            }
+
             foreach ($data['items'] as $item) {
 
                 $item_data = $this->salesInvoiceServices->calculateItemTotal($item);
@@ -384,7 +408,7 @@ class SalesInvoicesController extends Controller
                 }
             }
 
-            if ($salesInvoice->status == 'finished' && $salesInvoice->invoice_type = 'direct_invoice') {
+            if ($salesInvoice->status == 'finished' && in_array($salesInvoice->invoice_type, ['direct_invoice', 'direct_sale_quotations'])) {
 
                 $acceptQuantityData = $this->handleQuantityServices->acceptQuantity($salesInvoice->items, 'pull');
 
@@ -626,5 +650,47 @@ class SalesInvoicesController extends Controller
 
         });
     }
+
+    public function addSaleQuotations(Request $request)
+    {
+        $rules = [
+            'sale_quotations' => 'required',
+            'sale_quotations.*' => 'required|integer|exists:sale_quotations,id',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        try {
+
+            $saleQuotations = SaleQuotation::with('items')
+                ->whereIn('id', $request['sale_quotations'])
+                ->get();
+
+            $customers = [];
+            $itemsCount = 0;
+
+            foreach ($saleQuotations as $saleQuotation) {
+
+                if (!empty($customers) && !in_array($saleQuotation->salesable_id, $customers)) {
+                    return response()->json(__('sorry, client is different'), 400);
+                }
+
+                $customers[] = $saleQuotation->salesable_id;
+                $itemsCount += $saleQuotation->items()->count();
+            }
+
+            $view = view('admin.sales_invoice.sale_quotation_items', compact('saleQuotations'))->render();
+
+            return response()->json(['view' => $view, 'index' => $itemsCount], 200);
+
+        } catch (\Exception $e) {
+            return response()->json('sorry, please try later', 400);
+        }
+    }
+
 
 }

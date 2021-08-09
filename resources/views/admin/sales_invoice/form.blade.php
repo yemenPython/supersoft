@@ -63,7 +63,7 @@
 
                             <span class="input-group-addon fa fa-info"></span>
 
-                            <select class="form-control js-example-basic-single" name="invoice_type" id="quotation_type"
+                            <select class="form-control js-example-basic-single" name="invoice_type" id="invoice_type"
                                     onchange="changeType()">
 
                                 <option value="normal"
@@ -74,6 +74,16 @@
                                 <option value="direct_invoice"
                                     {{isset($salesInvoice) && $salesInvoice->invoice_type == 'direct_invoice'? 'selected':'' }}>
                                     {{ __('Direct Invoice') }}
+                                </option>
+
+                                <option value="direct_sale_quotations"
+                                    {{isset($salesInvoice) && $salesInvoice->invoice_type == 'direct_sale_quotations'? 'selected':'' }}>
+                                    {{ __('Direct Sale Quotations') }}
+                                </option>
+
+                                <option value="from_sale_quotations"
+                                    {{isset($salesInvoice) && $salesInvoice->invoice_type == 'from_sale_quotations'? 'selected':'' }}>
+                                    {{ __('From Sale Quotations') }}
                                 </option>
 
                             </select>
@@ -106,36 +116,6 @@
                     </div>
                 </div>
 
-{{--                <div class="col-md-6 purchase_request_type"--}}
-{{--                     style="{{isset($purchaseInvoice) && $purchaseInvoice->invoice_type != 'from_supply_order'? 'display:none':''}}">--}}
-{{--                    <div class="form-group">--}}
-
-
-{{--                        <div class="input-group">--}}
-{{--                            <label style="opacity:0">{{__('select')}}</label>--}}
-{{--                            <ul class="list-inline" style="display:flex">--}}
-{{--                                <li class="col-md-6">--}}
-{{--                                    <button type="button" onclick="getPurchaseReceipts(); changeType()"--}}
-{{--                                            class="btn btn-new1 waves-effect waves-light btn-xs">--}}
-{{--                                        <i class="fa fa-file-text-o"></i>--}}
-{{--                                        {{__('Get Purchase Receipt')}}--}}
-{{--                                    </button>--}}
-{{--                                </li>--}}
-
-{{--                                <li class="col-md-6">--}}
-{{--                                    <button type="button" class="btn btn-new2 waves-effect waves-light btn-xs"--}}
-{{--                                            data-toggle="modal" data-target="#purchase_receipts"--}}
-{{--                                            style="margin-right: 10px;">--}}
-{{--                                        <i class="fa fa-file-text-o"></i>--}}
-{{--                                        {{__('Show selected Receipts')}}--}}
-{{--                                    </button>--}}
-{{--                                <li>--}}
-{{--                            </ul>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-
-
                 <div class="col-md-3">
                     <label style="display:block">{{__('Invoice type form')}}</label>
 
@@ -143,7 +123,8 @@
 
                         <div class="radio primary ">
 
-                            <input type="radio" name="type_for" value="customer" id="customer_radio" onclick="changeTypeFor()"
+                            <input type="radio" name="type_for" value="customer" id="customer_radio"
+                                   onclick="changeTypeFor()"
                                 {{ !isset($salesInvoice) ? 'checked':'' }}
                                 {{isset($salesInvoice) && $salesInvoice->type_for == 'customer' ? 'checked':''}} >
                             <label for="customer_radio">{{__('Customer')}}</label>
@@ -154,7 +135,8 @@
 
                         <div class="radio primary ">
 
-                            <input type="radio" name="type_for" id="supplier_radio" value="supplier" onclick="changeTypeFor()"
+                            <input type="radio" name="type_for" id="supplier_radio" value="supplier"
+                                   onclick="changeTypeFor()"
                                 {{isset($salesInvoice) && $salesInvoice->type_for == 'supplier' ? 'checked':''}} >
                             <label for="supplier_radio">{{__('Supplier')}}</label>
                         </div>
@@ -168,7 +150,9 @@
                         <div class="input-group">
                             <span class="input-group-addon fa fa-user"></span>
 
-                            <select class="form-control js-example-basic-single" name="salesable_id" id="supplier_id"
+                            <select
+                                class="form-control js-example-basic-single {{(isset($salesInvoice) && $salesInvoice->type_for == 'supplier' ? 'client_select':'')}}"
+                                name="salesable_id" id="supplier_id" onchange="selectClient()"
                                 {{!isset($salesInvoice) || (isset($salesInvoice) && $salesInvoice->type_for == 'customer') ? 'disabled':''}}>
 
                                 <option value="">{{__('Select')}}</option>
@@ -196,7 +180,9 @@
                         <div class="input-group">
                             <span class="input-group-addon fa fa-user"></span>
 
-                            <select class="form-control js-example-basic-single" name="salesable_id" id="customer_id"
+                            <select
+                                class="form-control js-example-basic-single {{(isset($salesInvoice) && $salesInvoice->type_for != 'customer' ? '':'client_select')}}"
+                                onchange="selectClient()" name="salesable_id" id="customer_id"
                                 {{(isset($salesInvoice) && $salesInvoice->type_for != 'customer')? 'disabled':''}}>
                                 <option value="">{{__('Select')}}</option>
 
@@ -217,7 +203,6 @@
                         {{input_error($errors,'salesable_id')}}
                     </div>
                 </div>
-
 
                 <div class="col-md-3">
                     <label style="display:block">{{__('Invoice type')}}</label>
@@ -275,12 +260,33 @@
                     </div>
                 </div>
 
+                <div class="col-md-3 un_normal direct_sale_quotations"
+                     style="{{!isset($salesInvoice) || isset($salesInvoice) && $salesInvoice->invoice_type != 'direct_sale_quotations'? 'display:none':''}}">
+                    <div class="form-group">
+
+                        <div class="input-group">
+                            <label style="opacity:0">{{__('select')}}</label>
+                            <ul class="list-inline" style="display:flex">
+
+                                <li class="col-md-6">
+                                    <button type="button" class="btn btn-new2 waves-effect waves-light btn-xs"
+                                            data-toggle="modal" data-target="#purchase_quotations"
+                                            style="margin-right: 10px;">
+                                        <i class="fa fa-file-text-o"></i>
+                                        {{__('Show Sale Quotations')}}
+                                    </button>
+                                <li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="row center-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
-            <div class="col-md-4 out_purchase_request_type">
+            <div class="col-md-4 normal"
+                 style="{{ isset($salesInvoice) && in_array($salesInvoice->invoice_type, ['direct_sale_quotations'])? 'display:none':''}}">
                 <div class="form-group has-feedback">
                     <label for="inputStore" class="control-label text-new1">{{__('Main Types')}}</label>
                     <div class="input-group" id="main_types">
@@ -302,7 +308,8 @@
                 </div>
             </div>
 
-            <div class="col-md-4 out_purchase_request_type">
+            <div class="col-md-4 normal"
+                 style="{{ isset($salesInvoice) && in_array($salesInvoice->invoice_type, ['direct_sale_quotations'])? 'display:none':''}}">
                 <div class="form-group has-feedback">
                     <label for="inputStore" class="control-label text-new1">{{__('Sub Types')}}</label>
                     <div class="input-group" id="sub_types">
@@ -324,7 +331,8 @@
                 </div>
             </div>
 
-            <div class="col-md-4 out_purchase_request_type">
+            <div class="col-md-4 normal"
+                 style="{{ isset($salesInvoice) && in_array($salesInvoice->invoice_type, ['direct_sale_quotations'])? 'display:none':''}}">
                 <div class="form-group has-feedback">
                     <label for="inputStore" class="control-label text-new1">{{__('Parts')}}</label>
                     <div class="input-group" id="parts">
@@ -350,9 +358,20 @@
         </div>
 
         <div class="row bottom-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
-
             @include('admin.sales_invoice.financial_details')
-
         </div>
+
+        <div id="sale_quotation_ids">
+
+            @if(isset($salesInvoice))
+
+                @foreach( $salesInvoice->saleQuotations->pluck('id')->toArray() as $id)
+                    <input type="hidden" name="sale_quotation_ids[]" value="{{$id}}">
+                    @endforeach
+
+            @endif
+        </div>
+
+
     </div>
 </div>

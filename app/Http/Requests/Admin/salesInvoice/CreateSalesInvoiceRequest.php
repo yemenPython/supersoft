@@ -81,7 +81,7 @@ class CreateSalesInvoiceRequest extends FormRequest
             'type_for' => 'required|string|in:supplier,customer',
             'type' => 'required|string|in:cash,credit',
             'status' => 'required|string|in:pending,processing,finished',
-            'invoice_type'=>'required|string|in:normal,direct_invoice',
+            'invoice_type'=>'required|string|in:normal,direct_invoice,direct_sale_quotations',
 
             'items.*.part_id' => 'required|integer|exists:parts,id',
             'items.*.part_price_id' => 'required|integer|exists:part_prices,id',

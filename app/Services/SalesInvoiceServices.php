@@ -39,8 +39,6 @@ class SalesInvoiceServices
 
         $data['total'] = $data['total_after_discount'] + $data['tax'];
 
-//        dd($data);
-
         return $data;
     }
 
@@ -56,14 +54,13 @@ class SalesInvoiceServices
             'time' => $data_request['time'],
             'date' => $data_request['date'],
             'type' => $data_request['type'],
-//            'invoice_type' => $data_request['invoice_type'],
             'discount_type' => $data_request['discount_type'],
             'discount' => $data_request['discount'],
             'status' => $data_request['status']
         ];
 
         $data['sub_total'] = 0;
-        $customer_discount_value = 0;
+        $customer_discount = 0;
 
         foreach ($data_request['items'] as $item) {
 
@@ -71,20 +68,20 @@ class SalesInvoiceServices
             $data['sub_total'] += $item_data['total'];
         }
 
-//        if ($data_request['supplier_id'] != null && isset($data_request['supplier_discount_active'])) {
-//
-//            $supplier = Supplier::find($data_request['supplier_id']);
-//
-//            $data['is_discount_group_added'] = 1;
-//            $data['discount_group_value'] = $supplier->group_discount;
-//            $data['discount_group_type'] = $supplier->group_discount_type;
-//
-//            $customer_discount_value = $this->discountValue($data['discount_group_type'], $data['discount_group_value'], $data['subtotal']);
-//        }
+        if (isset($data_request['customer_discount_active'])) {
+
+            $client = $data['salesable_type']::find($data['salesable_id']);
+
+            $data['customer_discount_active'] = 1;
+            $data['customer_discount'] = $data['type_for'] == 'customer' ? $client->group_sales_discount : $client->group_discount;
+            $data['customer_discount_type'] = $data['type_for'] == 'customer' ? $client->group_sales_discount_type : $client->group_discount_type ;
+
+            $customer_discount = $this->customerDiscount($client, $data['sub_total'], $data['type_for']);
+        }
 
         $discount = $this->discountValue($data['discount_type'], $data['discount'], $data['sub_total']);
 
-        $data['total_after_discount'] = $data['sub_total'] - ($discount + $customer_discount_value);
+        $data['total_after_discount'] = $data['sub_total'] - ($discount + $customer_discount);
 
         $taxIds = isset($data_request['taxes']) ? $data_request['taxes'] : [];
 
@@ -140,6 +137,14 @@ class SalesInvoiceServices
         }
 
         return $value;
+    }
+
+    public function customerDiscount($client, $total, $type)
+    {
+        $customer_discount = $type == 'customer' ? $client->group_sales_discount : $client->group_discount;;
+        $customer_discount_type = $type == 'customer' ? $client->group_sales_discount_type : $client->group_discount_type;
+
+        return $this->discountValue($customer_discount_type, $customer_discount, $total);
     }
 
     public function deletePartsNotInRequest($invoiceItemsIds, $requestItemsIds)
@@ -211,6 +216,7 @@ class SalesInvoiceServices
         }
 
         $salesInvoice->taxes()->detach();
+        $salesInvoice->saleQuotations()->detach();
     }
 
     public function saveStoreQuantity($item)

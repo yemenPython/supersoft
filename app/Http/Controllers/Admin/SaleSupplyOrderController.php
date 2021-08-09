@@ -96,6 +96,7 @@ class SaleSupplyOrderController extends Controller
             ->get();
 
         $data['saleQuotations'] = SaleQuotation::where('branch_id', $branch_id)
+            ->where('status','finished')
             ->select('id', 'number')
             ->get();
 
@@ -211,6 +212,7 @@ class SaleSupplyOrderController extends Controller
 //            ->select('id', 'number', 'supplier_id')->get();
 
         $data['saleQuotations'] = SaleQuotation::where('branch_id', $branch_id)
+            ->where('status','finished')
             ->select('id', 'number')
             ->get();
 

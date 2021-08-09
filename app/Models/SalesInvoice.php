@@ -232,4 +232,10 @@ class SalesInvoice extends Model
     {
         return $this->morphOne(Concession::class, 'concessionable');
     }
+
+    public function saleQuotations()
+    {
+        return $this->belongsToMany(SaleQuotation::class, 'sales_invoices_sale_quotations',
+            'sales_invoice_id', 'sale_quotation_id');
+    }
 }

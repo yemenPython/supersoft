@@ -55,6 +55,8 @@ Route::post('sales-invoices/price-segments', 'SalesInvoicesController@priceSegme
 
 Route::post('/sales-invoices/terms', 'SalesInvoicesController@terms')->name('sales.invoices.terms');
 
+Route::post('/sale-invoices/add-sale-quotations', 'SalesInvoicesController@addSaleQuotations')->name('sales.invoices.add.sale.quotations');
+
 // purchase quotations execution
 //Route::post('/purchase-invoices-execution/save', 'PurchaseInvoiceExecutionController@save')->name('purchase.invoices.execution.save');
 
