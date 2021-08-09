@@ -76,7 +76,7 @@
             <table class="table static-table-wg">
                 <tbody>
                 <tr>
-                    <th>{{__('Opening Balance Number')}}</th>
+                    <th style="width:51% !important;">{{__('Opening Balance Number')}}</th>
                     <td> {{$openingBalance->number }} </td>
                 </tr>
 
@@ -114,7 +114,7 @@
                             <td>{{optional($item->part)->name}}</td>
                             <td>{{optional($item->sparePart)->type}}</td>
                             <td>{{$item->partPrice && $item->partPrice->unit ? $item->partPrice->unit->unit : __('Not determined')}}</td>
-                            <td>{{$item->partPriceSegment ? $item->partPriceSegment->name : '---'}}</td>
+                            <td>{{$item->partPriceSegment ? $item->partPriceSegment->name : __('Not determined')}}</td>
                             <td>{{$item->quantity}}</td>
                             <td>{{$item->price}}</td>
                             <td>{{$item->price * $item->quantity}}</td>
@@ -134,26 +134,24 @@
         <div class="row right-peice-wg" style="padding:0 30px 50px 30px;">
 
             <div class="col-xs-12" style="padding:0px !important">
-                <div class="col-xs-12 text-center" style="padding:5px !important">
-                    <div class="row last-total" style="background-color:#ddd !important">
-                        <div class="col-xs-3">
+                <div class="col-xs-6 text-center" style="padding:5px !important">
+                    <div class="row last-total">
+                        <div class="col-xs-6">
                             <h6>{{__('Quantity')}}</h6>
                         </div>
-                        <div class="col-xs-9">
+                        <div class="col-xs-6">
                             <h6>{{$openingBalance->items->sum('quantity') }}</h6>
                         </div>
                     </div>
 
                 </div>
-            </div>
 
-            <div class="col-xs-12" style="padding:0px !important">
-                <div class="col-xs-12 text-center" style="padding:5px !important">
+                <div class="col-xs-6 text-center" style="padding:5px !important">
                     <div class="row last-total" style="background-color:#ddd !important">
-                        <div class="col-xs-3">
+                        <div class="col-xs-6">
                             <h6>{{__('Final Total')}}</h6>
                         </div>
-                        <div class="col-xs-9">
+                        <div class="col-xs-6">
                             <h6>{{$openingBalance->total_money}}</h6>
                         </div>
                     </div>
@@ -177,9 +175,23 @@
 
             </div>
 
+
+
+
+<div class="row right-peice-wg" style="padding:0 30px 50px 30px;margin-bottom:30px">
+    <div class="col-xs-7">
+         <h5 class="title">{{__('Notes')}}</h5>
+         <p style="width: 80%;font-size:12px">
+         {{$openingBalance->notes}}
+
+    </p>
+    </div>
+
         </div>
 
-@endif
+        </div>
+        @endif
+
     <div class="print-foot-wg position-relative ml-0" >
         <div class="row for-reverse-en" style="display: flex;
     align-items: flex-end;">

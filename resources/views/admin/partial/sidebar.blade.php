@@ -731,7 +731,7 @@ url('admin/employees_salaries'),
                 </li> -->
 
 
-                <!-- @include('accounting-module.custom-aside') -->
+                @include('accounting-module.custom-aside')
 
 
 

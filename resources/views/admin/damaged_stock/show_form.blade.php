@@ -212,17 +212,20 @@
         </tbody>
     </table>
 
-</div>
 
-<div class="bottom-data-wg" style="width:100%;box-shadow: 0 0 7px 1px #DDD;margin:5px auto 10px;padding:7px 7px 3px">
+    </div>
+    
 
-    <div class="col-md-12" id="employees_percent"
+    <div class="" id="employees_percent"
          style="{{isset($damagedStock) && $damagedStock->type == 'un_natural' ? '':'display: none;' }}">
-        <div class="form-group">
+    
+    <div class="bottom-data-wg" style="width:100%;box-shadow: 0 0 7px 1px #DDD;margin:5px auto 10px;padding:7px 7px 3px">
 
-            <div class="col-md-12" style="color: white; margin-bottom: 75px; margin-right: -24px;top:16px">
+         <div class="form-group">
+
+            <div class="col-md-12" style="color: white; margin-bottom: 75px; margin-right: -8px;top:16px">
                 <div class="ribbon ribbon-r bg-secondary show-ribbon" style="background: rgb(86, 133, 204) !important;">
-                    <p class="mb-0">{{__('Employees')}}</p></div>
+                    <p class="mb-0">{{__('Damage Employees')}}</p></div>
             </div>
 
             <div id="employees_data">
@@ -233,7 +236,7 @@
                     @foreach($damagedStock->employees as $damaged_employee)
 
 
-                        <table class="table table-bordered">
+                        <table class="table table-bordered wg-inside-table">
                             <thead>
                             <tr>
                                 <th>{{__('Name')}}</th>
@@ -254,6 +257,7 @@
 
                 @endif
             </div>
+
         </div>
     </div>
 </div>

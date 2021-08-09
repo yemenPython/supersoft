@@ -76,8 +76,17 @@
             <table class="table static-table-wg">
                 <tbody>
                 <tr>
-                    <th>{{__('Number')}}</th>
-                    <td> {{$damagedStock->number }} </td>
+                    <th style="width:20% !important;">{{__('Number')}}</th>
+                    <td style="width:30% !important;"> {{$damagedStock->number }} </td>
+                    <th>{{__('damage type')}}</th>
+                    <td>
+                        @if($damagedStock->type == 'natural' )
+                             {{__('Natural')}} 
+                        @else
+                            {{__('un_natural')}} 
+                        @endif
+
+                    </td>
                 </tr>
 
                 </tbody>
@@ -87,7 +96,7 @@
 @endif
 
         <div style="padding:0 20px;">
-            <h5 class="invoice-to-title">{{__('items')}}</h5>
+            <h5 class="invoice-to-title">{{__('Damaged Stock items')}}</h5>
 
             <div class="table-responsive">
             <table class="table print-table-wg table-borderless" @if(!$loop->first) style="margin-top: 20px;" @endif>
@@ -114,11 +123,11 @@
                             <td>{{optional($item->part)->name}}</td>
                             <td>{{optional($item->sparePart)->type}}</td>
                             <td>{{$item->partPrice && $item->partPrice->unit ? $item->partPrice->unit->unit : __('Not determined')}}</td>
-                            <td>{{$item->partPriceSegment ? $item->partPriceSegment->name : '---'}}</td>
+                            <td>{{$item->partPriceSegment ? $item->partPriceSegment->name : __('Not determined')}}</td>
                             <td>{{$item->quantity}}</td>
                             <td>{{$item->price}}</td>
                             <td>{{$item->price * $item->quantity}}</td>
-                            <td>{{$item->store ? $item->store->name : '---' }}</td>
+                            <td>{{$item->store ? $item->store->name :  __('Not determined')}}</td>
                         </tr>
 
                 @endforeach
@@ -134,26 +143,24 @@
         <div class="row right-peice-wg" style="padding:0 30px 50px 30px;">
 
             <div class="col-xs-12" style="padding:0px !important">
-                <div class="col-xs-12 text-center" style="padding:5px !important">
-                    <div class="row last-total" style="background-color:#ddd !important">
-                        <div class="col-xs-3">
+                <div class="col-xs-6 text-center" style="padding:5px !important">
+                    <div class="row last-total">
+                    <div class="col-xs-6">
                             <h6>{{__('Quantity')}}</h6>
                         </div>
-                        <div class="col-xs-9">
+                        <div class="col-xs-6">
                             <h6>{{$damagedStock->items->sum('quantity') }}</h6>
                         </div>
                     </div>
 
                 </div>
-            </div>
 
-            <div class="col-xs-12" style="padding:0px !important">
-                <div class="col-xs-12 text-center" style="padding:5px !important">
+                <div class="col-xs-6 text-center" style="padding:5px !important">
                     <div class="row last-total" style="background-color:#ddd !important">
-                        <div class="col-xs-3">
+                    <div class="col-xs-6">
                             <h6>{{__('Final Total')}}</h6>
                         </div>
-                        <div class="col-xs-9">
+                        <div class="col-xs-6">
                             <h6>{{$damagedStock->total}}</h6>
                         </div>
                     </div>
@@ -176,6 +183,61 @@
 
 
             </div>
+
+            
+            <div class="" id="employees_percent"
+         style="{{isset($damagedStock) && $damagedStock->type == 'un_natural' ? '':'display: none;' }}">
+            <div style="padding:0 20px;">
+            <h5 class="invoice-to-title">{{__('Damage Employees')}}</h5>
+
+            <div class="table-responsive">
+
+
+
+            <table class="table print-table-wg table-borderless">
+                <thead>
+
+                <tr class="spacer" style="border-radius: 30px;">
+                <th>{{__('Name')}}</th>
+                <th>{{__('Damage Percent')}}</th>
+                <th>{{__('Total Amount')}}</th>
+                </tr>
+
+                </thead>
+                <tbody>
+                @if(isset($damagedStock))
+
+@foreach($damagedStock->employees as $damaged_employee)
+                        <tr class="spacer">
+                        <td>{{$damaged_employee->name}}</td>
+                        <td>{{$damaged_employee->pivot->percent}} % </td>
+                        <td>{{$damaged_employee->pivot->amount}}</td>
+                        </tr>
+
+                        @endforeach
+
+@endif
+                </tbody>
+            </table>
+
+
+
+            </div>
+            </div>
+            </div>
+
+<div class="row right-peice-wg" style="padding:0 30px 50px 30px;margin-bottom:30px">
+    <div class="col-xs-12">
+         <h5 class="title">{{__('Notes')}}</h5>
+         <p style="width: 80%;font-size:12px">
+         {{$damagedStock->notes}}
+
+    </p>
+    </div>
+
+        </div>
+
+        </div>
 
         </div>
 
