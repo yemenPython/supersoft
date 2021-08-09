@@ -50,12 +50,7 @@ class CreateSuppliersRequest extends FormRequest
             'identity_number' => 'nullable',
             'commercial_record_area' => 'nullable',
             'tax_file_number' => 'nullable',
-
-            'contacts'=>'nullable',
-            'contacts.*.phone_1'=>'required|string',
-            'contacts.*.name'=>'required|string|min:1|max:100',
-            'contacts.*.phone_2'=>'nullable|string',
-            'contacts.*.address'=>'nullable|string',
+            'company_code' => 'nullable',
             'supplier_type'=>'required|in:supplier,contractor,both_together',
             'bankAccount.*.bank_name' => 'required',
             'bankAccount.*.account_number' => 'required',

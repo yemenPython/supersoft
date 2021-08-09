@@ -128,31 +128,31 @@
                                     </ul>
                                 </div>
 
-                                    <div class="radio primary col-md-4" style="margin-top: 40px !important;">
-                                        <ul class="list-inline">
-                                            <li>
-                                                <input type="radio" id="supplier_type1" name="supplier_type"
-                                                       value="supplier">
-                                                <label for="supplier_type1">{{__('Supplier')}}</label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" id="supplier_type2" name="supplier_type"
-                                                       value="contractor">
-                                                <label for="supplier_type2">{{__('contractor')}}</label>
-                                            </li>
-                                            <li>
-                                                <input type="radio" id="supplier_type3" name="supplier_type"
-                                                       value="both_together">
-                                                <label for="supplier_type3">{{__('Both Together')}}</label>
-                                            </li>
+                                <div class="radio primary col-md-4" style="margin-top: 40px !important;">
+                                    <ul class="list-inline">
+                                        <li>
+                                            <input type="radio" id="supplier_type1" name="supplier_type"
+                                                   value="supplier">
+                                            <label for="supplier_type1">{{__('Supplier')}}</label>
+                                        </li>
+                                        <li>
+                                            <input type="radio" id="supplier_type2" name="supplier_type"
+                                                   value="contractor">
+                                            <label for="supplier_type2">{{__('contractor')}}</label>
+                                        </li>
+                                        <li>
+                                            <input type="radio" id="supplier_type3" name="supplier_type"
+                                                   value="both_together">
+                                            <label for="supplier_type3">{{__('Both Together')}}</label>
+                                        </li>
 
-                                            <li>
-                                                <input type="radio" id="supplier_type4" name="supplier_type"
-                                                       value="all">
-                                                <label for="supplier_type4">{{__('All')}}</label>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                        <li>
+                                            <input type="radio" id="supplier_type4" name="supplier_type"
+                                                   value="all">
+                                            <label for="supplier_type4">{{__('All')}}</label>
+                                        </li>
+                                    </ul>
+                                </div>
 
                             </div>
 
@@ -211,6 +211,8 @@
                                 <th class="text-center column-id" scope="col">#</th>
                                 <th class="text-center column-supplier-name"
                                     scope="col">{!! __('Supplier Name') !!}</th>
+                                <th class="text-center column-Company-Code"
+                                    scope="col">{!! __('Company Code') !!}</th>
                                 <th class="text-center column-supplier-group"
                                     scope="col">{!! __('Supplier Type') !!}</th>
                                 <th class="text-center column-supplier-type"
@@ -232,6 +234,7 @@
                                 <tr>
                                     <td class="text-center column-id">{!! $index +1 !!}</td>
                                     <td class="text-center column-supplier-name">{!! $supplier->name !!}</td>
+                                    <td class="text-center column-Company-code">{!! $supplier->company_code !!}</td>
                                     <td class="text-center column-supplier-group">
                                         @if($supplier->supplier_type)
                                             <span
@@ -277,45 +280,53 @@
                                     <td class="text-center column-updated-at">{!! $supplier->updated_at->format('y-m-d h:i:s A') !!}</td>
 
                                     <td>
-                                    <div class="btn-group margin-top-10">
-                                        
-                                        <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="ico fa fa-bars"></i>
-                                        {{__('Options')}} <span class="caret"></span>
-                                     
-                                    </button> 
-                                        <ul class="dropdown-menu dropdown-wg">
-                                            <li>
+                                        <div class="btn-group margin-top-10">
 
-                                        @component('admin.buttons._show_button',[
-                                                       'id' => $supplier->id,
-                                                       'route'=>'admin:suppliers.show'
-                                                        ])
-                                        @endcomponent
-                                        </li>
-                                            <li class="btn-style-drop">
-                                        @component('admin.buttons._edit_button',[
-                                                    'id' => $supplier->id,
-                                                    'route'=>'admin:suppliers.edit'
-                                                     ])
-                                        @endcomponent
-                                        </li>
-                                            <li class="btn-style-drop">
-                                        @component('admin.buttons._delete_button',[
-                                                    'id'=>$supplier->id,
-                                                    'route' => 'admin:suppliers.destroy',
-                                                    'tooltip' => __('Delete '.$supplier['name']),
-                                                     ])
-                                        @endcomponent
-                                        </li>
-                                            <li class="btn-style-drop">
-                                        <a data-toggle="modal" data-target="#boostrapModal-2"
-                                           onclick="getLibrarySupplierId('{{$supplier->id}}')"
-                                           title="Supplier Library" class="btn btn-warning">
-                                            <i class="fa fa-plus"> </i> {{__('Library')}}
-                                        </a>
-                                        </li>
-                                         
+                                            <button type="button" class="btn btn-options dropdown-toggle"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="ico fa fa-bars"></i>
+                                                {{__('Options')}} <span class="caret"></span>
+
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-wg">
+                                                <li>
+
+                                                    @component('admin.buttons._show_button',[
+                                                                   'id' => $supplier->id,
+                                                                   'route'=>'admin:suppliers.show'
+                                                                    ])
+                                                    @endcomponent
+                                                </li>
+                                                <li class="btn-style-drop">
+                                                    @component('admin.buttons._edit_button',[
+                                                                'id' => $supplier->id,
+                                                                'route'=>'admin:suppliers.edit'
+                                                                 ])
+                                                    @endcomponent
+                                                </li>
+                                                <li class="btn-style-drop">
+                                                    @component('admin.buttons._delete_button',[
+                                                                'id'=>$supplier->id,
+                                                                'route' => 'admin:suppliers.destroy',
+                                                                'tooltip' => __('Delete '.$supplier['name']),
+                                                                 ])
+                                                    @endcomponent
+                                                </li>
+                                                <li class="btn-style-drop">
+                                                    <a data-toggle="modal" data-target="#boostrapModal-2"
+                                                       onclick="getLibrarySupplierId('{{$supplier->id}}')"
+                                                       title="Supplier Library" class="btn btn-warning">
+                                                        <i class="fa fa-plus"> </i> {{__('Library')}}
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a class="btn btn-wg-show hvr-radial-out" target="_blank"
+                                                       href="{{route('admin:suppliers_contacts.index', ['supplier' => $supplier->id])}}" >
+                                                        <i class="fa fa-eye"></i> {{ __( 'Supplier Contacts' )}}</a>
+
+                                                </li>
+
                                     </td>
                                     <td>
                                         @component('admin.buttons._delete_selected',[

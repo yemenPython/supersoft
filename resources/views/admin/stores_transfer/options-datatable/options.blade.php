@@ -1,4 +1,3 @@
-
 @if (isset($withBranch))
     <span class="text-danger">{{ optional($storeTransfer->branch )->name}} </span>
 @endif
@@ -32,7 +31,7 @@
 @if (isset($withStatus))
     @if( $storeTransfer->concession )
         @if( $storeTransfer->concession->status == 'pending' )
-        <span class="label label-info wg-label"> {{__('Pending')}}</span>
+            <span class="label label-info wg-label"> {{__('Pending')}}</span>
         @elseif( $storeTransfer->concession->status == 'accepted' )
             <span class="label label-success wg-label"> {{__('Accepted')}} </span>
         @elseif( $storeTransfer->concession->status == 'rejected' )
@@ -48,12 +47,23 @@
 @if (isset($withActions))
     <div class="btn-group margin-top-10">
 
-        <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
             <i class="ico fa fa-bars"></i>
             {{__('Options')}} <span class="caret"></span>
 
         </button>
         <ul class="dropdown-menu dropdown-wg">
+
+            <li>
+                <a style="cursor:pointer" class="btn btn-print-wg text-white"
+                   data-toggle="modal"
+                   onclick="getPrintData('{{route('admin:stores.transfers.print',$storeTransfer->id )}}')"
+                   data-target="#boostrapModal" title="{{__('print')}}">
+                    <i class="fa fa-print"></i> {{__('Print')}}
+                </a>
+            </li>
+
             <li>
                 @component('admin.buttons._show_button',[
              'id' => $storeTransfer->id,

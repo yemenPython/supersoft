@@ -20,6 +20,7 @@ use App\Models\PurchaseRequest;
 use App\Models\Settlement;
 use App\Models\Store;
 use App\Models\Supplier;
+use App\Models\SupplierContact;
 use App\Models\SupplyOrder;
 use Illuminate\Http\Request;
 use DB;
@@ -40,6 +41,7 @@ class AjaxController extends Controller
     protected $supply_order_number;
     protected $invoice_type;
     protected $type;
+    protected $supplierID;
 
     public function AutoComplete(Request $request)
     {
@@ -86,6 +88,8 @@ class AjaxController extends Controller
                 && $request->invoice_type != __('words.select-one')) ? $request->invoice_type : '';
             $this->type = ($request->has('type') && !empty($request->type)
                 && $request->type != __('words.select-one')) ? $request->type : '';
+            $this->supplierID = ($request->has('supplierID') && !empty($request->supplierID)
+                && $request->supplierID != __('words.select-one')) ? $request->supplierID : '';
 
 
             switch ($request->model) {
@@ -182,6 +186,9 @@ class AjaxController extends Controller
                     break;
                 case 'PurchaseReturn':
                     $data = $this->getPurchaseReturns($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'SupplierContact':
+                    $data = $this->getSupplierContacts($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
                     break;
                 default:
                     break;
@@ -1175,6 +1182,39 @@ class AjaxController extends Controller
         return $data;
     }
 
+    private function getSupplierContacts(array $searchFields, string $searchTerm, string $selectedColumns, int $limit, string $branchId)
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $assetsItemExpenses = SupplierContact::select(DB::raw($selectedColumns));
+
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $assetsItemExpenses = $assetsItemExpenses->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+
+
+
+        if (!empty($this->supplierID)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('supplier_id', $this->supplierID);
+        }
+
+
+        $assetsItemExpenses = $assetsItemExpenses->limit($limit)->get();
+        foreach ($assetsItemExpenses as $assetsItemExpense) {
+            $data[] = [
+                'id' => $assetsItemExpense->id,
+                'text' => $this->buildSelectedColumnsAsText($assetsItemExpense, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
 
     private function buildSelectedColumnsAsText($resource, $selectedColumns = ['name'])
     {

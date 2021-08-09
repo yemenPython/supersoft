@@ -51,6 +51,7 @@ class Supplier extends Model
         'identity_number',
         'commercial_record_area',
         'tax_file_number',
+        'company_code',
     ];
 
     protected $table = 'suppliers';

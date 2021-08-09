@@ -9,3 +9,4 @@ Route::get('stores-transfers-get-stores/{branch}' ,'StoreTransferCont@get_branch
 // new routes
 Route::post('stores-transfers-select-part' ,'StoreTransferCont@selectPartRaw')->name('stores.transfers.select.part');
 Route::post('stores-transfers-get-price-segments' ,'StoreTransferCont@getPriceSegments')->name('stores.transfers.get.price.segments');
+Route::get('stores_transfers/print/{id}' ,'StoreTransferCont@getViewToPrint')->name('stores.transfers.print');

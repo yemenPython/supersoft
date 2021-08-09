@@ -11,6 +11,7 @@ use Exception;
 use App\Models\Part;
 use App\Models\Store;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Models\StoreTransfer;
 use Illuminate\Support\Facades\App;
@@ -19,6 +20,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoresTransfersRequest;
 use App\Models\StoreTransferItem;
 use Illuminate\Support\Facades\Validator;
+use Throwable;
 use Yajra\DataTables\DataTables;
 use function foo\func;
 
@@ -536,7 +538,7 @@ class StoreTransferCont extends Controller
     /**
      * @param Builder $storeTransfers
      * @return mixed
-     * @throws \Throwable
+     * @throws Throwable
      */
     private function dataTableColumns(Builder $storeTransfers)
     {
@@ -587,5 +589,14 @@ class StoreTransferCont extends Controller
                 $withOptions = true;
                 return view(self::view_path.'options-datatable.options', compact('storeTransfer', 'withOptions'))->render();
             })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
+    }
+
+    public function getViewToPrint(int $id): JsonResponse
+    {
+        $storeTransfer = StoreTransfer::findOrFail($id);
+        $view = view(self::view_path . 'print', compact('storeTransfer'))->render();
+        return response()->json([
+            'code' => $view
+        ]);
     }
 }

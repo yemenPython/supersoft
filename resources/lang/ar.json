@@ -2244,7 +2244,11 @@
     "final total consumtion" :"إجمالى الإلهلاك",
     "Asset Name" : "اسم الأصل",
     "external" : "صيانة خارجية",
-    "internal" : "صيانة داخلية"
+    "internal" : "صيانة داخلية",
+    "Company Code" : "كود الشركة",
+    "Job title" : "المسمى الوظيفى",
+    "Edit Contact" : "تعديل بيانات التواصل",
+    "Add New Contact" : "أضافة بيانات تواصل جديدة"
 
 
 }

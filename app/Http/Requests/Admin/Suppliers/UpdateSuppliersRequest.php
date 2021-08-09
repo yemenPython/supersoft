@@ -49,6 +49,7 @@ class UpdateSuppliersRequest extends FormRequest
             'identity_number' => 'nullable',
             'commercial_record_area' => 'nullable',
             'tax_file_number' => 'nullable',
+            'company_code' => 'nullable',
 
             'contacts' => 'nullable',
             'contacts.*.phone_1' => 'required|string',

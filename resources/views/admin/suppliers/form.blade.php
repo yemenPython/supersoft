@@ -322,59 +322,22 @@
                 {{input_error($errors,'maximum_fund_on')}}
             </div>
         </div>
-    </div>
 
-    <div class="">
-        <div class="col-md-3">
-            <div class="form-group has-feedback">
-                <label for="inputPhone" class="control-label">{{__('Status')}}</label>
-                <div class="switch primary">
-                    <input type="checkbox" id="switch-1" name="status"{{!isset($supplier)?'checked':''}}
-                        {{isset($supplier) && $supplier->status? 'checked':''}}
-                    >
-                    <label for="switch-1">{{__('Active')}}</label>
+        <div class="col-md-4">
+            <div class="form-group  ">
+                <label for="address" class="control-label">{{__('Company Code')}}</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><li class="fa fa-code"></li></span>
+                    <input type="text" name="company_code" class="form-control" id="company_code"
+                           placeholder="{{__('Company Code')}}"
+                           value="{{old('company_code', isset($supplier)? $supplier->company_code: '')}}">
                 </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group has-feedback">
-                <label for="inputPhone" class="control-label">{{__('Supplier Type')}}</label>
-                <div class="radio primary">
-                    <input type="radio" id="switch-2" name="supplier_type"
-                           value="supplier" {{!isset($supplier)?'checked':''}}
-                        {{isset($supplier) && $supplier->supplier_type === __('supplier')? 'checked':''}}
-                    >
-                    <label for="switch-2">{{__('Supplier')}}</label>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group has-feedback">
-                <label for="inputPhone" class="control-label">{{__('Supplier Type')}}</label>
-                <div class="radio primary">
-                    <input type="radio" id="switch-3" name="supplier_type"
-                           value="contractor" {{!isset($supplier)?'checked':''}}
-                        {{isset($supplier) && $supplier->supplier_type === __('contractor')? 'checked':''}}
-                    >
-                    <label for="switch-3">{{__('contractor')}}</label>
-                </div>
-                {{input_error($errors,'supplier_type')}}
-            </div>
-        </div>
-
-        <div class="col-md-3">
-            <div class="form-group has-feedback">
-                <label for="inputPhone" class="control-label">{{__('Supplier Type')}}</label>
-                <div class="radio primary">
-                    <input type="radio" id="switch-4" name="supplier_type"
-                           value="both_together" {{!isset($supplier)?'checked':''}}
-                        {{isset($supplier) && $supplier->supplier_type === __('both_together')? 'checked':''}}
-                    >
-                    <label for="switch-4">{{__('Both Together')}}</label>
-                </div>
+                {{input_error($errors,'company_code')}}
             </div>
         </div>
     </div>
+
+
 
 </div>
 
@@ -445,6 +408,57 @@
         >{{old('description', isset($supplier)? $supplier->description :'')}}</textarea>
             </div>
             {{input_error($errors,'description')}}
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="col-md-3">
+            <div class="form-group has-feedback">
+                <label for="inputPhone" class="control-label">{{__('Status')}}</label>
+                <div class="switch primary">
+                    <input type="checkbox" id="switch-1" name="status"{{!isset($supplier)?'checked':''}}
+                        {{isset($supplier) && $supplier->status? 'checked':''}}
+                    >
+                    <label for="switch-1">{{__('Active')}}</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group has-feedback">
+                <label for="inputPhone" class="control-label">{{__('Supplier Type')}}</label>
+                <div class="radio primary">
+                    <input type="radio" id="switch-2" name="supplier_type"
+                           value="supplier" {{!isset($supplier)?'checked':''}}
+                        {{isset($supplier) && $supplier->supplier_type === __('supplier')? 'checked':''}}
+                    >
+                    <label for="switch-2">{{__('Supplier')}}</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group has-feedback">
+                <label for="inputPhone" class="control-label">{{__('Supplier Type')}}</label>
+                <div class="radio primary">
+                    <input type="radio" id="switch-3" name="supplier_type"
+                           value="contractor" {{!isset($supplier)?'checked':''}}
+                        {{isset($supplier) && $supplier->supplier_type === __('contractor')? 'checked':''}}
+                    >
+                    <label for="switch-3">{{__('contractor')}}</label>
+                </div>
+                {{input_error($errors,'supplier_type')}}
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group has-feedback">
+                <label for="inputPhone" class="control-label">{{__('Supplier Type')}}</label>
+                <div class="radio primary">
+                    <input type="radio" id="switch-4" name="supplier_type"
+                           value="both_together" {{!isset($supplier)?'checked':''}}
+                        {{isset($supplier) && $supplier->supplier_type === __('both_together')? 'checked':''}}
+                    >
+                    <label for="switch-4">{{__('Both Together')}}</label>
+                </div>
+            </div>
         </div>
     </div>
 </div>

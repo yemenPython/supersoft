@@ -47,6 +47,10 @@
                                             <td>{{$supplier->name}}</td>
                                         </tr>
                                         <tr>
+                                            <th scope="row">{{__('Company Code')}}</th>
+                                            <td>{{$supplier->company_code}}</td>
+                                        </tr>
+                                        <tr>
                                             <th scope="row">{{__('Supplier Type')}}</th>
                                             <td>{{__($supplier->type)}}</td>
                                         </tr>

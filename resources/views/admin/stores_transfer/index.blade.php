@@ -104,38 +104,34 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel-1">{{__('words.stores-transfers')}}</h4>
-                </div>
-
-                <div class="modal-body" id="store-transfer-print">
-                </div>
-                <div class="modal-footer" style="text-align:center">
-
-                    <button type="button" class="btn btn-primary waves-effect waves-light"
-                            onclick="printStoreTransfer()">
+                    <button type="button" class="btn btn-primary waves-effect waves-light" onclick="printStoreTransfer()"
+                            id="print_sales_invoice">
                         <i class='fa fa-print'></i>
                         {{__('Print')}}
                     </button>
 
-                    <button type="button" class="btn btn-danger waves-effect waves-light"
-                            data-dismiss="modal"> <i class='fa fa-close'></i>
+                    <button type="button" class="btn btn-danger waves-effect waves-light" data-dismiss="modal">
+                        <i class='fa fa-close'></i>
                         {{__('Close')}}</button>
-
+                </div>
+                <div class="modal-body print-border" id="store-transfer-print" style="border:1px solid #3b3b3b;margin:0 20px;border-radius:5px">
+                </div>
+                <div class="modal-footer" style="text-align:center">
                 </div>
 
             </div>
         </div>
     </div>
-    @include($view_path . '.column-visible')
 @endsection
 
 @section('js')
     <script type="application/javascript" src="{{ asset('accounting-module/options-for-dt.js') }}"></script>
     <script type="application/javascript">
         function printStoreTransfer() {
-            var element_id = 'store-transfer-content' ,page_title = document.title
+            var element_id = 'store-transfer-print' ,page_title = document.title
             print_element(element_id ,page_title)
         }
 

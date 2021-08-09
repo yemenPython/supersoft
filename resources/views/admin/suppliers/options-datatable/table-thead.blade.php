@@ -14,6 +14,15 @@
             {!! __('Supplier Name') !!}
             <i class="fa fa-sort{{ \App\AccountingModule\Helper::iam_used_in_sort('supplier_name') }}"></i>
         </th>
+
+        <th class="text-center column-Company-code"
+            onclick="appling_sort(event ,'company_code')"
+            data-sort-method="{{ isset($_GET['sort_method']) ? $_GET['sort_method'] : 'desc' }}"
+            scope="col">
+            {!! __('Company Code') !!}
+            <i class="fa fa-sort{{ \App\AccountingModule\Helper::iam_used_in_sort('company_code') }}"></i>
+        </th>
+
         <th class="text-center column-supplier-group"
             onclick="appling_sort(event ,'supplier_type')"
             data-sort-method="{{ isset($_GET['sort_method']) ? $_GET['sort_method'] : 'desc' }}"

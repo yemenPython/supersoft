@@ -118,6 +118,7 @@
                     searchData.supply_order_number =  $("#supply_order_number").val();
                     searchData.invoice_type =  $("#invoice_type").val();
                     searchData.type = $("input[name='type']:checked").val();
+                    searchData.supplierID = $("#supplierID").val();
                     return searchData;
                 },
                 processResults: function (response) {

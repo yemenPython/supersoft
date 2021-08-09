@@ -233,7 +233,6 @@ class SuppliersController extends Controller
                 }
             }
         } catch (Exception $e) {
-            dd($e->getMessage());
             return redirect()->back()
                 ->with(['message' => __('words.back-support'), 'alert-type' => 'error']);
         }
