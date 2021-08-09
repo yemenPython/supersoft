@@ -206,32 +206,6 @@ class SuppliersController extends Controller
             }
 
             $supplier = Supplier::create($data);
-
-            if ($request['contacts']) {
-                foreach ($request['contacts'] as $contact) {
-                    SupplierContact::create([
-                        'supplier_id' => $supplier->id,
-                        'phone_1' => $contact['phone_1'],
-                        'phone_2' => $contact['phone_2'],
-                        'address' => $contact['address'],
-                        'name' => $contact['name'],
-                    ]);
-                }
-            }
-
-            if ($request['bankAccount']) {
-                foreach ($request['bankAccount'] as $bankAccount) {
-                    BankAccount::create([
-                        'supplier_id' => $supplier->id,
-                        'bank_name' => $bankAccount['bank_name'],
-                        'account_name' => $bankAccount['account_name'],
-                        'branch' => $bankAccount['branch'],
-                        'account_number' => $bankAccount['account_number'],
-                        'iban' => $bankAccount['iban'],
-                        'swift_code' => $bankAccount['swift_code'],
-                    ]);
-                }
-            }
         } catch (Exception $e) {
             return redirect()->back()
                 ->with(['message' => __('words.back-support'), 'alert-type' => 'error']);
@@ -315,48 +289,6 @@ class SuppliersController extends Controller
                 $data['branch_id'] = auth()->user()->branch_id;
             }
             $supplier->update($data);
-            if ($request['contacts']) {
-                foreach ($request['contacts'] as $contact) {
-                    SupplierContact::create([
-
-                        'supplier_id' => $supplier->id,
-                        'phone_1' => $contact['phone_1'],
-                        'phone_2' => $contact['phone_2'],
-                        'address' => $contact['address'],
-                        'name' => $contact['name'],
-                    ]);
-                }
-            }
-            if ($request['contactsUpdate']) {
-                foreach ($request['contactsUpdate'] as $contactData) {
-                    $contact = SupplierContact::find($contactData['contactId']);
-                    if ($contact) {
-                        $contact->update($contactData);
-                    }
-                }
-            }
-            if ($request['bankAccount']) {
-                foreach ($request['bankAccount'] as $bankAccount) {
-                    BankAccount::create([
-                        'supplier_id' => $supplier->id,
-                        'bank_name' => $bankAccount['bank_name'],
-                        'account_name' => $bankAccount['account_name'],
-                        'branch' => $bankAccount['branch'],
-                        'account_number' => $bankAccount['account_number'],
-                        'iban' => $bankAccount['iban'],
-                        'swift_code' => $bankAccount['swift_code'],
-                    ]);
-                }
-            }
-
-            if ($request['bankAccountUpdate']) {
-                foreach ($request['bankAccountUpdate'] as $bankAccountData) {
-                    $bankAccount = BankAccount::find($bankAccountData['bankAccountId']);
-                    if ($bankAccount) {
-                        $bankAccount->update($bankAccountData);
-                    }
-                }
-            }
         } catch (Exception $e) {
             return redirect()->back()
                 ->with(['message' => __('words.back-support'), 'alert-type' => 'error']);
