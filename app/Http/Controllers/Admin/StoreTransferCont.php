@@ -41,6 +41,7 @@ class StoreTransferCont extends Controller
 
     public function index(Request $request)
     {
+//        dd($request->all());
 
         if (!auth()->user()->can('view_stores_transfers')) {
             return redirect()->back()->with(['authorization' => 'error']);

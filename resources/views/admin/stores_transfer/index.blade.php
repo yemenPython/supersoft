@@ -92,7 +92,8 @@
                                 <th scope="col">{!! __('Select') !!}</th>
                             </tr>
                             </tfoot>
-                        </table></div>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -128,7 +129,7 @@
 @endsection
 
 @section('js')
-    <script type="application/javascript" src="{{ asset('accounting-module/options-for-dt.js') }}"></script>
+{{--    <script type="application/javascript" src="{{ asset('accounting-module/options-for-dt.js') }}"></script>--}}
     <script type="application/javascript">
         function printStoreTransfer() {
             var element_id = 'store-transfer-print' ,page_title = document.title
