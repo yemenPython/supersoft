@@ -13,6 +13,13 @@ function changeType() {
     if (invoice_type == 'direct_sale_quotations' || invoice_type == 'from_sale_quotations') {
         $(".direct_sale_quotations").show();
         $(".normal").hide();
+        $(".from_sale_supply_order").hide();
+    }
+
+  if (invoice_type == 'from_sale_supply_order') {
+        $(".from_sale_supply_order").show();
+        $(".normal").hide();
+      $(".direct_sale_quotations").hide();
     }
 
     $(".remove_on_change_branch").remove();

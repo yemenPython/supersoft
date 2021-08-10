@@ -200,7 +200,9 @@ class ConcessionController extends Controller
 
         }elseif ($modelName == 'SalesInvoice') {
 
-            $concessionTypeItems->where('status', 'finished')->where(function ($q) use ($concession) {
+            $concessionTypeItems->where('status', 'finished')
+                ->whereIn('invoice_type', ['normal', 'from_sale_quotations', 'from_sale_supply_order'])
+                ->where(function ($q) use ($concession) {
 
                     $q->whereHas('concession', function ($q) use ($concession) {
                         $q->where('concessionable_id', $concession->concessionable_id);

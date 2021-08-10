@@ -86,6 +86,11 @@
                                     {{ __('From Sale Quotations') }}
                                 </option>
 
+                                <option value="from_sale_supply_order"
+                                    {{isset($salesInvoice) && $salesInvoice->invoice_type == 'from_sale_supply_order'? 'selected':'' }}>
+                                    {{ __('From Sale Supply Order') }}
+                                </option>
+
                             </select>
                         </div>
                         {{input_error($errors,'invoice_type')}}
@@ -280,13 +285,34 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="col-md-3 un_normal from_sale_supply_order"
+                     style="{{ isset($salesInvoice) && $salesInvoice->invoice_type == 'from_sale_supply_order'? '':'display:none'}}">
+                    <div class="form-group">
+
+                        <div class="input-group">
+                            <label style="opacity:0">{{__('select')}}</label>
+                            <ul class="list-inline" style="display:flex">
+
+                                <li class="col-md-6">
+                                    <button type="button" class="btn btn-new2 waves-effect waves-light btn-xs"
+                                            data-toggle="modal" data-target="#sale_supply_order"
+                                            style="margin-right: 10px;">
+                                        <i class="fa fa-file-text-o"></i>
+                                        {{__('Show Sale Supply Order')}}
+                                    </button>
+                                <li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="row center-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
             <div class="col-md-4 normal"
-                 style="{{ isset($salesInvoice) && in_array($salesInvoice->invoice_type, ['direct_sale_quotations'])? 'display:none':''}}">
+                 style="{{ isset($salesInvoice) && in_array($salesInvoice->invoice_type, ['direct_sale_quotations', 'from_sale_supply_order', 'from_sale_quotations'])? 'display:none':''}}">
                 <div class="form-group has-feedback">
                     <label for="inputStore" class="control-label text-new1">{{__('Main Types')}}</label>
                     <div class="input-group" id="main_types">
@@ -309,7 +335,7 @@
             </div>
 
             <div class="col-md-4 normal"
-                 style="{{ isset($salesInvoice) && in_array($salesInvoice->invoice_type, ['direct_sale_quotations'])? 'display:none':''}}">
+                 style="{{ isset($salesInvoice) && in_array($salesInvoice->invoice_type, ['direct_sale_quotations', 'from_sale_supply_order', 'from_sale_quotations'])? 'display:none':''}}">
                 <div class="form-group has-feedback">
                     <label for="inputStore" class="control-label text-new1">{{__('Sub Types')}}</label>
                     <div class="input-group" id="sub_types">
@@ -332,7 +358,7 @@
             </div>
 
             <div class="col-md-4 normal"
-                 style="{{ isset($salesInvoice) && in_array($salesInvoice->invoice_type, ['direct_sale_quotations'])? 'display:none':''}}">
+                 style="{{ isset($salesInvoice) && in_array($salesInvoice->invoice_type, ['direct_sale_quotations', 'from_sale_supply_order', 'from_sale_quotations'])? 'display:none':''}}">
                 <div class="form-group has-feedback">
                     <label for="inputStore" class="control-label text-new1">{{__('Parts')}}</label>
                     <div class="input-group" id="parts">
@@ -361,6 +387,7 @@
             @include('admin.sales_invoice.financial_details')
         </div>
 
+        {{--  SELECTED SALE QUOTATIONS  --}}
         <div id="sale_quotation_ids">
 
             @if(isset($salesInvoice))
@@ -368,6 +395,18 @@
                 @foreach( $salesInvoice->saleQuotations->pluck('id')->toArray() as $id)
                     <input type="hidden" name="sale_quotation_ids[]" value="{{$id}}">
                     @endforeach
+
+            @endif
+        </div>
+
+        {{--  SELECTED SALE SUPPLY ORDERS  --}}
+        <div id="sale_supply_orders_ids">
+
+            @if(isset($salesInvoice))
+
+                @foreach( $salesInvoice->saleSupplyOrders->pluck('id')->toArray() as $id)
+                    <input type="hidden" name="sale_supply_orders[]" value="{{$id}}">
+                @endforeach
 
             @endif
         </div>

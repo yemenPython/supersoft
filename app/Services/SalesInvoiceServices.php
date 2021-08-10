@@ -217,6 +217,7 @@ class SalesInvoiceServices
 
         $salesInvoice->taxes()->detach();
         $salesInvoice->saleQuotations()->detach();
+        $salesInvoice->saleSupplyOrders()->detach();
     }
 
     public function saveStoreQuantity($item)

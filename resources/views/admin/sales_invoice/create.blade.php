@@ -151,6 +151,84 @@
         </div>
     </div>
 
+    <div class="modal fade" id="sale_supply_order" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content wg-content">
+                <div class="modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                    <h4 class="modal-title" id="myModalLabel-1">{{__('Sale Supply Order')}}</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="row">
+
+                        <div class="col-md-12 margin-bottom-20">
+                            <table id="sale_supply_table" class="table table-bordered" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th scope="col">{!! __('Check') !!}</th>
+                                    <th scope="col">{!! __('Sale Supply Order num.') !!}</th>
+                                    <th scope="col">{!! __('Client name') !!}</th>
+                                </tr>
+                                </thead>
+
+                                <form id="sale_supply_order_form" method="post">
+                                    @csrf
+
+                                    <tbody id="sale_supply_data">
+
+                                    @foreach( $data['saleSupplyOrder'] as $saleSupply)
+
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" name="sale_quotations[]" value="{{$saleSupply->id}}"
+                                                       class="sale_quotation_box_{{$saleSupply->id}}"
+                                                >
+                                            </td>
+
+                                            <td>
+                                                <span>{{$saleSupply->number}}</span>
+                                            </td>
+
+                                            <td>
+                                                <span>{{optional($saleSupply->salesable)->name}}</span>
+                                            </td>
+                                        </tr>
+
+                                    @endforeach
+
+                                    </tbody>
+
+                                </form>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
+                            onclick="addSelectedSaleSupply()">
+                        {{__('Add Item')}}
+                    </button>
+
+                    <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"
+                            data-dismiss="modal">
+                        {{__('Close')}}
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     @include('admin.partial.part_image')
 
 @endsection
@@ -275,12 +353,54 @@
                     $('.js-example-basic-single').select2();
 
                     executeAllItems();
-
-
-
                 },
 
                 error: function (jqXhr, json, errorThrown) {
+                    $(".remove_on_change_branch").remove();
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
+        }
+
+        function addSelectedSaleSupply() {
+
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            var selected = [];
+
+            $('#sale_supply_data input:checked').each(function () {
+                selected.push($(this).attr('value'));
+            });
+
+            $('#sale_supply_orders_ids').empty();
+
+            for(var i = 0; i< selected.length; i++) {
+                $('#sale_supply_orders_ids').append(' <input type="hidden" name="sale_supply_orders[]" value="'+selected[i]+'">');
+            }
+
+            $.ajax({
+
+                type: 'post',
+
+                url: '{{route('admin:sales.invoices.add.sale.supply.order')}}',
+
+                data: {_token: CSRF_TOKEN, sale_supply_orders: selected},
+
+                success: function (data) {
+
+                    $("#parts_data").html(data.view);
+
+                    $("#items_count").val(data.index);
+
+                    $('.js-example-basic-single').select2();
+
+                    executeAllItems();
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    $(".remove_on_change_branch").remove();
                     var errors = jqXhr.responseJSON;
                     swal({text: errors, icon: "error"})
                 }
@@ -462,6 +582,7 @@
 
     <script type="application/javascript">
         invoke_datatable($('#sale_quotations_table'))
+        invoke_datatable($('#sale_supply_table'))
     </script>
 
 @endsection

@@ -246,11 +246,18 @@ class SalesInvoicesController extends Controller
             ->select('id', 'number', 'salesable_id', 'salesable_type')
             ->get();
 
+        $data['saleSupplyOrder'] = SaleSupplyOrder::where('branch_id', $branch_id)
+            ->where('status','finished')
+            ->select('id', 'number', 'salesable_id', 'salesable_type')
+            ->get();
+
         return view('admin.sales_invoice.create', compact('data'));
     }
 
     public function store(CreateSalesInvoiceRequest $request)
     {
+//        dd($request->all());
+
         if (!$request->has('items')) {
             return redirect()->back()->with(['message' => __('sorry,  items required'), 'alert-type' => 'error']);
         }
@@ -272,6 +279,10 @@ class SalesInvoicesController extends Controller
 
             if (in_array($salesInvoice->invoice_type, ['direct_sale_quotations', 'from_sale_quotations'])) {
                 $salesInvoice->saleQuotations()->attach($request['sale_quotation_ids']);
+            }
+
+            if ($salesInvoice->invoice_type == 'from_sale_supply_order') {
+                $salesInvoice->saleSupplyOrders()->attach($request['sale_supply_orders']);
             }
 
             foreach ($data['items'] as $item) {
@@ -366,13 +377,17 @@ class SalesInvoicesController extends Controller
             ->select('id', 'number', 'salesable_id', 'salesable_type')
             ->get();
 
+        $data['saleSupplyOrder'] = SaleSupplyOrder::where('branch_id', $branch_id)
+            ->where('status','finished')
+            ->select('id', 'number', 'salesable_id', 'salesable_type')
+            ->get();
+
         return view('admin.sales_invoice.edit', compact('data', 'salesInvoice'));
 
     }
 
     public function update(UpdateSalesInvoiceRequest $request, SalesInvoice $salesInvoice)
     {
-
         if ($salesInvoice->status == 'finished') {
             return redirect()->back()->with(['message' => __('words.cant.update.finished.items'), 'alert-type' => 'error']);
         }
@@ -393,6 +408,10 @@ class SalesInvoicesController extends Controller
 
             if (in_array($salesInvoice->invoice_type, ['direct_sale_quotations', 'from_sale_quotations'])) {
                 $salesInvoice->saleQuotations()->attach($request['sale_quotation_ids']);
+            }
+
+            if ($salesInvoice->invoice_type == 'from_sale_supply_order') {
+                $salesInvoice->saleSupplyOrders()->attach($request['sale_supply_orders']);
             }
 
             foreach ($data['items'] as $item) {
@@ -690,6 +709,47 @@ class SalesInvoicesController extends Controller
         } catch (\Exception $e) {
             return response()->json('sorry, please try later', 400);
         }
+    }
+
+    public function addSaleSupplyOrder(Request $request)
+    {
+        $rules = [
+            'sale_supply_orders' => 'required',
+            'sale_supply_orders.*' => 'required|integer|exists:sale_supply_orders,id',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        try {
+
+            $saleSupplyOrders = SaleSupplyOrder::with('items')
+                ->whereIn('id', $request['sale_supply_orders'])
+                ->get();
+
+            $customers = [];
+            $itemsCount = 0;
+
+            foreach ($saleSupplyOrders as $saleSupplyOrder) {
+
+                if (!empty($customers) && !in_array($saleSupplyOrder->salesable_id, $customers)) {
+                    return response()->json(__('sorry, client is different'), 400);
+                }
+
+                $customers[] = $saleSupplyOrder->salesable_id;
+                $itemsCount += $saleSupplyOrder->items()->count();
+            }
+
+            $view = view('admin.sales_invoice.sale_supply_items', compact('saleSupplyOrders'))->render();
+
+        } catch (\Exception $e) {
+            return response()->json('sorry, please try later', 400);
+        }
+
+        return response()->json(['view' => $view, 'index' => $itemsCount], 200);
     }
 
 

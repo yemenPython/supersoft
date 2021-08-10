@@ -141,7 +141,7 @@ class ConcessionServiceController extends Controller
         }
 
         if ($concessionTypeItem->model == 'SalesInvoice') {
-            $data->where('status', 'finished')->whereIn('invoice_type', ['normal', 'from_sale_quotations']);
+            $data->where('status', 'finished')->whereIn('invoice_type', ['normal', 'from_sale_quotations', 'from_sale_supply_order']);
         }
 
         if ($concessionTypeItem->model == 'StoreTransfer' && $concessionType->type == 'add') {

@@ -238,4 +238,10 @@ class SalesInvoice extends Model
         return $this->belongsToMany(SaleQuotation::class, 'sales_invoices_sale_quotations',
             'sales_invoice_id', 'sale_quotation_id');
     }
+
+    public function saleSupplyOrders()
+    {
+        return $this->belongsToMany(SaleSupplyOrder::class, 'sales_invoices_sale_supply_orders',
+            'sales_invoice_id', 'sale_supply_order_id');
+    }
 }
