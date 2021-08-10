@@ -463,13 +463,6 @@
     </div>
 </div>
 
-<div class="col-xs-12" style="box-shadow: rgb(221, 221, 221) 0px 0px 7px 1px; margin: 5px 5px 10px; padding-top: 20px;">
-    @include('admin.suppliers.contacts.form')
-</div>
-
-<div class="col-xs-12" style="box-shadow: rgb(221, 221, 221) 0px 0px 7px 1px; margin: 5px 5px 10px; padding-top: 20px;">
-    @include('admin.suppliers.bank_accounts.form')
-</div>
 
 <div class="form-group col-sm-12" >
     @include('admin.buttons._save_buttons')

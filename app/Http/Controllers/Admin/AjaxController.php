@@ -9,6 +9,7 @@ use App\Models\AssetExpense;
 use App\Models\AssetGroup;
 use App\Models\AssetsItemExpense;
 use App\Models\AssetsTypeExpense;
+use App\Models\BankAccount;
 use App\Models\DamagedStock;
 use App\Models\EmployeeData;
 use App\Models\OpeningBalance;
@@ -189,6 +190,9 @@ class AjaxController extends Controller
                     break;
                 case 'SupplierContact':
                     $data = $this->getSupplierContacts($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'BankAccount':
+                    $data = $this->getBankAccounts($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
                     break;
                 default:
                     break;
@@ -1190,6 +1194,41 @@ class AjaxController extends Controller
             $selectedColumns = $id . ' ' . $selectedColumns;
         }
         $assetsItemExpenses = SupplierContact::select(DB::raw($selectedColumns));
+
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $assetsItemExpenses = $assetsItemExpenses->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+
+
+
+        if (!empty($this->supplierID)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('supplier_id', $this->supplierID);
+        }
+
+
+        $assetsItemExpenses = $assetsItemExpenses->limit($limit)->get();
+        foreach ($assetsItemExpenses as $assetsItemExpense) {
+            $data[] = [
+                'id' => $assetsItemExpense->id,
+                'text' => $this->buildSelectedColumnsAsText($assetsItemExpense, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+
+    private function getBankAccounts(array $searchFields, string $searchTerm, string $selectedColumns, int $limit, string $branchId)
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $assetsItemExpenses = BankAccount::select(DB::raw($selectedColumns));
 
         if (!empty($searchFields)) {
             foreach ($searchFields as $searchField) {

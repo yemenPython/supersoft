@@ -2248,7 +2248,20 @@
     "Company Code" : "كود الشركة",
     "Job title" : "المسمى الوظيفى",
     "Edit Contact" : "تعديل بيانات التواصل",
-    "Add New Contact" : "أضافة بيانات تواصل جديدة"
+    "Add New Contact" : "أضافة بيانات تواصل جديدة",
+    "Opening Balance data" : "بيانات الرصيد الإفتتاحي",
+    "Opening Balance Number" : "رقم العملية",
+    "Opening Balance items" : "أصناف الرصيد الإفتتاحي",
+    "stores transfers data" :"بيانات التحويل المخزني",
+    "stores transfers items" : "أصناف التحويل المخزني",
+    "Damaged Stock data" : "بيانات المخزون التالف",
+    "Damaged Stock items" : "الأصناف التالفة",
+    "Damage Percent" : "نسبة التلف",
+    "Damage Employees" : "المسؤولين عن التلف",
+    "Settlement" : "تسويات المخزون",
+    "Settlement data" : "بيانات التسوية",
+    "positive" : "تسوية موجبة",
+    "negative" : "تسوية سالبة"
 
 
 }

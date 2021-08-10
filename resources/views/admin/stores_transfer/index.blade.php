@@ -142,7 +142,10 @@
                 url: url,
                 method: 'GET',
                 success: function (response) {
-                    $("#store-transfer-print").html(response.code)
+                    $("#store-transfer-print").html(response.code);
+                    let total = $("#totalInLetters").text()
+                    $("#totalInLetters").html(new Tafgeet(parseFloat(total), '{{config("currency.defualt_currency")}}').parse())
+             
                 }
             });
         }

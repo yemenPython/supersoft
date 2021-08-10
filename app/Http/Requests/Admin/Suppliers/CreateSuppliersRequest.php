@@ -52,8 +52,6 @@ class CreateSuppliersRequest extends FormRequest
             'tax_file_number' => 'nullable',
             'company_code' => 'nullable',
             'supplier_type'=>'required|in:supplier,contractor,both_together',
-            'bankAccount.*.bank_name' => 'required',
-            'bankAccount.*.account_number' => 'required',
         ];
 
         if(authIsSuperAdmin()){
