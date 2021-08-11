@@ -364,6 +364,7 @@ route('admin:services_packages.index'),
                             <a href="{{route('admin:services_packages.index')}}">{{__('Services Packages')}}</a>
                         </li>
 
+                         
                         <li class="{{setActivationClass(route('admin:maintenance-detection-types.index'))}}">
                             <a href="{{route('admin:maintenance-detection-types.index')}}">
                                 {{__('Maintenance Types')}}

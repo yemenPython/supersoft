@@ -1,4 +1,4 @@
-<div id="asset_to_print">
+<div id="assetDatatoPrint">
     <div class="border-container" style="">
         @foreach(collect($services)->chunk(15) as $one)
 
