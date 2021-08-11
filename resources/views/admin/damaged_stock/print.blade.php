@@ -27,18 +27,21 @@
 
 
 
-        <div class="row row-right-data">
-            <div class="col-xs-6"></div>
-            <div class="col-xs-6 right-top-detail">
-                <h3>
-                    @if( $loop->first)
-                    <span > {{__('Damaged Stock')}} </span>
-                    @endif
-                </h3>
 
-            </div>
-        </div>
     </div>
+            @if( $loop->first)
+                <div class="row row-right-data" @if( !$loop->first)style="visibility: hidden !important;" @endif>
+                    <div class="col-xs-6"></div>
+                    <div class="col-xs-6 right-top-detail"  @if( !$loop->first)style="visibility: hidden !important;" @endif>
+                        <h3>
+                            @if( $loop->first)
+                                <span > {{__('Damaged Stock')}} </span>
+                            @endif
+                        </h3>
+
+                    </div>
+                </div>
+            @endif
 
 @if( $loop->first)
     <div class="middle-data-h-print">
@@ -81,9 +84,9 @@
                     <th>{{__('damage type')}}</th>
                     <td>
                         @if($damagedStock->type == 'natural' )
-                             {{__('Natural')}} 
+                             {{__('Natural')}}
                         @else
-                            {{__('un_natural')}} 
+                            {{__('un_natural')}}
                         @endif
 
                     </td>
@@ -184,7 +187,7 @@
 
             </div>
 
-            
+
             <div class="" id="employees_percent"
          style="{{isset($damagedStock) && $damagedStock->type == 'un_natural' ? '':'display: none;' }}">
             <div style="padding:0 20px;">

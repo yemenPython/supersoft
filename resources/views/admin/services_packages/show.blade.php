@@ -1,141 +1,264 @@
-<div class="row small-spacing" id="assetDatatoPrint">
+<div id="asset_to_print">
+    <div class="border-container" style="">
+        @foreach(collect($services)->chunk(15) as $one)
 
 
-    <div class="print-wg-fatora">
-        <div class="row">
-            <div class="col-xs-4">
+            <div class="print-header-wg">
+                <div class="top-logo-print">
+                    <div class="logo-print text-center">
+                        <ul class="list-inline" style="margin:0">
+                            <li>
+                                <h5>{{optional($branchToPrint)->name_ar}}</h5>
+                            </li>
+                            <li>
+                                <img
+                                    src="{{isset($branchToPrint->logo) ? asset('storage/images/branches/'.$branchToPrint->logo) : env('DEFAULT_IMAGE_PRINT')}}"
+                                    style="width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 21px;">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 
-                <div style="text-align: right ">
-                    <h5><i class="fa fa-home"></i> {{optional($servicePackage->branch)->name_ar}}</h5>
-                    <h5><i class="fa fa-phone"></i> {{optional($servicePackage->branch)->phone1}} </h5>
-                    <h5><i class="fa fa-globe"></i> {{optional($servicePackage->branch)->address}} </h5>
-                    <h5><i class="fa fa-fax"></i> {{optional($servicePackage->branch)->fax}}</h5>
-                    <h5><i class="fa fa-adjust"></i> {{optional($servicePackage->branch)->tax_card}}</h5>
+            </div>
+
+            <div class="row row-right-data" @if( !$loop->first)style="visibility: hidden !important;" @endif>
+                <div class="col-xs-6"></div>
+                <div class="col-xs-6 right-top-detail" @if( !$loop->first)style="visibility: hidden !important;" @endif>
+                    <h3>
+                        @if( $loop->first)
+                            <span> {{__('Services Package')}} </span>
+                        @endif
+                    </h3>
+
                 </div>
             </div>
 
-            <div class="col-xs-4">
+            @if( $loop->first)
+{{--                <div class="middle-data-h-print">--}}
 
-                <img class="text-center center-block" style="width: 100px; height: 100px;margin-top:20px"
-                     src="{{optional($servicePackage->branch)->logo_img}}">
-            </div>
-            <div class="col-xs-4">
+{{--                    <div class="invoice-to print-padding-top">--}}
+{{--                        <div class="row">--}}
+{{--                            <div class="col-xs-12">--}}
+{{--                                <h5>{{__('Services Package Details')}}</h5>--}}
+{{--                            </div>--}}
+{{--                            <div class="col-xs-12" style="padding-right: 50px;">--}}
+{{--                                <div class="row">--}}
+{{--                                    <div class="col-xs-12">--}}
+{{--                                        <table class="table table-bordered">--}}
+{{--                                            <tbody>--}}
+{{--                                            <tr>--}}
+{{--                                                <th style="background:#CCC !important;color:black" scope="row">{{__('Services Number')}}</th>--}}
+{{--                                                <td>{{$servicePackage->services_number}}</td>--}}
+{{--                                            </tr>--}}
 
-                <div style="text-align: left" class="my-1">
-                    <h5>{{optional($servicePackage->branch)->name_en}} <i class="fa fa-home"></i></h5>
-                    <h5>{{optional($servicePackage->branch)->phone1}} <i class="fa fa-phone"></i></h5>
-                    <h5>{{optional($servicePackage->branch)->address}} <i class="fa fa-globe"></i></h5>
-                    <h5>{{optional($servicePackage->branch)->fax}} <i class="fa fa-fax"></i></h5>
-                    <h5>{{optional($servicePackage->branch)->tax_card}} <i class="fa fa-adjust"></i></h5>
-                </div>
-            </div>
-        </div>
-    </div>
+{{--                                            <tr>--}}
+{{--                                                <th style="background:#CCC !important;color:black" scope="row">{{__('Service Package')}}</th>--}}
+{{--                                                <td>{{$servicePackage->name }}</td>--}}
+{{--                                            </tr>--}}
+{{--                                            <tr>--}}
+{{--                                                <th style="background:#CCC !important;color:black" scope="row">{{__('Hours')}}</th>--}}
+{{--                                                <td>{{$servicePackage->number_of_hours}}</td>--}}
+{{--                                            </tr>--}}
 
-    <div class="wg-tb-snd" style="border:1px solid #AAA;margin:5px 20px 20px;padding:10px;border-radius:5px">
-        <h4 class="text-center">{{__('Services Package Details')}}</h4>
-        <div class="row">
-            <div class="col-xs-6">
-                <table class="table table-bordered">
-                    <tbody>
-                    <tr>
-                        <th style="background:#CCC !important;color:black" scope="row">{{__('Services Number')}}</th>
-                        <td>{{$servicePackage->services_number}}</td>
-                    </tr>
+{{--                                            </tbody>--}}
+{{--                                        </table>--}}
+{{--                                    </div>--}}
 
-                    <tr>
-                        <th style="background:#CCC !important;color:black" scope="row">{{__('Service Package')}}</th>
-                        <td>{{$servicePackage->name }}</td>
-                    </tr>
-                    <tr>
-                        <th style="background:#CCC !important;color:black" scope="row">{{__('Hours')}}</th>
-                        <td>{{$servicePackage->number_of_hours}}</td>
-                    </tr>
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
 
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-xs-6">
-                <table class="table table-bordered">
-                    <tbody>
-                    <tr>
-                        <th style="background:#CCC !important;color:black" scope="row">{{__('Discount Type')}}</th>
-                        <td>{{$servicePackage->discount_type === 'value' ? __('Value') : __('Percent') }}</td>
-                    </tr>
+{{--                    </div>--}}
+{{--                </div>--}}
 
-                    <tr>
-                        <th style="background:#CCC !important;color:black" scope="row">{{__('Discount Mount')}}</th>
-                        <td>{{$servicePackage->discount_value }}</td>
-                    </tr>
-
-
-                    <tr>
-                        <th style="background:#CCC !important;color:black" scope="row">{{__('Minutes')}}</th>
-                        <td>{{$servicePackage->number_of_min}}</td>
-                    </tr>
-
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="col-xs-12 wg-tb-snd">
-        <h2 class="text-center">{{__('Service Items Data')}}</h2>
-        <div style="margin:10px 15px">
-            <table class="table table-bordered">
-                <thead>
-                <tr class="heading">
-                    <th scope="col">{!! __('Service Name') !!}</th>
-                    <th scope="col">{!! __('Price') !!}</th>
-                    <th scope="col">{!! __('Hours') !!}</th>
-                    <th scope="col">{!! __('Minutes') !!}</th>
-                    <th scope="col">{!! __('Quantity') !!}</th>
-                    <th scope="col">{!! __('Total') !!}</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                @if(isset($services))
-                    @foreach($services  as $service)
+                <div class="col-xs-12 table-responsive">
+                    <div class="col-xs-12">
+                        <h5>{{__('Services Package Details')}}</h5>
+                    </div>
+                    <table class="table table-bordered">
+                        <tbody>
                         <tr>
-                            <td>{{ $service['name'] }}</td>
-                            <td>{{$service['price']}}</td>
-                            <td>{{$service['hours']}}</td>
-                            <td>{{$service['minutes']}}</td>
-                            <td>{{$service['q']}}</td>
-                            <td>{{$service['total']}}</td>
+                            <th style="background:#CCC !important;color:black" scope="row">{{__('Discount Type')}}</th>
+                            <td>{{$servicePackage->discount_type === 'value' ? __('Value') : __('Percent') }}</td>
                         </tr>
-                @endforeach
-                @endif
 
-            </table>
-        </div>
+                        <tr>
+                            <th style="background:#CCC !important;color:black" scope="row">{{__('Discount Mount')}}</th>
+                            <td>{{$servicePackage->discount_value }}</td>
+                        </tr>
+
+
+                        <tr>
+                            <th style="background:#CCC !important;color:black" scope="row">{{__('Minutes')}}</th>
+                            <td>{{$servicePackage->number_of_min}}</td>
+                        </tr>
+                        <tr>
+                            <th style="background:#CCC !important;color:black" scope="row">{{__('Services Number')}}</th>
+                            <td>{{$servicePackage->services_number}}</td>
+                        </tr>
+
+                        <tr>
+                            <th style="background:#CCC !important;color:black" scope="row">{{__('Service Package')}}</th>
+                            <td>{{$servicePackage->name }}</td>
+                        </tr>
+                        <tr>
+                            <th style="background:#CCC !important;color:black" scope="row">{{__('Hours')}}</th>
+                            <td>{{$servicePackage->number_of_hours}}</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            @endif
+
+            <div style="padding:0 20px;">
+                <h5 class="invoice-to-title">{{__('Service Items Data')}}</h5>
+
+                <div class="table-responsive">
+                    <table class="table print-table-wg table-borderless"
+                           @if(!$loop->first) style="margin-top: 20px;" @endif>
+                        <thead>
+
+                        <tr class="heading">
+                            <th scope="col">{!! __('Service Name') !!}</th>
+                            <th scope="col">{!! __('Price') !!}</th>
+                            <th scope="col">{!! __('Hours') !!}</th>
+                            <th scope="col">{!! __('Minutes') !!}</th>
+                            <th scope="col">{!! __('Quantity') !!}</th>
+                            <th scope="col">{!! __('Total') !!}</th>
+                        </tr>
+
+                        </thead>
+                        <tbody>
+                        @foreach($one  as $service)
+                            <tr>
+                                <td>{{ $service['name'] }}</td>
+                                <td>{{$service['price']}}</td>
+                                <td>{{$service['hours']}}</td>
+                                <td>{{$service['minutes']}}</td>
+                                <td>{{$service['q']}}</td>
+                                <td>{{$service['total']}}</td>
+                            </tr>
+                        @endforeach
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+            @if( $loop->last)
+                <div class="row right-peice-wg" style="padding:0 30px 50px 30px;margin-bottom:30px">
+
+
+                    <div class="col-xs-12" style="padding:0 !important">
+
+                        <div class="col-xs-4 text-center" style="padding:5px !important">
+
+
+                            <div class="row last-total">
+                                <div class="col-xs-7">
+                                    <h6>{{__('Total Before Discount')}}</h6>
+                                </div>
+                                <div class="col-xs-5">
+                                    <h6> {{isset($servicePackage) ? $servicePackage->total_before_discount : 0}} </h6>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-xs-4 text-center" style="padding:5px !important">
+
+
+                            <div class="row last-total">
+                                <div class="col-xs-7">
+                                    <h6>{{__('total past consumtion')}}</h6>
+                                </div>
+                                <div class="col-xs-5">
+                                    <h6> {{$servicePackage->total_past_consumtion}} </h6>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-xs-4 text-center" style="padding:5px !important">
+
+
+                            <div class="row last-total">
+                                <div class="col-xs-7">
+                                    <h6>{{__('Total After Discount')}}</h6>
+                                </div>
+                                <div class="col-xs-5">
+                                    <h6> {{isset($servicePackage) ? $servicePackage->total_after_discount : 0}} </h6>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            @endif
+
+
+            <div class="print-foot-wg position-relative ml-0">
+                <div class="row for-reverse-en" style="display: flex;
+    align-items: flex-end;">
+                    <div class="col-xs-7">
+                        <div class="row">
+                            <div class="col-xs-12">
+
+                                <div class="media">
+                                    <div class="media-left">
+                                        <h6 class="media-heading"
+                                            style="line-height:30px;">{{__('address')}} </h6>
+                                    </div>
+
+                                    <div class="media-body">
+                                        <h6 style="padding:0 15px">{{optional($branchToPrint)->address_ar}} </h6>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-xs-6">
+
+                            </div>
+                            <div class="col-xs-6">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-xs-5 small-data-wg">
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <h6>{{__('contact numbers')}} : </h6>
+                            </div>
+                            <div class="col-xs-4">
+                                <h6>{{optional($branchToPrint)->phone1}}</h6>
+                            </div>
+
+                            <div class="col-xs-4">
+                                <h6>{{optional($branchToPrint)->phone2}}</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @if(!$loop->last)
+                <p style="page-break-before: always;">&nbsp;</p>
+            @endif
+        @endforeach
     </div>
-
 </div>
 
-<div class="bottom-data-wg" style="width:100%;box-shadow: 0 0 7px 1px #DDD;margin:5px auto 10px;padding:7px 7px 3px">
 
-    <table class="table table-bordered">
-        <tbody>
-        <th style="width:30%;background:#F9EFB7 !important;color:black !important">{{__('Total Before Discount')}}</th>
-        <td style="background:#F9EFB7">
-            <input type="text" readonly id="total_price"
-                   style="background:#F9EFB7;border:none;text-align:center !important;"
-                   value="{{isset($servicePackage) ? $servicePackage->total_before_discount : 0}}" class="form-control">
-        </td>
-        </tbody>
-    </table>
 
-    <table class="table table-bordered">
-        <tbody>
-        <th style="width:30%;background:#F9EFB7 !important;color:black !important">{{__('Total After Discount')}}</th>
-        <td style="background:#F9EFB7">
-            <input type="text" readonly style="background:#F9EFB7;border:none;text-align:center !important;"
-                   value="{{isset($servicePackage) ? $servicePackage->total_after_discount : 0}}" class="form-control">
-        </td>
-        </tbody>
-    </table>
-</div>
