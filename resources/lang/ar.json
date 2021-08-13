@@ -2262,7 +2262,10 @@
     "Settlement data" : "بيانات التسوية",
     "positive" : "تسوية موجبة",
     "negative" : "تسوية سالبة",
-    "Purchase" : "شراء"
+    "Purchase" : "شراء",
+    "Maintenance centers" : "مراكز الصيانة",
+    "Edit Maintenance Center" : "تعديل بيانات مركز الصيانة",
+    "Create Maintenance centers" : "أنشاء مركز صيانة"
 
 
 }

@@ -343,6 +343,7 @@ route('admin:sale-assets.index'),
 route('admin:services-types.index'),
 route('admin:services.index'),
 route('admin:services_packages.index'),
+route('admin:maintenance_centers.index'),
                      ])}}">
                     <a class="  parent-item js__control" href="#"><i style="color:#5DA971 !important"
                                                                      class="menu-icon fa fa-cogs"></i>
@@ -350,6 +351,9 @@ route('admin:services_packages.index'),
                         <span class="menu-arrow fa fa-angle-down"></span>
                     </a>
                     <ul class="sub-menu js__content">
+                        <li class="{{setActivationClass(route('admin:maintenance_centers.index'))}}">
+                            <a href="{{route('admin:maintenance_centers.index')}}">{{__('Maintenance centers')}}</a>
+                        </li>
 
 
                         <li class="{{setActivationClass(route('admin:services-types.index'))}}">
@@ -364,7 +368,7 @@ route('admin:services_packages.index'),
                             <a href="{{route('admin:services_packages.index')}}">{{__('Services Packages')}}</a>
                         </li>
 
-                         
+
                         <li class="{{setActivationClass(route('admin:maintenance-detection-types.index'))}}">
                             <a href="{{route('admin:maintenance-detection-types.index')}}">
                                 {{__('Maintenance Types')}}
@@ -378,7 +382,7 @@ route('admin:services_packages.index'),
                             </a>
                         </li>
 
-                        
+
                         <li class="{{setActivationClass(route('admin:maintenance-cards.index'))}}">
                             <a href="{{route('admin:maintenance-cards.index')}}">
                                 {{__('Maintenance Cards')}}
