@@ -40,7 +40,8 @@ Route::post('purchase-invoices/price-segments', 'PurchaseInvoicesController@pric
 // purchase quotations execution
 Route::post('/purchase-invoices-execution/save', 'PurchaseInvoiceExecutionController@save')->name('purchase.invoices.execution.save');
 
-// purchase quotations library
+
+// purchase invoice library
 Route::post('purchase-invoices/library/get-files', 'PurchaseInvoiceLibraryController@getFiles')->name('purchase.invoices.library.get.files');
 Route::post('purchase-invoices/upload_library', 'PurchaseInvoiceLibraryController@uploadLibrary')->name('purchase.invoices.upload_library');
 Route::post('purchase-invoices/library/file-delete', 'PurchaseInvoiceLibraryController@destroyFile')->name('purchase.invoices.library.file.delete');

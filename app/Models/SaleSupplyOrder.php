@@ -78,7 +78,7 @@ class SaleSupplyOrder extends Model
 
     public function files()
     {
-        return $this->hasMany(SupplyOrderLibrary::class, 'supply_order_id');
+        return $this->hasMany(SaleSupplyLibrary::class, 'sale_supply_id');
     }
 
     public function getDifferentDaysAttribute()
@@ -118,5 +118,11 @@ class SaleSupplyOrder extends Model
     public function salesable()
     {
         return $this->morphTo();
+    }
+
+    public function salesInvoices()
+    {
+        return $this->belongsToMany(SalesInvoice::class, 'sales_invoices_sale_supply_orders',
+            'sale_supply_order_id', 'sales_invoice_id');
     }
 }

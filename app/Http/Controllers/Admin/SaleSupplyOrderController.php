@@ -97,7 +97,7 @@ class SaleSupplyOrderController extends Controller
 
         $data['saleQuotations'] = SaleQuotation::where('branch_id', $branch_id)
             ->where('status','finished')
-            ->select('id', 'number')
+            ->select('id', 'number', 'salesable_id', 'salesable_type')
             ->get();
 
         $data['suppliers'] = Supplier::where('status', 1)
@@ -213,7 +213,7 @@ class SaleSupplyOrderController extends Controller
 
         $data['saleQuotations'] = SaleQuotation::where('branch_id', $branch_id)
             ->where('status','finished')
-            ->select('id', 'number')
+            ->select('id', 'number', 'salesable_id', 'salesable_type')
             ->get();
 
         return view('admin.sale_supply_orders.edit', compact('data', 'saleSupplyOrder'));
@@ -324,7 +324,6 @@ class SaleSupplyOrderController extends Controller
             return response()->json($validator->errors()->first(), 400);
         }
 
-
         try {
 
             $saleQuotations = SaleQuotation::with('items')
@@ -336,11 +335,11 @@ class SaleSupplyOrderController extends Controller
 
             foreach ($saleQuotations as $saleQuotation) {
 
-                if (!empty($customers) && !in_array($saleQuotation->customer_id, $customers)) {
+                if (!empty($customers) && !in_array($saleQuotation->salesable_id, $customers)) {
                     return response()->json(__('sorry, supplier is different'), 400);
                 }
 
-                $customers[] = $saleQuotation->customer_id;
+                $customers[] = $saleQuotation->salesable_id;
                 $itemsCount += $saleQuotation->items()->count();
             }
 
@@ -349,7 +348,8 @@ class SaleSupplyOrderController extends Controller
             $view = view('admin.sale_supply_orders.sale_quotation_items',
                 compact('saleQuotations'))->render();
 
-            return response()->json(['view' => $view, 'index' => $itemsCount, 'customerId' => $customerId], 200);
+            return response()->json(['view' => $view, 'index' => $itemsCount,
+                'customerId' => $customerId, 'type_for'=> $request['type_for']], 200);
 
         } catch (\Exception $e) {
             return response()->json('sorry, please try later', 400);

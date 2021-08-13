@@ -70,6 +70,10 @@
                 @endcomponent
             </li>
 
+            <li>
+                @include('admin.partial.upload_library.btn_upload', ['id'=> $openingBalances->id])
+            </li>
+
         </ul>
     </div>
 @endif

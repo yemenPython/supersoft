@@ -6,18 +6,27 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
- 
+
                 <h4 class="modal-title" id="myModalLabel-1">{{__('Library')}}</h4>
             </div>
             <div class="modal-body">
 
 
                 <div class="row">
-                    <form action="{{$url}}" method="post"
-                          enctype="multipart/form-data">
+                    <form action="{{$url}}" method="post" enctype="multipart/form-data">
                         @csrf
 
-                        <div class="form-group col-md-10">
+                        <div class="form-group col-md-3">
+                            <label>{{__('Title_ar')}}</label>
+                            <input type="text" name="title_ar"  class="form-control" id="library_title_ar">
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label>{{__('Title_en')}}</label>
+                            <input type="text" name="title_en"  class="form-control" id="library_title_en">
+                        </div>
+
+                        <div class="form-group col-md-4">
                             <label>{{__('files')}}</label>
                             <input type="file" name="files[]" class="form-control" multiple id="files">
                             <input type="hidden" name="item_id" value="" id="library_item_id">

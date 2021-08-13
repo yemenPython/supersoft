@@ -21,6 +21,8 @@ class PurchaseQuotationLibraryController extends Controller
     {
         $validator = Validator::make($request->all(), [
 
+            'title_ar' => 'required|string|max:100',
+            'title_en' => 'nullable|string|max:100',
             'item_id' => 'required|integer|exists:purchase_quotations,id',
             'files' => 'required',
             'files.*' => 'required|mimes:jpeg,jpg,png,gif,pdf,xlsx,xlsm,xls,xls,docx,docm,dotx,txt|required|max:6000',
@@ -44,14 +46,21 @@ class PurchaseQuotationLibraryController extends Controller
 
                 $fileData = $this->uploadFiles($file, $director);
 
-                $fileName = $fileData['file_name'];
-                $extension = Str::lower($fileData['extension']);
-                $fileOriginalName = $fileData['name'];
+                $data = [
+                    'file_name' => $fileData['file_name'],
+                    'extension' => Str::lower($fileData['extension']),
+                    'name' => $fileData['name'],
+                    'purchase_quotation_id' => $purchaseQuotation->id,
+                    'title_ar'=> $request['title_ar'],
+                    'title_en'=> $request['title_en'] ?? $request['title_ar'],
+                ];
 
-                $files[$index] = $this->createQuotationLibrary($purchaseQuotation->id, $fileName, $extension, $fileOriginalName);
+                $files[$index] = PurchaseQuotationLibrary::create($data);
             }
 
-            $view = view('admin.purchase_quotations.library', compact('files', 'library_path'))->render();
+            $mainPath = 'storage/purchase_quotations_library/' . $library_path. '/';
+
+            $view = view('admin.partial.upload_library.files', compact('files', 'mainPath'))->render();
 
         } catch (\Exception $e) {
             return response()->json(__('words.back-customer'), 400);
@@ -83,7 +92,9 @@ class PurchaseQuotationLibraryController extends Controller
 
             $files = $purchaseQuotation->files;
 
-            $view = view('admin.purchase_quotations.library', compact('files', 'library_path'))->render();
+            $mainPath = 'storage/purchase_quotations_library/' . $library_path. '/';
+
+            $view = view('admin.partial.upload_library.files', compact('files', 'mainPath'))->render();
 
         } catch (\Exception $e) {
             return response('sorry, please try later', 400);
@@ -123,17 +134,5 @@ class PurchaseQuotationLibraryController extends Controller
         }
 
         return response(['id' => $request['id']], 200);
-    }
-
-    public function createQuotationLibrary($quotationId, $file_name, $extension, $name)
-    {
-        $fileInLibrary = PurchaseQuotationLibrary::create([
-            'purchase_quotation_id' => $quotationId,
-            'file_name' => $file_name,
-            'extension' => $extension,
-            'name' => $name,
-        ]);
-
-        return $fileInLibrary;
     }
 }

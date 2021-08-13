@@ -92,9 +92,9 @@
 {{--                @include('admin.partial.execution_period', ['id'=> $item->id])--}}
 {{--            </li>--}}
 
-{{--            <li>--}}
-{{--                @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])--}}
-{{--            </li>--}}
+            <li>
+                @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])
+            </li>
 
         </ul>
     </div>

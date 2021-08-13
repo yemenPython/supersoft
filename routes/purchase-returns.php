@@ -27,3 +27,8 @@ Route::post('/purchase-returns/delete-selected', 'PurchaseReturnsController@dele
 Route::post('/purchase-return/terms', 'PurchaseReturnsController@terms')->name('purchase.return.terms');
 
 Route::get('/purchase-returns/data/show/{purchaseReturn}', 'PurchaseReturnsController@showData')->name('purchase.returns.data.show');
+
+// purchase quotations library
+Route::post('purchase-returns/library/get-files', 'PurchaseReturnLibraryController@getFiles')->name('purchase.returns.library.get.files');
+Route::post('purchase-returns/upload_library', 'PurchaseReturnLibraryController@uploadLibrary')->name('purchase.returns.upload_library');
+Route::post('purchase-returns/library/file-delete', 'PurchaseReturnLibraryController@destroyFile')->name('purchase.returns.library.file.delete');

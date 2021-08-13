@@ -55,6 +55,9 @@ Route::post('sales-invoices/price-segments', 'SalesInvoicesController@priceSegme
 
 Route::post('/sales-invoices/terms', 'SalesInvoicesController@terms')->name('sales.invoices.terms');
 
+Route::post('/sale-invoices/get-sale-quotations', 'SalesInvoicesController@getSaleQuotation')->name('sales.invoices.get.sale.quotations');
+Route::post('/sale-invoices/get-sale-supply-order', 'SalesInvoicesController@getSaleSupplyOrder')->name('sales.invoices.get.sale.supply.order');
+
 Route::post('/sale-invoices/add-sale-quotations', 'SalesInvoicesController@addSaleQuotations')->name('sales.invoices.add.sale.quotations');
 Route::post('/sale-invoices/add-sale-supply-order', 'SalesInvoicesController@addSaleSupplyOrder')->name('sales.invoices.add.sale.supply.order');
 
@@ -62,9 +65,9 @@ Route::post('/sale-invoices/add-sale-supply-order', 'SalesInvoicesController@add
 //Route::post('/purchase-invoices-execution/save', 'PurchaseInvoiceExecutionController@save')->name('purchase.invoices.execution.save');
 
 // purchase quotations library
-//Route::post('purchase-invoices/library/get-files', 'PurchaseInvoiceLibraryController@getFiles')->name('purchase.invoices.library.get.files');
-//Route::post('purchase-invoices/upload_library', 'PurchaseInvoiceLibraryController@uploadLibrary')->name('purchase.invoices.upload_library');
-//Route::post('purchase-invoices/library/file-delete', 'PurchaseInvoiceLibraryController@destroyFile')->name('purchase.invoices.library.file.delete');
+Route::post('sales-invoices/library/get-files', 'SalesInvoiceLibraryController@getFiles')->name('sales.invoices.library.get.files');
+Route::post('sales-invoices/upload_library', 'SalesInvoiceLibraryController@uploadLibrary')->name('sales.invoices.upload_library');
+Route::post('sales-invoices/library/file-delete', 'SalesInvoiceLibraryController@destroyFile')->name('sales.invoices.library.file.delete');
 
 //purchase receipt
 //Route::post('/purchase-invoices/purchase-receipt', 'PurchaseInvoicesController@getPurchaseReceipts')->name('purchase.invoices.purchase-receipts');

@@ -254,8 +254,6 @@
 
     @include('admin.partial.print_modal', ['title'=> __('Sale Requests')])
 
-    @include('admin.partial.print_modal', ['title'=> __('Sale Requests')])
-
     @include('admin.sale_quotations.terms.supply_terms', ['items' => $data->get()])
 
 @endsection
@@ -284,6 +282,12 @@
                 }
             });
         }
+
+        function getItemValue(id) {
+
+            $('#sale_quotation_id').val(id);
+        }
+
 
         function getLibraryFiles(id) {
 
@@ -332,7 +336,7 @@
                     $.ajax({
 
                         type: 'post',
-                        url: '{{route('admin:purchase.quotations.library.file.delete')}}',
+                        url: '{{route('admin:sale.quotations.library.file.delete')}}',
                         data: {
                             _token: CSRF_TOKEN,
                             id: id,
@@ -360,6 +364,8 @@
             var form_data = new FormData();
 
             var item_id = $("#library_item_id").val();
+            var title_ar = $("#library_title_ar").val();
+            var title_en = $("#library_title_en").val();
 
             var totalfiles = document.getElementById('files').files.length;
 
@@ -368,9 +374,11 @@
             }
 
             form_data.append("item_id", item_id);
+            form_data.append("title_ar", title_ar);
+            form_data.append("title_en", title_en);
 
             $.ajax({
-                url: "{{route('admin:purchase.quotations.upload_library')}}",
+                url: "{{route('admin:sale.quotations.upload_library')}}",
                 type: "post",
 
                 headers: {
@@ -394,6 +402,8 @@
                     $("#files_area").prepend(data.view);
 
                     $("#files").val('');
+                    $("#library_title_ar").val('');
+                    $("#library_title_en").val('');
 
                     $("#no_files").remove();
 
@@ -407,17 +417,14 @@
             });
         }
 
-        function getItemValue(id) {
-
-            $('#sale_quotation_id').val(id);
-        }
-
     </script>
 @endsection
 
 @section('js')
     <script type="application/javascript">
+
         server_side_datatable('#datatable-with-btns');
+
         function filterFunction($this) {
             $("#loaderSearch").show();
             $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
@@ -427,5 +434,6 @@
                 $("#loaderSearch").hide();
             }, 1000)
         }
+
     </script>
 @endsection

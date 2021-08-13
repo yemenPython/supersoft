@@ -66,6 +66,57 @@
 
 @section('modals')
     @include('admin.partial.part_image')
+
+    <div class="modal fade" id="part_store_quantity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content wg-content">
+                <div class="modal-header">
+
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+
+                    <h4 class="modal-title" id="myModalLabel-1">{{__('Part Quantity')}}</h4>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="row">
+
+                        <div class="col-md-12 margin-bottom-20">
+
+                            <table id="sale_supply_table" class="table table-bordered" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th scope="col">{!! __('Store name.') !!}</th>
+                                    <th scope="col">{!! __('Quantity') !!}</th>
+                                </tr>
+                                </thead>
+
+                                <tbody id="part_quantity">
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"
+                            data-dismiss="modal">
+                        {{__('Close')}}
+                    </button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('js-validation')
@@ -233,6 +284,52 @@
 
             let image_path = $('#part_img_id_' + index).data('img');
             $('#part_image').attr('src', image_path);
+        }
+
+        function showPartQuantity (part_id) {
+
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+
+                type: 'post',
+
+                url: '{{route('admin:concessions.part.stores.quantity')}}',
+
+                data: {
+                    _token: CSRF_TOKEN, part_id:part_id
+                },
+
+                success: function (data) {
+
+                    $("#part_quantity").html(data.view);
+                    invoke_datatable_quotations($('#sale_supply_table'));
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    // $("#loader_save_goals").hide();
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+        }
+
+        function invoke_datatable_quotations(selector, load_at_end_selector, last_child_allowed) {
+            var selector_id = selector.attr("id")
+            var page_title = $("title").text()
+            $("#" + selector_id).DataTable({
+                "language": {
+                    "url": "{{app()->isLocale('ar')  ? "//cdn.datatables.net/plug-ins/1.10.20/i18n/Arabic.json" :
+                                             "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/English.json"}}",
+                },
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        extend: 'colvis',
+                        text: '<i class="fa fa-list"></i> {{__('Columns visibility')}}',
+                    },
+                ],
+            });
         }
 
     </script>

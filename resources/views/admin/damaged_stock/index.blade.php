@@ -94,6 +94,8 @@
 
     @include('admin.partial.print_modal', ['title'=> __('Damaged Stock')])
 
+    @include('admin.partial.upload_library.form', ['url'=> route('admin:damaged.stock.upload_library')])
+
 @endsection
 
 @section('js')
@@ -125,6 +127,138 @@
                 $("#showEmployeeData").hide();
             }
         }
+
+
+
+        function getLibraryFiles(id) {
+
+            $("#library_item_id").val(id);
+
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+
+                type: 'post',
+                url: '{{route('admin:damaged.stock.library.get.files')}}',
+                data: {
+                    _token: CSRF_TOKEN,
+                    id: id,
+                },
+
+                success: function (data) {
+
+                    $("#files_area").html(data.view);
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
+        }
+
+        function removeFile(id) {
+
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            swal({
+
+                title: "Delete File",
+                text: "Are you sure want to delete this file ?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+
+            }).then((willDelete) => {
+
+                if (willDelete) {
+
+                    $.ajax({
+
+                        type: 'post',
+                        url: '{{route('admin:damaged.stock.library.file.delete')}}',
+                        data: {
+                            _token: CSRF_TOKEN,
+                            id: id,
+                        },
+
+                        success: function (data) {
+
+                            $("#file_" + data.id).remove();
+                            swal({text: 'file deleted successfully', icon: "success"});
+                        },
+
+                        error: function (jqXhr, json, errorThrown) {
+                            // $("#loader_save_goals").hide();
+                            var errors = jqXhr.responseJSON;
+                            swal({text: errors, icon: "error"})
+                        }
+                    });
+                }
+            });
+
+        }
+
+        function uploadFiles() {
+
+            var form_data = new FormData();
+
+            var item_id = $("#library_item_id").val();
+            var title_ar = $("#library_title_ar").val();
+            var title_en = $("#library_title_en").val();
+
+            var totalfiles = document.getElementById('files').files.length;
+
+            for (var index = 0; index < totalfiles; index++) {
+                form_data.append("files[]", document.getElementById('files').files[index]);
+            }
+
+            form_data.append("item_id", item_id);
+            form_data.append("title_ar", title_ar);
+            form_data.append("title_en", title_en);
+
+            $.ajax({
+                url: "{{route('admin:damaged.stock.upload_library')}}",
+                type: "post",
+
+                headers: {
+                    "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content")
+                },
+                data: form_data,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+
+                beforeSend: function () {
+                    $('#upload_loader').show();
+                },
+
+                success: function (data) {
+
+                    $('#upload_loader').hide();
+
+                    swal("{{__('Success')}}", data.message, "success");
+
+                    $("#files_area").prepend(data.view);
+
+                    $("#files").val('');
+                    $("#library_title_ar").val('');
+                    $("#library_title_en").val('');
+
+                    $("#no_files").remove();
+
+                },
+                error: function (jqXhr, json, errorThrown) {
+
+                    $('#upload_loader').hide();
+                    var errors = jqXhr.responseJSON;
+                    swal("{{__('Sorry')}}", errors, "error");
+                },
+            });
+        }
+
+
 
         server_side_datatable('#datatable-with-btns');
 
