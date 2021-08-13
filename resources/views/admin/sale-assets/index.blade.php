@@ -280,15 +280,24 @@
             print_element(element_id, page_title)
         }
 
-        function getPrintData(id) {
+        function getPrintData(id, show = null) {
             $.ajax({
                 url: "{{ route('admin:sale-assets.show') }}?id=" + id,
                 method: 'GET',
+                data : {
+                    show : show,
+                },
                 success: function (data) {
+                    if (show) {
+                        $("#boostrapModalResponse").html(data.view)
+                        let total = $("#totalInLettersShow").text()
+                        $("#totalInLettersShow").html(new Tafgeet(parseFloat(total), '{{config("currency.defualt_currency")}}').parse())
 
-                    $("#assetDatatoPrint").html(data.view)
-                    let total = $("#totalInLetters").text()
-                    $("#totalInLetters").html(new Tafgeet(parseFloat(total), '{{config("currency.defualt_currency")}}').parse())
+                    } else {
+                        $("#assetDatatoPrint").html(data.view)
+                        let total = $("#totalInLetters").text()
+                        $("#totalInLetters").html(new Tafgeet(parseFloat(total), '{{config("currency.defualt_currency")}}').parse())
+                    }
                 }
             });
         }
@@ -430,5 +439,30 @@
         </div>
     </div>
 
-    {{--        @include($view_path . '.column-visible')--}}
+    <div class="modal fade" id="boostrapModalShow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span>
+                    </button>
+
+                    <h3 class="text-center">   <span> {{__('Sale assets')}} </span></h3>
+                </div>
+
+                <div class="modal-body" id="boostrapModalResponse">
+
+
+                </div>
+                <div class="modal-footer" style="text-align:center">
+
+                    <button type="button" class="btn btn-danger waves-effect waves-light"
+                            data-dismiss="modal"><i class='fa fa-close'></i>
+                        {{__('Close')}}</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 @endsection

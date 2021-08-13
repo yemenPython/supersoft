@@ -27,7 +27,7 @@
                     </h4>
                     <!-- /.box-title -->
                     <div class="card-content js__card_content" style="padding:30px">
-                        <form  onsubmit="filterFunction($(this));return false;">
+                        <form onsubmit="filterFunction($(this));return false;">
                             <div class="list-inline margin-bottom-0 row">
 
                                 @if(authIsSuperAdmin())
@@ -92,37 +92,37 @@
                                 <div class="form-group col-md-3">
                                     <label> {{ __('date From') }}</label>
                                     <div class="input-group">
-                    <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                                    <input type="text" class="form-control datepicker" name="date_from">
-                                </div>
+                                        <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
+                                        <input type="text" class="form-control datepicker" name="date_from">
+                                    </div>
                                 </div>
 
                                 <div class="form-group col-md-3">
                                     <label> {{ __('date To') }}</label>
                                     <div class="input-group">
-                    <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                                    <input type="text" class="form-control datepicker" name="date_to">
-                                </div>
+                                        <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
+                                        <input type="text" class="form-control datepicker" name="date_to">
+                                    </div>
                                 </div>
 
 
-                                    <div class="form-group col-md-3">
-                                        <label> {{ __('Value From') }}</label>
-                                        <div class="input-group">
+                                <div class="form-group col-md-3">
+                                    <label> {{ __('Value From') }}</label>
+                                    <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-money"></i></span>
 
                                         <input type="text" class="form-control" name="value_replacement_from">
                                     </div>
-                                    </div>
+                                </div>
 
-                                    <div class="form-group col-md-3">
-                                        <label> {{ __('Value To') }}</label>
-                                        <div class="input-group">
+                                <div class="form-group col-md-3">
+                                    <label> {{ __('Value To') }}</label>
+                                    <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-money"></i></span>
 
                                         <input type="text" class="form-control" name="value_replacement_to">
                                     </div>
-                                    </div>
+                                </div>
 
 
                             </div>
@@ -163,7 +163,8 @@
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
-                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover" style="width:100%">
+                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover"
+                               style="width:100%">
                             <thead>
                             <tr>
                                 <th scope="col">{!! __('#') !!}</th>
@@ -220,14 +221,23 @@
             print_element(element_id, page_title)
         }
 
-        function getPrintData(id) {
+        function getPrintData(id, show = null) {
             $.ajax({
                 url: "{{ url('admin/assets_replacements/')}}" + '/' + id,
                 method: 'GET',
+                data : {
+                    show : show,
+                },
                 success: function (data) {
-                    $("#assetDatatoPrint").html(data.view)
-                    let total_after_replacement = $("#totalInLetters").text()
-                    $("#totalInLetters").html(new Tafgeet(total_after_replacement, '{{config("currency.defualt_currency")}}').parse())
+                    if (show) {
+                        $("#boostrapModalResponse").html(data.view)
+                        let total = $("#totalInLettersShow").text()
+                        $("#totalInLettersShow").html(new Tafgeet(total, '{{config("currency.defualt_currency")}}').parse())
+                    } else {
+                        $("#assetDatatoPrint").html(data.view)
+                        let total_after_replacement = $("#totalInLetters").text()
+                        $("#totalInLetters").html(new Tafgeet(total_after_replacement, '{{config("currency.defualt_currency")}}').parse())
+                    }
                 }
             });
         }
@@ -319,7 +329,7 @@
                 url: "{{ route('admin:assets.getAssetsByAssetsGroup')}}",
                 data: {
                     asset_group_id: asset_group_id,
-                    branch_id:branch_id,
+                    branch_id: branch_id,
                     _token: CSRF_TOKEN,
                 },
                 success: function (data) {
@@ -371,4 +381,33 @@
             </div>
         </div>
     </div>
+
+
+
+    <div class="modal fade" id="boostrapModalShow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span>
+                    </button>
+
+                    <h3 class="text-center">   <span> {{__('Assets Replacements')}} </span></h3>
+                </div>
+
+                <div class="modal-body" id="boostrapModalResponse">
+
+
+                </div>
+                <div class="modal-footer" style="text-align:center">
+
+                    <button type="button" class="btn btn-danger waves-effect waves-light"
+                            data-dismiss="modal"><i class='fa fa-close'></i>
+                        {{__('Close')}}</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 @endsection

@@ -125,6 +125,20 @@
                                     </div>
                                 </div>
 
+                                    <div class="form-group col-md-6">
+                                        <label> {{ __('Operation Type') }} </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+
+                                            <select class="form-control select2" id="operation_type"
+                                                    name="operation_type">
+                                            <option value="">{{__('Select')}}</option>
+                                                    <option value="purchase">{{__('Purchase')}}</option>
+                                                    <option value="opening_balance">{{__('Opening Balance')}}</option>
+                                                    <option value="together">{{__('Together')}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
 
 
                                     <div class="col-md-6">
@@ -275,24 +289,24 @@
             print_element(element_id, page_title)
         }
 
-        function getPrintData(id) {
-            $.ajax({
-                url: "{{route('admin:purchase-assets.show')}}?id=" + id,
-                method: 'GET',
-                success: function (data) {
-                    $("#invoiceDatatoPrint").html(data.invoice)
-                }
-            });
-        }
 
-        function getPrintData(id) {
+        function getPrintData(id, show = null) {
             $.ajax({
                 url: "{{ route('admin:purchase-assets.show') }}?id=" + id,
                 method: 'GET',
+                data : {
+                  show : show,
+                },
                 success: function (data) {
-                    $("#invoiceDatatoPrint").html(data.invoice)
-                    let total = $("#totalInLetters").text()
-                    $("#totalInLetters").html(new Tafgeet(total, '{{config("currency.defualt_currency")}}').parse())
+                    if (show) {
+                        $("#boostrapModalShowResponse").html(data.invoice)
+                        let total = $("#totalInLettersShow").text()
+                        $("#totalInLettersShow").html(new Tafgeet(total, '{{config("currency.defualt_currency")}}').parse())
+                    } else {
+                        $("#invoiceDatatoPrint").html(data.invoice)
+                        let total = $("#totalInLetters").text()
+                        $("#totalInLetters").html(new Tafgeet(total, '{{config("currency.defualt_currency")}}').parse())
+                    }
                 }
             });
         }
@@ -471,6 +485,28 @@
                 <div class="modal-footer" style="text-align:center">
 
 
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="boostrapModalShow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span>
+                    </button>
+                    <h3 class="text-center"><span> {{__('Asset Purchase Invoice')}} </span></h3>
+                </div>
+
+                <div class="modal-body" id="boostrapModalShowResponse">
+                </div>
+                <div class="modal-footer" style="text-align:center">
+                    <button type="button" class="btn btn-danger waves-effect waves-light" data-dismiss="modal">
+                        <i class='fa fa-close'></i>
+                        {{__('Close')}}</button>
                 </div>
 
             </div>

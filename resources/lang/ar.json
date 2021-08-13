@@ -2261,7 +2261,8 @@
     "Settlement" : "تسويات المخزون",
     "Settlement data" : "بيانات التسوية",
     "positive" : "تسوية موجبة",
-    "negative" : "تسوية سالبة"
+    "negative" : "تسوية سالبة",
+    "Purchase" : "شراء"
 
 
 }

@@ -31,7 +31,8 @@ class PurchaseAsset extends Model
         'total_purchase_cost',
         'total_past_consumtion',
         'user_id',
-        'type'
+        'type',
+        'operation_type',
     ];
 
     protected $table = 'purchase_assets';

@@ -112,6 +112,11 @@ class ConsumptionAssetsController extends Controller
                                         <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="ico fa fa-bars"></i> ' . __("Options") . '<span class="caret"></span></button>
                                           <ul class="dropdown-menu dropdown-wg">
+                                          <li> <a style="cursor:pointer" class="btn btn-print-wg text-white  "
+           data-toggle="modal" onclick="getPrintData(' . $consumptionAsset->id . ', ' . true. ')"
+           data-target="#boostrapModalShow" title="' . __( 'Show' ) . '">
+            <i class="fa fa-eye"></i> ' . __( 'Show' ) . '</a>
+        </li>
                                             <li> <a class="btn btn-wg-edit hvr-radial-out" href="' . route("admin:consumption-assets.edit", $consumptionAsset->id) . '">
     <i class="fa fa-edit"></i>  ' . __('Edit') . '
         </a></li>
@@ -274,8 +279,13 @@ class ConsumptionAssetsController extends Controller
     public function show(ConsumptionAsset $consumptionAsset, Request $request)
     {
         $asset = ConsumptionAsset::find($request->id);
-        $view = view('admin.consumption-assets.show', compact('asset'))->render();
+        $isOnlyShow = $request->show;
+        if ($isOnlyShow){
+            $view = view( 'admin.consumption-assets.onlyShow', compact( 'asset' ) )->render();
 
+        } else {
+            $view = view('admin.consumption-assets.show', compact('asset'))->render();
+        }
         return response()->json(['view' => $view]);
     }
 

@@ -103,6 +103,12 @@ class AssetExpenseController extends Controller
                                         <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="ico fa fa-bars"></i> ' . __( "Options" ) . '<span class="caret"></span></button>
                                           <ul class="dropdown-menu dropdown-wg">
+                                           <li>
+        <a style="cursor:pointer" class="btn btn-print-wg text-white  "
+           data-toggle="modal" onclick="getPrintData(' . $assetsReplacement->id . ', ' . true . ')"
+           data-target="#boostrapModalShow" title="' . __( 'Show' ) . '">
+            <i class="fa fa-eye"></i> ' . __( 'Show' ) . '</a>
+        </li>
                                             <li> <a class="btn btn-wg-edit hvr-radial-out" href="' . route( "admin:assets_expenses.edit", $assetsReplacement->id ) . '">
     <i class="fa fa-edit"></i>  ' . __( 'Edit' ) . '
         </a></li>
@@ -150,7 +156,7 @@ class AssetExpenseController extends Controller
                 'number' => 'asset_expenses.number',
                 'total' => 'asset_expenses.total',
                 'status' => 'asset_expenses.status',
-              
+
                 'created_at' => 'asset_expenses.created_at',
                 'updated_at' => 'asset_expenses.updated_at',
                 'action' => 'action',
@@ -165,7 +171,7 @@ class AssetExpenseController extends Controller
                 'number' => 'asset_expenses.number',
                 'total' => 'asset_expenses.total',
                 'status' => 'asset_expenses.status',
-              
+
                 'created_at' => 'asset_expenses.created_at',
                 'updated_at' => 'asset_expenses.updated_at',
                 'action' => 'action',
@@ -236,14 +242,19 @@ class AssetExpenseController extends Controller
             compact( 'assets', 'assetsGroups', 'branches', 'number', 'assetExpense', 'assetExpensesItems', 'assetExpensesTypes' ) );
     }
 
-    public function show(int $id): JsonResponse
+    public function show(Request $request, int $id): JsonResponse
     {
         $assetExpense = AssetExpense::with( 'assetExpensesItems' )->findOrFail( $id );
-        $view = view( 'admin.assets_expenses.show', compact( 'assetExpense' ) )->render();
-        return response()->json( [
-            'view' => $view
-        ] );
+        $isOnlyShow = $request->show;
+        if ($isOnlyShow){
+            $invoice = view( 'admin.assets_expenses.onlyShow', compact( 'assetExpense' ) )->render();
 
+        } else {
+            $invoice = view( 'admin.assets_expenses.show', compact( 'assetExpense' ) )->render();
+        }
+        return response()->json( [
+            'view' => $invoice
+        ] );
     }
 
     public function update(AssetExpenseRequestUpdate $request, int $id): RedirectResponse

@@ -97,6 +97,12 @@ class AssetReplacementController extends Controller
                                         <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="ico fa fa-bars"></i> ' . __( "Options" ) . '<span class="caret"></span></button>
                                           <ul class="dropdown-menu dropdown-wg">
+                                           <li>
+        <a style="cursor:pointer" class="btn btn-print-wg text-white  "
+           data-toggle="modal" onclick="getPrintData(' . $assetsReplacement->id . ', ' . true. ')"
+           data-target="#boostrapModalShow" title="' . __( 'Show' ) . '">
+            <i class="fa fa-eye"></i> ' . __( 'Show' ) . '</a>
+        </li>
                                             <li> <a class="btn btn-wg-edit hvr-radial-out" href="' . route( "admin:assets_replacements.edit", $assetsReplacement->id ) . '">
     <i class="fa fa-edit"></i>  ' . __( 'Edit' ) . '
         </a></li>
@@ -245,10 +251,16 @@ class AssetReplacementController extends Controller
             compact( 'assets', 'assetsGroups', 'branches', 'assetReplacement' ) );
     }
 
-    public function show(int $id): JsonResponse
+    public function show(Request $request, int $id): JsonResponse
     {
         $assetReplacement = AssetReplacement::findOrFail( $id );
-        $view = view( 'admin.assets_replacements.show', compact( 'assetReplacement' ) )->render();
+        $isOnlyShow = $request->show;
+        if ($isOnlyShow){
+            $view = view( 'admin.assets_replacements.onlyShow', compact( 'assetReplacement' ) )->render();
+
+        } else {
+            $view = view( 'admin.assets_replacements.show', compact( 'assetReplacement' ) )->render();
+        }
         return response()->json( [
             'view' => $view
         ] );

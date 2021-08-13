@@ -26,10 +26,8 @@ class PurchaseAssetRequest extends FormRequest
             'date' => 'required|date',
             'time' => 'required',
             'annual_consumtion_rate' => 'nullable|numeric|min:0|max:100',
-//            'asset_id' => 'required|exists:assets_tb,id',
-//            'items' => 'required|array',
-            'supplier_id' => 'required|integer|exists:suppliers,id',
-//            'items.*.asset_id' => 'required|integer|exists:assets_tb,id',
+            'operation_type' => 'required|in:purchase,opening_balance',
+            'supplier_id' => 'nullable|required_if:operation_type,purchase|exists:suppliers,id',
         ];
 
         if (authIsSuperAdmin()) {
@@ -42,7 +40,9 @@ class PurchaseAssetRequest extends FormRequest
     public function attributes()
     {
         return [
-            'invoice_number' => __( 'Invoice Number' )
+            'invoice_number' => __( 'Invoice Number' ),
+            'operation_type' => __( 'Operation Type' ),
+            'supplier_id' => __( 'Supplier' ),
         ];
     }
 }

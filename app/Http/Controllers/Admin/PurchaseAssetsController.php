@@ -48,6 +48,7 @@ class PurchaseAssetsController extends Controller
                 'purchase_assets.total_purchase_cost',
                 'purchase_assets.total_past_consumtion',
                 'purchase_assets.type',
+                'purchase_assets.operation_type',
             ] )->leftjoin( 'purchase_asset_items', 'purchase_assets.id', '=', 'purchase_asset_items.purchase_asset_id' )->latest();
 
             if ($request->has( 'branch_id' ) && !empty( $request['branch_id'] ))
@@ -68,6 +69,14 @@ class PurchaseAssetsController extends Controller
 
             if ($request->has( 'asset_id' ) && !empty( $request->asset_id ))
                 $purchaseAssets->where( 'purchase_asset_items.asset_id', $request['asset_id'] );
+
+            if ($request->filled( 'operation_type' ) &&  $request->operation_type != 'together' ) {
+                $purchaseAssets->where( 'purchase_assets.operation_type', $request['operation_type'] );
+            }
+
+            if ($request->filled( 'operation_type' ) &&  $request->operation_type == 'together' ) {
+                $purchaseAssets->whereIn( 'purchase_assets.operation_type', ['purchase', 'opening_balance'] );
+            }
 
             whereBetween( $purchaseAssets, 'DATE(purchase_assets.date)', $request->date_from, $request->date_to );
             whereBetween( $purchaseAssets, 'purchase_asset_items.sale_amount', $request->sale_amount_from, $request->sale_amount_to );
@@ -123,6 +132,12 @@ class PurchaseAssetsController extends Controller
                                         <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="ico fa fa-bars"></i> ' . __( "Options" ) . '<span class="caret"></span></button>
                                           <ul class="dropdown-menu dropdown-wg">
+                                           <li>
+        <a style="cursor:pointer" class="btn btn-print-wg text-white  "
+           data-toggle="modal" onclick="getPrintData(' . $purchaseAsset->id . ', ' . true . ')"
+           data-target="#boostrapModalShow" title="' . __( 'Show' ) . '">
+            <i class="fa fa-eye"></i> ' . __( 'Show' ) . '</a>
+        </li>
                                             <li> <a class="btn btn-wg-edit hvr-radial-out" href="' . route( "admin:purchase-assets.edit", $purchaseAsset->id ) . '">
     <i class="fa fa-edit"></i>  ' . __( 'Edit' ) . '
         </a></li>
@@ -247,7 +262,8 @@ class PurchaseAssetsController extends Controller
                 'total_purchase_cost' => $request->total_purchase_cost,
                 'total_past_consumtion' => $request->total_past_consumtion,
                 'user_id'=>auth()->id(),
-                'type'=>$request->type
+                'type'=>$request->type,
+                'operation_type'=>$request->operation_type
             ];
             $invoice_data['branch_id'] = authIsSuperAdmin() ? $request['branch_id'] : auth()->user()->branch_id;
 
@@ -301,7 +317,13 @@ class PurchaseAssetsController extends Controller
     public function show(Request $request)
     {
         $asset = PurchaseAsset::find( $request->id );
-        $invoice = view( 'admin.purchase-assets.show', compact( 'asset' ) )->render();
+        $isOnlyShow = $request->show;
+        if ($isOnlyShow){
+            $invoice = view( 'admin.purchase-assets.onlyShow', compact( 'asset' ) )->render();
+
+        } else {
+            $invoice = view( 'admin.purchase-assets.show', compact( 'asset' ) )->render();
+        }
 
         return response()->json( ['invoice' => $invoice] );
     }
@@ -343,7 +365,8 @@ class PurchaseAssetsController extends Controller
                 'note' => $data['note'],
                 'total_purchase_cost' => $request->total_purchase_cost,
                 'total_past_consumtion' => $request->total_past_consumtion,
-                'type'=>$request->type
+                'type'=>$request->type,
+                'operation_type'=>$request->operation_type
             ];
             $purchaseAsset->update( $invoice_data );
             $purchaseAsset->items()->delete();
