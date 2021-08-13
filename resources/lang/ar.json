@@ -2261,7 +2261,11 @@
     "Settlement" : "تسويات المخزون",
     "Settlement data" : "بيانات التسوية",
     "positive" : "تسوية موجبة",
-    "negative" : "تسوية سالبة"
+    "negative" : "تسوية سالبة",
+    "Purchase" : "شراء",
+    "Maintenance centers" : "مراكز الصيانة",
+    "Edit Maintenance Center" : "تعديل بيانات مركز الصيانة",
+    "Create Maintenance centers" : "أنشاء مركز صيانة"
 
 
 }

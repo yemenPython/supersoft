@@ -12,6 +12,7 @@ use App\Models\AssetsTypeExpense;
 use App\Models\BankAccount;
 use App\Models\DamagedStock;
 use App\Models\EmployeeData;
+use App\Models\MaintenanceCenter;
 use App\Models\OpeningBalance;
 use App\Models\Part;
 use App\Models\PurchaseInvoice;
@@ -193,6 +194,9 @@ class AjaxController extends Controller
                     break;
                 case 'BankAccount':
                     $data = $this->getBankAccounts($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'MaintenanceCenter':
+                    $data = $this->getMaintenanceCenters($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
                     break;
                 default:
                     break;
@@ -1244,6 +1248,37 @@ class AjaxController extends Controller
             $assetsItemExpenses = $assetsItemExpenses->where('supplier_id', $this->supplierID);
         }
 
+
+        $assetsItemExpenses = $assetsItemExpenses->limit($limit)->get();
+        foreach ($assetsItemExpenses as $assetsItemExpense) {
+            $data[] = [
+                'id' => $assetsItemExpense->id,
+                'text' => $this->buildSelectedColumnsAsText($assetsItemExpense, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+
+    private function getMaintenanceCenters(array $searchFields, $searchTerm, $selectedColumns, $limit, $branchId)
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $assetsItemExpenses = MaintenanceCenter::select(DB::raw($selectedColumns));
+
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $assetsItemExpenses = $assetsItemExpenses->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        if (!empty($branchId)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('branch_id', $branchId);
+        }
 
         $assetsItemExpenses = $assetsItemExpenses->limit($limit)->get();
         foreach ($assetsItemExpenses as $assetsItemExpense) {

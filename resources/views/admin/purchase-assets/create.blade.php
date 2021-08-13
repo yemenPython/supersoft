@@ -298,6 +298,15 @@
                 return false;
             }
         });
+
+        function detectOperationType() {
+            let operationType = $("#operation_type").val();
+            if (operationType == 'opening_balance')  {
+                $("#supplierSection").hide();
+            } else {
+                $("#supplierSection").show();
+            }
+        }
     </script>
 
 

@@ -77,57 +77,6 @@
                         <th scope="col">{!! __('Select') !!}</th>
                     </tr>
                     </tfoot>
-{{--                    <tbody>--}}
-{{--                    @foreach($assetsExpenses as $index=>$item)--}}
-{{--                        <tr>--}}
-{{--                            <td>{!! $index +1 !!}</td>--}}
-{{--                            <td>{!! $item->number !!}</td>--}}
-{{--                            <td>{!! $item->date  !!} </td>--}}
-{{--                            <td>{!! $item->time  !!} </td>--}}
-{{--                            <td>--}}
-{{--                                @if( $item->status == 'pending' )--}}
-{{--                                    <span class="label label-info wg-label"> {{__('Pending')}}</span>--}}
-{{--                                @elseif( $item->status == 'accept' )--}}
-{{--                                    <span class="label label-success wg-label"> {{__('Accepted')}} </span>--}}
-{{--                                @elseif( $item->status == 'cancel' )--}}
-{{--                                    <span class="label label-danger wg-label"> {{__('Rejected')}} </span>--}}
-{{--                                @endif--}}
-
-{{--                            </td>--}}
-{{--                            <td> <span class="label label-warning wg-label"> {!! number_format($item->total, 2) !!} </span></td>--}}
-{{--                            <td>{!! $item->created_at->format('y-m-d h:i:s A') !!}</td>--}}
-{{--                            <td>{!! $item->updated_at->format('y-m-d h:i:s A') !!}</td>--}}
-{{--                            <td>--}}
-{{--                                @component('admin.buttons._edit_button',[--}}
-{{--                                            'id'=>$item->id,--}}
-{{--                                            'route' => 'admin:assets_expenses.edit',--}}
-{{--                                             ])--}}
-{{--                                @endcomponent--}}
-
-{{--                                @component('admin.buttons._delete_button',[--}}
-{{--                                            'id'=> $item->id,--}}
-{{--                                            'route' => 'admin:assets_expenses.destroy',--}}
-{{--                                             ])--}}
-{{--                                @endcomponent--}}
-{{--                                    <a style="cursor:pointer" class="btn btn-print-wg text-white  "--}}
-{{--                                       data-toggle="modal"--}}
-
-{{--                                       onclick="getPrintData({{$item->id}})"--}}
-{{--                                       data-target="#boostrapModal" title="{{__('print')}}">--}}
-{{--                                        <i class="fa fa-print"></i> {{__('Print')}}--}}
-{{--                                    </a>--}}
-
-{{--                            </td>--}}
-{{--                            <td>--}}
-{{--                                @component('admin.buttons._delete_selected',[--}}
-{{--                                         'id' => $item->id,--}}
-{{--                                         'route' => 'admin:assets_expenses.deleteSelected',--}}
-{{--                                          ])--}}
-{{--                                @endcomponent--}}
-{{--                            </td>--}}
-{{--                        </tr>--}}
-{{--                    @endforeach--}}
-{{--                    </tbody>--}}
                 </table>
             </div>
             </div>
@@ -143,20 +92,26 @@
             var element_id = 'assetDatatoPrint', page_title = document.title
             print_element(element_id, page_title)
         }
-        function getPrintData(id) {
+        function getPrintData(id, show = null) {
             $.ajax({
                 url: "{{ url('admin/assets_expenses/')}}" +'/'+ id,
                 method: 'GET',
+                data : {
+                    show : show,
+                },
                 success: function (data) {
-                    $("#assetDatatoPrint").html(data.view)
-                    let total = $("#totalInLetters").text()
-                    $("#totalInLetters").html(new Tafgeet(total, '{{config("currency.defualt_currency")}}').parse())
-              
+                    if (show) {
+                        $("#boostrapModalResponse").html(data.view)
+                        let total = $("#totalInLettersShow").text()
+                        $("#totalInLettersShow").html(new Tafgeet(total, '{{config("currency.defualt_currency")}}').parse())
+                    } else {
+                        $("#assetDatatoPrint").html(data.view)
+                        let total = $("#totalInLetters").text()
+                        $("#totalInLetters").html(new Tafgeet(total, '{{config("currency.defualt_currency")}}').parse())
+                    }
                 }
             });
         }
-
-
 
         function filterFunction($this) {
             $("#loaderSearch").show();
@@ -197,6 +152,33 @@
 
 
 
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="boostrapModalShow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span>
+                    </button>
+
+                    <h3 class="text-center"><span> {{__('Asset Expenses invoice')}} </span></h3>
+                </div>
+
+                <div class="modal-body" id="boostrapModalResponse">
+
+
+                </div>
+                <div class="modal-footer" style="text-align:center">
+
+                    <button type="button" class="btn btn-danger waves-effect waves-light"
+                            data-dismiss="modal"><i class='fa fa-close'></i>
+                        {{__('Close')}}</button>
                 </div>
 
             </div>
