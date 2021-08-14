@@ -21,7 +21,7 @@ class AssetMaintenanceController extends Controller
         $items = $asset->assetMaintenances;
         $maintenanceDetections = MaintenanceDetection::all();
         $maintenanceDetectionsType = MaintenanceDetectionType::all();
-//        $items = $this->filter($request, $items);
+        $items = $this->filter($request, $items);
         if ($request->isDataTable) {
             return $this->dataTableColumns($items);
         } else {
@@ -45,50 +45,49 @@ class AssetMaintenanceController extends Controller
                 $assetMaintenance->update($data);
             }
             return redirect()->back()->with(['message' => __('words.asset-maintenance-updated'), 'alert-type' => 'success']);
-
         } else {
             AssetMaintenance::create($data);
             return redirect()->back()->with(['message' => __('words.asset-maintenance-created'), 'alert-type' => 'success']);
         }
     }
 
-    public function destroy(itemHistory $employeeHistory): RedirectResponse
+    public function destroy(AssetMaintenance $assetMaintenance): RedirectResponse
     {
-        $employeeHistory->delete();
-        return redirect()->back()->with(['message' => __('words.store-employee-deleted'), 'alert-type' => 'success']);
+        $assetMaintenance->delete();
+        return redirect()->back()->with(['message' => __('words.asset-maintenance-deleted'), 'alert-type' => 'success']);
     }
 
     public function deleteSelected(Request $request): RedirectResponse
     {
         if (isset($request->ids)) {
-            itemHistory::whereIn('id', $request->ids)->delete();
+            AssetMaintenance::whereIn('id', $request->ids)->delete();
             return redirect()->back()
                 ->with(['message' => __('words.selected-row-deleted'), 'alert-type' => 'success']);
         }
     }
 
-    private function filter(Request $request, Collection $employees): Collection
+    private function filter(Request $request, Collection $items): Collection
     {
-        if ($request->has('employee_id') && $request['employee_id'] != 0) {
-            $employees = $employees->where('employee_id', $request['employee_id']);
+        if ($request->has('assetMaintenacceId') && $request['assetMaintenacceId'] != 0) {
+            $items = $items->where('id', $request['assetMaintenacceId']);
         }
-        if ($request->has('start') && $request['start'] != '') {
-            $employees = $employees->where('start', $request->start_date);
+        if ($request->has('maintenance_detection_type_id_select2') && $request['maintenance_detection_type_id_select2'] != '') {
+            $items = $items->where('maintenance_detection_type_id', $request->maintenance_detection_type_id_select2);
         }
-        if ($request->has('end') && $request['end'] != '') {
-            $employees = $employees->where('end', $request->end_date);
+        if ($request->has('maintenance_detection_id') && $request['maintenance_detection_id'] != '') {
+            $items = $items->where('maintenance_detection_id', $request->maintenance_detection_id);
         }
         if ($request->has('active') && $request['active'] != '') {
-            $employees = $employees->where('status', '1');
+            $items = $items->where('status', '1');
         }
         if ($request->has('inactive') && $request['inactive'] != '') {
-            $employees = $employees->where('status', '0');
+            $items = $items->where('status', '0');
         }
-        return $employees;
+        return $items;
     }
 
     /**
-     * @param Collection $employees
+     * @param Collection $items
      * @return mixed
      * @throws Throwable
      */

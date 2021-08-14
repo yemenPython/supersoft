@@ -19,6 +19,7 @@
                 <div class="modal-body">
                     <div class="row">
                         @csrf
+                        <input type="hidden" value="{{$asset->id}}" name="asset_id_select_2" id="asset_id_select_2" >
                         <input type="hidden" value="" name="asset_maintenance_id" id="asset_maintenance_id">
                         <div class="form-group col-md-6">
                             <label> {{ __('Name in Arabic') }} <span class="text-danger">*</span></label>
@@ -36,15 +37,27 @@
                             </div>
                         </div>
 
-
                         <div class="form-group col-md-6">
                             <label> {{ __('Maintenance Types') }} <span class="text-danger">*</span></label>
-                            {!! drawSelect2ByAjax('maintenance_detection_type_id','MaintenanceDetectionType', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('Select'),request()->maintenance_detection_type_id) !!}
+                            <div class="input-group">
+                                <span class="input-group-addon fa fa-file"></span>
+                                <select class="form-control js-example-basic-single" onchange="getMaintenanceDetections()" name="maintenance_detection_type_id" id="maintenance_detection_type_id">
+                                    <option value="">{{__('Select')}}</option>
+                                    @foreach($maintenanceDetectionsType as $type)
+                                    <option value="{{ $type->id }}">{{ $type->name }}</option>
+                                        @endforeach
+                                </select>
+                            </div>
                         </div>
 
                         <div class="form-group col-md-6">
                             <label> {{ __('Maintenance Detection') }} <span class="text-danger">*</span></label>
-                            {!! drawSelect2ByAjax('maintenance_detection_id','MaintenanceDetection', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('Select'),request()->maintenance_detection_id) !!}
+                            <select class="form-control js-example-basic-single" name="maintenance_detection_id" id="maintenance_detection_id">
+                                <option value="">{{__('Select')}}</option>
+                                @foreach($maintenanceDetections as $maintenance)
+                                    <option value="{{ $maintenance->id }}">{{ $maintenance->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="form-group col-md-6">
@@ -112,7 +125,7 @@
                 <li class="breadcrumb-item active"> {{ __('Assets Maintenance') }}</li>
             </ol>
         </nav>
-{{--        @include('admin.assets.assets_maintenance.search')--}}
+        @include('admin.assets.assets_maintenance.search')
 
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
@@ -194,62 +207,75 @@
         $(document).ready(function () {
 
             $('#add-employee-modal').on('show.bs.modal', function (event) {
-                // $('#maintenance_detection_type_id, #maintenance_detection_id').select2({
-                //     dropdownParent: $('#add-employee-modal')
-                // });
+                $('#maintenance_detection_type_id, #maintenance_detection_id, #maintenance_type').select2({
+                    dropdownParent: $('#add-employee-modal')
+                });
                 var button = $(event.relatedTarget);
-                var asset_maintenance_id = button.data('asset_maintenance_id');
-                $('#asset_maintenance_id').val(asset_maintenance_id);
-
-                var asset_id = button.data('asset_id');
-                $('#asset_id').val(asset_id);
-
-                var name_ar = button.data('name_ar');
-                $('#name_ar').val(name_ar);
-
-                var name_en = button.data('name_en');
-                $('#name_en').val(name_en);
-
-                var maintenance_detection_type_id = button.data('maintenance_detection_type_id');
-                $('#maintenance_detection_type_id').val(maintenance_detection_type_id);
-
-                var maintenance_detection_id = button.data('maintenance_detection_id');
-                $('#maintenance_detection_id').val(maintenance_detection_id);
-
-                var maintenance_type = button.data('maintenance_type');
-                $('#maintenance_type').val(maintenance_type);
-
-                var number_of_km_h = button.data('number_of_km_h');
-                $('#number_of_km_h').val(number_of_km_h);
-
-                var period = button.data('period');
-                $('#period').val(period);
-
-                var status = button.data('status');
-                $('.status').val(status);
-                if (maintenance_detection_type_id && maintenance_detection_type_id != '') {
-                    $('#maintenance_detection_type_id').val(maintenance_detection_type_id).trigger('change');
-                } else {
-                    $('#maintenance_detection_type_id').val(0).trigger('change');
-                    $("#maintenance_detection_type_id").select2("val", '');
-                }
-
-                if (maintenance_type && maintenance_type != '') {
-                    $('#maintenance_type').val(maintenance_type).trigger('change');
-                } else {
-                    $('#maintenance_type').val(0).trigger('change');
-                    $("#maintenance_type").select2("val", '');
-                }
-
                 var title = button.data('title');
                 if (title === undefined) {
                     $('#myModalLabel-1').text('{{__('Add new asset maintenance')}}');
+                    // return false
+                }  else {
+                    var asset_maintenance_id = button.data('asset_maintenance_id');
+                    $('#asset_maintenance_id').val(asset_maintenance_id);
+
+                    var asset_id = button.data('asset_id');
+                    $('#asset_id').val(asset_id);
+
+                    var name_ar = button.data('name_ar');
+                    $('#name_ar').val(name_ar);
+
+                    var name_en = button.data('name_en');
+                    $('#name_en').val(name_en);
+
+                    var maintenance_detection_type_id = button.data('maintenance_detection_type_id');
+                    $('#maintenance_detection_type_id').val(maintenance_detection_type_id);
+
+                    var maintenance_detection_id = button.data('maintenance_detection_id');
+                    $('#maintenance_detection_id').val(maintenance_detection_id);
+
+                    var maintenance_type = button.data('maintenance_type');
+                    $('#maintenance_type').val(maintenance_type);
+
+                    var number_of_km_h = button.data('number_of_km_h');
+                    $('#number_of_km_h').val(number_of_km_h);
+
+                    var period = button.data('period');
+                    $('#period').val(period);
+
+                    var status = button.data('status');
+                    $('.status').val(status);
+                    if (maintenance_detection_type_id && maintenance_detection_type_id != '') {
+                        $('#maintenance_detection_type_id').val(maintenance_detection_type_id).trigger('change');
+                    } else {
+                        $('#maintenance_detection_type_id').val(0).trigger('change');
+                        $("#maintenance_detection_type_id").select2("val", '');
+                    }
+
+                    if (maintenance_detection_id && maintenance_detection_id != '') {
+                        $('#maintenance_detection_id').val(maintenance_detection_id).trigger('change');
+                    } else {
+                        $('#maintenance_detection_id').val(0).trigger('change');
+                        $("#maintenance_detection_id").select2("val", '');
+                    }
+
+                    if (maintenance_type && maintenance_type != '') {
+                        $('#maintenance_type').val(maintenance_type).trigger('change');
+                    } else {
+                        $('#maintenance_type').val(0).trigger('change');
+                        $("#maintenance_type").select2("val", '');
+                    }
+                    $('#myModalLabel-1').text(title);
                 }
-                $('#myModalLabel-1').text(title);
+
+
             });
 
             $('#add-employee-modal').on('hide.bs.modal', function (event) {
-                $("#empId").select2("val", '');
+                $("#maintenance_detection_type_id").select2("val", null);
+                $("#maintenance_detection_id").select2("val", '');
+                $("#maintenance_type").select2("val", '');
+
                 $("#newAssetEmployee-form").get(0).reset();
                 $(".error-help-block").each(function (index, element) {
                     element.remove();
@@ -270,6 +296,17 @@
             setTimeout(function () {
                 $("#loaderSearch").hide();
             }, 1000)
+        }
+
+        function getMaintenanceDetections() {
+            let typeId = $('#maintenance_detection_type_id').val();
+            $.ajax({
+                url: "{{ route('admin:maintenance.getMaintenanceDetectionsById') }}?typeId=" + typeId,
+                method: 'GET',
+                success: function (data) {
+                    $('#maintenance_detection_id').html(data.data);
+                }
+            })
         }
     </script>
 @stop

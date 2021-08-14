@@ -9,3 +9,4 @@ Route::post('maintenance-cards-assets', 'MaintenanceCardController@getAssets')->
 
 Route::post('maintenance_centers/deleteSelected', 'MaintenanceCenterController@deleteSelected')->name('maintenance_centers.deleteSelected');
 Route::resource('maintenance_centers', 'MaintenanceCenterController');
+Route::get('maintenance/getMaintenanceDetectionsById', 'MaintenanceDetectionsController@getMaintenanceDetectionsById')->name('maintenance.getMaintenanceDetectionsById');

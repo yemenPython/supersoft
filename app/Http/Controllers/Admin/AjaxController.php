@@ -7,6 +7,7 @@ use App\Model\PurchaseReturn;
 use App\Models\Asset;
 use App\Models\AssetExpense;
 use App\Models\AssetGroup;
+use App\Models\AssetMaintenance;
 use App\Models\AssetsItemExpense;
 use App\Models\AssetsTypeExpense;
 use App\Models\BankAccount;
@@ -46,7 +47,9 @@ class AjaxController extends Controller
     protected $invoice_type;
     protected $type;
     protected $supplierID;
-    protected $maintenance_detection_type_id;
+    protected $maintenance_detection_type_id_select2;
+    protected $asset_id_select_2;
+
 
     public function AutoComplete(Request $request)
     {
@@ -95,9 +98,10 @@ class AjaxController extends Controller
                 && $request->type != __('words.select-one')) ? $request->type : '';
             $this->supplierID = ($request->has('supplierID') && !empty($request->supplierID)
                 && $request->supplierID != __('words.select-one')) ? $request->supplierID : '';
-            $this->maintenance_detection_type_id = ($request->has('maintenance_detection_type_id') && !empty($request->maintenance_detection_type_id)
-                && $request->maintenance_detection_type_id != __('words.select-one')) ? $request->maintenance_detection_type_id : '';
-
+            $this->maintenance_detection_type_id_select2 = ($request->has('maintenance_detection_type_id_select2') && !empty($request->maintenance_detection_type_id_select2)
+                && $request->maintenance_detection_type_id_select2 != __('words.select-one')) ? $request->maintenance_detection_type_id_select2 : '';
+            $this->asset_id_select_2 = ($request->has('asset_id_select_2') && !empty($request->asset_id_select_2)
+                && $request->asset_id_select_2 != __('words.select-one')) ? $request->asset_id_select_2 : '';
 
             switch ($request->model) {
                 case 'User':
@@ -205,6 +209,9 @@ class AjaxController extends Controller
                     break;
                 case 'MaintenanceDetection':
                     $data = $this->getMaintenanceDetection($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'AssetMaintenance':
+                    $data = $this->getAssetMaintenance($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
                     break;
                 default:
                     break;
@@ -1340,8 +1347,39 @@ class AjaxController extends Controller
                 }
             }
         }
-        if (!empty($this->maintenance_detection_type_id)) {
-            $assetsItemExpenses = $assetsItemExpenses->where('maintenance_type_id', $this->maintenance_detection_type_id);
+        if (!empty($this->maintenance_detection_type_id_select2)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('maintenance_type_id', $this->maintenance_detection_type_id_select2);
+        }
+        $assetsItemExpenses = $assetsItemExpenses->limit($limit)->get();
+        foreach ($assetsItemExpenses as $assetsItemExpense) {
+            $data[] = [
+                'id' => $assetsItemExpense->id,
+                'text' => $this->buildSelectedColumnsAsText($assetsItemExpense, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+
+    private function getAssetMaintenance(array $searchFields, $searchTerm, $selectedColumns, $limit, $branchId): array
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $assetsItemExpenses = AssetMaintenance::select(DB::raw($selectedColumns));
+
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $assetsItemExpenses = $assetsItemExpenses->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+
+        if (!empty($this->this->asset_id_select_2)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('asset_id', $this->asset_id_select_2);
         }
         $assetsItemExpenses = $assetsItemExpenses->limit($limit)->get();
         foreach ($assetsItemExpenses as $assetsItemExpense) {

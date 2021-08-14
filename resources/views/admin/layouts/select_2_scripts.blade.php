@@ -119,7 +119,8 @@
                     searchData.invoice_type =  $("#invoice_type").val();
                     searchData.type = $("input[name='type']:checked").val();
                     searchData.supplierID = $("#supplierID").val();
-                    searchData.maintenance_detection_type_id = $("#maintenance_detection_type_id").val();
+                    searchData.maintenance_detection_type_id_select2 = $("#maintenance_detection_type_id_select2").val();
+                    searchData.asset_id_select_2 = $("#asset_id_select_2").val();
                     return searchData;
                 },
                 processResults: function (response) {

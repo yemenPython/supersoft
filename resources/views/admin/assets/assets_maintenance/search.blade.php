@@ -9,31 +9,23 @@
 						</span>
             </h4>
             <div class="card-content js__card_content">
-                <form  onsubmit="filterFunction($(this));return false;">
+                <form onsubmit="filterFunction($(this));return false;">
                     <div class="list-inline margin-bottom-0 row">
-                        <div class="form-group col-md-3">
-                            <label> {{ __('Employee name') }} </label>
-                            {!! drawSelect2ByAjax('employee_id','EmployeeData', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('opening-balance.select-one'),request()->employee) !!}
+
+                        <div class="form-group col-md-4">
+                            <label> {{ __('Name') }} </label>
+                            {!! drawSelect2ByAjax('assetMaintenacceId','AssetMaintenance', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('Select'),request()->assetMaintenacceId) !!}
                         </div>
 
-                        <div class="form-group col-md-3">
-                            <label> {{ __('words.date-from') }} </label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                                <input name="start_date" id="start_date"
-                                       class="form-control date js-example-basic-single" type="date"/>
-                            </div>
+                        <div class="form-group col-md-4">
+                            <label> {{ __('Maintenance Types') }} </label>
+                            {!! drawSelect2ByAjax('maintenance_detection_type_id_select2','MaintenanceDetectionType', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('Select'),request()->maintenance_detection_type_id) !!}
                         </div>
 
-                        <div class="form-group col-md-3">
-                            <label> {{ __('words.date-to') }} </label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                                <input name="end_date" id="end_date"
-                                       class="form-control date js-example-basic-single" type="date"/>
-                            </div>
+                        <div class="form-group col-md-4">
+                            <label> {{ __('Maintenance Detection') }}</label>
+                            {!! drawSelect2ByAjax('maintenance_detection_id','MaintenanceDetection', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('Select'),request()->maintenance_detection_id) !!}
                         </div>
-
 
                         <div class="switch primary col-md-1">
                             <input type="checkbox" id="switch-slam" name="active">
