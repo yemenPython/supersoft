@@ -15,7 +15,8 @@ Route::post('sale-quotations/price-segments', 'SaleQuotationController@priceSegm
 // purchase quotations execution
 Route::post('/sale-quotations-execution/save', 'SaleQuotationExecutionController@save')->name('sale.quotations.execution.save');
 
+
 // purchase quotations library
-Route::post('sale-quotations/library/get-files', 'PurchaseQuotationLibraryController@getFiles')->name('sale.quotations.library.get.files');
-Route::post('sale-quotations/upload_library', 'PurchaseQuotationLibraryController@uploadLibrary')->name('sale.quotations.upload_library');
-Route::post('sale-quotations/library/file-delete', 'PurchaseQuotationLibraryController@destroyFile')->name('sale.quotations.library.file.delete');
+Route::post('sale-quotations/library/get-files', 'SaleQuotationLibraryController@getFiles')->name('sale.quotations.library.get.files');
+Route::post('sale-quotations/upload_library', 'SaleQuotationLibraryController@uploadLibrary')->name('sale.quotations.upload_library');
+Route::post('sale-quotations/library/file-delete', 'SaleQuotationLibraryController@destroyFile')->name('sale.quotations.library.file.delete');

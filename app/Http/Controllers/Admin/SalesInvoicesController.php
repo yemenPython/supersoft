@@ -241,16 +241,6 @@ class SalesInvoicesController extends Controller
             ->select('id', 'name_' . $this->lang, 'customer_category_id')
             ->get();
 
-        $data['saleQuotations'] = SaleQuotation::where('branch_id', $branch_id)
-            ->where('status','finished')
-            ->select('id', 'number', 'salesable_id', 'salesable_type')
-            ->get();
-
-        $data['saleSupplyOrder'] = SaleSupplyOrder::where('branch_id', $branch_id)
-            ->where('status','finished')
-            ->select('id', 'number', 'salesable_id', 'salesable_type')
-            ->get();
-
         return view('admin.sales_invoice.create', compact('data'));
     }
 
@@ -370,16 +360,6 @@ class SalesInvoicesController extends Controller
         $data['customers'] = Customer::where('status', 1)
             ->where('branch_id', $branch_id)
             ->select('id', 'name_' . $this->lang, 'customer_category_id')
-            ->get();
-
-        $data['saleQuotations'] = SaleQuotation::where('branch_id', $branch_id)
-            ->where('status','finished')
-            ->select('id', 'number', 'salesable_id', 'salesable_type')
-            ->get();
-
-        $data['saleSupplyOrder'] = SaleSupplyOrder::where('branch_id', $branch_id)
-            ->where('status','finished')
-            ->select('id', 'number', 'salesable_id', 'salesable_type')
             ->get();
 
         return view('admin.sales_invoice.edit', compact('data', 'salesInvoice'));
@@ -702,9 +682,12 @@ class SalesInvoicesController extends Controller
                 $itemsCount += $saleQuotation->items()->count();
             }
 
+            $customerId = isset($customers[0]) ? $customers[0] : null;
+
             $view = view('admin.sales_invoice.sale_quotation_items', compact('saleQuotations'))->render();
 
-            return response()->json(['view' => $view, 'index' => $itemsCount], 200);
+            return response()->json(['view' => $view, 'index' => $itemsCount,
+                'client_id'=>$customerId, 'type_for'=> $request['type_for']], 200);
 
         } catch (\Exception $e) {
             return response()->json('sorry, please try later', 400);
@@ -743,14 +726,135 @@ class SalesInvoicesController extends Controller
                 $itemsCount += $saleSupplyOrder->items()->count();
             }
 
+            $customerId = isset($customers[0]) ? $customers[0] : null;
+
             $view = view('admin.sales_invoice.sale_supply_items', compact('saleSupplyOrders'))->render();
 
         } catch (\Exception $e) {
             return response()->json('sorry, please try later', 400);
         }
 
-        return response()->json(['view' => $view, 'index' => $itemsCount], 200);
+        return response()->json(['view' => $view, 'index' => $itemsCount,
+            'client_id'=>$customerId, 'type_for'=> $request['type_for']], 200);
     }
 
+    public function getSaleQuotation (Request $request) {
+
+        $rules = [
+            'type_for' => 'required|string|in:supplier,customer',
+        ];
+
+        $rules['sales_invoice_id'] = $request->has('sales_invoice_id') ? 'required|integer|exists:sales_invoices,id':'';
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        try {
+
+            $branch_id = $request['branch_id'];
+
+            $salesInvoice = null;
+
+            $saleQuotations = SaleQuotation::where('type_for', $request['type_for'])->where('status','finished');
+
+            if ($request->has('branch_id')) {
+                $saleQuotations->where('branch_id', $branch_id);
+            }
+
+            if ($request['salesable_id']) {
+                $saleQuotations->where('salesable_id', $request['salesable_id']);
+            }
+
+            if ($request->has('sales_invoice_id')){
+
+                $salesInvoice = SalesInvoice::find($request['sales_invoice_id']);
+
+                $saleQuotations->where(function ($q) use ($salesInvoice) {
+
+                    $q->whereHas('salesInvoices', function ($q) use ($salesInvoice) {
+                        $q->where('id', $salesInvoice->id);
+                    })->orDoesntHave('salesInvoices');
+                });
+
+            }else {
+
+                $saleQuotations->doesntHave('salesInvoices');
+            }
+
+
+            $saleQuotations = $saleQuotations
+                ->select('id', 'number', 'salesable_id', 'salesable_type')
+                ->get();
+
+            $view = view('admin.sales_invoice.sale_quotations.index', compact('saleQuotations', 'salesInvoice'))->render();
+
+        } catch (\Exception $e) {
+            return response()->json('sorry, please try later', 400);
+        }
+
+        return response()->json(['view' => $view], 200);
+    }
+
+    public function getSaleSupplyOrder (Request $request) {
+
+        $rules = [
+            'type_for' => 'required|string|in:supplier,customer',
+        ];
+
+        $rules['sales_invoice_id'] = $request->has('sales_invoice_id') ? 'required|integer|exists:sales_invoices,id':'';
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        try {
+
+            $branch_id = $request['branch_id'];
+
+            $salesInvoice = null;
+
+            $saleSupplyOrder = SaleSupplyOrder::where('type_for', $request['type_for'])->where('status','finished');
+
+            if ($request->has('branch_id')) {
+                $saleSupplyOrder->where('branch_id', $branch_id);
+            }
+
+            if ($request['salesable_id']) {
+                $saleSupplyOrder->where('salesable_id', $request['salesable_id']);
+            }
+
+            if ($request->has('sales_invoice_id')) {
+
+                $salesInvoice = SalesInvoice::find($request['sales_invoice_id']);
+
+                $saleSupplyOrder->where(function ($q) use ($salesInvoice) {
+
+                    $q->whereHas('salesInvoices', function ($q) use ($salesInvoice) {
+                        $q->where('id', $salesInvoice->id);
+                    })->orDoesntHave('salesInvoices');
+                });
+
+            }else {
+
+                $saleSupplyOrder->doesntHave('salesInvoices');
+            }
+
+            $saleSupplyOrder = $saleSupplyOrder
+                ->select('id', 'number', 'salesable_id', 'salesable_type')
+                ->get();
+
+            $view = view('admin.sales_invoice.sale_supply_orders.index', compact('saleSupplyOrder', 'salesInvoice'))->render();
+
+        } catch (\Exception $e) {
+            return response()->json('sorry, please try later', 400);
+        }
+
+        return response()->json(['view' => $view], 200);
+    }
 
 }

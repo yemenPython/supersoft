@@ -21,6 +21,8 @@ class SupplyOrderLibraryController extends Controller
     {
         $validator = Validator::make($request->all(), [
 
+            'title_ar' => 'required|string|max:100',
+            'title_en' => 'nullable|string|max:100',
             'item_id' => 'required|integer|exists:supply_orders,id',
             'files' => 'required',
             'files.*' => 'required|mimes:jpeg,jpg,png,gif,pdf,xlsx,xlsm,xls,xls,docx,docm,dotx,txt|required|max:6000',
@@ -44,17 +46,24 @@ class SupplyOrderLibraryController extends Controller
 
                 $fileData = $this->uploadFiles($file, $director);
 
-                $fileName = $fileData['file_name'];
-                $extension = Str::lower($fileData['extension']);
-                $fileOriginalName = $fileData['name'];
+                $data = [
+                    'file_name' => $fileData['file_name'],
+                    'extension' => Str::lower($fileData['extension']),
+                    'name' => $fileData['name'],
+                    'supply_order_id' => $supplyOrder->id,
+                    'title_ar'=> $request['title_ar'],
+                    'title_en'=> $request['title_en'] ?? $request['title_ar'],
+                ];
 
-                $files[$index] = $this->createSupplyOrderLibrary($supplyOrder->id, $fileName, $extension, $fileOriginalName);
+                $files[$index] = SupplyOrderLibrary::create($data);
             }
 
-            $view = view('admin.supply_orders.library', compact('files', 'library_path'))->render();
+            $mainPath = 'storage/supply_orders_library/' . $library_path. '/';
+
+            $view = view('admin.partial.upload_library.files', compact('files', 'mainPath'))->render();
 
         } catch (\Exception $e) {
-            dd($e->getMessage());
+
             return response()->json(__('words.back-supply-orders'), 400);
         }
 
@@ -84,7 +93,9 @@ class SupplyOrderLibraryController extends Controller
 
             $files = $supplyOrder->files;
 
-            $view = view('admin.supply_orders.library', compact('files', 'library_path'))->render();
+            $mainPath = 'storage/supply_orders_library/' . $library_path. '/';
+
+            $view = view('admin.partial.upload_library.files', compact('files', 'mainPath'))->render();
 
         } catch (\Exception $e) {
             return response('sorry, please try later', 400);
@@ -124,17 +135,5 @@ class SupplyOrderLibraryController extends Controller
         }
 
         return response(['id' => $request['id']], 200);
-    }
-
-    public function createSupplyOrderLibrary($supplyOrderId, $file_name, $extension, $name)
-    {
-        $fileInLibrary = SupplyOrderLibrary::create([
-            'supply_order_id' => $supplyOrderId,
-            'file_name' => $file_name,
-            'extension' => $extension,
-            'name' => $name,
-        ]);
-
-        return $fileInLibrary;
     }
 }

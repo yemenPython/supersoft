@@ -24,59 +24,6 @@ class UpdateSalesInvoiceRequest extends FormRequest
      */
     public function rules()
     {
-//        $rules = [
-//
-////            'customer_id' => 'nullable|integer|exists:customers,id',
-//            'date' => 'required|date',
-//            'time' => 'required',
-//            'part_ids' => 'required',
-//            'part_ids.*' => 'required|integer|exists:parts,id',
-//
-////            'purchase_invoice_id' => 'required',
-////            'purchase_invoice_id.*' => 'required|integer|exists:purchase_invoices,id',
-//
-//            'available_qy' => 'required',
-//            'available_qy.*' => 'required|integer|min:1',
-//
-//            'sold_qty' => 'required',
-//            'sold_qty.*' => 'required|integer|min:1',
-//
-//            'last_selling_price' => 'required',
-//            'last_selling_price.*' => 'required|numeric|min:0',
-//
-//            'selling_price' => 'required',
-//            'selling_price.*' => 'required|numeric|min:1',
-//
-////            'item_discount_type' => 'nullable',
-////            'item_discount_type.*' => 'nullable|string|in:amount,percent',
-//
-//            'item_discount' => 'nullable',
-//            'item_discount.*' => 'nullable|numeric|min:0',
-//
-//            'parts_count' => 'required|integer|min:1',
-//            'invoice_tax' => 'required|numeric|min:0',
-//
-//            'discount_type' => 'required|string|in:amount,percent',
-//            'discount' => 'nullable|numeric|min:0',
-////            'type' => 'required|string|in:cash,credit'
-//        ];
-
-//        if($this->request->has('part_ids')) {
-//            foreach (request()['part_ids'] as $index => $part_id) {
-//
-//                $part_index = request()['index'][$index];
-//                $rules['item_discount_type_' . $part_index] = 'required|string|in:amount,percent';
-//            }
-//        }
-
-//        if (authIsSuperAdmin()) {
-//            $rules['branch_id'] = 'required|integer|exists:branches,id';
-//        }
-
-//        $rules['sales_invoice_items_ids'] = 'required';
-//        $rules['sales_invoice_items_ids.*'] = 'required|integer|exists:sales_invoice_items,id';
-
-
         $rules = [
 
             'date' => 'required|date',
@@ -86,7 +33,7 @@ class UpdateSalesInvoiceRequest extends FormRequest
             'type_for' => 'required|string|in:supplier,customer',
             'type' => 'required|string|in:cash,credit',
             'status' => 'required|string|in:pending,processing,finished',
-            'invoice_type'=>'required|string|in:normal,direct_invoice,direct_sale_quotations,from_sale_supply_order',
+            'invoice_type'=>'required|string|in:normal,direct_invoice,direct_sale_quotations,from_sale_supply_order,from_sale_quotations',
 
             'items.*.part_id' => 'required|integer|exists:parts,id',
             'items.*.part_price_id' => 'required|integer|exists:part_prices,id',

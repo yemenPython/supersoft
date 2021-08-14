@@ -43,7 +43,8 @@ class PurchaseInvoice extends Model
         'supply_order_id',
         'invoice_type',
         'additional_payments',
-        'status'
+        'status',
+        'library_path'
     ];
 
     protected $table = 'purchase_invoices';
@@ -190,7 +191,7 @@ class PurchaseInvoice extends Model
 
     public function files()
     {
-        return $this->hasMany(PurchaseInvoiceExecution::class, 'purchase_invoice_id');
+        return $this->hasMany(PurchaseInvoiceLibrary::class, 'purchase_invoice_id');
     }
 
     public function purchaseReceipts()

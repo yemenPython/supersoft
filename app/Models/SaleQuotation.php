@@ -81,10 +81,10 @@ class SaleQuotation extends Model
 //        return $this->hasOne(PurchaseQuotationExecution::class, 'purchase_quotation_id');
 //    }
 //
-//    public function files()
-//    {
-//        return $this->hasMany(PurchaseQuotationLibrary::class, 'purchase_quotation_id');
-//    }
+    public function files()
+    {
+        return $this->hasMany(SaleQuotationLibrary::class, 'sale_quotation_id');
+    }
 
     public function getDifferentDaysAttribute()
     {
@@ -123,5 +123,11 @@ class SaleQuotation extends Model
     public function salesable()
     {
         return $this->morphTo();
+    }
+
+    public function salesInvoices()
+    {
+        return $this->belongsToMany(SalesInvoice::class, 'sales_invoices_sale_quotations',
+            'sale_quotation_id', 'sales_invoice_id');
     }
 }

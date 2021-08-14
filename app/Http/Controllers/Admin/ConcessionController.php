@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Part;
 use App\Models\TaxesFees;
 use Exception;
 use App\Models\Branch;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\App;
 use App\Services\ConcessionService;
 use App\Http\Requests\Admin\Concession\CreateRequest;
+use Illuminate\Support\Facades\Validator;
 use Throwable;
 use Yajra\DataTables\DataTables;
 
@@ -202,6 +204,7 @@ class ConcessionController extends Controller
 
             $concessionTypeItems->where('status', 'finished')
                 ->whereIn('invoice_type', ['normal', 'from_sale_quotations', 'from_sale_supply_order'])
+
                 ->where(function ($q) use ($concession) {
 
                     $q->whereHas('concession', function ($q) use ($concession) {
@@ -445,5 +448,31 @@ class ConcessionController extends Controller
                 $withOptions = true;
                 return view($viewPath, compact('item', 'withOptions'))->render();
             })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
+    }
+
+    public function partStoreQuantity (Request $request) {
+
+        $rules = [
+            'part_id' => 'required|integer|exists:parts,id',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        try {
+
+            $part = Part::find($request['part_id']);
+
+            $view = view('admin.concessions.show_part_quantity', compact( 'part'))->render();
+
+        } catch (\Exception $e) {
+            return response()->json('sorry, please try later', 400);
+        }
+
+        return response()->json(['view' => $view], 200);
+
     }
 }

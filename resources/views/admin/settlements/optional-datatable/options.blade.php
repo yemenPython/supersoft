@@ -87,6 +87,10 @@
                 </a>
             </li>
 
+            <li>
+                @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])
+            </li>
+
         </ul>
     </div>
 @endif

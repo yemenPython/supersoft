@@ -66,11 +66,13 @@
                             <select class="form-control js-example-basic-single" name="invoice_type" id="invoice_type"
                                     onchange="changeType()">
 
+                                {{-- with concession --}}
                                 <option value="normal"
                                     {{isset($salesInvoice) && $salesInvoice->invoice_type == 'normal'? 'selected':'' }}>
                                     {{ __('Normal sale invoice') }}
                                 </option>
 
+                                {{-- without concession --}}
                                 <option value="direct_invoice"
                                     {{isset($salesInvoice) && $salesInvoice->invoice_type == 'direct_invoice'? 'selected':'' }}>
                                     {{ __('Direct Invoice') }}
@@ -178,8 +180,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-3" id="customers_data"
-                     style="{{ (isset($salesInvoice) && $salesInvoice->type_for != 'customer')? 'display:none;':'' }}">
+                <div class="col-md-3" id="customers_data" style="{{ (isset($salesInvoice) && $salesInvoice->type_for != 'customer')? 'display:none;':'' }}">
                     <div class="form-group has-feedback">
                         <label for="inputStore" class="control-label">{{__('Customer name')}}</label>
                         <div class="input-group">
@@ -266,7 +267,7 @@
                 </div>
 
                 <div class="col-md-3 un_normal direct_sale_quotations"
-                     style="{{!isset($salesInvoice) || isset($salesInvoice) && $salesInvoice->invoice_type != 'direct_sale_quotations'? 'display:none':''}}">
+                     style="{{!isset($salesInvoice) || isset($salesInvoice) && !in_array($salesInvoice->invoice_type,['direct_sale_quotations', 'from_sale_quotations']) ? 'display:none':''}}">
                     <div class="form-group">
 
                         <div class="input-group">
@@ -275,8 +276,7 @@
 
                                 <li class="col-md-6">
                                     <button type="button" class="btn btn-new2 waves-effect waves-light btn-xs"
-                                            data-toggle="modal" data-target="#purchase_quotations"
-                                            style="margin-right: 10px;">
+                                            onclick="getSaleQuotations()" style="margin-right: 10px;">
                                         <i class="fa fa-file-text-o"></i>
                                         {{__('Show Sale Quotations')}}
                                     </button>
@@ -286,8 +286,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-3 un_normal from_sale_supply_order"
-                     style="{{ isset($salesInvoice) && $salesInvoice->invoice_type == 'from_sale_supply_order'? '':'display:none'}}">
+                <div class="col-md-3 un_normal from_sale_supply_order" style="{{ isset($salesInvoice) && $salesInvoice->invoice_type == 'from_sale_supply_order'? '':'display:none'}}">
                     <div class="form-group">
 
                         <div class="input-group">
@@ -296,8 +295,7 @@
 
                                 <li class="col-md-6">
                                     <button type="button" class="btn btn-new2 waves-effect waves-light btn-xs"
-                                            data-toggle="modal" data-target="#sale_supply_order"
-                                            style="margin-right: 10px;">
+                                            onclick="getSaleSupply()" style="margin-right: 10px;">
                                         <i class="fa fa-file-text-o"></i>
                                         {{__('Show Sale Supply Order')}}
                                     </button>

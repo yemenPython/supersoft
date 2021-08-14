@@ -23,3 +23,6 @@ Route::post('/concessions-execution/save', 'ConcessionExecutionController@save')
 
 Route::get('/concessions/data/show/{concession}', 'ConcessionController@showData')->name('concessions.data.show');
 
+
+// part quantity
+Route::post('/concessions/part/stores/quantity', 'ConcessionController@partStoreQuantity')->name('concessions.part.stores.quantity');
