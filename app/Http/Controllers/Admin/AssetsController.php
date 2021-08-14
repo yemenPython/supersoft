@@ -535,4 +535,11 @@ class AssetsController extends Controller
         }
     }
 
+    public function showAssetDetails(Asset $asset)
+    {
+        $view = view('admin.global_modals.show_asset_response', compact('asset'))->render();
+       return response()->json([
+           'data' => $view
+       ]);
+    }
 }

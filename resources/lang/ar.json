@@ -2273,5 +2273,6 @@
     "Assets Maintenance" : "صيانة الأصل",
     "Add new asset maintenance" : "أضافة صيانة للأصل",
     "Maintenance Period (by month)" : "الفترة الزمنية للصيانة (بالشهر)",
-    "Number Of KM or Hour" : "عدد الكيلو مترات أو الساعات"
+    "Number Of KM or Hour" : "عدد الكيلو مترات أو الساعات",
+    "Asset Details" : "تفاصيل بيانات الأصل"
 }

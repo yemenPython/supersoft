@@ -79,6 +79,7 @@
                         <td>
                             <div class="input-group" id="stores">
                                 <button type="button" class="btn btn-danger fa fa-trash" onclick="removeItem('{{$index + 1}}')"></button>
+                                <a class="btn btn-sm btn-success" onclick="openModalWithShowAsset('{{optional($item->asset)->id}}')"><i class="fa fa-eye"></i></a>
                             </div>
                         </td>
                     </tr>

@@ -314,7 +314,7 @@
 </div>
 @yield('modals')
 @yield('accounting-module-modal-area')
-
+@include('admin.global_modals.show_asset')
 
 <script type="application/javascript" src="{{asset('js/app.js')}}"></script>
 
@@ -1080,6 +1080,19 @@ ${element_html}
             $(this).val(null).trigger("change");
         });
     }
+
+    function openModalWithShowAsset(assetId) {
+        event.preventDefault();
+        $.ajax({
+            url: '{{url('admin/assets/assets_details')}}' + '/' + assetId,
+            type: 'get',
+            success: function (response) {
+                $('#showAssetModal').modal('show');
+                $('#showAssetResponse').html(response.data);
+            }
+        });
+    }
+
 </script>
 
 
