@@ -13,6 +13,8 @@ use App\Models\BankAccount;
 use App\Models\DamagedStock;
 use App\Models\EmployeeData;
 use App\Models\MaintenanceCenter;
+use App\Models\MaintenanceDetection;
+use App\Models\MaintenanceDetectionType;
 use App\Models\OpeningBalance;
 use App\Models\Part;
 use App\Models\PurchaseInvoice;
@@ -44,6 +46,7 @@ class AjaxController extends Controller
     protected $invoice_type;
     protected $type;
     protected $supplierID;
+    protected $maintenance_detection_type_id;
 
     public function AutoComplete(Request $request)
     {
@@ -92,6 +95,8 @@ class AjaxController extends Controller
                 && $request->type != __('words.select-one')) ? $request->type : '';
             $this->supplierID = ($request->has('supplierID') && !empty($request->supplierID)
                 && $request->supplierID != __('words.select-one')) ? $request->supplierID : '';
+            $this->maintenance_detection_type_id = ($request->has('maintenance_detection_type_id') && !empty($request->maintenance_detection_type_id)
+                && $request->maintenance_detection_type_id != __('words.select-one')) ? $request->maintenance_detection_type_id : '';
 
 
             switch ($request->model) {
@@ -195,8 +200,11 @@ class AjaxController extends Controller
                 case 'BankAccount':
                     $data = $this->getBankAccounts($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
                     break;
-                case 'MaintenanceCenter':
-                    $data = $this->getMaintenanceCenters($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                case 'MaintenanceDetectionType':
+                    $data = $this->getMaintenanceDetectionType($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'MaintenanceDetection':
+                    $data = $this->getMaintenanceDetection($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
                     break;
                 default:
                     break;
@@ -1280,6 +1288,61 @@ class AjaxController extends Controller
             $assetsItemExpenses = $assetsItemExpenses->where('branch_id', $branchId);
         }
 
+        $assetsItemExpenses = $assetsItemExpenses->limit($limit)->get();
+        foreach ($assetsItemExpenses as $assetsItemExpense) {
+            $data[] = [
+                'id' => $assetsItemExpense->id,
+                'text' => $this->buildSelectedColumnsAsText($assetsItemExpense, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+    private function getMaintenanceDetectionType(array $searchFields, $searchTerm, $selectedColumns, $limit, $branchId)
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $assetsItemExpenses = MaintenanceDetectionType::select(DB::raw($selectedColumns));
+
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $assetsItemExpenses = $assetsItemExpenses->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        $assetsItemExpenses = $assetsItemExpenses->limit($limit)->get();
+        foreach ($assetsItemExpenses as $assetsItemExpense) {
+            $data[] = [
+                'id' => $assetsItemExpense->id,
+                'text' => $this->buildSelectedColumnsAsText($assetsItemExpense, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+    private function getMaintenanceDetection(array $searchFields, $searchTerm, $selectedColumns, $limit, $branchId): array
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $assetsItemExpenses = MaintenanceDetection::select(DB::raw($selectedColumns));
+
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $assetsItemExpenses = $assetsItemExpenses->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        if (!empty($this->maintenance_detection_type_id)) {
+            $assetsItemExpenses = $assetsItemExpenses->where('maintenance_type_id', $this->maintenance_detection_type_id);
+        }
         $assetsItemExpenses = $assetsItemExpenses->limit($limit)->get();
         foreach ($assetsItemExpenses as $assetsItemExpense) {
             $data[] = [

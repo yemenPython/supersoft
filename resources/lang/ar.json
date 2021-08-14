@@ -2265,7 +2265,13 @@
     "Purchase" : "شراء",
     "Maintenance centers" : "مراكز الصيانة",
     "Edit Maintenance Center" : "تعديل بيانات مركز الصيانة",
-    "Create Maintenance centers" : "أنشاء مركز صيانة"
-
-
+    "Create Maintenance centers" : "أنشاء مركز صيانة",
+    "Maintenance Type" : "نوع الصيانة",
+    "KM" : "كيلو متر",
+    "Hour" : "ساعة",
+    "Edit Asset Maintenance" : "تعديل بيانات صيانة الاصل",
+    "Assets Maintenance" : "صيانة الأصل",
+    "Add new asset maintenance" : "أضافة صيانة للأصل",
+    "Maintenance Period (by month)" : "الفترة الزمنية للصيانة (بالشهر)",
+    "Number Of KM or Hour" : "عدد الكيلو مترات أو الساعات"
 }
