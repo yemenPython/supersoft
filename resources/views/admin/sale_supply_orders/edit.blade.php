@@ -88,46 +88,47 @@
 
                     <div class="row">
 
-                        <div class="col-md-12 margin-bottom-20">
-                            <table id="sale_quotations_table" class="table table-bordered" style="width:100%">
-                                <thead>
-                                <tr>
-                                    <th scope="col">{!! __('Check') !!}</th>
-                                    <th scope="col">{!! __('Sale Quotation num.') !!}</th>
-                                    <th scope="col">{!! __('Customer name') !!}</th>
-                                </tr>
-                                </thead>
+                        <div class="col-md-12 margin-bottom-20" id="sale_quotation_data">
 
-                                <form id="sale_quotation_form" method="post">
-                                    @csrf
+{{--                            <table id="sale_quotations_table" class="table table-bordered" style="width:100%">--}}
+{{--                                <thead>--}}
+{{--                                <tr>--}}
+{{--                                    <th scope="col">{!! __('Check') !!}</th>--}}
+{{--                                    <th scope="col">{!! __('Sale Quotation num.') !!}</th>--}}
+{{--                                    <th scope="col">{!! __('Customer name') !!}</th>--}}
+{{--                                </tr>--}}
+{{--                                </thead>--}}
 
-                                    <tbody id="sale_quotation_data">
+{{--                                <form id="sale_quotation_form" method="post">--}}
+{{--                                    @csrf--}}
 
-                                    @foreach( $data['saleQuotations'] as $saleQuotation)
+{{--                                    <tbody id="sale_quotation_data">--}}
 
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" name="sale_quotations[]"
-                                                       value="{{$saleQuotation->id}}"
-                                                       onclick="selectSaleQuotation('{{$saleQuotation->id}}')"
-                                                       class="sale_quotation_box_{{$saleQuotation->id}}"
-                                                       {{isset($saleSupplyOrder) && in_array($saleQuotation->id, $saleSupplyOrder->saleQuotations->pluck('id')->toArray()) ? 'checked':'' }}
-                                                >
-                                            </td>
-                                            <td>
-                                                <span>{{$saleQuotation->number}}</span>
-                                            </td>
-                                            <td>
-                                                <span>{{$saleQuotation->customer ? $saleQuotation->customer->name : '---'}}</span>
-                                            </td>
-                                        </tr>
+{{--                                    @foreach( $data['saleQuotations'] as $saleQuotation)--}}
 
-                                    @endforeach
+{{--                                        <tr>--}}
+{{--                                            <td>--}}
+{{--                                                <input type="checkbox" name="sale_quotations[]"--}}
+{{--                                                       value="{{$saleQuotation->id}}"--}}
+{{--                                                       onclick="selectSaleQuotation('{{$saleQuotation->id}}')"--}}
+{{--                                                       class="sale_quotation_box_{{$saleQuotation->id}}"--}}
+{{--                                                       {{isset($saleSupplyOrder) && in_array($saleQuotation->id, $saleSupplyOrder->saleQuotations->pluck('id')->toArray()) ? 'checked':'' }}--}}
+{{--                                                >--}}
+{{--                                            </td>--}}
+{{--                                            <td>--}}
+{{--                                                <span>{{$saleQuotation->number}}</span>--}}
+{{--                                            </td>--}}
+{{--                                            <td>--}}
+{{--                                                <span>{{$saleQuotation->customer ? $saleQuotation->customer->name : '---'}}</span>--}}
+{{--                                            </td>--}}
+{{--                                        </tr>--}}
 
-                                    </tbody>
+{{--                                    @endforeach--}}
 
-                                </form>
-                            </table>
+{{--                                    </tbody>--}}
+
+{{--                                </form>--}}
+{{--                            </table>--}}
                         </div>
 
                     </div>
@@ -363,13 +364,28 @@
                 selected.push($(this).attr('value'));
             });
 
+            $('#sale_quotation_ids').empty();
+
+            for(var i = 0; i< selected.length; i++) {
+                $('#sale_quotation_ids').append(' <input type="hidden" name="sale_quotations[]" value="'+selected[i]+'">');
+            }
+
+            let type_for = 'customer';
+
+            if ($('#supplier_radio').is(':checked')) {
+                type_for = 'supplier';
+
+            }else {
+                type_for = 'customer';
+            }
+
             $.ajax({
 
                 type: 'post',
 
                 url: '{{route('admin:sale.supply.orders.add.sale.quotations')}}',
 
-                data: {_token: CSRF_TOKEN, sale_quotations: selected},
+                data: {_token: CSRF_TOKEN, sale_quotations: selected, type_for:type_for},
 
                 success: function (data) {
 
@@ -385,6 +401,10 @@
                 },
 
                 error: function (jqXhr, json, errorThrown) {
+
+                    $(".remove_on_change_branch").remove();
+                    $('#sale_quotation_ids').empty();
+
                     var errors = jqXhr.responseJSON;
                     swal({text: errors, icon: "error"})
                 }
@@ -481,6 +501,61 @@
 
             let image_path = $('#part_img_id_' + index).data('img');
             $('#part_image').attr('src', image_path);
+        }
+
+        function getSaleQuotations() {
+
+            if (!checkBranchValidation()) {
+                swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
+                return false;
+            }
+
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            let branch_id = $("#branch_id").val();
+
+            let salesable_id = null;
+
+            let type_for = 'customer';
+
+            let sale_supply_order_id = '{{$saleSupplyOrder->id}}'
+
+            if ($('#supplier_radio').is(':checked')) {
+
+                type_for = 'supplier';
+                salesable_id = $("#supplier_id").val();
+
+            }else {
+                type_for = 'customer';
+                salesable_id = $("#customer_id").val();
+            }
+
+            $.ajax({
+
+                type: 'post',
+
+                url: '{{route('admin:sale.supply.orders.get.sale.quotation')}}',
+
+                data: {_token: CSRF_TOKEN, branch_id:branch_id, salesable_id:salesable_id,type_for:type_for, sale_supply_order_id:sale_supply_order_id},
+
+                success: function (data) {
+
+                    $('#purchase_quotations').modal('show');
+
+                    $("#sale_quotation_data").html(data.view);
+
+                    $('.js-example-basic-single').select2();
+
+                    invoke_datatable($('#sale_quotations_table'));
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    $(".remove_on_change_branch").remove();
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
         }
 
     </script>

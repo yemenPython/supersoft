@@ -2,8 +2,6 @@ function quotationType() {
 
     let quotation_type = $('#quotation_type').find(":selected").val();
 
-
-
     if (quotation_type == 'from_sale_quotation') {
 
         $(".out_sale_quotations_type").hide();
@@ -70,11 +68,16 @@ function changeTypeFor() {
         $("#supplier_id").val('').change();
     }
 
+    $(".remove_on_change_branch").remove();
+
     $('.supplier_discount').val(0);
 
     calculateTotal();
 }
 
+function changeClientWithNew() {
+    $(".remove_on_change_branch").remove();
+}
 
 function getSellPrice(index) {
 

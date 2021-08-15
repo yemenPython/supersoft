@@ -80,21 +80,7 @@
 
                     <div class="row">
 
-                        <div class="col-md-12 margin-bottom-20">
-
-                            <table id="sale_supply_table" class="table table-bordered" style="width:100%">
-                                <thead>
-                                <tr>
-                                    <th scope="col">{!! __('Store name.') !!}</th>
-                                    <th scope="col">{!! __('Quantity') !!}</th>
-                                </tr>
-                                </thead>
-
-                                <tbody id="part_quantity">
-
-                                </tbody>
-
-                            </table>
+                        <div class="col-md-12 margin-bottom-20" id="part_quantity">
 
                         </div>
 
@@ -332,9 +318,5 @@
         }
 
     </script>
-
-{{--    <script type="application/javascript">--}}
-{{--        invoke_datatable($('#sale_supply_table'))--}}
-{{--    </script>--}}
 
 @endsection

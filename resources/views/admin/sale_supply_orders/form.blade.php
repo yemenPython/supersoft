@@ -169,7 +169,8 @@
 
                                 <li class="col-md-6">
                                     <button type="button" class="btn btn-new2 waves-effect waves-light btn-xs"
-                                            data-toggle="modal" data-target="#purchase_quotations"
+{{--                                            data-toggle="modal" data-target="#purchase_quotations" --}}
+                                            onclick="getSaleQuotations()"
                                             style="margin-right: 10px;">
                                         <i class="fa fa-file-text-o"></i>
                                         {{__('Show Sale Quotations')}}
@@ -215,7 +216,8 @@
                             <span class="input-group-addon fa fa-user"></span>
 
                             <select class="form-control js-example-basic-single {{(isset($saleSupplyOrder) && $saleSupplyOrder->type_for == 'supplier' ? 'client_select':'')}}"
-                                    name="salesable_id" id="supplier_id" onchange="selectClient()"
+                                    name="salesable_id" id="supplier_id"
+                                    onchange="selectClient(); "
                                 {{!isset($saleSupplyOrder) || (isset($saleSupplyOrder) && $saleSupplyOrder->type_for == 'customer') ? 'disabled':''}}>
 
                                 <option value="">{{__('Select')}}</option>
@@ -244,7 +246,8 @@
                             <span class="input-group-addon fa fa-user"></span>
 
                             <select class="form-control js-example-basic-single {{(isset($saleSupplyOrder) && $saleSupplyOrder->type_for != 'customer' ? '':'client_select')}}"
-                                    name="salesable_id" id="customer_id" onchange="selectClient()"
+                                    name="salesable_id" id="customer_id"
+                                    onchange="selectClient(); "
                                 {{(isset($saleSupplyOrder) && $saleSupplyOrder->type_for != 'customer')? 'disabled':''}}>
                                 <option value="">{{__('Select')}}</option>
 
@@ -411,29 +414,41 @@
         </div>
     </div>
 
-    <table style="display: none" >
+    {{--  SELECTED SALE QUOTATIONS  --}}
+    <div id="sale_quotation_ids">
 
-        @foreach( $data['saleQuotations'] as $saleQuotation)
+        @if(isset($saleSupplyOrder))
 
-            <tr>
-                <td>
-                    <input type="checkbox" name="sale_quotations[]" value="{{$saleQuotation->id}}"
-                           onclick="selectSaleQuotation('{{$saleQuotation->id}}')"
-                           class="real_sale_quotation_box_{{$saleQuotation->id}}"
-                        {{isset($saleSupplyOrder) && in_array($saleQuotation->id, $saleSupplyOrder->saleQuotations->pluck('id')->toArray()) ? 'checked':'' }}
-                    >
-                </td>
-                <td>
-                    <span>{{$saleQuotation->number}}</span>
-                </td>
-                <td>
-                    <span>{{optional($saleQuotation->customer)->name}}</span>
-                </td>
-            </tr>
+            @foreach( $saleSupplyOrder->saleQuotations->pluck('id')->toArray() as $id)
+                <input type="hidden" name="sale_quotations[]" value="{{$id}}">
+            @endforeach
 
-        @endforeach
+        @endif
+    </div>
+
+{{--    <table style="display: none" >--}}
+
+{{--        @foreach( $data['saleQuotations'] as $saleQuotation)--}}
+
+{{--            <tr>--}}
+{{--                <td>--}}
+{{--                    <input type="checkbox" name="sale_quotations[]" value="{{$saleQuotation->id}}"--}}
+{{--                           onclick="selectSaleQuotation('{{$saleQuotation->id}}')"--}}
+{{--                           class="real_sale_quotation_box_{{$saleQuotation->id}}"--}}
+{{--                        {{isset($saleSupplyOrder) && in_array($saleQuotation->id, $saleSupplyOrder->saleQuotations->pluck('id')->toArray()) ? 'checked':'' }}--}}
+{{--                    >--}}
+{{--                </td>--}}
+{{--                <td>--}}
+{{--                    <span>{{$saleQuotation->number}}</span>--}}
+{{--                </td>--}}
+{{--                <td>--}}
+{{--                    <span>{{optional($saleQuotation->customer)->name}}</span>--}}
+{{--                </td>--}}
+{{--            </tr>--}}
+
+{{--        @endforeach--}}
 
 
-    </table>
+{{--    </table>--}}
 
 </div>

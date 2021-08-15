@@ -65,6 +65,7 @@
 @endsection
 
 @section('modals')
+
     @include('admin.partial.part_image')
 
     <div class="modal fade" id="part_store_quantity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
@@ -83,21 +84,8 @@
 
                     <div class="row">
 
-                        <div class="col-md-12 margin-bottom-20">
+                        <div class="col-md-12 margin-bottom-20" id="part_quantity">
 
-                            <table id="sale_supply_table" class="table table-bordered" style="width:100%">
-                                <thead>
-                                <tr>
-                                    <th scope="col">{!! __('Store name.') !!}</th>
-                                    <th scope="col">{!! __('Quantity') !!}</th>
-                                </tr>
-                                </thead>
-
-                                <tbody id="part_quantity">
-
-                                </tbody>
-
-                            </table>
 
                         </div>
 
@@ -303,6 +291,7 @@
                 success: function (data) {
 
                     $("#part_quantity").html(data.view);
+
                     invoke_datatable_quotations($('#sale_supply_table'));
                 },
 

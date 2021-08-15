@@ -12,6 +12,7 @@
                 <th> {{ __('quantity') }} </th>
                 <th> {{ __('Price') }} </th>
                 <th> {{ __('Total') }} </th>
+                <th> {{ __('Quantity') }} </th>
             </tr>
             </thead>
             <tbody id="parts_data">
@@ -32,6 +33,7 @@
                 <th> {{ __('quantity') }} </th>
                 <th> {{ __('Price') }} </th>
                 <th> {{ __('Total') }} </th>
+                <th> {{ __('Quantity') }} </th>
             </tr>
             </tfoot>
         </table>
