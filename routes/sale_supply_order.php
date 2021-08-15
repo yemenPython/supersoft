@@ -20,3 +20,6 @@ Route::post('/supply-orders-execution/save', 'SupplyOrderExecutionController@sav
 Route::post('sale-supply/library/get-files', 'SaleSupplyLibraryController@getFiles')->name('sale.supply.library.get.files');
 Route::post('sale-supply/upload_library', 'SaleSupplyLibraryController@uploadLibrary')->name('sale.supply.upload_library');
 Route::post('sale-supply/library/file-delete', 'SaleSupplyLibraryController@destroyFile')->name('sale.supply.library.file.delete');
+
+
+Route::post('sale-supply-orders-get-sale-quotations', 'SaleSupplyOrderController@getSaleQuotations')->name('sale.supply.orders.get.sale.quotation');

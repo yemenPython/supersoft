@@ -22,6 +22,8 @@ class PartLibraryController extends Controller
 
         $validator = Validator::make($request->all(), [
 
+            'title_ar' => 'required|string|max:100',
+            'title_en' => 'nullable|string|max:100',
             'part_id' => 'required|integer|exists:parts,id',
             'files' => 'required',
             'files.*' => 'required|mimes:jpeg,jpg,png,gif,pdf,xlsx,xlsm,xls,xls,docx,docm,dotx,txt|required|max:6000',
@@ -42,20 +44,27 @@ class PartLibraryController extends Controller
 
             $files = [];
 
-
-
             foreach ($request['files'] as $index => $file) {
 
                 $fileData = $this->uploadFiles($file, $director);
 
-                $fileName = $fileData['file_name'];
-                $extension = Str::lower($fileData['extension']);
-                $fileOriginalName = $fileData['name'];
+                $data = [
+                    'file_name' => $fileData['file_name'],
+                    'extension' => Str::lower($fileData['extension']),
+                    'name' => $fileData['name'],
+                    'part_id' => $part->id,
+                    'title_ar'=> $request['title_ar'],
+                    'title_en'=> $request['title_en'] ?? $request['title_ar'],
+                ];
 
-                $files[$index] = $this->createPartLibrary($part->id, $fileName, $extension, $fileOriginalName);
+                $files[$index] = PartLibrary::create($data);
             }
 
-            $view = view('admin.parts.library', compact('files', 'library_path'))->render();
+            $mainPath = 'storage/part_library/' . $library_path. '/';
+
+            $view = view('admin.partial.upload_library.files', compact('files', 'mainPath'))->render();
+
+//            $view = view('admin.parts.library', compact('files', 'library_path'))->render();
 
         } catch (\Exception $e) {
 
@@ -91,7 +100,9 @@ class PartLibraryController extends Controller
 
             $files = $part->files;
 
-            $view = view('admin.parts.library', compact('files', 'library_path'))->render();
+            $mainPath = 'storage/part_library/' . $library_path. '/';
+
+            $view = view('admin.partial.upload_library.files', compact('files', 'mainPath'))->render();
 
         } catch (\Exception $e) {
             return response('sorry, please try later', 400);
