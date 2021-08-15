@@ -781,6 +781,37 @@ url('admin/concessions/archive'),
                             <a href="{{url('admin/activity-log/archive')}}">{{__('Activity-log Archives')}}</a>
                         </li>
                     </ul>
+
+                    <ul class="sub-menu js__content wg-menu" style="">
+                        <li class="{{setActivationClass(url('admin/concessions/archive'))}}">
+                            <a href="{{url('admin/concessions/archive')}}">{{__('Concessions Archives')}}</a>
+                        </li>
+                        <li class="{{setActivationClass(url('admin/activity-log/archive'))}}">
+                            <a href="{{url('admin/activity-log/archive')}}">{{__('Activity-log Archives')}}</a>
+                        </li>
+                    </ul>
+                </li>
+
+
+
+                <li class="{{setActivationClass([
+route('admin:assetsType.index')
+                     ])}}">
+                    <a class="parent-item js__control" href="#">
+                        <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
+                        <span>{{__('Official data and company files')}}</span>
+                        <span class="menu-arrow fa fa-angle-down"></span>
+                    </a>
+                    <ul class="sub-menu js__content">
+
+
+
+                        <li class="{{setActivationClass(route('admin:egyptian_federation.index'))}}">
+                            <a href="{{route('admin:egyptian_federation.index')}}">
+                                {{__('Egyptian Federation')}}
+                            </a>
+                        </li>
+                    </ul>
                 </li>
 
             </ul>

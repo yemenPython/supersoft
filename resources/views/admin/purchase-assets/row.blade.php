@@ -47,9 +47,11 @@
 
     <td>
         <div class="input-group" id="stores">
-            <button type="button" class="btn btn-danger fa fa-trash" onclick="removeItem('{{$index}}')"></button>
+            <button type="button" class="btn btn-sm btn-danger fa fa-trash" onclick="removeItem('{{$index}}')"></button>
+            <a class="btn btn-sm btn-success" onclick="openModalWithShowAsset('{{$asset->id}}')"><i class="fa fa-eye"></i></a>
         </div>
     </td>
+
 
     <input type="hidden" name="index" id="items_count" value="{{isset($purchaseAsset) ? $purchaseAsset->items->count() : 0}}">
 </tr>

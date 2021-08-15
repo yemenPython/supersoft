@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\Maintenance\UpdateRequest;
 use App\Models\Branch;
 use App\Models\MaintenanceDetection;
 use App\Models\MaintenanceDetectionType;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -27,34 +28,34 @@ class MaintenanceDetectionsController extends Controller
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
-        $maintenanceDetections = MaintenanceDetection::orderBy('id','DESC');
+        $maintenanceDetections = MaintenanceDetection::orderBy('id', 'DESC');
 
 //        if(!authIsSuperAdmin())
 //            $maintenanceDetections->where('branch_id', auth()->user()->branch_id);
 
-        if($request->has('name') && $request['name'] != '')
-            $maintenanceDetections->where('id',$request['name']);
+        if ($request->has('name') && $request['name'] != '')
+            $maintenanceDetections->where('id', $request['name']);
 
-        if($request->has('maintenance_type_id') && $request['maintenance_type_id'] != '')
-            $maintenanceDetections->where('maintenance_type_id',$request['maintenance_type_id']);
+        if ($request->has('maintenance_type_id') && $request['maintenance_type_id'] != '')
+            $maintenanceDetections->where('maintenance_type_id', $request['maintenance_type_id']);
 
-        if($request->has('branch_id') && $request['branch_id'] != '')
-            $maintenanceDetections->where('branch_id',$request['branch_id']);
+        if ($request->has('branch_id') && $request['branch_id'] != '')
+            $maintenanceDetections->where('branch_id', $request['branch_id']);
 
-        if($request->has('active') && $request['active'] != '')
-            $maintenanceDetections->where('status',1);
+        if ($request->has('active') && $request['active'] != '')
+            $maintenanceDetections->where('status', 1);
 
-        if($request->has('inactive') && $request['inactive'] != '')
-            $maintenanceDetections->where('status',0);
+        if ($request->has('inactive') && $request['inactive'] != '')
+            $maintenanceDetections->where('status', 0);
 
         $maintenanceDetections = $maintenanceDetections->get();
 
-        $branches = filterSetting() ?  Branch::all()->pluck('name','id') : null;
-        $maintenance_types = filterSetting() ?  MaintenanceDetectionType::all()->pluck('name','id') : null;
-        $maintenance = filterSetting() ?  MaintenanceDetection::all()->pluck('name','id') : null;
+        $branches = filterSetting() ? Branch::all()->pluck('name', 'id') : null;
+        $maintenance_types = filterSetting() ? MaintenanceDetectionType::all()->pluck('name', 'id') : null;
+        $maintenance = filterSetting() ? MaintenanceDetection::all()->pluck('name', 'id') : null;
 
         return view('admin.maintenance-detections.index',
-            compact('maintenanceDetections','maintenance_types','branches','maintenance'));
+            compact('maintenanceDetections', 'maintenance_types', 'branches', 'maintenance'));
     }
 
     public function create()
@@ -64,9 +65,9 @@ class MaintenanceDetectionsController extends Controller
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
-        $branches = Branch::all()->pluck('name','id');
-        $types = MaintenanceDetectionType::where('status',1)->get()->pluck('name','id');
-        return view('admin.maintenance-detections.create',compact('types','branches'));
+        $branches = Branch::all()->pluck('name', 'id');
+        $types = MaintenanceDetectionType::where('status', 1)->get()->pluck('name', 'id');
+        return view('admin.maintenance-detections.create', compact('types', 'branches'));
     }
 
     public function store(CreateRequest $request)
@@ -76,27 +77,27 @@ class MaintenanceDetectionsController extends Controller
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
-        try{
+        try {
             $data = $request->validated();
 
             $data['status'] = 0;
 
-            if($request->has('status'))
+            if ($request->has('status'))
                 $data['status'] = 1;
 
-            if(!authIsSuperAdmin())
+            if (!authIsSuperAdmin())
                 $data['branch_id'] = auth()->user()->branch_id;
 
             MaintenanceDetection::create($data);
 
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return redirect()->back()
-                ->with(['message' => $e->getMessage(),'alert-type'=>'error']);
+                ->with(['message' => $e->getMessage(), 'alert-type' => 'error']);
         }
 
         return redirect(route('admin:maintenance-detections.index'))
-            ->with(['message' => __('words.maintenance-detection-created'),'alert-type'=>'success']);
+            ->with(['message' => __('words.maintenance-detection-created'), 'alert-type' => 'success']);
     }
 
     public function show(MaintenanceDetection $maintenanceDetection)
@@ -106,7 +107,7 @@ class MaintenanceDetectionsController extends Controller
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
-        return view('admin.maintenance-detections.show',compact('maintenanceDetection'));
+        return view('admin.maintenance-detections.show', compact('maintenanceDetection'));
     }
 
     public function edit(MaintenanceDetection $maintenanceDetection)
@@ -116,11 +117,11 @@ class MaintenanceDetectionsController extends Controller
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
-        $branches = Branch::all()->pluck('name','id');
-        $types = MaintenanceDetectionType::where('status',1)
+        $branches = Branch::all()->pluck('name', 'id');
+        $types = MaintenanceDetectionType::where('status', 1)
             ->where('branch_id', $maintenanceDetection->branch_id)
-            ->get()->pluck('name','id');
-        return view('admin.maintenance-detections.edit',compact('types','branches','maintenanceDetection'));
+            ->get()->pluck('name', 'id');
+        return view('admin.maintenance-detections.edit', compact('types', 'branches', 'maintenanceDetection'));
     }
 
     public function update(UpdateRequest $request, MaintenanceDetection $maintenanceDetection)
@@ -130,28 +131,28 @@ class MaintenanceDetectionsController extends Controller
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
-        try{
+        try {
 
             $data = $request->validated();
 
             $data['status'] = 0;
 
-            if($request->has('status'))
+            if ($request->has('status'))
                 $data['status'] = 1;
 
-            if(!authIsSuperAdmin())
+            if (!authIsSuperAdmin())
                 $data['branch_id'] = auth()->user()->branch_id;
 
             $maintenanceDetection->update($data);
 
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
 
             return redirect()->back()
-                ->with(['message' => $e->getMessage(),'alert-type'=>'error']);
+                ->with(['message' => $e->getMessage(), 'alert-type' => 'error']);
         }
 
         return redirect(route('admin:maintenance-detections.index'))
-            ->with(['message' => __('words.maintenance-detection-updated'),'alert-type'=>'success']);
+            ->with(['message' => __('words.maintenance-detection-updated'), 'alert-type' => 'success']);
     }
 
     public function destroy(MaintenanceDetection $maintenanceDetection)
@@ -164,7 +165,7 @@ class MaintenanceDetectionsController extends Controller
         $maintenanceDetection->delete();
 
         return redirect(route('admin:maintenance-detections.index'))
-            ->with(['message' => __('words.maintenance-detection-deleted'),'alert-type'=>'success']);
+            ->with(['message' => __('words.maintenance-detection-deleted'), 'alert-type' => 'success']);
     }
 
     public function deleteSelected(Request $request)
@@ -183,11 +184,22 @@ class MaintenanceDetectionsController extends Controller
             ->with(['message' => __('words.select-one-least'), 'alert-type' => 'error']);
     }
 
-    public function getMaintenanceTypesByBranch(Request $request){
+    public function getMaintenanceTypesByBranch(Request $request)
+    {
 
-        $maintenance_types = MaintenanceDetectionType::where('status',1)->where('branch_id', $request['branch_id'])
-            ->get()->pluck('name','id');
+        $maintenance_types = MaintenanceDetectionType::where('status', 1)->where('branch_id', $request['branch_id'])
+            ->get()->pluck('name', 'id');
 
         return $maintenance_types;
+    }
+
+    public function getMaintenanceDetectionsById(Request $request): JsonResponse
+    {
+        $maintenanceDetections = $request->typeId ? MaintenanceDetection::where('maintenance_type_id', $request->typeId)->get()
+            : MaintenanceDetection::all();
+        $view = view('admin.assets.assets_maintenance.rows', compact('maintenanceDetections'))->render();
+        return response()->json([
+            'data' => $view,
+        ]);
     }
 }

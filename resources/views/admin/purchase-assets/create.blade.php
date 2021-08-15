@@ -74,36 +74,27 @@
 
 
 @section('js-validation')
-
     {!! JsValidator::formRequest('App\Http\Requests\Admin\Asset\PurchaseAssetRequest', '.form'); !!}
-
     @include('admin.partial.sweet_alert_messages')
-
 @endsection
 
 @section('js')
 
     <script src="{{asset('js/purchase_invoice/index.js')}}"></script>
-
     <script type="application/javascript">
-
         function changeBranch() {
             let branch_id = $('#branch_id').find(":selected").val();
             window.location.href = "{{route('admin:purchase-assets.create')}}" + "?branch_id=" + branch_id;
         }
         function removeItem(index) {
             swal({
-
                 title: "Delete Item",
                 text: "Are you sure want to delete this item ?",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
-
             }).then((willDelete) => {
-
                 if (willDelete) {
-
                     $('#tr_part_' + index).remove();
                     $('#part_types_' + index).remove();
                     calculateItem(index);
@@ -114,8 +105,6 @@
                 }
             });
         }
-
-
 
         function reorderItems() {
 
