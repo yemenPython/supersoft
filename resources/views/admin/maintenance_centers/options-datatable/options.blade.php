@@ -1,4 +1,3 @@
-
 @if (isset($branch))
     <span class="text-danger">
       {{ optional($item->branch)->name }}
@@ -14,8 +13,6 @@
 @endif
 
 
-
-
 @if (isset($withActions))
     <div class="btn-group margin-top-10">
 
@@ -26,6 +23,21 @@
 
         </button>
         <ul class="dropdown-menu dropdown-wg">
+            <input type="hidden" id="latVal" value="{{$item->lat}}">
+            <input type="hidden" id="longVal" value="{{$item->long}}">
+            <li>
+                <a style="cursor:pointer" onclick="OpenLocation('{{$item->lat}}', '{{$item->long}}')"
+                   class="btn btn-terms-wg text-white hvr-radial-out" title="{{__('Location')}}">
+                    <i class="fa fa-location-arrow"></i> {{__('Location')}}
+                </a>
+            </li>
+            <li>
+                <a style="cursor:pointer" onclick="openModalToShow('{{$item->id}}')"
+                   class="btn btn-terms-wg text-white hvr-radial-out" title="{{__('Show')}}">
+                    <i class="fa fa-eye"></i> {{__('Show')}}
+                </a>
+            </li>
+
             <li>
 
                 @component('admin.buttons._edit_button',[

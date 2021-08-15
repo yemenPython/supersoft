@@ -9,7 +9,7 @@
                     <th style="width:20% !important">{{__('Asset Group')}}</th>
                     <td> {{optional($asset->group)->name}} </td>
                     <th style="width:20% !important">{{__('Asset Type')}}</th>
-                    <td> {{optional($asset->type)->name}} </td>
+                    <td> {{$assetType->name}} </td>
                 </tr>
                 <tr>
                     <th style="width:20% !important">{{__('Asset name')}}</th>

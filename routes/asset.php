@@ -1,4 +1,5 @@
 <?php
+Route::post('assets_maintenance/delete-Selected', 'AssetMaintenanceController@deleteSelected')->name('assets_maintenance.delete-Selected');
 //assets Type
 Route::get('/assets-type', 'AssetsTypeController@index')->name('assetsType.index');
 Route::get('/assets-type/create', 'AssetsTypeController@create')->name('assetsType.create');
@@ -91,3 +92,4 @@ Route::resource('assets_replacements', 'AssetReplacementController');
 
 Route::get('assets_maintenance/{asset}', 'AssetMaintenanceController@index')->name('assets_maintenance.index');
 Route::post('assets_maintenance/{asset}', 'AssetMaintenanceController@store')->name('assets_maintenance.store');
+Route::delete('assets_maintenance/{assetMaintenance}', 'AssetMaintenanceController@destroy')->name('assets_maintenance.destroy');

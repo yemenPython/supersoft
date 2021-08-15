@@ -110,22 +110,22 @@
 
         <div class="col-md-3" style=" {{!isset($maintenanceCard) || (isset($maintenanceCard) && $maintenanceCard->type != 'external') ? 'display: none;':''}}" id="suppliers_div">
             <div class="form-group has-feedback">
-                <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
+                <label for="inputStore" class="control-label">{{__('Maintenance centers')}}</label>
                 <div class="input-group">
 
                     <span class="input-group-addon fa fa-file"></span>
 
-                    <select class="form-control js-example-basic-single" name="supplier_id" id="supplier_id">
-                        <option value="">{{__('Select Supplier')}}</option>
+                    <select class="form-control js-example-basic-single" name="maintenance_center_id" id="supplier_id">
+                        <option value="">{{__('Select')}}</option>
 
-                        @foreach($data['suppliers'] as $supplier)
-                            <option value="{{$supplier->id}}" {{isset($maintenanceCard) && $maintenanceCard->supplier_id == $supplier->id ? 'selected':''}}>
-                                {{$supplier->name}}
+                        @foreach($data['centers'] as $center)
+                            <option value="{{$center->id}}" {{isset($maintenanceCard) && $maintenanceCard->maintenance_center_id == $center->id ? 'selected':''}}>
+                                {{$center->name}}
                             </option>
                         @endforeach
                     </select>
                 </div>
-                {{input_error($errors,'supplier_id')}}
+                {{input_error($errors,'maintenance_center_id')}}
             </div>
         </div>
     </div>

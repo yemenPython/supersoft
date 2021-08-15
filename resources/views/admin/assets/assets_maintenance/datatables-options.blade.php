@@ -6,13 +6,11 @@
     @endif
 @endif
 
-
 @if (isset($withStartData))
     <span style="background:#F7F8CC !important">
     {{ $item->created_at }}
 </span>
 @endif
-
 
 @if (isset($withEndData))
     <span style="background:rgb(253, 215, 215) !important">
@@ -20,30 +18,15 @@
 </span>
 @endif
 
-
-
-
-
 @if (isset($withActions))
     <div class="btn-group margin-top-10">
-
         <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
             <i class="ico fa fa-bars"></i>
             {{__('Options')}} <span class="caret"></span>
-
         </button>
         <ul class="dropdown-menu dropdown-wg">
             <li>
-
-
-
-
-
-
-
-
-
                 <a style=" margin-bottom: 12px; border-radius: 5px"
                    type="button"
                    data-toggle="modal" data-target="#add-employee-modal"
@@ -66,24 +49,15 @@
             <li class="btn-style-drop">
                 @component('admin.buttons._delete_button',[
                 'id'=> $item->id,
-                'route' => 'admin:store_employee_history.destroy',
+                'route' => 'admin:assets_maintenance.destroy',
                  ])
                 @endcomponent
             </li>
-
         </ul>
     </div>
 @endif
 
 @if (isset($withOptions))
-    @component('admin.buttons._delete_selected',[
-                                              'id' =>  $item->id,
-                                             'route' => 'admin:store_employee_history.deleteSelected',
-                                         ])
-    @endcomponent
+    @component('admin.buttons._delete_selected',['id' =>  $item->id,'route' => 'admin:assets_maintenance.delete-Selected',])@endcomponent
 @endif
-
-
-
-
 

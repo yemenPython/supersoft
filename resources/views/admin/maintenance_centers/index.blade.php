@@ -18,7 +18,7 @@
             </ol>
         </nav>
 
-      @include('admin.maintenance_centers.search_from')
+        @include('admin.maintenance_centers.search_from')
 
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
@@ -42,7 +42,8 @@
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
-                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover" style="width:100%">
+                        <table id="datatable-with-btns" class="table table-bordered wg-table-print table-hover"
+                               style="width:100%">
                             <thead>
                             <tr>
                                 <th scope="col">{!! __('#') !!}</th>
@@ -50,8 +51,6 @@
                                 @if(authIsSuperAdmin())
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
-                                <th scope="col">{!! __('Country') !!}</th>
-                                <th scope="col">{!! __('City') !!}</th>
                                 <th scope="col">{!! __('Phone') !!}</th>
                                 <th scope="col">{!! __('E-Mail') !!}</th>
                                 <th scope="col">{!! __('Commercial Number') !!}</th>
@@ -61,7 +60,7 @@
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">
                                     <div class="checkbox danger">
-                                        <input type="checkbox"  id="select-all">
+                                        <input type="checkbox" id="select-all">
                                         <label for="select-all"></label>
                                     </div>{!! __('Select') !!}</th>
                             </tr>
@@ -73,8 +72,6 @@
                                 @if(authIsSuperAdmin())
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
-                                <th scope="col">{!! __('Country') !!}</th>
-                                <th scope="col">{!! __('City') !!}</th>
                                 <th scope="col">{!! __('Phone') !!}</th>
                                 <th scope="col">{!! __('E-Mail') !!}</th>
                                 <th scope="col">{!! __('Commercial Number') !!}</th>
@@ -94,16 +91,81 @@
 @endsection
 
 @section('js')
-<Script>
-    server_side_datatable('#datatable-with-btns');
-    function filterFunction($this) {
-        $("#loaderSearch").show();
-        $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
-        $datatable.ajax.url($url).load();
-        $(".js__card_minus").trigger("click");
-        setTimeout( function () {
-            $("#loaderSearch").hide();
-        }, 1000)
-    }
-</Script>
+    <script type="application/javascript" defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4YXeD4XTeNieaKWam43diRHXjsGg7aVY&callback=initMap"></script>
+
+    <Script>
+        server_side_datatable('#datatable-with-btns');
+
+        function filterFunction($this) {
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout(function () {
+                $("#loaderSearch").hide();
+            }, 1000)
+        }
+
+        function openModalToShow(id) {
+            event.preventDefault();
+            $.ajax({
+                url: '{{url('admin/maintenance_centers')}}' + '/' + id,
+                type: 'get',
+                success: function (response) {
+                    $('#showAssetModal').modal('show');
+                    $('#showAssetResponse').html(response.data);
+                }
+            });
+        }
+
+        var map;
+        var marker = false;
+        function initMap(lat, long) {
+            let longVal = parseFloat(long);
+            let latVal = parseFloat(lat);
+            const myLatLng = { lat: latVal, lng: longVal };
+            var centerOfMap = new google.maps.LatLng(latVal, longVal);
+            var options = {
+                center: centerOfMap,
+                zoom: 7
+            };
+            map = new google.maps.Map(document.getElementById('map'), options);
+            new google.maps.Marker({
+                position: myLatLng,
+                map:map
+            });
+        }
+        function OpenLocation(lat, long) {
+            $('#boostrapModal-2').modal('show');
+            google.maps.event.addDomListener(window, 'load', initMap(lat, long));
+        }
+    </Script>
+@endsection
+
+
+@section('modals')
+
+    <div class="modal fade" id="boostrapModal-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel-1">{{__('Location')}}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-body" id="map" style="height: 400px;">
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-sm waves-effect waves-light" data-dismiss="modal">
+                        {{__('Close')}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
