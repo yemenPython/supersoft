@@ -49,7 +49,7 @@ class EgyptianFederationofConstructionController extends Controller
         if ($request->has( 'branch_id' ) && $request['branch_id'] != '') {
             $suppliers->where( 'branch_id', $request['branch_id'] );
         }
-        whereBetween($suppliers,'end_date',$request->end_date_from,$request->end_date_to);
+        whereBetween( $suppliers, 'end_date', $request->end_date_from, $request->end_date_to );
         $rows = $request->has( 'rows' ) ? $request->rows : 25;
         $data = $suppliers->paginate( $rows )->appends( request()->query() );
 
@@ -62,11 +62,11 @@ class EgyptianFederationofConstructionController extends Controller
     public function create(Request $request)
     {
         $branch_id = $request->has( 'branch_id' ) ? $request['branch_id'] : auth()->user()->branch_id;
-        $branch = Branch::where( 'id', $branch_id )->get( ['id','name_' . app()->getLocale() . ' as company_name', 'address_' . app()->getLocale() . ' as address'] )->first();
+        $branch = Branch::where( 'id', $branch_id )->get( ['id', 'name_' . app()->getLocale() . ' as company_name', 'address_' . app()->getLocale() . ' as address'] )->first();
         $branches = Branch::all()->pluck( 'name', 'id' );
         $last_created = EgyptianFederationOfConstructionAndBuildingContractors::latest()->first();
-        if(!empty($last_created) && !$request->has( 'branch_id' )){
-            $branch = Branch::where( 'id', $last_created->branch_id )->get( ['id','name_' . app()->getLocale() . ' as company_name', 'address_' . app()->getLocale() . ' as address'] )->first();
+        if (!empty( $last_created ) && !$request->has( 'branch_id' )) {
+            $branch = Branch::where( 'id', $last_created->branch_id )->get( ['id', 'name_' . app()->getLocale() . ' as company_name', 'address_' . app()->getLocale() . ' as address'] )->first();
         }
         return view( 'admin.egyptian_federation_of_construction_and_building_contractors.create', compact( 'branches', 'branch', 'last_created' ) );
     }
@@ -145,6 +145,8 @@ class EgyptianFederationofConstructionController extends Controller
     public function uploadLibrary(Request $request)
     {
         $validator = Validator::make( $request->all(), [
+            'title_ar' => 'required|string|max:100',
+            'title_en' => 'nullable|string|max:100',
             'egyptian_federation' => 'required|integer|exists:egyptian_federation_of_construction_and_building_contractors,id',
             'files' => 'required',
             'files.*' => 'required|mimes:jpeg,jpg,png,gif,pdf,xlsx,xlsm,xls,xls,docx,docm,dotx,txt|required|max:6000',
@@ -165,8 +167,8 @@ class EgyptianFederationofConstructionController extends Controller
                 $fileName = $fileData['file_name'];
                 $extension = Str::lower( $fileData['extension'] );
                 $name = $fileData['name'];
-
-                $files[$index] = $this->createEgyptianFederationLibrary( $egyptian_federation->id, $fileName, $extension, $name );
+                $title_en= $request->title_en??$request->title_ar;
+                $files[$index] = $this->createEgyptianFederationLibrary( $egyptian_federation->id, $fileName, $extension, $name, $request->title_ar, $title_en);
             }
             $view = view( 'admin.egyptian_federation_of_construction_and_building_contractors.library', compact( 'files', 'library_path' ) )->render();
         } catch (Exception $e) {
@@ -220,7 +222,7 @@ class EgyptianFederationofConstructionController extends Controller
             }
             $file->delete();
         } catch (Exception $e) {
-            dd($e->getMessage());
+            dd( $e->getMessage() );
             return response( 'sorry, please try later', 200 );
         }
         return response( ['id' => $request['id']], 200 );

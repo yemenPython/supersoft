@@ -246,8 +246,15 @@
                         <form action="{{route('admin:egyptian_federation.upload.upload_library')}}" method="post"
                               enctype="multipart/form-data">
                             @csrf
-
-                            <div class="form-group col-md-10">
+                            <div class="form-group col-md-3">
+                                <label>Title_ar</label>
+                                <input type="text" name="title_ar" class="form-control" id="library_title_ar">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Title_en</label>
+                                <input type="text" name="title_en" class="form-control" id="library_title_en">
+                            </div>
+                            <div class="form-group col-md-4">
                                 <label>{{__('files')}}</label>
                                 <input type="file" name="files[]" class="form-control" id="files" multiple>
                                 <input type="hidden" name="supplier_id" value="" id="library_supplier_id">
@@ -413,6 +420,8 @@
             var form_data = new FormData();
 
             var egyptian_federation = $("#library_supplier_id").val();
+            var title_ar = $("#library_title_ar").val();
+            var title_en = $("#library_title_en").val();
 
             var totalfiles = document.getElementById('files').files.length;
 
@@ -421,7 +430,8 @@
             }
 
             form_data.append("egyptian_federation", egyptian_federation);
-
+            form_data.append("title_ar", title_ar);
+            form_data.append("title_en", title_en);
             $.ajax({
                 url: "{{route('admin:egyptian_federation.upload.upload_library')}}",
                 type: "post",
