@@ -95,10 +95,10 @@ class SaleSupplyOrderController extends Controller
             ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
             ->get();
 
-        $data['saleQuotations'] = SaleQuotation::where('branch_id', $branch_id)
-            ->where('status','finished')
-            ->select('id', 'number', 'salesable_id', 'salesable_type')
-            ->get();
+//        $data['saleQuotations'] = SaleQuotation::where('branch_id', $branch_id)
+//            ->where('status','finished')
+//            ->select('id', 'number', 'salesable_id', 'salesable_type')
+//            ->get();
 
         $data['suppliers'] = Supplier::where('status', 1)
             ->where('branch_id', $branch_id)
@@ -518,5 +518,51 @@ class SaleSupplyOrderController extends Controller
                 $withOptions = true;
                 return view($viewPath, compact('item', 'withOptions'))->render();
             })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
+    }
+
+    public function getSaleQuotations (Request $request) {
+
+        $rules = [
+            'type_for' => 'required|string|in:supplier,customer',
+        ];
+
+        $rules['sale_supply_order_id'] = $request->has('sale_supply_order_id') ? 'required|integer|exists:sale_supply_orders,id':'';
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        try {
+
+            $branch_id = $request['branch_id'];
+
+            $saleSupplyOrder = null;
+
+            $saleQuotations = SaleQuotation::where('type_for', $request['type_for'])->where('status','finished');
+
+            if ($request->has('branch_id')) {
+                $saleQuotations->where('branch_id', $branch_id);
+            }
+
+            if ($request['salesable_id']) {
+                $saleQuotations->where('salesable_id', $request['salesable_id']);
+            }
+
+            if ($request->has('sale_supply_order_id')) {
+                $saleSupplyOrder = SaleSupplyOrder::find($request['sale_supply_order_id']);
+            }
+
+            $saleQuotations = $saleQuotations->select('id', 'number', 'salesable_id', 'salesable_type')->get();
+
+            $view = view('admin.sale_supply_orders.sale_quotations.index', compact('saleQuotations', 'saleSupplyOrder'))->render();
+
+        } catch (\Exception $e) {
+
+            return response()->json('sorry, please try later', 400);
+        }
+
+        return response()->json(['view' => $view], 200);
     }
 }

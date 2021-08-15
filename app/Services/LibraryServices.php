@@ -5,6 +5,7 @@ namespace App\Services;
 
 use App\Models\ConcessionLibrary;
 use App\Models\CustomerLibrary;
+use App\Models\EgyptianFederationLibrary;
 use App\Models\PartLibrary;
 use App\Models\SupplierLibrary;
 use Illuminate\Support\Facades\Storage;
@@ -26,7 +27,10 @@ trait LibraryServices
 
                 $libraryPath = Str::slug($user->name_en . '-' . $user->id);
             }
+            if (in_array($type, ['egyptian_federation'])) {
 
+                $libraryPath = Str::slug($user->membership_no . '-' . $user->id);
+            }
             $user->library_path = Str::slug($libraryPath);
 
             $user->save();
@@ -74,6 +78,19 @@ trait LibraryServices
         return $data;
     }
 
+    public function createEgyptianFederationLibrary($egyptian_federation_id, $file_name, $extension, $name,$title_ar,$title_en)
+    {
+        $fileInLibrary = EgyptianFederationLibrary::create([
+            'egyptian_federation_id' => $egyptian_federation_id,
+            'file_name' => $file_name,
+            'extension' => $extension,
+            'name'=> $name,
+            'title_ar'=> $title_ar,
+            'title_en'=> $title_en,
+        ]);
+
+        return $fileInLibrary;
+    }
     public function createSupplierLibrary($supplier_id, $file_name, $extension, $name)
     {
         $fileInLibrary = SupplierLibrary::create([

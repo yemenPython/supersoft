@@ -86,7 +86,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [
         include 'supplier_bank_account.php';
         include 'purchase_request.php';
         include 'store_employee_history.php';
-
+        include 'egyptian_federation_of_construction_and_building_contractors.php';
 
 
 //      users

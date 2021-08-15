@@ -37,8 +37,14 @@
     </td>
 
     <td>
-    <span style="background:rgb(253, 215, 215) !important">
-    {{ $item->price * $item->quantity}}</span>
+        <span style="background:rgb(253, 215, 215) !important">{{ $item->price * $item->quantity}}</span>
+    </td>
+
+    <td>
+        <button type="button" class="btn btn-primary" data-toggle="modal" onclick="showPartQuantity({{$item->part_id}})"
+                data-target="#part_store_quantity">
+            {{__('Quantity')}}
+        </button>
     </td>
 
 </tr>

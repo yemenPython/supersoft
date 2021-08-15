@@ -101,8 +101,11 @@
 @section('modals')
 
     @include('admin.parts.quantity_modal')
+
     @include('admin.parts.taxes_modal')
+
     @include('admin.partial.part_image')
+
     <div class="modal fade modal-bg-wg" id="boostrapModal-2" tabindex="-1" role="dialog"
          aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
@@ -119,7 +122,17 @@
                               enctype="multipart/form-data">
                             @csrf
 
-                            <div class="form-group col-md-10">
+                            <div class="form-group col-md-3">
+                                <label>{{__('Title_ar')}}</label>
+                                <input type="text" name="title_ar"  class="form-control" id="library_title_ar">
+                            </div>
+
+                            <div class="form-group col-md-3">
+                                <label>{{__('Title_en')}}</label>
+                                <input type="text" name="title_en"  class="form-control" id="library_title_en">
+                            </div>
+
+                            <div class="form-group col-md-4">
                                 <label>{{__('files')}}</label>
                                 <input type="file" name="files[]" class="form-control" id="files" multiple>
                                 <input type="hidden" name="part_id" value="" id="library_part_id">
@@ -253,6 +266,8 @@
             var form_data = new FormData();
 
             var part_id = $("#library_part_id").val();
+            var title_ar = $("#library_title_ar").val();
+            var title_en = $("#library_title_en").val();
 
             var totalfiles = document.getElementById('files').files.length;
 
@@ -261,6 +276,8 @@
             }
 
             form_data.append("part_id", part_id);
+            form_data.append("title_ar", title_ar);
+            form_data.append("title_en", title_en);
 
             $.ajax({
                 url: "{{route('admin:parts.upload.upload_library')}}",
@@ -287,6 +304,8 @@
                     $("#part_files_area").prepend(data.view);
 
                     $("#files").val('');
+                    $("#library_title_ar").val('');
+                    $("#library_title_en").val('');
 
                     $("#no_files").remove();
 
