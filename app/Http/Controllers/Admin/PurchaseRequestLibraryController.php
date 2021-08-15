@@ -20,6 +20,8 @@ class PurchaseRequestLibraryController extends Controller
 
         $validator = Validator::make($request->all(), [
 
+            'title_ar' => 'required|string|max:100',
+            'title_en' => 'nullable|string|max:100',
             'item_id' => 'required|integer|exists:purchase_requests,id',
             'files' => 'required',
             'files.*' => 'required|mimes:jpeg,jpg,png,gif,pdf,xlsx,xlsm,xls,xls,docx,docm,dotx,txt|required|max:6000',
@@ -44,14 +46,21 @@ class PurchaseRequestLibraryController extends Controller
 
                 $fileData = $this->uploadFiles($file, $director);
 
-                $fileName = $fileData['file_name'];
-                $extension = Str::lower($fileData['extension']);
-                $fileOriginalName = $fileData['name'];
+                $data = [
+                    'file_name' => $fileData['file_name'],
+                    'extension' => Str::lower($fileData['extension']),
+                    'name' => $fileData['name'],
+                    'purchase_request_id' => $purchaseRequest->id,
+                    'title_ar'=> $request['title_ar'],
+                    'title_en'=> $request['title_en'] ?? $request['title_ar'],
+                ];
 
-                $files[$index] = $this->createPurchaseRequestLibrary($purchaseRequest->id, $fileName, $extension, $fileOriginalName);
+                $files[$index] = PurchaseRequestLibrary::create($data);
             }
 
-            $view = view('admin.purchase_requests.library', compact('files', 'library_path'))->render();
+            $mainPath = 'storage/purchase_request_library/' . $library_path. '/';
+
+            $view = view('admin.partial.upload_library.files', compact('files', 'mainPath'))->render();
 
         } catch (\Exception $e) {
 
@@ -82,7 +91,9 @@ class PurchaseRequestLibraryController extends Controller
 
             $files = $purchaseRequest->files;
 
-            $view = view('admin.purchase_requests.library', compact('files', 'library_path'))->render();
+            $mainPath = 'storage/purchase_request_library/' . $library_path. '/';
+
+            $view = view('admin.partial.upload_library.files', compact('files', 'mainPath'))->render();
 
         } catch (\Exception $e) {
 
@@ -126,17 +137,5 @@ class PurchaseRequestLibraryController extends Controller
         }
 
         return response(['id' => $request['id']], 200);
-    }
-
-    public function createPurchaseRequestLibrary($purchase_request_id, $file_name, $extension, $name)
-    {
-        $fileInLibrary = PurchaseRequestLibrary::create([
-            'purchase_request_id' => $purchase_request_id,
-            'file_name' => $file_name,
-            'extension' => $extension,
-            'name' => $name,
-        ]);
-
-        return $fileInLibrary;
     }
 }

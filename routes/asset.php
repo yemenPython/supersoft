@@ -27,6 +27,7 @@ Route::get('/assets/edit/{asset}', 'AssetsController@edit')->name('assets.edit')
 Route::put('/assets/{asset}', 'AssetsController@update')->name('assets.update');
 Route::delete('/assets/delete/{asset}', 'AssetsController@destroy')->name('assets.destroy');
 Route::post('/assets/delete-selected', 'AssetsController@deleteSelected')->name('assets.deleteSelected');
+Route::get('/assets/assets_details/{asset}', 'AssetsController@showAssetDetails')->name('assets_details.showAssetDetails');
 
 
 Route::post('assets/AssetsGroupsByBranchId', 'AssetsController@getAssetsGroupsByBranchId')->name('assets.getAssetsGroupsByBranchId');
@@ -86,3 +87,7 @@ Route::post('assets_replacements/get_numbers_by_branch_id', 'AssetReplacementCon
 Route::post('assets_replacements/delete-selected', 'AssetReplacementController@deleteSelected')->name('assets_replacements.deleteSelected');
 Route::get('assets_replacements/getItemsByAssetId', 'AssetReplacementController@getItemsByAssetId')->name('assets_replacements.getItemsByAssetId');
 Route::resource('assets_replacements', 'AssetReplacementController');
+
+
+Route::get('assets_maintenance/{asset}', 'AssetMaintenanceController@index')->name('assets_maintenance.index');
+Route::post('assets_maintenance/{asset}', 'AssetMaintenanceController@store')->name('assets_maintenance.store');

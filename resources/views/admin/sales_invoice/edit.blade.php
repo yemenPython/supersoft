@@ -103,26 +103,6 @@
 
                                     <tbody id="sale_quotation_data">
 
-                                    @foreach( $data['saleQuotations'] as $saleQuotation)
-
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" name="sale_quotations[]"
-                                                       {{in_array($saleQuotation->id, $salesInvoice->saleQuotations->pluck('id')->toArray()) ? 'checked':''}}
-                                                       value="{{$saleQuotation->id}}"
-                                                       class="sale_quotation_box_{{$saleQuotation->id}}"
-                                                >
-                                            </td>
-                                            <td>
-                                                <span>{{$saleQuotation->number}}</span>
-                                            </td>
-                                            <td>
-                                                <span>{{optional($saleQuotation->salesable)->name}}</span>
-                                            </td>
-                                        </tr>
-
-                                    @endforeach
-
                                     </tbody>
 
                                 </form>
@@ -150,7 +130,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="modal fade" id="sale_supply_order" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
@@ -183,26 +162,6 @@
 
                                     <tbody id="sale_supply_data">
 
-                                    @foreach( $data['saleSupplyOrder'] as $saleSupply)
-
-                                        <tr>
-                                            <td>
-                                                <input type="checkbox" name="sale_quotations[]" value="{{$saleSupply->id}}"
-                                                       {{in_array($saleSupply->id, $salesInvoice->saleSupplyOrders->pluck('id')->toArray()) ? 'checked':''}}
-                                                       class="sale_quotation_box_{{$saleSupply->id}}"
-                                                >
-                                            </td>
-
-                                            <td>
-                                                <span>{{$saleSupply->number}}</span>
-                                            </td>
-
-                                            <td>
-                                                <span>{{optional($saleSupply->salesable)->name}}</span>
-                                            </td>
-                                        </tr>
-
-                                    @endforeach
 
                                     </tbody>
 
@@ -376,13 +335,22 @@
                 $('#sale_quotation_ids').append(' <input type="hidden" name="sale_quotation_ids[]" value="'+selected[i]+'">');
             }
 
+            let type_for = 'customer';
+
+            if ($('#supplier_radio').is(':checked')) {
+
+                type_for = 'supplier';
+            }else {
+                type_for = 'customer';
+            }
+
             $.ajax({
 
                 type: 'post',
 
                 url: '{{route('admin:sales.invoices.add.sale.quotations')}}',
 
-                data: {_token: CSRF_TOKEN, sale_quotations: selected},
+                data: {_token: CSRF_TOKEN, sale_quotations: selected, type_for:type_for},
 
                 success: function (data) {
 
@@ -391,6 +359,12 @@
                     $("#items_count").val(data.index);
 
                     $('.js-example-basic-single').select2();
+
+                    if (data.type_for == 'customer') {
+                        $("#customer_id").val(data.client_id).change();
+                    }else {
+                        $("#supplier_id").val(data.client_id).change();
+                    }
 
                     executeAllItems();
                 },
@@ -420,13 +394,22 @@
                 $('#sale_supply_orders_ids').append(' <input type="hidden" name="sale_supply_orders[]" value="'+selected[i]+'">');
             }
 
+            let type_for = 'customer';
+
+            if ($('#supplier_radio').is(':checked')) {
+
+                type_for = 'supplier';
+            }else {
+                type_for = 'customer';
+            }
+
             $.ajax({
 
                 type: 'post',
 
                 url: '{{route('admin:sales.invoices.add.sale.supply.order')}}',
 
-                data: {_token: CSRF_TOKEN, sale_supply_orders: selected},
+                data: {_token: CSRF_TOKEN, sale_supply_orders: selected, type_for:type_for},
 
                 success: function (data) {
 
@@ -568,6 +551,116 @@
 
             let image_path = $('#part_img_id_' + index).data('img');
             $('#part_image').attr('src', image_path);
+        }
+
+        function getSaleQuotations() {
+
+            if (!checkBranchValidation()) {
+                swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
+                return false;
+            }
+
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            let branch_id = $("#branch_id").val();
+
+            let salesable_id = null;
+
+            let type_for = 'customer';
+
+            let sales_invoice_id = '{{$salesInvoice->id}}';
+
+            if ($('#supplier_radio').is(':checked')) {
+
+                type_for = 'supplier';
+                salesable_id = $("#supplier_id").val();
+
+            }else {
+                type_for = 'customer';
+                salesable_id = $("#customer_id").val();
+            }
+
+            $.ajax({
+
+                type: 'post',
+
+                url: '{{route('admin:sales.invoices.get.sale.quotations')}}',
+
+                data: {_token: CSRF_TOKEN, branch_id:branch_id, salesable_id:salesable_id,type_for:type_for,sales_invoice_id:sales_invoice_id },
+
+                success: function (data) {
+
+                    $('#purchase_quotations').modal('show');
+
+                    $("#sale_quotation_data").html(data.view);
+
+                    $('.js-example-basic-single').select2();
+
+                    invoke_datatable_quotations('sale_quotations_table');
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    $(".remove_on_change_branch").remove();
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
+        }
+
+        function getSaleSupply() {
+
+            if (!checkBranchValidation()) {
+                swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
+                return false;
+            }
+
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            let branch_id = $("#branch_id").val();
+
+            let salesable_id = null;
+
+            let sales_invoice_id = '{{$salesInvoice->id}}';
+
+            let type_for = 'customer';
+
+            if ($('#supplier_radio').is(':checked')) {
+
+                type_for = 'supplier';
+                salesable_id = $("#supplier_id").val();
+
+            }else {
+                type_for = 'customer';
+                salesable_id = $("#customer_id").val();
+            }
+
+            $.ajax({
+
+                type: 'post',
+
+                url: '{{route('admin:sales.invoices.get.sale.supply.order')}}',
+
+                data: {_token: CSRF_TOKEN, branch_id:branch_id, salesable_id:salesable_id, type_for:type_for, sales_invoice_id:sales_invoice_id },
+
+                success: function (data) {
+
+                    $('#sale_supply_order').modal('show');
+
+                    $("#sale_supply_data").html(data.view);
+
+                    $('.js-example-basic-single').select2();
+
+                    invoke_datatable_quotations('sale_supply_table');
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    $(".remove_on_change_branch").remove();
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
         }
 
     </script>

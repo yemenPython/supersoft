@@ -152,7 +152,7 @@ class AssetsController extends Controller
             <i class="fa fa-print"></i> ' . __( 'Print' ) . '</a>
         </li>
         <li><a class="btn btn-wg-show hvr-radial-out"z href="' . route( 'admin:assetsEmployees.index', $asset->id ) . '" >
-            <i class="fa fa-eye"></i> ' . __( 'employees history' ) . '
+            <i class="fa fa-eye"></i> ' . __( 'assets_maintenance history' ) . '
         </a></li>
         <li><a class="btn btn-wg-show hvr-radial-out"z href="' . route( 'admin:assetsInsurances.index', $asset->id ) . '" >
             <i class="fa fa-eye"></i> ' . __( 'insurances' ) . '
@@ -162,6 +162,9 @@ class AssetsController extends Controller
         </a></li>
         <li><a class="btn btn-wg-show hvr-radial-out"z href="' . route( 'admin:assetsExaminations.index', $asset->id ) . '" >
             <i class="fa fa-eye"></i> ' . __( 'examinations' ) . '
+        </a></li>
+          <li><a class="btn btn-wg-show hvr-radial-out"z href="' . route( 'admin:assets_maintenance.index', $asset->id ) . '" >
+            <i class="fa fa-eye"></i> ' . __( 'Assets Maintenance' ) . '
         </a></li>
           </ul> </div>
                  ';
@@ -532,4 +535,11 @@ class AssetsController extends Controller
         }
     }
 
+    public function showAssetDetails(Asset $asset)
+    {
+        $view = view('admin.global_modals.show_asset_response', compact('asset'))->render();
+       return response()->json([
+           'data' => $view
+       ]);
+    }
 }

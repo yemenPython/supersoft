@@ -12,7 +12,7 @@ class DamagedStock extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['branch_id', 'user_id', 'number', 'date', 'time', 'total', 'description', 'type'];
+    protected $fillable = ['branch_id', 'user_id', 'number', 'date', 'time', 'total', 'description', 'type', 'library_path'];
 
     protected $table = 'damaged_stocks';
 
@@ -68,6 +68,11 @@ class DamagedStock extends Model
 
         return $this->belongsToMany(EmployeeData::class, 'damaged_stock_employee_data', 'damaged_stock_id', 'employee_data_id')
             ->withPivot('id','percent', 'amount');
+    }
+
+    function files()
+    {
+        return $this->hasMany(DamagedStockLibrary::class, 'damaged_stock_id');
     }
 
     /**

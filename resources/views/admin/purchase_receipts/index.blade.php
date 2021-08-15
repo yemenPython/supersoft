@@ -209,6 +209,8 @@
             var form_data = new FormData();
 
             var item_id = $("#library_item_id").val();
+            var title_ar = $("#library_title_ar").val();
+            var title_en = $("#library_title_en").val();
 
             var totalfiles = document.getElementById('files').files.length;
 
@@ -217,6 +219,8 @@
             }
 
             form_data.append("item_id", item_id);
+            form_data.append("title_ar", title_ar);
+            form_data.append("title_en", title_en);
 
             $.ajax({
                 url: "{{route('admin:purchase.receipts.upload_library')}}",
@@ -243,6 +247,8 @@
                     $("#files_area").prepend(data.view);
 
                     $("#files").val('');
+                    $("#library_title_ar").val('');
+                    $("#library_title_en").val('');
 
                     $("#no_files").remove();
 

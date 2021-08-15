@@ -125,15 +125,4 @@ trait LibraryServices
         return $fileInLibrary;
     }
 
-    public function createConcessionLibrary ($concession_id, $file_name, $extension, $name) {
-
-        $fileInLibrary = ConcessionLibrary::create([
-            'concession_id' => $concession_id,
-            'file_name' => $file_name,
-            'extension' => $extension,
-            'name' => $name,
-        ]);
-
-        return $fileInLibrary;
-    }
 }

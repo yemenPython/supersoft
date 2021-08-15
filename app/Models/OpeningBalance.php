@@ -19,6 +19,7 @@ class OpeningBalance extends Model
         'total_money',
         'purchase_invoice_id',
         'user_id',
+        'library_path'
     ];
 
     protected $table = 'opening_balances';
@@ -73,6 +74,11 @@ class OpeningBalance extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    function files()
+    {
+        return $this->hasMany(OpeningBalanceLibrary::class, 'opening_balance_id');
     }
 
     /**

@@ -119,7 +119,7 @@
                                                 <span>{{$saleQuotation->number}}</span>
                                             </td>
                                             <td>
-                                                <span>{{optional($saleQuotation->customer)->name}}</span>
+                                                <span>{{optional($saleQuotation->salesable)->name}}</span>
                                             </td>
                                         </tr>
 
@@ -360,13 +360,20 @@
                 selected.push($(this).attr('value'));
             });
 
+            if ($('#supplier_radio').is(':checked')) {
+                type_for = 'supplier';
+
+            }else {
+                type_for = 'customer';
+            }
+
             $.ajax({
 
                 type: 'post',
 
                 url: '{{route('admin:sale.supply.orders.add.sale.quotations')}}',
 
-                data: {_token: CSRF_TOKEN, sale_quotations: selected},
+                data: {_token: CSRF_TOKEN, sale_quotations: selected, type_for:type_for},
 
                 success: function (data) {
 
@@ -379,6 +386,12 @@
                     $('.js-example-basic-single').select2();
 
                     executeAllItems();
+
+                    if (data.type_for == 'customer') {
+                        $("#customer_id").val(data.customerId).change();
+                    }else {
+                        $("#supplier_id").val(data.customerId).change();
+                    }
                 },
 
                 error: function (jqXhr, json, errorThrown) {

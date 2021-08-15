@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\PurchaseInvoice;
+use App\Models\PurchaseInvoiceLibrary;
 use App\Services\LibraryServices;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class PurchaseInvoiceLibraryController extends Controller
 {
@@ -15,7 +19,9 @@ class PurchaseInvoiceLibraryController extends Controller
     {
         $validator = Validator::make($request->all(), [
 
-            'item_id' => 'required|integer|exists:purchase_quotations,id',
+            'title_ar' => 'required|string|max:100',
+            'title_en' => 'nullable|string|max:100',
+            'item_id' => 'required|integer|exists:purchase_invoices,id',
             'files' => 'required',
             'files.*' => 'required|mimes:jpeg,jpg,png,gif,pdf,xlsx,xlsm,xls,xls,docx,docm,dotx,txt|required|max:6000',
         ]);
@@ -26,11 +32,11 @@ class PurchaseInvoiceLibraryController extends Controller
 
         try {
 
-            $purchaseQuotation = PurchaseQuotation::find($request['item_id']);
+            $purchaseInvoice = PurchaseInvoice::find($request['item_id']);
 
-            $library_path = $this->libraryPath($purchaseQuotation, 'purchase_quotations');
+            $library_path = $this->libraryPath($purchaseInvoice, 'purchase_invoice');
 
-            $director = 'purchase_quotations_library/' . $library_path;
+            $director = 'purchase_invoice_library/' . $library_path;
 
             $files = $request['files'];
 
@@ -38,14 +44,21 @@ class PurchaseInvoiceLibraryController extends Controller
 
                 $fileData = $this->uploadFiles($file, $director);
 
-                $fileName = $fileData['file_name'];
-                $extension = Str::lower($fileData['extension']);
-                $fileOriginalName = $fileData['name'];
+                $data = [
+                    'file_name' => $fileData['file_name'],
+                    'extension' => Str::lower($fileData['extension']),
+                    'name' => $fileData['name'],
+                    'purchase_invoice_id' => $purchaseInvoice->id,
+                    'title_ar'=> $request['title_ar'],
+                    'title_en'=> $request['title_en'] ?? $request['title_ar'],
+                ];
 
-                $files[$index] = $this->createQuotationLibrary($purchaseQuotation->id, $fileName, $extension, $fileOriginalName);
+                $files[$index] = PurchaseInvoiceLibrary::create($data);
             }
 
-            $view = view('admin.purchase_quotations.library', compact('files', 'library_path'))->render();
+            $mainPath = 'storage/purchase_invoice_library/' . $library_path. '/';
+
+            $view = view('admin.partial.upload_library.files', compact('files', 'mainPath'))->render();
 
         } catch (\Exception $e) {
             return response()->json(__('words.back-customer'), 400);
@@ -56,9 +69,8 @@ class PurchaseInvoiceLibraryController extends Controller
 
     public function getFiles(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
-            'id' => 'required|integer|exists:purchase_quotations,id',
+            'id' => 'required|integer|exists:purchase_invoices,id',
         ]);
 
         if ($validator->fails()) {
@@ -67,19 +79,22 @@ class PurchaseInvoiceLibraryController extends Controller
 
         try {
 
-            $purchaseQuotation = PurchaseQuotation::find($request['id']);
+            $purchaseInvoice = PurchaseInvoice::find($request['id']);
 
-            if (!$purchaseQuotation) {
-                return response('purchase  quotation not valid', 400);
+            if (!$purchaseInvoice) {
+                return response('Sales invoice not valid', 400);
             }
 
-            $library_path = $purchaseQuotation->library_path;
+            $library_path = $purchaseInvoice->library_path;
 
-            $files = $purchaseQuotation->files;
+            $files = $purchaseInvoice->files;
 
-            $view = view('admin.purchase_quotations.library', compact('files', 'library_path'))->render();
+            $mainPath = 'storage/purchase_invoice_library/' . $library_path. '/';
+
+            $view = view('admin.partial.upload_library.files', compact('files', 'mainPath'))->render();
 
         } catch (\Exception $e) {
+
             return response('sorry, please try later', 400);
         }
 
@@ -88,9 +103,8 @@ class PurchaseInvoiceLibraryController extends Controller
 
     public function destroyFile(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
-            'id' => 'required|integer|exists:purchase_quotation_libraries,id',
+            'id' => 'required|integer|exists:purchase_invoice_libraries,id',
         ]);
 
         if ($validator->fails()) {
@@ -99,11 +113,11 @@ class PurchaseInvoiceLibraryController extends Controller
 
         try {
 
-            $file = PurchaseQuotationLibrary::find($request['id']);
+            $file = PurchaseInvoiceLibrary::find($request['id']);
 
-            $purchaseQuotation = $file->purchaseQuotation;
+            $purchaseInvoice = $file->purchaseInvoice;
 
-            $filePath = storage_path('app/public/purchase_quotations_library/' . $purchaseQuotation->library_path . '/' . $file->file_name);
+            $filePath = storage_path('app/public/purchase_invoice_library/' . $purchaseInvoice->library_path . '/' . $file->file_name);
 
             if (File::exists($filePath)) {
                 File::delete($filePath);
@@ -117,17 +131,5 @@ class PurchaseInvoiceLibraryController extends Controller
         }
 
         return response(['id' => $request['id']], 200);
-    }
-
-    public function createQuotationLibrary($quotationId, $file_name, $extension, $name)
-    {
-        $fileInLibrary = PurchaseQuotationLibrary::create([
-            'purchase_quotation_id' => $quotationId,
-            'file_name' => $file_name,
-            'extension' => $extension,
-            'name' => $name,
-        ]);
-
-        return $fileInLibrary;
     }
 }

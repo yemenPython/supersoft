@@ -12,7 +12,7 @@ class Settlement extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['branch_id', 'user_id', 'number', 'date', 'time', 'total', 'description', 'type'];
+    protected $fillable = ['branch_id', 'user_id', 'number', 'date', 'time', 'total', 'description', 'type', 'library_path'];
 
     protected $table = 'settlements';
 
@@ -62,6 +62,11 @@ class Settlement extends Model
     public function concession()
     {
         return $this->morphOne(Concession::class, 'concessionable');
+    }
+
+    function files()
+    {
+        return $this->hasMany(SettlementLibrary::class, 'settlement_id');
     }
 
     /**

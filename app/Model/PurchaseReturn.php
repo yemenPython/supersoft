@@ -9,6 +9,7 @@ use App\Models\Locker;
 use App\Models\Part;
 use App\Models\PurchaseInvoice;
 use App\Models\PurchaseReceipt;
+use App\Models\PurchaseReturnLibrary;
 use App\Models\RevenueReceipt;
 use App\Models\Supplier;
 use App\Models\SupplyOrder;
@@ -48,7 +49,8 @@ class PurchaseReturn extends Model
         'sub_total',
         'status',
         'additional_payments',
-        'supplier_id'
+        'supplier_id',
+        'library_path'
     ];
 
 
@@ -229,6 +231,11 @@ class PurchaseReturn extends Model
     public function terms()
     {
         return $this->belongsToMany(SupplyTerm::class, 'purchase_return_supply_terms', 'purchase_return_id', 'supply_term_id');
+    }
+
+    function files()
+    {
+        return $this->hasMany(PurchaseReturnLibrary::class, 'purchase_return_id');
     }
 
     /**

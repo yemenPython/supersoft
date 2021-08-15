@@ -80,6 +80,11 @@
                     <i class="fa fa-check-circle"></i> {{__('Terms')}}
                 </a>
             </li>
+
+            <li>
+                @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])
+            </li>
+
         </ul>
     </div>
 @endif

@@ -15,7 +15,7 @@ class SalesInvoice extends Model
 
     protected $fillable = ['number', 'branch_id', 'created_by', 'date', 'time', 'type', 'discount_type', 'discount', 'tax',
         'sub_total', 'total_after_discount', 'total', 'salesable_id', 'salesable_type', 'customer_discount_type',
-        'type_for', 'additional_payments', 'status', 'invoice_type', 'customer_discount_active', 'customer_discount'];
+        'type_for', 'additional_payments', 'status', 'invoice_type', 'customer_discount_active', 'customer_discount', 'library_path'];
 
     protected $table = 'sales_invoices';
 
@@ -243,5 +243,10 @@ class SalesInvoice extends Model
     {
         return $this->belongsToMany(SaleSupplyOrder::class, 'sales_invoices_sale_supply_orders',
             'sales_invoice_id', 'sale_supply_order_id');
+    }
+
+    function files()
+    {
+        return $this->hasMany(SalesInvoiceLibrary::class, 'sales_invoice_id');
     }
 }

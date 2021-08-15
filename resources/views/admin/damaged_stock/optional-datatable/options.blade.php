@@ -82,6 +82,10 @@
                 </a>
             </li>
 
+            <li>
+                @include('admin.partial.upload_library.btn_upload', ['id'=> $damagedStock->id])
+            </li>
+
         </ul>
     </div>
 @endif

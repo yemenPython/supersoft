@@ -36,3 +36,9 @@ Route::post('opening-balance/deleteSelected' ,'OpeningBalanceController@deleteSe
 //AJAX
 Route::post('opening-balance/select-part', 'OpeningBalanceController@selectPartRaw')->name('opening-balance.select.part');
 Route::post('opening-balance/price-segments', 'OpeningBalanceController@priceSegments')->name('opening-balance.price.segments');
+
+
+// library
+Route::post('opening-balance/library/get-files', 'OpeningBalanceLibraryController@getFiles')->name('opening.balance.library.get.files');
+Route::post('opening-balance/upload_library', 'OpeningBalanceLibraryController@uploadLibrary')->name('opening.balance.upload_library');
+Route::post('opening-balance/library/file-delete', 'OpeningBalanceLibraryController@destroyFile')->name('opening.balance.library.file.delete');

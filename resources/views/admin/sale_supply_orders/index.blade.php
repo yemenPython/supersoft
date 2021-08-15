@@ -1,7 +1,9 @@
 @extends('admin.layouts.app')
+
 @section('title')
     <title>{{ __('Sale Supply Orders') }} </title>
 @endsection
+
 @section('content')
     <div class="row small-spacing">
 
@@ -101,13 +103,17 @@
 @endsection
 
 @section('modals')
+
     @include('admin.partial.print_modal', ['title'=> __('Sale Supply Orders')])
 
     @include('admin.sale_supply_orders.terms.supply_terms', ['items' => $sale_supply_orders->get()])
 
+    @include('admin.partial.upload_library.form', ['url'=> route('admin:sale.supply.upload_library')])
+
 @endsection
 
 @section('js-validation')
+
     <script type="application/javascript">
 
         function printDownPayment() {
@@ -129,6 +135,26 @@
             });
         }
 
+        function getItemValue(id) {
+
+            $('#purchase_quotation_id').val(id);
+        }
+
+        server_side_datatable('#datatable-with-btns');
+
+        function filterFunction($this) {
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout(function () {
+                $("#loaderSearch").hide();
+            }, 1000)
+        }
+
+
+
+
         function getLibraryFiles(id) {
 
             $("#library_item_id").val(id);
@@ -138,7 +164,7 @@
             $.ajax({
 
                 type: 'post',
-                url: '{{route('admin:supply.orders.library.get.files')}}',
+                url: '{{route('admin:sale.supply.library.get.files')}}',
                 data: {
                     _token: CSRF_TOKEN,
                     id: id,
@@ -176,7 +202,7 @@
                     $.ajax({
 
                         type: 'post',
-                        url: '{{route('admin:supply.orders.library.file.delete')}}',
+                        url: '{{route('admin:sale.supply.library.file.delete')}}',
                         data: {
                             _token: CSRF_TOKEN,
                             id: id,
@@ -204,6 +230,8 @@
             var form_data = new FormData();
 
             var item_id = $("#library_item_id").val();
+            var title_ar = $("#library_title_ar").val();
+            var title_en = $("#library_title_en").val();
 
             var totalfiles = document.getElementById('files').files.length;
 
@@ -212,9 +240,11 @@
             }
 
             form_data.append("item_id", item_id);
+            form_data.append("title_ar", title_ar);
+            form_data.append("title_en", title_en);
 
             $.ajax({
-                url: "{{route('admin:supply.orders.upload_library')}}",
+                url: "{{route('admin:sale.supply.upload_library')}}",
                 type: "post",
 
                 headers: {
@@ -238,6 +268,8 @@
                     $("#files_area").prepend(data.view);
 
                     $("#files").val('');
+                    $("#library_title_ar").val('');
+                    $("#library_title_en").val('');
 
                     $("#no_files").remove();
 
@@ -251,22 +283,6 @@
             });
         }
 
-        function getItemValue(id) {
-
-            $('#purchase_quotation_id').val(id);
-        }
-
-        server_side_datatable('#datatable-with-btns');
-
-        function filterFunction($this) {
-            $("#loaderSearch").show();
-            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
-            $datatable.ajax.url($url).load();
-            $(".js__card_minus").trigger("click");
-            setTimeout(function () {
-                $("#loaderSearch").hide();
-            }, 1000)
-        }
 
     </script>
 @endsection

@@ -21,6 +21,8 @@ class PurchaseReceiptLibraryController extends Controller
     {
         $validator = Validator::make($request->all(), [
 
+            'title_ar' => 'required|string|max:100',
+            'title_en' => 'nullable|string|max:100',
             'item_id' => 'required|integer|exists:purchase_receipts,id',
             'files' => 'required',
             'files.*' => 'required|mimes:jpeg,jpg,png,gif,pdf,xlsx,xlsm,xls,xls,docx,docm,dotx,txt|required|max:6000',
@@ -44,14 +46,21 @@ class PurchaseReceiptLibraryController extends Controller
 
                 $fileData = $this->uploadFiles($file, $director);
 
-                $fileName = $fileData['file_name'];
-                $extension = Str::lower($fileData['extension']);
-                $fileOriginalName = $fileData['name'];
+                $data = [
+                    'file_name' => $fileData['file_name'],
+                    'extension' => Str::lower($fileData['extension']),
+                    'name' => $fileData['name'],
+                    'purchase_receipt_id' => $purchaseReceipt->id,
+                    'title_ar'=> $request['title_ar'],
+                    'title_en'=> $request['title_en'] ?? $request['title_ar'],
+                ];
 
-                $files[$index] = $this->createPurchaseReceiptLibrary($purchaseReceipt->id, $fileName, $extension, $fileOriginalName);
+                $files[$index] = PurchaseReceiptLibrary::create($data);
             }
 
-            $view = view('admin.purchase_receipts.library', compact('files', 'library_path'))->render();
+            $mainPath = 'storage/purchase_receipts_library/' . $library_path. '/';
+
+            $view = view('admin.partial.upload_library.files', compact('files', 'mainPath'))->render();
 
         } catch (\Exception $e) {
             return response()->json(__('words.back-customer'), 400);
@@ -83,7 +92,9 @@ class PurchaseReceiptLibraryController extends Controller
 
             $files = $purchaseReceipt->files;
 
-            $view = view('admin.purchase_receipts.library', compact('files', 'library_path'))->render();
+            $mainPath = 'storage/purchase_receipts_library/' . $library_path. '/';
+
+            $view = view('admin.partial.upload_library.files', compact('files', 'mainPath'))->render();
 
         } catch (\Exception $e) {
             return response('sorry, please try later', 400);
@@ -122,17 +133,5 @@ class PurchaseReceiptLibraryController extends Controller
         }
 
         return response(['id' => $request['id']], 200);
-    }
-
-    public function createPurchaseReceiptLibrary($receiptId, $file_name, $extension, $name)
-    {
-        $fileInLibrary = PurchaseReceiptLibrary::create([
-            'purchase_receipt_id' => $receiptId,
-            'file_name' => $file_name,
-            'extension' => $extension,
-            'name' => $name,
-        ]);
-
-        return $fileInLibrary;
     }
 }
