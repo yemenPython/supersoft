@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Create Supplier') }} </title>
+    <title>{{ __('Create Commercial Register') }} </title>
 @endsection
 
 @section('content')

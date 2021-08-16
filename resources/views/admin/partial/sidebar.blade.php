@@ -804,6 +804,7 @@ url('admin/concessions/archive'),
                 <li class="{{setActivationClass([
 route('admin:egyptian_federation.index'),
 route('admin:commercial_register.index'),
+route('admin:tax_card.index'),
                      ])}}">
                     <a class="parent-item js__control" href="#">
                         <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
@@ -822,6 +823,10 @@ route('admin:commercial_register.index'),
                         <li class="{{setActivationClass(route('admin:commercial_register.index'))}}">
                             <a href="{{route('admin:commercial_register.index')}}">
                                 {{__('Commercial Register')}}
+                            </a>
+                        </li><li class="{{setActivationClass(route('admin:tax_card.index'))}}">
+                            <a href="{{route('admin:tax_card.index')}}">
+                                {{__('Tax Card')}}
                             </a>
                         </li>
                     </ul>

@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Suppliers') }} </title>
+    <title>{{ __('Commercial Register') }} </title>
 @endsection
 
 @section('style')
@@ -301,7 +301,7 @@
 @section('js')
 
     <script type="application/javascript">
-
+        invoke_datatable($('#currencies'))
         $("#selectAll").click(function () {
 
             $(".to_checked").prop("checked", $(this).prop("checked"));

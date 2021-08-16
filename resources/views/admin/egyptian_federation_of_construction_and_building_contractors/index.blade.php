@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Suppliers') }} </title>
+    <title>{{ __('Egyptian Federation') }} </title>
 @endsection
 
 @section('style')
@@ -111,7 +111,7 @@
                         @php
                             $view_path = 'admin.egyptian_federation_of_construction_and_building_contractors.options-datatable';
                         @endphp
-                        @include($view_path . '.option-row')
+{{--                        @include($view_path . '.option-row')--}}
                         <div class="clearfix"></div>
                         <table id="currencies" class="table table-bordered" style="width:100%;margin-top:15px">
                             <thead>
@@ -294,7 +294,7 @@
 @section('js')
 
     <script type="application/javascript">
-
+        invoke_datatable($('#currencies'))
         $("#selectAll").click(function () {
 
             $(".to_checked").prop("checked", $(this).prop("checked"));
