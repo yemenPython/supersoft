@@ -108,10 +108,6 @@
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
-                        @php
-                            $view_path = 'admin.commercial_register.options-datatable';
-                        @endphp
-                        @include($view_path . '.option-row')
                         <div class="clearfix"></div>
                         <table id="currencies" class="table table-bordered" style="width:100%;margin-top:15px">
                             <thead>
@@ -231,10 +227,6 @@
         </div>
     </div>
 
-@endsection
-
-@section('accounting-module-modal-area')
-    @include($view_path . '.column-visible')
 @endsection
 
 @section('modals')

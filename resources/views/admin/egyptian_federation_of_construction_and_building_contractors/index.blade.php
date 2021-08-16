@@ -108,10 +108,6 @@
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
-                        @php
-                            $view_path = 'admin.egyptian_federation_of_construction_and_building_contractors.options-datatable';
-                        @endphp
-{{--                        @include($view_path . '.option-row')--}}
                         <div class="clearfix"></div>
                         <table id="currencies" class="table table-bordered" style="width:100%;margin-top:15px">
                             <thead>
@@ -227,7 +223,6 @@
 @endsection
 
 @section('accounting-module-modal-area')
-    @include($view_path . '.column-visible')
 @endsection
 
 @section('modals')
