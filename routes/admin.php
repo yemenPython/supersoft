@@ -88,7 +88,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [
         include 'purchase_request.php';
         include 'store_employee_history.php';
         include 'egyptian_federation_of_construction_and_building_contractors.php';
-
+        include 'commercial_register.php';
 
 //      users
         Route::get('users/archive', 'UsersController@index')->name('users.archive');

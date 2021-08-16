@@ -82,7 +82,6 @@
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('Company name')}}</label>
                                         <div class="input-group">
-{{--                                            {{dd($branch->company_name)}}--}}
                                             <span class="input-group-addon"><li class="fa fa-user"></li></span>
                                             <input type="text" name="name" class="form-control" id="inputNameEn"
                                                    disabled
@@ -130,7 +129,7 @@
                                         </div>
 
                                     </div>
-                                    {{input_error($errors,'type')}}
+                                    {{input_error($errors,'company_type')}}
                                 </div>
 
                                 <div class="col-md-4">

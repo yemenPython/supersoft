@@ -128,7 +128,7 @@
                                             </div>
 
                                         </div>
-                                        {{input_error($errors,'type')}}
+                                        {{input_error($errors,'company_type')}}
                                     </div>
 
                                     <div class="col-md-4">
