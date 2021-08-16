@@ -10,7 +10,8 @@ class StoreTransfer extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'transfer_number' ,'transfer_date' ,'store_from_id' ,'store_to_id' ,'branch_id','total','time','user_id', 'description'
+        'transfer_number' ,'transfer_date' ,'store_from_id' ,'store_to_id' ,'branch_id','total','time','user_id', 'description',
+        'library_path'
     ];
 
     /**
@@ -76,5 +77,10 @@ class StoreTransfer extends Model
             unset(self::$dataTableColumns['branch_id']);
         }
         return self::$dataTableColumns;
+    }
+
+    function files()
+    {
+        return $this->hasMany(StoreTransferLibrary::class, 'store_transfer_id');
     }
 }

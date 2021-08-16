@@ -65,11 +65,13 @@ class StoreTransferCont extends Controller
         $partId = $request->has('partId') ? $request->partId : NULL;
         $key = $request->has('key') ? $request->key : NULL;
         $rows = $request->has('rows') ? $request->rows : 10;
+
         $stores = Store::select('id', 'name_ar', 'name_en')->get();
         $parts = Part::select('id', 'name_' . $this->lang)->get();
         $numbers = StoreTransfer::select('id', 'transfer_number')->get();
 
-        $collection = StoreTransfer::with(['store_from', 'store_to'])->latest()
+        $collection = StoreTransfer::query()
+
             ->when($store_from, function ($q) use ($store_from) {
                 $q->where('store_from_id', $store_from);
             })
@@ -127,6 +129,7 @@ class StoreTransferCont extends Controller
                         $concession->where('status', $concession_status);
                     });
                 }
+
             })->latest();
 
         if ($request->has('part_id') && $request['part_id'] != '') {
@@ -136,7 +139,9 @@ class StoreTransferCont extends Controller
         }
 
         if ($request->isDataTable) {
+
             return $this->dataTableColumns($collection);
+
         } else {
             return view(self::view_path . 'index', [
                 'collection' => $collection,

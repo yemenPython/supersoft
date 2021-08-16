@@ -147,6 +147,7 @@ route('admin:sale-quotations.index'),
 route('admin:sale-supply-orders.index'),
 route('admin:sales.invoices.index'),
 route('admin:maintenance-cards.index'),
+route('admin:return-sale-receipts.index'),
                      ])}}">
                     <a class="parent-item js__control" href="#"><i style="color:#C3333C !important"
                                                                      class="menu-icon fa fa-building-o"></i><span>{{__('Items management')}}</span><span
@@ -249,6 +250,12 @@ route('admin:maintenance-cards.index'),
                         <li class="{{setActivationClass(route('admin:sales.invoices.index'))}}">
                             <a href="{{route('admin:sales.invoices.index')}}">
                                 {{__('Sale Invoices')}}
+                            </a>
+                        </li>
+
+                        <li class="{{setActivationClass(route('admin:return-sale-receipts.index'))}}">
+                            <a href="{{route('admin:return-sale-receipts.index')}}">
+                                {{__('Return Sales Receipts')}}
                             </a>
                         </li>
 

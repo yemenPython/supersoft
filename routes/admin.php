@@ -59,6 +59,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [
         include 'sale_supply_order.php';
         include 'library.php';
         include 'maintenance_card.php';
+        include 'returned_sale_receipt.php';
 
         include 'notifications.php';
         include 'notification_setting.php';

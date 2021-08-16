@@ -650,6 +650,7 @@ class SalesInvoicesController extends Controller
         });
     }
 
+
     public function addSaleQuotations(Request $request)
     {
         $rules = [
