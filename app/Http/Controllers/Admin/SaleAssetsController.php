@@ -118,11 +118,6 @@ class SaleAssetsController extends Controller
                                         <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="ico fa fa-bars"></i> ' . __( "Options" ) . '<span class="caret"></span></button>
                                           <ul class="dropdown-menu dropdown-wg">
-                                           <li> <a style="cursor:pointer" class="btn btn-print-wg text-white  "
-           data-toggle="modal" onclick="getPrintData(' . $saleAsset->id . ', ' . true. ')"
-           data-target="#boostrapModalShow" title="' . __( 'Show' ) . '">
-            <i class="fa fa-eye"></i> ' . __( 'Show' ) . '</a>
-        </li>
 
                                             <li> <a class="btn btn-wg-edit hvr-radial-out" href="' . route( "admin:sale-assets.edit", $saleAsset->id ) . '">
     <i class="fa fa-edit"></i>  ' . __( 'Edit' ) . '
