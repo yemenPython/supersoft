@@ -39,7 +39,7 @@ class CreateRequest extends FormRequest
         }
 
         if (request()['type'] == 'external') {
-            $rules['supplier_id'] = 'required|integer|exists:suppliers,id';
+            $rules['maintenance_center_id'] = 'required|integer|exists:maintenance_centers,id';
         }
 
         return $rules;

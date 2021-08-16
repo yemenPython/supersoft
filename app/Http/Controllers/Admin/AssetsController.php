@@ -537,7 +537,8 @@ class AssetsController extends Controller
 
     public function showAssetDetails(Asset $asset)
     {
-        $view = view('admin.global_modals.show_asset_response', compact('asset'))->render();
+        $assetType = AssetType::where( "id", $asset->asset_type_id )->first();
+        $view = view('admin.global_modals.show_asset_response', compact('asset', 'assetType'))->render();
        return response()->json([
            'data' => $view
        ]);

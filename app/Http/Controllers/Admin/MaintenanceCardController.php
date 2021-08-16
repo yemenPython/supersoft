@@ -7,6 +7,7 @@ use App\Models\Asset;
 use App\Models\AssetGroup;
 use App\Models\Branch;
 use App\Models\MaintenanceCard;
+use App\Models\MaintenanceCenter;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -49,6 +50,8 @@ class MaintenanceCardController extends Controller
             ->where('branch_id', $branch_id)
             ->select('id', 'name_' . $this->lang, 'group_id', 'sub_group_id')
             ->get();
+        $data['centers'] = MaintenanceCenter::where('status', 1)
+            ->where('branch_id', $branch_id)->get();
 
         return view('admin.maintenance_card.create', compact('data'));
     }
@@ -92,6 +95,8 @@ class MaintenanceCardController extends Controller
             ->where('branch_id', $branch_id)
             ->select('id', 'name_' . $this->lang, 'group_id', 'sub_group_id')
             ->get();
+        $data['centers'] = MaintenanceCenter::where('status', 1)
+            ->where('branch_id', $branch_id)->get();
 
         return view('admin.maintenance_card.edit', compact('data', 'maintenanceCard'));
     }

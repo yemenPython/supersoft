@@ -6,7 +6,7 @@
             <div style="border: 1px solid #e4e7ea; text-align: center; padding: 10px; margin-bottom: 10px">
 
                 <h6 onclick="removeFile('{{$file->id}}')" class="fa fa-times" style="float: left;"></h6>
-
+                <h4>{{ \Illuminate\Support\Str::limit($file->title, 17)}}</h4>
                 <a href="{{asset('storage/egyptian_federation_library/' . $library_path. '/' . $file->file_name)}}" target="_blank">
                     @if(in_array( $file->extension, ['gif','jpeg','jpg','png']))
 

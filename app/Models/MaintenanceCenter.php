@@ -42,8 +42,6 @@ class MaintenanceCenter extends Model
         'DT_RowIndex' => 'DT_RowIndex',
         'name' => 'name',
         'branch' => 'branch',
-        'country' => 'country',
-        'city' => 'city',
         'phone' => 'phone',
         'email' => 'email',
         'commercial_number' => 'commercial_number',

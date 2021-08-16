@@ -70,6 +70,16 @@ class MaintenanceCenterController extends Controller
         return redirect()->route('admin:maintenance_centers.index')->with(['message' => __('words.maintenance_centers_updated_successfully'), 'alert-type' => 'success']);
     }
 
+    public function show(MaintenanceCenter $maintenanceCenter)
+    {
+        $view = view('admin.maintenance_centers.show.show_response', [
+            'item' => $maintenanceCenter
+        ])->render();
+        return response()->json([
+            'data' => $view
+        ]);
+    }
+
     public function destroy(MaintenanceCenter $maintenanceCenter): RedirectResponse
     {
         $maintenanceCenter->delete();

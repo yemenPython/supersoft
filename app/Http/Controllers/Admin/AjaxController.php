@@ -213,6 +213,9 @@ class AjaxController extends Controller
                 case 'AssetMaintenance':
                     $data = $this->getAssetMaintenance($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
                     break;
+                case 'MaintenanceCenter':
+                    $data = $this->getMaintenanceCenters($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
                 default:
                     break;
             }

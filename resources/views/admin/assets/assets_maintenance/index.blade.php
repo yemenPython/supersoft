@@ -52,13 +52,17 @@
 
                         <div class="form-group col-md-6">
                             <label> {{ __('Maintenance Detection') }} <span class="text-danger">*</span></label>
-                            <select class="form-control js-example-basic-single" name="maintenance_detection_id" id="maintenance_detection_id">
-                                <option value="">{{__('Select')}}</option>
-                                @foreach($maintenanceDetections as $maintenance)
-                                    <option value="{{ $maintenance->id }}">{{ $maintenance->name }}</option>
-                                @endforeach
-                            </select>
+                            <div class="input-group">
+                                <span class="input-group-addon fa fa-file"></span>
+                                <select class="form-control js-example-basic-single" name="maintenance_detection_id" id="maintenance_detection_id">
+                                    <option value="">{{__('Select')}}</option>
+                                    @foreach($maintenanceDetections as $maintenance)
+                                        <option value="{{ $maintenance->id }}">{{ $maintenance->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
+
 
                         <div class="form-group col-md-6">
                             <label for="inputPhone" class="control-label">{{__('Maintenance Type')}} <span
@@ -147,7 +151,7 @@
                         </li>
                         <li class="list-inline-item">
                             @component('admin.buttons._confirm_delete_selected',[
-                                'route' => 'admin:assets.delete_selected',
+                                'route' => 'admin:assets_maintenance.delete-Selected',
                                 ])
                             @endcomponent
                         </li>
@@ -207,7 +211,11 @@
         $(document).ready(function () {
 
             $('#add-employee-modal').on('show.bs.modal', function (event) {
-                $('#maintenance_detection_type_id, #maintenance_detection_id, #maintenance_type').select2({
+                $('#maintenance_detection_type_id, #maintenance_type').select2({
+                    dropdownParent: $('#add-employee-modal')
+                });
+
+                $('#maintenance_detection_id').select2({
                     dropdownParent: $('#add-employee-modal')
                 });
                 var button = $(event.relatedTarget);

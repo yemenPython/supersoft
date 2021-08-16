@@ -223,6 +223,7 @@
                                 <th class="text-center column-card-number" scope="col">{!! __('Number') !!}</th>
                                 <th class="text-center column-name" scope="col">{!! __('Asset Name') !!}</th>
                                 <th class="text-center column-name" scope="col">{!! __('Type') !!}</th>
+                                <th class="text-center column-Maintenancecenters" scope="col">{!! __('Maintenance centers') !!}</th>
                                 <th class="text-center column-receive" scope="col">{!! __('Receive Status') !!}</th>
                                 <th class="text-center column-delivery" scope="col">{!! __('Delivery Status') !!}</th>
                                 <th class="text-center column-created-at" scope="col">{!! __('Created at') !!}</th>
@@ -238,6 +239,7 @@
                                 <th class="text-center column-card-number" scope="col">{!! __('Number') !!}</th>
                                 <th class="text-center column-name" scope="col">{!! __('Asset Name') !!}</th>
                                 <th class="text-center column-name" scope="col">{!! __('Type') !!}</th>
+                                <th class="text-center column-Maintenancecenters" scope="col">{!! __('Maintenance centers') !!}</th>
                                 <th class="text-center column-receive" scope="col">{!! __('Receive Status') !!}</th>
                                 <th class="text-center column-delivery" scope="col">{!! __('Delivery Status') !!}</th>
                                 <th class="text-center column-created-at" scope="col">{!! __('Created at') !!}</th>
@@ -253,6 +255,7 @@
                                     <td class="text-center column-card-number">{!! $card->number !!}</td>
                                     <td class="text-center column-name">{!! $card->asset ? $card->asset->name : '---'  !!}</td>
                                     <td>{{__($card->type)}}</td>
+                                    <td class="text-center column-name"> {{optional($card->maintenanceCenter)->name ?? '---'}}</td>
                                     <td class="text-center column-delivery">
                                         <div class="switch success">
                                             <input disabled type="checkbox"

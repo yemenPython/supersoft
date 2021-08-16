@@ -78,13 +78,15 @@ trait LibraryServices
         return $data;
     }
 
-    public function createEgyptianFederationLibrary($egyptian_federation_id, $file_name, $extension, $name)
+    public function createEgyptianFederationLibrary($egyptian_federation_id, $file_name, $extension, $name,$title_ar,$title_en)
     {
         $fileInLibrary = EgyptianFederationLibrary::create([
             'egyptian_federation_id' => $egyptian_federation_id,
             'file_name' => $file_name,
             'extension' => $extension,
-            'name'=> $name
+            'name'=> $name,
+            'title_ar'=> $title_ar,
+            'title_en'=> $title_en,
         ]);
 
         return $fileInLibrary;
