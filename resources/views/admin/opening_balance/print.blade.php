@@ -1,7 +1,7 @@
 
 <div id="concession_to_print" >
     <div class="border-container" style="">
-        @foreach($storeTransfer->items()->get()->chunk(15) as $one)
+        @foreach($openingBalance->items()->get()->chunk(15) as $one)
 
 
             <div class="print-header-wg">
@@ -56,12 +56,12 @@
                                         <table class="table table-time-user">
                                             <tr>
                                                 <th style="font-weight: normal !important;">{{__('Time & Date')}}</th>
-                                                <td style="font-weight: normal !important;">{{$storeTransfer->time}}
-                                                    - {{$storeTransfer->transfer_date}}</td>
+                                                <td style="font-weight: normal !important;">{{$openingBalance->time}}
+                                                    - {{$openingBalance->transfer_date}}</td>
                                             </tr>
                                             <tr>
                                                 <th style="font-weight: normal !important;">{{__('User Name')}}</th>
-                                                <td style="font-weight: normal !important;">{{optional($storeTransfer->user)->name}}</td>
+                                                <td style="font-weight: normal !important;">{{optional($openingBalance->user)->name}}</td>
                                             </tr>
                                         </table>
                                     </div>
@@ -79,7 +79,7 @@
                         <tbody>
                         <tr>
                             <th style="width: 51% !important;">{{ __('opening-balance.serial-number') }}</th>
-                            <td> {{old('number', isset($storeTransfer)? $storeTransfer->number :'')}} </td>
+                            <td> {{old('number', isset($openingBalance)? $openingBalance->number :'')}} </td>
                         </tr>
 
                         </tbody>
@@ -90,10 +90,10 @@
 
                         <tr>
                             <th>{{ __('words.store-from') }}</th>
-                            <td> {{isset($storeTransfer) ? optional($storeTransfer->store_from)->name : '--'}} </td>
+                            <td> {{isset($openingBalance) ? optional($openingBalance->store_from)->name : '--'}} </td>
 
                             <th>{{ __('words.store-to') }}</th>
-                            <td> {{isset($storeTransfer) ? optional($storeTransfer->store_to)->name : '--'}} </td>
+                            <td> {{isset($openingBalance) ? optional($openingBalance->store_to)->name : '--'}} </td>
                         </tr>
 
                         </tbody>
@@ -123,7 +123,7 @@
 
                         </thead>
                         <tbody>
-                        @if(isset($storeTransfer))
+                        @if(isset($openingBalance))
 
                             @foreach ($one as $index => $item)
                                 @php
@@ -191,7 +191,7 @@
                                     <h6>{{__('Quantity')}}</h6>
                                 </div>
                                 <div class="col-xs-6">
-                                    <h6>{{isset($storeTransfer) ? $storeTransfer->items->sum('quantity') : 0}}</h6>
+                                    <h6>{{isset($openingBalance) ? $openingBalance->items->sum('quantity') : 0}}</h6>
                                 </div>
                             </div>
 
@@ -203,7 +203,7 @@
                                     <h6>{{__('Final Total')}}</h6>
                                 </div>
                                 <div class="col-xs-6">
-                                    <h6>{{isset($storeTransfer) ? $storeTransfer->total : 0}}</h6>
+                                    <h6>{{isset($openingBalance) ? $openingBalance->total : 0}}</h6>
                                 </div>
                             </div>
 
@@ -217,7 +217,7 @@
                             <div class="row last-total" style="background-color:#ddd !important">
 
                                 <div class="col-xs-12">
-                                    <h6 data-id="data-totalInLetters" id="totalInLetters"> {{$storeTransfer->total}} </h6>
+                                    <h6 data-id="data-totalInLetters" id="totalInLetters"> {{$openingBalance->total}} </h6>
                                 </div>
                             </div>
 
@@ -230,7 +230,7 @@
                         <div class="col-xs-7">
                             <h5 class="title">{{__('Notes')}}</h5>
                             <p style="width: 80%;font-size:12px">
-                                {{old('description', isset($storeTransfer)? $storeTransfer->description :'')}}
+                                {{old('description', isset($openingBalance)? $openingBalance->description :'')}}
 
                             </p>
                         </div>

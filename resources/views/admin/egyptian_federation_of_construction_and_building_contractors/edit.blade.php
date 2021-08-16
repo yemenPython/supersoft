@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Edit Supplier') }} </title>
+    <title>{{ __('Edit Egyptian Federation') }} </title>
 @endsection
 
 @section('content')
@@ -128,7 +128,7 @@
                                             </div>
 
                                         </div>
-                                        {{input_error($errors,'type')}}
+                                        {{input_error($errors,'company_type')}}
                                     </div>
 
                                     <div class="col-md-4">

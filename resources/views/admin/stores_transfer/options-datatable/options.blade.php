@@ -89,6 +89,10 @@
                 @endcomponent
             </li>
 
+            <li>
+                @include('admin.partial.upload_library.btn_upload', ['id'=> $storeTransfer->id])
+            </li>
+
         </ul>
     </div>
 @endif

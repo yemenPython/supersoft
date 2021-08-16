@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Create Egyptian Federation') }} </title>
+    <title>{{ __('Create Supplier') }} </title>
 @endsection
 
 @section('content')
@@ -10,7 +10,7 @@
         <nav>
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
-                <li class="breadcrumb-item"><a href="{{route('admin:egyptian_federation.index')}}"> {{__('Egyptian Federation')}}</a></li>
+                <li class="breadcrumb-item"><a href="{{route('admin:tax_card.index')}}"> {{__('Egyptian Federation')}}</a></li>
                 <li class="breadcrumb-item active"> {{__('Create Egyptian Federation')}}</li>
             </ol>
         </nav>
@@ -41,7 +41,7 @@
 
                 <div class="box-content">
 
-                    <form method="post" action="{{route('admin:egyptian_federation.store')}}" class="form"
+                    <form method="post" action="{{route('admin:tax_card.store')}}" class="form"
                           enctype="multipart/form-data">
                         @csrf
                         @method('post')
@@ -106,59 +106,46 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Membership No')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Company Activity')}}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="membership_no" class="form-control" id="membership_no"
-                                                   placeholder="{{__('Membership No')}}"
-                                                   value="{{old('membership_no', !empty($last_created)? $last_created->membership_no:'')}}">
+                                            <input type="text" name="activity" class="form-control" id="activity"
+                                                   placeholder="{{__('Company Activity')}}"
+                                                   value="{{old('activity', !empty($last_created)? $last_created->activity:'')}}">
                                         </div>
 
                                     </div>
-                                    {{input_error($errors,'membership_no')}}
+                                    {{input_error($errors,'activity')}}
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Company Type')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Registration number')}}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="company_type" class="form-control" id="membership_no"
-                                                   placeholder="{{__('Company Type')}}"
-                                                   value="{{old('type', !empty($last_created)? $last_created->company_type:'')}}">
+                                            <input type="text" name="registration_number" class="form-control" id="membership_no"
+                                                   placeholder="{{__('Registration number')}}"
+                                                   value="{{old('registration_number', !empty($last_created)? $last_created->registration_number:'')}}">
                                         </div>
 
                                     </div>
-                                    {{input_error($errors,'company_type')}}
+                                    {{input_error($errors,'registration_number')}}
                                 </div>
 
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Date of register in the union')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Registration Date')}}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="date_of_register" class="form-control datepicker" id="date_of_register"
-                                                   placeholder="{{__('Date of register in the union')}}"
-                                                   value="{{old('date_of_register', !empty($last_created)? $last_created->date_of_register:'')}}">
+                                            <input type="text" name="registration_date" class="form-control datepicker" id="registration_date"
+                                                   placeholder="{{__('Registration Date')}}"
+                                                   value="{{old('registration_date', !empty($last_created)? $last_created->registration_date:'')}}">
                                         </div>
 
                                     </div>
-                                    {{input_error($errors,'date_of_register')}}
+                                    {{input_error($errors,'registration_date')}}
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Subscription payment receipt')}}</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="payment_receipt" class="form-control" id="payment_receipt"
-                                                   placeholder="{{__('Subscription payment receipt')}}"
-                                                   value="{{old('payment_receipt', !empty($last_created)? $last_created->payment_receipt:'')}}">
-                                        </div>
-
-                                    </div>
-                                    {{input_error($errors,'payment_receipt')}}
-                                </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('End date')}}</label>
                                         <div class="input-group">
@@ -194,7 +181,7 @@
 
 @section('js-validation')
 
-    {!! JsValidator::formRequest('App\Http\Requests\Admin\EgyptianFederationofConstruction\EgyptianFederationofConstructionRequest', '.form'); !!}
+    {!! JsValidator::formRequest('App\Http\Requests\Admin\TaxCard\TaxCardRequest', '.form'); !!}
 
     @include('admin.partial.sweet_alert_messages')
 
@@ -203,7 +190,7 @@
 
         function changeBranch () {
             let branch_id = $('#branch_id').find(":selected").val();
-            window.location.href = "{{route('admin:egyptian_federation.create')}}" + "?branch_id=" + branch_id ;
+            window.location.href = "{{route('admin:tax_card.create')}}" + "?branch_id=" + branch_id ;
         }
 
     </script>

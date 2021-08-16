@@ -39,81 +39,37 @@
             </div>
 
             @if( $loop->first)
-{{--                <div class="middle-data-h-print">--}}
 
-{{--                    <div class="invoice-to print-padding-top">--}}
-{{--                        <div class="row">--}}
-{{--                            <div class="col-xs-12">--}}
-{{--                                <h5>{{__('Services Package Details')}}</h5>--}}
-{{--                            </div>--}}
-{{--                            <div class="col-xs-12" style="padding-right: 50px;">--}}
-{{--                                <div class="row">--}}
-{{--                                    <div class="col-xs-12">--}}
-{{--                                        <table class="table table-bordered">--}}
-{{--                                            <tbody>--}}
-{{--                                            <tr>--}}
-{{--                                                <th style="background:#CCC !important;color:black" scope="row">{{__('Services Number')}}</th>--}}
-{{--                                                <td>{{$servicePackage->services_number}}</td>--}}
-{{--                                            </tr>--}}
+            <div class="middle-data-h-print">
 
-{{--                                            <tr>--}}
-{{--                                                <th style="background:#CCC !important;color:black" scope="row">{{__('Service Package')}}</th>--}}
-{{--                                                <td>{{$servicePackage->name }}</td>--}}
-{{--                                            </tr>--}}
-{{--                                            <tr>--}}
-{{--                                                <th style="background:#CCC !important;color:black" scope="row">{{__('Hours')}}</th>--}}
-{{--                                                <td>{{$servicePackage->number_of_hours}}</td>--}}
-{{--                                            </tr>--}}
 
-{{--                                            </tbody>--}}
-{{--                                        </table>--}}
-{{--                                    </div>--}}
+</div>
 
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
+            <div class="col-xs-12 table-responsive">
 
-{{--                    </div>--}}
-{{--                </div>--}}
-
-                <div class="col-xs-12 table-responsive">
-                    <div class="col-xs-12">
-                        <h5>{{__('Services Package Details')}}</h5>
-                    </div>
-                    <table class="table table-bordered">
+                    <table class="table static-table-wg">
                         <tbody>
                         <tr>
-                            <th style="background:#CCC !important;color:black" scope="row">{{__('Discount Type')}}</th>
-                            <td>{{$servicePackage->discount_type === 'value' ? __('Value') : __('Percent') }}</td>
+                            <th style="width:20% !important">{{__('Package name')}}</th>
+                            <td> {{$servicePackage->name }} </td>
+                            <th style="width:20% !important">{{__('Services Number')}}</th>
+                            <td>{{$servicePackage->services_number}} </td>
                         </tr>
 
                         <tr>
-                            <th style="background:#CCC !important;color:black" scope="row">{{__('Discount Mount')}}</th>
-                            <td>{{$servicePackage->discount_value }}</td>
-                        </tr>
+                        <th style="width:20% !important">{{__('Hours')}}</th>
+                            <td> {{$servicePackage->number_of_hours}}</td>
+                            <th style="width:20% !important">{{__('Minutes')}}</th>
+                            <td>{{$servicePackage->number_of_min}} </td>
 
-
-                        <tr>
-                            <th style="background:#CCC !important;color:black" scope="row">{{__('Minutes')}}</th>
-                            <td>{{$servicePackage->number_of_min}}</td>
-                        </tr>
-                        <tr>
-                            <th style="background:#CCC !important;color:black" scope="row">{{__('Services Number')}}</th>
-                            <td>{{$servicePackage->services_number}}</td>
-                        </tr>
-
-                        <tr>
-                            <th style="background:#CCC !important;color:black" scope="row">{{__('Service Package')}}</th>
-                            <td>{{$servicePackage->name }}</td>
-                        </tr>
-                        <tr>
-                            <th style="background:#CCC !important;color:black" scope="row">{{__('Hours')}}</th>
-                            <td>{{$servicePackage->number_of_hours}}</td>
                         </tr>
 
                         </tbody>
                     </table>
+
                 </div>
+
+               
             @endif
 
             <div style="padding:0 20px;">
@@ -159,12 +115,12 @@
 
                     <div class="col-xs-12" style="padding:0 !important">
 
-                        <div class="col-xs-4 text-center" style="padding:5px !important">
+                        <div class="col-xs-6 text-center" style="padding:5px !important">
 
 
                             <div class="row last-total">
                                 <div class="col-xs-7">
-                                    <h6>{{__('Total Before Discount')}}</h6>
+                                    <h6>{{__('Total')}}</h6>
                                 </div>
                                 <div class="col-xs-5">
                                     <h6> {{isset($servicePackage) ? $servicePackage->total_before_discount : 0}} </h6>
@@ -173,25 +129,10 @@
 
                         </div>
 
-                        <div class="col-xs-4 text-center" style="padding:5px !important">
+                        <div class="col-xs-6 text-center" style="padding:5px !important">
 
 
-                            <div class="row last-total">
-                                <div class="col-xs-7">
-                                    <h6>{{__('total past consumtion')}}</h6>
-                                </div>
-                                <div class="col-xs-5">
-                                    <h6> {{$servicePackage->total_past_consumtion}} </h6>
-                                </div>
-                            </div>
-
-                        </div>
-
-
-                        <div class="col-xs-4 text-center" style="padding:5px !important">
-
-
-                            <div class="row last-total">
+                        <div class="row last-total">
                                 <div class="col-xs-7">
                                     <h6>{{__('Total After Discount')}}</h6>
                                 </div>
@@ -200,7 +141,40 @@
                                 </div>
                             </div>
 
+                            </div>
                         </div>
+
+
+                        <div class="col-xs-12" style="padding:0 !important">
+
+                        <div class="col-xs-6 text-center" style="padding:5px !important">
+
+
+                            <div class="row last-total">
+                                <div class="col-xs-7">
+                                    <h6>{{__('Discount Type')}}</h6>
+                                </div>
+                                <div class="col-xs-5">
+                                    <h6> {{$servicePackage->discount_type === 'value' ? __('Value') : __('Percent') }} </h6>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-xs-6 text-center" style="padding:5px !important">
+
+
+<div class="row last-total">
+    <div class="col-xs-7">
+        <h6>{{__('Discount Mount')}}</h6>
+    </div>
+    <div class="col-xs-5">
+        <h6> {{$servicePackage->discount_value }} </h6>
+    </div>
+</div>
+
+</div>
+
 
                     </div>
 

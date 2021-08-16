@@ -147,6 +147,7 @@ route('admin:sale-quotations.index'),
 route('admin:sale-supply-orders.index'),
 route('admin:sales.invoices.index'),
 route('admin:maintenance-cards.index'),
+route('admin:return-sale-receipts.index'),
                      ])}}">
                     <a class="parent-item js__control" href="#"><i style="color:#C3333C !important"
                                                                      class="menu-icon fa fa-building-o"></i><span>{{__('Items management')}}</span><span
@@ -249,6 +250,12 @@ route('admin:maintenance-cards.index'),
                         <li class="{{setActivationClass(route('admin:sales.invoices.index'))}}">
                             <a href="{{route('admin:sales.invoices.index')}}">
                                 {{__('Sale Invoices')}}
+                            </a>
+                        </li>
+
+                        <li class="{{setActivationClass(route('admin:return-sale-receipts.index'))}}">
+                            <a href="{{route('admin:return-sale-receipts.index')}}">
+                                {{__('Return Sales Receipts')}}
                             </a>
                         </li>
 
@@ -795,7 +802,9 @@ url('admin/concessions/archive'),
 
 
                 <li class="{{setActivationClass([
-route('admin:assetsType.index')
+route('admin:egyptian_federation.index'),
+route('admin:commercial_register.index'),
+route('admin:tax_card.index'),
                      ])}}">
                     <a class="parent-item js__control" href="#">
                         <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
@@ -809,6 +818,15 @@ route('admin:assetsType.index')
                         <li class="{{setActivationClass(route('admin:egyptian_federation.index'))}}">
                             <a href="{{route('admin:egyptian_federation.index')}}">
                                 {{__('Egyptian Federation')}}
+                            </a>
+                        </li>
+                        <li class="{{setActivationClass(route('admin:commercial_register.index'))}}">
+                            <a href="{{route('admin:commercial_register.index')}}">
+                                {{__('Commercial Register')}}
+                            </a>
+                        </li><li class="{{setActivationClass(route('admin:tax_card.index'))}}">
+                            <a href="{{route('admin:tax_card.index')}}">
+                                {{__('Tax Card')}}
                             </a>
                         </li>
                     </ul>
