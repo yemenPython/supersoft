@@ -9,6 +9,7 @@ use App\Models\CustomerLibrary;
 use App\Models\EgyptianFederationLibrary;
 use App\Models\PartLibrary;
 use App\Models\SupplierLibrary;
+use App\Models\TaxCardLibrary;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Str;
@@ -35,6 +36,9 @@ trait LibraryServices
             if ($type =='commercial_register') {
 
                 $libraryPath = Str::slug($user->commercial_registry_office . '-' . $user->id);
+            }
+            if ($type =='tax_card') {
+                $libraryPath = Str::slug($user->activity . '-' . $user->id);
             }
             $user->library_path = Str::slug($libraryPath);
 
@@ -87,6 +91,19 @@ trait LibraryServices
     {
         $fileInLibrary = EgyptianFederationLibrary::create([
             'egyptian_federation_id' => $egyptian_federation_id,
+            'file_name' => $file_name,
+            'extension' => $extension,
+            'name'=> $name,
+            'title_ar'=> $title_ar,
+            'title_en'=> $title_en,
+        ]);
+
+        return $fileInLibrary;
+    }
+    public function createTaxCardLibrary($tax_card_id, $file_name, $extension, $name,$title_ar,$title_en)
+    {
+        $fileInLibrary = TaxCardLibrary::create([
+            'tax_card_id' => $tax_card_id,
             'file_name' => $file_name,
             'extension' => $extension,
             'name'=> $name,
