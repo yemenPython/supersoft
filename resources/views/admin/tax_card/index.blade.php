@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Egyptian Federation') }} </title>
+    <title>{{ __('Tax Card') }} </title>
 @endsection
 
 @section('style')
@@ -31,7 +31,7 @@
                     </h4>
                     <!-- /.box-title -->
                     <div class="card-content js__card_content">
-                        <form id="filtration-form" action="{{route('admin:egyptian_federation.index')}}" method="get">
+                        <form id="filtration-form" action="{{route('admin:tax_card.index')}}" method="get">
                             <input type="hidden" name="rows" value="{{ isset($_GET['rows']) ? $_GET['rows'] : '' }}"/>
                             <input type="hidden" name="key" value="{{ isset($_GET['key']) ? $_GET['key'] : '' }}"/>
                             <input type="hidden" name="sort_method"
@@ -68,7 +68,7 @@
                             <button type="submit"
                                     class="btn sr4-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
                                     class=" fa fa-search "></i> {{__('Search')}} </button>
-                            <a href="{{route('admin:egyptian_federation.index')}}"
+                            <a href="{{route('admin:tax_card.index')}}"
                                class="btn bc-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
                                     class=" fa fa-reply"></i> {{__('Back')}}
                             </a>
@@ -91,7 +91,7 @@
                     <ul class="list-inline pull-left top-margin-wg">
                         <li class="list-inline-item">
                             @include('admin.buttons.add-new', [
-                       'route' => 'admin:egyptian_federation.create',
+                       'route' => 'admin:tax_card.create',
                            'new' => '',
                           ])
 
@@ -100,7 +100,7 @@
                         <li class="list-inline-item">
 
                             @component('admin.buttons._confirm_delete_selected',[
-                          'route' => 'admin:egyptian_federation.deleteSelected',
+                          'route' => 'admin:tax_card.deleteSelected',
                            ])
                             @endcomponent
                         </li>
@@ -108,16 +108,19 @@
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
+                        @php
+                            $view_path = 'admin.tax_card.options-datatable';
+                        @endphp
+{{--                        @include($view_path . '.option-row')--}}
                         <div class="clearfix"></div>
                         <table id="currencies" class="table table-bordered" style="width:100%;margin-top:15px">
                             <thead>
                             <tr>
                                 <th class="text-center column-id" scope="col">#</th>
                                 <th class="text-center column-branch-name" scope="col">{!! __('Branch') !!}</th>
-                                <th class="text-center column-Membership-No" scope="col">{!! __('Membership No') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('Company Type') !!}</th>
-                                <th class="text-center column-register-date" scope="col">{!! __('Date of register in the union') !!}</th>
-                                <th class="text-center column-funds-for" scope="col">{!! __('Subscription payment receipt') !!}</th>
+                                <th class="text-center column-Membership-No" scope="col">{!! __('Company Activity') !!}</th>
+                                <th class="text-center column-company-type" scope="col">{!! __('Registration Number') !!}</th>
+                                <th class="text-center column-register-date" scope="col">{!! __('Registration Date') !!}</th>
                                 <th class="text-center column-funds-on" scope="col">{!! __('End date') !!}</th>
                                 <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
                                 <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
@@ -135,10 +138,9 @@
                                 <tr>
                                     <td class="text-center column-id">{{$loop->iteration}}</td>
                                     <td class="text-center column-branch-name">{!! optional($one->branch)->name !!}</td>
-                                    <td class="text-center column-Membership-No">{!! $one->membership_no !!}</td>
-                                    <td class="text-danger text-center  column-company-type">{{ $one->payment_receipt }}</td>
-                                    <td class="text-danger text-center column-register-date">{{ $one->date_of_register }}</td>
-                                    <td class="text-danger text-center  column-funds-for">{{ $one->company_type }}</td>
+                                    <td class="text-center column-Membership-No">{!! $one->activity !!}</td>
+                                    <td class="text-danger text-center  column-company-type">{{ $one->registration_number }}</td>
+                                    <td class="text-danger text-center column-register-date">{{ $one->registration_date }}</td>
                                     <td class="text-danger text-center  column-funds-on">{{ $one->end_date }}</td>
                                     <td class="text-center column-created-at">{!! $one->created_at->format('y-m-d h:i:s A') !!}</td>
                                     <td class="text-center column-updated-at">{!! $one->updated_at->format('y-m-d h:i:s A') !!}</td>
@@ -157,21 +159,21 @@
 
 {{--                                                    @component('admin.buttons._show_button',[--}}
 {{--                                                                   'id' => $one->id,--}}
-{{--                                                                   'route'=>'admin:egyptian_federation.show'--}}
+{{--                                                                   'route'=>'admin:tax_card.show'--}}
 {{--                                                                    ])--}}
 {{--                                                    @endcomponent--}}
 {{--                                                </li>--}}
                                                 <li class="btn-style-drop">
                                                     @component('admin.buttons._edit_button',[
                                                                 'id' => $one->id,
-                                                                'route'=>'admin:egyptian_federation.edit'
+                                                                'route'=>'admin:tax_card.edit'
                                                                  ])
                                                     @endcomponent
                                                 </li>
                                                 <li class="btn-style-drop">
                                                     @component('admin.buttons._delete_button',[
                                                                 'id'=>$one->id,
-                                                                'route' => 'admin:egyptian_federation.destroy',
+                                                                'route' => 'admin:tax_card.destroy',
                                                                 'tooltip' => __('Delete '.$one['name']),
                                                                  ])
                                                     @endcomponent
@@ -189,7 +191,7 @@
                                     <td>
                                         @component('admin.buttons._delete_selected',[
                                                 'id' => $one->id,
-                                                'route' => 'admin:egyptian_federation.deleteSelected',
+                                                'route' => 'admin:tax_card.deleteSelected',
                                                  ])
                                         @endcomponent
                                     </td>
@@ -200,10 +202,9 @@
                             <tr>
                                 <th class="text-center column-id" scope="col">#</th>
                                 <th class="text-center column-branch-name" scope="col">{!! __('Branch') !!}</th>
-                                <th class="text-center column-Membership-No" scope="col">{!! __('Membership No') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('Company Type') !!}</th>
-                                <th class="text-center column-register-date" scope="col">{!! __('Date of register in the union') !!}</th>
-                                <th class="text-center column-funds-for" scope="col">{!! __('Subscription payment receipt') !!}</th>
+                                <th class="text-center column-Membership-No" scope="col">{!! __('Company Activity') !!}</th>
+                                <th class="text-center column-company-type" scope="col">{!! __('Registration Number') !!}</th>
+                                <th class="text-center column-register-date" scope="col">{!! __('Registration Date') !!}</th>
                                 <th class="text-center column-funds-on" scope="col">{!! __('End date') !!}</th>
                                 <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
                                 <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
@@ -222,8 +223,9 @@
 
 @endsection
 
-@section('accounting-module-modal-area')
-@endsection
+{{--@section('accounting-module-modal-area')--}}
+{{--    @include($view_path . '.column-visible')--}}
+{{--@endsection--}}
 
 @section('modals')
 
@@ -233,12 +235,12 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel-1">{{__('Egyptian Federation Library')}}</h4>
+                    <h4 class="modal-title" id="myModalLabel-1">{{__('Tax Card Library')}}</h4>
                 </div>
                 <div class="modal-body">
 
                     <div class="row">
-                        <form action="{{route('admin:egyptian_federation.upload.upload_library')}}" method="post"
+                        <form action="{{route('admin:tax_card.upload.upload_library')}}" method="post"
                               enctype="multipart/form-data">
                             @csrf
                             <div class="form-group col-md-3">
@@ -310,7 +312,7 @@
             $.ajax({
 
                 type: 'post',
-                url: '{{route('admin:egyptian_federation.upload_library')}}',
+                url: '{{route('admin:tax_card.upload_library')}}',
                 data: {
                     _token: CSRF_TOKEN,
                     id: id,
@@ -339,7 +341,7 @@
             $.ajax({
 
                 type: 'post',
-                url: '{{route('admin:egyptian_federation.upload_library')}}',
+                url: '{{route('admin:tax_card.upload_library')}}',
                 data: {
                     _token: CSRF_TOKEN,
                     id: id,
@@ -382,7 +384,7 @@
                     $.ajax({
 
                         type: 'post',
-                        url: '{{route('admin:egyptian_federation.upload_library.file.delete')}}',
+                        url: '{{route('admin:tax_card.upload_library.file.delete')}}',
                         data: {
                             _token: CSRF_TOKEN,
                             id: id,
@@ -414,7 +416,7 @@
 
             var form_data = new FormData();
 
-            var egyptian_federation = $("#library_supplier_id").val();
+            var tax_card = $("#library_supplier_id").val();
             var title_ar = $("#library_title_ar").val();
             var title_en = $("#library_title_en").val();
 
@@ -424,11 +426,11 @@
                 form_data.append("files[]", document.getElementById('files').files[index]);
             }
 
-            form_data.append("egyptian_federation", egyptian_federation);
+            form_data.append("tax_card", tax_card);
             form_data.append("title_ar", title_ar);
             form_data.append("title_en", title_en);
             $.ajax({
-                url: "{{route('admin:egyptian_federation.upload.upload_library')}}",
+                url: "{{route('admin:tax_card.upload.upload_library')}}",
                 type: "post",
 
                 headers: {

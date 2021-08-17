@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Egyptian Federation') }} </title>
+    <title>{{ __('Register Added Value') }} </title>
 @endsection
 
 @section('style')
@@ -14,7 +14,7 @@
         <nav>
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
-                <li class="breadcrumb-item active"> {{__('Egyptian Federation')}}</li>
+                <li class="breadcrumb-item active"> {{__('Register Added Value')}}</li>
             </ol>
         </nav>
 
@@ -31,7 +31,7 @@
                     </h4>
                     <!-- /.box-title -->
                     <div class="card-content js__card_content">
-                        <form id="filtration-form" action="{{route('admin:egyptian_federation.index')}}" method="get">
+                        <form id="filtration-form" action="{{route('admin:register_added_value.index')}}" method="get">
                             <input type="hidden" name="rows" value="{{ isset($_GET['rows']) ? $_GET['rows'] : '' }}"/>
                             <input type="hidden" name="key" value="{{ isset($_GET['key']) ? $_GET['key'] : '' }}"/>
                             <input type="hidden" name="sort_method"
@@ -55,12 +55,12 @@
                                 @endif
 
                                     <div class="form-group col-md-6">
-                                        <label> {{ __('End Date From') }} </label>
-                                        <input type="text" name="end_date_from" class="form-control datepicker" placeholder="{{__('End Date From')}}">
+                                        <label> {{ __('Registration Date From') }} </label>
+                                        <input type="text" name="register_date_from" class="form-control datepicker" placeholder="{{__('Registration Date From')}}">
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label> {{ __('End Date To') }} </label>
-                                        <input type="text" name="end_date_to" class="form-control datepicker" placeholder="{{__('End Date To')}}">
+                                        <label> {{ __('Registration Date To') }} </label>
+                                        <input type="text" name="register_date_to" class="form-control datepicker" placeholder="{{__('Registration Date To')}}">
                                     </div>
 
                             </div>
@@ -68,7 +68,7 @@
                             <button type="submit"
                                     class="btn sr4-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
                                     class=" fa fa-search "></i> {{__('Search')}} </button>
-                            <a href="{{route('admin:egyptian_federation.index')}}"
+                            <a href="{{route('admin:register_added_value.index')}}"
                                class="btn bc-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
                                     class=" fa fa-reply"></i> {{__('Back')}}
                             </a>
@@ -84,14 +84,14 @@
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control">
-                    <i class="fa fa-check-square-o"></i> {{__('Egyptian Federation')}}
+                    <i class="fa fa-check-square-o"></i> {{__('Register Added Value')}}
                 </h4>
 
                 <div class="card-content js__card_content" style="">
                     <ul class="list-inline pull-left top-margin-wg">
                         <li class="list-inline-item">
                             @include('admin.buttons.add-new', [
-                       'route' => 'admin:egyptian_federation.create',
+                       'route' => 'admin:register_added_value.create',
                            'new' => '',
                           ])
 
@@ -100,7 +100,7 @@
                         <li class="list-inline-item">
 
                             @component('admin.buttons._confirm_delete_selected',[
-                          'route' => 'admin:egyptian_federation.deleteSelected',
+                          'route' => 'admin:register_added_value.deleteSelected',
                            ])
                             @endcomponent
                         </li>
@@ -114,11 +114,9 @@
                             <tr>
                                 <th class="text-center column-id" scope="col">#</th>
                                 <th class="text-center column-branch-name" scope="col">{!! __('Branch') !!}</th>
-                                <th class="text-center column-Membership-No" scope="col">{!! __('Membership No') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('Company Type') !!}</th>
-                                <th class="text-center column-register-date" scope="col">{!! __('Date of register in the union') !!}</th>
-                                <th class="text-center column-funds-for" scope="col">{!! __('Subscription payment receipt') !!}</th>
-                                <th class="text-center column-funds-on" scope="col">{!! __('End date') !!}</th>
+                                <th class="text-center column-Membership-No" scope="col">{!! __('Area') !!}</th>
+                                <th class="text-center column-company-type" scope="col">{!! __('Errands') !!}</th>
+                                <th class="text-center column-register-date" scope="col">{!! __('Date Of Registration') !!}</th>
                                 <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
                                 <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
                                 <th scope="col">{{__('Options')}}</th>
@@ -135,11 +133,9 @@
                                 <tr>
                                     <td class="text-center column-id">{{$loop->iteration}}</td>
                                     <td class="text-center column-branch-name">{!! optional($one->branch)->name !!}</td>
-                                    <td class="text-center column-Membership-No">{!! $one->membership_no !!}</td>
-                                    <td class="text-danger text-center  column-company-type">{{ $one->payment_receipt }}</td>
-                                    <td class="text-danger text-center column-register-date">{{ $one->date_of_register }}</td>
-                                    <td class="text-danger text-center  column-funds-for">{{ $one->company_type }}</td>
-                                    <td class="text-danger text-center  column-funds-on">{{ $one->end_date }}</td>
+                                    <td class="text-center column-Membership-No">{!! $one->area !!}</td>
+                                    <td class="text-danger text-center  column-company-type">{{ $one->errands }}</td>
+                                    <td class="text-danger text-center column-register-date">{{ $one->register_date }}</td>
                                     <td class="text-center column-created-at">{!! $one->created_at->format('y-m-d h:i:s A') !!}</td>
                                     <td class="text-center column-updated-at">{!! $one->updated_at->format('y-m-d h:i:s A') !!}</td>
 
@@ -153,25 +149,17 @@
 
                                             </button>
                                             <ul class="dropdown-menu dropdown-wg">
-{{--                                                <li>--}}
-
-{{--                                                    @component('admin.buttons._show_button',[--}}
-{{--                                                                   'id' => $one->id,--}}
-{{--                                                                   'route'=>'admin:egyptian_federation.show'--}}
-{{--                                                                    ])--}}
-{{--                                                    @endcomponent--}}
-{{--                                                </li>--}}
                                                 <li class="btn-style-drop">
                                                     @component('admin.buttons._edit_button',[
                                                                 'id' => $one->id,
-                                                                'route'=>'admin:egyptian_federation.edit'
+                                                                'route'=>'admin:register_added_value.edit'
                                                                  ])
                                                     @endcomponent
                                                 </li>
                                                 <li class="btn-style-drop">
                                                     @component('admin.buttons._delete_button',[
                                                                 'id'=>$one->id,
-                                                                'route' => 'admin:egyptian_federation.destroy',
+                                                                'route' => 'admin:register_added_value.destroy',
                                                                 'tooltip' => __('Delete '.$one['name']),
                                                                  ])
                                                     @endcomponent
@@ -189,7 +177,7 @@
                                     <td>
                                         @component('admin.buttons._delete_selected',[
                                                 'id' => $one->id,
-                                                'route' => 'admin:egyptian_federation.deleteSelected',
+                                                'route' => 'admin:register_added_value.deleteSelected',
                                                  ])
                                         @endcomponent
                                     </td>
@@ -200,11 +188,9 @@
                             <tr>
                                 <th class="text-center column-id" scope="col">#</th>
                                 <th class="text-center column-branch-name" scope="col">{!! __('Branch') !!}</th>
-                                <th class="text-center column-Membership-No" scope="col">{!! __('Membership No') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('Company Type') !!}</th>
-                                <th class="text-center column-register-date" scope="col">{!! __('Date of register in the union') !!}</th>
-                                <th class="text-center column-funds-for" scope="col">{!! __('Subscription payment receipt') !!}</th>
-                                <th class="text-center column-funds-on" scope="col">{!! __('End date') !!}</th>
+                                <th class="text-center column-Membership-No" scope="col">{!! __('Area') !!}</th>
+                                <th class="text-center column-company-type" scope="col">{!! __('Errands') !!}</th>
+                                <th class="text-center column-register-date" scope="col">{!! __('Date Of Registration') !!}</th>
                                 <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
                                 <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
                                 <th scope="col">{{__('Options')}}</th>
@@ -222,9 +208,6 @@
 
 @endsection
 
-@section('accounting-module-modal-area')
-@endsection
-
 @section('modals')
 
     <div class="modal fade" id="boostrapModal-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
@@ -233,12 +216,12 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel-1">{{__('Egyptian Federation Library')}}</h4>
+                    <h4 class="modal-title" id="myModalLabel-1">{{__('Register Added Value Library')}}</h4>
                 </div>
                 <div class="modal-body">
 
                     <div class="row">
-                        <form action="{{route('admin:egyptian_federation.upload.upload_library')}}" method="post"
+                        <form action="{{route('admin:register_added_value.upload.upload_library')}}" method="post"
                               enctype="multipart/form-data">
                             @csrf
                             <div class="form-group col-md-3">
@@ -310,7 +293,7 @@
             $.ajax({
 
                 type: 'post',
-                url: '{{route('admin:egyptian_federation.upload_library')}}',
+                url: '{{route('admin:register_added_value.upload_library')}}',
                 data: {
                     _token: CSRF_TOKEN,
                     id: id,
@@ -339,7 +322,7 @@
             $.ajax({
 
                 type: 'post',
-                url: '{{route('admin:egyptian_federation.upload_library')}}',
+                url: '{{route('admin:register_added_value.upload_library')}}',
                 data: {
                     _token: CSRF_TOKEN,
                     id: id,
@@ -382,7 +365,7 @@
                     $.ajax({
 
                         type: 'post',
-                        url: '{{route('admin:egyptian_federation.upload_library.file.delete')}}',
+                        url: '{{route('admin:register_added_value.upload_library.file.delete')}}',
                         data: {
                             _token: CSRF_TOKEN,
                             id: id,
@@ -414,7 +397,7 @@
 
             var form_data = new FormData();
 
-            var egyptian_federation = $("#library_supplier_id").val();
+            var register_added_value = $("#library_supplier_id").val();
             var title_ar = $("#library_title_ar").val();
             var title_en = $("#library_title_en").val();
 
@@ -424,11 +407,11 @@
                 form_data.append("files[]", document.getElementById('files').files[index]);
             }
 
-            form_data.append("egyptian_federation", egyptian_federation);
+            form_data.append("register_added_value", register_added_value);
             form_data.append("title_ar", title_ar);
             form_data.append("title_en", title_en);
             $.ajax({
-                url: "{{route('admin:egyptian_federation.upload.upload_library')}}",
+                url: "{{route('admin:register_added_value.upload.upload_library')}}",
                 type: "post",
 
                 headers: {

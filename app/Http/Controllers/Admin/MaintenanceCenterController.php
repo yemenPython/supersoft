@@ -52,7 +52,11 @@ class MaintenanceCenterController extends Controller
 
     public function store(CreateMaintenanceCenterRequest $request): RedirectResponse
     {
-        MaintenanceCenter::create($request->all());
+        $data = $request->all();
+        if (!$request->filled('branch_id')) {
+            $data['branch_id'] = auth()->user()->branch_id;
+        }
+        MaintenanceCenter::create($data);
         return redirect()->route('admin:maintenance_centers.index')->with(['message' => __('words.maintenance_centers_created_successfully'), 'alert-type' => 'success']);
     }
 

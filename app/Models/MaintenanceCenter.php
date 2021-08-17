@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\ColumnTranslation;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -34,6 +35,15 @@ class MaintenanceCenter extends Model
         'commercial_record_area',
         'tax_file_number',
     ];
+
+    protected static function boot() {
+        parent::boot();
+        static::addGlobalScope(function (Builder $builder) {
+            if (auth()->check() && !authIsSuperAdmin()){
+                $builder->where('branch_id', auth()->user()->branch_id);
+            }
+        });
+    }
 
     /**
      * @var string[]

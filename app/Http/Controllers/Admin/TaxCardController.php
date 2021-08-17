@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests\Admin\CommercialRegister\CommercialRegisterRequest;
+use App\Http\Requests\Admin\EgyptianFederationofConstruction\EgyptianFederationofConstructionRequest;
+use App\Http\Requests\Admin\TaxCard\TaxCardRequest;
 use App\Models\Branch;
-use App\Models\CommercialRegister;
-use App\Models\CommercialRegisterLibrary;
 use App\Models\EgyptianFederationLibrary;
+use App\Models\EgyptianFederationOfConstructionAndBuildingContractors;
 use App\Models\Supplier;
+use App\Models\TaxCard;
+use App\Models\TaxCardLibrary;
 use App\Services\LibraryServices;
 use Exception;
 use Illuminate\Http\Request;
@@ -16,7 +18,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
-class CommercialRegisterController extends Controller
+class TaxCardController extends Controller
 {
     use LibraryServices;
 
@@ -40,9 +42,9 @@ class CommercialRegisterController extends Controller
                 'created_at' => 'created_at',
                 'updated_at' => 'updated_at'
             ];
-            $suppliers = CommercialRegister::orderBy( $sort_fields[$sort_by], $sort_method );
+            $suppliers = TaxCard::orderBy( $sort_fields[$sort_by], $sort_method );
         } else {
-            $suppliers = CommercialRegister::orderBy( 'id', 'DESC' );
+            $suppliers = TaxCard::orderBy( 'id', 'DESC' );
         }
         if ($request->has( 'name' ) && $request['name'] != '') {
             $suppliers->where( 'id', $request['name'] );
@@ -50,41 +52,41 @@ class CommercialRegisterController extends Controller
         if ($request->has( 'branch_id' ) && $request['branch_id'] != '') {
             $suppliers->where( 'branch_id', $request['branch_id'] );
         }
-        whereBetween( $suppliers, 'valid_until', $request->valid_until_from, $request->valid_until_to );
+        whereBetween( $suppliers, 'end_date', $request->end_date_from, $request->end_date_to );
         $rows = $request->has( 'rows' ) ? $request->rows : 25;
         $data = $suppliers->paginate( $rows )->appends( request()->query() );
         $branches = filterSetting() ? Branch::all()->pluck( 'name', 'id' ) : null;
 
-        return view( 'admin.commercial_register.index',
+        return view( 'admin.tax_card.index',
             compact( 'data', 'branches' ) );
     }
 
     public function create(Request $request)
     {
         $branch_id = $request->has( 'branch_id' ) ? $request['branch_id'] : auth()->user()->branch_id;
-        $branch = Branch::where( 'id', $branch_id )->get( ['id', 'name_' . app()->getLocale() . ' as company_name', 'address_' . app()->getLocale() . ' as address','tax_card'] )->first();
+        $branch = Branch::where( 'id', $branch_id )->get( ['id', 'name_' . app()->getLocale() . ' as company_name', 'address_' . app()->getLocale() . ' as address'] )->first();
         $branches = Branch::all()->pluck( 'name', 'id' );
-        $last_created = CommercialRegister::latest()->first();
+        $last_created = TaxCard::latest()->first();
         if (!empty( $last_created ) && !$request->has( 'branch_id' )) {
-            $branch = Branch::where( 'id', $last_created->branch_id )->get( ['id', 'name_' . app()->getLocale() . ' as company_name', 'address_' . app()->getLocale() . ' as address','tax_card'] )->first();
+            $branch = Branch::where( 'id', $last_created->branch_id )->get( ['id', 'name_' . app()->getLocale() . ' as company_name', 'address_' . app()->getLocale() . ' as address'] )->first();
         }
-        return view( 'admin.commercial_register.create', compact( 'branches', 'branch', 'last_created' ) );
+        return view( 'admin.tax_card.create', compact( 'branches', 'branch', 'last_created' ) );
     }
 
-    public function store(CommercialRegisterRequest $request)
+    public function store(TaxCardRequest $request)
     {
         try {
             $data = $request->validated();
             if (!authIsSuperAdmin()) {
                 $data['branch_id'] = auth()->user()->branch_id;
             }
-            CommercialRegister::create( $data );
+            TaxCard::create( $data );
         } catch (Exception $e) {
             return redirect()->back()
-                ->with( ['message' => __( 'words.back-commercial_register' ), 'alert-type' => 'error'] );
+                ->with( ['message' => __( 'words.back-tax_card' ), 'alert-type' => 'error'] );
         }
-        return redirect( route( 'admin:commercial_register.index' ) )
-            ->with( ['message' => __( 'words.commercial_register-created' ), 'alert-type' => 'success'] );
+        return redirect( route( 'admin:tax_card.index' ) )
+            ->with( ['message' => __( 'words.tax_card-created' ), 'alert-type' => 'success'] );
     }
 
     public function show()
@@ -92,15 +94,15 @@ class CommercialRegisterController extends Controller
         return back();
     }
 
-    public function edit(CommercialRegister $commercial_register, Request $request)
+    public function edit(TaxCard $tax_card, Request $request)
     {
-        $branch_id = $request->has( 'branch_id' ) ? $request['branch_id'] : $commercial_register->branch_id;
+        $branch_id = $request->has( 'branch_id' ) ? $request['branch_id'] : $tax_card->branch_id;
         $branches = Branch::all()->pluck( 'name', 'id' );
-        $branch = Branch::where( 'id', $branch_id )->get( ['name_' . app()->getLocale() . ' as company_name', 'address_' . app()->getLocale() . ' as address','tax_card'] )->first();
-        return view( 'admin.commercial_register.edit', compact( 'branches', 'branch', 'commercial_register' ) );
+        $branch = Branch::where( 'id', $branch_id )->get( ['name_' . app()->getLocale() . ' as company_name', 'address_' . app()->getLocale() . ' as address'] )->first();
+        return view( 'admin.tax_card.edit', compact( 'branches', 'branch', 'tax_card' ) );
     }
 
-    public function update(CommercialRegisterRequest $request, CommercialRegister $commercial_register)
+    public function update(TaxCardRequest $request, TaxCard $tax_card)
     {
         try {
 
@@ -109,31 +111,31 @@ class CommercialRegisterController extends Controller
             if (!authIsSuperAdmin()) {
                 $data['branch_id'] = auth()->user()->branch_id;
             }
-            $commercial_register->update( $data );
+            $tax_card->update( $data );
         } catch (Exception $e) {
             return redirect()->back()
-                ->with( ['message' => __( 'words.back-commercial_register' ), 'alert-type' => 'error'] );
+                ->with( ['message' => __( 'words.back-tax_card' ), 'alert-type' => 'error'] );
         }
 
-        return redirect( route( 'admin:commercial_register.index' ) )
-            ->with( ['message' => __( 'words.commercial_register-updated' ), 'alert-type' => 'success'] );
+        return redirect( route( 'admin:tax_card.index' ) )
+            ->with( ['message' => __( 'words.tax_card-updated' ), 'alert-type' => 'success'] );
     }
 
-    public function destroy(CommercialRegister $commercial_register)
+    public function destroy(TaxCard $tax_card)
     {
-        $commercial_register->delete();
-        return redirect( route( 'admin:commercial_register.index' ) )
-            ->with( ['message' => __( 'words.commercial_register-deleted' ), 'alert-type' => 'success'] );
+        $tax_card->delete();
+        return redirect( route( 'admin:tax_card.index' ) )
+            ->with( ['message' => __( 'words.tax_card-deleted' ), 'alert-type' => 'success'] );
     }
 
     public function deleteSelected(Request $request)
     {
         if (isset( $request->ids )) {
-            CommercialRegister::whereIn( 'id', $request->ids )->delete();
-            return redirect( route( 'admin:commercial_register.index' ) )
+            TaxCard::whereIn( 'id', $request->ids )->delete();
+            return redirect( route( 'admin:tax_card.index' ) )
                 ->with( ['message' => __( 'words.selected-row-deleted' ), 'alert-type' => 'success'] );
         }
-        return redirect( route( 'admin:commercial_register.index' ) )
+        return redirect( route( 'admin:tax_card.index' ) )
             ->with( ['message' => __( 'words.select-one-least' ), 'alert-type' => 'error'] );
     }
 
@@ -142,7 +144,7 @@ class CommercialRegisterController extends Controller
         $validator = Validator::make( $request->all(), [
             'title_ar' => 'required|string|max:100',
             'title_en' => 'nullable|string|max:100',
-            'commercial_register' => 'required|integer|exists:commercial_register,id',
+            'tax_card' => 'required|integer|exists:tax_cards,id',
             'files' => 'required',
             'files.*' => 'required|mimes:jpeg,jpg,png,gif,pdf,xlsx,xlsm,xls,xls,docx,docm,dotx,txt|required|max:6000',
         ] );
@@ -152,9 +154,9 @@ class CommercialRegisterController extends Controller
         }
 
         try {
-            $commercial_register = CommercialRegister::find( $request['commercial_register'] );
-            $library_path = $this->libraryPath( $commercial_register, 'commercial_register' );
-            $director = 'commercial_register_library/' . $library_path;
+            $tax_card = TaxCard::find( $request['tax_card'] );
+            $library_path = $this->libraryPath( $tax_card, 'tax_card' );
+            $director = 'tax_card_library/' . $library_path;
             $files = [];
             foreach ($request['files'] as $index => $file) {
 
@@ -163,19 +165,20 @@ class CommercialRegisterController extends Controller
                 $extension = Str::lower( $fileData['extension'] );
                 $name = $fileData['name'];
                 $title_en= $request->title_en??$request->title_ar;
-                $files[$index] = $this->createCommercialRegisterLibrary( $commercial_register->id, $fileName, $extension, $name, $request->title_ar, $title_en);
+                $files[$index] = $this->createTaxCardLibrary( $tax_card->id, $fileName, $extension, $name, $request->title_ar, $title_en);
             }
-            $view = view( 'admin.commercial_register.library', compact( 'files', 'library_path' ) )->render();
+            $view = view( 'admin.tax_card.library', compact( 'files', 'library_path' ) )->render();
         } catch (Exception $e) {
-            return response()->json( __( 'words.back-commercial_register', 400 ) );
+            return response()->json( __( 'words.back-tax_card', 400 ) );
         }
         return response()->json( ['view' => $view, 'message' => __( 'upload successfully' )], 200 );
     }
 
     public function getFiles(Request $request)
     {
+
         $validator = Validator::make( $request->all(), [
-            'id' => 'required|integer|exists:commercial_register,id',
+            'id' => 'required|integer|exists:tax_cards,id',
         ] );
 
         if ($validator->fails()) {
@@ -183,15 +186,16 @@ class CommercialRegisterController extends Controller
         }
 
         try {
-            $supplier = CommercialRegister::find( $request['id'] );
+            $supplier = TaxCard::find( $request['id'] );
             if (!$supplier) {
-                return response( 'commercial_register not valid', 400 );
+                return response( 'egyptian_federation not valid', 400 );
             }
             $library_path = $supplier->library_path;
             $files = $supplier->files;
-            $view = view( 'admin.commercial_register.library', compact( 'files', 'library_path' ) )->render();
+            $view = view( 'admin.tax_card.library', compact( 'files', 'library_path' ) )->render();
 
         } catch (Exception $e) {
+            dd($e->getMessage());
             return response( 'sorry, please try later', 400 );
         }
 
@@ -200,8 +204,9 @@ class CommercialRegisterController extends Controller
 
     public function destroyFile(Request $request)
     {
+//        dd($request->all());
         $validator = Validator::make( $request->all(), [
-            'id' => 'required|integer|exists:commercial_register_libraries,id',
+            'id' => 'required|integer|exists:tax_card_libraries,id',
         ] );
 
         if ($validator->fails()) {
@@ -209,14 +214,15 @@ class CommercialRegisterController extends Controller
         }
 
         try {
-            $file = CommercialRegisterLibrary::find( $request['id'] );
-            $supplier = $file->commercial_register;
-            $filePath = storage_path( 'app/public/commercial_register_library/' . $supplier->library_path . '/' . $file->file_name );
+            $file = TaxCardLibrary::find( $request['id'] );
+            $supplier = $file->tax_card;
+            $filePath = storage_path( 'app/public/tax_card_library/' . $supplier->library_path . '/' . $file->file_name );
             if (File::exists( $filePath )) {
                 File::delete( $filePath );
             }
             $file->delete();
         } catch (Exception $e) {
+            dd( $e->getMessage() );
             return response( 'sorry, please try later', 200 );
         }
         return response( ['id' => $request['id']], 200 );
