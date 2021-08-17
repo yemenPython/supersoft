@@ -1280,17 +1280,24 @@ class AjaxController extends Controller
 
     private function getMaintenanceCenters(array $searchFields, $searchTerm, $selectedColumns, $limit, $branchId)
     {
+        $withNoNull = $selectedColumns;
         $data = [];
         $id = ' id ,';
         if ($selectedColumns != '' && $selectedColumns != '*') {
             $selectedColumns = $id . ' ' . $selectedColumns;
         }
         $assetsItemExpenses = MaintenanceCenter::select(DB::raw($selectedColumns));
+        if ($withNoNull == 'phone_1') {
+            $assetsItemExpenses = $assetsItemExpenses->where($withNoNull, '!=', null);
+        }
+        if ($withNoNull == 'commercial_number') {
+            $assetsItemExpenses = $assetsItemExpenses->where($withNoNull, '!=', null);
+        }
 
         if (!empty($searchFields)) {
             foreach ($searchFields as $searchField) {
                 if (!empty($searchTerm) && $searchTerm != '') {
-                    $assetsItemExpenses = $assetsItemExpenses->where($searchField, 'like', '%' . $searchTerm . '%');
+                    $assetsItemExpenses = $assetsItemExpenses->whereNotNull($searchField)->where($searchField, 'like', '%' . $searchTerm . '%');
                 }
             }
         }
