@@ -70,11 +70,11 @@ route('admin:supply-terms.index'),
                             <a href="{{url('admin/areas')}}">{{__('areas')}}</a>
                         </li>
 
-{{--                        @if(authIsSuperAdmin())--}}
-                            <li class="{{setActivationClass(url('admin/branches'))}}">
-                                <a href="{{url('admin/branches')}}">{{__('branches')}}</a>
-                            </li>
-{{--                        @endif--}}
+                        {{--                        @if(authIsSuperAdmin())--}}
+                        <li class="{{setActivationClass(url('admin/branches'))}}">
+                            <a href="{{url('admin/branches')}}">{{__('branches')}}</a>
+                        </li>
+                        {{--                        @endif--}}
 
 
                         <li class="{{setActivationClass(url('admin/taxes'))}}">
@@ -112,10 +112,10 @@ route('admin:supply-terms.index'),
                                 <a class=" " href="{{route('admin:sms.settings.edit')}}">
                                     {{__('Sms settings')}}</a>
                             </li>
-                        @endif
+                    @endif
 
-                        <!-- @if(!authIsSuperAdmin())
-                            <li class="{{setActivationClass(route('admin:points.settings.edit'))}}">
+                    <!-- @if(!authIsSuperAdmin())
+                        <li class="{{setActivationClass(route('admin:points.settings.edit'))}}">
                                 <a class=" " href="{{route('admin:points.settings.edit')}}">
                                     {{__('Points settings')}}</a>
                             </li>
@@ -150,7 +150,7 @@ route('admin:maintenance-cards.index'),
 route('admin:return-sale-receipts.index'),
                      ])}}">
                     <a class="parent-item js__control" href="#"><i style="color:#C3333C !important"
-                                                                     class="menu-icon fa fa-building-o"></i><span>{{__('Items management')}}</span><span
+                                                                   class="menu-icon fa fa-building-o"></i><span>{{__('Items management')}}</span><span
                             class="menu-arrow fa fa-angle-down"></span></a>
                     <ul class="sub-menu js__content">
 
@@ -260,7 +260,6 @@ route('admin:return-sale-receipts.index'),
                         </li>
 
 
-
                     </ul>
                 </li>
 
@@ -284,7 +283,7 @@ route('admin:sale-assets.index'),
                     </a>
                     <ul class="sub-menu js__content">
 
-                    <li class="{{setActivationClass(route('admin:assetsType.index'))}}">
+                        <li class="{{setActivationClass(route('admin:assetsType.index'))}}">
                             <a href="{{route('admin:assetsType.index')}}">
                                 {{__('Assets Types')}}
                             </a>
@@ -395,7 +394,7 @@ route('admin:maintenance_centers.index'),
                                 {{__('Maintenance Cards')}}
                             </a>
                         </li>
-<!--
+                    <!--
                         <li class="{{setActivationClass(url('admin/companies'))}}">
                             <a href="{{url('admin/companies')}}">{{__('Companies')}}</a>
                         </li>
@@ -415,12 +414,12 @@ route('admin:maintenance_centers.index'),
                                 <span>{{__('Car Maintainance')}}</span></a>
                         </li>
 
-                         <li class="{{setActivationClass(route('admin:maintenance.status.index.report'))}}">
+                        <li class="{{setActivationClass(route('admin:maintenance.status.index.report'))}}">
                             <a class=" " href="{{route('admin:maintenance.status.index.report')}}">
                                 <span>{{__('Maintenance Status')}}</span>
                             </a>
                         </li>
-                        <!-- <li class="{{setActivationClass(route('admin:reservations.index'))}}">
+                    <!-- <li class="{{setActivationClass(route('admin:reservations.index'))}}">
                             <a class=" " href="{{route('admin:reservations.index')}}">
                                 <span>{{__('Services Reservations')}}</span>
                             </a>
@@ -469,7 +468,7 @@ route('admin:customers.requests.index'),
                             <a href="{{route('admin:customers.index')}}">{{__('Customers')}}</a>
                         </li>
 
-                        <!--
+                    <!--
                         <li class="{{setActivationClass(route('admin:customers.requests.index'))}}">
                             <a href="{{route('admin:customers.requests.index')}}">{{__('Customers Requests')}}</a>
                         </li> -->
@@ -478,7 +477,7 @@ route('admin:customers.requests.index'),
                 </li>
 
 
-                <!-- <li class="{{setActivationClass([
+            <!-- <li class="{{setActivationClass([
 url('admin/companies'),
 url('admin/carModels'),
 url('admin/carTypes'),
@@ -500,8 +499,7 @@ route('admin:maintenance-detections.index'),
                 </li> -->
 
 
-
-<!--
+            <!--
                 <li class="{{setActivationClass([
 route('admin:lockers.index'),
 route('admin:accounts.index'),
@@ -522,52 +520,52 @@ route('admin:bank-receives.index'),
                         <li class="{{setActivationClass(route('admin:lockers.index'))}}">
                             <a href="{{route('admin:lockers.index')}}">
                                 {{__('Lockers')}}
-                            </a>
-                        </li>
-                        <li class="{{setActivationClass(route('admin:accounts.index'))}}">
+                </a>
+            </li>
+            <li class="{{setActivationClass(route('admin:accounts.index'))}}">
                             <a href="{{route('admin:accounts.index')}}">
                                 {{__('Accounts')}}
-                            </a>
-                        </li>
-                        <li class="{{setActivationClass(route('admin:customers.index'))}}">
+                </a>
+            </li>
+            <li class="{{setActivationClass(route('admin:customers.index'))}}">
                             <a href="{{route('admin:lockers-transfer.index')}}">
                                 {{__('Lockers Transfer')}}
-                            </a>
-                        </li>
-                        <li class="{{setActivationClass(route('admin:accounts-transfer.index'))}}">
+                </a>
+            </li>
+            <li class="{{setActivationClass(route('admin:accounts-transfer.index'))}}">
                             <a href="{{route('admin:accounts-transfer.index')}}">
                                 {{__('Accounts Transfer')}}
-                            </a>
-                        </li>
-                        <li class="{{setActivationClass(route('admin:lockers-transactions.index'))}}">
+                </a>
+            </li>
+            <li class="{{setActivationClass(route('admin:lockers-transactions.index'))}}">
                             <a href="{{route('admin:lockers-transactions.index')}}">
                                 {{__('words.locker-transaction')}}
-                            </a>
-                        </li>
-                        <li class="{{setActivationClass(route('admin:locker-exchanges.index'))}}">
+                </a>
+            </li>
+            <li class="{{setActivationClass(route('admin:locker-exchanges.index'))}}">
                             <a href="{{route('admin:locker-exchanges.index')}}">
                                 {{ __('words.locker-exchanges') }}
-                            </a>
-                        </li>
-                        <li class="{{setActivationClass(route('admin:locker-receives.index'))}}">
+                </a>
+            </li>
+            <li class="{{setActivationClass(route('admin:locker-receives.index'))}}">
                             <a href="{{route('admin:locker-receives.index')}}">
                                 {{ __('words.locker-receives') }}
-                            </a>
-                        </li>
-                        <li class="{{setActivationClass(route('admin:bank-exchanges.index'))}}">
+                </a>
+            </li>
+            <li class="{{setActivationClass(route('admin:bank-exchanges.index'))}}">
                             <a href="{{route('admin:bank-exchanges.index')}}">
                                 {{ __('words.bank-exchanges') }}
-                            </a>
-                        </li>
-                        <li class="{{setActivationClass(route('admin:bank-receives.index'))}}">
+                </a>
+            </li>
+            <li class="{{setActivationClass(route('admin:bank-receives.index'))}}">
                             <a href="{{route('admin:bank-receives.index')}}">
                                 {{ __('words.bank-receives') }}
-                            </a>
-                        </li>
-                    </ul>
-                </li> -->
+                </a>
+            </li>
+        </ul>
+    </li> -->
 
-<!--
+            <!--
                 <li class="{{setActivationClass([
 route('admin:revenues_types.index'),
 route('admin:revenues_Items.index'),
@@ -586,42 +584,42 @@ route('admin:expenseReceipts.index'),
                         <li class="{{setActivationClass(route('admin:revenues_types.index'))}}">
                             <a href="{{route('admin:revenues_types.index')}}">
                                 {{__('Revenues Types')}}
-                            </a>
-                        </li>
+                </a>
+            </li>
 
-                        <li class="{{setActivationClass(route('admin:bank-receives.index'))}}">
+            <li class="{{setActivationClass(route('admin:bank-receives.index'))}}">
                             <a href="{{route('admin:revenues_Items.index')}}">
                                 {{__('Revenues Items')}}
-                            </a>
-                        </li>
+                </a>
+            </li>
 
-                        <li class="{{setActivationClass(route('admin:revenueReceipts.index'))}}">
+            <li class="{{setActivationClass(route('admin:revenueReceipts.index'))}}">
                             <a href="{{route('admin:revenueReceipts.index')}}">
                                 {{__('Revenues Receipts')}}
-                            </a>
-                        </li>
+                </a>
+            </li>
 
-                        <li class="{{setActivationClass(route('admin:bank-receives.index'))}}">
+            <li class="{{setActivationClass(route('admin:bank-receives.index'))}}">
                             <a href="{{route('admin:expenses_types.index')}}">
                                 {{__('Expenses Types')}}
-                            </a>
-                        </li>
+                </a>
+            </li>
 
 
-                        <li class="{{setActivationClass(route('admin:expenses_items.index'))}}">
+            <li class="{{setActivationClass(route('admin:expenses_items.index'))}}">
                             <a href="{{route('admin:expenses_items.index')}}">
                                 {{__('Expenses Items')}}
-                            </a>
-                        </li>
+                </a>
+            </li>
 
-                        <li class="{{setActivationClass(route('admin:expenseReceipts.index'))}}">
+            <li class="{{setActivationClass(route('admin:expenseReceipts.index'))}}">
                             <a href="{{route('admin:expenseReceipts.index')}}">
                                 {{__('Expenses Receipts')}}
-                            </a>
-                    </ul>
-                </li> -->
+                </a>
+        </ul>
+    </li> -->
 
-<!--
+            <!--
                 <li class="{{setActivationClass([
 route('admin:purchase-invoices.index'),
 route('admin:purchase_returns.index'),
@@ -643,16 +641,16 @@ route('admin:purchase-quotations.index'),
                         <li class="{{setActivationClass(route('admin:sales.invoices.index'))}}">
                             <a href="{{route('admin:sales.invoices.index')}}">
                                 {{__('Sales Invoices')}}
-                            </a>
-                        </li>
+                </a>
+            </li>
 
-                        <li class="{{setActivationClass(route('admin:sales.invoices.return.index'))}}">
+            <li class="{{setActivationClass(route('admin:sales.invoices.return.index'))}}">
                             <a href="{{route('admin:sales.invoices.return.index')}}">
                                 {{__('Sales Invoices Return')}}
-                            </a>
-                        </li>
+                </a>
+            </li>
 
-                        <li class="{{setActivationClass(route('admin:quotations.index'))}}">
+            <li class="{{setActivationClass(route('admin:quotations.index'))}}">
                             <a class=" " href="{{route('admin:quotations.index')}}">
                                 <span>{{__('Quotations')}}</span></a>
                         </li>
@@ -667,7 +665,7 @@ route('admin:purchase-quotations.index'),
 
                     </ul>
                 </li> -->
-                <!-- <li class="{{setActivationClass([
+            <!-- <li class="{{setActivationClass([
 route('admin:work-cards.index'),
 route('admin:maintenance.status.index.report'),
 route('admin:reservations.index'),
@@ -682,7 +680,7 @@ route('admin:reservations.index'),
                 </li>
  -->
 
-<!--
+            <!--
                 <li class="{{setActivationClass([
 url('admin/shifts'),
 url('admin/employee_settings'),
@@ -700,22 +698,22 @@ url('admin/employees_salaries'),
                     <ul class="sub-menu js__content wg-menu" style="">
 
                         @if(checkIfShiftActive())
-                            <li class="{{setActivationClass(url('admin/shifts'))}}">
+                <li class="{{setActivationClass(url('admin/shifts'))}}">
                                 <a href="{{url('admin/shifts')}}">{{__('Shifts')}}</a>
                             </li>
                         @endif
 
 
-                         <li class="{{setActivationClass(url('admin/employee_settings'))}}">
+                <li class="{{setActivationClass(url('admin/employee_settings'))}}">
                             <a href="{{url('admin/employee_settings')}}">{{__('Employees settings')}}</a>
                         </li>
 
                         <li class="{{setActivationClass(url('admin/employees_data'))}}">
                             <a href="{{url('admin/employees_data')}}">{{__('Employees Data')}}
-                            </a>
-                        </li>
+                </a>
+            </li>
 
-                        <li class="{{setActivationClass(url('admin/employees_attendance'))}}">
+            <li class="{{setActivationClass(url('admin/employees_attendance'))}}">
                             <a href="{{url('admin/employees_attendance')}}">{{__('Employees Attendance/Departure')}}</a>
                         </li>
 
@@ -743,11 +741,11 @@ url('admin/employees_salaries'),
                 </li> -->
 
 
-                @include('accounting-module.custom-aside')
+            @include('accounting-module.custom-aside')
 
 
 
-                <!-- <li class="{{setActivationClass([
+            <!-- <li class="{{setActivationClass([
 route('admin:concession-types.index'),
 route('admin:concession-relations.create'),
                      ])}}">
@@ -800,11 +798,11 @@ url('admin/concessions/archive'),
                 </li>
 
 
-
                 <li class="{{setActivationClass([
 route('admin:egyptian_federation.index'),
 route('admin:commercial_register.index'),
 route('admin:tax_card.index'),
+route('admin:register_added_value.index'),
                      ])}}">
                     <a class="parent-item js__control" href="#">
                         <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
@@ -812,7 +810,6 @@ route('admin:tax_card.index'),
                         <span class="menu-arrow fa fa-angle-down"></span>
                     </a>
                     <ul class="sub-menu js__content">
-
 
 
                         <li class="{{setActivationClass(route('admin:egyptian_federation.index'))}}">
@@ -824,9 +821,15 @@ route('admin:tax_card.index'),
                             <a href="{{route('admin:commercial_register.index')}}">
                                 {{__('Commercial Register')}}
                             </a>
-                        </li><li class="{{setActivationClass(route('admin:tax_card.index'))}}">
+                        </li>
+                        <li class="{{setActivationClass(route('admin:tax_card.index'))}}">
                             <a href="{{route('admin:tax_card.index')}}">
                                 {{__('Tax Card')}}
+                            </a>
+                        </li>
+                        <li class="{{setActivationClass(route('admin:register_added_value.index'))}}">
+                            <a href="{{route('admin:register_added_value.index')}}">
+                                {{__('Register Added Value')}}
                             </a>
                         </li>
                     </ul>

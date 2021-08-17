@@ -8,6 +8,7 @@ use App\Models\ConcessionLibrary;
 use App\Models\CustomerLibrary;
 use App\Models\EgyptianFederationLibrary;
 use App\Models\PartLibrary;
+use App\Models\RegisterAddedValueLibrary;
 use App\Models\SupplierLibrary;
 use App\Models\TaxCardLibrary;
 use Illuminate\Support\Facades\Storage;
@@ -39,6 +40,9 @@ trait LibraryServices
             }
             if ($type =='tax_card') {
                 $libraryPath = Str::slug($user->activity . '-' . $user->id);
+            }
+            if ($type =='register_added_value'){
+                 $libraryPath = Str::slug($user->area . '-' . $user->id);
             }
             $user->library_path = Str::slug($libraryPath);
 
@@ -117,6 +121,19 @@ trait LibraryServices
     {
         $fileInLibrary = CommercialRegisterLibrary::create([
             'commercial_register_id' => $commercial_register_id,
+            'file_name' => $file_name,
+            'extension' => $extension,
+            'name'=> $name,
+            'title_ar'=> $title_ar,
+            'title_en'=> $title_en,
+        ]);
+
+        return $fileInLibrary;
+    }
+    public function createRegisterAddedValueLibrary($register_added_value_id, $file_name, $extension, $name,$title_ar,$title_en)
+    {
+        $fileInLibrary = RegisterAddedValueLibrary::create([
+            'register_added_value_id' => $register_added_value_id,
             'file_name' => $file_name,
             'extension' => $extension,
             'name'=> $name,
