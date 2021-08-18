@@ -803,6 +803,7 @@ route('admin:egyptian_federation.index'),
 route('admin:commercial_register.index'),
 route('admin:tax_card.index'),
 route('admin:register_added_value.index'),
+route('admin:company_contract.index'),
                      ])}}">
                     <a class="parent-item js__control" href="#">
                         <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
@@ -830,6 +831,11 @@ route('admin:register_added_value.index'),
                         <li class="{{setActivationClass(route('admin:register_added_value.index'))}}">
                             <a href="{{route('admin:register_added_value.index')}}">
                                 {{__('Register Added Value')}}
+                            </a>
+                        </li>
+                        <li class="{{setActivationClass(route('admin:company_contract.index'))}}">
+                            <a href="{{route('admin:company_contract.index')}}">
+                                {{__('Company Contract')}}
                             </a>
                         </li>
                     </ul>

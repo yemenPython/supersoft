@@ -91,6 +91,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [
         include 'commercial_register.php';
         include 'tax_card.php';
         include 'register_added_value.php';
+        include 'company_contract.php';
 
 //      users
         Route::get('users/archive', 'UsersController@index')->name('users.archive');
