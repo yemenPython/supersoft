@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 
 class TreeService
@@ -42,14 +43,43 @@ class TreeService
             });
     }
 
-    function createForm($parentId, string $viewPath)
+    function createForm($parentId, string $viewPath, string $route)
     {
         $validationClass = 'App\Http\Requests\TreeCreateRequest';
-        $formRoute = route('admin:financial_management.type_revenue.store');
         return view($viewPath . '.create-form', [
             'parentId' => $parentId,
             'validationClass' => $validationClass,
-            'formRoute' => $formRoute,
+            'formRoute' => $route,
         ])->render();
+    }
+
+    public function insertToDB(Model $model, array $data)
+    {
+        if (!authIsSuperAdmin()) {
+            $data['branch_id'] = auth()->user()->branch_id;
+        }
+        return $model->create($data);
+    }
+
+    public function editForm(Model $model, string $viewPath, string $route)
+    {
+        $validationClass = 'App\Http\Requests\TreeCreateRequest';
+        return view($viewPath . '.edit-form', [
+            'item' => $model,
+            'validationClass' => $validationClass,
+            'formRoute' => $route
+        ])->render();
+    }
+
+    public function editInDB(Model $model, array $data)
+    {
+        return $model->update($data);
+    }
+
+    function deleteFromDB(Model $model) {
+        if ($model->where('parent_id', $model->id)->exists()) {
+            throw new Exception(__('this item linked to other items'));
+        }
+        return $model->delete();
     }
 }

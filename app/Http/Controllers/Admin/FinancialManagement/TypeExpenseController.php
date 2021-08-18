@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers\Admin\FinancialManagement;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\TreeCreateRequest;
+use App\Models\FinancialManagement\TypeExpense;
+use App\Services\TreeService;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use App\Services\TreeService;
-use App\Http\Controllers\Controller;
-use App\Models\FinancialManagement\TypeRevenue;
 
-class TypeRevenueController extends Controller
+class TypeExpenseController extends Controller
 {
     /**
      * @var string
      */
-    protected $viewPath = 'admin.financial_management.type_revenue.';
+    protected $viewPath = 'admin.financial_management.type_expenses.';
 
     /**
      * @var TreeService
@@ -40,7 +40,7 @@ class TypeRevenueController extends Controller
     public function __construct(TreeService $treeService)
     {
         $this->treeService = $treeService;
-        $this->model = new TypeRevenue();
+        $this->model = new TypeExpense();
         $this->route = route('admin:financial_management.type_expenses.store');
     }
 
@@ -61,8 +61,8 @@ class TypeRevenueController extends Controller
             if ($request->action_for == 'create') {
                 $form_code = $this->treeService->createForm($parent_id, $this->viewPath, $this->route);
             } else {
-                $model = TypeRevenue::findOrFail($id);
-                $formRoute = route('admin:financial_management.type_revenue.update', $model->id);
+                $model = TypeExpense::findOrFail($id);
+                $formRoute = route('admin:financial_management.type_expenses.update', $model->id);
                 $form_code = $this->treeService->editForm($model, $this->viewPath, $formRoute);
             }
             return response(['html_code' => $form_code]);
@@ -80,9 +80,9 @@ class TypeRevenueController extends Controller
         }
     }
 
-    function update(TreeCreateRequest $request , TypeRevenue $typeRevenue) {
+    function update(TreeCreateRequest $request , TypeExpense $typeExpense) {
         try {
-            $this->treeService->editInDB($typeRevenue, $request->all());
+            $this->treeService->editInDB($typeExpense, $request->all());
             return back()->with( ['message' => __( 'item updated successfully' ), 'alert-type' => 'success']);
         } catch (Exception $e) {
             return back()->with( ['message' => __( 'something went wrong' ), 'alert-type' => 'error']);
@@ -90,7 +90,7 @@ class TypeRevenueController extends Controller
     }
 
     function delete(int $id) {
-        $model = TypeRevenue::findOrFail($id);
+        $model = TypeExpense::findOrFail($id);
         try {
             $this->treeService->deleteFromDB($model);
             return back()->with( ['message' => __( 'item deleted successfully' ), 'alert-type' => 'success']);

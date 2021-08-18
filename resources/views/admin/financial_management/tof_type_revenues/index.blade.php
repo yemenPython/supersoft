@@ -8,7 +8,7 @@
     <nav>
         <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
             <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
-            <li class="breadcrumb-item"> {{__('Financial Management')}}</li>
+            <li class="breadcrumb-item"> {{__('Transfer of dues')}}</li>
             <li class="breadcrumb-item active"> {{__('Types Revenues')}}</li>
         </ol>
     </nav>
@@ -17,7 +17,7 @@
         <input type="hidden" id="selected-part-type-id"/>
         <br>
         <div class="col-md-12" style="margin-bottom: 20px">
-            @include('admin.financial_management.type_revenue.buttons')
+            @include('admin.financial_management.tof_type_revenues.buttons')
         </div>
 
         <div class="col-xs-12 ui-sortable-handle">
@@ -98,7 +98,7 @@
             $.ajax({
                 dataType: 'json',
                 type: 'GET',
-                url: `{{ route("admin:financial_management.type_revenue.create" ,['action_for' => 'create' ]) }}${id ? '?parent_id='+id : ''}`,
+                url: `{{ route("admin:financial_management.tof_type_revenues.create" ,['action_for' => 'create' ]) }}${id ? '?parent_id='+id : ''}`,
                 success: function (response) {
                     $("#form-modal").html(response.html_code)
                     $('#treeModal').modal('show');
@@ -121,7 +121,7 @@
             $.ajax({
                 dataType: 'json',
                 type: 'GET',
-                url: `{{ route("admin:financial_management.type_revenue.create" ,['action_for' => 'create' ]) }}${id ? '&parent_id='+id : ''}`,
+                url: `{{ route("admin:financial_management.tof_type_revenues.create" ,['action_for' => 'create' ]) }}${id ? '&parent_id='+id : ''}`,
                 success: function (response) {
                     $("#form-modal").html(response.html_code)
                     $('#treeModal').modal('show');
@@ -140,7 +140,7 @@
             $.ajax({
                 dataType: 'json',
                 type: 'GET',
-                url: `{{ route("admin:financial_management.type_revenue.create" ,['action_for' => 'edit' ]) }}${id ? '&id='+id : ''}`,
+                url: `{{ route("admin:financial_management.tof_type_revenues.create" ,['action_for' => 'edit' ]) }}${id ? '&id='+id : ''}`,
                 success: function (response) {
                     $("#form-modal").html(response.html_code)
                     $('#treeModal').modal('show');
@@ -168,7 +168,7 @@
                 }
             }).then(function(confirm_delete){
                 if (confirm_delete) {
-                    window.location = "{{ url('admin/financial_management/type_revenue/delete') }}"+"/"+id
+                    window.location = "{{ url('admin/financial_management/tof_type_revenues/delete') }}"+"/"+id
                 } else {
                     alert("{{ __('words.part-type-not-deleted') }}")
                 }
