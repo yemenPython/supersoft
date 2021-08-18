@@ -350,6 +350,43 @@
             });
         }
 
+        function getTypeItems () {
+
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            let type = $('#type').find(":selected").val();
+            let item_id = $('#item_id').find(":selected").val();
+            let branch_id = $('#branch_id').val();
+
+            $.ajax({
+
+                type: 'post',
+                url: '{{route('admin:return.sale.receipts.get.type.items')}}',
+                data: {
+                    _token: CSRF_TOKEN,
+                    type: type,
+                    branch_id:branch_id,
+                    item_id:item_id
+                },
+
+                success: function (data) {
+
+                    $("#parts_data").html(data.view);
+                    $("#items_count").val(data.index);
+
+                    $('.js-example-basic-single').select2();
+
+                    calculateTotal ()
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
+        }
+
     </script>
 
 @endsection

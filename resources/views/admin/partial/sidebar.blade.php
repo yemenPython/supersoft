@@ -515,7 +515,7 @@ route('admin:maintenance-detections.index'),
                 </li> -->
 
 
-  
+
                 <li class="{{setActivationClass([
 route('admin:lockers.index'),
 route('admin:accounts.index'),
@@ -580,7 +580,7 @@ route('admin:bank-receives.index'),
                             </a>
                         </li>
                     </ul>
-                </li> 
+                </li>
 
 
 
@@ -642,11 +642,11 @@ route('admin:expenseReceipts.index'),
 
                             </a>
                     </ul>
-                </li> 
+                </li>
 
                 </a>
         </ul>
-    </li> 
+    </li>
             <!--
                 <li class="{{setActivationClass([
 route('admin:purchase-invoices.index'),

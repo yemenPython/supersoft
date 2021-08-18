@@ -125,4 +125,16 @@ class SaleSupplyOrder extends Model
         return $this->belongsToMany(SalesInvoice::class, 'sales_invoices_sale_supply_orders',
             'sale_supply_order_id', 'sales_invoice_id');
     }
+
+    public function getCheckIfCompleteReceiptAttribute () {
+
+        foreach ($this->items as $item) {
+
+            if ($item->remaining_quantity_for_accept != 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

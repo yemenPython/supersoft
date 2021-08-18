@@ -3,8 +3,8 @@
     <td>
         <span id="item_number_{{$index}}">{{$index}}</span>
         <input type="hidden"
-               name="items[{{isset($update_item) ? $update_item->supply_order_item_id : $item->id}}][supply_order_item_id]"
-               value="{{isset($update_item) ? $update_item->supply_order_item_id : $item->id}}">
+               name="items[{{isset($update_item) ? $update_item->item_id : $item->id}}][item_id]"
+               value="{{isset($update_item) ? $update_item->item_id : $item->id}}">
     </td>
 
     <td>
@@ -20,11 +20,11 @@
         @if(isset($item))
             <span>{{$item->sparePart ? $item->sparePart->type : __('Not determined')}}</span>
         @elseif(isset($update_item))
-            <span>{{$update_item->supplyOrderItem &&  $update_item->supplyOrderItem->sparePart ? $update_item->supplyOrderItem->sparePart->type :  __('Not determined')}}</span>
+            <span>{{$update_item->relatedItem &&  $update_item->relatedItem->sparePart ? $update_item->relatedItem->sparePart->type :  __('Not determined')}}</span>
         @else
             <span> __('Not determined')}}</span>
         @endif
-</div>
+        </div>
     </td>
 
     <td class="inline-flex-span">
@@ -53,15 +53,12 @@
     </td>
 
     <td>
-   
         <div class="input-group" style="width: 120px !important;">
             @if(isset($update_item))
-            <span style="background:#F7F8CC !important">
-            {{isset($update_item) ? $update_item->price : __('Not determined')}}</span>
+            <span style="background:#F7F8CC !important">{{isset($update_item) ? $update_item->price : __('Not determined')}}</span>
                 <input type="hidden" disabled id="price_{{$index}}" value="{{$update_item->price}}">
             @else
-            <span style="background:#F7F8CC !important">
-            {{isset($item) ? $item->price : __('Not determined')}}</span>
+            <span style="background:#F7F8CC !important">{{isset($item) ? $item->price : __('Not determined')}}</span>
                 <input type="hidden" disabled id="price_{{$index}}" value="{{$item->price}}">
             @endif
         </div>
@@ -96,7 +93,6 @@
                min="0"
                name="items[{{ isset($update_item) ? $update_item->supply_order_item_id : $item->id}}][refused_quantity]"
                onchange="calculateRefusedQuantity('{{$index}}')" onkeyup="calculateRefusedQuantity('{{$index}}')">
-
     </td>
 
     <td>
@@ -106,12 +102,10 @@
                min="0"
                name="items[{{isset($update_item) ? $update_item->supply_order_item_id : $item->id}}][accepted_quantity]"
                onchange="calculateAcceptedQuantity('{{$index}}')" onkeyup="calculateAcceptedQuantity('{{$index}}')">
-
     </td>
 
     <td>
-        <span
-            id="defect_percent_{{$index}}">{{isset($update_item) ? ' % ' . $update_item->calculate_defected_percent : '0 %'}}</span>
+        <span id="defect_percent_{{$index}}">{{isset($update_item) ? ' % ' . $update_item->calculate_defected_percent : '0 %'}}</span>
     </td>
 
     <td>
