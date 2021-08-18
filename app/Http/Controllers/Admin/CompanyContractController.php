@@ -81,6 +81,7 @@ class CompanyContractController extends Controller
             if (!authIsSuperAdmin()) {
                 $data['branch_id'] = auth()->user()->branch_id;
             }
+            $data['user_id'] = auth()->id();
            $contact=  CompanyContract::create( $data );
 
           if (count(array_filter($request->all()['partners']))) {

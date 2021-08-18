@@ -516,7 +516,7 @@ route('admin:maintenance-detections.index'),
 
 
 
-                <li class="{{setActivationClass([
+             <!--   <li class="{{setActivationClass([
 route('admin:lockers.index'),
 route('admin:accounts.index'),
 route('admin:lockers-transfer.index'),
@@ -590,7 +590,7 @@ route('admin:bank-receives.index'),
     </li> -->
 
 
-                <li class="{{setActivationClass([
+             <!--   <li class="{{setActivationClass([
 route('admin:revenues_types.index'),
 route('admin:revenues_Items.index'),
 route('admin:revenueReceipts.index'),
@@ -832,6 +832,7 @@ route('admin:commercial_register.index'),
 route('admin:tax_card.index'),
 route('admin:register_added_value.index'),
 route('admin:company_contract.index'),
+route('admin:security_approval.index'),
                      ])}}">
                     <a class="parent-item js__control" href="#">
                         <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
@@ -864,6 +865,11 @@ route('admin:company_contract.index'),
                         <li class="{{setActivationClass(route('admin:company_contract.index'))}}">
                             <a href="{{route('admin:company_contract.index')}}">
                                 {{__('Company Contract')}}
+                            </a>
+                        </li>
+                        <li class="{{setActivationClass(route('admin:security_approval.index'))}}">
+                            <a href="{{route('admin:security_approval.index')}}">
+                                {{__('Security Approval')}}
                             </a>
                         </li>
                     </ul>

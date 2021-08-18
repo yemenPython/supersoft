@@ -12,6 +12,7 @@ use App\Models\CustomerLibrary;
 use App\Models\EgyptianFederationLibrary;
 use App\Models\PartLibrary;
 use App\Models\RegisterAddedValueLibrary;
+use App\Models\SecurityApprovalLibrary;
 use App\Models\SupplierLibrary;
 use App\Models\TaxCardLibrary;
 use Illuminate\Support\Facades\Storage;
@@ -47,7 +48,7 @@ trait LibraryServices
             if ($type == 'register_added_value') {
                 $libraryPath = Str::slug( $user->area . '-' . $user->id );
             }
-            if ($type == 'company_contract') {
+            if (in_array( $type, ['security_approval', 'company_contract'] )) {
                 $libraryPath = Str::slug( $user->commercial_feature . '-' . $user->id );
             }
             $user->library_path = Str::slug( $libraryPath );
@@ -157,6 +158,20 @@ trait LibraryServices
     {
         $fileInLibrary = CompanyContractLibrary::create( [
             'company_contract_id' => $company_contract_id,
+            'file_name' => $file_name,
+            'extension' => $extension,
+            'name' => $name,
+            'title_ar' => $title_ar,
+            'title_en' => $title_en,
+        ] );
+
+        return $fileInLibrary;
+    }
+
+    public function createSecurityApprovalLibrary($security_approval_id, $file_name, $extension, $name, $title_ar, $title_en)
+    {
+        $fileInLibrary = SecurityApprovalLibrary::create( [
+            'security_approval_id' => $security_approval_id,
             'file_name' => $file_name,
             'extension' => $extension,
             'name' => $name,

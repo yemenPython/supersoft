@@ -15,6 +15,12 @@ class CreateSecurityApprovalLibrariesTable extends Migration
     {
         Schema::create('security_approval_libraries', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('security_approval_id');
+            $table->string('name');
+            $table->string('file_name');
+            $table->string('extension');
+            $table->string('title_ar')->nullable();
+            $table->string('title_en')->nullable();
             $table->timestamps();
         });
     }

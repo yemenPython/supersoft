@@ -24,27 +24,25 @@ class SecurityApproval extends Model
     protected $fillable = [
         'branch_id',
         'user_id',
-        'contract_date',
-        'register_date',
+        'register_no',
+        'expiration_date',
         'commercial_feature',
-        'company_purpose',
-        'share_capital',
-        'partnership_duration',
-        'start_at',
-        'end_at',
+        'company_type',
+        'company_field',
+        'fax',
         'library_path'
     ];
 
     protected static $logAttributes = [
         'branch_id',
-        'contract_date',
-        'register_date',
+        'user_id',
+        'register_no',
+        'expiration_date',
         'commercial_feature',
-        'company_purpose',
-        'share_capital',
-        'partnership_duration',
-        'start_at',
-        'end_at',
+        'company_type',
+        'company_field',
+        'fax',
+        'library_path'
      ];
 
     protected static $logOnlyDirty = true;
@@ -65,18 +63,18 @@ class SecurityApproval extends Model
     }
     public function files()
     {
-        return $this->hasMany(CompanyContractLibrary::class, 'company_contract_id');
+        return $this->hasMany(SecurityApprovalLibrary::class, 'security_approval_id');
     }
     public function owners()
     {
-        return $this->hasMany(CompanyContractPartners::class,'company_contract_id');
+        return $this->hasMany(SecurityApprovalOwners::class,'security_approval_id');
     }
     public function representatives()
     {
-        return $this->hasMany(CompanyContractCompanyShare::class,'company_contract_id');
+        return $this->hasMany(SecurityApprovalRepresentatives::class,'security_approval_id');
     }
     public function phones()
     {
-        return $this->hasMany(CompanyContractCompanyShare::class,'company_contract_id');
+        return $this->hasMany(SecurityApprovalPhones::class,'security_approval_id');
     }
 }

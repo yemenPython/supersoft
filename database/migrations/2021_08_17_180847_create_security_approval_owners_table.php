@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSecurityApprovalCompanyRepresentativesTable extends Migration
+class CreateSecurityApprovalOwnersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateSecurityApprovalCompanyRepresentativesTable extends Migration
      */
     public function up()
     {
-        Schema::create('security_approval_company_representatives', function (Blueprint $table) {
+        Schema::create('security_approval_owners', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('security_approval_id');
-            $table->string('representative');
+            $table->string('owner');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateSecurityApprovalCompanyRepresentativesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('security_approval_company_representatives');
+        Schema::dropIfExists('security_approval_owners');
     }
 }
