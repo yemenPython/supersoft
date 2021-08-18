@@ -91,6 +91,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [
         include 'commercial_register.php';
         include 'tax_card.php';
 
+        ///// Begin Financial Management routes ////
+        include ('FinancialManagement/routes.php');
+        ///// End Financial Management routes /////
+
 //      users
         Route::get('users/archive', 'UsersController@index')->name('users.archive');
         Route::delete('users/force-delete/{user}', 'UsersController@forceDelete')->name('users.force_delete');

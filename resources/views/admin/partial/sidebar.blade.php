@@ -346,6 +346,22 @@ route('admin:sale-assets.index'),
                     </ul>
                 </li>
 
+                <li class="">
+                    <a class="parent-item js__control" href="#">
+                        <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
+                        <span>{{__('Financial Management')}}</span>
+                        <span class="menu-arrow fa fa-angle-down"></span>
+                    </a>
+                    <ul class="sub-menu js__content">
+
+                        <li class="{{setActivationClass(route('admin:financial_management.type_revenue.index'))}}">
+                            <a href="{{route('admin:financial_management.type_revenue.index')}}">
+                                {{__('Types Revenues')}}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="{{setActivationClass([
 route('admin:services-types.index'),
 route('admin:services.index'),
