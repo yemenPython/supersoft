@@ -2275,5 +2275,7 @@
     "Maintenance Period (by month)" : "الفترة الزمنية للصيانة (بالشهر)",
     "Number Of KM or Hour" : "عدد الكيلو مترات أو الساعات",
     "Asset Details" : "تفاصيل بيانات الأصل",
-    "Package name" : "اسم الباكيدج"
+    "Package name" : "اسم الباكيدج",
+    "Financial Management" : "الأدارة المالية",
+    "Types Revenues" : "أنواع الأيردات"
 }

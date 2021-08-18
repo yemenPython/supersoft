@@ -249,4 +249,17 @@ class SalesInvoice extends Model
     {
         return $this->hasMany(SalesInvoiceLibrary::class, 'sales_invoice_id');
     }
+
+    public function getCheckIfCompleteReceiptAttribute () {
+
+        foreach ($this->items as $item) {
+
+            if ($item->remaining_quantity_for_accept != 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 }

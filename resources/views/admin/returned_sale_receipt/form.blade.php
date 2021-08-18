@@ -117,7 +117,7 @@
 
                 <div class="col-md-4">
                     <div class="form-group has-feedback" id="returned_type_items">
-                        <label for="inputStore" class="control-label">{{__('sasa')}}</label>
+                        <label for="inputStore" class="control-label">{{__('Items')}}</label>
                         <div class="input-group">
 
                             <span class="input-group-addon fa fa-file-text-o"></span>

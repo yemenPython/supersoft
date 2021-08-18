@@ -1,9 +1,9 @@
-<label for="inputStore" class="control-label">{{__('items')}}</label>
+<label for="inputStore" class="control-label">{{__('Items')}}</label>
 <div class="input-group">
 
     <span class="input-group-addon fa fa-file-text-o"></span>
 
-    <select class="form-control js-example-basic-single" name="salesable_id" id="salesable_id" onchange="selectSupplyOrder()">
+    <select class="form-control js-example-basic-single" name="salesable_id" id="item_id" onchange="getTypeItems()">
 
         <option value="">{{__('Select')}}</option>
 
@@ -16,4 +16,5 @@
 
     </select>
 </div>
+
 {{input_error($errors,'salesable_id')}}

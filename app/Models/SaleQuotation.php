@@ -130,4 +130,16 @@ class SaleQuotation extends Model
         return $this->belongsToMany(SalesInvoice::class, 'sales_invoices_sale_quotations',
             'sale_quotation_id', 'sales_invoice_id');
     }
+
+    public function getCheckIfCompleteReceiptAttribute () {
+
+        foreach ($this->items as $item) {
+
+            if ($item->remaining_quantity_for_accept != 0) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

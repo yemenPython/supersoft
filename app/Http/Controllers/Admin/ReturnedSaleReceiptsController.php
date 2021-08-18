@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Requests\Admin\ReturnSaleReceipt\CreateRequest;
 use App\Models\Branch;
 use App\Models\ReturnedSaleReceipt;
 use App\Models\SaleQuotation;
@@ -11,6 +12,7 @@ use App\Services\ReturnedSaleReceiptServices;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class ReturnedSaleReceiptsController extends Controller
@@ -60,56 +62,67 @@ class ReturnedSaleReceiptsController extends Controller
 
     public function store (CreateRequest $request) {
 
+//        dd($request->all());
+
         try {
 
             $data = $request->all();
 
             $branch_id = authIsSuperAdmin() ? $request['branch_id'] : auth()->user()->branch_id;
 
-            $supplyOrder = SupplyOrder::find($data['supply_order_id']);
+            if (request()['type'] == 'from_invoice') {
+                $salesable = SalesInvoice::find($data['salesable_id']);
 
-            if ($supplyOrder->check_if_complete_receipt) {
+            }elseif (request()['type'] == 'from_sale_quotation'){
+                $salesable = SaleQuotation::find($data['salesable_id']);
+
+            }else {
+                $salesable = SaleSupplyOrder::find($data['salesable_id']);
+            }
+
+            if ($salesable->check_if_complete_receipt) {
                 return redirect()->back()->with(['message'=> __('sorry, this supply order is complete'), 'alert-type'=>'error']);
             }
 
-            $validateData = $this->purchaseReceiptServices->validateItemsQuantity($supplyOrder, $data['items']);
+            $validateData = $this->returnedSaleReceiptServices->validateItemsQuantity($salesable, $data['items']);
 
             if (!$validateData['status']) {
                 $message = isset($validateData['message']) ? $validateData['message'] : 'sorry, please try later';
                 return redirect()->back()->with(['message'=> $message, 'alert-type'=>'error']);
             }
 
-            $purchaseReceiptData = $this->purchaseReceiptServices->purchaseReceiptData($data);
+            $returnedReceiptData = $this->returnedSaleReceiptServices->returnedReceiptData($data);
 
-            $purchaseReceiptData['branch_id'] = $branch_id;
-            $purchaseReceiptData['user_id'] = auth()->id();
-            $purchaseReceiptData['supplier_id'] = $supplyOrder->supplier_id;
+            $returnedReceiptData['branch_id'] = $branch_id;
+            $returnedReceiptData['user_id'] = auth()->id();
+            $returnedReceiptData['clientable_id'] = $salesable->salesable_id;
+            $returnedReceiptData['clientable_type'] = $salesable->salesable_type;
 
-            $lastNumber = PurchaseReceipt::where('branch_id', $branch_id)->orderBy('id', 'desc')->first();
+            $lastNumber = ReturnedSaleReceipt::where('branch_id', $branch_id)->orderBy('id', 'desc')->first();
 
-            $purchaseReceiptData['number'] = $lastNumber ? $lastNumber->number + 1 : 1;
+            $returnedReceiptData['number'] = $lastNumber ? $lastNumber->number + 1 : 1;
 
             DB::beginTransaction();
 
-            $purchaseReceipt = PurchaseReceipt::create($purchaseReceiptData);
+            $returnedReceipt = ReturnedSaleReceipt::create($returnedReceiptData);
 
-            $total = $this->purchaseReceiptServices->savePurchaseReceiptItems($supplyOrder, $data['items'], $purchaseReceipt->id);
+            $total = $this->returnedSaleReceiptServices->saveReturnedReceiptItems($salesable, $data['items'], $returnedReceipt);
 
-            $purchaseReceipt->total = $total['total'];
-            $purchaseReceipt->total_accepted = $total['total_accepted'];
-            $purchaseReceipt->total_rejected = $total['total_rejected'];
-            $purchaseReceipt->save();
+            $returnedReceipt->total = $total['total'];
+            $returnedReceipt->total_accepted = $total['total_accepted'];
+            $returnedReceipt->total_rejected = $total['total_rejected'];
+            $returnedReceipt->save();
 
             DB::commit();
         }catch (\Exception $e) {
             DB::rollBack();
 
-            dd($e->getMessage());
+            dd($e->getMessage(), $e->getLine());
             return redirect()->back()->with(['message'=> __('sorry, please try later'), 'alert-type'=>'error']);
         }
 
-        return redirect(route('admin:purchase-receipts.index'))
-            ->with(['message'=> __('purchase.receipts.created.successfully'), 'alert-type'=>'success']);
+        return redirect(route('admin:return-sale-receipts.index'))
+            ->with(['message'=> __('returned.receipts.created.successfully'), 'alert-type'=>'success']);
     }
 
     public function edit (ReturnedSaleReceipt $returnedSaleReceipt) {
@@ -307,6 +320,59 @@ class ReturnedSaleReceiptsController extends Controller
                 $view = view('admin.returned_sale_receipt.ajax_type_items', compact('items'))->render();
 
             return response()->json(['parts'=> $view ], 200);
+
+        }catch (\Exception $e) {
+
+            return response()->json('sorry, please try later', 400);
+        }
+    }
+
+    public function getTypeItems (Request $request) {
+
+        $rules = [
+            'type'=>'required|string|in:from_invoice,from_sale_quotation,from_sale_supply_order',
+        ];
+
+        if ($request['type'] == 'from_invoice') {
+            $rules['item_id'] = 'required|integer|exists:sales_invoices,id';
+
+        }elseif ($request['type'] == 'from_sale_quotation'){
+            $rules['item_id'] = 'required|integer|exists:sale_quotations,id';
+
+        }else {
+            $rules['item_id'] = 'required|integer|exists:sale_supply_orders,id';
+        }
+
+        $rules['branch_id'] = authIsSuperAdmin() ? 'required|integer|exists:branches,id':'';
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        try {
+
+            $type = $request['type'];
+
+            if ($type == 'from_invoice') {
+
+                $saleModel = SalesInvoice::find($request['item_id']);
+
+            }elseif ($type == 'from_sale_quotation') {
+
+                $saleModel = SaleQuotation::find($request['item_id']);
+
+            }else {
+
+                $saleModel = SaleSupplyOrder::find($request['item_id']);
+            }
+
+            $index = $saleModel->items->count();
+
+            $view = view('admin.returned_sale_receipt.ajax_items', compact('saleModel'))->render();
+
+            return response()->json(['view'=> $view, 'index'=> $index], 200);
 
         }catch (\Exception $e) {
 

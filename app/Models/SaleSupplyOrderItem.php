@@ -40,4 +40,20 @@ class SaleSupplyOrderItem extends Model
     {
         return $this->belongsTo(SparePart::class, 'spare_part_id');
     }
+
+    public function saleReturnedItem()
+    {
+        return $this->morphMany(ReturnedSaleReceiptItem::class, 'itemable');
+    }
+
+    public function getAcceptedQuantityAttribute()
+    {
+        return $this->saleReturnedItem->sum('accepted_quantity');
+    }
+
+    public function getRemainingQuantityForAcceptAttribute()
+    {
+        $acceptedQuantity = $this->accepted_quantity;
+        return $this->quantity - $acceptedQuantity;
+    }
 }

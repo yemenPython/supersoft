@@ -345,6 +345,22 @@ route('admin:sale-assets.index'),
                     </ul>
                 </li>
 
+                <li class="">
+                    <a class="parent-item js__control" href="#">
+                        <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
+                        <span>{{__('Financial Management')}}</span>
+                        <span class="menu-arrow fa fa-angle-down"></span>
+                    </a>
+                    <ul class="sub-menu js__content">
+
+                        <li class="{{setActivationClass(route('admin:financial_management.type_revenue.index'))}}">
+                            <a href="{{route('admin:financial_management.type_revenue.index')}}">
+                                {{__('Types Revenues')}}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
                 <li class="{{setActivationClass([
 route('admin:services-types.index'),
 route('admin:services.index'),
@@ -499,7 +515,7 @@ route('admin:maintenance-detections.index'),
                 </li> -->
 
 
-            <!--
+
                 <li class="{{setActivationClass([
 route('admin:lockers.index'),
 route('admin:accounts.index'),
@@ -560,12 +576,20 @@ route('admin:bank-receives.index'),
             <li class="{{setActivationClass(route('admin:bank-receives.index'))}}">
                             <a href="{{route('admin:bank-receives.index')}}">
                                 {{ __('words.bank-receives') }}
+
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+
                 </a>
             </li>
         </ul>
     </li> -->
 
-            <!--
+
                 <li class="{{setActivationClass([
 route('admin:revenues_types.index'),
 route('admin:revenues_Items.index'),
@@ -615,10 +639,14 @@ route('admin:expenseReceipts.index'),
             <li class="{{setActivationClass(route('admin:expenseReceipts.index'))}}">
                             <a href="{{route('admin:expenseReceipts.index')}}">
                                 {{__('Expenses Receipts')}}
+
+                            </a>
+                    </ul>
+                </li>
+
                 </a>
         </ul>
-    </li> -->
-
+    </li>
             <!--
                 <li class="{{setActivationClass([
 route('admin:purchase-invoices.index'),
