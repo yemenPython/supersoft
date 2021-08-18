@@ -90,6 +90,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [
         include 'egyptian_federation_of_construction_and_building_contractors.php';
         include 'commercial_register.php';
         include 'tax_card.php';
+        include 'register_added_value.php';
 
         ///// Begin Financial Management routes ////
         include ('FinancialManagement/routes.php');
