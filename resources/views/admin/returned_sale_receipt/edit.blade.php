@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Edit Purchase Receipt') }} </title>
+    <title>{{ __('Edit Returned Sales Receipt') }} </title>
 @endsection
 
 @section('style')
@@ -16,8 +16,8 @@
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
                 <li class="breadcrumb-item active"><a
-                        href="{{route('admin:purchase-receipts.index')}}"> {{__('Purchase Receipt')}}</a></li>
-                <li class="breadcrumb-item active"> {{__('Edit Purchase Receipt')}}</li>
+                        href="{{route('admin:return-sale-receipts.index')}}"> {{__('Returned Sales Receipts')}}</a></li>
+                <li class="breadcrumb-item active"> {{__('Edit Returned Sales Receipt')}}</li>
             </ol>
         </nav>
 
@@ -28,7 +28,7 @@
             <div class=" card box-content-wg-new bordered-all primary">
 
                 <h4 class="box-title with-control" style="text-align: initial"><i class="fa fa-file-text-o"></i>
-                    {{__('Edit Purchase Receipt')}}
+                    {{__('Edit Returned Sales Receipt')}}
                     <span class="controls hidden-sm hidden-xs pull-left">
                       <button class="control text-white"
                               style="background:none;border:none;font-size:14px;font-weight:normal !important;">{{__('Save')}}
@@ -47,12 +47,12 @@
                 </h4>
 
                 <div class="box-content">
-                    <form method="post" action="{{route('admin:purchase-receipts.update', $purchaseReceipt->id)}}"
-                          class="form" enctype="multipart/form-data">
+                    <form method="post" action="{{route('admin:return-sale-receipts.update', $returnSaleReceipt->id)}}" class="form"
+                          enctype="multipart/form-data">
                         @csrf
-                        @method('Patch')
+                        @method('patch')
 
-                        @include('admin.purchase_receipts.form')
+                        @include('admin.returned_sale_receipt.form')
 
                         <div class="form-group col-sm-12">
                             @include('admin.buttons._save_buttons')
@@ -66,6 +66,7 @@
         </div>
         <!-- /.col-xs-12 -->
     </div>
+
 
     <!-- /.row small-spacing -->
 @endsection
@@ -139,7 +140,8 @@
 
 @section('js-validation')
 
-    {!! JsValidator::formRequest('App\Http\Requests\Admin\PurchaseReceipt\CreateRequest', '.form'); !!}
+        {!! JsValidator::formRequest('App\Http\Requests\Admin\ReturnSaleReceipt\CreateRequest', '.form'); !!}
+
     @include('admin.partial.sweet_alert_messages')
 
 @endsection
@@ -148,48 +150,10 @@
 
     <script type="application/javascript">
 
-        function changeBranch() {
-            let branch_id = $('#branch_id').find(":selected").val();
-            window.location.href = "{{route('admin:purchase-receipts.create')}}" + "?branch_id=" + branch_id;
-        }
-
-        function selectSupplyOrder() {
-
-            if (!checkBranchValidation()) {
-                swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
-                return false;
-            }
-
-            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
-            let supply_order_id = $('#supply_order_id').find(":selected").val();
-
-            $.ajax({
-
-                type: 'post',
-                url: '{{route('admin:purchase.receipts.select.supply.order')}}',
-                data: {
-                    _token: CSRF_TOKEN,
-                    supply_order_id: supply_order_id,
-                },
-
-                success: function (data) {
-
-                    $("#parts_data").html(data.parts);
-                    $("#items_count").val(data.index);
-                    $("#supplier_id").val(data.supplier_name);
-
-                    $('.js-example-basic-single').select2();
-
-                    calculateTotal ();
-                },
-
-                error: function (jqXhr, json, errorThrown) {
-                    var errors = jqXhr.responseJSON;
-                    swal({text: errors, icon: "error"})
-                }
-            });
-        }
+        {{--function changeBranch() {--}}
+        {{--    let branch_id = $('#branch_id').find(":selected").val();--}}
+        {{--    window.location.href = "{{route('admin:return-sale-receipts.create')}}" + "?branch_id=" + branch_id;--}}
+        {{--}--}}
 
         function checkBranchValidation() {
 
@@ -251,6 +215,7 @@
             let defect_percent = parseFloat(refused_quantity) * parseInt(100) / parseInt(item_total_qty);
 
             $('#defect_percent_' + index).text( ' % ' +defect_percent.toFixed(2));
+
             calculateTotal ();
         }
 
@@ -278,7 +243,8 @@
 
             let defect_percent = parseFloat(remainQty) * parseInt(100) / parseInt(item_total_qty);
 
-            $('#defect_percent_' + index).text( ' % ' + defect_percent.toFixed(2));
+            $('#defect_percent_' + index).text( ' % ' +defect_percent.toFixed(2));
+
             calculateTotal ();
         }
 
@@ -312,6 +278,77 @@
             $('#part_image').attr('src', image_path);
         }
 
-    </script>
+        function selectReturnedType () {
 
+            if (!checkBranchValidation()) {
+                swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
+                return false;
+            }
+
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            let type = $('#type').find(":selected").val();
+            let branch_id = $('#branch_id').val();
+
+            $.ajax({
+
+                type: 'post',
+                url: '{{route('admin:return.sale.receipts.select.type')}}',
+                data: {
+                    _token: CSRF_TOKEN,
+                    type: type,
+                    branch_id:branch_id
+                },
+
+                success: function (data) {
+
+                    $("#returned_type_items").html(data.parts);
+                    $('.js-example-basic-single').select2();
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+        }
+
+        function getTypeItems () {
+
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            let type = $('#type').find(":selected").val();
+            let item_id = $('#item_id').find(":selected").val();
+            let branch_id = $('#branch_id').val();
+
+            $.ajax({
+
+                type: 'post',
+                url: '{{route('admin:return.sale.receipts.get.type.items')}}',
+                data: {
+                    _token: CSRF_TOKEN,
+                    type: type,
+                    branch_id:branch_id,
+                    item_id:item_id
+                },
+
+                success: function (data) {
+
+                    $("#parts_data").html(data.view);
+                    $("#items_count").val(data.index);
+
+                    $('.js-example-basic-single').select2();
+
+                    calculateTotal ()
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
+        }
+
+    </script>
 @endsection

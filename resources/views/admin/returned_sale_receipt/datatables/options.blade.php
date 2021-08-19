@@ -3,10 +3,6 @@
     '<span class="text-danger">{{ optional($item->branch)->name}}</span>
 @endif
 
-@if (isset($withSupplier))
-    <span class="text-danger">{{ $item->supplier ? $item->supplier->name : '' }}</span>
-@endif
-
 @if (isset($withDate))
     <span class="text-danger">{!! $item->date !!}</span>
 @endif
@@ -30,44 +26,44 @@
 
 
 
-@if (isset($withStatus))
-    @if( $item->concession )
+{{--@if (isset($withStatus))--}}
+{{--    @if( $item->concession )--}}
 
-        @if( $item->concession->status == 'pending' )
-            <span class="label label-info wg-label"> {{__('Pending')}}</span>
-        @elseif( $item->concession->status == 'accepted' )
-            <span class="label label-success wg-label"> {{__('Accepted')}} </span>
-        @elseif( $item->concession->status == 'rejected' )
-            <span class="label label-danger wg-label"> {{__('Rejected')}} </span>
-        @endif
+{{--        @if( $item->concession->status == 'pending' )--}}
+{{--            <span class="label label-info wg-label"> {{__('Pending')}}</span>--}}
+{{--        @elseif( $item->concession->status == 'accepted' )--}}
+{{--            <span class="label label-success wg-label"> {{__('Accepted')}} </span>--}}
+{{--        @elseif( $item->concession->status == 'rejected' )--}}
+{{--            <span class="label label-danger wg-label"> {{__('Rejected')}} </span>--}}
+{{--        @endif--}}
 
-    @else
-        <span
-            class="label label-warning wg-label">  {{__('Not determined')}} </span>
-    @endif
-@endif
+{{--    @else--}}
+{{--        <span--}}
+{{--            class="label label-warning wg-label">  {{__('Not determined')}} </span>--}}
+{{--    @endif--}}
+{{--@endif--}}
 
 
 
-@if (isset($executionStatus))
-    @if($item->execution)
+{{--@if (isset($executionStatus))--}}
+{{--    @if($item->execution)--}}
 
-        @if($item->execution->status == 'pending' )
-            <span class="label label-info wg-label"> {{__('Processing')}}</span>
+{{--        @if($item->execution->status == 'pending' )--}}
+{{--            <span class="label label-info wg-label"> {{__('Processing')}}</span>--}}
 
-        @elseif($item->execution->status == 'finished' )
-            <span class="label label-success wg-label"> {{__('Finished')}} </span>
+{{--        @elseif($item->execution->status == 'finished' )--}}
+{{--            <span class="label label-success wg-label"> {{__('Finished')}} </span>--}}
 
-        @elseif($item->execution->status == 'late' )
-            <span class="label label-danger wg-label"> {{__('Late')}} </span>
-        @endif
+{{--        @elseif($item->execution->status == 'late' )--}}
+{{--            <span class="label label-danger wg-label"> {{__('Late')}} </span>--}}
+{{--        @endif--}}
 
-    @else
-        <span class="label label-warning wg-label">
-      {{__('Not determined')}}
-</span>
-    @endif
-@endif
+{{--    @else--}}
+{{--        <span class="label label-warning wg-label">--}}
+{{--      {{__('Not determined')}}--}}
+{{--</span>--}}
+{{--    @endif--}}
+{{--@endif--}}
 
 @if (isset($withActions))
 
@@ -82,7 +78,7 @@
             <li>
                 @component('admin.buttons._edit_button',[
                             'id'=>$item->id,
-                            'route' => 'admin:purchase-receipts.edit',
+                            'route' => 'admin:return-sale-receipts.edit',
                              ])
                 @endcomponent
             </li>
@@ -90,7 +86,7 @@
 
                 @component('admin.buttons._delete_button',[
                             'id'=> $item->id,
-                            'route' => 'admin:purchase-receipts.destroy',
+                            'route' => 'admin:return-sale-receipts.destroy',
                              ])
                 @endcomponent
             </li>
@@ -105,15 +101,15 @@
             </li>
 
             <li>
-                <a style="cursor:pointer" href="{{route('admin:purchase.receipts.data.show', $item->id)}}"
+                <a style="cursor:pointer" href="{{route('admin:return-sale-receipts.show', $item->id)}}"
                    class="btn btn-terms-wg text-white hvr-radial-out" title="{{__('Show')}}">
                     <i class="fa fa-eye"></i> {{__('Show')}}
                 </a>
             </li>
 
-            <li>
-                @include('admin.partial.execution_period', ['id'=> $item->id])
-            </li>
+{{--            <li>--}}
+{{--                @include('admin.partial.execution_period', ['id'=> $item->id])--}}
+{{--            </li>--}}
 
 
             <li>
@@ -126,9 +122,6 @@
 @endif
 
 @if (isset($withOptions))
-    @component('admin.buttons._delete_selected',[
-                                                  'id' => $item->id,
-                                                   'route' => 'admin:purchase-receipts.deleteSelected',
-                                                   ])
+    @component('admin.buttons._delete_selected',['id' => $item->id, 'route' => 'admin:return.sale.receipts.deleteSelected',])
     @endcomponent
 @endif

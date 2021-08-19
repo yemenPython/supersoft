@@ -1,6 +1,6 @@
 <div id="concession_to_print">
     <div class="border-container" style="">
-        @foreach($purchaseReceipt->items()->get()->chunk(15) as $one)
+        @foreach($returnedSaleReceipt->items()->get()->chunk(15) as $one)
 
 
             <div class="print-header-wg">
@@ -52,12 +52,12 @@
                                         <table class="table table-time-user">
                                             <tr>
                                                 <th style="font-weight: normal !important;">{{__('Time & Date')}}</th>
-                                                <td style="font-weight: normal !important;">{{$purchaseReceipt->time}}
-                                                    - {{$purchaseReceipt->date}}</td>
+                                                <td style="font-weight: normal !important;">{{$returnedSaleReceipt->time}}
+                                                    - {{$returnedSaleReceipt->date}}</td>
                                             </tr>
                                             <tr>
                                                 <th style="font-weight: normal !important;">{{__('User Name')}}</th>
-                                                <td style="font-weight: normal !important;">{{optional($purchaseReceipt->user)->name}}</td>
+                                                <td style="font-weight: normal !important;">{{optional($returnedSaleReceipt->user)->name}}</td>
                                             </tr>
                                         </table>
                                     </div>
@@ -75,14 +75,14 @@
                         <tbody>
                         <tr>
                             <th style="width:20% !important">{{__('Purchase Receipt Number')}}</th>
-                            <td> {{$purchaseReceipt->number }} </td>
+                            <td> {{$returnedSaleReceipt->number }} </td>
                             <th style="width:20% !important">{{__('Supply Order Number')}}</th>
-                            <td> {{optional($purchaseReceipt->supplyOrder)->number}} </td>
+                            <td> {{optional($returnedSaleReceipt->salesable)->number}} </td>
                         </tr>
 
                         <tr>
-                            <th>{{__('Supplier name')}}</th>
-                            <td colspan="6">{{__($purchaseReceipt->supplier->name)}} </td>
+                            <th>{{__('Client name')}}</th>
+                            <td colspan="6">{{__($returnedSaleReceipt->clientable->name)}} </td>
                         </tr>
 
                         </tbody>
@@ -92,7 +92,7 @@
             @endif
 
             <div style="padding:0 20px;">
-                <h5>{{__('Purchase Receipt items')}}</h5>
+                <h5>{{__('Returned Receipt items')}}</h5>
 
                 <div class="table-responsive">
                     <table class="table print-table-wg table-borderless"
@@ -146,7 +146,7 @@
                                     <h6>{{__('Total Price')}}</h6>
                                 </div>
                                 <div class="col-xs-6" style="padding:0px !important">
-                                    <h6> {{$purchaseReceipt->total }} </h6>
+                                    <h6> {{$returnedSaleReceipt->total }} </h6>
                                 </div>
                             </div>
 
@@ -160,7 +160,7 @@
                                     <h6>{{__('Total Accepted')}}</h6>
                                 </div>
                                 <div class="col-xs-6" style="padding:0px !important">
-                                    <h6> {{$purchaseReceipt->total_accepted }} </h6>
+                                    <h6> {{$returnedSaleReceipt->total_accepted }} </h6>
                                 </div>
                             </div>
 
@@ -174,7 +174,7 @@
                                     <h6>{{__('Total Rejected')}}</h6>
                                 </div>
                                 <div class="col-xs-6" style="padding:0px !important">
-                                    <h6> {{$purchaseReceipt->total_rejected }} </h6>
+                                    <h6> {{$returnedSaleReceipt->total_rejected }} </h6>
                                 </div>
                             </div>
 
@@ -188,7 +188,7 @@
                             <h5 class="title">{{__('Notes')}}</h5>
                             <p style="font-size:14px">
 
-                                {!! $purchaseReceipt->notes !!}
+                                {!! $returnedSaleReceipt->notes !!}
 
                             </p>
                         </div>

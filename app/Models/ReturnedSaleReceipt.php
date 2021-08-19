@@ -18,13 +18,11 @@ class ReturnedSaleReceipt extends Model
         'DT_RowIndex' => 'DT_RowIndex',
         'date' => 'date',
         'branch_id' => 'branch_id',
-        'supplier_id' => 'supplier_id',
+        'client_id' => 'client_id',
         'number' => 'number',
         'total' => 'total',
         'total_accepted' => 'total_accepted',
         'total_rejected' => 'total_rejected',
-        'status' => 'status',
-        'executionStatus' => 'executionStatus',
         'created_at' => 'created_at',
         'updated_at' => 'updated_at',
         'action' => 'action',
@@ -61,10 +59,10 @@ class ReturnedSaleReceipt extends Model
 //        return $this->hasOne(PurchaseReceiptExecution::class, 'purchase_receipt_id');
 //    }
 //
-//    public function files()
-//    {
-//        return $this->hasMany(PurchaseReceiptLibrary::class, 'purchase_receipt_id');
-//    }
+    public function files()
+    {
+        return $this->hasMany(ReturnedReceiptLibrary::class, 'returned_receipt_id');
+    }
 
     public function items()
     {
