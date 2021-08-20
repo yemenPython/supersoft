@@ -85,19 +85,6 @@
                         </tbody>
                     </table>
 
-                    <table class="table static-table-wg">
-                        <tbody>
-
-                        <tr>
-                            <th>{{ __('words.store-from') }}</th>
-                            <td> {{isset($openingBalance) ? optional($openingBalance->store_from)->name : '--'}} </td>
-
-                            <th>{{ __('words.store-to') }}</th>
-                            <td> {{isset($openingBalance) ? optional($openingBalance->store_to)->name : '--'}} </td>
-                        </tr>
-
-                        </tbody>
-                    </table>
 
                 </div>
             @endif
@@ -203,7 +190,7 @@
                                     <h6>{{__('Final Total')}}</h6>
                                 </div>
                                 <div class="col-xs-6">
-                                    <h6>{{isset($openingBalance) ? $openingBalance->total : 0}}</h6>
+                                    <h6>{{isset($openingBalance) ? $openingBalance->total_money : 0}}</h6>
                                 </div>
                             </div>
 
@@ -217,7 +204,7 @@
                             <div class="row last-total" style="background-color:#ddd !important">
 
                                 <div class="col-xs-12">
-                                    <h6 data-id="data-totalInLetters" id="totalInLetters"> {{$openingBalance->total}} </h6>
+                                    <h6 data-id="data-totalInLetters" id="totalInLetters"> {{$openingBalance->total_money}} </h6>
                                 </div>
                             </div>
 
