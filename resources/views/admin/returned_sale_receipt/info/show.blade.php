@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{__('purchase-receipts.show')}} </title>
+    <title>{{__('Returned sales Receipt Show')}} </title>
 @endsection
 
 @section('content')
@@ -11,16 +11,16 @@
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
                 <li class="breadcrumb-item"><a
-                        href="{{route('admin:purchase-receipts.index')}}"> {{__('purchase-receipts.index-title')}}</a>
+                        href="{{route('admin:return-sale-receipts.index')}}"> {{__('returned-receipts.index-title')}}</a>
                 </li>
-                <li class="breadcrumb-item">  {{__('purchase-receipts.show')}} </li>
+                <li class="breadcrumb-item">  {{__('returned-receipts.show')}} </li>
             </ol>
         </nav>
 
         <div class="col-xs-12">
             <div class="card box-content-wg-new bordered-all primary">
                 <h4 class="box-title with-control" style="text-align: initial">
-                    <i class="fa fa-gears"></i> {{__('purchase-receipts.show')}}
+                    <i class="fa fa-gears"></i> {{__('returned-receipts.show')}}
                     <span class="controls hidden-sm hidden-xs pull-left">
 
 							<button class="control text-white"
@@ -45,7 +45,7 @@
                                         <table class="table table-bordered">
                                             <tbody>
                                             <th style="width:50%;background:#ddd !important;color:black !important">{{__('Branch')}}</th>
-                                            <td>{{optional($purchaseReceipt)->branch->name}}</td>
+                                            <td>{{optional($returnSaleReceipt)->branch->name}}</td>
                                             </tbody>
                                         </table>
                                     </div>
@@ -54,34 +54,15 @@
                                     <table class="table table-bordered">
                                         <tbody>
                                         <th style="width:50%;background:#ddd !important;color:black !important">{{__('Added By')}}</th>
-                                        <td>{{optional($purchaseReceipt->user)->name}}</td>
+                                        <td>{{optional($returnSaleReceipt->user)->name}}</td>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div class="col-md-6">
                                     <table class="table table-bordered">
                                         <tbody>
-                                        <th style="width:50%;background:#ddd !important;color:black !important">{{ __('purchase-receipts.serial-number') }}</th>
-                                        <td>{{ $purchaseReceipt->number }}</td>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-
-                                <div class="col-md-6">
-                                    <table class="table table-bordered">
-                                        <tbody>
-                                        <th style="width:50%;background:#ddd !important;color:black !important">{{ __('purchase-receipts.operation-date') }}</th>
-                                        <td>{{$purchaseReceipt->date}}</td>
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <table class="table table-bordered">
-                                        <tbody>
-                                        <th style="width:50%;background:#ddd !important;color:black !important">{{ __('purchase-receipts.operation-time') }}</th>
-                                        <td>{{ $purchaseReceipt->time}}</td>
+                                        <th style="width:50%;background:#ddd !important;color:black !important">{{ __('returned-receipts.serial-number') }}</th>
+                                        <td>{{ $returnSaleReceipt->number }}</td>
                                         </tbody>
                                     </table>
                                 </div>
@@ -90,8 +71,27 @@
                                 <div class="col-md-6">
                                     <table class="table table-bordered">
                                         <tbody>
-                                        <th style="width:50%;background:#ddd !important;color:black !important">{{ __('purchase-receipts.supplier') }}</th>
-                                        <td>{{ optional($purchaseReceipt->supplier)->name}}</td>
+                                        <th style="width:50%;background:#ddd !important;color:black !important">{{ __('returned-receipts.operation-date') }}</th>
+                                        <td>{{$returnSaleReceipt->date}}</td>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                        <th style="width:50%;background:#ddd !important;color:black !important">{{ __('returned-receipts.operation-time') }}</th>
+                                        <td>{{ $returnSaleReceipt->time}}</td>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <table class="table table-bordered">
+                                        <tbody>
+                                        <th style="width:50%;background:#ddd !important;color:black !important">{{ __('returned-receipts.supplier') }}</th>
+                                        <td>{{ optional($returnSaleReceipt->clientable)->name}}</td>
                                         </tbody>
                                     </table>
                                 </div>
@@ -100,8 +100,8 @@
                                     <table class="table table-bordered">
                                         <tbody>
                                         <th style="width:50%;background:#ddd !important;color:black !important">
-                                            {{ __('purchase-receipts.supply_order') }}</th>
-                                        <td>{{ __($purchaseReceipt->supplyOrder ? $purchaseReceipt->supplyOrder->number : '---' )}}</td>
+                                            {{ __('returned-receipts.supply_order') }}</th>
+                                        <td>{{ __($returnSaleReceipt->salesable ? $returnSaleReceipt->salesable->number : '---' )}}</td>
                                         </tbody>
                                     </table>
                                 </div>
@@ -109,11 +109,11 @@
                         </div>
                     </div>
 
-                    @include('admin.purchase_receipts.info.table_items')
+                    @include('admin.returned_sale_receipt.info.table_items')
 
-                    @include('admin.purchase_receipts.info.financial')
+                    @include('admin.returned_sale_receipt.info.financial')
 
-                    <a href="{{route('admin:purchase-receipts.index')}}"
+                    <a href="{{route('admin:return-sale-receipts.index')}}"
                        class="btn btn-danger waves-effect waves-light">
                         <i class=" fa fa-reply"></i> {{__('Back')}}
                     </a>

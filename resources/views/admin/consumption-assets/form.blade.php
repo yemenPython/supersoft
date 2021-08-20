@@ -77,7 +77,7 @@
                         {{input_error($errors,'time')}}
                     </div>
                 </div>
-             
+
             </div>
         </div>
 
@@ -169,7 +169,7 @@
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-file"></li></span>
                         <textarea class="form-control" name="note" id="note"
-                                  placeholder="{{ __('Notes') }}">{{ old('notes') }}</textarea>
+                                  placeholder="{{ __('Notes') }}">{{isset($consumptionAsset)? $consumptionAsset->note:old('notes') }}</textarea>
                     </div>
                     {{input_error($errors,'note')}}
                 </div>

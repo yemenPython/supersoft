@@ -146,4 +146,12 @@
 
 
 </div>
+<div class="col-md-12">
+    <div class="form-group">
+        <label> {{ __('Notes') }} </label>
+        <textarea class="form-control" name="note" id="note"
+                  placeholder="{{ __('Notes') }}">{{isset($assetReplacement)? $assetReplacement->note:old('notes') }}</textarea>
+    </div>
+    {{input_error($errors,'note')}}
+</div>
 

@@ -1,6 +1,6 @@
 <div id="concession_to_print">
     <div class="border-container" style="">
-        @foreach($saleSupplyOrder->items()->where('active', 1)->get()->chunk(15) as $one)
+        @foreach($saleSupplyOrder->items()->get()->chunk(1) as $one)
 
 
             <div class="print-header-wg">

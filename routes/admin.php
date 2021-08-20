@@ -91,6 +91,12 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [
         include 'commercial_register.php';
         include 'tax_card.php';
         include 'register_added_value.php';
+        include 'company_contract.php';
+        include 'security_approval.php';
+
+        ///// Begin Financial Management routes ////
+        include ('FinancialManagement/routes.php');
+        ///// End Financial Management routes /////
 
 //      users
         Route::get('users/archive', 'UsersController@index')->name('users.archive');

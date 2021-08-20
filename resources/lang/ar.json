@@ -2275,5 +2275,17 @@
     "Maintenance Period (by month)" : "الفترة الزمنية للصيانة (بالشهر)",
     "Number Of KM or Hour" : "عدد الكيلو مترات أو الساعات",
     "Asset Details" : "تفاصيل بيانات الأصل",
-    "Package name" : "اسم الباكيدج"
+    "Package name" : "اسم الباكيدج",
+    "Transfer of dues" : "تحويل المستحقات",
+    "Creat Main Type" :  "أنشاء عنصر رئيسي",
+    "Creat Sub Main Type" : "أنشاء عنصر فرعى",
+    "Please select the item from tree" : "من فضلك أختر العنصر المراد حذفه من الشجرة اولا",
+    "please select Main Item First" : "من فضلك أحتر العنصر الرئيسي فى الشجرة اولا",
+    "Please Select Item To Edit" : "من فضلك أختر العنصر من الشجرة اولا",
+    "Financial Management" : "الأدارة المالية",
+    "Types Revenues" : "أنواع الأيردات",
+    "revenue management" : "إدارة الأيردات",
+    "Expense management" : "إدارة المصروفات",
+    "Expense types" : "أنواع المصروفات"
 }
+

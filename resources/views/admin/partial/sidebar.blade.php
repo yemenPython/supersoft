@@ -346,6 +346,57 @@ route('admin:sale-assets.index'),
                 </li>
 
                 <li class="{{setActivationClass([
+route('admin:financial_management.type_revenue.index'),
+route('admin:financial_management.type_expenses.index'),
+                     ])}}">
+                    <a class="parent-item js__control" href="#">
+                        <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
+                        <span>{{__('Financial Management')}}</span>
+                        <span class="menu-arrow fa fa-angle-down"></span>
+                    </a>
+                    <ul class="sub-menu js__content">
+
+                        <li class="{{setActivationClass(route('admin:financial_management.type_revenue.index'))}}">
+                            <a href="{{route('admin:financial_management.type_revenue.index')}}">
+                              {{__('Types Revenues')}}
+                            </a>
+                        </li>
+
+                        <li class="{{setActivationClass(route('admin:financial_management.type_expenses.index'))}}">
+                            <a href="{{route('admin:financial_management.type_expenses.index')}}">
+                                 {{__('Expense types')}}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="{{setActivationClass([
+route('admin:financial_management.tof_type_expenses.index'),
+route('admin:financial_management.tof_type_revenues.index'),
+                     ])}}">
+                    <a class="parent-item js__control" href="#">
+                        <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
+                        <span>{{__('Transfer of dues')}}</span>
+                        <span class="menu-arrow fa fa-angle-down"></span>
+                    </a>
+                    <ul class="sub-menu js__content">
+
+                        <li class="{{setActivationClass(route('admin:financial_management.tof_type_expenses.index'))}}">
+                            <a href="{{route('admin:financial_management.tof_type_expenses.index')}}">
+                                {{__('Expense types')}}
+                            </a>
+                        </li>
+
+                        <li class="{{setActivationClass(route('admin:financial_management.tof_type_revenues.index'))}}">
+                            <a href="{{route('admin:financial_management.tof_type_revenues.index')}}">
+                                {{__('Types Revenues')}}
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+
+                <li class="{{setActivationClass([
 route('admin:services-types.index'),
 route('admin:services.index'),
 route('admin:services_packages.index'),
@@ -499,8 +550,8 @@ route('admin:maintenance-detections.index'),
                 </li> -->
 
 
-  
-                <li class="{{setActivationClass([
+
+             <!--   <li class="{{setActivationClass([
 route('admin:lockers.index'),
 route('admin:accounts.index'),
 route('admin:lockers-transfer.index'),
@@ -564,11 +615,10 @@ route('admin:bank-receives.index'),
                             </a>
                         </li>
                     </ul>
-                </li> 
+                </li>
 
 
 
-                <li class="{{setActivationClass([
 route('admin:revenues_types.index'),
 route('admin:revenues_Items.index'),
 route('admin:revenueReceipts.index'),
@@ -620,9 +670,15 @@ route('admin:expenseReceipts.index'),
 
                             </a>
                     </ul>
-                </li> 
+                </li>
 
+<<<<<<< HEAD
     
+=======
+                </a>
+        </ul>
+    </li>
+>>>>>>> dcf869bd27c7e2a7c3209185aeeec0377dc70cab
             <!--
                 <li class="{{setActivationClass([
 route('admin:purchase-invoices.index'),
@@ -807,6 +863,8 @@ route('admin:egyptian_federation.index'),
 route('admin:commercial_register.index'),
 route('admin:tax_card.index'),
 route('admin:register_added_value.index'),
+route('admin:company_contract.index'),
+route('admin:security_approval.index'),
                      ])}}">
                     <a class="parent-item js__control" href="#">
                         <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
@@ -834,6 +892,16 @@ route('admin:register_added_value.index'),
                         <li class="{{setActivationClass(route('admin:register_added_value.index'))}}">
                             <a href="{{route('admin:register_added_value.index')}}">
                                 {{__('Register Added Value')}}
+                            </a>
+                        </li>
+                        <li class="{{setActivationClass(route('admin:company_contract.index'))}}">
+                            <a href="{{route('admin:company_contract.index')}}">
+                                {{__('Company Contract')}}
+                            </a>
+                        </li>
+                        <li class="{{setActivationClass(route('admin:security_approval.index'))}}">
+                            <a href="{{route('admin:security_approval.index')}}">
+                                {{__('Security Approval')}}
                             </a>
                         </li>
                     </ul>

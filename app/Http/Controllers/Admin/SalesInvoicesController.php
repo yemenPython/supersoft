@@ -303,7 +303,6 @@ class SalesInvoicesController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-
             return redirect()->back()->with(['message' => __('words.sales-invoice-cant-created'), 'alert-type' => 'error']);
         }
 

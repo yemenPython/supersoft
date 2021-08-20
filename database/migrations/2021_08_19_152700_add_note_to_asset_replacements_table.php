@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateReturnedSaleReceiptsTable extends Migration
+class AddNoteToAssetReplacementsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreateReturnedSaleReceiptsTable extends Migration
      */
     public function up()
     {
-        Schema::create('returned_sale_receipts', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->timestamps();
+        Schema::table('asset_replacements', function (Blueprint $table) {
+            $table->string('note')->nullable();
         });
     }
 
@@ -26,6 +25,8 @@ class CreateReturnedSaleReceiptsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('returned_sale_receipts');
+        Schema::table('asset_replacements', function (Blueprint $table) {
+            $table->dropColumn('note');
+        });
     }
 }
