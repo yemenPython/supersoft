@@ -568,12 +568,6 @@ route('admin:bank-receives.index'),
 
 
 
-                </a>
-            </li>
-        </ul>
-    </li> -->
-
-
                 <li class="{{setActivationClass([
 route('admin:revenues_types.index'),
 route('admin:revenues_Items.index'),
@@ -628,9 +622,7 @@ route('admin:expenseReceipts.index'),
                     </ul>
                 </li> 
 
-                </a>
-        </ul>
-    </li> 
+    
             <!--
                 <li class="{{setActivationClass([
 route('admin:purchase-invoices.index'),
