@@ -17,8 +17,6 @@ class ChangeSalesInvoiceItemReturnsTable extends Migration
 
         Schema::table('sales_invoice_item_returns', function (Blueprint $table) {
 
-            $table->dropForeign(['purchase_invoice_id']);
-
             $table->dropColumn(['sales_invoice_item_id', 'purchase_invoice_id', 'available_qty', 'last_selling_price']);
 
             $table->renameColumn('return_qty','quantity');

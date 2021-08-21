@@ -1,35 +1,41 @@
+@if (isset($withDate))
+    <span class="text-danger">{!! $item->date !!}</span>
+@endif
 
+@if (isset($withBranch))
+    <span class="text-danger">{{ optional($item->branch)->name}}</span>
+@endif
 
-@if (isset($type))
-    @if ($item->type === "cash")
-        <span class="label label-primary wg-label">
-            {{__($item->type)}}
-        </span>
+@if (isset($withStatus))
+    @if($item->status == 'pending' )
+        <span class="label label-info wg-label"> {{__('pending')}}</span>
+    @elseif($item->status == 'processing' )
+        <span class="label label-success wg-label"> {{__('processing')}} </span>
     @else
-        <span class="label label-danger wg-label">
-            {{__($item->type)}}
+        <span class="label label-danger wg-label"> {{__('finished')}} </span>
+    @endif
+@endif
+
+@if (isset($executionStatus))
+    @if($item->execution)
+
+        @if($item->execution ->status == 'pending' )
+            <span class="label label-info wg-label"> {{__('Processing')}}</span>
+        @elseif($item->execution ->status == 'finished' )
+            <span class="label label-success wg-label"> {{__('Finished')}} </span>
+
+        @elseif($item->execution ->status == 'late' )
+            <span class="label label-danger wg-label"> {{__('Late')}} </span>
+        @endif
+
+    @else
+        <span class="label label-warning wg-label">
+            {{__('Not determined')}}
         </span>
     @endif
 @endif
 
 
-@if (isset($total))
-    <span style="background:#F7F8CC !important">
-        {!! number_format($item->total, 2) !!}
-    </span>
-@endif
-
-@if (isset($paid))
-    <span style="background:#D7FDF9 !important">
-        {!! number_format($item->paid, 2) !!}
-    </span>
-@endif
-
-@if (isset($remaining))
-    <span style="background:#FDD7D7 !important">
-        {!! number_format($item->remaining ,2)!!}
-    </span>
-@endif
 
 @if (isset($withActions))
     <div class="btn-group margin-top-10">
@@ -44,33 +50,27 @@
             <li>
                 @component('admin.buttons._edit_button',[
                             'id'=>$item->id,
-                            'route' => 'admin:purchase_returns.edit',
+                            'route' => 'admin:sales.invoices.return.edit',
                              ])
                 @endcomponent
             </li>
+
             <li class="btn-style-drop">
                 @component('admin.buttons._delete_button',[
                             'id'=> $item->id,
-                            'route' => 'admin:purchase_returns.destroy',
+                            'route' => 'admin:sales.invoices.return.destroy',
                              ])
                 @endcomponent
             </li>
-            <li>
-
-                @component('admin.purchase_returns.parts.print',[
-                   'id'=> $item->id,
-                   'invoice'=> $item,
-                  ])
-                @endcomponent
-            </li>
 
             <li>
-                <a style="cursor:pointer" href="{{route('admin:purchase.returns.data.show', $item->id)}}"
-                   class="btn btn-terms-wg text-white hvr-radial-out" title="{{__('Show')}}">
-                    <i class="fa fa-eye"></i> {{__('Show')}}
+                <a style="cursor:pointer" class="btn btn-print-wg text-white  "
+                   data-toggle="modal"
+                   onclick="getPrintData({{$item->id}})"
+                   data-target="#boostrapModal" title="{{__('print')}}">
+                    <i class="fa fa-print"></i> {{__('Print')}}
                 </a>
             </li>
-
 
             <li>
                 <a style="cursor:pointer"
@@ -82,6 +82,17 @@
             </li>
 
             <li>
+                <a style="cursor:pointer" href="{{route('admin:sales.invoices.show.data', $item->id)}}"
+                   class="btn btn-terms-wg text-white hvr-radial-out" title="{{__('Show')}}">
+                    <i class="fa fa-eye"></i> {{__('Show')}}
+                </a>
+            </li>
+
+            {{--            <li>--}}
+            {{--                @include('admin.partial.execution_period', ['id'=> $item->id])--}}
+            {{--            </li>--}}
+
+            <li>
                 @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])
             </li>
 
@@ -90,9 +101,6 @@
 @endif
 
 @if (isset($withOptions))
-    @component('admin.buttons._delete_selected',[
-                                                  'id' => $item->id,
-                                                  'route' => 'admin:purchase_returns.deleteSelected',
-                                                   ])
+    @component('admin.buttons._delete_selected',['id' => $item->id, 'route' => 'admin:sales.invoices.return.deleteSelected'])
     @endcomponent
 @endif

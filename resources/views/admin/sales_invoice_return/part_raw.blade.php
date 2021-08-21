@@ -13,12 +13,15 @@
         </span>
 
         <input type="hidden" value="{{$part->id}}" name="items[{{$index}}][part_id]" class="form-control">
+
+        <input type="hidden" value="{{isset($actionType) && $actionType == 'update' ? $item->itemable_id:$item->id}}"
+               name="items[{{$index}}][item_id]" class="form-control">
     </td>
 
     <td>
         <div class="input-group" style="width: 180px !important;">
             <span class="price-span">    {{$item->sparePart ? $item->sparePart->type : __('Not determined')}}</span>
-            <input type="hidden" name="items[{{$index}}][spare_part_id]" value="{{$item->spare_part_id}}">
+{{--            <input type="hidden" name="items[{{$index}}][spare_part_id]" value="{{$item->spare_part_id}}">--}}
         </div>
     </td>
 
@@ -68,7 +71,7 @@
     </td>
 
     <td>
-        <input style="width: 150px !important;" type="number" class="form-control" id="price_{{$index}}" value="{{$item->price}}"
+        <input style="width: 150px !important;" type="number" class="form-control" id="price_{{$index}}" value="{{$item->price}}" disabled
                min="0" name="items[{{$index}}][price]"
                onchange="calculateItem('{{$index}}')"
                onkeyup="calculateItem('{{$index}}');priceValidation('{{$index}}','{{__('sorry, price not valid')}}')">

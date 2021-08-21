@@ -262,4 +262,14 @@ class SalesInvoice extends Model
         return true;
     }
 
+    public function getClientableIdAttribute () {
+
+        return $this->salesable_id;
+    }
+
+    public function getClientableTypeAttribute () {
+
+        return $this->salesable_type;
+    }
+
 }

@@ -11,20 +11,50 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class SalesInvoiceReturn extends Model
 {
-    use SoftDeletes, LogsActivity;
+    use  LogsActivity;
 
-    protected $dates = ['deleted_at'];
+//    protected $dates = ['deleted_at'];
 
-    protected $fillable = ['number','branch_id','created_by','date','time','type',
-        'discount_type','discount','tax','sub_total','total_after_discount','total','customer_discount_status'
-        ,'customer_discount','customer_discount_type', 'additional_payments', 'library_path', 'status', 'invoice_type',
+    protected $fillable = ['number', 'branch_id', 'created_by', 'date', 'time', 'type',
+        'discount_type', 'discount', 'tax', 'sub_total', 'total_after_discount', 'total', 'customer_discount_status'
+        , 'customer_discount', 'customer_discount_type', 'additional_payments', 'library_path', 'status', 'invoice_type',
         'invoiceable_id', 'invoiceable_type', 'clientable_id', 'clientable_type'
-        ];
+    ];
+
+    /**
+     * @var string[]
+     */
+    protected static $dataTableColumns = [
+        'DT_RowIndex' => 'DT_RowIndex',
+        'date' => 'date',
+        'branch_id' => 'branch_id',
+        'number' => 'number',
+        'type' => 'type',
+        'clientable_type' => 'clientable_type',
+        'clientable_id' => 'clientable_id',
+        'total' => 'total',
+        'status' => 'status',
+        'created_at' => 'created_at',
+        'updated_at' => 'updated_at',
+        'action' => 'action',
+        'options' => 'options'
+    ];
+
+    /**
+     * @return string[]
+     */
+    public static function getJsDataTablesColumns(): array
+    {
+        if (!authIsSuperAdmin()) {
+            unset(self::$dataTableColumns['branch_id']);
+        }
+        return self::$dataTableColumns;
+    }
 
     protected $table = 'sales_invoice_returns';
 
-    protected static $logAttributes = ['number','created_by','type','discount_type','total_after_discount',
-        'sub_total','total','customer_discount_status'];
+    protected static $logAttributes = ['number', 'created_by', 'type', 'discount_type', 'total_after_discount',
+        'sub_total', 'total', 'customer_discount_status'];
 
     protected static $logOnlyDirty = true;
 
@@ -39,75 +69,83 @@ class SalesInvoiceReturn extends Model
         static::addGlobalScope(new BranchScope());
     }
 
-    public function branch(){
+    public function branch()
+    {
         return $this->belongsTo(Branch::class, 'branch_id')->withTrashed();
     }
 
-    public function created_by(){
+    public function created_by()
+    {
         return $this->belongsTo(User::class, 'created_by')->withTrashed();
     }
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class, 'created_by')->withTrashed();
     }
 
-    public function getInvNumberAttribute(){
-        return  '##_'.$this->number;
+    public function getInvNumberAttribute()
+    {
+        return '##_' . $this->number;
     }
 
-    public function expensesReceipts(){
-        return $this->hasMany(ExpensesReceipt::class,'sales_invoice_return_id');
+    public function expensesReceipts()
+    {
+        return $this->hasMany(ExpensesReceipt::class, 'sales_invoice_return_id');
     }
 
-    public function getPaidAttribute(){
+    public function getPaidAttribute()
+    {
         return $this->expensesReceipts->sum('cost');
     }
 
-    public function getRemainingAttribute(){
+    public function getRemainingAttribute()
+    {
         return $this->total - $this->expensesReceipts->sum('cost');
     }
 
-    public function items(){
+    public function items()
+    {
         return $this->hasMany(SalesInvoiceItemReturn::class, 'sales_invoice_return_id');
     }
 
-    public function delete()
-    {
-        DB::transaction(function()
-        {
-            foreach ($this->items()->get() as $sales_item) {
-
-                $part = $sales_item->part;
-
-                if($part){
-                    $part->quantity -= $sales_item->return_qty;
-                    $part->save();
-                }
-
-                $purchase_invoice = $sales_item->purchaseInvoice;
-
-                if($purchase_invoice){
-
-                    $purchase_item = $purchase_invoice->items()->where('part_id', $sales_item->part_id)->first();
-
-                    if($purchase_item){
-                        $purchase_item->purchase_qty -= $sales_item->return_qty;
-                        $purchase_item->save();
-                    }
-                }
-            }
-
-            $this->items()->delete();
-            $this->removeBulkBalance($this->expensesReceipts()->get());
-
-            if($this->expensesReceipts){
-
-                $this->expensesReceipts()->delete();
-            }
-
-            parent::delete();
-        });
-    }
+//    public function delete()
+//    {
+//        DB::transaction(function()
+//        {
+//            foreach ($this->items()->get() as $sales_item) {
+//
+//                $part = $sales_item->part;
+//
+//                if($part){
+//                    $part->quantity -= $sales_item->return_qty;
+//                    $part->save();
+//                }
+//
+//                $purchase_invoice = $sales_item->purchaseInvoice;
+//
+//                if($purchase_invoice){
+//
+//                    $purchase_item = $purchase_invoice->items()->where('part_id', $sales_item->part_id)->first();
+//
+//                    if($purchase_item){
+//                        $purchase_item->purchase_qty -= $sales_item->return_qty;
+//                        $purchase_item->save();
+//                    }
+//                }
+//            }
+//
+//            $this->items()->delete();
+//            $this->removeBulkBalance($this->expensesReceipts()->get());
+//
+//            if($this->expensesReceipts){
+//
+//                $this->expensesReceipts()->delete();
+//            }
+//
+//            parent::delete();
+//        });
+//    }
 
     public function removeBulkBalance(Collection $collection)
     {
@@ -125,7 +163,7 @@ class SalesInvoiceReturn extends Model
     {
         $locker = Locker::findOrFail($receipt->locker_id);
         $locker->update([
-            'balance' => ($locker->balance  +  $receipt->cost)
+            'balance' => ($locker->balance + $receipt->cost)
         ]);
     }
 
@@ -133,13 +171,39 @@ class SalesInvoiceReturn extends Model
     {
         $account = Account::findOrFail($receipt->account_id);
         $account->update([
-            'balance' => ($account->balance  + $receipt->cost)
+            'balance' => ($account->balance + $receipt->cost)
         ]);
     }
 
-    public function pointsLogs () {
+//    public function pointsLogs () {
+//
+//        return $this->hasMany(PointLog::class, 'sales_invoice_return_id');
+//    }
 
-        return $this->hasMany(PointLog::class, 'sales_invoice_return_id');
+    public function taxes()
+    {
+        return $this->belongsToMany(TaxesFees::class, 'sales_invoice_return_taxes_fees',
+            'sales_invoice_return_id', 'tax_id');
     }
+
+    public function invoiceable()
+    {
+        return $this->morphTo();
+    }
+
+    public function clientable()
+    {
+        return $this->morphTo();
+    }
+
+    //    public function terms()
+//    {
+//        return $this->belongsToMany(SupplyTerm::class, 'sales_invoice_supply_terms', 'sales_invoice_id', 'supply_term_id');
+//    }
+
+//    function files()
+//    {
+//        return $this->hasMany(SalesInvoiceLibrary::class, 'sales_invoice_id');
+//    }
 
 }

@@ -49,44 +49,50 @@
                                style="width:100%">
                             <thead>
                             <tr>
-                                <th class="text-center column-index" scope="col">{!! __('#') !!}</th>
-
-                                <th class="text-center " scope="col">{!! __('date') !!}</th>
-
-                                <th class="text-center column-invoice-number"
-                                    scope="col">{!! __('Invoice Number') !!}</th>
-
-
-                                <th class="text-center column-supplier" scope="col">{!! __('Supplier name') !!}</th>
-                                <th class="text-center column-invoice-type" scope="col">{!! __('Invoice Type') !!}</th>
-                                <th class="text-center column-paid" scope="col">{!! __('Total') !!}</th>
-                                <th class="text-center column-paid" scope="col">{!! __('Paid') !!}</th>
-                                <th class="text-center column-remaining" scope="col">{!! __('Remaining') !!}</th>
-                                <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
-                                <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
+                                <th scope="col">{!! __('#') !!}</th>
+                                <th scope="col">{!! __('Date') !!}</th>
+                                @if(authIsSuperAdmin())
+                                    <th scope="col">{!! __('Branch') !!}</th>
+                                @endif
+                                <th scope="col">{!! __('Number') !!}</th>
+                                <th scope="col">{!! __('Type') !!}</th>
+                                <th scope="col">{!! __('Client Type') !!}</th>
+                                <th scope="col">{!! __('Client') !!}</th>
+                                <th scope="col">{!! __('Total') !!}</th>
+                                <th scope="col">{!! __('Status') !!}</th>
+                                <th scope="col">{!! __('Created Date') !!}</th>
+                                <th scope="col">{!! __('Updated Date') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
-                                <th scope="col">{!! __('Select') !!}</th>
+                                <th scope="col">
+                                    <div class="checkbox danger">
+                                        <input type="checkbox" id="select-all">
+                                        <label for="select-all"></label>
+                                    </div>{!! __('Select') !!}
+                                </th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
-                                <th class="text-center column-invoice-number" scope="col">{!! __('#') !!}</th>
-
-                                <th class="text-center " scope="col">{!! __('date') !!}</th>
-
-                                <th class="text-center column-invoice-number"
-                                    scope="col">{!! __('Invoice Number') !!}</th>
-
-                                <th class="text-center column-supplier" scope="col">{!! __('Supplier name') !!}</th>
-
-                                <th class="text-center column-invoice-type" scope="col">{!! __('Invoice Type') !!}</th>
-                                <th class="text-center column-paid" scope="col">{!! __('Total') !!}</th>
-                                <th class="text-center column-paid" scope="col">{!! __('Paid') !!}</th>
-                                <th class="text-center column-remaining" scope="col">{!! __('Remaining') !!}</th>
-                                <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
-                                <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
+                                <th scope="col">{!! __('#') !!}</th>
+                                <th scope="col">{!! __('Date') !!}</th>
+                                @if(authIsSuperAdmin())
+                                    <th scope="col">{!! __('Branch') !!}</th>
+                                @endif
+                                <th scope="col">{!! __('Number') !!}</th>
+                                <th scope="col">{!! __('Type') !!}</th>
+                                <th scope="col">{!! __('Client Type') !!}</th>
+                                <th scope="col">{!! __('Client') !!}</th>
+                                <th scope="col">{!! __('Total') !!}</th>
+                                <th scope="col">{!! __('Status') !!}</th>
+                                <th scope="col">{!! __('Created Date') !!}</th>
+                                <th scope="col">{!! __('Updated Date') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
-                                <th scope="col">{!! __('Select') !!}</th>
+                                <th scope="col">
+                                    <div class="checkbox danger">
+                                        <input type="checkbox" id="select-all">
+                                        <label for="select-all"></label>
+                                    </div>{!! __('Select') !!}
+                                </th>
                             </tr>
                             </tfoot>
                         </table>
@@ -178,9 +184,6 @@
                 $("#loaderSearch").hide();
             }, 1000)
         }
-
-
-
 
         function getLibraryFiles(id) {
 

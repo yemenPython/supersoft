@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\SalesInvoicesReturn;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateSalesInvoiceReturnRequest extends FormRequest
 {
@@ -24,34 +25,55 @@ class CreateSalesInvoiceReturnRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'type'=>'required|string|in:cash,credit',
-            'time'=>'required',
-            'date'=>'required|date',
-            'number_of_items'=>'required|integer|min:1',
-            'sales_invoice_id'=>'required|integer|exists:sales_invoices,id',
-            'discount_type'=>'required|string|in:percent,amount',
-            'discount'=>'required|numeric|min:0',
-            'return_part_ids'=>'nullable',
-            'return_part_ids.*'=>'nullable|integer|exists:parts,id',
+            'date' => 'required|date',
+            'time' => 'required',
+            'discount' => 'required|numeric|min:0',
+            'discount_type' => 'required|string|in:amount,percent',
+            'type' => 'required|string|in:cash,credit',
+            'status' => 'required|string|in:pending,processing,finished',
+            'invoice_type'=>'required|string|in:normal,direct_invoice,direct_sale_quotations,from_sale_supply_order,from_sale_quotations',
+
+            'items.*.part_id' => 'required|integer|exists:parts,id',
+            'items.*.quantity' => 'required|integer|min:1',
+            'items.*.discount' => 'required|numeric|min:0',
+            'items.*.discount_type' => 'required|string|in:amount,percent',
+
+            'items.*.taxes.*' => 'required|integer|exists:taxes_fees,id',
+
+            'taxes.*' => 'nullable|integer|exists:taxes_fees,id',
+            'additional_payments.*' => 'nullable|integer|exists:taxes_fees,id',
+
+            'invoiceable_id'=>'required|integer'
         ];
 
-        if(authIsSuperAdmin()){
-            $rules['branch_id'] = 'required:integer|exists:branches,id';
+
+        $branch_id = auth()->user()->branch_id;
+
+        if (authIsSuperAdmin()) {
+            $rules['branch_id'] = 'required|integer|exists:branches,id';
+            $branch_id = request()['branch_id'];
         }
 
-        if(request()->has('return_part_ids')){
+        if (in_array(request()['invoice_type'], ['direct_invoice', 'direct_sale_quotations'])) {
 
-            foreach (request()['return_part_ids'] as $index => $part_id){
+            $rules['invoiceable_id'] = 'required|integer|exists:sales_invoices,id';
+            $rules['items.*.item_id'] = 'required|integer|exists:sales_invoice_items,id';
+        }else {
 
-                $rules['sales_invoice_items_id_'.$index] = 'required|integer|exists:sales_invoice_items,id';
-//                $rules['purchase_invoice_id_'.$part_id] = 'required|integer|exists:purchase_invoices,id';
-                $rules['return_qty_'.$index] = 'required|integer|min:1';
-                $rules['last_selling_price_'.$index] = 'required|numeric|min:0';
-                $rules['selling_price_'.$index] = 'required|numeric|min:0';
-                $rules['item_discount_type_'.$index] = 'required|string|in:percent,amount';
-                $rules['item_discount_'.$index] = 'required|numeric|min:0';
-            }
+            $rules['invoiceable_id'] = 'required|integer|exists:returned_sale_receipts,id';
+            $rules['items.*.item_id'] = 'required|integer|exists:returned_sale_receipt_items,id';
         }
+
+        $rules['number'] =
+            [
+                'required','string', 'max:50',
+                Rule::unique('sales_invoice_returns')->where(function ($query) use($branch_id) {
+                    return $query->where('number', request()->number)
+                        ->where('branch_id', $branch_id);
+//                        ->where('deleted_at', null)
+
+                }),
+            ];
 
         return $rules;
     }

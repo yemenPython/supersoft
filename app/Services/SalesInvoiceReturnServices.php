@@ -4,99 +4,113 @@
 namespace App\Services;
 
 
-use App\Models\Customer;
 use App\Models\Part;
-use App\Models\PointRule;
+use App\Models\PurchaseInvoiceItem;
+use App\Models\ReturnedSaleReceipt;
+use App\Models\ReturnedSaleReceiptItem;
+use App\Models\SalesInvoice;
 use App\Models\SalesInvoiceItems;
 use App\Models\TaxesFees;
 
-trait SalesInvoiceReturnServices
+class SalesInvoiceReturnServices
 {
-    public function calculateItemTotal($request, $part_id, $index)
+    public function calculateItemTotal($item, $invoiceType)
     {
-        $sales_invoice_item = SalesInvoiceItems::find($request['sales_invoice_items_id_'.$index]);
+        $returnedModelItem = $this->getReturnedModelItem($item['item_id'], $invoiceType);
 
         $data = [
-            'sales_invoice_item_id' => $request['sales_invoice_items_id_'.$index],
-            'purchase_invoice_id' => $sales_invoice_item->purchase_invoice_id,
-            'part_id' => $part_id,
-            'available_qty' => $request['available_qy_'.$index],
-            'return_qty' => $request['return_qty_'.$index],
-            'last_selling_price' => $request['last_selling_price_'.$index],
-            'selling_price' => $request['selling_price_'.$index],
-            'discount_type' => $request['item_discount_type_'.$index],
-            'discount' => $request['item_discount_'.$index],
+
+            'part_id' => $returnedModelItem->part_id,
+            'store_id' => $returnedModelItem->store_id,
+            'quantity' => $item['quantity'],
+            'price' => $returnedModelItem->price,
+            'discount_type' => $item['discount_type'],
+            'discount' => $item['discount'],
+            'spare_part_id' => $returnedModelItem->spare_part_id,
+            'part_price_id' => $returnedModelItem->part_price_id,
+            'part_price_segment_id' => $returnedModelItem->part_price_segment_id,
+
+            'active'=> isset($item['active']) ? 1:0,
+
+            'max_quantity'=> $returnedModelItem->quantity,
+
+            'itemable_id'=> $item['item_id'],
+            'itemable_type'=> $this->getReturnedModelItemPath($invoiceType),
+
+            'sub_total' => $item['quantity'] * $returnedModelItem->price
         ];
 
-        $data['sub_total'] = $request['return_qty_'.$index] * $request['selling_price_'.$index];
+        $discount_value = $this->discountValue($data['discount_type'], $data['discount'], $data['sub_total']);
 
-        $discount_value = $this->discountValue($request['item_discount_type_'.$index],$request['item_discount_'.$index],
-            $data['sub_total']);
+        $data['total_after_discount'] = $data['sub_total'] - $discount_value;
 
-        $data['total_after_discount'] = round($data['sub_total'] - $discount_value,2);
+        $taxIds = isset($item['taxes']) ? $item['taxes'] : [];
 
-        $data['total'] = $data['total_after_discount'];
+        $data['tax'] = $this->taxesValue($data['total_after_discount'], $data['sub_total'], $taxIds);
+
+        $data['total'] = $data['total_after_discount'] + $data['tax'];
 
         return $data;
     }
 
-    public function prepareInvoiceData($request, $branch_id)
+    public function prepareInvoiceData($data_request)
     {
-        $sales_invoice = \App\Models\SalesInvoice::find($request['sales_invoice_id']);
+        $returnedModel = $this->getReturnedModel($data_request['invoiceable_id'], $data_request['invoice_type']);
 
         $data = [
-//            'invoice_number'=> '##_0001' ,  //$request['invoice_number'],
-            'branch_id'=> $branch_id,
-            'created_by'=> auth()->id(),
-            'sales_invoice_id'=> $request['sales_invoice_id'],
-            'time'=> $request['time'],
-            'date'=> $request['date'],
-            'number_of_items'=> count($request['return_part_ids']),
-//            'type'=> $request['type'],
-            'discount_type'=> $request['discount_type'],
-            'discount'=> $request['discount'],
-            'customer_discount_status'=> 0,
-            'customer_discount'=> $sales_invoice->customer_discount,
-            'customer_discount_type'=> $sales_invoice->customer_discount_type,
-            'points_rule_id'=> null,
-            'points_discount'=> 0,
+
+            'number' => $data_request['number'],
+            'time' => $data_request['time'],
+            'date' => $data_request['date'],
+            'type' => $data_request['type'],
+            'invoice_type' => $data_request['invoice_type'],
+            'invoiceable_id' => $data_request['invoiceable_id'],
+            'invoiceable_type' => $this->getReturnedModelPath($data_request['invoice_type']),
+
+            'clientable_id' => $returnedModel->clientable_id,
+            'clientable_type' => $returnedModel->clientable_type,
+
+            'discount_type' => $data_request['discount_type'],
+            'discount' => $data_request['discount'],
+            'status' => $data_request['status'],
+            'customer_discount_active'=> 0,
+            'customer_discount' => 0,
+            'customer_discount_type' => 'amount'
         ];
 
         $data['sub_total'] = 0;
         $customer_discount = 0;
 
-        foreach($request['return_part_ids'] as $index => $part_id){
+        foreach ($data_request['items'] as $item) {
 
-            $item_data = $this->calculateItemTotal($request, $part_id, $index);
+            $item_data = $this->calculateItemTotal($item, $data['invoice_type']);
             $data['sub_total'] += $item_data['total'];
         }
 
-        if($request->has('customer_discount_check')){
+//        if (isset($data_request['customer_discount_active'])) {
+//
+//            $client = $data['salesable_type']::find($data['salesable_id']);
+//
+//            $data['customer_discount_active'] = 1;
+//            $data['customer_discount'] = $data['type_for'] == 'customer' ? $client->group_sales_discount : $client->group_discount;
+//            $data['customer_discount_type'] = $data['type_for'] == 'customer' ? $client->group_sales_discount_type : $client->group_discount_type ;
+//
+//            $customer_discount = $this->customerDiscount($client, $data['sub_total'], $data['type_for']);
+//        }
 
-            $data['customer_discount_status'] = 1;
+        $discount = $this->discountValue($data['discount_type'], $data['discount'], $data['sub_total']);
 
-            $customer_discount = $this->discountValue($data['customer_discount_type'],  $data['customer_discount']
-                , $data['sub_total']);
-        }
+        $data['total_after_discount'] = $data['sub_total'] - ($discount + $customer_discount);
 
-        if ($sales_invoice->points_rule_id) {
+        $taxIds = isset($data_request['taxes']) ? $data_request['taxes'] : [];
 
-            $pointRule = PointRule::find($sales_invoice->points_rule_id);
+        $data['tax'] = $this->taxesValue($data['total_after_discount'], $data['sub_total'], $taxIds);
 
-            $data['points_discount'] += $pointRule ? $pointRule->amount : 0;
+        $additionalPayments = isset($data_request['additional_payments']) ? $data_request['additional_payments'] : [];
 
-            $data['points_rule_id'] = $sales_invoice->points_rule_id;
-        }
+        $data['additional_payments'] = $this->taxesValue($data['total_after_discount'], $data['sub_total'], $additionalPayments);
 
-        $discount_value = $this->discountValue($request['discount_type'], $request['discount'], $data['sub_total']);
-
-        $total_discount = round($discount_value + $customer_discount + $data['points_discount'], 2);
-
-        $data['total_after_discount'] =  round($data['sub_total'] -  $total_discount,2);
-
-        $data['tax'] = $this->taxesValue($data['total_after_discount'], $branch_id);
-
-        $data['total'] =  round($data['total_after_discount'] + $data['tax'],2);
+        $data['total'] = $data['total_after_discount'] + $data['tax'] + $data['additional_payments'];
 
         return $data;
     }
@@ -109,19 +123,27 @@ trait SalesInvoiceReturnServices
 
         } else {
 
-            $discount = round(($total * $value / 100),2);
+            $discount = $total * $value / 100;
         }
 
         return $discount;
     }
 
-    function taxesValue($total, $branch_id)
+    function taxesValue($totalAfterDiscount, $subTotal, $itemTaxes)
     {
-        $taxes = TaxesFees::where('active_invoices', 1)->where('branch_id', $branch_id)->get();
-
         $value = 0;
 
-        foreach($taxes as $tax){
+        $taxes = TaxesFees::whereIn('id', $itemTaxes)->get();
+
+        foreach ($taxes as $tax) {
+
+            if ($tax->execution_time == 'after_discount') {
+
+                $totalUsedInCalculate = $totalAfterDiscount;
+            } else {
+
+                $totalUsedInCalculate = $subTotal;
+            }
 
             if ($tax->tax_type == 'amount') {
 
@@ -129,117 +151,87 @@ trait SalesInvoiceReturnServices
 
             } else {
 
-                $value += round(($total * $tax->value / 100),2);
+                $value += $totalUsedInCalculate * $tax->value / 100;
             }
         }
+
         return $value;
     }
 
-    public function validationRules($request){
-
-        $rules = [
-            'type'=>'required|string|in:cash,credit',
-            'time'=>'required',
-            'date'=>'required|date',
-            'number_of_items'=>'required|integer|min:1',
-            'sales_invoice_id'=>'required|integer|exists:sales_invoices,id',
-            'discount_type'=>'required|string|in:percent,amount',
-            'discount'=>'required|numeric|min:0',
-            'return_part_ids'=>'required',
-            'return_part_ids.*'=>'required|integer|exists:parts,id',
-        ];
-
-        if($request->has('return_part_ids')){
-
-            foreach ($request['return_part_ids'] as $part_id){
-
-                $rules['sales_invoice_items_id_'.$part_id] = 'required|integer|exists:sales_invoice_items,id';
-                $rules['purchase_invoice_id_'.$part_id] = 'required|integer|exists:purchase_invoices,id';
-                $rules['return_qty_'.$part_id] = 'required|integer|min:1';
-                $rules['last_selling_price_'.$part_id] = 'required|numeric|min:0';
-                $rules['selling_price_'.$part_id] = 'required|numeric|min:0';
-                $rules['item_discount_type_'.$part_id] = 'required|string|in:percent,amount';
-                $rules['item_discount_'.$part_id] = 'required|numeric|min:0';
-            }
-        }
-
-        return $rules;
-    }
-
-    public function affectedPurchaseItem($invoice_item, $return_qty){
-
-        $invoice_item->purchase_qty += $return_qty;
-        $invoice_item->save();
-    }
-
-    public function affectedPart($part_id, $return_qty, $selling_price){
-
-        $part = Part::find($part_id);
-        $part->quantity += $return_qty;
-        $part->last_selling_price = $selling_price;
-        $part->save();
-    }
-
-    public function resetSalesInvoiceQty($invoice)
+    public function customerDiscount($client, $total, $type)
     {
-        foreach($invoice->items as $index=>$oldReturnItem){
+        $customer_discount = $type == 'customer' ? $client->group_sales_discount : $client->group_discount;;
+        $customer_discount_type = $type == 'customer' ? $client->group_sales_discount_type : $client->group_discount_type;
 
-            $part = $oldReturnItem->part;
-
-            if($part){
-                $part->quantity -= $oldReturnItem->return_qty;
-                $part->save();
-            }
-
-            $purchase_invoice = $oldReturnItem->purchaseInvoice;
-
-            if($purchase_invoice){
-
-                $purchase_item = $purchase_invoice->items()->where('part_id', $oldReturnItem->part_id)->first();
-
-                if($purchase_item){
-                    $purchase_item->purchase_qty -= $oldReturnItem->return_qty;
-                    $purchase_item->save();
-                }
-            }
-
-            $oldReturnItem->forceDelete();
-        }
-
-        $this->resetInvoicePoints($invoice);
+        return $this->discountValue($customer_discount_type, $customer_discount, $total);
     }
 
-    public function handlePointsLog($sales_invoice_return)
+    public function salesInvoiceReturnTaxes($salesInvoiceReturn, $data)
     {
+        $taxes = [];
 
-        if (!$sales_invoice_return->customer_id) {
-
-            return false;
+        if (isset($data['taxes'])) {
+            $taxes = array_merge($data['taxes'], $taxes);
         }
 
-        $SUBLog = __('subtract points from sales invoice return');
+        if (isset($data['additional_payments'])) {
+            $taxes = array_merge($data['additional_payments'], $taxes);
+        }
 
-        $this->subPoints($sales_invoice_return->customer, $SUBLog, $sales_invoice_return, 'sales_invoice_return_id', 0);
-
+        if (!empty($taxes)) {
+            $salesInvoiceReturn->taxes()->attach($taxes);
+        }
     }
 
-    public function resetInvoicePoints($sales_invoice_return)
+    function resetSalesInvoiceDataItems($salesInvoice)
     {
-        $customer = $sales_invoice_return->customer;
-
-        if ($customer) {
-
-            foreach ($sales_invoice_return->pointsLogs as $pointsLog) {
-
-                if ($pointsLog->type == 'subtraction') {
-
-                    $customer->points += $pointsLog->points;
-                }
-
-                $customer->save();
-
-                $pointsLog->delete();
-            }
+        foreach ($salesInvoice->items as $item) {
+            $item->taxes()->detach();
+            $item->delete();
         }
+
+        $salesInvoice->taxes()->detach();
+        $salesInvoice->saleQuotations()->detach();
+        $salesInvoice->saleSupplyOrders()->detach();
+    }
+
+    public function getReturnedModelPath ($type) {
+
+        if (in_array($type, ['direct_invoice', 'direct_sale_quotations'])) {
+
+           return 'App\Models\SalesInvoiceReturn';
+        }
+
+        return 'App\Models\ReturnedSaleReceipt';
+    }
+
+    public function getReturnedModelItemPath ($type) {
+
+        if (in_array($type, ['direct_invoice', 'direct_sale_quotations'])) {
+
+            return 'App\Models\SalesInvoiceItemReturn';
+        }
+
+        return 'App\Models\ReturnedSaleReceiptItem';
+    }
+
+    public function getReturnedModel($invoiceable_id, $invoiceType) {
+
+        if (in_array($invoiceType, ['direct_invoice', 'direct_sale_quotations'])) {
+
+            return SalesInvoice::find($invoiceable_id);
+        }
+
+        return ReturnedSaleReceipt::find($invoiceable_id);
+    }
+
+    public function getReturnedModelItem($item_id, $invoiceType) {
+
+        if (in_array($invoiceType, ['direct_invoice', 'direct_sale_quotations'])) {
+
+            return SalesInvoiceItems::find($item_id);
+        }
+
+        return ReturnedSaleReceiptItem::find($item_id);
     }
 }

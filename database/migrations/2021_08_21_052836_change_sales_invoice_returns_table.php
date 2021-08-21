@@ -20,9 +20,6 @@ class ChangeSalesInvoiceReturnsTable extends Migration
         Schema::table('sales_invoice_returns', function (Blueprint $table) {
             $table->renameColumn('invoice_number', 'number');
 
-            $table->dropForeign(['sales_invoice_id']);
-            $table->dropForeign(['customer_id']);
-
             $table->dropColumn(['customer_id', 'sales_invoice_id', 'number_of_items', 'points_discount', 'points_rule_id']);
 
             $table->decimal('additional_payments', 15, 2);
