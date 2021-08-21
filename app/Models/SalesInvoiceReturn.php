@@ -15,13 +15,15 @@ class SalesInvoiceReturn extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected $fillable = ['invoice_number','sales_invoice_id','branch_id','created_by','date','time','type','number_of_items'
-        ,'discount_type','discount','tax','sub_total','total_after_discount','total','customer_id','customer_discount_status'
-        ,'customer_discount','customer_discount_type', 'points_discount', 'points_rule_id'];
+    protected $fillable = ['number','branch_id','created_by','date','time','type',
+        'discount_type','discount','tax','sub_total','total_after_discount','total','customer_discount_status'
+        ,'customer_discount','customer_discount_type', 'additional_payments', 'library_path', 'status', 'invoice_type',
+        'invoiceable_id', 'invoiceable_type', 'clientable_id', 'clientable_type'
+        ];
 
     protected $table = 'sales_invoice_returns';
 
-    protected static $logAttributes = ['invoice_number','created_by','type','discount_type','total_after_discount',
+    protected static $logAttributes = ['number','created_by','type','discount_type','total_after_discount',
         'sub_total','total','customer_discount_status'];
 
     protected static $logOnlyDirty = true;
@@ -41,10 +43,6 @@ class SalesInvoiceReturn extends Model
         return $this->belongsTo(Branch::class, 'branch_id')->withTrashed();
     }
 
-    public function customer(){
-        return $this->belongsTo(Customer::class, 'customer_id')->withTrashed();
-    }
-
     public function created_by(){
         return $this->belongsTo(User::class, 'created_by')->withTrashed();
     }
@@ -53,12 +51,8 @@ class SalesInvoiceReturn extends Model
         return $this->belongsTo(User::class, 'created_by')->withTrashed();
     }
 
-    public function salesInvoice(){
-        return $this->belongsTo(SalesInvoice::class, 'sales_invoice_id')->withTrashed();
-    }
-
     public function getInvNumberAttribute(){
-        return  '##_'.$this->invoice_number;
+        return  '##_'.$this->number;
     }
 
     public function expensesReceipts(){
