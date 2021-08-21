@@ -558,7 +558,7 @@ route('admin:maintenance-detections.index'),
 
 
 
-             <!--   <li class="{{setActivationClass([
+              <li class="{{setActivationClass([
 route('admin:lockers.index'),
 route('admin:accounts.index'),
 route('admin:lockers-transfer.index'),
@@ -625,7 +625,7 @@ route('admin:bank-receives.index'),
                 </li>
 
 
-
+                <li class="
 route('admin:revenues_types.index'),
 route('admin:revenues_Items.index'),
 route('admin:revenueReceipts.index'),
@@ -679,14 +679,7 @@ route('admin:expenseReceipts.index'),
                     </ul>
                 </li>
 
-<<<<<<< HEAD
-
-=======
-                </a>
-        </ul>
-    </li>
->>>>>>> dcf869bd27c7e2a7c3209185aeeec0377dc70cab
-            <!--
+<!--
                 <li class="{{setActivationClass([
 route('admin:purchase-invoices.index'),
 route('admin:purchase_returns.index'),
