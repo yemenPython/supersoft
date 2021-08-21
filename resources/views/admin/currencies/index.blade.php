@@ -15,9 +15,9 @@
         <div class="col-xs-12">
 
             <div class="box-content card bordered-all js__card">
-                <h4 class="box-title bg-secondary with-control">
-                <i class="fa fa-money"></i>   {{__('currencies')}}
-                 </h4>
+                <h4 class="box-title bg-secondary with-control"><i class="fa fa-money"></i>   {{__('currencies')}}
+                 [ <span class="text-from text-danger">{{__('you can only detect one currency as a Main Currency')}}</span> ]</h4>
+
 
 
                  <div class="card-content js__card_content" style="">
@@ -47,6 +47,9 @@
                         <th scope="col">{!! __('#') !!}</th>
                         <th scope="col">{!! __('Name') !!}</th>
                         <th scope="col">{!! __('Symbol') !!}</th>
+                        <th scope="col">{!! __('Is Main Currency') !!}</th>
+                        <th scope="col">{!! __('Status') !!}</th>
+                        <th scope="col">{!! __('Conversion Factor') !!}</th>
                         <th scope="col">{!! __('Options') !!}</th>
                         <th scope="col">
                         <div class="checkbox danger">
@@ -60,6 +63,9 @@
                         <th scope="col">{!! __('#') !!}</th>
                         <th scope="col">{!! __('Name') !!}</th>
                         <th scope="col">{!! __('Symbol') !!}</th>
+                        <th scope="col">{!! __('Is Main Currency') !!}</th>
+                        <th scope="col">{!! __('Status') !!}</th>
+                        <th scope="col">{!! __('Conversion Factor') !!}</th>
                         <th scope="col">{!! __('Options') !!}</th>
                         <th scope="col">{!! __('Select') !!}</th>
                     </tr>
@@ -71,32 +77,50 @@
                             <td>{!! $currency->name !!}</td>
                             <td class="text-danger">{!! $currency->symbol !!}</td>
                             <td>
-                            
-                            <div class="btn-group margin-top-10"> 
-                                        
+                                @if ($currency->is_main_currency)
+                                    <span class="text-success"><i style="font-size: 20px" class="fa fa-check-circle wg-label"></i></span>
+                                @else
+                                    <span class="text-danger"><i style="font-size: 20px" class="fa fa-times"></i></span>
+                                @endif
+                            </td>
+
+                            <td>
+                                @if ($currency->status)
+                                    <span class="label label-success wg-label  rounded-0">{{__('Active')}}</span>
+                                @else
+                                    <span class="label label-danger wg-label  rounded-0">{{__('inActive')}}</span>
+                                @endif
+                            </td>
+
+                            <td>{!! $currency->conversion_factor ?? '---' !!}</td>
+
+                            <td>
+
+                            <div class="btn-group margin-top-10">
+
                                         <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="ico fa fa-bars"></i>
                                         {{__('Options')}} <span class="caret"></span>
-                                     
-                                    </button> 
+
+                                    </button>
                                     <ul class="dropdown-menu dropdown-wg">
                                             <li>
-                                            
+
                                             @component('admin.buttons._edit_button',[
                                             'id'=>$currency->id,
                                             'route' => 'admin:currencies.edit',
                                              ])
                                 @endcomponent
-                
+
                                             </li>
                                             <li class="btn-style-drop">
-                                                
+
                                             @component('admin.buttons._delete_button',[
                                             'id'=> $currency->id,
                                             'route' => 'admin:currencies.destroy',
                                              ])
                                 @endcomponent
-                
+
                                             </li>
 
                                         </ul>
