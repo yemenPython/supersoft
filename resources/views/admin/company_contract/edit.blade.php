@@ -143,7 +143,7 @@
 
                                     </div>
                                 </div>
-                                @if($company_contract->partners)
+                                @if($company_contract->partners->isNotEmpty())
                                     @foreach($company_contract->partners as $partner)
                                         <div class="form-group added_images">
                                             <label class=" form-label font-weight-bolder"
@@ -304,7 +304,7 @@
 
                                     </div>
                                 </div>
-                                @if($company_contract->company_shares)
+                                @if($company_contract->company_shares->isNotEmpty())
                                     @foreach($company_contract->company_shares as $company_share)
                                         <div class="form-group added_images">
                                             <label class=" form-label font-weight-bolder"

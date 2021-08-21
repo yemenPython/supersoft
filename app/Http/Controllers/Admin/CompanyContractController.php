@@ -6,6 +6,7 @@ use App\Http\Requests\Admin\CompanyContract\CompanyContractRequest;
 use App\Models\Branch;
 use App\Models\CompanyContract;
 use App\Models\CompanyContractLibrary;
+use App\Models\EmployeeData;
 use App\Models\RegisterAddedValue;
 use App\Services\LibraryServices;
 use Exception;
@@ -70,6 +71,7 @@ class CompanyContractController extends Controller
         if (!empty( $last_created ) && !$request->has( 'branch_id' )) {
             $branch = Branch::where( 'id', $last_created->branch_id )->get( ['id', 'name_' . app()->getLocale() . ' as company_name', 'address_' . app()->getLocale() . ' as address','tax_card'] )->first();
         }
+
         return view( 'admin.company_contract.create', compact( 'branches', 'branch', 'last_created' ) );
     }
 
@@ -97,6 +99,7 @@ class CompanyContractController extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
+            dd($e->getMessage());
             return redirect()->back()
                 ->with( ['message' => __( 'words.back-company_contract' ), 'alert-type' => 'error'] );
         }

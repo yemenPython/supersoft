@@ -214,9 +214,14 @@
                                         <label for="inputNameAr" class="control-label">{{__('Representative')}}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="representatives[]" class="form-control" id="representatives" autocomplete="off"
-                                                   placeholder="{{__('Representative')}}"
-                                                   value="">
+                                            <select type="text" name="representatives[]" class="form-control representatives_select"  style="width: 80% !important;
+    display: inline-block;"
+                                                    autocomplete="off">
+                                                <option value="0">{{__('Select Employee')}}</option>
+                                                @foreach($employees as $employee)
+                                                    <option value="{{$employee->id}}">{{$employee->name}}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -236,9 +241,16 @@
                                         <div class="form-group added_images">
                                             <label class=" form-label font-weight-bolder"
                                                    style="display:block">{{__('Representative')}}</label>
-                                            <input type="text" class=" form-control form-control-rounded"
-                                                   value="{{$representative->representative}}" name="representatives[]" style="width: 80%;
-    display: inline-block;">
+                                            <select type="text" name="representatives[]" class="form-control representatives_select"  style="width: 80% !important;display: initial !important;"
+                                                    autocomplete="off">
+                                                <option value="0">{{__('Select Employee')}}</option>
+                                                @foreach($employees as $employee)
+                                                    <option value="{{$employee->id}}" {{$employee->id ==$representative->employee_id? 'selected':''}}>{{$employee->name}}</option>
+                                                @endforeach
+                                            </select>
+
+
+
                                             <a href="javascript:void(0);"
                                                onclick="$(this).closest('.added_images').remove();"
                                                class="btn btn-icon btn-danger px-3 py-2"
@@ -332,7 +344,7 @@
                                             <label class=" form-label font-weight-bolder"
                                                    style="display:block">{{__('Owner')}}</label>
                                             <input type="text" class=" form-control form-control-rounded"
-                                                   value="{{$owner->owner}}" name="representatives[]" style="width: 80%;
+                                                   value="{{$owner->owner}}" name="owners[]" style="width: 80%;
     display: inline-block;">
                                             <a href="javascript:void(0);"
                                                onclick="$(this).closest('.added_images').remove();"
@@ -400,19 +412,26 @@
             var template = `
                                     <div class="form-group added_images">
                                         <label class=" form-label font-weight-bolder" style="display:block">{{__('Representative')}}</label>
-                                        <input type="text" class=" form-control form-control-rounded" name="representatives[]" style="width: 80%;
-    display: inline-block;">
-    <a href="javascript:void(0);" onclick="$(this).closest('.added_images').remove();" class="btn btn-icon btn-danger px-3 py-2" style=" display: inline-block;">
-                <i class="fa fa-trash"></i></a>
-            <div class="invalid-feedback" id="emails-form-error"></div>
+                                                              <select type="text" name="representatives[]" class="form-control representatives_select"  style="width: 80%;
+    display: inline-block;"
+                                                    autocomplete="off">
+                                                <option value="0">{{__('Select Employee')}}</option>
+                                                @foreach($employees as $employee)
+            <option value="{{$employee->id}}">{{$employee->name}}</option>
+                                                @endforeach
+            </select>
+<a href="javascript:void(0);" onclick="$(this).closest('.added_images').remove();" class="btn btn-icon btn-danger px-3 py-2" style=" display: inline-block;">
+<i class="fa fa-trash"></i></a>
+<div class="invalid-feedback" id="emails-form-error"></div>
 
-        </div>
+</div>
 
 
-    `;
+`;
 
 
             $(".representatives").append(template);
+            $('.representatives_select').select2();
 
         }
         function onPlusCompanyShareClick() {

@@ -17,7 +17,10 @@ class SecurityApprovalRepresentatives extends Model
 
     protected $fillable = [
         'security_approval_id',
-        'representative'
+        'employee_id'
     ];
-
+    public function employee()
+    {
+        return $this->belongsTo( EmployeeData::class, 'employee_id' );
+    }
 }

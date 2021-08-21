@@ -127,7 +127,6 @@
                                                    value="">
                                         </div>
                                     </div>
-{{--                                    {{input_error($errors,'partners')}}--}}
                                 </div>
 
                                 <div class="col-md-2">
@@ -140,7 +139,8 @@
 
                                     </div>
                                 </div>
-                                @if($last_created->partners)
+
+                                @if($last_created->partners->isNotEmpty())
                                     @foreach($last_created->partners as $partner)
                                         <div class="form-group added_images">
                                             <label class=" form-label font-weight-bolder"
@@ -289,7 +289,7 @@
 
                                     </div>
                                 </div>
-                                @if(!empty($last_created) && $last_created->company_shares)
+                                @if(!empty($last_created) && $last_created->company_shares->isNotEmpty())
                                     @foreach($last_created->company_shares as $company_share)
                                         <div class="form-group added_images">
                                             <label class=" form-label font-weight-bolder"

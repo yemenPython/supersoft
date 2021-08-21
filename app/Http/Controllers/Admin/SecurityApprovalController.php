@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Requests\Admin\SecurityApproval\SecurityApprovalRequest;
 use App\Models\Branch;
 use App\Models\CompanyContract;
+use App\Models\EmployeeData;
 use App\Models\SecurityApproval;
 use App\Models\SecurityApprovalLibrary;
 use App\Services\LibraryServices;
@@ -69,7 +70,8 @@ class SecurityApprovalController extends Controller
         if (!empty( $last_created ) && !$request->has( 'branch_id' )) {
             $branch = Branch::where( 'id', $last_created->branch_id )->get( ['id', 'name_' . app()->getLocale() . ' as company_name', 'address_' . app()->getLocale() . ' as address','tax_card','phone1','phone2'] )->first();
         }
-        return view( 'admin.security_approval.create', compact( 'branches', 'branch', 'last_created' ) );
+        $employees = EmployeeData::all(['id','name_ar','name_en']);
+        return view( 'admin.security_approval.create', compact( 'branches', 'branch', 'last_created','employees' ) );
     }
 
     public function store(SecurityApprovalRequest $request)
@@ -93,7 +95,7 @@ class SecurityApprovalController extends Controller
           if (count(array_filter($request->all()['representatives']))) {
               foreach (($request->all()['representatives']) as $item) {
                   if (!empty($item)) {
-                      $security->representatives()->create( ['representative' => $item] );
+                      $security->representatives()->create( ['employee_id' => $item] );
                   }
               }
           }
@@ -125,7 +127,8 @@ class SecurityApprovalController extends Controller
         $branch_id = $request->has( 'branch_id' ) ? $request['branch_id'] : $security_approval->branch_id;
         $branches = Branch::all()->pluck( 'name', 'id' );
         $branch = Branch::where( 'id', $branch_id )->get( ['name_' . app()->getLocale() . ' as company_name', 'address_' . app()->getLocale() . ' as address','tax_card','phone1','phone2'] )->first();
-        return view( 'admin.security_approval.edit', compact( 'branches', 'branch', 'security_approval' ) );
+        $employees = EmployeeData::all(['id','name_ar','name_en']);
+        return view( 'admin.security_approval.edit', compact( 'branches', 'branch', 'security_approval','employees' ) );
     }
 
     public function update(SecurityApprovalRequest $request, SecurityApproval $security_approval)
@@ -153,7 +156,7 @@ class SecurityApprovalController extends Controller
             if (count(array_filter($request->all()['representatives']))) {
                 foreach (($request->all()['representatives']) as $item) {
                     if (!empty( $item )) {
-                        $security_approval->representatives()->create( ['representative' => $item] );
+                        $security_approval->representatives()->create( ['employee_id' => $item] );
                     }
                 }
             }

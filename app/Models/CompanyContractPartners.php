@@ -20,4 +20,5 @@ class CompanyContractPartners extends Model
         'partner'
     ];
 
+
 }
