@@ -75,4 +75,23 @@ class ReturnedSaleReceiptItem extends Model
     {
         return $this->belongsTo(Store::class, 'store_id');
     }
+
+    public function getDiscountTypeAttribute()
+    {
+        $item = $this->itemable;
+        return $item ? $item->discount_type : null;
+    }
+
+    public function getDiscountAttribute()
+    {
+        $item = $this->itemable;
+        return $item ? $item->discount : null;
+    }
+
+    public function getTaxesAttribute()
+    {
+        $item = $this->itemable;
+        return $item ? $item->taxes : null;
+    }
+
 }

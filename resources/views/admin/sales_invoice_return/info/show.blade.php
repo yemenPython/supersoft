@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{__('Returned sales Receipt Show')}} </title>
+    <title>{{__('purchase-returns.show')}} </title>
 @endsection
 
 @section('content')
@@ -11,16 +11,16 @@
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
                 <li class="breadcrumb-item"><a
-                        href="{{route('admin:return-sale-receipts.index')}}"> {{__('returned-receipts.index-title')}}</a>
+                        href="{{route('admin:purchase_returns.index')}}"> {{__('purchase-returns.index-title')}}</a>
                 </li>
-                <li class="breadcrumb-item">  {{__('returned-receipts.show')}} </li>
+                <li class="breadcrumb-item">  {{__('purchase-returns.show')}} </li>
             </ol>
         </nav>
 
         <div class="col-xs-12">
             <div class="card box-content-wg-new bordered-all primary">
                 <h4 class="box-title with-control" style="text-align: initial">
-                    <i class="fa fa-gears"></i> {{__('returned-receipts.show')}}
+                    <i class="fa fa-gears"></i> {{__('purchase-returns.show')}}
                     <span class="controls hidden-sm hidden-xs pull-left">
 
 							<button class="control text-white"
@@ -45,7 +45,7 @@
                                         <table class="table table-bordered">
                                             <tbody>
                                             <th style="width:50%;background:#ddd !important;color:black !important">{{__('Branch')}}</th>
-                                            <td>{{optional($returnSaleReceipt)->branch->name}}</td>
+                                            <td>{{optional($purchaseReturn)->branch->name}}</td>
                                             </tbody>
                                         </table>
                                     </div>
@@ -53,16 +53,8 @@
                                 <div class="col-md-6">
                                     <table class="table table-bordered">
                                         <tbody>
-                                        <th style="width:50%;background:#ddd !important;color:black !important">{{__('Added By')}}</th>
-                                        <td>{{optional($returnSaleReceipt->user)->name}}</td>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="col-md-6">
-                                    <table class="table table-bordered">
-                                        <tbody>
-                                        <th style="width:50%;background:#ddd !important;color:black !important">{{ __('returned-receipts.serial-number') }}</th>
-                                        <td>{{ $returnSaleReceipt->number }}</td>
+                                        <th style="width:50%;background:#ddd !important;color:black !important">{{ __('purchase-invoices.serial-number') }}</th>
+                                        <td>{{ $purchaseReturn->number }}</td>
                                         </tbody>
                                     </table>
                                 </div>
@@ -71,8 +63,8 @@
                                 <div class="col-md-6">
                                     <table class="table table-bordered">
                                         <tbody>
-                                        <th style="width:50%;background:#ddd !important;color:black !important">{{ __('returned-receipts.operation-date') }}</th>
-                                        <td>{{$returnSaleReceipt->date}}</td>
+                                        <th style="width:50%;background:#ddd !important;color:black !important">{{ __('purchase-invoices.operation-date') }}</th>
+                                        <td>{{$purchaseReturn->date}}</td>
                                         </tbody>
                                     </table>
                                 </div>
@@ -80,8 +72,8 @@
                                 <div class="col-md-6">
                                     <table class="table table-bordered">
                                         <tbody>
-                                        <th style="width:50%;background:#ddd !important;color:black !important">{{ __('returned-receipts.operation-time') }}</th>
-                                        <td>{{ $returnSaleReceipt->time}}</td>
+                                        <th style="width:50%;background:#ddd !important;color:black !important">{{ __('purchase-invoices.operation-time') }}</th>
+                                        <td>{{ $purchaseReturn->time}}</td>
                                         </tbody>
                                     </table>
                                 </div>
@@ -90,8 +82,8 @@
                                 <div class="col-md-6">
                                     <table class="table table-bordered">
                                         <tbody>
-                                        <th style="width:50%;background:#ddd !important;color:black !important">{{ __('returned-receipts.supplier') }}</th>
-                                        <td>{{ optional($returnSaleReceipt->clientable)->name}}</td>
+                                        <th style="width:50%;background:#ddd !important;color:black !important">{{ __('purchase-invoices.supplier') }}</th>
+                                        <td>{{ optional($purchaseReturn->supplier)->name}}</td>
                                         </tbody>
                                     </table>
                                 </div>
@@ -100,20 +92,53 @@
                                     <table class="table table-bordered">
                                         <tbody>
                                         <th style="width:50%;background:#ddd !important;color:black !important">
-                                            {{ __('returned-receipts.supply_order') }}</th>
-                                        <td>{{ __($returnSaleReceipt->salesable ? $returnSaleReceipt->salesable->number : '---' )}}</td>
+                                            {{ __('purchase-invoices.supply_order') }}</th>
+                                        <td>
+                                            @foreach($purchaseReturn->supplyOrders as $supplyOrder)
+                                                <span>{{$supplyOrder->number}}</span> ,
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
+
+                                    <div class="col-md-6">
+                                        <table class="table table-bordered">
+                                            <tbody>
+                                            <th style="width:50%;background:#ddd !important;color:black !important">
+                                                {{ __('purchase-invoices.type') }}</th>
+                                            <td>{{ __($purchaseReturn->type )}}</td>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <table class="table table-bordered">
+                                            <tbody>
+                                            <th style="width:50%;background:#ddd !important;color:black !important">
+                                                {{ __('purchase-invoices.status') }}</th>
+                                            <td>{{ __($purchaseReturn->status )}}</td>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <table class="table table-bordered">
+                                            <tbody>
+                                            <th style="width:50%;background:#ddd !important;color:black !important">
+                                                {{ __('purchase-invoices.invoice_type') }}</th>
+                                            <td>{{ __($purchaseReturn->invoice_type )}}</td>
+                                            </tbody>
+                                        </table>
+                                    </div>
                             </div>
                         </div>
                     </div>
 
-                    @include('admin.returned_sale_receipt.info.table_items')
+                    @include('admin.purchase_returns.info.table_items')
 
-                    @include('admin.returned_sale_receipt.info.financial')
+                    @include('admin.purchase_returns.info.financial')
 
-                    <a href="{{route('admin:return-sale-receipts.index')}}"
+                    <a href="{{route('admin:purchase_returns.index')}}"
                        class="btn btn-danger waves-effect waves-light">
                         <i class=" fa fa-reply"></i> {{__('Back')}}
                     </a>

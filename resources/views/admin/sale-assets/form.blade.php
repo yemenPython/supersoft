@@ -113,7 +113,7 @@
                     </div>
                 </div>
 
-               
+
 
             </div>
         </div>
@@ -173,11 +173,11 @@
                     <div class="form-group">
                         <label> {{ __('Notes') }} </label>
                         <textarea class="form-control" name="note" id="note"
-                                  placeholder="{{ __('Notes') }}">{{ old('notes') }}</textarea>
+                                  placeholder="{{ __('Notes') }}">{{isset($saleAsset)? $saleAsset->note:old('notes') }}</textarea>
                     </div>
                     {{input_error($errors,'note')}}
                 </div>
 
-                
+
     </div>
 </div>

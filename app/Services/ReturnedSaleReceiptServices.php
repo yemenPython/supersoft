@@ -136,10 +136,10 @@ class ReturnedSaleReceiptServices
         return $data;
     }
 
-    public function resetPurchaseReceiptItems($purchaseReceipt)
+    public function resetReturnedReceiptItems($returnSaleReceipt)
     {
 
-        foreach ($purchaseReceipt->items as $item) {
+        foreach ($returnSaleReceipt->items as $item) {
 
             $item->delete();
         }

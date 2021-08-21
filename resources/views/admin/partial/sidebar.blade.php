@@ -148,6 +148,7 @@ route('admin:sale-supply-orders.index'),
 route('admin:sales.invoices.index'),
 route('admin:maintenance-cards.index'),
 route('admin:return-sale-receipts.index'),
+route('admin:sales.invoices.return.index'),
                      ])}}">
                     <a class="parent-item js__control" href="#"><i style="color:#C3333C !important"
                                                                    class="menu-icon fa fa-building-o"></i><span>{{__('Items management')}}</span><span
@@ -256,6 +257,12 @@ route('admin:return-sale-receipts.index'),
                         <li class="{{setActivationClass(route('admin:return-sale-receipts.index'))}}">
                             <a href="{{route('admin:return-sale-receipts.index')}}">
                                 {{__('Return Sales Receipts')}}
+                            </a>
+                        </li>
+
+                        <li class="{{setActivationClass(route('admin:sales.invoices.return.index'))}}">
+                            <a href="{{route('admin:sales.invoices.return.index')}}">
+                                {{__('Sales Invoice Return')}}
                             </a>
                         </li>
 
@@ -619,13 +626,6 @@ route('admin:bank-receives.index'),
 
 
 
-                </a>
-            </li>
-        </ul>
-    </li> -->
-
-
-             <!--   <li class="{{setActivationClass([
 route('admin:revenues_types.index'),
 route('admin:revenues_Items.index'),
 route('admin:revenueReceipts.index'),
@@ -679,9 +679,13 @@ route('admin:expenseReceipts.index'),
                     </ul>
                 </li>
 
+<<<<<<< HEAD
+
+=======
                 </a>
         </ul>
     </li>
+>>>>>>> dcf869bd27c7e2a7c3209185aeeec0377dc70cab
             <!--
                 <li class="{{setActivationClass([
 route('admin:purchase-invoices.index'),

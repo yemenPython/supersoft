@@ -279,7 +279,7 @@ class AssetReplacementController extends Controller
                         'asset_replacement_id' => $assetReplacement->id,
                     ] );
                     $asset = Asset::find( $item['asset_id'] );
-                    if ($item['purchase_cost'] > 0
+                    if (isset($item['purchase_cost'])&& $item['purchase_cost'] > 0
                         && $item['value_after_replacement'] > 0
                         && ($item['purchase_cost'] / $item['value_after_replacement']) > 0) {
                         $asset_age = (($item['purchase_cost'] + $item['value_replacement']) / $item['value_after_replacement']) / 100;
@@ -295,6 +295,7 @@ class AssetReplacementController extends Controller
             return redirect()->to( 'admin/assets_replacements' )
                 ->with( ['message' => __( 'words.assets-replacement-updated' ), 'alert-type' => 'success'] );
         } catch (Exception $exception) {
+            dd($exception->getMessage());
             $this->logErrors( $exception );
             return back()->with( ['message' => __( 'words.something-went-wrong' ), 'alert-type' => 'error'] );
         }

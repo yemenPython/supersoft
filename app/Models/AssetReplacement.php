@@ -25,6 +25,7 @@ class AssetReplacement extends Model
         'total_before_replacement',
         'branch_id',
         'user_id',
+        'note'
     ];
 
     protected $with = ['assetReplacementItems'];

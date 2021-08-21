@@ -8,8 +8,7 @@
         <option value="">{{__('Select')}}</option>
 
         @foreach($items as $item)
-            <option value="{{$item->id}}"
-                {{isset($purchaseReceipt) && $purchaseReceipt->supply_order_id == $supply_order->id? 'selected':''}}>
+            <option value="{{$item->id}}">
                 {{$item->number}}
             </option>
         @endforeach

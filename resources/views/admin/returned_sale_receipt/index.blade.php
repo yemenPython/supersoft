@@ -46,15 +46,12 @@
                                 @if(authIsSuperAdmin())
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
-                                <th scope="col">{!! __('Supplier') !!}</th>
+                                <th scope="col">{!! __('Client') !!}</th>
                                 <th scope="col">{!! __('Number') !!}</th>
 
                                 <th scope="col">{!! __('Total') !!}</th>
                                 <th scope="col">{!! __('Total Accepted') !!}</th>
                                 <th scope="col">{!! __('Total Rejected') !!}</th>
-
-                                <th scope="col">{!! __('Concession Status') !!}</th>
-                                <th scope="col">{!! __('Execution Status') !!}</th>
 
                                 <th scope="col">{!! __('Created Date') !!}</th>
                                 <th scope="col">{!! __('Updated Date') !!}</th>
@@ -75,19 +72,23 @@
                                 @if(authIsSuperAdmin())
                                     <th scope="col">{!! __('Branch') !!}</th>
                                 @endif
-                                <th scope="col">{!! __('Supplier') !!}</th>
+                                <th scope="col">{!! __('Client') !!}</th>
                                 <th scope="col">{!! __('Number') !!}</th>
 
                                 <th scope="col">{!! __('Total') !!}</th>
                                 <th scope="col">{!! __('Total Accepted') !!}</th>
                                 <th scope="col">{!! __('Total Rejected') !!}</th>
-                                <th scope="col">{!! __('Concession Status') !!}</th>
-                                <th scope="col">{!! __('Execution Status') !!}</th>
 
                                 <th scope="col">{!! __('Created Date') !!}</th>
                                 <th scope="col">{!! __('Updated Date') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
-                                <th scope="col">{!! __('Select') !!}</th>
+                                <th scope="col">
+                                    <div class="checkbox danger">
+                                        <input type="checkbox" id="select-all">
+                                        <label for="select-all"></label>
+                                    </div>{!! __('Select') !!}
+                                </th>
+
                             </tr>
                             </tfoot>
                         </table>
@@ -103,7 +104,7 @@
 {{--    @include('admin.partial.execution_period_form', [--}}
 {{--    'items'=> $purchase_receipts->get(), 'url'=> route('admin:purchase.receipts.execution.save'), 'title' => __('Purchase Receipts Execution') ])--}}
 
-    @include('admin.partial.upload_library.form', ['url'=> route('admin:purchase.receipts.upload_library')])
+    @include('admin.partial.upload_library.form', ['url'=> route('admin:return.sale.receipts.upload_library')])
 
     @include('admin.partial.print_modal', ['title'=> __('Supply Orders')])
 
@@ -123,16 +124,36 @@
         function getPrintData(id) {
 
             $.ajax({
-                url: "{{ route('admin:purchase.receipts.print') }}?purchase_receipt_id=" + id,
+                url: "{{ route('admin:return.sale.receipts.print') }}?returned_receipt_id=" + id,
                 method: 'GET',
                 success: function (data) {
                     $("#data_to_print").html(data.view);
 
                     let total = $("#totalInLetters").text()
+
                     $("#totalInLetters").html(new Tafgeet(total, '{{env('DEFAULT_CURRENCY')}}').parse())
                 }
             });
         }
+
+        function getItemValue(id) {
+
+            $('#purchase_quotation_id').val(id);
+        }
+
+        server_side_datatable('#datatable-with-btns');
+
+        function filterFunction($this) {
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout( function () {
+                $("#loaderSearch").hide();
+            }, 1000)
+        }
+
+
 
         function getLibraryFiles(id) {
 
@@ -143,7 +164,7 @@
             $.ajax({
 
                 type: 'post',
-                url: '{{route('admin:purchase.receipts.library.get.files')}}',
+                url: '{{route('admin:return.sale.receipts.library.get.files')}}',
                 data: {
                     _token: CSRF_TOKEN,
                     id: id,
@@ -181,7 +202,7 @@
                     $.ajax({
 
                         type: 'post',
-                        url: '{{route('admin:purchase.receipts.library.file.delete')}}',
+                        url: '{{route('admin:return.sale.receipts.library.file.delete')}}',
                         data: {
                             _token: CSRF_TOKEN,
                             id: id,
@@ -223,7 +244,7 @@
             form_data.append("title_en", title_en);
 
             $.ajax({
-                url: "{{route('admin:purchase.receipts.upload_library')}}",
+                url: "{{route('admin:return.sale.receipts.upload_library')}}",
                 type: "post",
 
                 headers: {
@@ -262,22 +283,6 @@
             });
         }
 
-        function getItemValue(id) {
-
-            $('#purchase_quotation_id').val(id);
-        }
-
-        server_side_datatable('#datatable-with-btns');
-
-        function filterFunction($this) {
-            $("#loaderSearch").show();
-            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
-            $datatable.ajax.url($url).load();
-            $(".js__card_minus").trigger("click");
-            setTimeout( function () {
-                $("#loaderSearch").hide();
-            }, 1000)
-        }
     </script>
 @endsection
 

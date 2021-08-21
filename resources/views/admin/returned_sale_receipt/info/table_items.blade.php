@@ -21,14 +21,14 @@
                 </thead>
                 <tbody id="parts_data">
 
-                @if(isset($purchaseReceipt))
+                @if(isset($returnSaleReceipt))
 
-                    @foreach ($purchaseReceipt->items as $index => $update_item)
+                    @foreach ($returnSaleReceipt->items as $index => $update_item)
                         @php
                             $index +=1;
                             $part = $update_item->part;
                         @endphp
-                        @include('admin.purchase_receipts.info.items')
+                        @include('admin.returned_sale_receipt.info.items')
                     @endforeach
                 @endif
 
@@ -52,7 +52,7 @@
                 </tr>
                 </tfoot>
 
-                <input type="hidden" name="index" id="items_count" value="{{isset($purchaseReceipt) ? $purchaseReceipt->items->count() : 0}}">
+                <input type="hidden" name="index" id="items_count" value="{{isset($returnSaleReceipt) ? $returnSaleReceipt->items->count() : 0}}">
             </table>
         </div>
     </div>
