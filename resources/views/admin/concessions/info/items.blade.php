@@ -21,9 +21,9 @@
     <td>
         <span>{{optional($item->partPrice)->unit->unit}}</span>
     <td>
-    <span class="price-span">
-            {{ $item->partPriceSegment ? $item->partPriceSegment->name : __('Not determined')}}
-    </span>
+        <span class="price-span">
+                {{ $item->partPriceSegment ? $item->partPriceSegment->name : __('Not determined')}}
+        </span>
 
     </td>
 
@@ -32,12 +32,17 @@
     </td>
 
     <td style="width:150px">
-    <span style="background:#F7F8CC !important">
-    {{$item->price}}</span>
+        <span style="background:#F7F8CC !important">
+            {{$item->price}}
+        </span>
     </td>
 
     <td>
         <span style="background:rgb(253, 215, 215) !important">{{ $item->price * $item->quantity}}</span>
+    </td>
+
+    <td>
+        <span style="background:rgb(253, 215, 215) !important">{{ $item->store ? $item->store->name : '---' }}</span>
     </td>
 
     <td>
