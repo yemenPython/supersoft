@@ -41,7 +41,7 @@ class TypeRevenueController extends Controller
     {
         $this->treeService = $treeService;
         $this->model = new TypeRevenue();
-        $this->route = route('admin:financial_management.type_expenses.store');
+        $this->route = route('admin:financial_management.type_revenue.store');
     }
 
     public function index(): View
