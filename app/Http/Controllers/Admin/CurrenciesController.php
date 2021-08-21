@@ -32,18 +32,22 @@ class CurrenciesController extends Controller
     public function create()
     {
         if (!auth()->user()->can('create_currencies')) {
-
             return redirect()->back()->with(['authorization' => 'error']);
         }
-
         return view('admin.currencies.create');
     }
 
     public function store(CurrencyRequest $request)
     {
         if (!auth()->user()->can('create_currencies')) {
-
             return redirect()->back()->with(['authorization' => 'error']);
+        }
+
+        if ($request->is_main_currency && $this->checkCurrenciesHasOneMain()) {
+            return redirect()->back()->withInput()->withErrors(['message' => __('you can only detect one currency as a Main Currency'), 'alert-type' => 'error']);
+        }
+        if ($request->is_main_currency && !$request->status) {
+            return redirect()->back()->with(['message' => __('If The Currency Is Main should be activate'), 'alert-type' => 'error']);
         }
 
         Currency::create($request->all());
@@ -66,6 +70,12 @@ class CurrenciesController extends Controller
         if (!auth()->user()->can('update_currencies')) {
 
             return redirect()->back()->with(['authorization' => 'error']);
+        }
+        if ($request->is_main_currency && $this->checkCurrenciesHasOneMain($currency->id)) {
+            return redirect()->back()->with(['message' => __('you can only detect one currency as a Main Currency'), 'alert-type' => 'error']);
+        }
+        if ($request->is_main_currency && !$request->status) {
+            return redirect()->back()->with(['message' => __('If The Currency Is Main should be activate'), 'alert-type' => 'error']);
         }
 
         $currency->update($request->all());
@@ -109,5 +119,15 @@ class CurrenciesController extends Controller
         }
         return redirect()->to('admin/currencies')
             ->with(['message' => __('words.no-data-delete'), 'alert-type' => 'error']);
+    }
+
+
+    public function checkCurrenciesHasOneMain(int $id = null): ?Currency
+    {
+        $query = Currency::where('is_main_currency', 1);
+        if ($id) {
+            return $query->where('id', '!=', $id)->first();
+        }
+        return $query->first();
     }
 }

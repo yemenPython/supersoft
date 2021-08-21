@@ -30,11 +30,15 @@ class CurrencyRequest extends FormRequest
             $ruleAR = 'required|string|max:50|unique:currencies,name_ar,NULL,id,deleted_at,NULL';
             $ruleEN = 'required|string|max:50|unique:currencies,name_en,NULL,id,deleted_at,NULL';
         }
+
         return [
             'name_ar' => $ruleAR,
             'name_en' => $ruleEN,
             'symbol_ar' => 'required|string|max:50',
             'symbol_en' => 'required|string|max:50',
+            'is_main_currency' => 'required|in:1,0',
+            'conversion_factor' => 'nullable|numeric',
+            'status' => 'required|in:1,0',
         ];
     }
 
@@ -44,7 +48,10 @@ class CurrencyRequest extends FormRequest
             'name_ar' => __('Name in Arabic'),
             'name_en' => __('Name in English'),
             'symbol_ar' => __('Symbol in Arabic'),
-            'symbol_en' => __('Symbol in English')
+            'symbol_en' => __('Symbol in English'),
+            'conversion_factor' => __('Conversion Factor'),
+            'status' => __('Status'),
+            'is_main_currency' => __('Is Main Currency'),
         ];
     }
 }

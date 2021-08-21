@@ -20,7 +20,7 @@ class Currency extends Model
 
     protected $dates = ['deleted_at'];
 
-    protected static $logAttributes = ['name_ar', 'name_en' ,'symbol_ar','symbol_en'];
+    protected static $logAttributes = ['name_ar', 'name_en', 'symbol_ar', 'symbol_en'];
 
     protected static $logOnlyDirty = true;
 
@@ -29,13 +29,25 @@ class Currency extends Model
         return "This model has been {$eventName}";
     }
 
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name_ar', 'name_en' ,'symbol_ar','symbol_en'
+        'name_ar',
+        'name_en',
+        'symbol_ar',
+        'symbol_en',
+        'is_main_currency',
+        'conversion_factor',
+        'status',
+    ];
+
+    protected $casts = [
+        'is_main_currency' => 'boolean',
+        'status' => 'boolean',
     ];
 
     public function countries()

@@ -2286,6 +2286,11 @@
     "Types Revenues" : "أنواع الأيردات",
     "revenue management" : "إدارة الأيردات",
     "Expense management" : "إدارة المصروفات",
-    "Expense types" : "أنواع المصروفات"
+    "Expense types" : "أنواع المصروفات",
+    "Is Main Currency" : "عملة رئيسية",
+    "Conversion Factor" : "معامل التحويل",
+    "If The Currency Is Main should be activate" : "اذا كانت العملة رئيسية يجب ان تكون نشطه",
+    "you can only detect one currency as a Main Currency" : "تنبيه ! يمكنك تحديد عملة واحدة فقط كعملة رئيسية",
+    "if you detected this currency to be main currency other currency will be not main" : "اذا تم تحديد هذه العملة كعملة رئيسية سوف يتم ألغاء العملة الرئيسية الاخرى"
 }
 
