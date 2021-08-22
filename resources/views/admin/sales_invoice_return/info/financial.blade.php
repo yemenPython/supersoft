@@ -9,7 +9,7 @@
                     <input type="text"
                            style="background:#F9EFB7; border:none;text-align:center !important;"
                            class="form-control" readonly name="sub_total" id="sub_total"
-                           value="{{isset($purchaseReturn) ? $purchaseReturn->sub_total : 0}}">
+                           value="{{isset($salesInvoiceReturn) ? $salesInvoiceReturn->sub_total : 0}}">
 
                 </td>
             </tr>
@@ -26,16 +26,16 @@
                         <li>
                             <div class="radio primary remove-padd-marg">
                                 <input type="radio" name="discount_type" id="discount_type_amount" disabled
-                                       {{isset($purchaseReturn) && $purchaseReturn->discount_type == 'amount' ? 'checked': '' }}
+                                       {{isset($salesInvoiceReturn) && $salesInvoiceReturn->discount_type == 'amount' ? 'checked': '' }}
                                        value="amount"
-                                       {{!isset($purchaseReturn) ? 'checked':''}} onclick="calculateInvoiceDiscount()">
+                                       {{!isset($salesInvoiceReturn) ? 'checked':''}} onclick="calculateInvoiceDiscount()">
                                 <label for="discount_type_amount">{{__('amount')}}</label>
                             </div>
                         </li>
                         <li>
                             <div class="radio primary remove-padd-marg">
                                 <input type="radio" name="discount_type" disabled
-                                       {{isset($purchaseInvoice) && $purchaseInvoice->discount_type == 'percent' ? 'checked': '' }}
+                                       {{isset($salesInvoiceReturn) && $salesInvoiceReturn->discount_type == 'percent' ? 'checked': '' }}
                                        id="discount_type_percent" value="percent"
                                        onclick="calculateInvoiceDiscount()">
                                 <label for="discount_type_percent">{{__('Percent')}}</label>
@@ -67,7 +67,7 @@
                             <div class="has-feedback">
                                 <input type="checkbox" id="supplier_discount_check" name="supplier_discount_active"
                                        onclick="calculateTotal()" disabled
-                                    {{isset($purchaseReturn) && $purchaseReturn->supplier_discount_status ? 'checked' : ''}}>
+                                    {{isset($salesInvoiceReturn) && $salesInvoiceReturn->supplier_discount_status ? 'checked' : ''}}>
 
                             </div>
                         </li>
@@ -76,18 +76,18 @@
                             <input type="number" name="supplier_discount" min="0" readonly="readonly"
                                    style="background:#D2F4F6; border:none;text-align:center !important;" disabled
                                    class="form-control supplier_discount"
-                                   value="{{isset($purchaseReturn) ? $purchaseReturn->supplier_discount : 0}}"
+                                   value="{{isset($salesInvoiceReturn) ? $salesInvoiceReturn->supplier_discount : 0}}"
                             >
                         </li>
 
 
                         <li>
                             <input type="text" disabled="disabled" class="form-control supplier_discount_type"
-                                   value="{{isset($purchaseReturn) && $purchaseReturn->supplier_discount_type == 'percent' ? '%' : '$'}}"
+                                   value="{{isset($salesInvoiceReturn) && $salesInvoiceReturn->supplier_discount_type == 'percent' ? '%' : '$'}}"
                                    style="width: 42px;">
 
                             <input type="hidden" name="supplier_discount_type" class="supplier_discount_type_value"
-                                   value="{{isset($purchaseReturn) ? $purchaseReturn->supplier_discount_type : 'amount'}}"
+                                   value="{{isset($salesInvoiceReturn) ? $salesInvoiceReturn->supplier_discount_type : 'amount'}}"
                             >
 
                         </li>
@@ -110,7 +110,7 @@
                 <td style="background:#D2F4F6 !important;color:black!important">
                     <input type="number" class="form-control text-center" onchange="calculateInvoiceDiscount()"
                            onkeyup="calculateInvoiceDiscount()" min="0" disabled
-                           value="{{isset($purchaseReturn) ? $purchaseReturn->discount : 0}}"
+                           value="{{isset($salesInvoiceReturn) ? $salesInvoiceReturn->discount : 0}}"
                            name="discount" id="discount">
                 </td>
             </tr>
@@ -130,7 +130,7 @@
                 <td style="background:#FFC5D7">
                     <input type="text" class="form-control" readonly
                            style="background:#FFC5D7; border:none;text-align:center !important;"
-                           value="{{isset($purchaseReturn) ? $purchaseReturn->total_after_discount : 0}}"
+                           value="{{isset($salesInvoiceReturn) ? $salesInvoiceReturn->total_after_discount : 0}}"
                            name="total_after_discount" id="total_after_discount">
 
                 </td>
@@ -146,11 +146,8 @@
                     <div class="btn-group  group-eye-wg-one" style="position: absolute;right: 81px;top: 22px;">
 
                     <span type="button" class="fa fa-eye eye-design-one dropdown-toggle" data-toggle="dropdown"
-
-
                           aria-haspopup="true" aria-expanded="false">
-</span>
-
+                    </span>
 
                         <ul class="dropdown-menu for-design-eye" style="margin-top: 19px;">
                             @if($data['taxes']->count())
@@ -163,8 +160,8 @@
                                         <a>
                                             <input type="checkbox" id="checkbox_tax_{{$tax_key}}" name="taxes[]"
                                                    onclick="calculateTax()" disabled
-                                                   {{!isset($purchaseReturn) ? 'checked':''}}
-                                                   {{isset($purchaseReturn) && in_array($tax->id, $purchaseReturn->taxes->pluck('id')->toArray())? 'checked':'' }}
+                                                   {{!isset($salesInvoiceReturn) ? 'checked':''}}
+                                                   {{isset($purchaseReturn) && in_array($tax->id, $salesInvoiceReturn->taxes->pluck('id')->toArray())? 'checked':'' }}
                                                    data-tax-value="{{$tax->value}}"
                                                    data-tax-type="{{$tax->tax_type}}"
                                                    data-tax-execution-time="{{$tax->execution_time}}"
@@ -173,7 +170,7 @@
                                             <span>
                                             {{$tax->name}}  ( {{ $tax->value }} {{$tax->tax_type == 'amount' ? '$':'%'}} ) =
                                              <span id="calculated_tax_value_{{$tax_key}}">
-                                                  {{isset($purchaseReturn) ? taxValueCalculated($purchaseReturn->total_after_discount, $purchaseReturn->sub_total, $tax) : 0}}
+                                                  {{isset($salesInvoiceReturn) ? taxValueCalculated($salesInvoiceReturn->total_after_discount, $salesInvoiceReturn->sub_total, $tax) : 0}}
                                              </span>
                                         </span>
                                         </a>
@@ -199,7 +196,7 @@
                     <input type="text" class="form-control"
                            style="background:#FFC5D7; border:none;text-align:center !important;"
                            readonly name="tax" id="tax"
-                           value=" {{isset($purchaseReturn) ? $purchaseReturn->tax : 0}}"
+                           value=" {{isset($salesInvoiceReturn) ? $salesInvoiceReturn->tax : 0}}"
                     >
 
                 </td>
@@ -216,29 +213,26 @@
         <table class="table table-bordered">
             <tr>
                 <th style="width:40%;height:50px;background:#D2CCF8 !important;color:black !important">
+
                     <div class="btn-group  group-eye-wg" style="position: absolute;right: 61px;top: 22px;">
+
                     <span type="button" class="fa fa-eye eye-design-two dropdown-toggle" data-toggle="dropdown"
-
                           aria-haspopup="true" aria-expanded="false">
-
-
-                        </span>
+                    </span>
 
                         <ul class="dropdown-menu for-design-eye" style="margin-top: 19px;">
                             @if( $data['additionalPayments']->count())
                                 @foreach( $data['additionalPayments'] as $additional_key => $additionalPayment)
 
-                                    @php
-                                        $additional_key +=1;
-                                    @endphp
+                                    @php $additional_key +=1; @endphp
 
                                     <li>
                                         <a>
                                             <input type="checkbox" id="checkbox_additional_{{$additional_key}}"
                                                    name="additional_payments[]"
                                                    onclick="calculateTotal()" disabled
-                                                   {{!isset($purchaseReturn) ? 'checked':''}}
-                                                   {{isset($purchaseReturn) && in_array($additionalPayment->id, $purchaseReturn->taxes->pluck('id')->toArray())? 'checked':'' }}
+                                                   {{!isset($salesInvoiceReturn) ? 'checked':''}}
+                                                   {{isset($salesInvoiceReturn) && in_array($additionalPayment->id, $salesInvoiceReturn->taxes->pluck('id')->toArray())? 'checked':'' }}
                                                    data-additional-value="{{$additionalPayment->value}}"
                                                    data-additional-type="{{$additionalPayment->tax_type}}"
                                                    data-additional-execution-time="{{$additionalPayment->execution_time}}"
@@ -248,7 +242,7 @@
                                             {{$additionalPayment->name}} ( {{ $additionalPayment->value }}
                                                 {{$additionalPayment->tax_type == 'amount' ? '$':'%'}} ) =
                                              <span id="calculated_additional_value_{{$additional_key}}">
-                                                 {{isset($purchaseReturn) ? taxValueCalculated($purchaseReturn->total_after_discount, $purchaseReturn->sub_total, $additionalPayment ) : 0}}
+                                                 {{isset($salesInvoiceReturn) ? taxValueCalculated($salesInvoiceReturn->total_after_discount, $salesInvoiceReturn->sub_total, $additionalPayment ) : 0}}
                                              </span>
                                         </span>
                                         </a>
@@ -275,7 +269,7 @@
                     <input type="text" class="form-control"
                            style="background:#D2CCF8; border:none;text-align:center !important;"
                            readonly name="additional_payments_value" id="additional_payments"
-                           value=" {{isset($purchaseReturn) ? $purchaseReturn->additional_payments : 0}}"
+                           value=" {{isset($salesInvoiceReturn) ? $salesInvoiceReturn->additional_payments : 0}}"
                     >
 
                 </td>
@@ -293,7 +287,7 @@
                     <input type="text" class="form-control"
                            style="background:#D2CCF8; border:none;text-align:center !important;"
                            readonly name="total" id="total"
-                           value="{{isset($purchaseReturn) ? $purchaseReturn->total : 0}}">
+                           value="{{isset($salesInvoiceReturn) ? $salesInvoiceReturn->total : 0}}">
 
                 </td>
             </tr>

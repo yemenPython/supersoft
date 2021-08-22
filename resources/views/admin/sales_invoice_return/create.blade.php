@@ -124,7 +124,7 @@
 
 @section('js-validation')
 
-{{--    {!! JsValidator::formRequest('App\Http\Requests\Admin\PurchaseReturn\PurchaseReturnRequest', '.form'); !!}--}}
+    {!! JsValidator::formRequest('App\Http\Requests\Admin\SalesInvoicesReturn\CreateSalesInvoiceReturnRequest', '.form'); !!}
 
     @include('admin.partial.sweet_alert_messages')
 

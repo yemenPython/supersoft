@@ -26,14 +26,14 @@
             </thead>
             <tbody id="parts_data">
 
-            @if(isset($purchaseReturn))
+            @if(isset($salesInvoiceReturn))
 
-                @foreach ($purchaseReturn->items as $index => $item)
+                @foreach ($salesInvoiceReturn->items as $index => $item)
                     @php
                         $index +=1;
                         $part = $item->part;
                     @endphp
-                    @include('admin.purchase_returns.info.items')
+                    @include('admin.sales_invoice_return.info.items')
                 @endforeach
             @endif
 

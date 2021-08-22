@@ -177,7 +177,32 @@ class SalesInvoiceReturnController extends Controller
             ->with(['message' => __('words.sale-invoice-return-created'), 'alert-type' => 'success']);
     }
 
-    public function show(Request $request)
+    public function show(SalesInvoiceReturn $salesInvoiceReturn)
+    {
+
+        if (!auth()->user()->can('create_sales_invoices_return')) {
+            return redirect()->back()->with(['authorization' => 'error']);
+        }
+
+        $branch_id = $salesInvoiceReturn->branch_id;
+
+        $data['taxes'] = TaxesFees::where('active_invoices', 1)
+            ->where('branch_id', $branch_id)
+            ->where('type', 'tax')
+            ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
+            ->get();
+
+        $data['additionalPayments'] = TaxesFees::where('active_invoices', 1)
+            ->where('branch_id', $branch_id)
+            ->where('type', 'additional_payments')
+            ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
+            ->get();
+
+
+        return view('admin.sales_invoice_return.info.show', compact('salesInvoiceReturn', 'data'));
+    }
+
+    public function print(Request $request)
     {
         if (!auth()->user()->can('create_sales_invoices_return')) {
             return redirect()->back()->with(['authorization' => 'error']);
@@ -190,124 +215,102 @@ class SalesInvoiceReturnController extends Controller
         return response()->json(['invoice' => $invoiceData]);
     }
 
-    public function edit(SalesInvoiceReturn $invoice)
+    public function edit(SalesInvoiceReturn $salesInvoiceReturn)
     {
-
         if (!auth()->user()->can('update_sales_invoices_return')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
-        $salesInvoices = SalesInvoice::select('id', 'invoice_number')
-            ->where('branch_id', $invoice->branch_id)->get();
-        $branches = Branch::where('status', 1)->get()->pluck('name', 'id');
-        $taxes = TaxesFees::where('active_invoices', 1)->where('branch_id', $invoice->branch_id)->get();
+        if ($salesInvoiceReturn->status == 'finished') {
+            return redirect()->back()->with(['message' => __('words.sale-return-invoice-cant-deleted'), 'alert-type' => 'error']);
+        }
 
-        return view('admin.sales_invoice_return.edit',
-            compact('invoice', 'salesInvoices', 'branches', 'taxes'));
+        $branch_id = $salesInvoiceReturn->branch_id;
+
+        $data['branches'] = Branch::where('status', 1)->select('id', 'name_' . $this->lang)->get();
+
+        $data['taxes'] = TaxesFees::where('purchase_return', 1)
+            ->where('branch_id', $branch_id)
+            ->where('type', 'tax')
+            ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
+            ->get();
+
+        $data['additionalPayments'] = TaxesFees::where('purchase_return', 1)
+            ->where('branch_id', $branch_id)
+            ->where('type', 'additional_payments')
+            ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
+            ->get();
+
+        $data['returnedItems'] = $this->salesInvoiceReturn->getTypeItems($salesInvoiceReturn->invoice_type);
+
+        return view('admin.sales_invoice_return.edit', compact('data', 'salesInvoiceReturn'));
     }
 
-    // UpdateSalesInvoiceReturnRequest
-
-    public function update(UpdateSalesInvoiceReturnRequest $request, SalesInvoiceReturn $invoice)
+    public function update(UpdateSalesInvoiceReturnRequest $request, SalesInvoiceReturn $salesInvoiceReturn)
     {
-
         if (!auth()->user()->can('update_sales_invoices_return')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
-        if ($invoice->expensesReceipts->count()) {
-            return redirect()->back()->with(['message' => __('words.sale-return-invoice-paid'), 'alert-type' => 'error']);
+        if (!$request->has('items')) {
+            return redirect()->back()->with(['message' => __('sorry,  items required'), 'alert-type' => 'error']);
+        }
+
+        if ($salesInvoiceReturn->status == 'finished') {
+            return redirect()->back()->with(['message' => __('words.sale-return-invoice-cant-deleted'), 'alert-type' => 'error']);
         }
 
         try {
+
             DB::beginTransaction();
 
-//          reset to qty done in create
-            $this->resetSalesInvoiceQty($invoice);
+            $this->salesInvoiceReturn->resetSalesInvoiceReturnDataItems($salesInvoiceReturn);
 
-            $branch_id = $invoice->branch_id;
+            $data = $request->all();
 
-            $sales_invoice = SalesInvoice::findOrFail($request['sales_invoice_id']);
+            $invoice_data = $this->salesInvoiceReturn->prepareInvoiceData($data);
 
-            $customer_id = null;
+            $salesInvoiceReturn->update($invoice_data);
 
-            if ($sales_invoice->customer) {
-                $customer_id = $sales_invoice->customer->id;
+            $this->salesInvoiceReturn->salesInvoiceReturnTaxes($salesInvoiceReturn, $data);
+
+            foreach ($data['items'] as $item) {
+
+                $item_data = $this->salesInvoiceReturn->calculateItemTotal($item, $data['invoice_type']);
+
+                $item_data['sales_invoice_return_id'] = $salesInvoiceReturn->id;
+
+                $salesInvoiceItemReturn = SalesInvoiceItemReturn::create($item_data);
+
+                if (isset($item['taxes'])) {
+                    $salesInvoiceItemReturn->taxes()->attach($item['taxes']);
+                }
             }
 
-            $sales_invoice_return_data = $this->prepareInvoiceData($request, $branch_id);
+            if ($salesInvoiceReturn->status == 'finished' && in_array($salesInvoiceReturn->invoice_type, ['direct_invoice', 'direct_sale_quotations'])) {
 
-//            $last_invoice = SalesInvoiceReturn::where('branch_id',$branch_id)->latest('created_at')->first();
+                $acceptQuantityData = $this->handleQuantityServices->acceptQuantity($salesInvoiceReturn->items, 'pull');
 
-//            $sales_invoice_return_data['invoice_number'] = $last_invoice? $last_invoice->invoice_number + 1 : 1;
+                if (isset($acceptQuantityData['status']) && !$acceptQuantityData['status']) {
 
-            $sales_invoice_return_data['customer_id'] = $customer_id;
+                    $message = isset($acceptQuantityData['message']) ? $acceptQuantityData['message'] : __('sorry, please try later');
 
-            $invoice->update($sales_invoice_return_data);
-
-            $this->handlePointsLog($invoice);
-
-            foreach ($request['return_part_ids'] as $index => $part_id) {
-
-                $sales_invoice_item = SalesInvoiceItems::findOrFail($request['sales_invoice_items_id_' . $index]);
-
-                if ($request['return_qty_' . $index] > $sales_invoice_item->sold_qty) {
-                    return redirect()->back()->with(['message' => __('words.sorry return quantity is more than sold'), 'alert-type' => 'error']);
+                    return redirect()->back()->with(['message' => $message, 'alert-type' => 'error']);
                 }
-
-                $sales_invoice_return_item = $this->calculateItemTotal($request, $part_id, $index);
-
-                $sales_invoice_return_item['sales_invoice_return_id'] = $invoice->id;
-
-                $return_item = SalesInvoiceItemReturn::create($sales_invoice_return_item);
-
-                $purchase_invoice = $sales_invoice_item->purchaseInvoice;
-
-                if (!$purchase_invoice) {
-                    return redirect()->back()->with(['message' => __('words.something-wrong'), 'alert-type' => 'error']);
-                }
-
-                $invoice_item = $purchase_invoice->items()->where('part_id', $part_id)->first();
-
-                $this->affectedPurchaseItem($invoice_item, $request['return_qty_' . $index]);
-
-                $this->affectedPart($part_id, $request['return_qty_' . $index], $request['selling_price_' . $index]);
             }
 
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
+
             dd($e->getMessage());
 
-            return redirect()->back()->with(['message' => __('words.try-again'), 'alert-type' => 'error']);
+            return redirect()->back()->with(['message' => __('words.sales-invoice-return-cant-updated'), 'alert-type' => 'error']);
         }
 
-//        $url = route('admin:expenseReceipts.create',['sales_invoice_return_id'=> $invoice->id]);
+        return redirect(route('admin:sales.invoices.return.index'))
+            ->with(['message' => __('words.sale-invoice-return-updated'), 'alert-type' => 'success']);
 
-//        if($invoice->remaining <= 0){
-        $url = route('admin:sales.invoices.return.index');
-//        }
-
-        try {
-
-            $this->sendNotification('return_sales_invoice', 'customer',
-                [
-                    'sales_invoice_return' => $invoice,
-                    'message' => 'your sales invoice return updated, please check'
-                ]);
-
-            if ($invoice->customer && $invoice->customer->email) {
-
-                $this->sendMail($invoice->customer->email, 'sales_invoice_return_status', 'sales_invoice_return_edit',
-                    'App\Mail\SalesInvoiceReturn');
-            }
-
-        } catch (\Exception $e) {
-
-            return redirect($url)->with(['message' => __('words.sale-return-invoice-updated'), 'alert-type' => 'success']);
-        }
-
-        return redirect($url)->with(['message' => __('words.sale-return-invoice-updated'), 'alert-type' => 'success']);
     }
 
     public function destroy(SalesInvoiceReturn $invoice)
@@ -366,38 +369,7 @@ class SalesInvoiceReturnController extends Controller
 
         try {
 
-            if ($request['type'] == 'normal') {
-
-                $items = ReturnedSaleReceipt::where('type', 'from_invoice')
-                    ->select('id', 'number')
-                    ->get();
-
-            } elseif ($request['type'] == 'direct_invoice') {
-
-                $items = SalesInvoice::where('status', 'finished')
-                    ->where('invoice_type', 'direct_invoice')
-                    ->select('id', 'number')
-                    ->get();
-
-            } elseif ($request['type'] == 'direct_sale_quotations') {
-
-                $items = SalesInvoice::where('status', 'finished')
-                    ->where('invoice_type', 'direct_sale_quotations')
-                    ->select('id', 'number')
-                    ->get();
-
-            } elseif ($request['type'] == 'from_sale_quotations') {
-
-                $items = ReturnedSaleReceipt::where('type', 'from_sale_quotation')
-                    ->select('id', 'number')
-                    ->get();
-
-            } elseif ($request['type'] == 'from_sale_supply_order') {
-
-                $items = ReturnedSaleReceipt::where('type', 'from_sale_supply_order')
-                    ->select('id', 'number')
-                    ->get();
-            }
+            $items = $this->salesInvoiceReturn->getTypeItems($request['type']);
 
             $view = view('admin.sales_invoice_return.ajax_type_items', compact('items'))->render();
 

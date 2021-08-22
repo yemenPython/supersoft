@@ -17,11 +17,11 @@ Route::get('sales-invoices-return/expenses-receipts/{invoice}','SalesInvoiceRetu
     ->name('sales.invoices.return.expense.receipts');
 
 // show invoice
-Route::get('sales-invoices-return/show','SalesInvoiceReturnController@show')->name('sales.invoices.return.show');
+Route::get('sales-invoices-return/show/{salesInvoiceReturn}','SalesInvoiceReturnController@show')->name('sales.invoices.return.show');
 
 //edit invoice
-Route::get('sales-invoices-return/edit/{invoice}','SalesInvoiceReturnController@edit')->name('sales.invoices.return.edit');
-Route::post('sales-invoices-return/update/{invoice}','SalesInvoiceReturnController@update')->name('sales.invoices.return.update');
+Route::get('sales-invoices-return/edit/{salesInvoiceReturn}','SalesInvoiceReturnController@edit')->name('sales.invoices.return.edit');
+Route::post('sales-invoices-return/update/{salesInvoiceReturn}','SalesInvoiceReturnController@update')->name('sales.invoices.return.update');
 
 // deleted invoice
 Route::delete('sales-invoices-return/delete/{invoice}','SalesInvoiceReturnController@destroy')->name('sales.invoices.return.destroy');
