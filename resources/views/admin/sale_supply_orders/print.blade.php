@@ -1,6 +1,6 @@
 <div id="concession_to_print">
     <div class="border-container" style="">
-        @foreach($saleSupplyOrder->items()->get()->chunk(1) as $one)
+        @foreach($saleSupplyOrder->items()->get()->chunk(15) as $one)
 
 
             <div class="print-header-wg">
@@ -41,7 +41,7 @@
             @if( $loop->first)
                 <div class="middle-data-h-print">
 
-                    <div class="invoice-to print-padding-top">
+                    <div class="invoice-to print-padding-top" @if($saleSupplyOrder->items->count() <=13) style="margin-bottom: -70px;" @endif>
                         <div class="row">
                             <div class="col-xs-6">
                                 <h5>{{__('Sale Supply Order data')}}</h5>
@@ -120,7 +120,7 @@
             <div style="padding:0 20px;">
                 <h5>{{__('Sale Supply Order items')}}</h5>
 
-                <div class="table-responsive">
+                <div class="table-responsive" @if($saleSupplyOrder->items->count() <=13) style="margin-bottom: -17px;" @endif>
                     <table class="table print-table-wg table-borderless"
                            @if(!$loop->first) style="margin-top: 20px;" @endif>
                         <thead>
@@ -170,7 +170,7 @@
             @if( $loop->last)
                 <div class="row right-peice-wg" style="padding:0 30px 50px 30px;margin-bottom:30px">
 
-                    <div class="col-xs-6">
+                    <div class="col-xs-6" @if($saleSupplyOrder->items->count() <=13) style="margin-bottom: -10px;" @endif>
                         <table class="table table-bordered">
                             <thead>
                             <tr class="heading">
@@ -203,8 +203,7 @@
                             </tbody>
                         </table>
                     </div>
-
-                    <div class="col-xs-6">
+                    <div class="col-xs-6" @if($saleSupplyOrder->items->count() <=13) style="margin-bottom: -10px;" @endif>
                         <table class="table table-bordered">
                             <thead>
                             <tr class="heading">
@@ -238,7 +237,7 @@
                         </table>
                     </div>
 
-                    <div class="col-xs-12" style="padding:0px !important">
+                    <div class="col-xs-12" @if($saleSupplyOrder->items->count() <=13) style="margin-bottom: -10px;" @endif>
                         <div class="col-xs-4 text-center" style="padding:5px !important">
 
 
@@ -282,7 +281,7 @@
                         </div>
                     </div>
 
-                    <div class="col-xs-12" style="padding:0px !important">
+                    <div class="col-xs-12" @if($saleSupplyOrder->items->count() <=13) style="margin-bottom: -10px;" @endif>
                         <div class="col-xs-4 text-center" style="padding:5px !important">
 
 
@@ -331,7 +330,7 @@
                         </div>
                     </div>
 
-                    <div class="col-xs-12" style="padding:0px !important">
+                    <div class="col-xs-12" @if($saleSupplyOrder->items->count() <=13) style="margin-bottom: -10px;" @endif>
                         <div class="col-xs-12 text-center" style="padding:5px !important">
 
 
@@ -349,7 +348,7 @@
 
                     </div>
 
-                    <div class="" style="padding:0px !important">
+                    <div class="" @if($saleSupplyOrder->items->count() <=13) style="margin-bottom: -25px;" @endif>
                         <div class="col-xs-12 text-center" style="padding:5px !important">
 
 

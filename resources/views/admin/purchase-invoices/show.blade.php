@@ -1,6 +1,6 @@
 <div id="purchase_invoice_print">
     <div class="border-container" style="">
-        @foreach($purchase_invoice->items()->get()->chunk(15) as $one)
+        @foreach($purchase_invoice->items()->get()->chunk(13) as $one)
 
 
             <div class="print-header-wg">
@@ -41,7 +41,7 @@
             @if( $loop->first)
                 <div class="middle-data-h-print">
 
-                    <div class="invoice-to print-padding-top">
+                    <div class="invoice-to print-padding-top" @if($purchase_invoice->items->count() <= 13) style="margin-bottom: -70px;" @endif>
                         <div class="row">
                             <div class="col-xs-6">
                                 <h5>{{__('Purchase Invoice data')}}</h5>
@@ -118,9 +118,9 @@
             @endif
 
             <div style="padding:0 20px;">
-                <h5 class="invoice-to-title">{{__('Purchase Invoice items')}}</h5>
+                <h6 class="invoice-to-title">{{__('Purchase Invoice items')}}</h6>
 
-                <div class="table-responsive">
+                <div class="table-responsive" @if($purchase_invoice->items->count() <= 13) style="margin-bottom: -6px;" @endif>
                     <table class="table print-table-wg table-borderless"
                            @if(!$loop->first) style="margin-top: 20px;" @endif>
                         <thead>
@@ -167,13 +167,11 @@
 
                     <div class="row right-peice-wg" style="padding:0 30px 50px 30px;">
 
-                        <div class="col-xs-6">
+                        <div class="col-xs-6" @if($purchase_invoice->items->count() <= 13) style="margin-bottom: -10px;" @endif>
                             <table class="table table-bordered static-table-wg">
                                 <thead>
                                 <tr class="heading">
                                     <th style="background:#CCC !important;color:black">{{__('Tax Name')}}</th>
-                                <!-- <th style="background:#CCC !important;color:black">{{__('Tax Type')}}</th>
-                    <th style="background:#CCC !important;color:black">{{__('The Tax')}}</th> -->
                                     <th style="background:#CCC !important;color:black">{{__('Tax Value')}}</th>
                                 </tr>
                                 </thead>
@@ -242,52 +240,52 @@
 
 
 
+{{--                        <div class="col-xs-12" style="padding:0 !important">--}}
+{{--                            <div class="col-xs-4 text-center" style="padding:5px !important">--}}
+
+
+{{--                                <div class="row last-total">--}}
+{{--                                    <div class="col-xs-7">--}}
+{{--                                        <h6>{{__('Total Price')}}</h6>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-xs-5">--}}
+{{--                                        <h6> {{$purchase_invoice->sub_total}} </h6>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+
+{{--                            </div>--}}
+
+{{--                            <div class="col-xs-4 text-center" style="padding:5px !important">--}}
+
+
+{{--                                <div class="row last-total">--}}
+{{--                                    <div class="col-xs-7">--}}
+{{--                                        <h6>{{__('Discount Type')}}</h6>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-xs-5">--}}
+{{--                                        <h6> {{__($purchase_invoice->discount_type)}} </h6>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+
+{{--                            </div>--}}
+
+{{--                            <div class="col-xs-4 text-center" style="padding:5px !important">--}}
+
+
+{{--                                <div class="row last-total">--}}
+{{--                                    <div class="col-xs-7">--}}
+{{--                                        <h6>{{__('Discount')}}</h6>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="col-xs-5">--}}
+{{--                                        <h6> {{$purchase_invoice->discount}} </h6>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+
+{{--                            </div>--}}
+{{--                        </div>--}}
+
                         <div class="col-xs-12" style="padding:0 !important">
-                            <div class="col-xs-4 text-center" style="padding:5px !important">
-
-
-                                <div class="row last-total">
-                                    <div class="col-xs-7">
-                                        <h6>{{__('Total Price')}}</h6>
-                                    </div>
-                                    <div class="col-xs-5">
-                                        <h6> {{$purchase_invoice->sub_total}} </h6>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="col-xs-4 text-center" style="padding:5px !important">
-
-
-                                <div class="row last-total">
-                                    <div class="col-xs-7">
-                                        <h6>{{__('Discount Type')}}</h6>
-                                    </div>
-                                    <div class="col-xs-5">
-                                        <h6> {{__($purchase_invoice->discount_type)}} </h6>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            <div class="col-xs-4 text-center" style="padding:5px !important">
-
-
-                                <div class="row last-total">
-                                    <div class="col-xs-7">
-                                        <h6>{{__('Discount')}}</h6>
-                                    </div>
-                                    <div class="col-xs-5">
-                                        <h6> {{$purchase_invoice->discount}} </h6>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="col-xs-12" style="padding:0 !important">
-                            <div class="col-xs-4 text-center" style="padding:5px !important">
+                            <div class="col-xs-4 text-center" style="">
 
 
                                 <div class="row last-total">
@@ -302,7 +300,7 @@
                             </div>
 
 
-                            <div class="col-xs-4 text-center" style="padding:5px !important">
+                            <div class="col-xs-4 text-center" style="">
 
 
                                 <div class="row last-total">
@@ -318,7 +316,7 @@
 
                             </div>
 
-                            <div class="col-xs-4 text-center" style="padding:5px !important">
+                            <div class="col-xs-4 text-center" style="">
 
 
                                 <div class="row last-total">
@@ -336,7 +334,7 @@
                         </div>
 
                         <div class="col-xs-12" style="padding:0 !important">
-                            <div class="col-xs-4 text-center" style="padding:5px !important">
+                            <div class="col-xs-4 text-center" style="">
 
 
                                 <div class="row last-total">
@@ -350,7 +348,7 @@
 
                             </div>
 
-                            <div class="col-xs-4 text-center" style="padding: 5px !important">
+                            <div class="col-xs-4 text-center" style="">
 
 
                                 <div class="row last-total">
@@ -365,7 +363,7 @@
 
                             </div>
 
-                            <div class="col-xs-4 text-center" style="padding:5px !important">
+                            <div class="col-xs-4 text-center" style="">
 
                                 <div class="row last-total" style="background-color:#ddd !important">
                                     <div class="col-xs-7">
@@ -379,7 +377,7 @@
                             </div>
 
                             <div class="col-xs-12" style="padding:0 !important">
-                                <div class="col-xs-12 text-center" style="padding:5px !important">
+                                <div class="col-xs-12 text-center" style="">
 
 
                                     <div class="row last-total" style="background-color:#ddd !important">
@@ -398,7 +396,7 @@
                             <div class="col-xs-12" style="padding:0 !important">
 
                                 <div class="col-xs-6">
-                                    <h5 class="title">{{__('Supply Terms')}}</h5>
+                                    <h6 class="title">{{__('Supply Terms')}}</h6>
                                     <p style="font-size:14px">
                                         @foreach($purchase_invoice->terms()->where('type','supply')->get() as $index=>$term)
                                             <tr class="item">
@@ -411,7 +409,7 @@
                                 </div>
 
                                 <div class="col-xs-6">
-                                    <h5 class="title">{{__('Payment Terms')}}</h5>
+                                    <h6 class="title">{{__('Payment Terms')}}</h6>
                                     <h5>
                                         <p style="font-size:14px">
                                             @foreach($purchase_invoice->terms()->where('type','payment')->get() as $index=>$term)

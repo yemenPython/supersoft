@@ -1,7 +1,7 @@
 
 <div id="concession_to_print" >
     <div class="border-container" style="">
-@foreach($damagedStock->items()->get()->chunk(18) as $one)
+@foreach($damagedStock->items()->get()->chunk(14) as $one)
 
 
     <div class="print-header-wg">
@@ -143,7 +143,7 @@
         </div>
 
 @if( $loop->last)
-        <div class="row right-peice-wg" style="padding:0 30px 50px 30px;">
+        <div class="row right-peice-wg" style="padding:0 15px 20px 15px;">
 
             <div class="col-xs-12" style="padding:0px !important">
                 <div class="col-xs-6 text-center" style="padding:5px !important">
@@ -229,11 +229,11 @@
             </div>
             </div>
 
-<div class="row right-peice-wg" style="padding:0 30px 50px 30px;margin-bottom:30px">
+<div class="row right-peice-wg">
     <div class="col-xs-12">
          <h5 class="title">{{__('Notes')}}</h5>
-         <p style="width: 80%;font-size:12px">
-         {{$damagedStock->notes}}
+         <p style="font-size:12px">
+         {{$damagedStock->description}}
 
     </p>
     </div>

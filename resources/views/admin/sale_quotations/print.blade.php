@@ -1,6 +1,6 @@
 <div id="concession_to_print">
     <div class="border-container" style="">
-        @foreach($saleQuotation->items()->where('active', 1)->get()->chunk(15) as $one)
+        @foreach($saleQuotation->items()->where('active', 1)->get()->chunk(13) as $one)
 
 
             <div class="print-header-wg">
@@ -41,7 +41,7 @@
             @if( $loop->first)
                 <div class="middle-data-h-print">
 
-                    <div class="invoice-to print-padding-top">
+                    <div class="invoice-to print-padding-top" @if($saleQuotation->items->count() <=13) style="margin-bottom: -70px;" @endif>
                         <div class="row">
                             <div class="col-xs-6">
                                 <h5>{{__('Sale Quotation data')}}</h5>
@@ -69,7 +69,7 @@
                     </div>
                 </div>
 
-                <div class="col-xs-12 table-responsive">
+                <div class="col-xs-12 table-responsive" @if($saleQuotation->items->count() <=13) style="margin-bottom: -11px;" @endif>
 
                     <table class="table static-table-wg">
                         <tbody>
@@ -121,7 +121,7 @@
             <div style="padding:0 20px;">
                 <h5 class="invoice-to-title">{{__('Sale Quotation items')}}</h5>
 
-                <div class="table-responsive">
+                <div class="table-responsive" @if($saleQuotation->items->count() <=13) style="margin-bottom: -18px;" @endif>
                     <table class="table print-table-wg table-borderless"
                            @if(!$loop->first) style="margin-top: 20px;" @endif>
                         <thead>
@@ -171,7 +171,7 @@
             @if( $loop->last)
                 <div class="row right-peice-wg" style="padding:0 30px 50px 30px;">
 
-                    <div class="col-xs-6">
+                    <div class="col-xs-6" @if($saleQuotation->items->count() <=13) style="margin-bottom: -18px;" @endif>
                         <table class="table table-bordered static-table-wg">
                             <thead>
                             <tr class="heading">
@@ -205,7 +205,7 @@
                         </table>
                     </div>
 
-                    <div class="col-xs-6">
+                    <div class="col-xs-6" @if($saleQuotation->items->count() <=13) style="margin-bottom: -18px;" @endif>
                         <table class="table table-bordered static-table-wg">
                             <thead>
                             <tr class="heading">
@@ -241,7 +241,7 @@
 
 
 
-                    <div class="col-xs-12" style="padding:0 !important">
+                    <div class="col-xs-12" @if($saleQuotation->items->count() <=13) style="margin-bottom: -10px;" @endif>
                         <div class="col-xs-4 text-center" style="padding:5px">
 
 
@@ -285,7 +285,7 @@
                         </div>
                     </div>
 
-                    <div class="col-xs-12" style="padding:0 !important">
+                    <div class="col-xs-12" @if($saleQuotation->items->count() <=13) style="margin-bottom: -10px;" @endif>
                         <div class="col-xs-4 text-center" style="padding:5px">
 
 
@@ -334,7 +334,7 @@
                         </div>
                     </div>
 
-                    <div class="col-xs-12" style="padding:0px !important">
+                    <div class="col-xs-12" @if($saleQuotation->items->count() <=13) style="margin-bottom: -10px;" @endif>
                         <div class="col-xs-12 text-center" style="padding:5px !important">
 
 
@@ -352,7 +352,7 @@
 
                     </div>
 
-                    <div class="col-xs-12" style="padding:0 !important">
+                    <div class="col-xs-12" @if($saleQuotation->items->count() <=13) style="margin-bottom: -25px;" @endif>
                         <div class="col-xs-12 text-center" style="padding:5px !important">
 
 
