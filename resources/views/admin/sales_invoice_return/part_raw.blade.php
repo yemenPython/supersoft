@@ -14,14 +14,13 @@
 
         <input type="hidden" value="{{$part->id}}" name="items[{{$index}}][part_id]" class="form-control">
 
-        <input type="hidden" value="{{isset($actionType) && $actionType == 'update' ? $item->itemable_id:$item->id}}"
+        <input type="hidden" value="{{isset($actionType) && $actionType == 'update' ? $item->itemable_id : $item->id}}"
                name="items[{{$index}}][item_id]" class="form-control">
     </td>
 
     <td>
         <div class="input-group" style="width: 180px !important;">
             <span class="price-span">    {{$item->sparePart ? $item->sparePart->type : __('Not determined')}}</span>
-{{--            <input type="hidden" name="items[{{$index}}][spare_part_id]" value="{{$item->spare_part_id}}">--}}
         </div>
     </td>
 
@@ -55,7 +54,9 @@
     </td>
 
     <td>
-        <span class="part-unit-span"> {{$item->quantity}}</span>
+        <span class="part-unit-span">
+            {{isset($actionType) && $actionType == 'update' && $item->itemable ? $item->itemable->quantity : $item->quantity}}
+        </span>
     </td>
 
     <td>
@@ -67,7 +68,9 @@
                onkeyup="checkQuantity('{{$index}}'); calculateItem('{{$index}}');
                    quantityValidation('{{$index}}','{{__('sorry, quantity not valid')}}')">
 
-        <input type="hidden" value="{{$item->quantity}}" id="max_quantity_item_{{$index}}">
+        <input type="hidden" id="max_quantity_item_{{$index}}"
+               value="{{isset($actionType) && $actionType == 'update' && $item->itemable ? $item->itemable->quantity : $item->quantity}}"
+        >
     </td>
 
     <td>
@@ -105,15 +108,16 @@
     </td>
 
     <td>
-        <input style="width: 150px !important;" type="number" class="form-control border2"
-               id="total_before_discount_{{$index}}" value="0" min="0"
-               name="items[{{$index}}][total_before_discount]" disabled>
+        <input style="width: 150px !important;" type="number" class="form-control border2" disabled
+               id="total_before_discount_{{$index}}" name="items[{{$index}}][total_before_discount]"
+               value="{{isset($actionType) && $actionType ? $item->sub_total : 0 }}" min="0"
+               >
     </td>
 
     <td>
         <input style="width: 150px !important;" type="number" class="form-control border2"
-               id="total_after_discount_{{$index}}" value="0" min="0"
-               name="items[{{$index}}][total_after_discount]" disabled>
+               id="total_after_discount_{{$index}}"  name="items[{{$index}}][total_after_discount]" disabled
+               value="{{isset($actionType) && $actionType ? $item->total_after_discount : 0 }}" min="0">
     </td>
 
     <td>
@@ -169,21 +173,25 @@
 
             <input type="hidden" id="tax_count_{{$index}}" value="{{$part->taxes->count()}}">
 
-            <input style="width: 120px !important; margin: 0 5px;" type="number" class="form-control" id="tax_{{$index}}" value="{{ $item->tax}}"
+            <input style="width: 120px !important; margin: 0 5px;" type="number" class="form-control" id="tax_{{$index}}" value="{{$item->tax}}"
                    min="0" name="items[{{$index}}][tax]" disabled>
         </div>
     </td>
 
     <td>
-        <input style="width: 150px !important;" type="number" class="form-control border3" id="total_{{$index}}" value="0" min="0"
+        <input style="width: 150px !important;" type="number" class="form-control border3" id="total_{{$index}}"
+               value="{{isset($actionType) && $actionType ? $item->total : 0 }}" min="0"
                name="items[{{$index}}][total]" disabled>
     </td>
 
     <td>
         <div class="col-md-2" style="margin-top: 10px;">
             <div class="form-group has-feedback">
+
                 <input type="checkbox" id="checkbox_item_{{$index}}" name="items[{{$index}}][active]"
-                       onclick=" calculateItem('{{$index}}'); calculateTotal();" class="item_of_all" checked
+                       {{!isset($actionType) ? 'checked' : '' }}
+                       {{isset($actionType) && $actionType && $item->active == 1 ? 'checked' : '' }}
+                       onclick=" calculateItem('{{$index}}'); calculateTotal();" class="item_of_all"
                 >
             </div>
         </div>
@@ -201,7 +209,6 @@
             </button>
 
             <ul class="dropdown-menu dropdown-wg">
-
 
                 <li class="btn-style-drop" style="margin-bottom:2px !important">
 

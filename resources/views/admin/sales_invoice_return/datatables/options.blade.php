@@ -82,7 +82,7 @@
             </li>
 
             <li>
-                <a style="cursor:pointer" href="{{route('admin:sales.invoices.show.data', $item->id)}}"
+                <a style="cursor:pointer" href="{{route('admin:sales.invoices.return.show', $item->id)}}"
                    class="btn btn-terms-wg text-white hvr-radial-out" title="{{__('Show')}}">
                     <i class="fa fa-eye"></i> {{__('Show')}}
                 </a>

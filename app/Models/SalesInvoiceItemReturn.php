@@ -13,7 +13,7 @@ class SalesInvoiceItemReturn extends Model
 
     protected $fillable = ['sales_invoice_return_id','part_id','quantity','price','store_id','part_price_id','part_price_segment_id',
         'discount_type','discount','sub_total','total_after_discount','total','itemable_id', 'itemable_type',
-        'spare_part_id', 'active', 'max_quantity'];
+        'spare_part_id', 'active', 'max_quantity', 'tax'];
 
     protected $table = 'sales_invoice_item_returns';
 
@@ -45,5 +45,10 @@ class SalesInvoiceItemReturn extends Model
     public function sparePart()
     {
         return $this->belongsTo(SparePart::class, 'spare_part_id');
+    }
+
+    public function itemable()
+    {
+        return $this->morphTo();
     }
 }

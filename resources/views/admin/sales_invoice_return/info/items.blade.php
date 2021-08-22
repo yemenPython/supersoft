@@ -18,8 +18,7 @@
 
     <td>
         <div class="input-group" style="width: 180px !important;">
-    <span class="price-span">   {{$item->sparePart ? $item->sparePart->type : __('Not determined')}}
-</span>
+            <span class="price-span"> {{$item->sparePart ? $item->sparePart->type : __('Not determined')}}</span>
             <input type="hidden" name="items[{{$index}}][spare_part_id]" value="{{$item->spare_part_id}}">
         </div>
     </td>
@@ -54,10 +53,8 @@
     </td>
 
     <td>
-        <input style="width: 100px !important;" type="number" class="form-control border1" id="quantity_{{$index}}"
-               value="{{ $item->quantity}}" min="0" name="items[{{$index}}][quantity]" disabled>
-
-        <input type="hidden" value="{{$item->max_quantity}}" id="max_quantity_item_{{$index}}">
+        <input style="width: 100px !important;" type="number" class="form-control border1" id="quantity_{{$index}}" value="{{ $item->quantity}}"
+               min="0" name="items[{{$index}}][quantity]" disabled>
     </td>
 
     <td>

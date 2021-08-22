@@ -83,8 +83,11 @@ class SalesInvoiceReturnServices
 
         foreach ($data_request['items'] as $item) {
 
-            $item_data = $this->calculateItemTotal($item, $data['invoice_type']);
-            $data['sub_total'] += $item_data['total'];
+            if (isset($item['active'])) {
+
+                $item_data = $this->calculateItemTotal($item, $data['invoice_type']);
+                $data['sub_total'] += $item_data['total'];
+            }
         }
 
 //        if (isset($data_request['customer_discount_active'])) {
@@ -183,16 +186,14 @@ class SalesInvoiceReturnServices
         }
     }
 
-    function resetSalesInvoiceDataItems($salesInvoice)
+    function resetSalesInvoiceReturnDataItems($salesInvoiceReturn)
     {
-        foreach ($salesInvoice->items as $item) {
+        foreach ($salesInvoiceReturn->items as $item) {
             $item->taxes()->detach();
             $item->delete();
         }
 
-        $salesInvoice->taxes()->detach();
-        $salesInvoice->saleQuotations()->detach();
-        $salesInvoice->saleSupplyOrders()->detach();
+        $salesInvoiceReturn->taxes()->detach();
     }
 
     public function getReturnedModelPath ($type) {
@@ -233,5 +234,43 @@ class SalesInvoiceReturnServices
         }
 
         return ReturnedSaleReceiptItem::find($item_id);
+    }
+
+    public function getTypeItems ($type) {
+
+        if ($type == 'normal') {
+
+            $items = ReturnedSaleReceipt::where('type', 'from_invoice')
+                ->select('id', 'number')
+                ->get();
+
+        } elseif ($type == 'direct_invoice') {
+
+            $items = SalesInvoice::where('status', 'finished')
+                ->where('invoice_type', 'direct_invoice')
+                ->select('id', 'number')
+                ->get();
+
+        } elseif ($type == 'direct_sale_quotations') {
+
+            $items = SalesInvoice::where('status', 'finished')
+                ->where('invoice_type', 'direct_sale_quotations')
+                ->select('id', 'number')
+                ->get();
+
+        } elseif ($type == 'from_sale_quotations') {
+
+            $items = ReturnedSaleReceipt::where('type', 'from_sale_quotation')
+                ->select('id', 'number')
+                ->get();
+
+        } elseif ($type == 'from_sale_supply_order') {
+
+            $items = ReturnedSaleReceipt::where('type', 'from_sale_supply_order')
+                ->select('id', 'number')
+                ->get();
+        }
+
+        return $items;
     }
 }
