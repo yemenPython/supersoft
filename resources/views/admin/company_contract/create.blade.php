@@ -140,7 +140,7 @@
                                     </div>
                                 </div>
 
-                                @if($last_created->partners->isNotEmpty())
+                                @if(!empty($last_created) && $last_created->partners->isNotEmpty())
                                     @foreach($last_created->partners as $partner)
                                         <div class="form-group added_images">
                                             <label class=" form-label font-weight-bolder"
