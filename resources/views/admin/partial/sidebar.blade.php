@@ -352,56 +352,7 @@ route('admin:sale-assets.index'),
                     </ul>
                 </li>
 
-                <li class="{{setActivationClass([
-route('admin:financial_management.type_revenue.index'),
-route('admin:financial_management.type_expenses.index'),
-                     ])}}">
-                    <a class="parent-item js__control" href="#">
-                        <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
-                        <span>{{__('Financial Management')}}</span>
-                        <span class="menu-arrow fa fa-angle-down"></span>
-                    </a>
-                    <ul class="sub-menu js__content">
-
-                        <li class="{{setActivationClass(route('admin:financial_management.type_revenue.index'))}}">
-                            <a href="{{route('admin:financial_management.type_revenue.index')}}">
-                              {{__('Types Revenues')}}
-                            </a>
-                        </li>
-
-                        <li class="{{setActivationClass(route('admin:financial_management.type_expenses.index'))}}">
-                            <a href="{{route('admin:financial_management.type_expenses.index')}}">
-                                 {{__('Expense types')}}
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-                <li class="{{setActivationClass([
-route('admin:financial_management.tof_type_expenses.index'),
-route('admin:financial_management.tof_type_revenues.index'),
-                     ])}}">
-                    <a class="parent-item js__control" href="#">
-                        <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
-                        <span>{{__('Transfer of dues')}}</span>
-                        <span class="menu-arrow fa fa-angle-down"></span>
-                    </a>
-                    <ul class="sub-menu js__content">
-
-                        <li class="{{setActivationClass(route('admin:financial_management.tof_type_expenses.index'))}}">
-                            <a href="{{route('admin:financial_management.tof_type_expenses.index')}}">
-                                {{__('Expense types')}}
-                            </a>
-                        </li>
-
-                        <li class="{{setActivationClass(route('admin:financial_management.tof_type_revenues.index'))}}">
-                            <a href="{{route('admin:financial_management.tof_type_revenues.index')}}">
-                                {{__('Types Revenues')}}
-                            </a>
-                        </li>
-
-                    </ul>
-                </li>
+               
 
                 <li class="{{setActivationClass([
 route('admin:services-types.index'),
@@ -556,6 +507,43 @@ route('admin:maintenance-detections.index'),
                     </ul>
                 </li> -->
 
+
+                <li class="{{setActivationClass([
+route('admin:financial_management.type_revenue.index'),
+route('admin:financial_management.type_expenses.index'),
+                     ])}}">
+                    <a class="parent-item js__control" href="#">
+                        <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
+                        <span>{{__('Financial Management')}}</span>
+                        <span class="menu-arrow fa fa-angle-down"></span>
+                    </a>
+                    <ul class="sub-menu js__content">
+
+                        <li class="{{setActivationClass(route('admin:financial_management.type_revenue.index'))}}">
+                            <a href="{{route('admin:financial_management.type_revenue.index')}}">
+                              {{__('Types Revenues')}}
+                            </a>
+                        </li>
+
+                        <li class="{{setActivationClass(route('admin:financial_management.type_expenses.index'))}}">
+                            <a href="{{route('admin:financial_management.type_expenses.index')}}">
+                                 {{__('Expense types')}}
+                            </a>
+                        </li>
+
+                        <li class="{{setActivationClass(route('admin:financial_management.tof_type_expenses.index'))}}">
+                            <a href="{{route('admin:financial_management.tof_type_expenses.index')}}">
+                                {{__('Expenses dues types')}}
+                            </a>
+                        </li>
+
+                        <li class="{{setActivationClass(route('admin:financial_management.tof_type_revenues.index'))}}">
+                            <a href="{{route('admin:financial_management.tof_type_revenues.index')}}">
+                                {{__('Revenue dues types')}}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
 
               <li class="{{setActivationClass([
