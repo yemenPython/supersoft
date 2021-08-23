@@ -1,6 +1,6 @@
 <div id="concession_to_print">
     <div class="border-container" style="">
-        @foreach($purchaseReceipt->items()->get()->chunk(15) as $one)
+        @foreach($purchaseReceipt->items()->get()->chunk(16) as $one)
 
 
             <div class="print-header-wg">
@@ -134,7 +134,7 @@
             </div>
 
             @if( $loop->last)
-                <div class="row right-peice-wg" style="padding:0 30px 50px 30px;margin-bottom:30px">
+                <div class="row right-peice-wg" style="padding:0 15px 20px 15px">
 
 
                     <div class="col-xs-12" style="padding:0px !important">
@@ -182,18 +182,18 @@
                     </div>
 
 
-                    <div class="col-xs-12">
 
-                        <div class="col-xs-6">
-                            <h5 class="title">{{__('Notes')}}</h5>
-                            <p style="font-size:14px">
+
+                        <div class="col-xs-12">
+                            <h6 class="title">{{__('Notes')}}</h6>
+                            <p style="font-size:12px">
 
                                 {!! $purchaseReceipt->notes !!}
 
                             </p>
                         </div>
                     </div>
-                </div>
+
 
                     @endif
 

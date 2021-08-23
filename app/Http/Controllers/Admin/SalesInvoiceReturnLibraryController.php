@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Model\PurchaseReturn;
-use App\Models\PurchaseReturnLibrary;
+use App\Models\SalesInvoiceReturn;
+use App\Models\SalesInvoiceReturnLibrary;
 use App\Services\LibraryServices;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
-class PurchaseReturnLibraryController extends Controller
+class SalesInvoiceReturnLibraryController extends Controller
 {
     use LibraryServices;
 
@@ -21,7 +21,7 @@ class PurchaseReturnLibraryController extends Controller
 
             'title_ar' => 'required|string|max:100',
             'title_en' => 'nullable|string|max:100',
-            'item_id' => 'required|integer|exists:purchase_returns,id',
+            'item_id' => 'required|integer|exists:sales_invoice_returns,id',
             'files' => 'required',
             'files.*' => 'required|mimes:jpeg,jpg,png,gif,pdf,xlsx,xlsm,xls,xls,docx,docm,dotx,txt|required|max:6000',
         ]);
@@ -32,11 +32,11 @@ class PurchaseReturnLibraryController extends Controller
 
         try {
 
-            $purchaseReturn = PurchaseReturn::find($request['item_id']);
+            $salesInvoiceReturn = SalesInvoiceReturn::find($request['item_id']);
 
-            $library_path = $this->libraryPath($purchaseReturn, 'purchase_return');
+            $library_path = $this->libraryPath($salesInvoiceReturn, 'sales_invoice_return');
 
-            $director = 'purchase_return_library/' . $library_path;
+            $director = 'sales_invoice_return_library/' . $library_path;
 
             $files = $request['files'];
 
@@ -48,15 +48,15 @@ class PurchaseReturnLibraryController extends Controller
                     'file_name' => $fileData['file_name'],
                     'extension' => Str::lower($fileData['extension']),
                     'name' => $fileData['name'],
-                    'purchase_return_id' => $purchaseReturn->id,
+                    'sales_return_id' => $salesInvoiceReturn->id,
                     'title_ar'=> $request['title_ar'],
                     'title_en'=> $request['title_en'] ?? $request['title_ar'],
                 ];
 
-                $files[$index] = PurchaseReturnLibrary::create($data);
+                $files[$index] = SalesInvoiceReturnLibrary::create($data);
             }
 
-            $mainPath = 'storage/purchase_return_library/' . $library_path. '/';
+            $mainPath = 'storage/sales_invoice_return_library/' . $library_path. '/';
 
             $view = view('admin.partial.upload_library.files', compact('files', 'mainPath'))->render();
 
@@ -70,7 +70,7 @@ class PurchaseReturnLibraryController extends Controller
     public function getFiles(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id' => 'required|integer|exists:purchase_returns,id',
+            'id' => 'required|integer|exists:sales_invoice_returns,id',
         ]);
 
         if ($validator->fails()) {
@@ -79,17 +79,17 @@ class PurchaseReturnLibraryController extends Controller
 
         try {
 
-            $purchaseReturn = PurchaseReturn::find($request['id']);
+            $salesInvoiceReturn = SalesInvoiceReturn::find($request['id']);
 
-            if (!$purchaseReturn) {
-                return response('Purchase return not valid', 400);
+            if (!$salesInvoiceReturn) {
+                return response('sales invoice return not valid', 400);
             }
 
-            $library_path = $purchaseReturn->library_path;
+            $library_path = $salesInvoiceReturn->library_path;
 
-            $files = $purchaseReturn->files;
+            $files = $salesInvoiceReturn->files;
 
-            $mainPath = 'storage/purchase_return_library/' . $library_path. '/';
+            $mainPath = 'storage/sales_invoice_return_library/' . $library_path. '/';
 
             $view = view('admin.partial.upload_library.files', compact('files', 'mainPath'))->render();
 
@@ -103,7 +103,7 @@ class PurchaseReturnLibraryController extends Controller
     public function destroyFile(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'id' => 'required|integer|exists:purchase_return_libraries,id',
+            'id' => 'required|integer|exists:sales_invoice_return_libraries,id',
         ]);
 
         if ($validator->fails()) {
@@ -112,11 +112,11 @@ class PurchaseReturnLibraryController extends Controller
 
         try {
 
-            $file = PurchaseReturnLibrary::find($request['id']);
+            $file = SalesInvoiceReturnLibrary::find($request['id']);
 
-            $purchaseReturn = $file->purchaseReturn;
+            $purchaseReturn = $file->salesInvoiceReturn;
 
-            $filePath = storage_path('app/public/purchase_return_library/' . $purchaseReturn->library_path . '/' . $file->file_name);
+            $filePath = storage_path('app/public/sales_invoice_return_library/' . $purchaseReturn->library_path . '/' . $file->file_name);
 
             if (File::exists($filePath)) {
                 File::delete($filePath);

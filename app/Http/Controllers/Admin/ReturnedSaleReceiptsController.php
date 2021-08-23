@@ -63,7 +63,8 @@ class ReturnedSaleReceiptsController extends Controller
         return view('admin.returned_sale_receipt.create', compact('data'));
     }
 
-    public function store (CreateRequest $request) {
+    public function store(CreateRequest $request)
+    {
 
 //        dd($request->all());
 
@@ -76,22 +77,22 @@ class ReturnedSaleReceiptsController extends Controller
             if (request()['type'] == 'from_invoice') {
                 $salesable = SalesInvoice::find($data['salesable_id']);
 
-            }elseif (request()['type'] == 'from_sale_quotation'){
+            } elseif (request()['type'] == 'from_sale_quotation') {
                 $salesable = SaleQuotation::find($data['salesable_id']);
 
-            }else {
+            } else {
                 $salesable = SaleSupplyOrder::find($data['salesable_id']);
             }
 
             if ($salesable->check_if_complete_receipt) {
-                return redirect()->back()->with(['message'=> __('sorry, this supply order is complete'), 'alert-type'=>'error']);
+                return redirect()->back()->with(['message' => __('sorry, this supply order is complete'), 'alert-type' => 'error']);
             }
 
             $validateData = $this->returnedSaleReceiptServices->validateItemsQuantity($salesable, $data['items']);
 
             if (!$validateData['status']) {
                 $message = isset($validateData['message']) ? $validateData['message'] : 'sorry, please try later';
-                return redirect()->back()->with(['message'=> $message, 'alert-type'=>'error']);
+                return redirect()->back()->with(['message' => $message, 'alert-type' => 'error']);
             }
 
             $returnedReceiptData = $this->returnedSaleReceiptServices->returnedReceiptData($data);
@@ -117,18 +118,19 @@ class ReturnedSaleReceiptsController extends Controller
             $returnedReceipt->save();
 
             DB::commit();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
 
             dd($e->getMessage(), $e->getLine());
-            return redirect()->back()->with(['message'=> __('sorry, please try later'), 'alert-type'=>'error']);
+            return redirect()->back()->with(['message' => __('sorry, please try later'), 'alert-type' => 'error']);
         }
 
         return redirect(route('admin:return-sale-receipts.index'))
-            ->with(['message'=> __('returned.receipts.created.successfully'), 'alert-type'=>'success']);
+            ->with(['message' => __('returned.receipts.created.successfully'), 'alert-type' => 'success']);
     }
 
-    public function edit (ReturnedSaleReceipt $returnSaleReceipt) {
+    public function edit(ReturnedSaleReceipt $returnSaleReceipt)
+    {
 
         $branch_id = $returnSaleReceipt->branch_id;
 
@@ -137,27 +139,34 @@ class ReturnedSaleReceiptsController extends Controller
             $items = SalesInvoice::where('invoice_type', 'normal')
                 ->where('status', 'finished')
                 ->where('branch_id', $branch_id)
-                ->has('concession')->select('id','number')->get();
+                ->has('concession')->select('id', 'number')->get();
 
-        }elseif ($returnSaleReceipt->type == 'from_sale_quotation') {
+        } elseif ($returnSaleReceipt->type == 'from_sale_quotation') {
 
             $items = SaleQuotation::where('status', 'finished')
                 ->where('branch_id', $branch_id)
-                ->select('id','number')->get();
+                ->whereHas('salesInvoices', function ($q) {
+                    $q->where('status', 'finished');
+                })
+                ->select('id', 'number')->get();
 
-        }else {
+        } else {
 
             $items = SaleSupplyOrder::where('status', 'finished')
                 ->where('branch_id', $branch_id)
-                ->select('id','number')->get();
+                ->whereHas('salesInvoices', function ($q) {
+                    $q->where('status', 'finished');
+                })
+                ->select('id', 'number')->get();
         }
 
         $data['branches'] = Branch::select('id', 'name_' . $this->lang)->get();
 
-        return view('admin.returned_sale_receipt.edit', compact( 'returnSaleReceipt','data', 'items'));
+        return view('admin.returned_sale_receipt.edit', compact('returnSaleReceipt', 'data', 'items'));
     }
 
-    public function update (CreateRequest $request, ReturnedSaleReceipt $returnSaleReceipt) {
+    public function update(CreateRequest $request, ReturnedSaleReceipt $returnSaleReceipt)
+    {
 
         try {
 
@@ -170,22 +179,22 @@ class ReturnedSaleReceiptsController extends Controller
             if (request()['type'] == 'from_invoice') {
                 $salesable = SalesInvoice::find($data['salesable_id']);
 
-            }elseif (request()['type'] == 'from_sale_quotation'){
+            } elseif (request()['type'] == 'from_sale_quotation') {
                 $salesable = SaleQuotation::find($data['salesable_id']);
 
-            }else {
+            } else {
                 $salesable = SaleSupplyOrder::find($data['salesable_id']);
             }
 
             if ($salesable->check_if_complete_receipt) {
-                return redirect()->back()->with(['message'=> __('sorry, this supply order is complete'), 'alert-type'=>'error']);
+                return redirect()->back()->with(['message' => __('sorry, this supply order is complete'), 'alert-type' => 'error']);
             }
 
             $validateData = $this->returnedSaleReceiptServices->validateItemsQuantity($salesable, $data['items']);
 
             if (!$validateData['status']) {
                 $message = isset($validateData['message']) ? $validateData['message'] : 'sorry, please try later';
-                return redirect()->back()->with(['message'=> $message, 'alert-type'=>'error']);
+                return redirect()->back()->with(['message' => $message, 'alert-type' => 'error']);
             }
 
             $returnedReceiptData = $this->returnedSaleReceiptServices->returnedReceiptData($data);
@@ -203,28 +212,29 @@ class ReturnedSaleReceiptsController extends Controller
             $returnSaleReceipt->save();
 
             DB::commit();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
 
-            return redirect()->back()->with(['message'=> __('sorry, please try later'), 'alert-type'=>'error']);
+            return redirect()->back()->with(['message' => __('sorry, please try later'), 'alert-type' => 'error']);
         }
 
         return redirect(route('admin:return-sale-receipts.index'))
-            ->with(['message'=> __('returned.receipts.updated.successfully'), 'alert-type'=>'success']);
+            ->with(['message' => __('returned.receipts.updated.successfully'), 'alert-type' => 'success']);
 
     }
 
-    public function destroy (ReturnedSaleReceipt $returnSaleReceipt) {
+    public function destroy(ReturnedSaleReceipt $returnSaleReceipt)
+    {
 
         try {
 
             $returnSaleReceipt->delete();
 
-        }catch (\Exception $e) {
-            return redirect()->back()->with(['message'=>'sorry, please try later', 'alert-type'=>'error']);
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['message' => 'sorry, please try later', 'alert-type' => 'error']);
         }
 
-        return redirect()->back()->with(['message'=> __('returned.receipts.deleted.successfully'), 'alert-type'=>'success']);
+        return redirect()->back()->with(['message' => __('returned.receipts.deleted.successfully'), 'alert-type' => 'success']);
     }
 
     public function deleteSelected(Request $request)
@@ -251,7 +261,7 @@ class ReturnedSaleReceiptsController extends Controller
     public function selectSupplyOrder(Request $request)
     {
         $rules = [
-            'supply_order_id'=>'required|integer|exists:supply_orders,id',
+            'supply_order_id' => 'required|integer|exists:supply_orders,id',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -270,9 +280,9 @@ class ReturnedSaleReceiptsController extends Controller
 
             $view = view('admin.purchase_receipts.supply_order_items', compact('supplyOrder'))->render();
 
-            return response()->json(['parts'=> $view, 'supplier_name'=> $supplerName, 'index'=> $index], 200);
+            return response()->json(['parts' => $view, 'supplier_name' => $supplerName, 'index' => $index], 200);
 
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
 
             return response()->json('sorry, please try later', 400);
         }
@@ -287,17 +297,19 @@ class ReturnedSaleReceiptsController extends Controller
         return response()->json(['view' => $view]);
     }
 
-    public function show (ReturnedSaleReceipt $returnSaleReceipt) {
+    public function show(ReturnedSaleReceipt $returnSaleReceipt)
+    {
         return view('admin.returned_sale_receipt.info.show', compact('returnSaleReceipt'));
     }
 
-    public function selectType (Request $request) {
+    public function selectType(Request $request)
+    {
 
         $rules = [
-            'type'=>'required|string|in:from_invoice,from_sale_quotation,from_sale_supply_order',
+            'type' => 'required|string|in:from_invoice,from_sale_quotation,from_sale_supply_order',
         ];
 
-        $rules['branch_id'] = authIsSuperAdmin() ? 'required|integer|exists:branches,id':'';
+        $rules['branch_id'] = authIsSuperAdmin() ? 'required|integer|exists:branches,id' : '';
 
         $validator = Validator::make($request->all(), $rules);
 
@@ -313,53 +325,62 @@ class ReturnedSaleReceiptsController extends Controller
 
                 $items = SalesInvoice::where('invoice_type', 'normal')
                     ->where('status', 'finished')
-                    ->when($request->has('branch_id'), function ($q) use($request) {
+                    ->when($request->has('branch_id'), function ($q) use ($request) {
                         $q->where('branch_id', $request['branch_id']);
                     })
-                    ->has('concession')->select('id','number')->get();
+                    ->has('concession')->select('id', 'number')->get();
 
-            }elseif ($type == 'from_sale_quotation') {
+            } elseif ($type == 'from_sale_quotation') {
 
                 $items = SaleQuotation::where('status', 'finished')
-                    ->when($request->has('branch_id'), function ($q) use($request) {
+                    ->when($request->has('branch_id'), function ($q) use ($request) {
                         $q->where('branch_id', $request['branch_id']);
-                    })->select('id','number')->get();
+                    })
+                    ->whereHas('salesInvoices', function ($q) {
+                        $q->where('status', 'finished');
+                    })
+                    ->select('id', 'number')->get();
 
-            }else {
+            } else {
 
                 $items = SaleSupplyOrder::where('status', 'finished')
-                    ->when($request->has('branch_id'), function ($q) use($request) {
+                    ->when($request->has('branch_id'), function ($q) use ($request) {
                         $q->where('branch_id', $request['branch_id']);
-                    })->select('id','number')->get();
+                    })
+                    ->whereHas('salesInvoices', function ($q) {
+                        $q->where('status', 'finished');
+                    })
+                    ->select('id', 'number')->get();
             }
 
-                $view = view('admin.returned_sale_receipt.ajax_type_items', compact('items'))->render();
+            $view = view('admin.returned_sale_receipt.ajax_type_items', compact('items'))->render();
 
-            return response()->json(['parts'=> $view ], 200);
+            return response()->json(['parts' => $view], 200);
 
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
 
             return response()->json('sorry, please try later', 400);
         }
     }
 
-    public function getTypeItems (Request $request) {
+    public function getTypeItems(Request $request)
+    {
 
         $rules = [
-            'type'=>'required|string|in:from_invoice,from_sale_quotation,from_sale_supply_order',
+            'type' => 'required|string|in:from_invoice,from_sale_quotation,from_sale_supply_order',
         ];
 
         if ($request['type'] == 'from_invoice') {
             $rules['item_id'] = 'required|integer|exists:sales_invoices,id';
 
-        }elseif ($request['type'] == 'from_sale_quotation'){
+        } elseif ($request['type'] == 'from_sale_quotation') {
             $rules['item_id'] = 'required|integer|exists:sale_quotations,id';
 
-        }else {
+        } else {
             $rules['item_id'] = 'required|integer|exists:sale_supply_orders,id';
         }
 
-        $rules['branch_id'] = authIsSuperAdmin() ? 'required|integer|exists:branches,id':'';
+        $rules['branch_id'] = authIsSuperAdmin() ? 'required|integer|exists:branches,id' : '';
 
         $validator = Validator::make($request->all(), $rules);
 
@@ -375,11 +396,11 @@ class ReturnedSaleReceiptsController extends Controller
 
                 $saleModel = SalesInvoice::find($request['item_id']);
 
-            }elseif ($type == 'from_sale_quotation') {
+            } elseif ($type == 'from_sale_quotation') {
 
                 $saleModel = SaleQuotation::find($request['item_id']);
 
-            }else {
+            } else {
 
                 $saleModel = SaleSupplyOrder::find($request['item_id']);
             }
@@ -388,9 +409,9 @@ class ReturnedSaleReceiptsController extends Controller
 
             $view = view('admin.returned_sale_receipt.ajax_items', compact('saleModel'))->render();
 
-            return response()->json(['view'=> $view, 'index'=> $index], 200);
+            return response()->json(['view' => $view, 'index' => $index], 200);
 
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
 
             return response()->json('sorry, please try later', 400);
         }
@@ -415,17 +436,15 @@ class ReturnedSaleReceiptsController extends Controller
             })
             ->addColumn('client_id', function ($item) use ($viewPath) {
 
-                return $item->clientable ?   $item->clientable->name : '---';
+                return $item->clientable ? $item->clientable->name : '---';
             })
             ->addColumn('number', function ($item) {
                 return $item->number;
             })
-
             ->addColumn('total', function ($item) use ($viewPath) {
                 $total = true;
                 return view($viewPath, compact('item', 'total'))->render();
             })
-
             ->addColumn('total_accepted', function ($item) use ($viewPath) {
                 $total_accepted = true;
                 return view($viewPath, compact('item', 'total_accepted'))->render();
@@ -434,7 +453,6 @@ class ReturnedSaleReceiptsController extends Controller
                 $total_rejected = true;
                 return view($viewPath, compact('item', 'total_rejected'))->render();
             })
-
             ->addColumn('created_at', function ($item) {
                 return $item->created_at->format('y-m-d h:i:s A');
             })
@@ -469,7 +487,7 @@ class ReturnedSaleReceiptsController extends Controller
                 $query->where('supply_order_id', $request->supply_order_number);
             }
 
-            if ($request->filled('date_add_from') && $request->filled('date_add_to')){
+            if ($request->filled('date_add_from') && $request->filled('date_add_to')) {
                 $query->whereBetween('date', [$request->date_add_from, $request->date_add_to]);
             }
 

@@ -1,7 +1,7 @@
 
 <div id="concession_to_print" >
     <div class="border-container" style="">
-        @foreach($storeTransfer->items()->get()->chunk(15) as $one)
+        @foreach($storeTransfer->items()->get()->chunk(13) as $one)
 
 
             <div class="print-header-wg">
@@ -182,10 +182,10 @@
             </div>
 
             @if( $loop->last)
-                <div class="row right-peice-wg" style="padding:0 30px 50px 30px;">
+                <div class="row right-peice-wg" style="padding:0 15px 10px 15px;">
 
                     <div class="col-xs-12" style="padding:0px !important">
-                        <div class="col-xs-6 text-center" style="padding:5px !important">
+                        <div class="col-xs-6 text-center" style="">
                             <div class="row last-total">
                                 <div class="col-xs-6">
                                     <h6>{{__('Quantity')}}</h6>
@@ -197,7 +197,7 @@
 
                         </div>
 
-                        <div class="col-xs-6 text-center" style="padding:5px !important">
+                        <div class="col-xs-6 text-center" style="">
                             <div class="row last-total" style="background-color:#ddd !important">
                                 <div class="col-xs-6">
                                     <h6>{{__('Final Total')}}</h6>
@@ -211,7 +211,7 @@
                     </div>
 
                     <div class="col-xs-12" style="padding:0 !important">
-                        <div class="col-xs-12 text-center" style="padding:5px !important">
+                        <div class="col-xs-12 text-center" style="">
 
 
                             <div class="row last-total" style="background-color:#ddd !important">
@@ -226,11 +226,11 @@
 
                     </div>
 
-                    <div class="row right-peice-wg" style="padding:0 30px 50px 30px;margin-bottom:30px">
+                    <div class="row right-peice-wg" style="padding:0 15px 10px 15px;">
                         <div class="col-xs-7">
                             <h5 class="title">{{__('Notes')}}</h5>
-                            <p style="width: 80%;font-size:12px">
-                                {{old('description', isset($storeTransfer)? $storeTransfer->description :'')}}
+                            <p style="font-size:12px">
+                                {{$storeTransfer->description}}
 
                             </p>
                         </div>

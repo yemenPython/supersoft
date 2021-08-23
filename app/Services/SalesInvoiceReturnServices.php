@@ -236,11 +236,22 @@ class SalesInvoiceReturnServices
         return ReturnedSaleReceiptItem::find($item_id);
     }
 
-    public function getTypeItems ($type) {
+    public function getTypeItems ($type, $salesInvoiceReturnId = null) {
 
         if ($type == 'normal') {
 
-            $items = ReturnedSaleReceipt::where('type', 'from_invoice')
+            $items = ReturnedSaleReceipt::whereHas('concession', function ($q) {
+
+                $q->where('status', 'accepted');
+
+            })->whereDoesntHave('salesInvoiceReturn', function ($s) use($salesInvoiceReturnId) {
+
+                $s->when($salesInvoiceReturnId, function ($sa) use($salesInvoiceReturnId) {
+                    $sa->where('id', '!=', $salesInvoiceReturnId);
+                });
+
+            })
+                ->where('type', 'from_invoice')
                 ->select('id', 'number')
                 ->get();
 
@@ -260,13 +271,21 @@ class SalesInvoiceReturnServices
 
         } elseif ($type == 'from_sale_quotations') {
 
-            $items = ReturnedSaleReceipt::where('type', 'from_sale_quotation')
+            $items = ReturnedSaleReceipt::whereHas('concession', function ($q) {
+
+                $q->where('status', 'accepted');
+
+            })->where('type', 'from_sale_quotation')
                 ->select('id', 'number')
                 ->get();
 
         } elseif ($type == 'from_sale_supply_order') {
 
-            $items = ReturnedSaleReceipt::where('type', 'from_sale_supply_order')
+            $items = ReturnedSaleReceipt::whereHas('concession', function ($q) {
+
+                $q->where('status', 'accepted');
+
+            })->where('type', 'from_sale_supply_order')
                 ->select('id', 'number')
                 ->get();
         }
