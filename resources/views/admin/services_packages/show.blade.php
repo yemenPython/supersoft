@@ -1,7 +1,6 @@
 <div id="assetDatatoPrint">
     <div class="border-container" style="">
-        @foreach(collect($services)->chunk(15) as $one)
-
+        @foreach(collect($services)->chunk(19) as $one)
 
             <div class="print-header-wg">
                 <div class="top-logo-print">
@@ -26,7 +25,8 @@
 
             </div>
 
-            <div class="row row-right-data" @if( !$loop->first)style="visibility: hidden !important;" @endif>
+            <div class="row row-right-data" @if( !$loop->first)style="visibility: hidden !important;"
+                 @else style="margin-bottom: -40px;"@endif>
                 <div class="col-xs-6"></div>
                 <div class="col-xs-6 right-top-detail" @if( !$loop->first)style="visibility: hidden !important;" @endif>
                     <h3>
@@ -40,47 +40,48 @@
 
             @if( $loop->first)
 
-            <div class="middle-data-h-print">
+                <div class="middle-data-h-print">
 
 
-</div>
+                    <div class="invoice-to print-padding-top"
+                         @if(count($services) <= 19) style="margin-bottom: -70px;" @endif>
+                        <div class="col-xs-12 table-responsive">
 
-            <div class="col-xs-12 table-responsive">
+                            <table class="table static-table-wg">
+                                <tbody>
+                                <tr>
+                                    <th style="width:20% !important">{{__('Package name')}}</th>
+                                    <td> {{$servicePackage->name }} </td>
+                                    <th style="width:20% !important">{{__('Services Number')}}</th>
+                                    <td>{{$servicePackage->services_number}} </td>
+                                </tr>
 
-                    <table class="table static-table-wg">
-                        <tbody>
-                        <tr>
-                            <th style="width:20% !important">{{__('Package name')}}</th>
-                            <td> {{$servicePackage->name }} </td>
-                            <th style="width:20% !important">{{__('Services Number')}}</th>
-                            <td>{{$servicePackage->services_number}} </td>
-                        </tr>
+                                <tr>
+                                    <th style="width:20% !important">{{__('Hours')}}</th>
+                                    <td> {{$servicePackage->number_of_hours}}</td>
+                                    <th style="width:20% !important">{{__('Minutes')}}</th>
+                                    <td>{{$servicePackage->number_of_min}} </td>
 
-                        <tr>
-                        <th style="width:20% !important">{{__('Hours')}}</th>
-                            <td> {{$servicePackage->number_of_hours}}</td>
-                            <th style="width:20% !important">{{__('Minutes')}}</th>
-                            <td>{{$servicePackage->number_of_min}} </td>
+                                </tr>
 
-                        </tr>
+                                </tbody>
+                            </table>
 
-                        </tbody>
-                    </table>
-
+                        </div>
+                    </div>
                 </div>
-
-               
             @endif
 
             <div style="padding:0 20px;">
                 <h5 class="invoice-to-title">{{__('Service Items Data')}}</h5>
 
-                <div class="table-responsive">
+                <div class="table-responsive" @if(count($services) <= 19) style="margin-bottom: -23px;" @endif>
                     <table class="table print-table-wg table-borderless"
                            @if(!$loop->first) style="margin-top: 20px;" @endif>
                         <thead>
 
                         <tr class="heading">
+                            <th scope="col">#</th>
                             <th scope="col">{!! __('Service Name') !!}</th>
                             <th scope="col">{!! __('Price') !!}</th>
                             <th scope="col">{!! __('Hours') !!}</th>
@@ -91,8 +92,9 @@
 
                         </thead>
                         <tbody>
-                        @foreach($one  as $service)
+                        @foreach($one  as $indxe=>$service)
                             <tr>
+                                <td>{{$indxe+1}}</td>
                                 <td>{{ $service['name'] }}</td>
                                 <td>{{$service['price']}}</td>
                                 <td>{{$service['hours']}}</td>
@@ -113,7 +115,7 @@
                 <div class="row right-peice-wg" style="padding:0 30px 50px 30px;margin-bottom:30px">
 
 
-                    <div class="col-xs-12" style="padding:0 !important">
+                    <div class="col-xs-12" @if(count($services) <= 19) style="margin-bottom: -10px;" @endif>
 
                         <div class="col-xs-6 text-center" style="padding:5px !important">
 
@@ -132,7 +134,7 @@
                         <div class="col-xs-6 text-center" style="padding:5px !important">
 
 
-                        <div class="row last-total">
+                            <div class="row last-total">
                                 <div class="col-xs-7">
                                     <h6>{{__('Total After Discount')}}</h6>
                                 </div>
@@ -141,11 +143,11 @@
                                 </div>
                             </div>
 
-                            </div>
                         </div>
+                    </div>
 
 
-                        <div class="col-xs-12" style="padding:0 !important">
+                    <div class="col-xs-12" @if(count($services) <= 19) style="margin-bottom: -10px;" @endif>
 
                         <div class="col-xs-6 text-center" style="padding:5px !important">
 
@@ -164,16 +166,16 @@
                         <div class="col-xs-6 text-center" style="padding:5px !important">
 
 
-<div class="row last-total">
-    <div class="col-xs-7">
-        <h6>{{__('Discount Mount')}}</h6>
-    </div>
-    <div class="col-xs-5">
-        <h6> {{$servicePackage->discount_value }} </h6>
-    </div>
-</div>
+                            <div class="row last-total">
+                                <div class="col-xs-7">
+                                    <h6>{{__('Discount Mount')}}</h6>
+                                </div>
+                                <div class="col-xs-5">
+                                    <h6> {{$servicePackage->discount_value }} </h6>
+                                </div>
+                            </div>
 
-</div>
+                        </div>
 
 
                     </div>

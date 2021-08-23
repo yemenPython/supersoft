@@ -1,6 +1,6 @@
 <div id="assetDatatoPrint">
     <div class="border-container" style="">
-        @foreach($assetReplacement->assetReplacementItems()->get()->chunk(15) as $one)
+        @foreach($assetReplacement->assetReplacementItems()->get()->chunk(18) as $one)
 
 
             <div class="print-header-wg">
@@ -26,7 +26,7 @@
 
             </div>
 
-            <div class="row row-right-data" @if( !$loop->first)style="visibility: hidden !important;" @endif>
+            <div class="row row-right-data" @if( !$loop->first)style="visibility: hidden !important;" @else style="margin-bottom: -40px;" @endif>
                 <div class="col-xs-6"></div>
                 <div class="col-xs-6 right-top-detail" @if( !$loop->first)style="visibility: hidden !important;" @endif>
                     <h3>
@@ -41,7 +41,7 @@
             @if( $loop->first)
                 <div class="middle-data-h-print">
 
-                    <div class="invoice-to print-padding-top">
+                    <div class="invoice-to print-padding-top" @if($assetReplacement->assetReplacementItems->count() <= 18) style="margin-bottom: -70px;" @endif>
                         <div class="row">
                             <div class="col-xs-6">
                                 <h5>{{__('Assets Replacements data')}}</h5>
@@ -69,7 +69,7 @@
                     </div>
                 </div>
 
-                <div class="col-xs-12 table-responsive">
+                <div class="col-xs-12 table-responsive" @if($assetReplacement->assetReplacementItems->count() <= 18) style="margin-bottom: -10px;" @endif>
 
                     <table class="table static-table-wg">
                         <tbody>
@@ -89,8 +89,7 @@
 
             <div style="padding:0 20px;">
                 <h5 class="invoice-to-title">{{__('Asset Replacement items')}}</h5>
-
-                <div class="table-responsive">
+                <div class="table-responsive" @if($assetReplacement->assetReplacementItems->count() <= 18) style="margin-bottom: -20px;" @endif>
                     <table class="table print-table-wg table-borderless"
                            @if(!$loop->first) style="margin-top: 20px;" @endif>
                         <thead>
@@ -113,7 +112,7 @@
                             <tr class="spacer">
 
                                 <td>
-                                    {{$index}}
+                                    {{$index+1}}
                                 </td>
 
                                 <td>
@@ -198,8 +197,8 @@
                     </div>
 
                     <div class="col-xs-12">
-                        <h5 class="title">{{__('Notes')}}</h5>
-                                <p style="font-size:14px">
+                        <h6 class="title">{{__('Notes')}}</h6>
+                                <p style="font-size:12px">
 
                                     {!! $assetReplacement->note !!}
 

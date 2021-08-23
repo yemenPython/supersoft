@@ -1,8 +1,6 @@
 <div id="asset_to_print">
     <div class="border-container" style="">
-        @foreach($asset->items()->get()->chunk(15) as $one)
-
-
+        @foreach($asset->items()->get()->chunk(17) as $one)
             <div class="print-header-wg">
                 <div class="top-logo-print">
                     <div class="logo-print text-center">
@@ -26,7 +24,7 @@
 
             </div>
 
-            <div class="row row-right-data" @if( !$loop->first)style="visibility: hidden !important;" @endif>
+            <div class="row row-right-data" @if( !$loop->first)style="visibility: hidden !important;" @else style="margin-bottom: -25px;" @endif>
                 <div class="col-xs-6"></div>
                 <div class="col-xs-6 right-top-detail" @if( !$loop->first)style="visibility: hidden !important;" @endif>
                     <h3>
@@ -41,7 +39,7 @@
             @if( $loop->first)
                 <div class="middle-data-h-print">
 
-                    <div class="invoice-to print-padding-top">
+                    <div class="invoice-to print-padding-top" @if($asset->items->count() <= 17) style="margin-bottom: -70px;" @endif>
                         <div class="row">
                             <div class="col-xs-6">
                                 <h5>{{__('Asset Purchase Invoice data')}}</h5>
@@ -69,7 +67,7 @@
                     </div>
                 </div>
 
-                <div class="col-xs-12 table-responsive">
+                <div class="col-xs-12 table-responsive" @if($asset->items->count() <= 17) style="margin-bottom: -8px;" @endif>
 
                     <table class="table static-table-wg">
                         <tbody>
@@ -78,9 +76,6 @@
                             <td> {{ $asset->invoice_number }} </td>
                             <th style="width:20% !important">{{__('Invoice Type')}}</th>
                             <td> {{__($asset->type)}} </td>
-                        </tr>
-
-                        <tr>
                             <th>{{__('Supplier name')}}</th>
                             <td colspan="6">{{optional($asset->supplier)->name}} </td>
                         </tr>
@@ -92,14 +87,15 @@
             @endif
 
             <div style="padding:0 20px;">
-                <h5 class="invoice-to-title">{{__('Asset Purchase Invoice items')}}</h5>
+                <h6 class="invoice-to-title">{{__('Asset Purchase Invoice items')}}</h6>
 
-                <div class="table-responsive">
+                <div class="table-responsive" @if($asset->items->count() <= 17) style="margin-bottom: -22px;" @endif>
                     <table class="table print-table-wg table-borderless"
-                           @if(!$loop->first) style="margin-top: 20px;" @endif>
+                           @if(!$loop->first) style="margin-top: 10px;" @endif>
                         <thead>
 
                         <tr class="spacer" style="border-radius: 30px;">
+                            <th>#</th>
                             <th>{{__('Asset name')}}</th>
                             <th>{{__('Asset Group')}}</th>
                             <th>{{__('purchase cost')}}</th>
@@ -115,6 +111,7 @@
                         @foreach($one as $item)
 
                             <tr class="spacer">
+                                <td>{{$loop->iteration}}</td>
                                 <td>{{$item->asset->name}}</td>
                                 <td>{{$item->asset->group->name}}</td>
                                 <td>{{$item->purchase_cost}}</td>
@@ -189,7 +186,7 @@
 
                         <div class="col-xs-12">
                             <h5 class="title">{{__('Notes')}}</h5>
-                            <p style="font-size:14px">
+                            <p style="font-size:12px">
 
                                 {!! $asset->note !!}
 
