@@ -41,7 +41,7 @@
             @if( $loop->first)
                 <div class="middle-data-h-print">
 
-                    <div class="invoice-to print-padding-top">
+                    <div class="invoice-to print-padding-top" @if($purchase_invoice->items->count() <=14) style="margin-bottom: -70px;" @endif>
                         <div class="row">
                             <div class="col-xs-6">
                                 <h5>{{__('Invoice Return Purchase data')}}</h5>
@@ -120,7 +120,7 @@
             <div style="padding:0 20px;">
                 <h5 class="invoice-to-title">{{__('Purchase Invoice items')}}</h5>
 
-                <div class="table-responsive">
+                <div class="table-responsive" @if($purchase_invoice->items->count() <=14) style="margin-bottom: -11px;" @endif>
                     <table class="table print-table-wg table-borderless"
                            @if(!$loop->first) style="margin-top: 20px;" @endif>
                         <thead>
@@ -167,6 +167,7 @@
 
             @if( $loop->last)
                 <div class="row right-peice-wg" style="padding:0 30px 50px 30px;">
+                    <div class="col-xs-12" @if($purchase_invoice->items->count() <=14) style="padding:0 !important;margin-bottom:-8px" @endif>
                 <div class="col-xs-6">
                     <table class="table table-bordered static-table-wg">
                         <thead>
@@ -235,11 +236,12 @@
                         </tbody>
                     </table>
                 </div>
+                    </div>
 
 
 
 
-                <div class="col-xs-12" style="padding:0 !important">
+                <div class="col-xs-12" @if($purchase_invoice->items->count() <=14) style="padding:0 !important;margin-bottom:-8px" @endif>
                     <div class="col-xs-4 text-center" style="padding:5px">
 
 
@@ -283,7 +285,7 @@
                     </div>
                 </div>
 
-                <div class="col-xs-12" style="padding:0 !important">
+                <div class="col-xs-12"  @if($purchase_invoice->items->count() <=14) style="padding:0 !important;margin-bottom:-8px" @endif>
                     <div class="col-xs-4 text-center" style="padding:5px">
 
 
@@ -332,7 +334,7 @@
                     </div>
                 </div>
 
-                <div class="col-xs-12" style="padding:0 !important">
+                <div class="col-xs-12"  @if($purchase_invoice->items->count() <=14) style="padding:0 !important;margin-bottom:-8px" @endif>
                     <div class="col-xs-4 text-center" style="padding:5px">
 
 
@@ -375,13 +377,13 @@
 
                     </div>
 
-                    <div class="col-xs-12" style="padding:0 !important">
+                    <div class="col-xs-12"  @if($purchase_invoice->items->count() <=14) style="padding:0 !important;margin-bottom:-8px" @endif>
                         <div class="col-xs-12 text-center" style="padding:5px">
 
 
                             <div class="row last-total" style="background-color:#ddd !important">
 
-                                <div class="col-xs-12" style="padding:5px">
+                                <div class="col-xs-12" @if($purchase_invoice->items->count() <=14) style="padding:5px !important;margin-bottom:-6px" @else style="padding:5px" @endif>
                                     <h6 data-id="data-totalInLetters" id="totalInLetters">{{$purchase_invoice->total}}</h6>
                                 </div>
                             </div>
@@ -392,7 +394,7 @@
                     </div>
 
 
-                    <div class="col-xs-12" style="padding:0 !important">
+                    <div class="col-xs-12"  @if($purchase_invoice->items->count() <=14) style="padding:0 !important;margin-bottom:-8px" @endif>
                         <br>
                         <div class="col-xs-6">
                             <h5 class="title">{{__('Supply Terms')}}</h5>

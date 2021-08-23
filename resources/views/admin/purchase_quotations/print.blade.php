@@ -1,7 +1,6 @@
-
 <div id="concession_to_print" >
     <div class="border-container" style="">
-@foreach($purchaseQuotation->items()->where('active', 1)->get()->chunk(15) as $one)
+@foreach($purchaseQuotation->items()->where('active', 1)->get()->chunk(12) as $one)
 
 
     <div class="print-header-wg">
@@ -25,7 +24,7 @@
             </div>
         </div>
 
-
+    </div>
 
         <div class="row row-right-data">
             <div class="col-xs-6"></div>
@@ -38,7 +37,7 @@
 
             </div>
         </div>
-    </div>
+
 
 @if( $loop->first)
     <div class="middle-data-h-print">

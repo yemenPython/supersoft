@@ -1,6 +1,6 @@
 <div id="concession_to_print">
     <div class="border-container" style="">
-        @foreach($supplyOrder->items()->get()->chunk(15) as $one)
+        @foreach($supplyOrder->items()->get()->chunk(13) as $one)
 
 
             <div class="print-header-wg">
@@ -171,15 +171,13 @@
             </div>
 
             @if( $loop->last)
-                <div class="row right-peice-wg" style="padding:0 30px 50px 30px;margin-bottom:30px">
+                <div class="row right-peice-wg" style="">
 
                     <div class="col-xs-6">
                         <table class="table table-bordered">
                             <thead>
                             <tr class="heading">
                                 <th style="background:#CCC !important;color:black">{{__('Tax Name')}}</th>
-                            <!-- <th style="background:#CCC !important;color:black">{{__('Tax Type')}}</th>
-                    <th style="background:#CCC !important;color:black">{{__('The Tax')}}</th> -->
                                 <th style="background:#CCC !important;color:black">{{__('Tax Value')}}</th>
                             </tr>
                             </thead>
@@ -197,8 +195,6 @@
 
                                 <tr class="item">
                                     <td>{{$tax->name}}</td>
-                                <!-- <td>{{__($tax->tax_type)}}</td>
-                        <td>{{$tax->value}}</td> -->
                                     <td>{{round(taxValueCalculated($supplyOrder->total_after_discount, $supplyOrder->sub_total, $tax),2)}}</td>
                                 </tr>
                             @endforeach
@@ -242,7 +238,7 @@
                     </div>
 
                     <div class="col-xs-12" style="padding:0px !important">
-                        <div class="col-xs-4 text-center" style="padding:5px !important">
+                        <div class="col-xs-4 text-center">
 
 
                             <div class="row last-total">
@@ -335,25 +331,21 @@
                     </div>
 
                     <div class="col-xs-12" style="padding:0px !important">
-                        <div class="col-xs-12 text-center" style="padding:5px !important">
+                        <div class="col-xs-6 text-center" style="padding:5px !important">
 
 
                             <div class="row last-total" style="background-color:#ddd !important">
-                                <div class="col-xs-3">
+                                <div class="col-xs-5">
                                     <h6>{{__('Final Total')}}</h6>
                                 </div>
-                                <div class="col-xs-9">
+                                <div class="col-xs-7">
                                     <h6>{{$supplyOrder->total}}</h6>
                                 </div>
                             </div>
 
                         </div>
 
-
-                    </div>
-
-                    <div class="col-xs-12"style="padding:0px !important">
-                        <div class="col-xs-12 text-center" style="padding:5px !important">
+                        <div class="col-xs-6 text-center" style="padding:5px !important">
 
 
                             <div class="row last-total" style="background-color:#ddd !important">
@@ -364,12 +356,11 @@
                             </div>
 
                         </div>
-
-
                     </div>
 
 
-                    <div class="col-xs-12">
+
+                    <div class="col-xs-12" @if($supplyOrder->items->count() >12) style="padding-top: 100px;" @endif>
                         <br>
                         <div class="col-xs-6">
                             <h5 class="title">{{__('Supply Terms')}}</h5>
@@ -387,15 +378,15 @@
                         <div class="col-xs-6">
                             <h5 class="title">{{__('Payment Terms')}}</h5>
 
-                                    <p style="font-size:14px">
-                                        @foreach($supplyOrder->terms()->where('type','payment')->get() as $index=>$term)
+                            <p style="font-size:14px">
+                                @foreach($supplyOrder->terms()->where('type','payment')->get() as $index=>$term)
 
-                                            {{$index+1}}.
-                                            {{$term->term}}
-                                            <br> <br>
+                                    {{$index+1}}.
+                                    {{$term->term}}
+                                    <br> <br>
 
-                                        @endforeach
-                                    </p>
+                                @endforeach
+                            </p>
                         </div>
 
                     </div>
@@ -424,12 +415,6 @@
                                         <h6 style="padding:0 15px">{{optional($branchToPrint)->address_ar}} </h6>
                                     </div>
                                 </div>
-
-                            </div>
-                            <div class="col-xs-6">
-
-                            </div>
-                            <div class="col-xs-6">
 
                             </div>
                         </div>

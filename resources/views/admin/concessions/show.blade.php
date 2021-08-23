@@ -1,6 +1,6 @@
 <div id="concession_to_print">
     <div class="border-container" style="">
-        @foreach($concession->concessionItems()->get()->chunk(15) as $one)
+        @foreach($concession->concessionItems()->get()->chunk(18) as $one)
 
 
             <div class="print-header-wg">
