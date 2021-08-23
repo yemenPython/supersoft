@@ -18,6 +18,7 @@ Route::get('sales-invoices-return/expenses-receipts/{invoice}','SalesInvoiceRetu
 
 // show invoice
 Route::get('sales-invoices-return/show/{salesInvoiceReturn}','SalesInvoiceReturnController@show')->name('sales.invoices.return.show');
+Route::get('sales-invoices-return/print/data','SalesInvoiceReturnController@print')->name('sales.invoices.return.print');
 
 //edit invoice
 Route::get('sales-invoices-return/edit/{salesInvoiceReturn}','SalesInvoiceReturnController@edit')->name('sales.invoices.return.edit');
@@ -37,6 +38,6 @@ Route::post('/sales-returns/part-quantity', 'SalesInvoiceReturnController@showPa
 //Route::post('/purchase-return/terms', 'PurchaseReturnsController@terms')->name('purchase.return.terms');
 
 // purchase quotations library
-//Route::post('purchase-returns/library/get-files', 'PurchaseReturnLibraryController@getFiles')->name('purchase.returns.library.get.files');
-//Route::post('purchase-returns/upload_library', 'PurchaseReturnLibraryController@uploadLibrary')->name('purchase.returns.upload_library');
-//Route::post('purchase-returns/library/file-delete', 'PurchaseReturnLibraryController@destroyFile')->name('purchase.returns.library.file.delete');
+Route::post('sales-returns/library/get-files', 'SalesInvoiceReturnLibraryController@getFiles')->name('sates.returns.library.get.files');
+Route::post('sales-returns/upload_library', 'SalesInvoiceReturnLibraryController@uploadLibrary')->name('sales.returns.upload_library');
+Route::post('sales-returns/library/file-delete', 'SalesInvoiceReturnLibraryController@destroyFile')->name('sales.returns.library.file.delete');

@@ -105,37 +105,37 @@
 
 @section('modals')
 
-{{--    <div class="modal fade" id="boostrapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">--}}
-{{--        <div class="modal-dialog modal-lg" role="document">--}}
-{{--            <div class="modal-content">--}}
-{{--                <div class="modal-header">--}}
-{{--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span--}}
-{{--                            aria-hidden="true">&times;</span>--}}
-{{--                    </button>--}}
-{{--                    <button type="button" class="btn btn-primary waves-effect waves-light"--}}
-{{--                            onclick="printDownPayment()">--}}
-{{--                        <i class='fa fa-print'></i>--}}
-{{--                        {{__('Print')}}--}}
-{{--                    </button>--}}
-{{--                    <button type="button" class="btn btn-danger waves-effect waves-light"--}}
-{{--                            data-dismiss="modal"><i class='fa fa-close'></i>--}}
-{{--                        {{__('Close')}}</button>--}}
+    <div class="modal fade" id="boostrapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span>
+                    </button>
+                    <button type="button" class="btn btn-primary waves-effect waves-light"
+                            onclick="printDownPayment()">
+                        <i class='fa fa-print'></i>
+                        {{__('Print')}}
+                    </button>
+                    <button type="button" class="btn btn-danger waves-effect waves-light"
+                            data-dismiss="modal"><i class='fa fa-close'></i>
+                        {{__('Close')}}</button>
 
-{{--                </div>--}}
+                </div>
 
-{{--                <div class="modal-body" id="invoiceDatatoPrint">--}}
-{{--                </div>--}}
-{{--                <div class="modal-footer" style="text-align:center">--}}
+                <div class="modal-body" id="invoiceDatatoPrint">
+                </div>
+                <div class="modal-footer" style="text-align:center">
 
-{{--                </div>--}}
+                </div>
 
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
+            </div>
+        </div>
+    </div>
 
 {{--    @include('admin.purchase_returns.terms.supply_terms', ['items' => $invoices->get()])--}}
 
-    @include('admin.partial.upload_library.form', ['url'=> route('admin:purchase.returns.upload_library')])
+    @include('admin.partial.upload_library.form', ['url'=> route('admin:sales.returns.upload_library')])
 
 @endsection
 
@@ -163,10 +163,10 @@
 
         function getPrintData(id) {
             $.ajax({
-                url: "{{ route('admin:purchase_returns.show') }}?invoiceID=" + id,
+                url: "{{ route('admin:sales.invoices.return.print') }}?sales_invoice_return_id=" + id,
                 method: 'GET',
                 success: function (data) {
-                    $("#invoiceDatatoPrint").html(data.invoice)
+                    $("#invoiceDatatoPrint").html(data.view)
                     let total = $("#totalInLetters").text()
                     $("#totalInLetters").html(new Tafgeet(total, '{{config("currency.defualt_currency")}}').parse())
                 }
@@ -185,6 +185,9 @@
             }, 1000)
         }
 
+
+
+
         function getLibraryFiles(id) {
 
             $("#library_item_id").val(id);
@@ -194,7 +197,7 @@
             $.ajax({
 
                 type: 'post',
-                url: '{{route('admin:purchase.returns.library.get.files')}}',
+                url: '{{route('admin:sates.returns.library.get.files')}}',
                 data: {
                     _token: CSRF_TOKEN,
                     id: id,
@@ -232,7 +235,7 @@
                     $.ajax({
 
                         type: 'post',
-                        url: '{{route('admin:purchase.returns.library.file.delete')}}',
+                        url: '{{route('admin:sales.returns.library.file.delete')}}',
                         data: {
                             _token: CSRF_TOKEN,
                             id: id,
@@ -274,7 +277,7 @@
             form_data.append("title_en", title_en);
 
             $.ajax({
-                url: "{{route('admin:purchase.returns.upload_library')}}",
+                url: "{{route('admin:sales.returns.upload_library')}}",
                 type: "post",
 
                 headers: {

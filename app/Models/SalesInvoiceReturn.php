@@ -201,9 +201,9 @@ class SalesInvoiceReturn extends Model
 //        return $this->belongsToMany(SupplyTerm::class, 'sales_invoice_supply_terms', 'sales_invoice_id', 'supply_term_id');
 //    }
 
-//    function files()
-//    {
-//        return $this->hasMany(SalesInvoiceLibrary::class, 'sales_invoice_id');
-//    }
+    function files()
+    {
+        return $this->hasMany(SalesInvoiceReturnLibrary::class, 'sales_return_id');
+    }
 
 }
