@@ -79,4 +79,14 @@ class ReturnedSaleReceipt extends Model
         }
         return self::$dataTableColumns;
     }
+
+    public function concession()
+    {
+        return $this->morphOne(Concession::class, 'concessionable');
+    }
+
+    public function salesInvoiceReturn()
+    {
+        return $this->morphMany(SalesInvoiceReturn::class, 'invoiceable');
+    }
 }

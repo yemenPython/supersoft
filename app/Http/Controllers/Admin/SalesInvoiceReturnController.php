@@ -3,32 +3,23 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Part;
-use App\Models\PointRule;
 use App\Models\ReturnedSaleReceipt;
 use App\Models\SupplyTerm;
-use App\Models\User;
 use App\Models\Branch;
-use App\Models\Customer;
 use App\Models\TaxesFees;
 use App\Models\SalesInvoice;
 use App\Services\HandleQuantityService;
 use App\Services\MailServices;
 use App\Services\NotificationServices;
-use App\Services\PointsServices;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use App\Models\PurchaseInvoice;
-use App\Models\SalesInvoiceItems;
 use App\Models\SalesInvoiceReturn;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\SalesInvoiceItemReturn;
-use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use \App\Services\SalesInvoiceReturnServices;
-use App\Http\Controllers\ExportPrinterFactory;
-use App\Http\Controllers\DataExportCore\Invoices\SalesReturn;
 use App\Http\Requests\Admin\SalesInvoicesReturn\CreateSalesInvoiceReturnRequest;
 use App\Http\Requests\Admin\SalesInvoicesReturn\UpdateSalesInvoiceReturnRequest;
 use Yajra\DataTables\DataTables;
@@ -208,11 +199,11 @@ class SalesInvoiceReturnController extends Controller
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
-        $invoice = SalesInvoiceReturn::find($request->invoiceID);
-        $taxes = TaxesFees::where('active_invoices', 1)->where('branch_id', $invoice->branch_id)->get();
-        $totalTax = TaxesFees::where('active_invoices', 1)->where('branch_id', $invoice->branch_id)->sum('value');
-        $invoiceData = view('admin.sales_invoice_return.show', compact('invoice', 'taxes', 'totalTax'))->render();
-        return response()->json(['invoice' => $invoiceData]);
+        $salesInvoiceReturn = SalesInvoiceReturn::find($request['sales_invoice_return_id']);
+
+        $view = view('admin.sales_invoice_return.print', compact('salesInvoiceReturn'))->render();
+
+        return response()->json(['view' => $view]);
     }
 
     public function edit(SalesInvoiceReturn $salesInvoiceReturn)
@@ -241,7 +232,7 @@ class SalesInvoiceReturnController extends Controller
             ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
             ->get();
 
-        $data['returnedItems'] = $this->salesInvoiceReturn->getTypeItems($salesInvoiceReturn->invoice_type);
+        $data['returnedItems'] = $this->salesInvoiceReturn->getTypeItems($salesInvoiceReturn->invoice_type, $salesInvoiceReturn->id);
 
         return view('admin.sales_invoice_return.edit', compact('data', 'salesInvoiceReturn'));
     }
