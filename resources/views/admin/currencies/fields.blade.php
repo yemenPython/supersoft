@@ -73,7 +73,7 @@
                 <div class="checkbox primary" style="margin-top: 6px">
                     <input type="hidden" name="status" value="0">
                     <input type="checkbox" id="checkbox-2" name="status" value="1"
-                        {{isset($currency) && $currency->status ? 'checked' : ''}}>
+                        {{isset($currency) && $currency->status ? 'checked' : ''}} {{!isset($currency) ? 'checked' : ''}}>
                     <label for="checkbox-2">{{__('Active')}}</label>
                 </div>
             </div>

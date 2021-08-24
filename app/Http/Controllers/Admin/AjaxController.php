@@ -13,6 +13,8 @@ use App\Models\AssetsTypeExpense;
 use App\Models\BankAccount;
 use App\Models\DamagedStock;
 use App\Models\EmployeeData;
+use App\Models\Locker;
+use App\Models\LockerOpeningBalance;
 use App\Models\MaintenanceCenter;
 use App\Models\MaintenanceDetection;
 use App\Models\MaintenanceDetectionType;
@@ -215,6 +217,12 @@ class AjaxController extends Controller
                     break;
                 case 'MaintenanceCenter':
                     $data = $this->getMaintenanceCenters($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'Locker':
+                    $data = $this->getLockers($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'LockerOpeningBalance':
+                    $data = $this->getLockerOpeningBalance($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
                     break;
                 default:
                     break;
@@ -1388,7 +1396,7 @@ class AjaxController extends Controller
             }
         }
 
-        if (!empty($this->this->asset_id_select_2)) {
+        if (!empty($this->asset_id_select_2)) {
             $assetsItemExpenses = $assetsItemExpenses->where('asset_id', $this->asset_id_select_2);
         }
         $assetsItemExpenses = $assetsItemExpenses->limit($limit)->get();
@@ -1396,6 +1404,63 @@ class AjaxController extends Controller
             $data[] = [
                 'id' => $assetsItemExpense->id,
                 'text' => $this->buildSelectedColumnsAsText($assetsItemExpense, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+    private function getLockers(array $searchFields, string $searchTerm, string $selectedColumns, int $limit, string $branchId)
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $items = Locker::select(DB::raw($selectedColumns));
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $items = $items->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        if (!empty($branchId)) {
+            $items = $items->where('branch_id', $branchId);
+        }
+        $items = $items->limit($limit)->get();
+        foreach ($items as $item) {
+            $data[] = [
+                'id' => $item->id,
+                'text' => $this->buildSelectedColumnsAsText($item, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+
+    private function getLockerOpeningBalance(array $searchFields, string $searchTerm, string $selectedColumns, int $limit, string $branchId)
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $items = LockerOpeningBalance::select(DB::raw($selectedColumns));
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $items = $items->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        if (!empty($branchId)) {
+            $items = $items->where('branch_id', $branchId);
+        }
+        $items = $items->limit($limit)->get();
+        foreach ($items as $item) {
+            $data[] = [
+                'id' => $item->id,
+                'text' => $this->buildSelectedColumnsAsText($item, $selectedColumns)
             ];
         }
         return $data;

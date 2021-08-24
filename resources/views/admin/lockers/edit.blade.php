@@ -27,7 +27,7 @@
 						</span>
             </h4>
                     <div class="box-content">
-                    
+
                     <form method="post" action="{{route('admin:lockers.update',$locker->id)}}" class="form"
                           enctype="multipart/form-data">
                         @method('PATCH')
@@ -38,39 +38,8 @@
             </div>
         </div>
     </div>
-    <!-- /.box-content -->
-
 @endsection
 @section('js-validation')
         {!! JsValidator::formRequest('App\Http\Requests\Admin\Lockers\UpdateLockerRequest', '.form'); !!}
     @include('admin.partial.sweet_alert_messages')
-
-        <script type="application/javascript">
-
-            function getUsers() {
-
-                var branch_id = $("#branch_id").val();
-
-                $.ajax({
-                    url: "{{ route('admin:lockers.get.users')}}",
-                    method: 'GET',
-                    data:{branch_id:branch_id},
-                    success: function (data) {
-                        $('#allowed_users').html(data);
-                        $('.js-example-basic-single').select2();
-                    }
-                });
-            }
-
-            function showUsers() {
-
-                if ($('#switch-2').is(':checked')) {
-                    $("#allowed_users").show();
-                }else{
-                    $("#allowed_users").hide();
-                }
-            }
-
-        </script>
-
 @endsection

@@ -2293,6 +2293,18 @@
     "Conversion Factor" : "معامل التحويل",
     "If The Currency Is Main should be activate" : "اذا كانت العملة رئيسية يجب ان تكون نشطه",
     "you can only detect one currency as a Main Currency" : "تنبيه ! يمكنك تحديد عملة واحدة فقط كعملة رئيسية",
-    "if you detected this currency to be main currency other currency will be not main" : "اذا تم تحديد هذه العملة كعملة رئيسية سوف يتم ألغاء العملة الرئيسية الاخرى"
+    "if you detected this currency to be main currency other currency will be not main" : "اذا تم تحديد هذه العملة كعملة رئيسية سوف يتم ألغاء العملة الرئيسية الاخرى",
+    "Title_ar" : "العنوان بالعربي",
+    "Title_en" :"العنوان بالانجليزي",
+    "Total Added Balance" :"إجمالى الرصيد المضاف",
+    "Total Current Balance" :"إجمالى الرصيد الحالى",
+    "Current balance" :"الرصيد الحالى",
+    "Added balance" :"الرصيد المضاف",
+    "Locker Opening Balance" :"الرصيد الأفتتاحى للخزائن",
+    "Create Locker Opening Balance" :"أنشاء رصيد أفتتاحى جديد",
+    "Progress" :"جارى التنفيذ",
+    "Edit Locker Opening Balance" :"تعديل الرصيد الأفتتاحى للخزائن",
+    "Title_en" :"hhhhhhhhhh",
+    "Title_en" :"hhhhhhhhhh"
 }
 
