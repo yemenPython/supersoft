@@ -55,7 +55,9 @@
                             <thead>
                             <tr>
                                 <th scope="col">{!! __('#') !!}</th>
-                               <th scope="col">{!! __('Branch') !!}</th>
+                                @if(authIsSuperAdmin())
+                                    <th scope="col">{!! __('Branch') !!}</th>
+                                @endif
                                 <th scope="col">{!! __('Locker name') !!}</th>
                                 <th scope="col">{!! __('Locker balance') !!}</th>
                                 <th scope="col">{!! __('Status') !!}</th>
@@ -72,7 +74,9 @@
                             <tfoot>
                             <tr>
                                 <th scope="col">{!! __('#') !!}</th>
-                                <th scope="col">{!! __('Branch') !!}</th>
+                                @if(authIsSuperAdmin())
+                                    <th scope="col">{!! __('Branch') !!}</th>
+                                @endif
                                 <th scope="col">{!! __('Locker name') !!}</th>
                                 <th scope="col">{!! __('Locker balance') !!}</th>
                                 <th scope="col">{!! __('Status') !!}</th>

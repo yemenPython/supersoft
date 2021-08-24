@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Enum\Status;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LockerOpeningBalanceRequest;
 use App\Http\Requests\UpdateLockerOpeningBalanceRequest;
@@ -16,7 +17,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
@@ -27,7 +27,7 @@ class LockerOpeningBalanceController extends Controller
 
     public function index(Request $request)
     {
-        $items = LockerOpeningBalance::query();
+        $items = LockerOpeningBalance::query()->latest();
         if ($request->filled('filter')) {
             $items = $this->filter($request, $items);
         }
@@ -83,6 +83,9 @@ class LockerOpeningBalanceController extends Controller
     public function edit(Request $request, int $id)
     {
         $lockerOpeningBalance = LockerOpeningBalance::findOrFail($id);
+        if ($lockerOpeningBalance->status == Status::Accepted || $lockerOpeningBalance->status == Status::Rejected) {
+            return back()->with(['message' => __('words.edit_not_allowed'), 'alert-type' => 'error']);
+        }
         $branch_id = $request->has('branch_id') ? $request['branch_id'] : $lockerOpeningBalance->branch_id;
         $lockers = Locker::where('branch_id', $branch_id)->get();
         $branches = Branch::all();
@@ -113,16 +116,31 @@ class LockerOpeningBalanceController extends Controller
             $data = $request->all();
             $data['user_id'] = Auth::id();
             $assetExpenseUpdated = $lockerOpeningBalance->update($data);
-            $lockerOpeningBalance->items()->delete();
+            $idsWillDelete = array_diff($lockerOpeningBalance->items->pluck('id')->toArray(),
+                array_column($request->items, 'id'));
+            LockerOpeningBalanceItem::whereIn('id', $idsWillDelete)->delete();
             if ($assetExpenseUpdated) {
                 foreach ($request->items as $item) {
-                    LockerOpeningBalanceItem::create([
-                        'locker_opening_balance_id' => $lockerOpeningBalance->id,
-                        'locker_id' => $item['locker_id'],
-                        'current_balance' => $item['current_balance'],
-                        'added_balance' => $item['added_balance'],
-                        'total' =>  $item['current_balance'] + $item['added_balance'],
-                    ]);
+                    if (isset($item['id'])) {
+                        $oldLockerOpeningBalance = LockerOpeningBalanceItem::find(isset($item['id']));
+                        if ($oldLockerOpeningBalance) {
+                            $oldLockerOpeningBalance->update([
+                                'current_balance' => $item['current_balance'],
+                                'added_balance' => $item['added_balance'],
+                                'total' =>  $item['current_balance'] + $item['added_balance'],
+                            ]);
+                            $this->updateLocker($oldLockerOpeningBalance, $request->status);
+                        }
+                    } else {
+                        $lockerOpeningBalance =LockerOpeningBalanceItem::create([
+                            'locker_opening_balance_id' => $lockerOpeningBalance->id,
+                            'locker_id' => $item['locker_id'],
+                            'current_balance' => $item['current_balance'],
+                            'added_balance' => $item['added_balance'],
+                            'total' =>  $item['current_balance'] + $item['added_balance'],
+                        ]);
+                        $this->updateLocker($lockerOpeningBalance, $request->status);
+                    }
                 }
             }
             return redirect()->to('admin/lockers_opening_balance')
@@ -232,5 +250,15 @@ class LockerOpeningBalanceController extends Controller
             $items = $items->where('status', $request->status);
         }
         return $items;
+    }
+
+    private function updateLocker(LockerOpeningBalanceItem $lockerOpeningBalanceItem, string $status)
+    {
+        if ($status == Status::Accepted) {
+            $locker = Locker::find($lockerOpeningBalanceItem->locker_id);
+            $locker->update([
+               'balance' => $locker->balance + $lockerOpeningBalanceItem->added_balance
+            ]);
+        }
     }
 }

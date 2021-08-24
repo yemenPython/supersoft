@@ -15,9 +15,9 @@
             @if(isset($lockerOpeningBalance))
                 @foreach ($lockerOpeningBalance->items as $index => $item)
                     <tr class="text-center-inputs" id="item_{{$index}}">
-
+                        <input type="hidden" name="items[{{$index}}][id]" value="{{$item->id}}">
                         <td>
-                            <span>{{$index}}</span>
+                            <span>{{$index + 1}}</span>
                         </td>
 
                         <td class="inline-flex-span">
