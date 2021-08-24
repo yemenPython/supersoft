@@ -104,7 +104,6 @@
             }
             total = (parseInt(total) + v);
         })
-        console.log(total)
         $('#total_before_replacement').val(total.toFixed(2));
         $('#total_before_replacement_hidden').val(total.toFixed(2));
     }

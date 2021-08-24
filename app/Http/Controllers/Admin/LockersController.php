@@ -7,9 +7,10 @@ use App\Http\Requests\Admin\Lockers\UpdateLockerRequest;
 use App\Models\Branch;
 use App\Models\Locker;
 use App\Models\User;
-use Illuminate\Cache\Lock;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Yajra\DataTables\DataTables;
 
 class LockersController extends Controller
 {
@@ -23,35 +24,30 @@ class LockersController extends Controller
 
     public function index(Request $request)
     {
-
         if (!auth()->user()->can('view_lockers')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
-
         $lockers = Locker::orderBy('id','DESC');
+        if($request->filled('locker_id'))
+            $lockers->where('id', $request->locker_id);
 
-//        if(!authIsSuperAdmin())
-//            $lockers->where('branch_id', auth()->user()->branch_id);
-
-        if($request->has('name') && $request['name'] != '')
-            $lockers->where('id',$request['name']);
-
-        if($request->has('branch_id') && $request['branch_id'] != '')
+        if($request->filled('branchId'))
             $lockers->where('branch_id',$request['branch_id']);
 
         if($request->has('active') && $request['active'] != '')
             $lockers->where('status',1);
 
-        if($request->has('inactive') && $request['inactive'] != '')
+        if($request->has('inactive') && $request['inactive'] != '') {
             $lockers->where('status',0);
-
-        $lockers = $lockers->get();
-
-        $branches = filterSetting() ? Branch::all()->pluck('name','id') : null;
-        $lockers_search = filterSetting() ? Locker::all()->pluck('name','id') : null;
-
-        return view('admin.lockers.index',
-            compact('lockers','branches','lockers_search'));
+        }
+        if ($request->isDataTable) {
+            return $this->dataTableColumns($lockers);
+        } else {
+            return view('admin.lockers.index', [
+                'data' => $lockers,
+                'js_columns' => Locker::getJsDataTablesColumns(),
+            ]);
+        }
     }
 
     public function create()
@@ -236,5 +232,39 @@ class LockersController extends Controller
 
         $lockers_search = Locker::where('branch_id', $request['id'])->get()->pluck('name','id');
         return view('admin.lockers.ajax_search',compact('lockers_search'));
+    }
+
+    private function dataTableColumns(Builder $items)
+    {
+        $view = 'admin.lockers.dataTable.options';
+        return DataTables::of($items)->addIndexColumn()
+            ->addColumn( 'branch_id', function ($item) use ($view) {
+                $withBranch = true;
+                return view($view, compact('item', 'withBranch'))->render();
+            })
+            ->addColumn( 'name', function ($item) use ($view) {
+               return $item->name;
+            })
+            ->addColumn('balance', function ($item) use ($view) {
+                $withBalance = true;
+                return view($view, compact('item', 'withBalance'))->render();
+            })
+            ->addColumn('status', function ($item) use ($view) {
+                $withStatus = true;
+                return view($view, compact('item', 'withStatus'))->render();
+            })
+            ->addColumn('created_at', function ($item) use ($view) {
+                return $item->created_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('updated_at', function ($item) use ($view) {
+                return $item->updated_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('action', function ($item) use ($view) {
+                $withActions = true;
+                return view($view, compact('item', 'withActions'))->render();
+            })->addColumn('options', function ($item) use ($view) {
+                $withOptions = true;
+                return view($view, compact('item', 'withOptions'))->render();
+            })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
     }
 }

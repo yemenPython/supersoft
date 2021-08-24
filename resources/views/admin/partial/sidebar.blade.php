@@ -568,6 +568,7 @@ route('admin:locker-exchanges.index'),
 route('admin:locker-receives.index'),
 route('admin:bank-exchanges.index'),
 route('admin:bank-receives.index'),
+route('admin:lockers_opening_balance.index'),
                      ])}}">
                     <a class="parent-item js__control" href="#">
                         <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
@@ -580,6 +581,13 @@ route('admin:bank-receives.index'),
                                 {{__('Lockers')}}
                 </a>
             </li>
+
+                        <li class="{{setActivationClass(route('admin:lockers_opening_balance.index'))}}">
+                            <a href="{{route('admin:lockers_opening_balance.index')}}">
+                                {{__('Locker Opening Balance')}}
+                            </a>
+                        </li>
+
             <li class="{{setActivationClass(route('admin:accounts.index'))}}">
                             <a href="{{route('admin:accounts.index')}}">
                                 {{__('Accounts')}}

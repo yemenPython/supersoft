@@ -38,3 +38,18 @@ Route::post('accounts-transfer-deleteSelected', 'AccountTransferController@delet
     ->name('accounts.transfer.deleteSelected');
 Route::get('get-accounts-transfer-by-branch', 'AccountTransferController@dataByBranch')->name('get.accounts.transfer.by.branch');
 Route::get('account-transfer-form-by-branch', 'AccountTransferController@dataByBranchInForm')->name('account.transfer.form.by.branch');
+
+
+
+// library
+Route::post('lockers/library/get-files', 'LockerLibraryController@getFiles')->name('lockers.library.get.files');
+Route::post('lockers/upload_library', 'LockerLibraryController@uploadLibrary')->name('lockers.upload_library');
+Route::post('lockers/library/file-delete', 'LockerLibraryController@destroyFile')->name('lockers.library.file.delete');
+
+
+
+//lockers opening balance
+Route::post('lockers_opening_balance/get_numbers_by_branch_id', 'LockerOpeningBalanceController@getNumbersByBranchId')->name('lockers_opening_balance.get_numbers_by_branch_id');
+Route::post('lockers_opening_balance/delete-selected', 'LockerOpeningBalanceController@deleteSelected')->name('lockers_opening_balance.deleteSelected');
+Route::get('lockers_opening_balance/getItemsByAssetId', 'LockerOpeningBalanceController@getLockers')->name('lockers_opening_balance.getLockers');
+Route::resource('lockers_opening_balance', 'LockerOpeningBalanceController');
