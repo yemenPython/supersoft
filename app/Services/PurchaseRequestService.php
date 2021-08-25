@@ -18,6 +18,7 @@ class PurchaseRequestService
             'part_id' => $item['part_id'],
             'part_price_id' => $item['part_price_id'],
             'quantity' => $item['quantity'],
+            'notes' => $item['notes'],
             'approval_quantity' => $this->getApprovalQuantity($part, $item['quantity']),
         ];
 

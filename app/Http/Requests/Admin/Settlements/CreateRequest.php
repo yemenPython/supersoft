@@ -35,6 +35,8 @@ class CreateRequest extends FormRequest
             'items.*.quantity' => 'required|integer|min:0',
             'items.*.price' => 'required|numeric|min:0',
             'items.*.spare_part_id' => 'required|integer|exists:spare_parts,id',
+
+            'employees.*'=>'required|integer|exists:employee_data,id'
         ];
 
         if (authIsSuperAdmin()) {

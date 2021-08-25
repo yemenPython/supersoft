@@ -47,6 +47,7 @@ class CreateRequest extends FormRequest
                 'items.*.part_id' => 'required|integer|exists:parts,id',
                 'items.*.part_price_id' => 'required|integer|exists:part_prices,id',
                 'items.*.quantity' => 'required|integer|min:1',
+                'items.*.notes' => 'nullable|string|max:2000',
                 'status' => 'required|string|in:under_processing,ready_for_approval,accept_approval,reject_approval'
             ];
 

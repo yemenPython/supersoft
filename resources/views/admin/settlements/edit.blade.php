@@ -474,6 +474,101 @@
             calculateTotal();
         }
 
+        function newEmployee() {
+
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            let branch_id = $('#branch_id').find(":selected").val();
+            let index = $('#employees_count').val();
+
+            $.ajax({
+
+                type: 'post',
+
+                url: '{{route('admin:settlements.new.employee')}}',
+
+                data: {
+                    _token: CSRF_TOKEN,
+                    branch_id: branch_id,
+                    index: index,
+                },
+
+                success: function (data) {
+
+                    $("#employees_data").append(data.view);
+                    $("#employees_count").val(data.index);
+
+                    $('.js-example-basic-single').select2();
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+        }
+
+        function removeEmployee(index) {
+
+            swal({
+
+                title: "Remove Employee",
+                text: "Are you sure want to remove this employee ?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+
+            }).then((willDelete) => {
+
+                if (willDelete) {
+
+                    $('#employee_' + index).remove();
+                }
+            });
+        }
+
+        function removeOldEmployee(id, index) {
+
+            swal({
+
+                title: "Remove Employee",
+                text: "Are you sure want to remove this employee ?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+
+            }).then((willDelete) => {
+
+                if (willDelete) {
+
+                    let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+                    $.ajax({
+
+                        type: 'post',
+
+                        url: '{{route('admin:settlements.destroy.employee')}}',
+
+                        data: {
+                            _token: CSRF_TOKEN,
+                            id: id,
+                            settlement_id: '{{$settlement->id}}',
+                        },
+
+                        success: function (data) {
+
+                            $('#employee_' + index).remove();
+                        },
+
+                        error: function (jqXhr, json, errorThrown) {
+                            var errors = jqXhr.responseJSON;
+                            swal({text: errors, icon: "error"})
+                        }
+                    });
+                }
+            });
+        }
+
     </script>
 
 @endsection

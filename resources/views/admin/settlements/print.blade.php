@@ -172,9 +172,42 @@
                             </div>
 
                         </div>
-
-
                     </div>
+
+                    <div class="" id="employees_percent">
+                        <div style="padding:0 20px;">
+                            <h5 class="invoice-to-title">{{__('Damage Employees')}}</h5>
+
+                            <div class="table-responsive">
+
+
+                                <table class="table print-table-wg table-borderless">
+                                    <thead>
+
+                                    <tr class="spacer" style="border-radius: 30px;">
+                                        <th>{{__('Name')}}</th>
+                                    </tr>
+
+                                    </thead>
+                                    <tbody>
+                                    @if(isset($settlement))
+
+                                        @foreach($settlement->employees as $employee)
+                                            <tr class="spacer">
+                                                <td>{{$employee->name}}</td>
+                                            </tr>
+
+                                        @endforeach
+
+                                    @endif
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row right-peice-wg" style="padding:0 15px 20px 15px">
                         <div class="col-xs-12">
                             <h6 class="title">{{__('Notes')}}</h6>
@@ -192,8 +225,7 @@
 
 
             <div class="print-foot-wg position-relative ml-0">
-                <div class="row for-reverse-en" style="display: flex;
-    align-items: flex-end;">
+                <div class="row for-reverse-en" style="display: flex;align-items: flex-end;">
                     <div class="col-xs-7">
                         <div class="row">
                             <div class="col-xs-12">

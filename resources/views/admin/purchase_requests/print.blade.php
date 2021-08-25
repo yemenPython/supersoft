@@ -129,6 +129,7 @@
                                 <td>{{$item->quantity}}</td>
                                 <td>{{$item->approval_quantity}}</td>
                             </tr>
+
                             @if($item->spareParts->count())
                                 <tr class="item">
                                     <td>{{__('Additional types')}}</td>
@@ -138,9 +139,19 @@
                                             <span> {{ $sparePart->type }} </span>
                                         @endforeach
                                     </td>
-
                                 </tr>
                             @endif
+
+                            @if($item->notes)
+                                <tr class="item">
+                                    <td>{{__('Notes')}}</td>
+
+                                    <td colspan="5">
+                                        <span> {{ $item->notes }} </span>
+                                    </td>
+                                </tr>
+                            @endif
+
                         @endforeach
 
 

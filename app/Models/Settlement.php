@@ -69,6 +69,11 @@ class Settlement extends Model
         return $this->hasMany(SettlementLibrary::class, 'settlement_id');
     }
 
+    function employees()
+    {
+        return $this->belongsToMany(EmployeeData::class, 'employee_settlements', 'settlement_id', 'employee_id');
+    }
+
     /**
      * @return string[]
      */

@@ -15,3 +15,7 @@ Route::get('/settlements/print/data', 'SettlementController@print')->name('settl
 Route::post('settlements/library/get-files', 'SettlementLibraryController@getFiles')->name('settlements.library.get.files');
 Route::post('settlements/upload_library', 'SettlementLibraryController@uploadLibrary')->name('settlements.upload_library');
 Route::post('settlements/library/file-delete', 'SettlementLibraryController@destroyFile')->name('settlements.library.file.delete');
+
+// employees
+Route::post('settlements/new/employee', 'SettlementController@newEmployee')->name('settlements.new.employee');
+Route::post('settlements/destroy/employee', 'SettlementController@destroyEmployee')->name('settlements.destroy.employee');

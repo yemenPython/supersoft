@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Filters\SettlementFilter;
 use App\Http\Requests\Admin\Settlements\CreateRequest;
 use App\Models\Branch;
+use App\Models\EmployeeData;
 use App\Models\Part;
 use App\Models\PartPriceSegment;
 use App\Models\Settlement;
@@ -95,6 +96,10 @@ class SettlementController extends Controller
 
     public function store(CreateRequest $request)
     {
+        if (!$request->has('items')) {
+            return redirect()->back()->with(['message' => __('items required'), 'alert-type' => 'error']);
+        }
+
         if ($this->settlementService->checkMaxQuantityOfItem($request['items'])) {
             return redirect()->back()->with(['message' => __('quantity not available'), 'alert-type' => 'error']);
         }
@@ -131,6 +136,10 @@ class SettlementController extends Controller
             $settlement->total = $total;
 
             $settlement->save();
+
+            if ($request->has('employees')) {
+                $settlement->employees()->attach(array_unique($request['employees']));
+            }
 
             DB::commit();
         }catch (\Exception $e) {
@@ -174,8 +183,10 @@ class SettlementController extends Controller
 
         $totalQuantity = $settlement->items->sum('quantity');
 
+        $employees = EmployeeData::where('status', 1)->where('branch_id', $settlement->branch_id)->select('name_' . $this->lang, 'id')->get();
+
         return view('admin.settlements.edit',
-            compact('branches', 'mainTypes', 'subTypes', 'parts','settlement', 'totalQuantity'));
+            compact('branches', 'mainTypes', 'subTypes', 'parts','settlement', 'totalQuantity', 'employees'));
     }
 
     public function update (CreateRequest $request, Settlement $settlement) {
@@ -216,6 +227,12 @@ class SettlementController extends Controller
             $settlement->total = $total;
 
             $settlement->save();
+
+            $settlement->employees()->detach();
+
+            if ($request->has('employees')) {
+                $settlement->employees()->attach(array_unique($request['employees']));
+            }
 
             DB::commit();
         }catch (\Exception $e) {
@@ -376,4 +393,69 @@ class SettlementController extends Controller
                 return view($viewPath, compact('item', 'withOptions'))->render();
             })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
     }
+
+
+    public function newEmployee(Request $request)
+    {
+        $rules = [
+            'index' => 'required|integer|min:0',
+        ];
+
+        $branch_id = auth()->user()->branch_id;
+
+        if (authIsSuperAdmin()) {
+
+            $rules['branch_id'] = 'required|integer|exists:branches,id';
+            $branch_id = $request['branch_id'];
+        }
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        try {
+
+            $employeeIndex = $request['index'] + 1;
+
+            $employees = EmployeeData::where('status', 1)->where('branch_id', $branch_id)->select('name_' . $this->lang, 'id')->get();
+
+            $view = view('admin.settlements.employees.ajax_employee_percent', compact('employees', 'employeeIndex'))->render();
+
+            return response()->json(['view' => $view, 'index' => $employeeIndex], 200);
+
+        } catch (\Exception $e) {
+
+            dd($e->getMessage());
+            return response()->json('sorry, please try later', 400);
+        }
+
+    }
+
+    public function destroyEmployee(Request $request)
+    {
+        $rules = [
+            'id' => 'required|integer|exists:employee_data,id',
+            'settlement_id' => 'required|integer|exists:settlements,id',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        try {
+
+            $settlement = Settlement::find($request['settlement_id']);
+            $settlement->employees()->detach($request['id']);
+
+        } catch (\Exception $e) {
+
+            return response()->json('sorry, please try later', 400);
+        }
+
+    }
+
 }

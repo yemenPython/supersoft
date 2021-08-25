@@ -213,15 +213,16 @@
     </table>
 
 
-    </div>
-    
+</div>
 
-    <div class="" id="employees_percent"
-         style="{{isset($damagedStock) && $damagedStock->type == 'un_natural' ? '':'display: none;' }}">
-    
-    <div class="bottom-data-wg" style="width:100%;box-shadow: 0 0 7px 1px #DDD;margin:5px auto 10px;padding:7px 7px 3px">
 
-         <div class="form-group">
+<div class="" id="employees_percent"
+     style="{{isset($damagedStock) && $damagedStock->type == 'un_natural' ? '':'display: none;' }}">
+
+    <div class="bottom-data-wg"
+         style="width:100%;box-shadow: 0 0 7px 1px #DDD;margin:5px auto 10px;padding:7px 7px 3px">
+
+        <div class="form-group">
 
             <div class="col-md-12" style="color: white; margin-bottom: 75px; margin-right: -8px;top:16px">
                 <div class="ribbon ribbon-r bg-secondary show-ribbon" style="background: rgb(86, 133, 204) !important;">

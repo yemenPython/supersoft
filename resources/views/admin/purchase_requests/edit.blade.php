@@ -152,6 +152,21 @@
 
     </div>
 
+    <div id="modals_items_notes">
+
+
+        @foreach ($purchaseRequest->items as $index => $item)
+
+            @php
+                $index +=1;
+            @endphp
+
+            @include('admin.purchase_requests.item_notes_model')
+
+        @endforeach
+
+    </div>
+
     @include('admin.partial.part_image')
 
 @endsection
@@ -304,6 +319,8 @@
 
                     $("#parts_data").append(data.parts);
 
+                    $("#modals_items_notes").append(data.itemNotesView);
+
                     $("#items_count").val(data.index);
 
                     $('.js-example-basic-single').select2();
@@ -316,6 +333,11 @@
                     swal({text: errors, icon: "error"})
                 }
             });
+        }
+
+        function itemNotesData (index) {
+            let value = $('#area_item_notes_' + index).val();
+            $('#real_item_notes_' + index).val(value);
         }
 
         function removeItem(index) {

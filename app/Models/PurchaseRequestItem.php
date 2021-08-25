@@ -9,7 +9,7 @@ class PurchaseRequestItem extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['purchase_request_id', 'part_id', 'part_price_id', 'quantity', 'approval_quantity'];
+    protected $fillable = ['purchase_request_id', 'part_id', 'part_price_id', 'quantity', 'approval_quantity', 'notes'];
 
     protected $table = 'purchase_request_items';
 

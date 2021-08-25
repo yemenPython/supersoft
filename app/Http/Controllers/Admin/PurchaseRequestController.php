@@ -257,9 +257,12 @@ class PurchaseRequestController extends Controller
 
             $partTypesView = view('admin.purchase_requests.part_types', compact( 'part','index', 'partTypes'))->render();
 
+            $itemNotesView = view('admin.purchase_requests.item_notes_model', compact('index'))->render();
+
             $view = view('admin.purchase_requests.part_raw', compact('part', 'index', 'partTypes'))->render();
 
-            return response()->json(['parts' => $view, 'partTypesView'=> $partTypesView,  'index' => $index], 200);
+            return response()->json(['parts' => $view, 'partTypesView'=> $partTypesView,
+                'index' => $index, 'itemNotesView'=> $itemNotesView], 200);
 
         } catch (Exception $e) {
 

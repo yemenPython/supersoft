@@ -35,12 +35,13 @@
 
 
                 @include('admin.damaged_stock.show_form')
+
                 <a href="{{route('admin:damaged-stock.index')}}"
-               class="btn btn-danger waves-effect waves-light">
-                <i class=" fa fa-reply"></i> {{__('Back')}}
-            </a>
+                   class="btn btn-danger waves-effect waves-light">
+                    <i class=" fa fa-reply"></i> {{__('Back')}}
+                </a>
             </div>
-  
+
         </div>
 
     </div>

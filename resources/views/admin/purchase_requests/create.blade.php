@@ -78,8 +78,10 @@
     @include('admin.partial.part_image')
 
     <div id="modals_part_types">
+    </div>
 
 
+    <div id="modals_items_notes">
     </div>
 
 @endsection
@@ -209,6 +211,8 @@
 
                     $("#modals_part_types").append(data.partTypesView);
 
+                    $("#modals_items_notes").append(data.itemNotesView);
+
                     $("#items_count").val(data.index);
 
                     $('.js-example-basic-single').select2();
@@ -239,6 +243,7 @@
 
                     $('#tr_part_' + index).remove();
                     $('#part_types_' + index).remove();
+                    $('#item_notes_' + index).remove();
 
                     reorderItems();
                 }
@@ -255,6 +260,11 @@
 
                 $('#item_type_real_checkbox_' + index + '_' + key).prop('checked', false);
             }
+        }
+
+        function itemNotesData (index) {
+            let value = $('#area_item_notes_' + index).val();
+            $('#real_item_notes_' + index).val(value);
         }
 
         function reorderItems() {

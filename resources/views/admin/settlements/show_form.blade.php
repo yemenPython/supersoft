@@ -234,3 +234,45 @@
 
 </div>
 
+
+<div class="" id="employees_percent">
+
+    <div class="bottom-data-wg" style="width:100%;box-shadow: 0 0 7px 1px #DDD;margin:5px auto 10px;padding:7px 7px 3px">
+
+        <div class="form-group">
+
+            <div class="col-md-12" style="color: white; margin-bottom: 75px; margin-right: -8px;top:16px">
+                <div class="ribbon ribbon-r bg-secondary show-ribbon" style="background: rgb(86, 133, 204) !important;">
+                    <p class="mb-0">{{__('Settlement Employees')}}</p></div>
+            </div>
+
+            <div id="employees_data">
+
+
+                @if(isset($settlement))
+
+                    @foreach($settlement->employees as $employee)
+
+
+                        <table class="table table-bordered wg-inside-table">
+                            <thead>
+                            <tr>
+                                <th>{{__('Name')}}</th>
+                            </tr>
+                            </thead>
+                            <ttbody>
+                                <tr>
+                                    <td>{{$employee->name}}</td>
+                                </tr>
+                            </ttbody>
+                        </table>
+
+                    @endforeach
+
+                @endif
+            </div>
+
+        </div>
+    </div>
+</div>
+

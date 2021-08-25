@@ -59,30 +59,30 @@
                 </div>
 
                 <div class="col-md-6">
-                <label class="control-label" style="display:block"> {{__('settlement type')}}</label>
+                    <label class="control-label" style="display:block"> {{__('settlement type')}}</label>
 
-                <ul class="list-inline">
-                    <li>
-                    <div class="radio primary" >
-                    <input type="radio" name="type" value="positive" id="positive"
-                        {{ !isset($settlement) ? 'checked':'' }}
-                        {{isset($settlement) && $settlement->type == 'positive' ? 'checked':''}} >
-                    <label for="positive">{{__('Positive')}}</label>
+                    <ul class="list-inline">
+                        <li>
+                            <div class="radio primary">
+                                <input type="radio" name="type" value="positive" id="positive"
+                                    {{ !isset($settlement) ? 'checked':'' }}
+                                    {{isset($settlement) && $settlement->type == 'positive' ? 'checked':''}} >
+                                <label for="positive">{{__('Positive')}}</label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="radio primary">
+                                <input type="radio" name="type" id="negative" value="negative"
+                                    {{isset($settlement) && $settlement->type == 'negative' ? 'checked':''}} >
+                                <label for="negative">{{__('Negative')}}</label>
+                            </div>
+
                 </div>
-                    </li>
-                    <li>
-                    <div class="radio primary" >
-                    <input type="radio" name="type" id="negative" value="negative"
-                        {{isset($settlement) && $settlement->type == 'negative' ? 'checked':''}} >
-                    <label for="negative">{{__('Negative')}}</label>
-                </div>
+            </div>
 
-                </div>
-</div>
+            <div class="col-md-12">
 
-<div class="col-md-12">
-
-<div class="col-md-6">
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="date" class="control-label">{{__('Date')}}</label>
                         <div class="input-group">
@@ -106,11 +106,11 @@
                     </div>
                 </div>
 
-                
-                </div>
-              
-                    </li>
-                </ul>
+
+            </div>
+
+            </li>
+            </ul>
 
 
         </div>
@@ -190,7 +190,6 @@
 
 </div>
 
-
 <div class="bottom-data-wg" style="width:100%;box-shadow: 0 0 7px 1px #DDD;margin:5px auto 10px;padding:7px 7px 3px">
 
     <table class="table table-bordered">
@@ -230,4 +229,44 @@
     </table>
 
 </div>
+
+
+<div class="col-md-12" >
+
+    <div class="bottom-data-wg" style="display:inline-block;width:100%;box-shadow: 0 0 7px 1px #DDD;margin:5px auto 10px;padding:25px 15px 3px">
+
+        <div class="col-md-12" style="color: white; margin-bottom: 60px; margin-right: -15px;">
+            <div class="ribbon ribbon-r bg-secondary show-ribbon" style="background: rgb(86, 133, 204) !important;">
+                <p class="mb-0">{{__('Employees')}}</p>
+            </div>
+        </div>
+
+        <div id="employees_data">
+
+            @if(isset($settlement))
+
+                @foreach($settlement->employees as $employeeIndex=> $settlementEmployee)
+
+                    @php
+                        $employeeIndex +=1;
+                    @endphp
+
+                    @include('admin.settlements.employees.ajax_employee_percent')
+
+                @endforeach
+            @endif
+
+        </div>
+
+        <div class="col-md-12">
+            <div class="form-group">
+                <button type="button" class="btn btn-primary fa fa-plus" onclick="newEmployee()"></button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<input type="hidden" id="employees_count" value="{{isset($settlement) ? $settlement->employees->count() : 0 }}">
+
 

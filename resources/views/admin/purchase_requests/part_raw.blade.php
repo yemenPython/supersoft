@@ -52,7 +52,7 @@
 
     <td>
         <input style="width: 130px !important;margin:0 auto;display:block" type="number" class="form-control border1"
-               id="quantity_{{$index}}"  onkeyup="quantityValidation('{{$index}}','{{__('sorry, quantity not valid')}}')"
+               id="quantity_{{$index}}" onkeyup="quantityValidation('{{$index}}','{{__('sorry, quantity not valid')}}')"
                value="{{isset($item) ? $item->quantity : 1}}" min="1"
                name="items[{{$index}}][quantity]" {{isset($request_type) && $request_type == 'approval' ? 'disabled' : ''}}>
 
@@ -67,7 +67,8 @@
         </td>
 
         <td>
-            <input style="width: 150px !important;" type="number" class="form-control border1 quantity_{{$index}}" id="quantity_{{$index}}"
+            <input style="width: 150px !important;" type="number" class="form-control border1 quantity_{{$index}}"
+                   id="quantity_{{$index}}"
                    value="{{isset($item) ? $item->approval_quantity : 0}}"
                    min="0" name="items[{{$index}}][approval_quantity]"
                    onkeyup="approvalQuantityValidation('{{$index}}','{{__('sorry, approval quantity not valid')}}')">
@@ -76,48 +77,52 @@
 
     <td>
 
-    <div class="btn-group margin-top-10">
+        <div class="btn-group margin-top-10">
 
-<button type="button" class="btn btn-options dropdown-toggle"
-        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <i class="ico fa fa-bars"></i>
-    {{__('Options')}} <span class="caret"></span>
+            <button type="button" class="btn btn-options dropdown-toggle"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="ico fa fa-bars"></i>
+                {{__('Options')}} <span class="caret"></span>
 
-</button>
+            </button>
 
-<ul class="dropdown-menu dropdown-wg border-bottom-wg-chos">
+            <ul class="dropdown-menu dropdown-wg border-bottom-wg-chos">
 
 
-<li class="btn-style-drop" style="">
-  {{--        @if(!isset($request_type) || ( isset($request_type) && $request_type != 'approval'))--}}
-            <a type="button" class="btn btn-danger" onclick="removeItem('{{$index}}')">
-            <i class="fa fa-trash"></i>  {{__('Delete')}}
-        </a>
+                <li class="btn-style-drop" style="">
+                    {{--        @if(!isset($request_type) || ( isset($request_type) && $request_type != 'approval'))--}}
+                    <a type="button" class="btn btn-danger" onclick="removeItem('{{$index}}')">
+                        <i class="fa fa-trash"></i> {{__('Delete')}}
+                    </a>
 
-{{--        @endif--}}
-  </li>
-
-  <li class="btn-style-drop">
-  <a data-toggle="modal" data-target="#part_types_{{$index}}" title="Part Types" class="btn btn-info">
-            <i class="fa fa-cubes"> </i>
-            {{__('Types')}}
-        </a>
-  </li>
-
-            @if(isset($request_type) && $request_type == 'approval')
-            <li class="btn-style-drop">
-                <a data-toggle="modal" data-target="#part_quantity_{{$index}}"
-                   title="Part quantity" class="btn btn-primary">
-                    <i class="fa fa-check-circle"></i>
-                    {{__('Stores Qty')}}
-                </a>
+                    {{--        @endif--}}
                 </li>
-            @endif
 
+                <li class="btn-style-drop">
+                    <a data-toggle="modal" data-target="#part_types_{{$index}}" title="Part Types" class="btn btn-info">
+                        <i class="fa fa-cubes"> </i>
+                        {{__('Types')}}
+                    </a>
+                </li>
 
-        </ul>
-</div>
+                <li class="btn-style-drop">
+                    <a data-toggle="modal" data-target="#item_notes_{{$index}}" title="Notes" class="btn btn-info">
+                        <i class="fa fa-cubes"> </i>
+                        {{__('Notes')}}
+                    </a>
+                </li>
 
+                @if(isset($request_type) && $request_type == 'approval')
+                    <li class="btn-style-drop">
+                        <a data-toggle="modal" data-target="#part_quantity_{{$index}}"
+                           title="Part quantity" class="btn btn-primary">
+                            <i class="fa fa-check-circle"></i>
+                            {{__('Stores Qty')}}
+                        </a>
+                    </li>
+                @endif
+            </ul>
+        </div>
     </td>
 
     <td style="display: none;">
@@ -138,6 +143,10 @@
             </div>
         @endforeach
 
+    </td>
+
+    <td style="display: none">
+        <textarea name="items[{{$index}}][notes]" id="real_item_notes_{{$index}}" >{{isset($item) ? $item->notes : ''}}</textarea>
     </td>
 
 </tr>
