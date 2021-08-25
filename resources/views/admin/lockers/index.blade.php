@@ -4,7 +4,6 @@
 @endsection
 @section('content')
     <div class="row small-spacing">
-
         <nav>
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
@@ -21,63 +20,14 @@
 							<button type="button" class="control fa fa-minus js__card_minus"></button>
 							<button type="button" class="control fa fa-times js__card_remove"></button>
 						</span>
-                    <!-- /.controls -->
                 </h4>
-                <!-- /.box-title -->
                 <div class="card-content js__card_content">
-                    <form action="{{route('admin:lockers.index')}}" method="get">
-                        <div class="list-inline margin-bottom-0 row">
-
-                            @if(authIsSuperAdmin())
-                                <div class="form-group col-md-12">
-                                    <label> {{ __('Branch') }} </label>
-                                    <select name="branch_id" id="branch_id"
-                                            class="form-control js-example-basic-single" onchange="getByBranch()">
-                                        <option value="">{{__('Select Branch')}}</option>
-                                        @foreach($branches as $k=>$v)
-                                            <option value="{{$k}}">{{$v}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            @endif
-
-                            <div class="form-group col-md-4" id="data_by_branch">
-                                <label> {{ __('Locker name') }} </label>
-                                <select name="name" class="form-control js-example-basic-single">
-                                    <option value="">{{__('Select Name')}}</option>
-                                    @foreach($lockers_search as $k=>$v)
-                                        <option value="{{$k}}">{{$v}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-
-                            <div class="switch primary col-md-4">
-
-                                <input type="checkbox" id="switch-2" name="active">
-                                <label for="switch-2">{{__('Active')}}</label>
-                            </div>
-                            <div class="switch primary col-md-4">
-                                <input type="checkbox" id="switch-3" name="inactive">
-                                <label for="switch-3">{{__('inActive')}}</label>
-                            </div>
-
-                        </div>
-                        <button type="submit"
-                                class="btn sr4-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
-                                    class=" fa fa-search "></i> {{__('Search')}} </button>
-                        <a href="{{route('admin:lockers.index')}}"
-                           class="btn bc-wg-btn   waves-effect waves-light hvr-rectangle-out"><i
-                                    class=" fa fa-reply"></i> {{__('Back')}}
-                        </a>
-                    </form>
+                    @include('admin.lockers.form_search')
                 </div>
-                <!-- /.card-content -->
             </div>
-            <!-- /.box-content -->
         </div>
         @endif
-        
+
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control">
@@ -91,27 +41,24 @@
                             'route' => 'admin:lockers.create',
                            'new' => '',
                           ])
-
                         </li>
-              
                             <li class="list-inline-item">
-
                                 @component('admin.buttons._confirm_delete_selected',[
                              'route' => 'admin:lockers.deleteSelected',
                               ])
                                 @endcomponent
                             </li>
-               
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
-                        <table id="currencies" class="table table-bordered" style="width:100%">
+                        <table id="datatable-with-btns" class="table table-bordered" style="width:100%">
                             <thead>
                             <tr>
                                 <th scope="col">{!! __('#') !!}</th>
+                                @if(authIsSuperAdmin())
+                                    <th scope="col">{!! __('Branch') !!}</th>
+                                @endif
                                 <th scope="col">{!! __('Locker name') !!}</th>
-                            <!-- <th scope="col">{!! __('Branch') !!}</th> -->
-
                                 <th scope="col">{!! __('Locker balance') !!}</th>
                                 <th scope="col">{!! __('Status') !!}</th>
                                 <th scope="col">{!! __('created at') !!}</th>
@@ -127,9 +74,10 @@
                             <tfoot>
                             <tr>
                                 <th scope="col">{!! __('#') !!}</th>
+                                @if(authIsSuperAdmin())
+                                    <th scope="col">{!! __('Branch') !!}</th>
+                                @endif
                                 <th scope="col">{!! __('Locker name') !!}</th>
-                            <!-- <th scope="col">{!! __('Branch') !!}</th> -->
-
                                 <th scope="col">{!! __('Locker balance') !!}</th>
                                 <th scope="col">{!! __('Status') !!}</th>
                                 <th scope="col">{!! __('created at') !!}</th>
@@ -138,72 +86,6 @@
                                 <th scope="col">{!! __('Select') !!}</th>
                             </tr>
                             </tfoot>
-                            <tbody>
-                            @foreach($lockers as $index=>$locker)
-                                <tr>
-                                    <td>{!! $index +1 !!}</td>
-                                    <td>{!! $locker->name !!}</td>
-                                <!-- <td>{!! optional($locker->branch)->name !!}</td> -->
-                                    <td class="text-danger">{!! $locker->balance !!}</td>
-                                    @if ($locker->status == 1)
-                                        <td>
-                                            <div class="switch success">
-                                                <input
-                                                        disabled
-                                                        type="checkbox"
-                                                        {{$locker->status == 1 ? 'checked' : ''}}
-                                                        id="switch-{{ $locker->id }}">
-                                                <label for="locker-{{ $locker->id }}"></label>
-                                            </div>
-                                        </td>
-
-                                    @else
-                                        <td>
-                                            <div class="switch success">
-                                                <input
-                                                        disabled
-                                                        type="checkbox"
-                                                        {{$locker->status == 1 ? 'checked' : ''}}
-                                                        id="switch-{{ $locker->id }}">
-                                                <label for="locker-{{ $locker->id }}"></label>
-                                            </div>
-                                        </td>
-
-                                    @endif
-
-
-                                    <td>{!! $locker->created_at->format('y-m-d h:i:s A') !!}</td>
-                                    <td>{!! $locker->updated_at->format('y-m-d h:i:s A') !!}</td>
-
-                                    <td>
-
-                                        @component('admin.buttons._edit_button',[
-                                                    'id' => $locker->id,
-                                                    'route'=>'admin:lockers.edit'
-                                                     ])
-                                        @endcomponent
-
-
-                                        @if(!$locker->revenueReceipts || !$locker->expensesReceipts)
-                                            @component('admin.buttons._delete_button',[
-                                                        'id'=>$locker->id,
-                                                        'route' => 'admin:lockers.destroy',
-                                                        'tooltip' => __('Delete '.$locker['name']),
-                                                         ])
-                                            @endcomponent
-                                        @endif
-
-                                    </td>
-                                    <td>
-                                        @component('admin.buttons._delete_selected',[
-                                                      'id' => $locker->id,
-                                                       'route' => 'admin:lockers.deleteSelected',
-                                                       ])
-                                        @endcomponent
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -211,39 +93,116 @@
         </div>
     </div>
 @endsection
+
+@section('modals')
+    @include('admin.partial.upload_library.form', ['url'=> route('admin:opening.balance.upload_library')])
+@endsection
+
 @section('js')
-
-
     <script type="application/javascript">
+        server_side_datatable('#datatable-with-btns');
 
-        function getByBranch() {
+        function filterFunction($this) {
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout(function(){
+                $("#loaderSearch").hide();
+            }, 1000)
+        }
 
-            var id = $("#branch_id").val();
-
+        function getLibraryFiles(id) {
+            $("#library_item_id").val(id);
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             $.ajax({
-                url: '{{route('admin:get.data.by.branch')}}',
-                type: "get",
-                data: {id: id},
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                type: 'post',
+                url: '{{route('admin:lockers.library.get.files')}}',
+                data: {
+                    _token: CSRF_TOKEN,
+                    id: id,
+                },
                 success: function (data) {
+                    $("#files_area").html(data.view);
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+        }
 
-                    $("#data_by_branch").html(data);
-                    $('.js-example-basic-single').select2();
+        function removeFile(id) {
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            swal({
+                title: "Delete File",
+                text: "Are you sure want to delete this file ?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        type: 'post',
+                        url: '{{route('admin:lockers.library.file.delete')}}',
+                        data: {
+                            _token: CSRF_TOKEN,
+                            id: id,
+                        },
+                        success: function (data) {
+                            $("#file_" + data.id).remove();
+                            swal({text: 'file deleted successfully', icon: "success"});
+                        },
+                        error: function (jqXhr, json, errorThrown) {
+                            var errors = jqXhr.responseJSON;
+                            swal({text: errors, icon: "error"})
+                        }
+                    });
+                }
+            });
+        }
 
-                }, error: function (jqXhr, json, errorThrown) {
-                    swal("sorry!", 'sorry please try later', "error");
+        function uploadFiles() {
+            var form_data = new FormData();
+            var item_id = $("#library_item_id").val();
+            var title_ar = $("#library_title_ar").val();
+            var title_en = $("#library_title_en").val();
+            var totalfiles = document.getElementById('files').files.length;
+            for (var index = 0; index < totalfiles; index++) {
+                form_data.append("files[]", document.getElementById('files').files[index]);
+            }
+            form_data.append("item_id", item_id);
+            form_data.append("title_ar", title_ar);
+            form_data.append("title_en", title_en);
+            $.ajax({
+                url: "{{route('admin:lockers.upload_library')}}",
+                type: "post",
+                headers: {
+                    "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content")
+                },
+                data: form_data,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    $('#upload_loader').show();
+                },
+                success: function (data) {
+                    $('#upload_loader').hide();
+                    swal("{{__('Success')}}", data.message, "success");
+                    $("#files_area").prepend(data.view);
+                    $("#files").val('');
+                    $("#library_title_ar").val('');
+                    $("#library_title_en").val('');
+                    $("#no_files").remove();
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    $('#upload_loader').hide();
+                    var errors = jqXhr.responseJSON;
+                    swal("{{__('Sorry')}}", errors, "error");
                 },
             });
         }
 
-        invoke_datatable($('#currencies'))
     </script>
-
-    <script type="application/javascript">
-        $(document).ready(function () {
-            $('.select_2').select2();
-        });
-    </script>
-
-
 @endsection

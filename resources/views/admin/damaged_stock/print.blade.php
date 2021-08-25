@@ -1,6 +1,6 @@
-<div id="concession_to_print">
+<div id="concession_to_print" >
     <div class="border-container" style="">
-        @foreach($damagedStock->items()->get()->chunk(14) as $one)
+        @foreach($damagedStock->items()->get()->chunk(16) as $one)
 
 
             <div class="print-header-wg">
@@ -25,15 +25,16 @@
                 </div>
 
 
+
+
             </div>
             @if( $loop->first)
                 <div class="row row-right-data" @if( !$loop->first)style="visibility: hidden !important;" @endif>
                     <div class="col-xs-6"></div>
-                    <div class="col-xs-6 right-top-detail"
-                         @if( !$loop->first)style="visibility: hidden !important;" @endif>
+                    <div class="col-xs-6 right-top-detail"  @if( !$loop->first)style="visibility: hidden !important;" @endif>
                         <h3>
                             @if( $loop->first)
-                                <span> {{__('Damaged Stock')}} </span>
+                                <span > {{__('Damaged Stock')}} </span>
                             @endif
                         </h3>
 
@@ -100,8 +101,7 @@
                 <h5 class="invoice-to-title">{{__('Damaged Stock items')}}</h5>
 
                 <div class="table-responsive">
-                    <table class="table print-table-wg table-borderless"
-                           @if(!$loop->first) style="margin-top: 20px;" @endif>
+                    <table class="table print-table-wg table-borderless" @if(!$loop->first) style="margin-top: 20px;" @endif>
                         <thead>
 
                         <tr class="spacer" style="border-radius: 30px;">
@@ -177,8 +177,7 @@
                             <div class="row last-total" style="background-color:#ddd !important">
 
                                 <div class="col-xs-12">
-                                    <h6 data-id="data-totalInLetters"
-                                        id="totalInLetters"> {{$damagedStock->total}} </h6>
+                                    <h6 data-id="data-totalInLetters" id="totalInLetters"> {{$damagedStock->total}} </h6>
                                 </div>
                             </div>
 
@@ -194,6 +193,7 @@
                             <h5 class="invoice-to-title">{{__('Damage Employees')}}</h5>
 
                             <div class="table-responsive">
+
 
 
                                 <table class="table print-table-wg table-borderless">
@@ -212,7 +212,7 @@
                                         @foreach($damagedStock->employees as $damaged_employee)
                                             <tr class="spacer">
                                                 <td>{{$damaged_employee->name}}</td>
-                                                <td>{{$damaged_employee->pivot->percent}} %</td>
+                                                <td>{{$damaged_employee->pivot->percent}} % </td>
                                                 <td>{{$damaged_employee->pivot->amount}}</td>
                                             </tr>
 
@@ -221,6 +221,7 @@
                                     @endif
                                     </tbody>
                                 </table>
+
 
 
                             </div>
@@ -243,7 +244,7 @@
     </div>
 
     @endif
-    <div class="print-foot-wg position-relative ml-0">
+    <div class="print-foot-wg position-relative ml-0" >
         <div class="row for-reverse-en" style="display: flex;
     align-items: flex-end;">
             <div class="col-xs-7">
@@ -292,5 +293,3 @@
     @endforeach
 </div>
 </div>
-
-

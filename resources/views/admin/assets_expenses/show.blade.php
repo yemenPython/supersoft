@@ -1,6 +1,6 @@
 <div id="assetDatatoPrint">
     <div class="border-container" style="">
-        @foreach($assetExpense->assetExpensesItems()->get()->chunk(15) as $one)
+        @foreach($assetExpense->assetExpensesItems()->get()->chunk(18) as $one)
 
 
             <div class="print-header-wg">
@@ -26,7 +26,7 @@
 
             </div>
 
-            <div class="row row-right-data" @if( !$loop->first)style="visibility: hidden !important;" @endif>
+            <div class="row row-right-data" @if( !$loop->first)style="visibility: hidden !important;" @else style="margin-bottom: -40px;" @endif>
                 <div class="col-xs-6"></div>
                 <div class="col-xs-6 right-top-detail" @if( !$loop->first)style="visibility: hidden !important;" @endif>
                     <h3>
@@ -41,7 +41,7 @@
             @if( $loop->first)
                 <div class="middle-data-h-print">
 
-                    <div class="invoice-to print-padding-top">
+                    <div class="invoice-to print-padding-top" @if($assetExpense->assetExpensesItems->count() <= 18) style="margin-bottom: -70px;" @endif>
                         <div class="row">
                             <div class="col-xs-6">
                                 <h5>{{__('Asset Expenses invoice data')}}</h5>
@@ -168,7 +168,7 @@
                         <h5 class="title">{{__('Notes')}}</h5>
                                 <p style="font-size:14px">
 
-                                    {!! $assetExpense->note !!}
+                                    {!! $assetExpense->notes !!}
 
                                 </p>
                     </div>

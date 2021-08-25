@@ -14,6 +14,10 @@ class Locker extends Model
 
     protected $fillable = ['name_en','name_ar','branch_id','status','balance','description','special'];
 
+    protected $casts = [
+        'status' => 'boolean',
+    ];
+
     protected $table = 'lockers';
 
     protected $dates = ['deleted_at'];
@@ -21,6 +25,21 @@ class Locker extends Model
     protected static $logAttributes = ['name_ar','name_en','status','balance','special'];
 
     protected static $logOnlyDirty = true;
+
+    /**
+     * @var string[]
+     */
+    protected static $dataTableColumns = [
+        'DT_RowIndex' => 'DT_RowIndex',
+        'branch_id' => 'branch_id',
+        'name' => 'name',
+        'balance' => 'balance',
+        'status' => 'status',
+        'created_at' => 'created_at',
+        'updated_at' => 'updated_at',
+        'action' => 'action',
+        'options' => 'options'
+    ];
 
     public function getDescriptionForEvent(string $eventName): string
     {
@@ -71,4 +90,19 @@ class Locker extends Model
         return $this->hasMany(LockerUsers::class ,'locker_id');
     }
 
+    /**
+     * @return string[]
+     */
+    public static function getJsDataTablesColumns(): array
+    {
+        if (!authIsSuperAdmin()) {
+            unset(self::$dataTableColumns['branch_id']);
+        }
+        return self::$dataTableColumns;
+    }
+
+    function files()
+    {
+        return $this->hasMany(LockerLibrary::class, 'locker_id');
+    }
 }

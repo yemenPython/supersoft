@@ -27,32 +27,36 @@ trait LibraryServices
         $libraryPath = $user->library_path;
 
         if (!$libraryPath) {
-
             $libraryPath = Str::slug( $user->id );
 
             if (in_array( $type, ['part', 'customer', 'supplier'] )) {
 
                 $libraryPath = Str::slug( $user->name_en . '-' . $user->id );
             }
+
             if ($type == 'egyptian_federation') {
 
                 $libraryPath = Str::slug( $user->membership_no . '-' . $user->id );
             }
+
             if ($type == 'commercial_register') {
 
                 $libraryPath = Str::slug( $user->commercial_registry_office . '-' . $user->id );
             }
+
             if ($type == 'tax_card') {
                 $libraryPath = Str::slug( $user->activity . '-' . $user->id );
             }
+
             if ($type == 'register_added_value') {
                 $libraryPath = Str::slug( $user->area . '-' . $user->id );
             }
+
             if (in_array( $type, ['security_approval', 'company_contract'] )) {
                 $libraryPath = Str::slug( $user->commercial_feature . '-' . $user->id );
             }
-            $user->library_path = Str::slug( $libraryPath );
 
+            $user->library_path = Str::slug( $libraryPath );
             $user->save();
         }
 
