@@ -62,8 +62,9 @@
             if (willDelete) {
                 indexTable("#items_count", "decrement");
                 $('#item_' + index).remove();
-                calculateTotalBeforeReplacement();
-                calculateTotalAfterReplacement();
+                calculateCurrentBalanceTotal();
+                calculateAddedBalanceTotal();
+                calculateBalanceTotal();
             }
         });
     }
