@@ -92,7 +92,7 @@
                                 @endif
                             </td>
 
-                            <td>{!! $currency->conversion_factor ?? '---' !!}</td>
+                            <td>{!! $currency->conversion_factor ?? __('Not determined') !!}</td>
 
                             <td>
 

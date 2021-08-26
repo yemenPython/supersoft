@@ -107,7 +107,7 @@
 
                 <li class="btn-style-drop">
                     <a data-toggle="modal" data-target="#item_notes_{{$index}}" title="Notes" class="btn btn-info">
-                        <i class="fa fa-cubes"> </i>
+                        <i class="fa fa-info"> </i>
                         {{__('Notes')}}
                     </a>
                 </li>

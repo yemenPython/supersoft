@@ -26,7 +26,7 @@
                             </div>
                         @endif
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <label> {{ __('Purchase request Number') }} </label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-file"></span>
@@ -34,7 +34,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <label> {{ __('Date Add From') }}</label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-calendar"></span>
@@ -42,7 +42,7 @@
                         </div>
                         </div>
 
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <label> {{ __('Date Add To') }}</label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-calendar"></span>
@@ -50,7 +50,7 @@
                         </div>
                         </div>
 
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <label> {{ __('Period of request from') }}</label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-calendar"></span>
@@ -58,7 +58,7 @@
                         </div>
                         </div>
 
-                        <div class="form-group col-md-3">
+                        <div class="form-group col-md-2">
                             <label> {{ __('Period of request to') }}</label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-calendar"></span>

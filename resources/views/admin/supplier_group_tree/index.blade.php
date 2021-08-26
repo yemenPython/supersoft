@@ -20,7 +20,7 @@
 
         <div class="col-xs-12 ui-sortable-handle">
             <div class="box-content card bordered-all primary">
-                <h4 class="box-title bg-primary"><i class="ico fa fa-money"></i>
+                <h4 class="box-title bg-primary"><i class="ico fa fa-user"></i>
                     {{__('Suppliers Groups')}}
                 </h4>
                 <div class="card-content">

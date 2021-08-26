@@ -6,7 +6,8 @@
         <input type="hidden" name="_id" value="{{ $suppliers_group->id }}"/>
 
         <h4 class="box-title with-control" style="text-align: initial;">
-            {{__('Suppliers Groups')}}
+        <i class="ico fa fa-user"></i>
+            {{__('Edit Suppliers Groups')}}
             </h4>
 
         @if(authIsSuperAdmin())
@@ -53,8 +54,20 @@
                 {{input_error($errors,'name_en')}}
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="col-md-3">
+
+        <div class="col-md-3">
+            <label for="inputPhone" class="control-label">{{__('Status')}}</label>
+            <div class="switch primary" style="margin-top: 15px">
+                <input type="hidden" name="status" value="0">
+                <input type="checkbox" id="switch-1" name="status"
+                       value="1" {{ $suppliers_group->status == 1 ? 'CHECKED' : '' }}>
+                <label for="switch-1">{{__('Active')}}</label>
+            </div>
+        </div>
+
+
+        <div class="col-md-3">
+            <div class="col-md-6">
                 <div class="form-group has-feedback">
                     <label for="inputPhone" class="control-label">{{__('Discount Type')}}</label>
                     <div class="radio primary">
@@ -62,11 +75,8 @@
                             {{isset($suppliers_group) && $suppliers_group->discount_type == 'amount'? 'checked':''}}>
                         <label for="switch-2">{{__('Amount')}}</label>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="form-group has-feedback">
-                    <label for="inputPhone" class="control-label">{{__('Discount Type')}}</label>
+
+
                     <div class="radio primary">
                         <input type="radio" id="switch-3" name="discount_type" value="percent"
                             {{isset($suppliers_group) && $suppliers_group->discount_type == 'percent'? 'checked':''}}>
@@ -101,15 +111,7 @@
             </div>
         </div>
 
-        <div class="col-md-6">
-            <label for="inputPhone" class="control-label">{{__('Status')}}</label>
-            <div class="switch primary" style="margin-top: 15px">
-                <input type="hidden" name="status" value="0">
-                <input type="checkbox" id="switch-1" name="status"
-                       value="1" {{ $suppliers_group->status == 1 ? 'CHECKED' : '' }}>
-                <label for="switch-1">{{__('Active')}}</label>
-            </div>
-        </div>
+
         <div class="form-group col-sm-12">
             <button class="btn btn-primary waves-effect waves-light" type="submit">
                 <i class='fa fa-print'></i>

@@ -77,7 +77,9 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
 
-                    <h4 class="modal-title" id="myModalLabel-1">{{__('Part Quantity')}}</h4>
+                    <h4 class="modal-title" id="myModalLabel-1">
+                    <i class="fa fa-cubes"></i>    
+                    {{__('Part Quantity')}}</h4>
                 </div>
 
                 <div class="modal-body">

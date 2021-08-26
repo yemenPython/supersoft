@@ -462,7 +462,7 @@ route('admin:customers.requests.index'),
 
                         <li class="{{setActivationClass(route('admin:maintenance-detections.index'))}}">
                             <a href="{{route('admin:suppliers.index')}}">
-                                {{__('Suppliers')}}
+                                {{__('Suppliers data')}}
                             </a>
                         </li>
 
@@ -474,7 +474,7 @@ route('admin:customers.requests.index'),
                         </li>
 
                         <li class="{{setActivationClass(route('admin:customers.index'))}}">
-                            <a href="{{route('admin:customers.index')}}">{{__('Customers')}}</a>
+                            <a href="{{route('admin:customers.index')}}">{{__('Customers data')}}</a>
                         </li>
 
                     <!--
