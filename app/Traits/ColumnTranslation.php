@@ -68,4 +68,9 @@ trait ColumnTranslation
     {
         return app()->getLocale() == 'ar' ? $this['text_ar'] : $this['text_en'];
     }
+
+    public function getShortNameAttribute()
+    {
+        return app()->getLocale() == 'ar' ? $this['short_name_ar'] : $this['short_name_en'];
+    }
 }

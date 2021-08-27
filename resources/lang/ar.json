@@ -2311,6 +2311,25 @@
     "Supplier Contacts" :  "التواصل الإضافي",
     "Suppliers data" : "بيانات الموردين",
     "Customers data" : "بيانات العملاء",
-    "Activate Multi Currency" : "تفعيل تعدد العملات"
+    "Activate Multi Currency" : "تفعيل تعدد العملات",
+    "Managing bank accounts" : "إدارة الحسابات البنكية",
+    "Banks Data" : "بيانات البنوك",
+    "ShortName Ar" : "الأسم المختصر عربي",
+    "ShortName En" : "الأسم المختصر انجليزي",
+    "Branch Code" : "كود الفرع",
+    "Swift Branch Code" : "سويفت كود الفرع",
+    "Bank Website" : "الموقع الألكترونى",
+    "Bank Url" : "الأنترنت البنكى URL",
+    "Start Date With Bank" : "تاريخ بداية التعامل",
+    "Stop Dealing" : "إيقاف التعامل",
+    "Start Dealing" : "بدء التعامل",
+    "Are you Sure To Start Dealing" : "هل أنت متأكد من بدء التعامل مع هذا البنك ؟",
+    "Are you Sure To Stop Dealing" : "هل أنت متأكد من إيقاف التعامل مع هذا البنك ؟",
+    "Confirmation" : "تأكيد العملية !",
+    "Show Bank Data" : "عرض بيانات البنك",
+    "branch products" : "منتجات الفرع",
+    "Product Name" : "اسم المنتج",
+    "fffffff" : "ffffffff",
+    "fffffff" : "ffffffff"
 }
 

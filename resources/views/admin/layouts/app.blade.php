@@ -1093,6 +1093,37 @@ ${element_html}
         });
     }
 
+    function confirmAction(route, message = '') {
+        event.preventDefault()
+        swal({
+            title: "{{__('Confirmation')}}",
+            text: message,
+            type: "success",
+            buttons: {
+                confirm: {
+                    text: "{{__('Ok')}}",
+                },
+                cancel: {
+                    text: "{{__('Cancel')}}",
+                    visible: true,
+                }
+            }
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                window.location.href = route;
+            }
+        });
+    }
+
+    function modalDatatable(selector_id) {
+        $("#" + selector_id).DataTable({
+            "paging": false,
+            "language": {
+                "url": "{{app()->isLocale('ar')  ? "//cdn.datatables.net/plug-ins/1.10.20/i18n/Arabic.json" :
+                                             "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/English.json"}}",
+            },
+        });
+    }
 </script>
 
 
