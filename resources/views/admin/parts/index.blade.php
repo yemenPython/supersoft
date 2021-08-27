@@ -59,6 +59,7 @@
                                 <th class="text-center" scope="col">{!! __('Status') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Reviewable') !!}</th>
                                 <th class="text-center" scope="col">{!! __('taxable') !!}</th>
+                                
                                 <th class="text-center" scope="col">{!! __('created at') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Updated at') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -78,6 +79,7 @@
                                 <th class="text-center" scope="col">{!! __('Status') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Reviewable') !!}</th>
                                 <th class="text-center" scope="col">{!! __('taxable') !!}</th>
+                               
                                 <th class="text-center" scope="col">{!! __('created at') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Updated at') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>

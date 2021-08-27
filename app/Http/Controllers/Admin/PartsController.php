@@ -643,31 +643,37 @@ class PartsController extends Controller
                 return view('admin.parts.datatables-options.options',
                     compact('part', 'withPartImage'))->render();
             })
+            
             ->addColumn('sparePart', function ($part) {
                 $withSparePart = true;
                 return view('admin.parts.datatables-options.options',
                     compact('part', 'withSparePart'))->render();
             })
+
             ->addColumn('quantity', function ($part) {
                 $withQ = true;
                 return view('admin.parts.datatables-options.options',
                     compact('part', 'withQ'))->render();
             })
-            ->addColumn('status', function ($part) {
-                $withStatus = true;
-                return view('admin.parts.datatables-options.options',
-                    compact('part', 'withStatus'))->render();
-            })
+
             ->addColumn('reviewable', function ($part) {
                 $witReviewable = true;
                 return view('admin.parts.datatables-options.options',
                     compact('part', 'witReviewable'))->render();
             })
+
             ->addColumn('taxable', function ($part) {
                 $witTaxable = true;
                 return view('admin.parts.datatables-options.options',
                     compact('part', 'witTaxable'))->render();
             })
+
+            ->addColumn('status', function ($part) {
+                $withStatus = true;
+                return view('admin.parts.datatables-options.options',
+                    compact('part', 'withStatus'))->render();
+            })
+
             ->addColumn('created_at', function ($part) {
                 return $part->created_at->format('y-m-d h:i:s A');
             })

@@ -79,15 +79,15 @@ class BankData extends Model
         $this->attributes['name_en'] = is_null($value) ? $this->attributes['name_ar'] : $value;
     }
 
-    public function setShortNameArAttribute($value)
-    {
-        $this->attributes['short_name_ar'] = is_null($value) ? $this->attributes['short_name_ar'] : $value;
-    }
+    // public function setShortNameArAttribute($value)
+    // {
+    //     $this->attributes['short_name_ar'] = is_null($value) ? $this->attributes['short_name_ar'] : $value;
+    // }
 
-    public function setShortNameEnAttribute($value)
-    {
-        $this->attributes['short_name_en'] = is_null($value) ? $this->attributes['short_name_en'] : $value;
-    }
+    // public function setShortNameEnAttribute($value)
+    // {
+    //     $this->attributes['short_name_en'] = is_null($value) ? $this->attributes['short_name_en'] : $value;
+    // }
 
     public function files(): HasMany
     {
