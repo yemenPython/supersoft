@@ -33,6 +33,7 @@ class AssetExpenseRequest extends FormRequest
                 'total' => 'required',
                 'items' => 'required|array',
                 'items*price' => 'required',
+                'items*annual_consumtion_rate' => 'required',
                 'items*asset_expense_item_id' => 'required|exists:assets_item_expenses,id',
             ];
     }

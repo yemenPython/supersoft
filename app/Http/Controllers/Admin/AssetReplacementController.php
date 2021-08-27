@@ -16,9 +16,12 @@ use App\Models\AssetReplacementItem;
 use App\Models\AssetsItemExpense;
 use App\Models\AssetsTypeExpense;
 use App\Models\Branch;
+use App\Models\ConsumptionAsset;
+use App\Models\ConsumptionAssetItem;
 use App\Models\PurchaseAsset;
 use App\Models\Supplier;
 use App\Traits\LoggerError;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -44,45 +47,42 @@ class AssetReplacementController extends Controller
             if ($request->has( 'branch_id' ) && !empty( $request['branch_id'] ))
                 $assetsReplacements->where( 'asset_replacements.branch_id', $request['branch_id'] );
 
-            if ($request->has( 'number' ) &&  $request->number != 0 && !empty( $request['number'] ))
+            if ($request->has( 'number' ) && $request->number != 0 && !empty( $request['number'] ))
                 $assetsReplacements->where( 'asset_replacements.number', $request['number'] );
 
-            if ($request->has('asset_group_id') && $request->asset_group_id != '' &&  $request->asset_group_id != 0 && $request->asset_group_id != null) {
-                $asset = Asset::where('asset_group_id', $request->asset_group_id)->first();
-                $assetReplacementItemIds = AssetReplacementItem::where('asset_id', $asset->id)->get()->pluck('asset_replacement_id')->toArray();
-                if (!empty($assetReplacementItemIds)) {
-                    $assetsReplacements->whereIn( 'id', $assetReplacementItemIds);
+            if ($request->has( 'asset_group_id' ) && $request->asset_group_id != '' && $request->asset_group_id != 0 && $request->asset_group_id != null) {
+                $asset = Asset::where( 'asset_group_id', $request->asset_group_id )->first();
+                $assetReplacementItemIds = AssetReplacementItem::where( 'asset_id', $asset->id )->get()->pluck( 'asset_replacement_id' )->toArray();
+                if (!empty( $assetReplacementItemIds )) {
+                    $assetsReplacements->whereIn( 'id', $assetReplacementItemIds );
                 }
             }
 
-            if ($request->has('asset_id') && $request->asset_id != '' && $request->asset_id != 0 && $request->asset_id != null) {
-                $assetsReplacements->whereHas('assetReplacementItems', function ($q) use ($assetsReplacements, $request) {
-                    $q->where('asset_id', $request->asset_id);
-                });
+            if ($request->has( 'asset_id' ) && $request->asset_id != '' && $request->asset_id != 0 && $request->asset_id != null) {
+                $assetsReplacements->whereHas( 'assetReplacementItems', function ($q) use ($assetsReplacements, $request) {
+                    $q->where( 'asset_id', $request->asset_id );
+                } );
             }
 
-            whereBetween($assetsReplacements,'DATE(asset_replacements.date)',$request->date_from,$request->date_to);
+            whereBetween( $assetsReplacements, 'DATE(asset_replacements.date)', $request->date_from, $request->date_to );
             whereBetween( $assetsReplacements, 'asset_replacement_items.value_replacement', $request->value_replacement_from, $request->value_replacement_to );
             return DataTables::of( $assetsReplacements->groupBy( 'asset_replacements.id' ) )
                 ->addIndexColumn()
                 ->addColumn( 'branch_id', function ($asset) {
                     return '<span class="text-danger">' . optional( $asset->branch )->name . '</span>';
                 } )
-
                 ->addColumn( 'date', function ($saleAsset) {
                     return '<span class="text-danger">' . $saleAsset->date . ' ' . $saleAsset->time . '</span>';
                 } )
-
                 ->addColumn( 'number', function ($saleAsset) {
                     return $saleAsset->number;
 
                 } )
-
                 ->addColumn( 'total_before_replacement', function ($assetsReplacement) {
-                    return '<span style="background:#F7F8CC !important">'.number_format($assetsReplacement->total_before_replacement, 2).'</span>';
+                    return '<span style="background:#F7F8CC !important">' . number_format( $assetsReplacement->total_before_replacement, 2 ) . '</span>';
                 } )
                 ->addColumn( 'total_after_replacement', function ($assetsReplacement) {
-                    return '<span style="background:#D7FDF9 !important">'. number_format($assetsReplacement->total_after_replacement, 2).'</span>';
+                    return '<span style="background:#D7FDF9 !important">' . number_format( $assetsReplacement->total_after_replacement, 2 ) . '</span>';
                 } )
                 ->addColumn( 'created_at', function ($assetsReplacement) {
                     return $assetsReplacement->created_at;
@@ -150,24 +150,22 @@ class AssetReplacementController extends Controller
                     'action' => 'action',
                     'options' => 'options'
                 ];
-            }
-
-            else {
+            } else {
                 $js_columns = [
 
-                'DT_RowIndex' => 'DT_RowIndex',
-                'date' => 'date',
-                'number' => 'asset_replacements.number',
+                    'DT_RowIndex' => 'DT_RowIndex',
+                    'date' => 'date',
+                    'number' => 'asset_replacements.number',
 
-                'total_before_replacement' => 'asset_replacements.total_before_replacement',
-                'total_after_replacement' => 'asset_replacements.total_after_replacement',
-                'created_at' => 'asset_replacements.created_at',
-                'updated_at' => 'asset_replacements.updated_at',
-                'action' => 'action',
-                'options' => 'options'
-            ];
+                    'total_before_replacement' => 'asset_replacements.total_before_replacement',
+                    'total_after_replacement' => 'asset_replacements.total_after_replacement',
+                    'created_at' => 'asset_replacements.created_at',
+                    'updated_at' => 'asset_replacements.updated_at',
+                    'action' => 'action',
+                    'options' => 'options'
+                ];
 
-        }
+            }
 
             if (authIsSuperAdmin()) {
                 $js_columns + [
@@ -177,8 +175,8 @@ class AssetReplacementController extends Controller
 
             $assets = Asset::all();
             $assetsGroups = AssetGroup::select( ['id', 'name_ar', 'name_en'] )->get();
-            $numbers = AssetReplacement::pluck('number')->unique();
-        return view('admin.assets_replacements.index', compact('js_columns','assets','assetsGroups','numbers'));
+            $numbers = AssetReplacement::pluck( 'number' )->unique();
+            return view( 'admin.assets_replacements.index', compact( 'js_columns', 'assets', 'assetsGroups', 'numbers' ) );
         }
     }
 
@@ -249,7 +247,7 @@ class AssetReplacementController extends Controller
     {
         $assetReplacement = AssetReplacement::findOrFail( $id );
         $isOnlyShow = $request->show;
-        if ($isOnlyShow){
+        if ($isOnlyShow) {
             $view = view( 'admin.assets_replacements.onlyShow', compact( 'assetReplacement' ) )->render();
 
         } else {
@@ -279,7 +277,7 @@ class AssetReplacementController extends Controller
                         'asset_replacement_id' => $assetReplacement->id,
                     ] );
                     $asset = Asset::find( $item['asset_id'] );
-                    if (isset($item['purchase_cost'])&& $item['purchase_cost'] > 0
+                    if (isset( $item['purchase_cost'] ) && $item['purchase_cost'] > 0
                         && $item['value_after_replacement'] > 0
                         && ($item['purchase_cost'] / $item['value_after_replacement']) > 0) {
                         $asset_age = (($item['purchase_cost'] + $item['value_replacement']) / $item['value_after_replacement']) / 100;
@@ -295,7 +293,7 @@ class AssetReplacementController extends Controller
             return redirect()->to( 'admin/assets_replacements' )
                 ->with( ['message' => __( 'words.assets-replacement-updated' ), 'alert-type' => 'success'] );
         } catch (Exception $exception) {
-            dd($exception->getMessage());
+            dd( $exception->getMessage() );
             $this->logErrors( $exception );
             return back()->with( ['message' => __( 'words.something-went-wrong' ), 'alert-type' => 'error'] );
         }
@@ -327,6 +325,20 @@ class AssetReplacementController extends Controller
 
     public function getItemsByAssetId(Request $request): JsonResponse
     {
+        if (!is_null( $request->asset_id )) {
+            $var = ConsumptionAssetItem::where( 'asset_id', $request->asset_id )->with( 'consumptionAsset' )->latest()->first();
+            if ($var && !$var->consumptionAsset->date_to > Carbon::now()) {
+                $from = Carbon::createFromFormat( 'Y-m-d', $var->consumptionAsset->date_to );
+                $to = Carbon::createFromFormat( 'Y-m-d', date( 'Y-m-d' ) );
+                $diff_in_days = $to->diffInDays( $from );
+                if ($diff_in_days >= 15) {
+                    return response()->json( __( 'Please add consumption asset before !' ), 400 );
+                }
+            } else if (!$var) {
+                return response()->json( __( 'Please  add consumption asset before !' ), 400 );
+            }
+        }
+
         if (is_null( $request->asset_id )) {
             return response()->json( __( 'please select valid Asset' ), 400 );
         }
@@ -343,6 +355,7 @@ class AssetReplacementController extends Controller
             'items' => $view
         ] );
     }
+
     public function getNumbersByBranchId(Request $request): JsonResponse
     {
         if (!empty( $request->branch_id )) {

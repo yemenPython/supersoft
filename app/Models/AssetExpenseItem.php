@@ -21,6 +21,7 @@ class AssetExpenseItem extends Model
         'asset_id',
         'asset_expense_id',
         'asset_expense_item_id',
+        'annual_consumtion_rate'
     ];
 
     public function assetExpenseItem(): BelongsTo
