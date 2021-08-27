@@ -16,8 +16,10 @@
 
             <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control"><i class="fa fa-money"></i>   {{__('currencies')}}
-                 [ <span class="text-from text-danger">{{__('you can only detect one currency as a Main Currency')}}</span> ]</h4>
-
+                    @if ($setting->active_multi_currency)
+                 [ <span class="text-from text-danger">{{__('you can only detect one currency as a Main Currency')}}</span> ]
+                @endif
+                </h4>
 
 
                  <div class="card-content js__card_content" style="">
@@ -47,9 +49,11 @@
                         <th scope="col">{!! __('#') !!}</th>
                         <th scope="col">{!! __('Name') !!}</th>
                         <th scope="col">{!! __('Symbol') !!}</th>
-                        <th scope="col">{!! __('Is Main Currency') !!}</th>
+                        @if ($setting->active_multi_currency)
+                            <th scope="col">{!! __('Is Main Currency') !!}</th>
+                            <th scope="col">{!! __('Conversion Factor') !!}</th>
+                        @endif
                         <th scope="col">{!! __('Status') !!}</th>
-                        <th scope="col">{!! __('Conversion Factor') !!}</th>
                         <th scope="col">{!! __('Options') !!}</th>
                         <th scope="col">
                         <div class="checkbox danger">
@@ -63,9 +67,11 @@
                         <th scope="col">{!! __('#') !!}</th>
                         <th scope="col">{!! __('Name') !!}</th>
                         <th scope="col">{!! __('Symbol') !!}</th>
-                        <th scope="col">{!! __('Is Main Currency') !!}</th>
+                        @if ($setting->active_multi_currency)
+                            <th scope="col">{!! __('Is Main Currency') !!}</th>
+                            <th scope="col">{!! __('Conversion Factor') !!}</th>
+                        @endif
                         <th scope="col">{!! __('Status') !!}</th>
-                        <th scope="col">{!! __('Conversion Factor') !!}</th>
                         <th scope="col">{!! __('Options') !!}</th>
                         <th scope="col">{!! __('Select') !!}</th>
                     </tr>
@@ -76,14 +82,16 @@
                             <td>{!! $index +1 !!}</td>
                             <td>{!! $currency->name !!}</td>
                             <td class="text-danger">{!! $currency->symbol !!}</td>
-                            <td>
-                                @if ($currency->is_main_currency)
-                                    <span class="text-success"><i style="font-size: 20px" class="fa fa-check-circle wg-label"></i></span>
-                                @else
-                                    <span class="text-danger"><i style="font-size: 20px" class="fa fa-times"></i></span>
-                                @endif
-                            </td>
-
+                            @if ($setting->active_multi_currency)
+                                <td>
+                                    @if ($currency->is_main_currency)
+                                        <span class="text-success"><i style="font-size: 20px" class="fa fa-check-circle wg-label"></i></span>
+                                    @else
+                                        <span class="text-danger"><i style="font-size: 20px" class="fa fa-times"></i></span>
+                                    @endif
+                                </td>
+                                <td>{!! $currency->conversion_factor ?? __('Not determined') !!}</td>
+                            @endif
                             <td>
                                 @if ($currency->status)
                                     <span class="label label-success wg-label  rounded-0">{{__('Active')}}</span>
@@ -91,11 +99,7 @@
                                     <span class="label label-danger wg-label  rounded-0">{{__('inActive')}}</span>
                                 @endif
                             </td>
-
-                            <td>{!! $currency->conversion_factor ?? __('Not determined') !!}</td>
-
                             <td>
-
                             <div class="btn-group margin-top-10">
 
                                         <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

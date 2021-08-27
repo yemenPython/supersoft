@@ -82,6 +82,11 @@ class SettingsControllers extends Controller
             $data['quotation_terms_status'] = 1;
         }
 
+        $data['active_multi_currency'] = 0;
+        if($request->has('active_multi_currency')){
+            $data['active_multi_currency'] = 1;
+        }
+
         $setting = Setting::where('branch_id', $branch->id)->first();
 
         if($setting){

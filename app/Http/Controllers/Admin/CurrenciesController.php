@@ -5,17 +5,20 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Currency\CurrencyRequest;
 use App\Models\Currency;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class CurrenciesController extends Controller
 {
+    /**
+     * @var Setting
+     */
+    protected $setting;
+
     public function __construct()
     {
-//        $this->middleware('permission:view_currencies');
-//        $this->middleware('permission:create_currencies',['only'=>['create','store']]);
-//        $this->middleware('permission:update_currencies',['only'=>['edit','update']]);
-//        $this->middleware('permission:delete_currencies',['only'=>['destroy','deleteSelected']]);
+        $this->setting = Setting::first();
     }
 
     public function index()
@@ -26,7 +29,8 @@ class CurrenciesController extends Controller
         }
 
         $currencies = Currency::orderBy('id' ,'desc')->get();
-        return view('admin.currencies.index', compact('currencies'));
+        $setting = $this->setting;
+        return view('admin.currencies.index', compact('currencies', 'setting'));
     }
 
     public function create()
@@ -34,7 +38,8 @@ class CurrenciesController extends Controller
         if (!auth()->user()->can('create_currencies')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
-        return view('admin.currencies.create');
+        $setting = $this->setting;
+        return view('admin.currencies.create', compact('setting'));
     }
 
     public function store(CurrencyRequest $request)
@@ -61,8 +66,8 @@ class CurrenciesController extends Controller
 
             return redirect()->back()->with(['authorization' => 'error']);
         }
-
-        return view('admin.currencies.edit', compact('currency'));
+        $setting = $this->setting;
+        return view('admin.currencies.edit', compact('currency', 'setting'));
     }
 
     public function update(CurrencyRequest $request, Currency $currency)

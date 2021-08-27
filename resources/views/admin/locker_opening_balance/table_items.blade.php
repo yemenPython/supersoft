@@ -5,6 +5,9 @@
             <tr>
                 <th width="2%"> # </th>
                 <th width="10%"> {{ __('Locker name') }} </th>
+                @if ($setting->active_multi_currency)
+                    <th width="10%"> {{ __('Select Currency') }} </th>
+                @endif
                 <th width="10%"> {{ __('Current balance') }} </th>
                 <th width="10%"> {{ __('Added balance') }} </th>
                 <th width="10%"> {{ __('Total') }} </th>
@@ -24,6 +27,19 @@
                             <span>{{optional($item->locker)->name}}</span>
                             <input type="hidden" class="assetExist" value="{{optional($item->locker)->id}}" name="items[{{$index}}][locker_id]">
                         </td>
+
+                        @if ($setting->active_multi_currency)
+                            <td class="inline-flex-span">
+                                <div class="form-group has-feedback">
+                                    <select class="form-control js-example-basic-single" name="items[{{$index}}][currency_id]" required>
+                                        <option value="">{{__('Select')}}</option>
+                                        @foreach($currencies as $currency)
+                                            <option {{$item->currency_id == $currency->id ? 'selected' : ''}} value="{{ $currency->id }}">{{ $currency->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </td>
+                        @endif
 
                         <td>
                             <span>{{$item->current_balance}}</span>
@@ -57,6 +73,9 @@
             <tr>
                 <th width="2%"> # </th>
                 <th width="10%"> {{ __('Locker name') }} </th>
+                @if ($setting->active_multi_currency)
+                    <th width="10%"> {{ __('Select Currency') }} </th>
+                @endif
                 <th width="10%"> {{ __('Current balance') }} </th>
                 <th width="10%"> {{ __('Added balance') }} </th>
                 <th width="10%"> {{ __('Total') }} </th>

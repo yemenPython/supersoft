@@ -9,6 +9,19 @@
         <input type="hidden" class="assetExist" value="{{$locker->id}}" name="items[{{$index}}][locker_id]">
     </td>
 
+    @if ($setting->active_multi_currency)
+        <td class="inline-flex-span">
+            <div class="form-group has-feedback">
+                <select class="form-control js-example-basic-single" name="items[{{$index}}][currency_id]" required>
+                    <option value="">{{__('Select')}}</option>
+                    @foreach($currencies as $currency)
+                        <option class="bg-success" value="{{ $currency->id }}">{{ $currency->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+        </td>
+    @endif
+
     <td>
         <span>{{$locker->balance}}</span>
         <input type="hidden"  name="items[{{$index}}][current_balance]" value="{{$locker->balance}}" class="current_balance" id="current_balance_item{{$index}}">
