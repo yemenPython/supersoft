@@ -105,16 +105,17 @@ class PartsController extends Controller
         $subTypes = $this->getSubPartTypes($mainTypes);
 
         return view('admin.parts.create',
-            compact( 'partUnits', 'stores', 'parts', 'suppliers', 'branches', 'lang', 'mainTypes', 'subTypes'));
+            compact('partUnits', 'stores', 'parts', 'suppliers', 'branches', 'lang', 'mainTypes', 'subTypes'));
     }
 
-    public function store(CreatePartsRequest $request)
+    public function old_store(CreatePartsRequest $request)
     {
         if (!auth()->user()->can('create_parts')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
         try {
+
             $data = $request->validated();
 
             $data['status'] = 0;
@@ -167,6 +168,66 @@ class PartsController extends Controller
             ->with(['message' => __('words.parts-created'), 'alert-type' => 'success']);
     }
 
+    public function store(Request $request)
+    {
+        $rules = $this->partPriceServices->partRules();
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        try {
+
+            $data = [
+                'name_ar' => $request['name_ar'],
+                'name_en' => $request['name_en'],
+                'description' => $request['description'],
+                'part_in_store' => $request['part_in_store'],
+                'status' => $request->has('status') ? 1 : 0,
+                'is_service' => $request->has('is_service') ? 1 : 0,
+                'branch_id' => authIsSuperAdmin() ? $request['branch_id'] : auth()->user()->branch_id,
+                'suppliers_ids'=> $request['suppliers_ids']
+            ];
+
+            DB::beginTransaction();
+
+            $part = Part::create($data);
+
+            if ($request->has('img') && $request->file('img') !== null) {
+                $data['img'] = uploadImage($request->file('img'), 'parts');
+            }
+
+            if ($request->has('stores')) {
+                $part->stores()->attach($request['stores']);
+            }
+
+            if ($request->has('alternative_parts')) {
+                $part->alternative()->attach($request['alternative_parts']);
+            }
+
+            if ($request->has('spare_part_type_ids')) {
+                $part->spareParts()->attach($request['spare_part_type_ids']);
+            }
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            dd($e->getMessage());
+
+            return response()->json(__('sorry, please try later'), 400);
+        }
+
+        return response()->json( [
+            'message' => __('part info saved successfully, now you can save unites'),
+            'part_id'=> $part->id,
+            'units_count'=> $part->prices->count(),
+        ], 200);
+    }
+
+
     public function show(Part $part)
     {
         if (!auth()->user()->can('view_parts')) {
@@ -204,7 +265,7 @@ class PartsController extends Controller
         $subTypes = $this->getSubPartTypes($mainTypes);
 
         return view('admin.parts.edit',
-            compact( 'partUnits', 'stores', 'part', 'parts', 'suppliers', 'branches', 'mainTypes','subTypes'));
+            compact('partUnits', 'stores', 'part', 'parts', 'suppliers', 'branches', 'mainTypes', 'subTypes'));
     }
 
     public function update(UpdatePartsRequest $request, Part $part)
@@ -453,13 +514,13 @@ class PartsController extends Controller
     public function newPartPriceSegment(Request $request)
     {
         try {
-            $index = $request['index'];
             $key = $request['part_price_segments_count'] + 1;
 
-            $view = view('admin.parts.price_segments.ajax_price_segment', compact('index', 'key'))->render();
+            $view = view('admin.parts.price_segments.ajax_price_segment', compact( 'key'))->render();
 
             return response()->json(['view' => $view, 'key' => $key], 200);
         } catch (\Exception $e) {
+            dd($e->getMessage());
             return response()->json(__('sorry, please try later'), 400);
         }
     }

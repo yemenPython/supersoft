@@ -58,7 +58,7 @@
 
                         @include('admin.parts.suppliers.form', ['sups' => $suppliers])
                         </div>
-                        
+
                         <div class="form-group col-sm-12">
                             @include('admin.buttons._save_buttons')
                         </div>
@@ -185,194 +185,86 @@
             });
         }
 
-        function newUnit() {
+        {{--function newUnit() {--}}
 
-            var defaultUnit = $("#part_units_default option:selected").val();
+        {{--    var defaultUnit = $("#part_units_default option:selected").val();--}}
 
-            if (defaultUnit == '') {
+        {{--    if (defaultUnit == '') {--}}
 
-                swal("{{__('sorry please select default unit')}}", {icon: "error",});
-                return false;
-            }
+        {{--        swal("{{__('sorry please select default unit')}}", {icon: "error",});--}}
+        {{--        return false;--}}
+        {{--    }--}}
 
-            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        {{--    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');--}}
 
-            let units_count = $("#units_count").val();
+        {{--    let units_count = $("#units_count").val();--}}
 
-            var defaultUnitValue = $("#part_units_default option:selected").val();
+        {{--    var defaultUnitValue = $("#part_units_default option:selected").val();--}}
 
-            var selectedUnitIds = [defaultUnitValue];
+        {{--    var selectedUnitIds = [defaultUnitValue];--}}
 
-            for (var i = 1 ; i <= units_count; i++ ){
+        {{--    for (var i = 1 ; i <= units_count; i++ ){--}}
 
-                if (i != 1) {
+        {{--        if (i != 1) {--}}
 
-                    let unitVal = $("#unit_" + i + " option:selected").val();
+        {{--            let unitVal = $("#unit_" + i + " option:selected").val();--}}
 
-                    if (unitVal ){
-                        selectedUnitIds.push($("#unit_" + i + " option:selected").val()) ;
-                    }
-                }
-            }
+        {{--            if (unitVal ){--}}
+        {{--                selectedUnitIds.push($("#unit_" + i + " option:selected").val()) ;--}}
+        {{--            }--}}
+        {{--        }--}}
+        {{--    }--}}
 
-            $.ajax({
+        {{--    $.ajax({--}}
 
-                type: 'post',
+        {{--        type: 'post',--}}
 
-                url: '{{route('admin:part.units.new')}}',
+        {{--        url: '{{route('admin:part.units.new')}}',--}}
 
-                data: {
-                    _token: CSRF_TOKEN,
-                    units_count:units_count,
-                    selectedUnitIds:selectedUnitIds
-                },
+        {{--        data: {--}}
+        {{--            _token: CSRF_TOKEN,--}}
+        {{--            units_count:units_count,--}}
+        {{--            selectedUnitIds:selectedUnitIds--}}
+        {{--        },--}}
 
-                success: function (data) {
+        {{--        success: function (data) {--}}
 
-                    $("#units_count").val(data.index);
-                    $(".form_new_unit").append(data.view);
+        {{--            $("#units_count").val(data.index);--}}
+        {{--            $(".form_new_unit").append(data.view);--}}
 
-                    $('.js-example-basic-single').select2();
-                },
+        {{--            $('.js-example-basic-single').select2();--}}
+        {{--        },--}}
 
-                error: function (jqXhr, json, errorThrown) {
-                    // $("#loader_save_goals").hide();
-                    var errors = jqXhr.responseJSON;
-                    swal({text: errors, icon: "error"})
-                }
-            });
+        {{--        error: function (jqXhr, json, errorThrown) {--}}
+        {{--            // $("#loader_save_goals").hide();--}}
+        {{--            var errors = jqXhr.responseJSON;--}}
+        {{--            swal({text: errors, icon: "error"})--}}
+        {{--        }--}}
+        {{--    });--}}
 
-        }
+        {{--}--}}
 
-        function deleteUnit(index) {
+        // function deleteUnit(index) {
+        //
+        //     swal({
+        //
+        //         title: "Delete Unit",
+        //         text: "Are you sure want to delete this unit ?",
+        //         icon: "warning",
+        //         buttons: true,
+        //         dangerMode: true,
+        //
+        //     }).then((willDelete) => {
+        //
+        //         if (willDelete) {
+        //
+        //             $("#part_unit_div_" + index).remove();
+        //
+        //         }
+        //     });
+        //
+        // }
 
-            swal({
-
-                title: "Delete Unit",
-                text: "Are you sure want to delete this unit ?",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-
-            }).then((willDelete) => {
-
-                if (willDelete) {
-
-                    $("#part_unit_div_" + index).remove();
-
-                }
-            });
-
-        }
-
-        function hideBody(index) {
-
-            $("#unit_form_body_" + index).slideToggle('slow');
-        }
-
-        function getDefaultUnit () {
-
-            var defaultUnit = $("#part_units_default option:selected").text();
-
-            var defaultUnitValue = $("#part_units_default option:selected").val();
-
-            if (defaultUnitValue) {
-
-                $(".default_unit").val(defaultUnit.trim());
-
-                $("#default_unit_title_" + 1).text(defaultUnit);
-
-                $(".default_unit_title_" + 1).text(defaultUnit);
-
-            }else {
-
-                $(".default_unit").val('default unit');
-
-                $(".default_unit").text('default unit');
-
-            }
-        }
-
-        function calculatePrice (index) {
-
-            if (index == 1) {
-                return false;
-            }
-
-            var defaultIndex = 1;
-
-            var default_selling_price = $("#selling_price_" + defaultIndex).val();
-            var default_purchase_price = $("#purchase_price_" + defaultIndex).val();
-            var default_less_selling_price = $("#less_selling_price_" + defaultIndex).val();
-            var default_service_selling_price = $("#service_selling_price_" + defaultIndex).val();
-            var default_less_service_selling_price = $("#less_service_selling_price_" + defaultIndex).val();
-
-            var qty = $("#qty_" + index).val();
-
-            if (!qty) {
-                qty = 0;
-            }
-
-            var new_selling_price = parseFloat(default_selling_price) * parseFloat(qty);
-            var new_purchase_price = parseFloat(default_purchase_price) * parseFloat(qty);
-            var new_less_selling_price = parseFloat(default_less_selling_price) * parseFloat(qty);
-            var new_service_selling_price = parseFloat(default_service_selling_price) * parseFloat(qty);
-            var new_less_service_selling_price = parseFloat(default_less_service_selling_price) * parseFloat(qty);
-
-            $("#selling_price_" + index).val(new_selling_price);
-            $("#purchase_price_" + index).val(new_purchase_price);
-            $("#less_selling_price_" + index).val(new_less_selling_price);
-            $("#service_selling_price_" + index).val(new_service_selling_price);
-            $("#less_service_selling_price_" + index).val(new_less_service_selling_price);
-        }
-
-        function deleteOldUnit(price_id, index) {
-
-            swal({
-
-                title: "Delete Unit",
-                text: "Are you sure want to delete this unit ?",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-
-            }).then((willDelete) => {
-
-                if (willDelete) {
-
-                    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-
-                    $.ajax({
-
-                        type: 'post',
-
-                        url: '{{route('admin:part.units.destroy')}}',
-
-                        data: {
-                            _token: CSRF_TOKEN,
-                            // units_count:units_count,
-                            price_id:price_id
-                        },
-
-                        success: function (data) {
-
-                            $("#part_unit_div_" + index).fadeOut('slow');
-                            $("#part_unit_div_" + index).remove();
-
-                            swal({text: data.message, icon: "success"})
-                        },
-
-                        error: function (jqXhr, json, errorThrown) {
-                            // $("#loader_save_goals").hide();
-                            var errors = jqXhr.responseJSON;
-                            swal({text: errors, icon: "error"})
-                        }
-                    });
-
-                }
-            });
-
-        }
 
         function updateUnit(price_id, index) {
 

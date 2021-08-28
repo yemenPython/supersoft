@@ -1,25 +1,73 @@
-<div class="form_new_unit">
+<table id="cities" class="table table-bordered wg-table-print table-hover" style="width:100%">
+    <thead>
+    <tr>
+        <th scope="col">{!! __('#') !!}</th>
+        <th scope="col">{!! __('Name') !!}</th>
+        <th scope="col">{!! __('Quantity') !!}</th>
+        <th scope="col">{!! __('Selling Price') !!}</th>
+        <th scope="col">{!! __('Purchase Price') !!}</th>
+        <th scope="col">
+            <div class="checkbox danger">
+                <input type="checkbox" id="select-all">
+                <label for="select-all"></label>
+            </div>{!! __('Select') !!}</th>
+    </tr>
+    </thead>
+    <tfoot>
+    <tr>
+        <th scope="col">{!! __('#') !!}</th>
+        <th scope="col">{!! __('Name') !!}</th>
+        <th scope="col">{!! __('Quantity') !!}</th>
+        <th scope="col">{!! __('Selling Price') !!}</th>
+        <th scope="col">{!! __('Purchase Price') !!}</th>
+        <th scope="col">{!! __('Select') !!}</th>
+    </tr>
+    </tfoot>
+    <tbody>
 
-    {{-- unit one (default)  --}}
+    @if(isset($prices))
 
-    @if(isset($part) && $part->prices->count())
-        @foreach($part->prices as $index => $price)
-            @include('admin.parts.units.ajax_form_new_unit', ['index'=> $index + 1])
+        @foreach($prices as $index => $price)
+            <tr id="unit_tr_{{$index}}">
+                <td>{!! $index +1 !!}</td>
+                <td>{!! $price->unit ? $price->unit->unit : '---' !!}</td>
+                <td class="text-danger">{!! $price->quantity !!}</td>
+                <td class="text-danger">{!! $price->selling_price !!}</td>
+                <td class="text-danger">{!! $price->purchase_price !!}</td>
+                <td>
+
+                    <div class="btn-group margin-top-10">
+
+                        <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                            <i class="ico fa fa-bars"></i>
+                            {{__('Options')}} <span class="caret"></span>
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-wg">
+
+                            <li>
+                                <button type="button" class="btn btn-wg-delete hvr-radial-out"
+                                        onclick="editUnit('{{$price->id}}')">
+                                    <i class="fa fa-pencil"></i> {{__('Edit')}}
+                                </button>
+                            </li>
+
+                            @if($index != 0)
+                                <li class="btn-style-drop">
+                                    <button type="button" class="btn btn-wg-delete hvr-radial-out"
+                                            onclick="deleteUnit('{{$price->id}}', '{{$index}}')">
+                                        <i class="fa fa-trash"></i> {{__('Delete')}}
+                                    </button>
+                                </li>
+                            @endif
+
+                        </ul>
+                    </div>
+                </td>
+            </tr>
         @endforeach
-    @else
-        @include('admin.parts.units.ajax_form_new_unit', ['index'=>1])
     @endif
+    </tbody>
+</table>
 
-
-    <input type="hidden" value="{{isset($part) && $part->prices->count() ? $part->prices->count() : 1}}" id="units_count">
-
-</div>
-
-
-<div class="col-md-12">
-    <button type="button" title="new price" onclick="newUnit()"
-            class="btn btn-sm btn-primary">
-        <li class="fa fa-plus"></li> {{__('Add unit')}}
-    </button>
-    <hr>
-</div>
