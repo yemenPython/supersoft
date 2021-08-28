@@ -168,67 +168,6 @@
             });
         }
 
-        {{--function newUnit() {--}}
-
-        {{--    var defaultUnit = $("#part_units_default option:selected").val();--}}
-
-        {{--    if (defaultUnit == '') {--}}
-
-        {{--        swal("{{__('sorry please select default unit')}}", {icon: "error",});--}}
-        {{--        return false;--}}
-        {{--    }--}}
-
-        {{--    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');--}}
-
-        {{--    let units_count = $("#units_count").val();--}}
-
-        {{--    var defaultUnitValue = $("#part_units_default option:selected").val();--}}
-
-        {{--    var selectedUnitIds = [defaultUnitValue];--}}
-
-        {{--    for (var i = 1; i <= units_count; i++) {--}}
-
-        {{--        if (i != 1) {--}}
-
-        {{--            let unitVal = $("#unit_" + i + " option:selected").val();--}}
-
-        {{--            if (unitVal) {--}}
-        {{--                selectedUnitIds.push($("#unit_" + i + " option:selected").val());--}}
-        {{--            }--}}
-        {{--        }--}}
-        {{--    }--}}
-
-        {{--    $.ajax({--}}
-
-        {{--        type: 'post',--}}
-
-        {{--        url: '{{route('admin:part.units.new')}}',--}}
-
-        {{--        data: {--}}
-        {{--            _token: CSRF_TOKEN,--}}
-        {{--            units_count: units_count,--}}
-        {{--            selectedUnitIds: selectedUnitIds--}}
-        {{--        },--}}
-
-        {{--        success: function (data) {--}}
-
-        {{--            $("#units_count").val(data.index);--}}
-        {{--            $(".form_new_unit").append(data.view);--}}
-        {{--            $('.js-example-basic-single').select2();--}}
-
-        {{--            let selectedUnit = $("#part_units_default" + " option:selected").text();--}}
-        {{--            $(".default_unit_title").text(selectedUnit);--}}
-
-        {{--        },--}}
-
-        {{--        error: function (jqXhr, json, errorThrown) {--}}
-        {{--            // $("#loader_save_goals").hide();--}}
-        {{--            var errors = jqXhr.responseJSON;--}}
-        {{--            swal({text: errors, icon: "error"})--}}
-        {{--        }--}}
-        {{--    });--}}
-        {{--}--}}
-
         function subPartsTypes() {
 
             let spare_parts_ids = $("#parts_types_options").val(), branch_id = $("#branch_id").val()
@@ -289,6 +228,68 @@
             });
         }
 
+        function removePartPriceSegment(key) {
+
+            swal({
+
+                title: "Delete Price Segment",
+                text: "Are you sure want to delete this Segment ?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+
+            }).then((willDelete) => {
+
+                if (willDelete) {
+
+                    $("#price_segment_" + key).remove();
+                }
+            });
+
+        }
+
+        function deleteOldPartPriceSegment(key, partPriceSegmentId) {
+
+            swal({
+
+                title: "Delete Price Segment",
+                text: "Are you sure want to delete this Segment ?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+
+            }).then((willDelete) => {
+
+                if (willDelete) {
+
+                    let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+                    $.ajax({
+
+                        type: 'post',
+
+                        url: '{{route('admin:parts.delete.price.segments')}}',
+
+                        data: {
+                            _token: CSRF_TOKEN,
+                            partPriceSegmentId: partPriceSegmentId
+                        },
+                        success: function (data) {
+
+                            $("#price_segment_" + key).remove();
+                            swal({text: data.message, icon: "success"})
+                        },
+
+                        error: function (jqXhr, json, errorThrown) {
+                            // $("#loader_save_goals").hide();
+                            var errors = jqXhr.responseJSON;
+                            swal({text: errors, icon: "error"})
+                        }
+                    });
+                }
+            });
+        }
+
         function newSupplier() {
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             let supplier_count = $("#supplier_count").val();
@@ -316,6 +317,27 @@
                 error: function (jqXhr, json, errorThrown) {
                     var errors = jqXhr.responseJSON;
                     swal({text: errors, icon: "error"})
+                }
+            });
+        }
+
+        function deleteSupplier(index) {
+            swal({
+                title: "{{__('Delete')}}",
+                text: "{{__('Are you sure want to Delete?')}}",
+                type: "success",
+                buttons: {
+                    confirm: {
+                        text: "{{__('Ok')}}",
+                    },
+                    cancel: {
+                        text: "{{__('Cancel')}}",
+                        visible: true,
+                    }
+                }
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    $(".supplier-" + index).remove();
                 }
             });
         }
@@ -431,6 +453,8 @@
 
         function createUnit () {
 
+            $('#save_action').attr('onClick','storeUnit()');
+
             let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             let part_id = $('#unit_part_id').val();
 
@@ -469,6 +493,8 @@
 
         function editUnit (id) {
 
+            $('#save_action').attr('onClick','updateUnit('+ id +')');
+
             let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
             $.ajax({
@@ -491,6 +517,53 @@
                     $('#part_new_unit').modal('show');
 
                     $('.js-example-basic-single').select2();
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    // $("#loader_save_goals").hide();
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
+        }
+
+        function updateUnit (id) {
+
+            var form_data = new FormData($("#unit_form_data")[0]);
+
+            form_data.append('id', id);
+
+            $.ajax({
+
+                type: 'post',
+
+                url: '{{route('admin:part.units.update')}}',
+
+                processData: false,
+                contentType: false,
+
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+
+                data: form_data,
+
+                success: function (data) {
+
+                    $('#part_prices_table').html(data.prices_index);
+
+                    $('#part_new_unit').modal('hide');
+
+                    $('.js-example-basic-single').select2();
+
+                    $('#default_Unit_title').text(data.defaultUnit);
+
+                    if (data.defaultPrice != null) {
+                        defaultPrice(data.defaultPrice);
+                    }
+
+                    swal({text: data.message, icon: "success"})
                 },
 
                 error: function (jqXhr, json, errorThrown) {

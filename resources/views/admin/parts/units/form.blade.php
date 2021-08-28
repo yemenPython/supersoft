@@ -22,7 +22,7 @@
 
                     <div class="card-content " id="unit_form_body" style="background-color: white">
 
-                        <input type="hidden" name="unit_part_id" id="unit_part_id" value="{{isset($part) ? $part->id : 65 }}">
+                        <input type="hidden" name="unit_part_id" id="unit_part_id" value="{{isset($part) ? $part->id : null }}">
                         <input type="hidden" name="units_count" id="units_count" value="{{isset($part) && $part->prices ? $part->prices->count() : 0 }}">
 
                         <input type="hidden" id="default_selling_price"  value="">
