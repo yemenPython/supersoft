@@ -3,7 +3,7 @@
 @endif
 
 @if(isset($withOperationData))
-    <span class="text-danger">{{ $storeTransfer->transfer_date}} </span>
+    <span>{{ $storeTransfer->transfer_date}} </span>
 @endif
 
 
@@ -22,7 +22,7 @@
 @endif
 
 @if (isset($withTotal))
-    <span style="background:#F7F8CC !important">
+<span class="label light-danger wg-label">
         {!! $storeTransfer->total !!}
     </span>
 @endif

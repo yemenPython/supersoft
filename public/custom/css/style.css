@@ -941,3 +941,6 @@ background-image: linear-gradient(0deg, #1d92af 0%, #1d5697 100%); */
             padding: 0 15px;
         }
 
+        .hiddenRow {
+            padding: 0 !important;
+        }
