@@ -9,8 +9,8 @@
 
 
 @if (isset($withSparePart))
-    <span class="text-danger">
-        {{$part->spareParts->first() ? $part->spareParts->first()->type : '---'}}
+<span class="label light-primary wg-label"> 
+        {{$part->spareParts->first() ? $part->spareParts->first()->type : __('Not determined')}}
     </span>
 @endif
 
@@ -23,6 +23,23 @@
 @endif
 
 
+@if (isset($witReviewable))
+    @if($part->reviewable == 1 )
+        <span class="label light-success wg-label"> {{ __('Reviewed') }} </span>
+    @else
+        <span class="label light-danger wg-label"> {{ __('Not reviewed') }} </span>
+    @endif
+@endif
+
+@if (isset($witTaxable))
+    @if($part->taxable == 1 )
+    <span class="label light-success wg-label"> {{ __('Active') }} </span>
+    @else
+    <span class="label light-danger wg-label"> {{ __('inActive') }} </span>
+    @endif
+@endif
+
+
 @if (isset($withStatus))
     @if($part->status == 1 )
         <span class="label label-success wg-label"> {{ __('Active') }} </span>
@@ -31,21 +48,6 @@
     @endif
 @endif
 
-@if (isset($witReviewable))
-    @if($part->reviewable == 1 )
-        <span class="label label-success wg-label"> {{ __('Reviewed') }} </span>
-    @else
-        <span class="label label-danger wg-label"> {{ __('Not reviewed') }} </span>
-    @endif
-@endif
-
-@if (isset($witTaxable))
-    @if($part->taxable == 1 )
-        <span class="label label-success wg-label"> {{ __('Active') }} </span>
-    @else
-        <span class="label label-danger wg-label"> {{ __('inActive') }} </span>
-    @endif
-@endif
 
 @if (isset($withActions))
     <div class="btn-group margin-top-10">

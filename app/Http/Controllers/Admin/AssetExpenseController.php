@@ -210,12 +210,14 @@ class AssetExpenseController extends Controller
                         'asset_id' => $item['asset_id'],
                         'asset_expense_id' => $asset->id,
                         'asset_expense_item_id' => $item['asset_expense_item_id'],
+                        'annual_consumtion_rate' => $item['annual_consumtion_rate'],
                     ] );
                 }
             }
             return redirect()->to( 'admin/assets_expenses' )
                 ->with( ['message' => __( 'words.expense-item-created' ), 'alert-type' => 'success'] );
         } catch (Exception $exception) {
+            dd($exception->getMessage());
             $this->logErrors( $exception );
             return back()->with( ['message' => __( 'words.something-went-wrong' ), 'alert-type' => 'error'] );
         }
@@ -269,12 +271,14 @@ class AssetExpenseController extends Controller
                         'asset_id' => $item['asset_id'],
                         'asset_expense_id' => $assetExpense->id,
                         'asset_expense_item_id' => $item['asset_expense_item_id'],
+                        'annual_consumtion_rate' => $item['annual_consumtion_rate'],
                     ] );
                 }
             }
             return redirect()->to( 'admin/assets_expenses' )
                 ->with( ['message' => __( 'words.expense-item-updated' ), 'alert-type' => 'success'] );
         } catch (Exception $exception) {
+            dd($exception->getMessage());
             $this->logErrors( $exception );
             return back()->with( ['message' => __( 'words.something-went-wrong' ), 'alert-type' => 'error'] );
         }

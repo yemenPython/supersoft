@@ -6,13 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Setting extends Model
 {
-    protected $fillable = ['sales_invoice_terms_ar','sales_invoice_terms_en','sales_invoice_status',
-        'maintenance_terms_ar','maintenance_terms_en','maintenance_status','branch_id','invoice_setting',
-        'filter_setting','sell_from_invoice_status','lat','long','kilo_meter_price', 'quotation_terms_en',
-        'quotation_terms_ar', 'quotation_terms_status'
+    protected $fillable = ['sales_invoice_terms_ar', 'sales_invoice_terms_en', 'sales_invoice_status',
+        'maintenance_terms_ar', 'maintenance_terms_en', 'maintenance_status', 'branch_id', 'invoice_setting',
+        'filter_setting', 'sell_from_invoice_status', 'lat', 'long', 'kilo_meter_price', 'quotation_terms_en',
+        'quotation_terms_ar', 'quotation_terms_status', 'active_multi_currency'
     ];
 
     protected $table = 'settings';
+
+    protected $casts = [
+        'active_multi_currency' => 'boolean',
+    ];
 
     public function getSalesInvoiceTermsAttribute()
     {

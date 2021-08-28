@@ -8,9 +8,11 @@ use App\Http\Requests\LockerOpeningBalanceRequest;
 use App\Http\Requests\UpdateLockerOpeningBalanceRequest;
 use App\Models\AssetReplacement;
 use App\Models\Branch;
+use App\Models\Currency;
 use App\Models\Locker;
 use App\Models\LockerOpeningBalance;
 use App\Models\LockerOpeningBalanceItem;
+use App\Models\Setting;
 use App\Traits\LoggerError;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -48,8 +50,9 @@ class LockerOpeningBalanceController extends Controller
         $branches = Branch::all();
         $lastNumber = LockerOpeningBalance::where('branch_id', $branch_id)->latest()->first();
         $number = $lastNumber ? $lastNumber->number + 1 : 1;
+        $setting = Setting::first();
         return view('admin.locker_opening_balance.create',
-            compact('lockers', 'branches', 'number'));
+            compact('lockers', 'branches', 'number', 'setting'));
     }
 
     public function store(LockerOpeningBalanceRequest $request): RedirectResponse
@@ -69,6 +72,7 @@ class LockerOpeningBalanceController extends Controller
                         'current_balance' => $item['current_balance'],
                         'added_balance' => $item['added_balance'],
                         'total' =>  $item['current_balance'] + $item['added_balance'],
+                        'currency_id' =>  isset($item['currency_id']) ? $item['currency_id'] : null,
                     ]);
                 }
             }
@@ -89,8 +93,10 @@ class LockerOpeningBalanceController extends Controller
         $branch_id = $request->has('branch_id') ? $request['branch_id'] : $lockerOpeningBalance->branch_id;
         $lockers = Locker::where('branch_id', $branch_id)->get();
         $branches = Branch::all();
+        $setting = Setting::first();
+        $currencies = Currency::all();
         return view('admin.locker_opening_balance.edit',
-            compact('lockers', 'branches', 'lockerOpeningBalance'));
+            compact('lockers', 'branches', 'lockerOpeningBalance', 'setting', 'currencies'));
     }
 
     public function show(Request $request, int $id): JsonResponse
@@ -122,12 +128,13 @@ class LockerOpeningBalanceController extends Controller
             if ($assetExpenseUpdated) {
                 foreach ($request->items as $item) {
                     if (isset($item['id'])) {
-                        $oldLockerOpeningBalance = LockerOpeningBalanceItem::find(isset($item['id']));
+                        $oldLockerOpeningBalance = LockerOpeningBalanceItem::find($item['id']);
                         if ($oldLockerOpeningBalance) {
                             $oldLockerOpeningBalance->update([
                                 'current_balance' => $item['current_balance'],
                                 'added_balance' => $item['added_balance'],
                                 'total' =>  $item['current_balance'] + $item['added_balance'],
+                                'currency_id' =>  isset($item['currency_id']) ? $item['currency_id'] : null,
                             ]);
                             $this->updateLocker($oldLockerOpeningBalance, $request->status);
                         }
@@ -138,6 +145,7 @@ class LockerOpeningBalanceController extends Controller
                             'current_balance' => $item['current_balance'],
                             'added_balance' => $item['added_balance'],
                             'total' =>  $item['current_balance'] + $item['added_balance'],
+                            'currency_id' =>  isset($item['currency_id']) ? $item['currency_id'] : null,
                         ]);
                         $this->updateLocker($lockerOpeningBalance, $request->status);
                     }
@@ -177,15 +185,17 @@ class LockerOpeningBalanceController extends Controller
 
     public function getLockers(Request $request): JsonResponse
     {
-        if (is_null($request->asset_id)) {
+        if (is_null($request->locker_id)) {
             return response()->json(__('please select valid Asset'), 400);
         }
         if (authIsSuperAdmin() && is_null($request->branch_id)) {
             return response()->json(__('please select valid branch'), 400);
         }
         $index = $request->index;
-        $locker = Locker::find($request->asset_id);
-        $view = view('admin.locker_opening_balance.row', compact('locker', 'index')
+        $locker = Locker::find($request->locker_id);
+        $currencies = Currency::all();
+        $setting = Setting::first();
+        $view = view('admin.locker_opening_balance.row', compact('locker', 'index', 'currencies', 'setting')
         )->render();
         return response()->json([
             'items' => $view

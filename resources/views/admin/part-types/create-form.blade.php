@@ -6,6 +6,7 @@
         <input type="hidden" name="spare_part_id" value="{{ isset($parentId) && $parentId != '' ? $parentId : '' }}"/>
  
         <h4 class="box-title with-control" style="text-align: initial;">
+        <i class="ico fa fa-check-circle"></i>
             {{__('Add new type')}}
             </h4>
 

@@ -1,7 +1,7 @@
 <table id="sale_supply_table" class="table table-bordered" style="width:100%">
     <thead>
     <tr>
-        <th scope="col">{!! __('Store name.') !!}</th>
+        <th scope="col">{!! __('Store name') !!}</th>
         <th scope="col">{!! __('Quantity') !!}</th>
     </tr>
     </thead>

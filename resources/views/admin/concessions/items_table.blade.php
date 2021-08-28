@@ -12,7 +12,7 @@
         <th> {{ __('quantity') }} </th>
         <th> {{ __('Price') }} </th>
         <th> {{ __('Total') }} </th>
-        <th> {{ __('Store') }} </th>
+        <th width="20%"> {{ __('Store') }} </th>
         <th> {{ __('Quantity') }} </th>
     </tr>
     </thead>
@@ -34,7 +34,7 @@
         <th> {{ __('quantity') }} </th>
         <th> {{ __('Price') }} </th>
         <th> {{ __('Total') }} </th>
-        <th> {{ __('Store') }} </th>
+        <th width="25%"> {{ __('Store') }} </th>
         <th> {{ __('Quantity') }} </th>
     </tr>
     </tfoot>

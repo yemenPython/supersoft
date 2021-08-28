@@ -104,7 +104,7 @@
     </div>
 
     <div class="">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="form-group has-feedback">
                 <label for="country" class="control-label">{{__('Select Country')}}</label>
                 <div class="input-group">
@@ -122,7 +122,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="form-group has-feedback">
                 <label for="city" class="control-label">{{__('Select City')}}</label>
                 <div class="input-group">
@@ -139,7 +139,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="form-group has-feedback">
                 <label for="area" class="control-label">{{__('Select Area')}}</label>
                 <div class="input-group">
@@ -160,7 +160,7 @@
 
 
     <div class="">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="form-group">
                 <label for="inputNameAr" class="control-label">{{__('Email')}}</label>
                 <div class="input-group">
@@ -172,7 +172,7 @@
                 {{input_error($errors,'email')}}
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="form-group">
                 <label for="inputNameAr" class="control-label">{{__('Phone 1')}}</label>
                 <div class="input-group">
@@ -184,7 +184,7 @@
                 {{input_error($errors,'phone_1')}}
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="form-group">
                 <label for="inputNameAr" class="control-label">{{__('Phone 2')}}</label>
                 <div class="input-group">
@@ -200,34 +200,30 @@
 
 
     <div class="">
-        <div class="col-md-4">
-            <div class="col-md-2" style="width: 100px">
-                <div class="form-group has-feedback">
-                    <label for="inputPhone" class="control-label">{{__('Supplier Type')}}</label>
+        <div class="col-md-3">
+            <div class="col-md-6">
+
+                    <label for="inputPhone" class="control-label">{{__('Supplier nature')}}</label>
                     <div class="radio primary">
+
                         <input type="radio" id="switch-3434" name="type"
                                value="person" {{!isset($supplier)?'checked':''}}
                                {{isset($supplier) && $supplier->type === 'person' ? 'checked':''}}
                                onclick="getCompanyData('person')">
                         <label for="switch-3434">{{__('Person')}}</label>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2" style="width: 100px">
-                <div class="form-group has-feedback">
-                    <label for="inputPhone" class="control-label">{{__('Supplier Type')}}</label>
-                    <div class="radio primary">
+
                         <input type="radio" id="switch-34343434" name="type"
                                value="company"
                                {{isset($supplier) && $supplier->type === 'company'? 'checked':''}}
                                onclick="getCompanyData('company')">
                         <label for="switch-34343434">{{__('Company')}}</label>
+
                     </div>
                     {{input_error($errors,'type')}}
-                </div>
-            </div>
+                </div> 
         </div>
-        <div class="form-group company_data col-md-4"
+
+        <div class="form-group company_data col-md-3"
              style="display: {{isset($supplier) && $supplier->type == 'company'? '':'none' }} ;">
             <label for="inputNameAr" class="control-label">{{__('Fax Number')}}</label>
             <div class="input-group">
@@ -237,7 +233,7 @@
             </div>
             {{input_error($errors,'fax')}}
         </div>
-        <div class="form-group company_data col-md-4"
+        <div class="form-group company_data col-md-3"
              style="display: {{isset($supplier) && $supplier->type == 'company'? '':'none' }};">
             <label for="inputNameAr" class="control-label">{{__('Commercial Number')}}</label>
             <div class="input-group">
@@ -250,20 +246,7 @@
         </div>
     </div>
 
-    <div class="">
-        <div class="col-md-4">
-            <div class="form-group  ">
-                <label for="address" class="control-label">{{__('Address')}}</label>
-                <div class="input-group">
-                    <span class="input-group-addon"><li class="fa fa-cart-arrow-down"></li></span>
-                    <input type="text" name="address" class="form-control" id="address"
-                           placeholder="{{__('Address')}}"
-                           value="{{old('address', isset($supplier)? $supplier->address:'')}}">
-                </div>
-                {{input_error($errors,'address')}}
-            </div>
-        </div>
-        <div class="col-md-4">
+    <div class="col-md-3">
             <div class="form-group  ">
                 <label for="address" class="control-label">{{__('Tax Number')}}</label>
                 <div class="input-group">
@@ -275,7 +258,25 @@
                 {{input_error($errors,'tax_number')}}
             </div>
         </div>
-        <div class="col-md-4">
+       
+
+
+    <div class="">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="address" class="control-label">{{__('Address')}}</label>
+                <div class="input-group">
+                    <span class="input-group-addon"><li class="fa fa-cart-arrow-down"></li></span>
+                    <input type="text" name="address" class="form-control" id="address"
+                           placeholder="{{__('Address')}}"
+                           value="{{old('address', isset($supplier)? $supplier->address:'')}}">
+                </div>
+                {{input_error($errors,'address')}}
+            </div>
+        </div>
+
+            
+    <div class="col-md-3">
             <label for="address" class="control-label" style="visibility: hidden;">
                 {{__('Location')}}
             </label><br>
@@ -285,6 +286,8 @@
                 <i class="fa fa-plus"> </i> {{__('Location')}}
             </a>
         </div>
+        
+
     </div>
 
     <div class="">
@@ -400,16 +403,6 @@
         </div>
     </div>
 
-    <div class="">
-        <div class="form-group col-md-12">
-            <label for="inputDescription" class="control-label">{{__('Description')}}</label>
-            <div class="input-group">
-        <textarea name="description" class="form-control" rows="4" cols="150"
-        >{{old('description', isset($supplier)? $supplier->description :'')}}</textarea>
-            </div>
-            {{input_error($errors,'description')}}
-        </div>
-    </div>
 
     <div class="col-md-12">
         <div class="col-md-3">
@@ -433,11 +426,7 @@
                     >
                     <label for="switch-2">{{__('Supplier')}}</label>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group has-feedback">
-                <label for="inputPhone" class="control-label">{{__('Supplier Type')}}</label>
+
                 <div class="radio primary">
                     <input type="radio" id="switch-3" name="supplier_type"
                            value="contractor" {{!isset($supplier)?'checked':''}}
@@ -447,10 +436,8 @@
                 </div>
                 {{input_error($errors,'supplier_type')}}
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group has-feedback">
-                <label for="inputPhone" class="control-label">{{__('Supplier Type')}}</label>
+
+
                 <div class="radio primary">
                     <input type="radio" id="switch-4" name="supplier_type"
                            value="both_together" {{!isset($supplier)?'checked':''}}
@@ -461,7 +448,18 @@
             </div>
         </div>
     </div>
-</div>
+
+    <div class="">
+        <div class="form-group col-md-12">
+            <label for="inputDescription" class="control-label">{{__('Description')}}</label>
+            <div class="input-group">
+        <textarea name="description" class="form-control" rows="4" cols="150"
+        >{{old('description', isset($supplier)? $supplier->description :'')}}</textarea>
+            </div>
+            {{input_error($errors,'description')}}
+        </div>
+    </div>
+
 
 
 <div class="form-group col-sm-12" >

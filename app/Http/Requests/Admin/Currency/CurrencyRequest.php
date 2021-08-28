@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin\Currency;
 
 use App\Models\Currency;
+use App\Models\Setting;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -20,6 +21,7 @@ class CurrencyRequest extends FormRequest
 
     public function rules()
     {
+        $setting = Setting::first();
         $id = request()->segment(5) ?? request()->segment(4);
         $getIgnoredID = Currency::find($id);
         if ($getIgnoredID && $getIgnoredID->id) {
@@ -31,15 +33,21 @@ class CurrencyRequest extends FormRequest
             $ruleEN = 'required|string|max:50|unique:currencies,name_en,NULL,id,deleted_at,NULL';
         }
 
-        return [
+        $rules1 =  [
             'name_ar' => $ruleAR,
             'name_en' => $ruleEN,
             'symbol_ar' => 'required|string|max:50',
             'symbol_en' => 'required|string|max:50',
-            'is_main_currency' => 'required|in:1,0',
-            'conversion_factor' => 'nullable|numeric',
             'status' => 'required|in:1,0',
         ];
+        if ($setting->active_multi_currency) {
+            $rules2 = [
+                'is_main_currency' => 'required|in:1,0',
+                'conversion_factor' => 'nullable|numeric',
+            ];
+           return array_merge($rules1, $rules2);
+        }
+        return $rules1;
     }
 
     public function attributes()

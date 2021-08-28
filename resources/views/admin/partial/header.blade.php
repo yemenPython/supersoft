@@ -39,7 +39,7 @@
             <i class="fa fa-twitter">
             </i>
         </a>
-                  </li>                                               
+                  </li>
           </ul>
 
       </div>
@@ -59,7 +59,7 @@
 
     <!-- /.pull-left -->
     <div class="pull-right">
-    
+
     <i style="cursor: pointer;" class="glyphicon glyphicon-headphones" data-toggle="modal" data-target="#exampleModal"></i>
 
 

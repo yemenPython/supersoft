@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Suppliers') }} </title>
+    <title>{{ __('Suppliers data') }} </title>
 @endsection
 
 @section('style')
@@ -14,7 +14,7 @@
         <nav>
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
-                <li class="breadcrumb-item active"> {{__('Suppliers')}}</li>
+                <li class="breadcrumb-item active"> {{__('Suppliers data')}}</li>
             </ol>
         </nav>
 
@@ -175,7 +175,7 @@
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control">
-                    <i class="fa fa-check-square-o"></i> {{__('Suppliers')}}
+                    <i class="fa fa-user"></i> {{__('Suppliers data')}}
                 </h4>
 
                 <div class="card-content js__card_content" style="">

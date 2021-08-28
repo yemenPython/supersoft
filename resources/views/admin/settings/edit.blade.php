@@ -143,6 +143,21 @@
                             </div>
 
 
+                            <div class="col-md-6">
+                                <div class="form-group col-md-6">
+                                    <div class="form-group">
+                                        <label for="date"
+                                               class="control-label">{{__('Activate Multi Currency')}}</label>
+                                        <div class="switch success">
+                                            <input type="checkbox" name="active_multi_currency" id="switch-344"
+                                                {{ isset($setting) && $setting && $setting->active_multi_currency == 1? 'checked':''}}>
+                                            <label for="switch-344"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
                             <div class="col-md-12">
                                 <div class="col-md-4">
                                     <div class="form-group col-md-6">

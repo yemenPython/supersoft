@@ -197,5 +197,16 @@
                 }
             });
         }
+        function annual_consumtion_rate_value(index) {
+            var annual_consumtion_rate = $('.annual_consumtion_rate_'+index).val();
+
+            var price = $('.price_'+index).val();
+console.log(price)
+            if (annual_consumtion_rate !='' && price !=''){
+
+                var asset_age = ( price / annual_consumtion_rate) / 100;
+                $('.asset_age_'+index).val( asset_age.toFixed(2));
+            }
+        }
     </script>
 @endsection

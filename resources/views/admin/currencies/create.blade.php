@@ -49,6 +49,6 @@
     <!-- /.row small-spacing -->
 @endsection
 @section('js-validation')
-    {!! JsValidator::formRequest('App\Http\Requests\Admin\Currency\CurrencyRequest', '.form'); !!}
+{{--    {!! JsValidator::formRequest('App\Http\Requests\Admin\Currency\CurrencyRequest', '.form'); !!}--}}
     @include('admin.partial.sweet_alert_messages')
 @endsection

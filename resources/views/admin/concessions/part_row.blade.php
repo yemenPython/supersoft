@@ -46,27 +46,27 @@
         </td>
 
         <td>
-        <span style="background:#F7F8CC !important">
+        <span>
         {{ $item->price}}
         </span>
         </td>
 
         <td>
-        <span style="background:rgb(253, 215, 215) !important">
+        <span style="background:#F7F8CC !important">
         {{ $item->price * $item->quantity}}
         </span>
         </td>
 
         <td>
-        <span style="background:rgb(253, 215, 215) !important">
-        {{ $item->store ? $item->store->name : '---'}}
+        <span class="label wg-label" style="background: rgb(113, 101, 218) !important;">
+        {{ $item->store ? $item->store->name : __('Not determined')}}
         </span>
         </td>
 
         <td>
             <button type="button" class="btn btn-primary" data-toggle="modal" onclick="showPartQuantity({{$item->part_id}})"
                     data-target="#part_store_quantity">
-                {{__('Quantity')}}
+                    <i class="fa fa-cubes"></i>
             </button>
         </td>
 

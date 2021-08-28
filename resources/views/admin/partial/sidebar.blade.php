@@ -352,7 +352,7 @@ route('admin:sale-assets.index'),
                     </ul>
                 </li>
 
-               
+
 
                 <li class="{{setActivationClass([
 route('admin:services-types.index'),
@@ -462,7 +462,7 @@ route('admin:customers.requests.index'),
 
                         <li class="{{setActivationClass(route('admin:maintenance-detections.index'))}}">
                             <a href="{{route('admin:suppliers.index')}}">
-                                {{__('Suppliers')}}
+                                {{__('Suppliers data')}}
                             </a>
                         </li>
 
@@ -474,7 +474,7 @@ route('admin:customers.requests.index'),
                         </li>
 
                         <li class="{{setActivationClass(route('admin:customers.index'))}}">
-                            <a href="{{route('admin:customers.index')}}">{{__('Customers')}}</a>
+                            <a href="{{route('admin:customers.index')}}">{{__('Customers data')}}</a>
                         </li>
 
                     <!--
@@ -620,6 +620,32 @@ route('admin:lockers_opening_balance.index'),
                     </ul>
                 </li>
 
+                <li class="{{setActivationClass([
+route('admin:banks.bank_data.index'),
+route('admin:banks.branch_product.index'),
+                     ])}}">
+                    <a class="parent-item js__control" href="#">
+                        <i style="color:#0E73D2 !important" class="menu-icon fa fa-dollar"></i>
+                        <span>{{__('Managing bank accounts')}}</span>
+                        <span class="menu-arrow fa fa-angle-down"></span>
+                    </a>
+                    <ul class="sub-menu js__content">
+
+
+                        <li class="{{setActivationClass(route('admin:banks.bank_data.index'))}}">
+                            <a href="{{route('admin:banks.bank_data.index')}}">
+                                {{__('Banks Data')}}
+                            </a>
+                        </li>
+
+
+                        <li class="{{setActivationClass(route('admin:banks.branch_product.index'))}}">
+                            <a href="{{route('admin:banks.branch_product.index')}}">
+                                {{__('branch products')}}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
 
                 <li class="
 route('admin:revenues_types.index'),
@@ -903,6 +929,8 @@ route('admin:security_approval.index'),
                     </ul>
                 </li>
 
+
+              
             </ul>
         </div>
         <!-- /.navigation -->

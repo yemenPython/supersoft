@@ -37,12 +37,12 @@
                             </select>
                         </div>
 
-                        <div class="radio primary col-md-2" style="margin-top: 37px;">
+                        <div class="radio primary col-md-3" style="margin-top: 37px;">
                             <input type="radio" name="type" value="add" id="add">
                             <label for="add">{{__('Add Concession')}}</label>
                         </div>
 
-                        <div class="radio primary col-md-2" style="margin-top: 37px;">
+                        <div class="radio primary col-md-3" style="margin-top: 37px;">
                             <input type="radio" name="type" id="withdrawal" value="withdrawal">
                             <label for="withdrawal">{{__('Withdrawal Concession')}}</label>
                         </div>

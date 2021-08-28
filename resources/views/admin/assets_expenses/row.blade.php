@@ -40,7 +40,16 @@
     </td>
 
     <td>
-        <input type="number" class="priceItem border2" name="items[{{$index}}][price]" value="0" onkeyup="addPriceToTotal('{{$index}}')">
+        <input type="number" class="priceItem border2 price_{{$index}}" name="items[{{$index}}][price]" value="0" onkeyup="addPriceToTotal('{{$index}}');annual_consumtion_rate_value('{{$index}}')" onchange="annual_consumtion_rate_value('{{$index}}')">
+    </td>
+    <td>
+        <input type="text"  style="width: 100px !important;" class="border4 annual_consumtion_rate_{{$index}} form-control valid" onchange="annual_consumtion_rate_value('{{$index}}')" onkeyup="annual_consumtion_rate_value('{{$index}}')" value="{{$asset->annual_consumtion_rate}}" name="items[{{$index}}][annual_consumtion_rate]">
+    </td>
+
+    <td>
+        <div class="input-group">
+            <input type="text" readonly style="width: 100px !important;" class="border5 asset_age_{{$index}} form-control valid"  value="" name="items[{{$index}}][expense_age]">
+        </div>
     </td>
     <td>
         <div class="input-group" id="stores">
