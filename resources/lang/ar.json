@@ -2329,6 +2329,7 @@
     "Show Bank Data" : "عرض بيانات البنك",
     "branch products" : "منتجات الفرع",
     "Product Name" : "اسم المنتج",
+<<<<<<< HEAD
     "Inside Phone" : "رقم داخلى",
     "Mobile" : "موبايل",
     "Bank Officials" : "مسؤوليــن البنــك",
@@ -2338,8 +2339,7 @@
     "Edit Bank Commissioner" : "تعديل بيانات مفوض البنك",
     "Bank Commissioners" : "مفوضيين البنــك",
     "Types Bank Accounts" : "أنواع الحسابات البنكية",
-    "fffffff" : "ffffffff",
-    "fffffff" : "ffffffff",
-    "fffffff" : "ffffffff"
+    "Part Data" : "بيانات الصنف",
+    "Units" : "وحدات الصنف"
 }
 

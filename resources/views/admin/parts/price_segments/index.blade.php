@@ -9,23 +9,25 @@
         <th scope="col">{!! __('Action') !!}</th>
     </tr>
     </thead>
-    <tbody id="part_price_{{$index}}_segments">
-        @if(isset($price))
+    <tbody id="part_price_segments">
+
+        @if(isset($price) && !isset($formType))
             @foreach($price->partPriceSegments as $key => $priceSegment)
 
                 @php
-                $key+=1;
+                    $key+=1;
                 @endphp
 
                 @include('admin.parts.price_segments.ajax_price_segment')
             @endforeach
         @endif
+
     </tbody>
 
 </table>
 
-<input type="hidden" id="part_price_{{$index}}_segments_count" value="{{isset($price) ? $price->partPriceSegments->count() : 0 }}">
+<input type="hidden" id="part_price_segments_count" value="{{isset($price) && !isset($formType) ? $price->partPriceSegments->count() : 0 }}">
 
-<button type="button" title="new price" onclick="newPartPriceSegment('{{$index}}')" class="btn btn-sm btn-info">
+<button type="button" title="new price" onclick="newPartPriceSegment()" class="btn btn-sm btn-info">
     <li class="fa fa-plus"></li> {{__('New price')}}
 </button>
