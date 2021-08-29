@@ -9,6 +9,7 @@ use App\Traits\LoggerError;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Throwable;
 use Yajra\DataTables\DataTables;
 
@@ -76,6 +77,32 @@ class BankDataController extends Controller
         }
     }
 
+    public function destroy(int $id)
+    {
+        $item = BankData::findOrFail($id);
+        $item->products()->detach();
+        $item->bankOfficials()->delete();
+        $item->bankcommissioners()->delete();
+        $item->delete();
+        return redirect()->route('admin:banks.bank_data.index')->with(['message' => __('Item has been created successfully ...'), 'alert-type' => 'success']);
+    }
+
+    public function deleteSelected(Request $request)
+    {
+        if (isset($request->ids)) {
+            $items = BankData::whereIn('id', array_unique($request->ids))->get();
+            foreach ($items as $item) {
+                $item->products()->detach();
+                $item->bankOfficials()->delete();
+                $item->bankcommissioners()->delete();
+                $item->delete();
+            }
+            return redirect()->back()
+                ->with(['message' => __('words.selected-row-deleted'), 'alert-type' => 'success']);
+        }
+        return redirect()->back()->with(['message' => __('words.select-one-least'), 'alert-type' => 'error']);
+    }
+
     public function StartDealing(int $bankDataId)
     {
         $item = BankData::findOrFail($bankDataId);
@@ -93,7 +120,16 @@ class BankDataController extends Controller
 
     public function assignProducts(Request $request)
     {
-        dd($request->all());
+        $validator = Validator::make($request->all(), [
+            'bank_data_id' => 'required|integer|exists:bank_data,id',
+            'products' => 'required',
+        ]);
+        if ($validator->fails()) {
+            return back()->withErrors($validator->errors()->first());
+        }
+        $item = BankData::findOrFail($request->bank_data_id);
+        $item->products()->sync($request->products);
+        return redirect()->route('admin:banks.bank_data.index')->with(['message' => __('تم ربط المنتجات مع البنك بنجاح'), 'alert-type' => 'success']);
     }
 
     /**

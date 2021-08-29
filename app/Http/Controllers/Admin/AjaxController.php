@@ -11,6 +11,8 @@ use App\Models\AssetMaintenance;
 use App\Models\AssetsItemExpense;
 use App\Models\AssetsTypeExpense;
 use App\Models\BankAccount;
+use App\Models\Banks\BankCommissioner;
+use App\Models\Banks\BankOfficial;
 use App\Models\DamagedStock;
 use App\Models\EmployeeData;
 use App\Models\Locker;
@@ -51,6 +53,7 @@ class AjaxController extends Controller
     protected $supplierID;
     protected $maintenance_detection_type_id_select2;
     protected $asset_id_select_2;
+    protected $bank_data_id;
 
 
     public function AutoComplete(Request $request)
@@ -104,6 +107,8 @@ class AjaxController extends Controller
                 && $request->maintenance_detection_type_id_select2 != __('words.select-one')) ? $request->maintenance_detection_type_id_select2 : '';
             $this->asset_id_select_2 = ($request->has('asset_id_select_2') && !empty($request->asset_id_select_2)
                 && $request->asset_id_select_2 != __('words.select-one')) ? $request->asset_id_select_2 : '';
+            $this->bank_data_id = ($request->has('bank_data_id') && !empty($request->bank_data_id)
+                && $request->bank_data_id != __('words.select-one')) ? $request->bank_data_id : '';
 
             switch ($request->model) {
                 case 'User':
@@ -223,6 +228,12 @@ class AjaxController extends Controller
                     break;
                 case 'LockerOpeningBalance':
                     $data = $this->getLockerOpeningBalance($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'BankOfficial':
+                    $data = $this->getBankOfficials($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'BankCommissioner':
+                    $data = $this->getBankCommissioner($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
                     break;
                 default:
                     break;
@@ -1455,6 +1466,62 @@ class AjaxController extends Controller
         }
         if (!empty($branchId)) {
             $items = $items->where('branch_id', $branchId);
+        }
+        $items = $items->limit($limit)->get();
+        foreach ($items as $item) {
+            $data[] = [
+                'id' => $item->id,
+                'text' => $this->buildSelectedColumnsAsText($item, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+    private function getBankOfficials(array $searchFields, string $searchTerm, string $selectedColumns, int $limit, string $branchId)
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $items = BankOfficial::select(DB::raw($selectedColumns));
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $items = $items->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        if (!empty($this->bank_data_id)) {
+            $items = $items->where('bank_data_id', $this->bank_data_id);
+        }
+        $items = $items->limit($limit)->get();
+        foreach ($items as $item) {
+            $data[] = [
+                'id' => $item->id,
+                'text' => $this->buildSelectedColumnsAsText($item, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+    private function getBankCommissioner(array $searchFields, string $searchTerm, string $selectedColumns, int $limit, string $branchId)
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $items = BankCommissioner::select(DB::raw($selectedColumns));
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $items = $items->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        if (!empty($this->bank_data_id)) {
+            $items = $items->where('bank_data_id', $this->bank_data_id);
         }
         $items = $items->limit($limit)->get();
         foreach ($items as $item) {

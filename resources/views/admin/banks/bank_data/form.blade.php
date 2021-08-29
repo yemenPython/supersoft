@@ -1,5 +1,26 @@
 <div class="row">
     <div class="">
+
+        @if (authIsSuperAdmin())
+            <div class="col-md-12">
+                <div class="form-group">
+                    <label> {{ __('Branches') }} </label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                        <select class="form-control select2" name="branch_id" id="branch_id">
+                            <option value=""> {{ __('Select Branch') }} </option>
+                            @foreach(\App\Models\Branch::all() as $branch)
+                                <option {{ (old('branch_id') == $branch->id) || (isset($item) && $item->branch_id == $branch->id) ? 'selected' : '' }}
+                                        value="{{ $branch->id }}"> {{ $branch->name }} </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </div>
+        @else
+            <input type="hidden" name="branch_id" value="{{ auth()->user()->branch_id }}"/>
+        @endif
+
         <div class="col-md-3">
             <div class="form-group">
                 <label for="inputNameAr" class="control-label">{{__('Name in Arabic')}}  {!! required() !!}</label>

@@ -644,6 +644,12 @@ route('admin:banks.branch_product.index'),
                                 {{__('branch products')}}
                             </a>
                         </li>
+
+                        <li class="{{setActivationClass(route('admin:banks.type_bank_accounts.index'))}}">
+                            <a href="{{route('admin:banks.type_bank_accounts.index')}}">
+                                {{__('Types Bank Accounts')}}
+                            </a>
+                        </li>
                     </ul>
                 </li>
 
@@ -930,7 +936,7 @@ route('admin:security_approval.index'),
                 </li>
 
 
-              
+
             </ul>
         </div>
         <!-- /.navigation -->

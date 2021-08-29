@@ -2,6 +2,7 @@
 
 namespace App\Models\Banks;
 
+use App\Scopes\BranchScope;
 use App\Traits\ColumnTranslation;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,8 +14,15 @@ class BranchProduct extends Model
 
     protected $fillable = [
         'name_ar',
-        'name_en'
+        'name_en',
+        'branch_id',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new BranchScope());
+    }
 
     public function setNameEnAttribute($value)
     {

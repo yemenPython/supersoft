@@ -33,6 +33,7 @@ class BranchProductController extends Controller
             BranchProduct::create($request->all());
             return redirect()->route('admin:banks.branch_product.index')->with(['message' => __('Item has been created successfully ...'), 'alert-type' => 'success']);
         } catch (Exception $exception) {
+            dd($exception->getMessage());
             $this->logErrors($exception);
             return back()->withInput($request->all())->with(['message' => __('something went wrong'), 'alert-type' => 'error']);
         }

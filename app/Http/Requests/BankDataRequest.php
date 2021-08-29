@@ -23,6 +23,7 @@ class BankDataRequest extends FormRequest
             'name_ar' => __('Name in Arabic'),
             'name_en' => __('Name in English'),
             'date' => __('Start Date With Bank'),
+            'branch_id' => __('Branch'),
         ];
     }
 }

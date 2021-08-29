@@ -39,18 +39,12 @@
                     </a>
                 @endif
             </li>
-            <li>
-                @component('admin.buttons._edit_button',[
-                            'id'=> $item->id,
-                            'route' => 'admin:banks.bank_data.edit',
-                             ])
-                @endcomponent
-            </li>
+
 
             <li>
                 <a style="cursor:pointer" onclick="loadDataWithModal('{{route('admin:banks.branch_product.show', [$item->id])}}', '#showProducts', '#showProductsResponse')" data-id="{{$item->id}}"
                    class="btn btn-terms-wg text-white hvr-radial-out" title="{{__('branch Products')}}">
-                    <i class="fa fa-product-hunt"></i> {{__('branch products')}}
+                    <i class="fa fa-product-hunt"></i> {{__('branch products')}} [{{count($item->products)}}]
                 </a>
             </li>
 
@@ -67,11 +61,34 @@
                 @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])
             </li>
 
+
+            <li>
+                <a target="_blank" style="cursor:pointer"  href="{{route('admin:banks.bank_officials.index', [$item->id])}}"
+                   class="btn btn-terms-wg text-white hvr-radial-out" title="{{__('Bank Officials')}}">
+                    <i class="fa fa-users"></i> {{__('Bank Officials')}} [{{count($item->bankOfficials)}}]
+                </a>
+            </li>
+
+            <li>
+                <a target="_blank" style="cursor:pointer"  href="{{route('admin:banks.bank_commissioners.index', [$item->id])}}"
+                   class="btn btn-terms-wg text-white hvr-radial-out" title="{{__('Bank Commissioners')}}">
+                    <i class="fa fa-users"></i> {{__('Bank Commissioners')}} [{{count($item->bankcommissioners)}}]
+                </a>
+            </li>
+
             <li>
                 <a style="cursor:pointer" onclick="OpenLocation('{{$item->lat}}', '{{$item->long}}')"
                    class="btn btn-terms-wg text-white hvr-radial-out" title="{{__('Location')}}">
                     <i class="fa fa-location-arrow"></i> {{__('Location')}}
                 </a>
+            </li>
+
+            <li>
+                @component('admin.buttons._edit_button',[
+                            'id'=> $item->id,
+                            'route' => 'admin:banks.bank_data.edit',
+                             ])
+                @endcomponent
             </li>
 
             <li class="btn-style-drop">

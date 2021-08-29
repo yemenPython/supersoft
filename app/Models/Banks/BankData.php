@@ -2,6 +2,7 @@
 
 namespace App\Models\Banks;
 
+use App\Scopes\BranchScope;
 use App\Traits\ColumnTranslation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -36,6 +37,7 @@ class BankData extends Model
         'date',
         'status',
         'library_path',
+        'branch_id',
     ];
 
     protected $casts = [
@@ -57,6 +59,7 @@ class BankData extends Model
         'phone' => 'nullable|max:200|string',
         'date' => 'required',
         'status' => 'in:1,0',
+        'branch_id' => 'required|exists:branches,id',
     ];
 
     /**
@@ -74,20 +77,16 @@ class BankData extends Model
         'options' => 'options'
     ];
 
+    protected static function boot()
+    {
+        parent::boot();
+        static::addGlobalScope(new BranchScope());
+    }
+
     public function setNameEnAttribute($value)
     {
         $this->attributes['name_en'] = is_null($value) ? $this->attributes['name_ar'] : $value;
     }
-
-    // public function setShortNameArAttribute($value)
-    // {
-    //     $this->attributes['short_name_ar'] = is_null($value) ? $this->attributes['short_name_ar'] : $value;
-    // }
-
-    // public function setShortNameEnAttribute($value)
-    // {
-    //     $this->attributes['short_name_en'] = is_null($value) ? $this->attributes['short_name_en'] : $value;
-    // }
 
     public function files(): HasMany
     {
@@ -98,6 +97,16 @@ class BankData extends Model
     {
         return $this->belongsToMany(BranchProduct::class,
             'branch_product_banks', 'bank_data_id', 'branch_product_id');
+    }
+
+    public function bankOfficials(): HasMany
+    {
+        return $this->hasMany(BankOfficial::class, 'bank_data_id');
+    }
+
+    public function bankcommissioners(): HasMany
+    {
+        return $this->hasMany(BankCommissioner::class, 'bank_data_id');
     }
 
     /**
