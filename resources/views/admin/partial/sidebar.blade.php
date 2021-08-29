@@ -282,6 +282,7 @@ route('admin:purchase-assets.index'),
 route('admin:assets_replacements.index'),
 route('admin:consumption-assets.index'),
 route('admin:sale-assets.index'),
+route('admin:stop_and_activate_assets.index'),
                      ])}}">
                     <a class="parent-item js__control" href="#">
                         <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
@@ -348,11 +349,16 @@ route('admin:sale-assets.index'),
                                 {{__('Assets Sale')}}
                             </a>
                         </li>
+                        <li class="{{setActivationClass(route('admin:stop_and_activate_assets.index'))}}">
+                            <a href="{{route('admin:stop_and_activate_assets.index')}}">
+                                {{__('Stop And Activate Assets')}}
+                            </a>
+                        </li>
 
                     </ul>
                 </li>
 
-               
+
 
                 <li class="{{setActivationClass([
 route('admin:services-types.index'),
