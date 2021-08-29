@@ -43,13 +43,7 @@
 {{--            {!! __('Last selling price') !!}--}}
 {{--            <i class="fa fa-sort{{ \App\AccountingModule\Helper::iam_used_in_sort('last-selling-price') }}"></i>--}}
 {{--        </th>--}}
-        <th class="text-center column-status"
-            onclick="appling_sort(event ,'status')"
-            data-sort-method="{{ isset($_GET['sort_method']) ? $_GET['sort_method'] : 'desc' }}"
-            scope="col">
-            {!! __('Status') !!}
-            <i class="fa fa-sort{{ \App\AccountingModule\Helper::iam_used_in_sort('status') }}"></i>
-        </th>
+
 
         <th class="text-center column-status"
             onclick="appling_sort(event ,'reviewable')"
@@ -67,6 +61,14 @@
             <i class="fa fa-sort{{ \App\AccountingModule\Helper::iam_used_in_sort('taxable') }}"></i>
         </th>
 
+        <th class="text-center column-status"
+            onclick="appling_sort(event ,'status')"
+            data-sort-method="{{ isset($_GET['sort_method']) ? $_GET['sort_method'] : 'desc' }}"
+            scope="col">
+            {!! __('Status') !!}
+            <i class="fa fa-sort{{ \App\AccountingModule\Helper::iam_used_in_sort('status') }}"></i>
+        </th>
+        
         <th class="text-center column-created-at"
             onclick="appling_sort(event ,'created-at')"
             data-sort-method="{{ isset($_GET['sort_method']) ? $_GET['sort_method'] : 'desc' }}"

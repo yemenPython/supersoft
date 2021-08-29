@@ -36,24 +36,24 @@ class CreatePartsRequest extends FormRequest
             'spare_part_type_ids.*'=>'required|integer|exists:spare_parts,id',
 
 
-            'units.*.quantity' => 'required|integer|min:0',
-            'units.*.unit_id' => 'required|integer|exists:spare_part_units,id',
-            'units.*.selling_price' => 'required|numeric|min:0',
-            'units.*.purchase_price' => 'required|numeric|min:0',
-            'units.*.less_selling_price' => 'required|numeric|min:0',
-            'units.*.service_selling_price' => 'required|numeric|min:0',
-            'units.*.less_service_selling_price' => 'required|numeric|min:0',
-            'units.*.maximum_sale_amount' => 'required|numeric|min:0',
-            'units.*.minimum_for_order' => 'required|numeric|min:0',
-            'units.*.biggest_percent_discount' => 'required|numeric|min:0',
-            'units.*.barcode' => 'nullable|string|min:2',
-            'units.*.supplier_barcode' => 'nullable|string|min:2',
-            'units.*.damage_price' => 'required|numeric|min:0',
-
-            'units.*.prices.*.name' => 'nullable|string',
-            'units.*.prices.*.purchase_price' => 'nullable|numeric|min:0',
-            'units.*.prices.*.sales_price' => 'nullable|numeric|min:0',
-            'units.*.prices.*.maintenance_price' => 'nullable|numeric|min:0',
+//            'units.*.quantity' => 'required|integer|min:0',
+//            'units.*.unit_id' => 'required|integer|exists:spare_part_units,id',
+//            'units.*.selling_price' => 'required|numeric|min:0',
+//            'units.*.purchase_price' => 'required|numeric|min:0',
+//            'units.*.less_selling_price' => 'required|numeric|min:0',
+//            'units.*.service_selling_price' => 'required|numeric|min:0',
+//            'units.*.less_service_selling_price' => 'required|numeric|min:0',
+//            'units.*.maximum_sale_amount' => 'required|numeric|min:0',
+//            'units.*.minimum_for_order' => 'required|numeric|min:0',
+//            'units.*.biggest_percent_discount' => 'required|numeric|min:0',
+//            'units.*.barcode' => 'nullable|string|min:2',
+//            'units.*.supplier_barcode' => 'nullable|string|min:2',
+//            'units.*.damage_price' => 'required|numeric|min:0',
+//
+//            'units.*.prices.*.name' => 'nullable|string',
+//            'units.*.prices.*.purchase_price' => 'nullable|numeric|min:0',
+//            'units.*.prices.*.sales_price' => 'nullable|numeric|min:0',
+//            'units.*.prices.*.maintenance_price' => 'nullable|numeric|min:0',
 
             'taxes.*' => 'nullable|integer|exists:taxes_fees,id'
         ];

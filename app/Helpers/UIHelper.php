@@ -407,3 +407,9 @@ if (!function_exists('whereBetween')) {
         }
     }
 }
+
+
+function required()
+{
+    return '<span class="text-danger">*</span>';
+}

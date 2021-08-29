@@ -17,10 +17,6 @@
                 onclick="hide_column(event ,'quantity')">
                 {!! __('Quantity') !!}
             </button>
-            <button class="col-md-12 columns-btns btn btn-default"
-                onclick="hide_column(event ,'status')">
-                {!! __('Status') !!}
-            </button>
 
             <button class="col-md-12 columns-btns btn btn-default"
                     onclick="hide_column(event ,'reviewable')">
@@ -31,6 +27,12 @@
                     onclick="hide_column(event ,'taxable')">
                 {!! __('Taxable') !!}
             </button>
+
+            <button class="col-md-12 columns-btns btn btn-default"
+                onclick="hide_column(event ,'status')">
+                {!! __('Status') !!}
+            </button>
+
 
             <button class="col-md-12 columns-btns btn btn-default"
                 onclick="hide_column(event ,'created-at')">

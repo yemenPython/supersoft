@@ -4,11 +4,11 @@
 @endif
 
 @if(isset($withOperationData))
-    <span class="text-danger">{{ $openingBalances->operation_date}} </span>
+    <span>{{ $openingBalances->operation_date}} </span>
 @endif
 
 @if (isset($withTotal))
-    <span style="background:#F7F8CC !important"> {{ $openingBalances->total_money }} </span>
+<span class="label light-danger wg-label">{{ $openingBalances->total_money }} </span>
 @endif
 
 

@@ -44,6 +44,7 @@ Route::post('stores/show', 'StoresController@show')->name('stores.show');
 
 //parts
 Route::resource('parts', 'PartsController');
+Route::post('parts/update/data', 'PartsController@update')->name('parts.update.data');
 Route::post('part-deleteSelected', 'PartsController@deleteSelected')->name('parts.deleteSelected');
 Route::get('part-print-barcode', 'PartsController@printBarcode')->name('parts.print.barcode');
 Route::get('getPartsBySparePartID', 'PartsController@getPartsBySparePartID')->name('getPartsBySparePartID');
@@ -63,6 +64,9 @@ Route::post('parts/upload_library/file-delete', 'PartLibraryController@destroyFi
 
 //new units
 Route::post('part-units/new', 'PartUnitsController@newUnit')->name('part.units.new');
+Route::post('part-units/store', 'PartUnitsController@storeUnit')->name('part.units.store');
+Route::post('part-units/create', 'PartUnitsController@create')->name('part.units.create');
+Route::post('part-units/edit', 'PartUnitsController@edit')->name('part.units.edit');
 Route::post('part-units/update', 'PartUnitsController@update')->name('part.units.update');
 Route::post('part-units/destroy', 'PartUnitsController@destroy')->name('part.units.destroy');
 

@@ -10,7 +10,25 @@
         /*.dataTables_filter {*/
         /*    display: none;*/
         /*}*/
-        
+
+        .light-success {
+            background-color: rgba(40, 199, 111, 0.12);
+            color: #28C76F !important;
+            font-weight: bold;
+        }
+
+        .light-danger {
+            background-color: rgba(234, 84, 85, 0.15) !important;
+            color: #ea5455 !important;
+            font-weight: bold;
+        }
+
+        .light-primary {
+            background-color: rgba(115, 103, 240, 0.15) !important;
+            color: #7367f0  !important;
+            font-weight: bold;
+        }
+
         .price-span {
             display: inline-grid;
             background: #7bdaeb !important;
@@ -921,4 +939,8 @@ background-image: linear-gradient(0deg, #1d92af 0%, #1d5697 100%); */
         #invoiceDatatoPrint {
             position: relative;
             padding: 0 15px;
+        }
+
+        .hiddenRow {
+            padding: 0 !important;
         }

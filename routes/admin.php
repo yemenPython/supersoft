@@ -94,6 +94,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [
         include 'register_added_value.php';
         include 'company_contract.php';
         include 'security_approval.php';
+        include 'banks.php';
 
         ///// Begin Financial Management routes ////
         include ('FinancialManagement/routes.php');
