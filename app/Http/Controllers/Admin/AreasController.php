@@ -75,6 +75,9 @@ class AreasController extends Controller
 
     public function destroy(Area $area)
     {
+        if ($area->seeder) {
+            return redirect()->back()->with(['message' => __('you can not delete this item, it is default value, you can only edit it'), 'alert-type' => 'warning']);
+        }
         if ($area->city) {
             return redirect()->back()->with(['message' => __('words.can-not-delete-this-data-cause-there-is-related-data'), 'alert-type' => 'error']);
         }
@@ -98,6 +101,9 @@ class AreasController extends Controller
         if (isset($request->ids)) {
             $areas = Area::whereIn('id', $request->ids)->get();
             foreach ($areas as $area) {
+                if ($area->seeder) {
+                    return redirect()->back()->with(['message' => __('you can not delete this item, it is default value, you can only edit it'), 'alert-type' => 'warning']);
+                }
                 if ($area->city) {
                     return redirect()->back()->with(['message' => __('words.can-not-delete-this-data-cause-there-is-related-data'), 'alert-type' => 'error']);
                 }

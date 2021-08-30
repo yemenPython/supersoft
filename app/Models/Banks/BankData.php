@@ -38,6 +38,10 @@ class BankData extends Model
         'status',
         'library_path',
         'branch_id',
+        'country_id',
+        'city_id',
+        'area_id',
+        'stop_date',
     ];
 
     protected $casts = [
@@ -72,6 +76,7 @@ class BankData extends Model
         'code' => 'code',
         'swift_code' => 'swift_code',
         'date' => 'date',
+        'stop_date' => 'stop_date',
         'status' => 'status',
         'action' => 'action',
         'options' => 'options'

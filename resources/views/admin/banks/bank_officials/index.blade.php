@@ -133,8 +133,9 @@
                 var status = button.data('status');
                 if (status == 1) {
                     $( "#switch-1" ).prop( "checked", true );
-                } else {
-                    $( "#switch-1" ).prop( "checked", false);
+                }
+                if (status == 0) {
+                    $( "#switch-1" ).prop( "checked", false );
                 }
                 var title = button.data('title');
                 if (title === undefined){

@@ -2329,7 +2329,6 @@
     "Show Bank Data" : "عرض بيانات البنك",
     "branch products" : "منتجات الفرع",
     "Product Name" : "اسم المنتج",
-<<<<<<< HEAD
     "Inside Phone" : "رقم داخلى",
     "Mobile" : "موبايل",
     "Bank Officials" : "مسؤوليــن البنــك",
@@ -2340,6 +2339,14 @@
     "Bank Commissioners" : "مفوضيين البنــك",
     "Types Bank Accounts" : "أنواع الحسابات البنكية",
     "Part Data" : "بيانات الصنف",
-    "Units" : "وحدات الصنف"
+    "you can not delete this item, it is default value, you can only edit it" : "لا يمكنك حذف القيمه الافتراضية.. يمكنك تعديلها فقط !",
+    "Detect The Stop Date of Dealing" : "من فضلك حدد تاريخ إيقاف التعامل ",
+    "Stop Date With Bank" : "تاريخ إايقاف التعامل",
+    "Branch Bank" : "فرع البنك",
+    "Start Date Dealing From" : "تاريخ بداية التعامل من",
+    "Start Date Dealing To" : "تاريخ بداية التعامل إلى",
+    "Stop Date Dealing From" : "تاريخ إايقاف التعامل من",
+    "Stop Date Dealing To" : "تاريخ إايقاف التعامل إلى",
+    "Units" : "eee"
 }
 

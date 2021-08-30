@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin\Banks;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BankCommissionerRequest;
 use App\Http\Requests\BankOfficialRequest;
 use App\Models\Banks\BankCommissioner;
 use App\Models\Banks\BankData;
+use App\Models\EmployeeData;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -19,18 +21,20 @@ class BankCommissionerController extends Controller
     {
         $items = $bankData->bankcommissioners;
         $items = $this->filter($request, $items);
+        $employeesData = EmployeeData::where("branch_id", $bankData->branch_id)->select(['id', 'name_ar', 'name_en'])->get();
         if ($request->isDataTable) {
             return $this->dataTableColumns($items);
         } else {
             return view(self::ViewPath . 'index', [
                 'items' => $items,
                 'bankData' => $bankData,
+                'employeesData' => $employeesData,
                 'js_columns' => BankCommissioner::getJsDataTablesColumns(),
             ]);
         }
     }
 
-    public function store(BankOfficialRequest $request): RedirectResponse
+    public function store(BankCommissionerRequest $request): RedirectResponse
     {
         if ($request->old_bank_commissioner_id) {
             $item = BankCommissioner::find($request->old_bank_commissioner_id);
@@ -95,13 +99,10 @@ class BankCommissionerController extends Controller
                 return view($view, compact('item', 'withStatus'))->render();
             })
             ->addColumn('name', function ($item) use ($view) {
-                return $item->name;
+                return optional($item->employee)->name;
             })
             ->addColumn('email', function ($item) use ($view) {
-                return $item->email;
-            })
-            ->addColumn('job', function ($item) use ($view) {
-                return $item->job;
+                return optional($item->employee)->email;
             })
             ->addColumn('phones', function ($item) use ($view) {
                 $withPhones = true;

@@ -53,7 +53,6 @@
                                 <th scope="col"> {{ __('status') }} </th>
                                 <th scope="col"> {{ __( 'Name') }} </th>
                                 <th scope="col"> {{ __( 'E-Mail') }} </th>
-                                <th scope="col"> {{ __( 'Job') }} </th>
                                 <th scope="col"> {{ __('Contact Phones') }} </th>
                                 <th scope="col"> {{ __('start date') }} </th>
                                 <th scope="col"> {{ __('end date') }} </th>
@@ -72,7 +71,6 @@
                                 <th scope="col"> {{ __('status') }} </th>
                                 <th scope="col"> {{ __( 'Name') }} </th>
                                 <th scope="col"> {{ __( 'E-Mail') }} </th>
-                                <th scope="col"> {{ __( 'Job') }} </th>
                                 <th scope="col"> {{ __('Contact Phones') }} </th>
                                 <th scope="col"> {{ __('start date') }} </th>
                                 <th scope="col"> {{ __('end date') }} </th>
@@ -91,46 +89,36 @@
 @stop
 
 @section('js')
-    {!! JsValidator::formRequest('App\Http\Requests\BankOfficialRequest')->selector('#newAssetEmployee-form'); !!}
+    {!! JsValidator::formRequest('App\Http\Requests\BankCommissionerRequest')->selector('#newAssetEmployee-form'); !!}
     <script type="application/javascript">
         $(document).ready(function () {
             $('#add-employee-modal').on('show.bs.modal', function (event) {
+                $('#empId').select2({
+                    dropdownParent: $('#add-employee-modal')
+                });
                 var button = $(event.relatedTarget);
-
-
                 var old_bank_commissioner_id = button.data('old_bank_commissioner_id');
                 $('#old_bank_commissioner_id').val(old_bank_commissioner_id);
-
-                var name_ar = button.data('name_ar');
-                $('#name_ar').val(name_ar);
-
-                var name_en = button.data('name_en');
-                $('#name_en').val(name_en);
-
-                var phone1 = button.data('phone1');
-                $('#phone1').val(phone1);
-
-                var phone2 = button.data('phone2');
-                $('#phone2').val(phone2);
-
-                var phone3 = button.data('phone3');
-                $('#phone3').val(phone3);
-
-                var email = button.data('email');
-                $('#email').val(email);
-
-                var job = button.data('job');
-                $('#job').val(job);
-
+                var phone = button.data('phone');
+                $('#phone').val(phone);
                 var date_from = button.data('date_from');
                 $('#date_from').val(date_from);
                 var date_to = button.data('date_to');
                 $('#date_to').val(date_to);
                 var status = button.data('status');
+                var employee_id = button.data('employee_id');
+                $('#empId').val(employee_id);
                 if (status == 1) {
                     $( "#switch-1" ).prop( "checked", true );
+                }
+                if (status == 0) {
+                    $( "#switch-1" ).prop( "checked", false );
+                }
+                if (employee_id && employee_id != '') {
+                    $('#empId').val(employee_id).trigger('change');
                 } else {
-                    $( "#switch-1" ).prop( "checked", false);
+                    $('#empId').val(0).trigger('change');
+                    $("#empId").select2("val", '');
                 }
                 var title = button.data('title');
                 if (title === undefined){
@@ -160,5 +148,25 @@
                 $("#loaderSearch").hide();
             }, 1000)
         }
+
+        $('#empId').on('change', function () {
+            const CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            const employee_id = $(this).val();
+            $.ajax({
+                type: 'post',
+                url: "{{ route('admin:assets.getAssetsEmployeePhone')}}",
+                data: {
+                    employee_id: employee_id,
+                    _token: CSRF_TOKEN,
+                },
+                success: function (data) {
+                    $('#phone').val(data.phone);
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+        });
     </script>
 @stop

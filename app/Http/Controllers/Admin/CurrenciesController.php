@@ -90,6 +90,9 @@ class CurrenciesController extends Controller
 
     public function destroy(Currency $currency)
     {
+        if ($currency->seeder) {
+            return redirect()->back()->with(['message' => __('you can not delete this item, it is default value, you can only edit it'), 'alert-type' => 'warning']);
+        }
         if ($currency->countries()->exists()) {
             return redirect()->back()->with(['message' => __('words.can-not-delete-this-data-cause-there-is-related-data'), 'alert-type' => 'error']);
         }
@@ -112,6 +115,9 @@ class CurrenciesController extends Controller
         if (isset($request->ids)) {
             $currencies = Currency::whereIn('id', $request->ids)->get();
             foreach ($currencies as $currency) {
+                if ($currency->seeder) {
+                    return redirect()->back()->with(['message' => __('you can not delete this item, it is default value, you can only edit it'), 'alert-type' => 'warning']);
+                }
                 if ($currency->countries()->exists()) {
                     return redirect()->back()->with(['message' => __('words.can-not-delete-this-data-cause-there-is-related-data'), 'alert-type' => 'error']);
                 }
