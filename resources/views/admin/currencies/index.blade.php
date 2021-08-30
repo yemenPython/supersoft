@@ -24,13 +24,17 @@
 
                  <div class="card-content js__card_content" style="">
                     <ul class="list-inline pull-left top-margin-wg">
+                    @if ($setting->active_multi_currency)
                        <li class="list-inline-item">
+
+                   
 
                        @include('admin.buttons.add-new', [
                   'route' => 'admin:currencies.create',
                       'new' => '',
                      ])
                        </li>
+                       @endif
 
                             <li class="list-inline-item">
                                 @component('admin.buttons._confirm_delete_selected',[

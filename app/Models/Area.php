@@ -34,7 +34,12 @@ class Area extends Model
      * @var array
      */
     protected $fillable = [
-        'name_ar', 'name_en', 'city_id'
+        'name_ar', 'name_en', 'city_id', 'seeder'
+    ];
+
+
+    protected $casts = [
+        'seeder' => 'boolean',
     ];
 
     public function city()

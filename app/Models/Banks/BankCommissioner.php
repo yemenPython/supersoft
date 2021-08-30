@@ -2,8 +2,10 @@
 
 namespace App\Models\Banks;
 
+use App\Models\EmployeeData;
 use App\Traits\ColumnTranslation;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BankCommissioner extends Model
 {
@@ -18,18 +20,11 @@ class BankCommissioner extends Model
      * @var string[]
      */
     protected $fillable = [
-        'branch_id',
         'bank_data_id',
-        'name_ar',
-        'name_en',
-        'phone1',
-        'phone2',
-        'phone3',
-        'email',
-        'job',
         'date_from',
         'date_to',
         'status',
+        'employee_id',
     ];
 
     protected $casts = [
@@ -44,7 +39,6 @@ class BankCommissioner extends Model
         'status' => 'status',
         'name' => 'name',
         'email' => 'email',
-        'job' => 'job',
         'phones' => 'phones',
         'date_from' => 'date_from',
         'date_to' => 'date_to',
@@ -63,6 +57,11 @@ class BankCommissioner extends Model
     public static function getJsDataTablesColumns(): array
     {
         return self::$dataTableColumns;
+    }
+
+    public function employee(): BelongsTo
+    {
+        return $this->belongsTo(EmployeeData::class, 'employee_id');
     }
 }
 

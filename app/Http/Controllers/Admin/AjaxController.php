@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Model\PurchaseReturn;
+use App\Models\Area;
 use App\Models\Asset;
 use App\Models\AssetExpense;
 use App\Models\AssetGroup;
@@ -12,7 +13,10 @@ use App\Models\AssetsItemExpense;
 use App\Models\AssetsTypeExpense;
 use App\Models\BankAccount;
 use App\Models\Banks\BankCommissioner;
+use App\Models\Banks\BankData;
 use App\Models\Banks\BankOfficial;
+use App\Models\City;
+use App\Models\Country;
 use App\Models\DamagedStock;
 use App\Models\EmployeeData;
 use App\Models\Locker;
@@ -54,6 +58,8 @@ class AjaxController extends Controller
     protected $maintenance_detection_type_id_select2;
     protected $asset_id_select_2;
     protected $bank_data_id;
+    protected $country_id;
+    protected $city_id;
 
 
     public function AutoComplete(Request $request)
@@ -109,6 +115,10 @@ class AjaxController extends Controller
                 && $request->asset_id_select_2 != __('words.select-one')) ? $request->asset_id_select_2 : '';
             $this->bank_data_id = ($request->has('bank_data_id') && !empty($request->bank_data_id)
                 && $request->bank_data_id != __('words.select-one')) ? $request->bank_data_id : '';
+            $this->country_id = ($request->has('country_id') && !empty($request->country_id)
+                && $request->country_id != __('words.select-one')) ? $request->country_id : '';
+            $this->city_id = ($request->has('city_id') && !empty($request->city_id)
+                && $request->city_id != __('words.select-one')) ? $request->city_id : '';
 
             switch ($request->model) {
                 case 'User':
@@ -234,6 +244,18 @@ class AjaxController extends Controller
                     break;
                 case 'BankCommissioner':
                     $data = $this->getBankCommissioner($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'Country':
+                    $data = $this->getCountries($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'City':
+                    $data = $this->getCities($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'Area':
+                    $data = $this->getAreas($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'BankData':
+                    $data = $this->getBankData($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
                     break;
                 default:
                     break;
@@ -1522,6 +1544,134 @@ class AjaxController extends Controller
         }
         if (!empty($this->bank_data_id)) {
             $items = $items->where('bank_data_id', $this->bank_data_id);
+        }
+        $items = $items->limit($limit)->get();
+        foreach ($items as $item) {
+            $data[] = [
+                'id' => $item->id,
+                'text' => $this->buildSelectedColumnsAsText($item, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+    private function getCountries(array $searchFields, string $searchTerm, string $selectedColumns, int $limit, string $branchId)
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $items = Country::select(DB::raw($selectedColumns));
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $items = $items->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        $items = $items->limit($limit)->get();
+        foreach ($items as $item) {
+            $data[] = [
+                'id' => $item->id,
+                'text' => $this->buildSelectedColumnsAsText($item, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+    private function getCities(array $searchFields, string $searchTerm, string $selectedColumns, int $limit, string $branchId)
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $items = City::select(DB::raw($selectedColumns));
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $items = $items->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        if (!empty($this->country_id)) {
+            $items = $items->where('country_id', $this->country_id);
+        }
+        $items = $items->limit($limit)->get();
+        foreach ($items as $item) {
+            $data[] = [
+                'id' => $item->id,
+                'text' => $this->buildSelectedColumnsAsText($item, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+    private function getAreas(array $searchFields, string $searchTerm, string $selectedColumns, int $limit, string $branchId)
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $items = Area::select(DB::raw($selectedColumns));
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $items = $items->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        if (!empty($this->city_id)) {
+            $items = $items->where('city_id', $this->city_id);
+        }
+        $items = $items->limit($limit)->get();
+        foreach ($items as $item) {
+            $data[] = [
+                'id' => $item->id,
+                'text' => $this->buildSelectedColumnsAsText($item, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+    private function getBankData(array $searchFields, string $searchTerm, string $selectedColumns, int $limit, string $branchId)
+    {
+        $withNoNull = $selectedColumns;
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $items = BankData::select(DB::raw($selectedColumns));
+        if ($withNoNull == 'code') {
+            $items = $items->where($withNoNull, '!=', null);
+        }
+        if ($withNoNull == 'swift_code') {
+            $items = $items->where($withNoNull, '!=', null);
+        }
+        if ($withNoNull == 'branch') {
+            $items = $items->where($withNoNull, '!=', null);
+        }
+
+        if ($withNoNull == 'phone') {
+            $items = $items->where($withNoNull, '!=', null);
+        }
+
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $items = $items->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        if (!empty($branchId)) {
+            $items = $items->where('branch_id', $branchId);
+        }
+
+        if (!empty($this->bank_data_id)) {
+            $items = $items->where('id', $this->bank_data_id);
         }
         $items = $items->limit($limit)->get();
         foreach ($items as $item) {

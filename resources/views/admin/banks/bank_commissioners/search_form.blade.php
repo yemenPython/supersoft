@@ -15,7 +15,7 @@
                     <div class="list-inline margin-bottom-0 row">
                         <div class="form-group col-md-3">
                             <label> {{ __('Bank Commissioners') }} </label>
-                            {!! drawSelect2ByAjax('bank_commissioner_id','BankCommissioner', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('opening-balance.select-one'),request()->bank_commissioner_id) !!}
+                            {!! drawSelect2ByAjax('bank_commissioner_id','EmployeeData', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('opening-balance.select-one'),request()->bank_commissioner_id) !!}
                         </div>
 
                         <div class="form-group col-md-3">

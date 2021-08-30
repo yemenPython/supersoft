@@ -1,8 +1,6 @@
 <div id="assetDatatoPrint">
     <div class="border-container" style="">
-        @foreach($assetReplacement->assetReplacementItems()->get()->chunk(18) as $one)
-
-
+        @foreach($item->items()->get()->chunk(18) as $one)
             <div class="print-header-wg">
                 <div class="top-logo-print">
                     <div class="logo-print text-center">
@@ -31,7 +29,7 @@
                 <div class="col-xs-6 right-top-detail" @if( !$loop->first)style="visibility: hidden !important;" @endif>
                     <h3>
                         @if( $loop->first)
-                            <span> {{__('Assets Replacements')}} </span>
+                            <span> {{__('Locker Opening Balance')}} </span>
                         @endif
                     </h3>
 
@@ -41,10 +39,10 @@
             @if( $loop->first)
                 <div class="middle-data-h-print">
 
-                    <div class="invoice-to print-padding-top" @if($assetReplacement->assetReplacementItems->count() <= 18) style="margin-bottom: -70px;" @endif>
+                    <div class="invoice-to print-padding-top" @if($item->items->count() <= 18) style="margin-bottom: -70px;" @endif>
                         <div class="row">
                             <div class="col-xs-6">
-                                <h5>{{__('Assets Replacements data')}}</h5>
+                                <h5>{{__('Locker Opening Balance')}}</h5>
                             </div>
                             <div class="col-xs-6" style="padding-right: 50px;">
                                 <div class="row">
@@ -52,12 +50,12 @@
                                         <table class="table table-time-user">
                                             <tr>
                                                 <th style="font-weight: normal !important;">{{__('Time & Date')}}</th>
-                                                <td style="font-weight: normal !important;">{{$assetReplacement->time}}
-                                                    - {{$assetReplacement->date}}</td>
+                                                <td style="font-weight: normal !important;">{{$item->time}}
+                                                    - {{$item->date}}</td>
                                             </tr>
                                             <tr>
                                                 <th style="font-weight: normal !important;">{{__('User Name')}}</th>
-                                                <td style="font-weight: normal !important;">{{optional($assetReplacement->user)->name}}</td>
+                                                <td style="font-weight: normal !important;">{{optional($item->user)->name}}</td>
                                             </tr>
                                         </table>
                                     </div>
@@ -69,18 +67,16 @@
                     </div>
                 </div>
 
-                <div class="col-xs-12 table-responsive" @if($assetReplacement->assetReplacementItems->count() <= 18) style="margin-bottom: -10px;" @endif>
+                <div class="col-xs-12 table-responsive" @if($item->items->count() <= 18) style="margin-bottom: -10px;" @endif>
 
                     <table class="table static-table-wg">
                         <tbody>
                         <tr>
-                            <th>{{__('Asset expense Number')}}</th>
-                            <td> {{ $assetReplacement->number }} </td>
+                            <th>{{__('Number')}}</th>
+                            <td> {{ $item->number }} </td>
                             <th>{{__('Asset expense Type')}}</th>
-                            <td> {{__($assetReplacement->status)}} </td>
+                            <td> {{__($item->status)}} </td>
                         </tr>
-
-
                         </tbody>
                     </table>
 
@@ -88,65 +84,46 @@
             @endif
 
             <div style="padding:0 20px;">
-                <h5 class="invoice-to-title">{{__('Asset Replacement items')}}</h5>
-                <div class="table-responsive" @if($assetReplacement->assetReplacementItems->count() <= 18) style="margin-bottom: -20px;" @endif>
+                <h5 class="invoice-to-title">{{__('Locker Opening Balance items')}}</h5>
+                <div class="table-responsive" @if($item->items->count() <= 18) style="margin-bottom: -20px;" @endif>
                     <table class="table print-table-wg table-borderless"
                            @if(!$loop->first) style="margin-top: 20px;" @endif>
                         <thead>
-
                         <tr class="spacer" style="border-radius: 30px;">
                             <th> # </th>
-                            <th> {{ __('Asset Group') }} </th>
-                            <th> {{ __('Asset name') }} </th>
-                            <th> {{ __('Operation Date') }} </th>
-                            <th> {{ __('Purchase Cost') }} </th>
-                            <th> {{ __('Cost Before Replacement') }} </th>
-                            <th> {{ __('Cost Replacement') }} </th>
-                            <th> {{ __('Cost After Replacement') }} </th>
-                            <th> {{ __('Age') }} </th>
+                            <th> {{ __('Locker name') }} </th>
+                            <th> {{ __('Currency') }} </th>
+                            <th> {{ __('Current balance') }} </th>
+                            <th> {{ __('Added balance') }} </th>
+                            <th> {{ __('Total') }} </th>
                         </tr>
 
                         </thead>
                         <tbody>
-                        @foreach ($one as $index => $item)
+                        @foreach ($one as $index => $lockerItem)
                             <tr class="spacer">
-
                                 <td>
                                     {{$index+1}}
                                 </td>
-
                                 <td>
-                                    {{optional($item->asset->group)->name}}
+                                    {{optional($lockerItem->locker)->name}}
                                 </td>
 
                                 <td>
-                                    {{optional($item->asset)->name}}
+                                    {{optional($lockerItem->currency)->name}}
                                 </td>
 
                                 <td>
-                                    {{optional($item->asset)->date_of_work}}
+                                    {{$lockerItem->current_balance}}
                                 </td>
 
                                 <td>
-                                    {{optional($item->asset)->purchase_cost}}
+                                    {{$lockerItem->added_balance}}
                                 </td>
 
                                 <td>
-                                    {{optional($item->asset)->annual_consumtion_rate}}
+                                    {{$lockerItem->total}}
                                 </td>
-
-                                <td>
-                                    {{$item->value_replacement}}
-                                </td>
-
-                                <td>
-                                    {{$item->value_after_replacement}}
-                                </td>
-
-                                <td>
-                                    {{$item->age}}
-                                </td>
-
                             </tr>
 
                         @endforeach
@@ -163,44 +140,60 @@
 
 
                     <div class="col-xs-12" style="padding:0 !important">
-
                         <div class="col-xs-12 text-center">
-
-
                             <div class="row last-total" style="background-color:#ddd !important">
                                 <div class="col-xs-7">
-                                    <h6>{{__('total cost')}}</h6>
+                                    <h6>{{__('Total Current Balance')}}</h6>
                                 </div>
                                 <div class="col-xs-5">
-                                    <h6> {{isset($assetReplacement) ? $assetReplacement->total_after_replacement : 0}} </h6>
+                                    <h6> {{isset($item) ? $item->current_total  : 0}} </h6>
                                 </div>
                             </div>
+                        </div>
+                    </div>
 
+                    <div class="col-xs-12" style="padding:0 !important">
+                        <div class="col-xs-12 text-center">
+                            <div class="row last-total" style="background-color:#ddd !important">
+                                <div class="col-xs-7">
+                                    <h6>{{__('Total Added Balance')}}</h6>
+                                </div>
+                                <div class="col-xs-5">
+                                    <h6> {{isset($item) ? $item->added_total  : 0}} </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12" style="padding:0 !important">
+                        <div class="col-xs-12 text-center">
+                            <div class="row last-total" style="background-color:#ddd !important">
+                                <div class="col-xs-7">
+                                    <h6>{{__('Total')}}</h6>
+                                </div>
+                                <div class="col-xs-5">
+                                    <h6> {{isset($item) ? $item->total  : 0}} </h6>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
 
                     <div class="col-xs-12" style="padding:0 !important">
                         <div class="col-xs-12 text-center">
-
-
                             <div class="row last-total" style="background-color:#ddd !important">
-
                                 <div class="col-xs-12">
-                                    <h6 data-id="data-totalInLetters" id="totalInLetters">  {{isset($assetReplacement) ? $assetReplacement->total_after_replacement : 0}} </h6>
+                                    <h6 data-id="data-totalInLetters" id="totalInLetters">  {{isset($item) ? $item->total : 0}} </h6>
                                 </div>
                             </div>
-
                         </div>
-
-
                     </div>
 
                     <div class="col-xs-12">
                         <h6 class="title">{{__('Notes')}}</h6>
                                 <p style="font-size:12px">
 
-                                    {!! $assetReplacement->note !!}
+                                    {!! $item->notes !!}
 
                                 </p>
                     </div>

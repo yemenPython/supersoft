@@ -14,51 +14,26 @@
                         <input type="hidden" value="{{$bankData->id}}" name="bank_data_id" id="bank_data_id">
                         <input type="hidden" value="" name="old_bank_commissioner_id" id="old_bank_commissioner_id">
 
-                        <div class="form-group col-md-6">
-                            <label> {{ __('Name in Arabic') }}  {!! required() !!} </label>
+                        <div class="form-group col-md-12">
+                            <label>{{ __('name') }} </label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-user"></span>
-                                <input type="text" name="name_ar" id="name_ar" class="form-control">
+                                <select class="form-control select2" name="employee_id" id="empId">
+                                    <option value="0"> {{ __('Select Employee') }} </option>
+                                    @foreach($employeesData as $employee)
+                                        <option
+                                            {{ old('employee_id') == $employee->id ? 'selected' : '' }}
+                                            value="{{ $employee->id }}"> {{ $employee->name }} </option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
-                        <div class="form-group col-md-6">
-                            <label> {{ __('Name in English') }}  </label>
-                            <div class="input-group">
-                                <span class="input-group-addon fa fa-user"></span>
-                                <input type="text" name="name_en" id="name_en" class="form-control">
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label> {{ __('Phone') }}  </label>
-                            <div class="input-group">
-                                <span class="input-group-addon fa fa-phone"></span>
-                                <input type="text" name="phone1" id="phone1" class="form-control">
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label> {{ __('Inside Phone') }}  </label>
+                        <div class="form-group col-md-12">
+                            <label> {{ __('phone') }} </label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-phone"></span>
-                                <input type="text" name="phone2" id="phone2" class="form-control">
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label> {{ __('Mobile') }}  </label>
-                            <div class="input-group">
-                                <span class="input-group-addon fa fa-phone"></span>
-                                <input type="text" name="phone3" id="phone3" class="form-control">
-                            </div>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label> {{ __('E-Mail') }}  </label>
-                            <div class="input-group">
-                                <span class="input-group-addon fa fa-yahoo"></span>
-                                <input type="text" name="email" id="email" class="form-control">
+                                <input type="text" name="phone" id="phone" class="form-control" disabled>
                             </div>
                         </div>
 
@@ -80,13 +55,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-md-6">
-                            <label> {{ __('Job') }}  </label>
-                            <div class="input-group">
-                                <span class="input-group-addon fa fa-bug"></span>
-                                <input type="text" name="job" id="job" class="form-control">
-                            </div>
-                        </div>
                         <div class="col-md-6">
                             <label for="status" class="control-label">{{__('Status')}}</label>
                             <div class="switch primary" style="margin-top: 15px">

@@ -82,7 +82,7 @@
                                             <label for="inputNameAr" class="control-label">{{__('Company name')}}</label>
                                             <div class="input-group">
                                                 {{--                                            {{dd($branch->company_name)}}--}}
-                                                <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                                <span class="input-group-addon"><li class="fa fa-file-o"></li></span>
                                                 <input type="text" name="name" class="form-control" id="inputNameEn"
                                                        disabled
                                                        placeholder="{{__('Company name')}}"
@@ -95,7 +95,7 @@
                                         <div class="form-group">
                                             <label for="inputNameAr" class="control-label">{{__('Company Address')}}</label>
                                             <div class="input-group">
-                                                <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                                <span class="input-group-addon"><li class="fa fa-location-arrow"></li></span>
                                                 <input type="text" name="name_ar" class="form-control" id="inputNameEn"
                                                        disabled
                                                        placeholder="{{__('Company Address')}}"
@@ -104,11 +104,12 @@
                                         </div>
 
                                     </div>
-                                    <div class="col-md-6">
+
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="inputNameAr" class="control-label">{{__('Membership No')}}</label>
                                             <div class="input-group">
-                                                <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                                <span class="input-group-addon"><li class="fa fa-file"></li></span>
                                                 <input type="text" name="membership_no" class="form-control" id="membership_no"
                                                        placeholder="{{__('Membership No')}}"
                                                        value="{{old('membership_no', !empty($egyptian_federation)? $egyptian_federation->membership_no:'')}}">
@@ -117,11 +118,56 @@
                                         </div>
                                         {{input_error($errors,'membership_no')}}
                                     </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="inputNameAr" class="control-label">{{__('Subscription payment receipt')}}</label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><li class="fa fa-file-text"></li></span>
+                                                <input type="text" name="payment_receipt" class="form-control" id="payment_receipt"
+                                                       placeholder="{{__('Subscription payment receipt')}}"
+                                                       value="{{old('payment_receipt', !empty($egyptian_federation)? $egyptian_federation->payment_receipt:'')}}">
+                                            </div>
+
+                                        </div>
+                                        {{input_error($errors,'payment_receipt')}}
+                                    </div>
+
+                                    
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="inputNameAr" class="control-label">{{__('Date of register in the union')}}</label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
+                                                <input type="text" name="date_of_register" class="form-control datepicker text-right" id="date_of_register"
+                                                       placeholder="{{__('Date of register in the union')}}"
+                                                       value="{{old('date_of_register', !empty($egyptian_federation)? $egyptian_federation->date_of_register:'')}}">
+                                            </div>
+
+                                        </div>
+                                        {{input_error($errors,'date_of_register')}}
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="inputNameAr" class="control-label">{{__('End date')}}</label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
+                                                <input type="text" name="end_date" class="form-control datepicker text-right" id="end_date" autocomplete="off"
+                                                       placeholder="{{__('End date')}}"
+                                                       value="{{old('end_date', !empty($egyptian_federation)? $egyptian_federation->end_date:'')}}">
+                                            </div>
+
+                                        </div>
+                                        {{input_error($errors,'end_date')}}
+                                    </div>
+
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="inputNameAr" class="control-label">{{__('Company Type')}}</label>
                                             <div class="input-group">
-                                                <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                                <span class="input-group-addon"><li class="fa fa-building"></li></span>
                                                 <input type="text" name="company_type" class="form-control" id="membership_no"
                                                        placeholder="{{__('Company Type')}}"
                                                        value="{{old('type', !empty($egyptian_federation)? $egyptian_federation->company_type:'')}}">
@@ -131,53 +177,13 @@
                                         {{input_error($errors,'company_type')}}
                                     </div>
 
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="inputNameAr" class="control-label">{{__('Date of register in the union')}}</label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                                <input type="text" name="date_of_register" class="form-control datepicker" id="date_of_register"
-                                                       placeholder="{{__('Date of register in the union')}}"
-                                                       value="{{old('date_of_register', !empty($egyptian_federation)? $egyptian_federation->date_of_register:'')}}">
-                                            </div>
-
-                                        </div>
-                                        {{input_error($errors,'date_of_register')}}
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="inputNameAr" class="control-label">{{__('Subscription payment receipt')}}</label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                                <input type="text" name="payment_receipt" class="form-control" id="payment_receipt"
-                                                       placeholder="{{__('Subscription payment receipt')}}"
-                                                       value="{{old('payment_receipt', !empty($egyptian_federation)? $egyptian_federation->payment_receipt:'')}}">
-                                            </div>
-
-                                        </div>
-                                        {{input_error($errors,'payment_receipt')}}
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="inputNameAr" class="control-label">{{__('End date')}}</label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                                <input type="text" name="end_date" class="form-control datepicker" id="end_date" autocomplete="off"
-                                                       placeholder="{{__('End date')}}"
-                                                       value="{{old('end_date', !empty($egyptian_federation)? $egyptian_federation->end_date:'')}}">
-                                            </div>
-
-                                        </div>
-                                        {{input_error($errors,'end_date')}}
-                                    </div>
-
                                 </div>
                             </div>
 
 
-                            <div class="form-group col-sm-12" >
+
                                 @include('admin.buttons._save_buttons')
-                            </div>
+                     
                         </form>
                 </div>
             </div>

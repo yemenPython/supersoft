@@ -78,6 +78,9 @@ class CountriesController extends Controller
 
     public function destroy(Country $country)
     {
+        if ($country->seeder) {
+            return redirect()->back()->with(['message' => __('you can not delete this item, it is default value, you can only edit it'), 'alert-type' => 'warning']);
+        }
         if ($country->cities()->exists()) {
             return redirect()->back()->with(['message' => __('words.can-not-delete-this-data-cause-there-is-related-data'), 'alert-type' => 'error']);
         }
@@ -100,6 +103,9 @@ class CountriesController extends Controller
         if (isset($request->ids)) {
             $countries = Country::whereIn('id', $request->ids)->get();
             foreach ($countries as $country) {
+                if ($country->seeder) {
+                    return redirect()->back()->with(['message' => __('you can not delete this item, it is default value, you can only edit it'), 'alert-type' => 'warning']);
+                }
                 if ($country->cities()->exists()) {
                     return redirect()->back()->with(['message' => __('words.can-not-delete-this-data-cause-there-is-related-data'), 'alert-type' => 'error']);
                 }

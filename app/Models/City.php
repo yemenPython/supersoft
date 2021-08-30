@@ -33,7 +33,11 @@ class City extends Model
      * @var array
      */
     protected $fillable = [
-        'name_ar','name_en','country_id'
+        'name_ar','name_en','country_id', 'seeder'
+    ];
+
+    protected $casts = [
+        'seeder' => 'boolean',
     ];
 
     public function country()
