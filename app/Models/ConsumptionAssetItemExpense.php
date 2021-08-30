@@ -6,32 +6,32 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class ConsumptionAssetItem extends Model
+class ConsumptionAssetItemExpense extends Model
 {
     use SoftDeletes, LogsActivity;
 
     protected $dates = ['created_at', 'updated_at', 'deleted_at'];
     protected $fillable = [
-        'consumption_asset_id',
+        'consumption_asset_item_id',
         'asset_id',
-        'asset_group_id',
+        'expense_id',
         'consumption_amount',
     ];
 
-    protected $table = 'consumption_asset_items';
+    protected $table = 'consumption_asset_item_expenses';
 
-    public function consumptionAsset()
+    public function consumptionAssetItem()
     {
-        return $this->belongsTo( ConsumptionAsset::class, 'consumption_asset_id' );
+        return $this->belongsTo( ConsumptionAssetItem::class, 'consumption_asset_item_id' );
     }
 
     public function asset()
     {
         return $this->belongsTo( Asset::class, 'asset_id' );
     }
-    public function consumptionAssetItemExpenses()
+    public function expense()
     {
-        return $this->hasMany( ConsumptionAssetItemExpense::class, 'consumption_asset_item_id' );
+        return $this->belongsTo(AssetExpenseItem::class,'expense_id');
     }
 
 }

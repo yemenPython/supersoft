@@ -30,23 +30,10 @@ class ConsumptionAssetRequest extends FormRequest
                 'number' => 'required',
                 'date' => 'required',
                 'date_from' => 'required',
-//                Rule::unique( 'consumption_assets' )
-//                    ->ignore( $this->consumption_asset )
-//                    ->whereNull( 'deleted_at' )
-//                    ->where( 'date_from', $date_from )
-//                    ->where( 'date_to', $date_to )],
-
-//                'invoice_number' => ['required', 'max:50', 'string',
-//                    Rule::unique( 'purchase_assets' )
-//                        ->ignore( $this->purchase_asset )
-//                        ->whereNull( 'deleted_at' )
-//                        ->where( 'branch_id', $branch_id )
-//                ,
-
+                'type'=>'required|in:asset,expenses,both',
                 'date_to' => 'required',
                 'time' => 'required',
                 'items' => 'required|array',
-//                'items.*.date_of_work' => 'required|date|before_or_equal:date_from',
             ];
     }
 

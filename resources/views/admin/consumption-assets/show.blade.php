@@ -110,13 +110,42 @@
                         </thead>
                         <tbody>
                         @foreach($one as $index=>$item)
-
                             <tr class="spacer">
                                 <td>{{$index+1}}</td>
                                 <td>{{$item->asset->name}}</td>
                                 <td>{{$item->asset->group->name}}</td>
                                 <td>{{$item->consumption_amount}}</td>
+
                             </tr>
+                            @if($item->consumptionAssetItemExpenses->isNotEmpty())
+                            <tr>
+                                <td colspan="4">
+                                    <table class="table print-table-wg table-borderless">
+                                        <thead>
+
+                                        <tr class="" style="border-radius: 30px;">
+                                            <th style="background: #a8b0a8 !important;">{{__('Expense Price ')}}</th>
+                                            <th style="background: #a8b0a8 !important;">{{__('Expenses Consumtion Rate')}}</th>
+                                            <th style="background: #a8b0a8 !important;">{{__('Consumption Amount')}}</th>
+                                        </tr>
+
+                                        </thead>
+                                        <tbody>
+                                        @foreach($item->consumptionAssetItemExpenses as $i=>$expense)
+                                            <tr class="spacer">
+                                                <td>{{optional($expense->expense)->price}}</td>
+                                                <td>{{optional($expense->expense)->annual_consumtion_rate}}</td>
+                                                <td>{{$expense->consumption_amount}}</td>
+                                            </tr>
+
+                                        @endforeach
+
+
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            @endif
 
                         @endforeach
 

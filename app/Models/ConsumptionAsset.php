@@ -30,7 +30,8 @@ class ConsumptionAsset extends Model
         'total_purchase_cost',
         'total_past_consumtion',
         'total_replacement',
-        'user_id'
+        'user_id',
+        'type'
     ];
 
     protected $table = 'consumption_assets';
