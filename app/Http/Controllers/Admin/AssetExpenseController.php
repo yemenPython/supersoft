@@ -264,6 +264,7 @@ class AssetExpenseController extends Controller
             $data['user_id'] = Auth::id();
             $assetExpenseUpdated = $assetExpense->update( $data );
             $assetExpense->assetExpensesItems()->delete();
+
             if ($assetExpenseUpdated) {
                 foreach ($request->items as $item) {
                     AssetExpenseItem::create( [
@@ -278,7 +279,6 @@ class AssetExpenseController extends Controller
             return redirect()->to( 'admin/assets_expenses' )
                 ->with( ['message' => __( 'words.expense-item-updated' ), 'alert-type' => 'success'] );
         } catch (Exception $exception) {
-            dd($exception->getMessage());
             $this->logErrors( $exception );
             return back()->with( ['message' => __( 'words.something-went-wrong' ), 'alert-type' => 'error'] );
         }
