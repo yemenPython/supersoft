@@ -9,11 +9,13 @@
 @endif
 
 @if(isset($withStatus))
-    @if ($item->status == 'progress')
+    @if ($item->status == \App\Enum\Status::Progress)
         <span class="label label-warning wg-label"> {{__('Progress')}} </span>
-    @elseif($item->status == 'accepted')
+    @endif
+    @if ($item->status == \App\Enum\Status::Accepted)
         <span class="label label-success wg-label">  {{__('Accept')}} </span>
-    @else
+    @endif
+    @if ($item->status == \App\Enum\Status::Rejected)
         <span class="label label-danger wg-label">  {{__('Reject')}} </span>
     @endif
 @endif
@@ -26,6 +28,14 @@
             {{__('Options')}} <span class="caret"></span>
         </button>
         <ul class="dropdown-menu dropdown-wg">
+            <li>
+                <a style="cursor:pointer" class="btn btn-print-wg text-white"
+                   data-toggle="modal"
+                   onclick="getPrintData('{{route('admin:lockers_opening_balance.show', $item->id)}}')"
+                   data-target="#boostrapModal" title="{{__('print')}}">
+                    <i class="fa fa-print"></i> {{__('Print')}}
+                </a>
+            </li>
             <li>
                 @component('admin.buttons._edit_button',['id' => $item->id, 'route'=>'admin:lockers_opening_balance.edit'])@endcomponent
             </li>

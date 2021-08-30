@@ -66,7 +66,7 @@
                             <label> {{ __('words.date-from') }} </label>
                             <div class="input-group">
                                 <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                                <input name="date_from" id="date_from" value="{{now()}}"
+                                <input name="date_from" id="date_from" value=""
                                        class="form-control date js-example-basic-single" type="date"/>
                             </div>
                         </div>
@@ -75,7 +75,7 @@
                             <label> {{ __('words.date-to') }} </label>
                             <div class="input-group">
                                 <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                                <input name="date_to" id="date_to" value="{{now()}}"
+                                <input name="date_to" id="date_to" value=""
                                        class="form-control date js-example-basic-single" type="date"/>
                             </div>
                         </div>

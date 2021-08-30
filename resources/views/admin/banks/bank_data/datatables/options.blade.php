@@ -2,6 +2,10 @@
     <span class="text-danger">{!! $item->date !!}</span>
 @endif
 
+@if (isset($withStopDate))
+    <span class="text-danger">{!! $item->stop_date ?? '---'!!}</span>
+@endif
+
 
 @if (isset($withName))
 {{ $item->name}}
@@ -30,7 +34,8 @@
         <ul class="dropdown-menu dropdown-wg">
             <li>
                 @if ($item->status)
-                    <a class="btn btn-wg-edit hvr-radial-out" onclick="confirmAction('{{route('admin:banks.bank_data.StartDealing', [$item->id])}}' ,'{{__('Are you Sure To Stop Dealing')}}')">
+                    <a  data-toggle="modal" data-target="#updateStopDate" onclick="setFormDataToUpdate('{{route('admin:banks.bank_data.StartDealing', [$item->id])}}', '{{$item->name}}')"
+                        class="btn btn-wg-edit hvr-radial-out">
                         <i class="fa fa-ban text-danger"></i>  {{__('Stop Dealing')}}
                     </a>
                 @else

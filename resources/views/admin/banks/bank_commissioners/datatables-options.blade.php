@@ -7,14 +7,11 @@
 @endif
 
 @if (isset($withPhones))
-    @if($item->phone1)
-        <p style="border: 1px solid red;">{{$item->phone1}}</p>
+    @if(optional($item->employee)->phone1)
+        <p style="border: 1px solid red;">{{ optional($item->employee)->phone1 }}</p>
     @endif
-    @if($item->phone2)
-        <p style="border: 1px solid red;">{{$item->phone2}}</p>
-    @endif
-    @if($item->phone3)
-        <p style="border: 1px solid red;">{{$item->phone3}}</p>
+    @if(optional($item->employee)->phone2)
+        <p style="border: 1px solid red;">{{ optional($item->employee)->phone2 }}</p>
     @endif
 @endif
 
@@ -50,17 +47,12 @@
                    type="button"
                    data-toggle="modal" data-target="#add-employee-modal"
                    data-old_bank_commissioner_id="{{ $item->id }}"
-                   data-name_ar="{{ $item->name_ar }}"
-                   data-name_en="{{ $item->name_en }}"
-                   data-phone1="{{ $item->phone1 }}"
-                   data-phone2="{{ $item->phone2 }}"
-                   data-phone3="{{ $item->phone3 }}"
-                   data-email="{{ $item->email }}"
-                   data-job="{{ $item->job }}"
+                   data-employee_id="{{ optional($item->employee)->id }}"
+                   data-phone="{{ optional($item->employee)->phone1 }}"
                    data-date_from="{{ $item->date_from }}"
                    data-date_to="{{ $item->date_to }}"
                    data-status="{{ $item->status }}"
-                   data-title="{{__('Edit Bank Commissioner')}} - [{{$item->name}}]"
+                   data-title="{{__('Edit Bank Commissioner')}} - [{{ optional($item->employee)->name }}]"
                    class="btn btn-print-wg text-white">
                     <i class="fa fa-edit"></i>
                     {{__('Edit')}}
@@ -79,14 +71,12 @@
 @endif
 
 @if (isset($withOptions))
-    @component('admin.buttons._delete_selected',[
-                                              'id' =>  $item->id,
-                                             'route' => 'admin:banks.bank_commissioners.deleteSelected',
-                                         ])
+    @component('admin.buttons._delete_selected', [
+                  'id' =>  $item->id,
+                 'route' => 'admin:banks.bank_commissioners.deleteSelected',
+     ])
     @endcomponent
 @endif
-
-
 
 
 

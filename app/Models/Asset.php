@@ -44,7 +44,8 @@ class Asset extends Model
         'updated_at',
         'deleted_at',
         'user_id',
-        'total_replacements'
+        'total_replacements',
+        'status'
     ];
 
     protected static $logAttributes = [
@@ -64,7 +65,8 @@ class Asset extends Model
         'current_consumtion',
         'total_current_consumtion',
         'book_value',
-        'total_replacements'
+        'total_replacements',
+        'status'
      ];
 
     protected static $logOnlyDirty = true;
@@ -112,5 +114,8 @@ class Asset extends Model
     public function assetMaintenances(): HasMany
     {
         return $this->hasMany(AssetMaintenance::class, 'asset_id');
+    }
+    public function expenses(){
+        return $this->hasMany(AssetExpenseItem::class);
     }
 }

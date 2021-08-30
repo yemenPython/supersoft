@@ -7,45 +7,29 @@ use Illuminate\Validation\Rule;
 
 class CreateLockersRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
+    public function authorize(): bool
     {
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array
-     */
-    public function rules()
+    public function rules(): array
     {
-        
         $rules = [
-
-//            'name_en'=>'required|string|max:150',
-//            'name_ar'=>'required|string|max:150',
-            'balance'=>'required|numeric|min:0',
-            'description'=>'nullable|string',
+            'balance' => 'required|numeric|min:0',
+            'description' => 'nullable|string',
         ];
 
-        if(authIsSuperAdmin()){
+        if (authIsSuperAdmin()) {
             $rules['branch_id'] = 'required|integer|exists:branches,id';
             $branch = request()->branch_id;
-
-        }else{
-
+        } else {
             $branch = auth()->user()->branch_id;
         }
 
         $rules['name_en'] =
             [
-                'required','string','max:150',
-                Rule::unique('lockers')->where(function ($query) use($branch){
+                'required', 'string', 'max:150',
+                Rule::unique('lockers')->where(function ($query) use ($branch) {
                     return $query->where('name_en', request()->name_en)
                         ->where('branch_id', $branch)
                         ->where('deleted_at', null);
@@ -54,14 +38,13 @@ class CreateLockersRequest extends FormRequest
 
         $rules['name_ar'] =
             [
-                'required','string','max:150',
-                Rule::unique('lockers')->where(function ($query) use($branch){
+                'required', 'string', 'max:150',
+                Rule::unique('lockers')->where(function ($query) use ($branch) {
                     return $query->where('name_ar', request()->name_ar)
                         ->where('branch_id', $branch)
                         ->where('deleted_at', null);
                 }),
             ];
-        
         return $rules;
     }
 }

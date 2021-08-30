@@ -2330,7 +2330,6 @@
     "Show Bank Data" : "عرض بيانات البنك",
     "branch products" : "منتجات الفرع",
     "Product Name" : "اسم المنتج",
-
     "Inside Phone" : "رقم داخلى",
     "Mobile" : "موبايل",
     "Bank Officials" : "مسؤوليــن البنــك",
@@ -2341,6 +2340,7 @@
     "Bank Commissioners" : "مفوضيين البنــك",
     "Types Bank Accounts" : "أنواع الحسابات البنكية",
     "Part Data" : "بيانات الصنف",
+<<<<<<< HEAD
     "Units" : "وحدات الصنف",
     "Official data files" : "ملفات الشركة الرسمية",
     "Egyptian Federation" : "الإتحاد المصري للمقاولين",
@@ -2358,5 +2358,16 @@
     "Date of register in the union" : "تاريخ القيد بالإتحاد",
     "Subscription payment receipt" : "رقم إيصال سداد الإشتراك",
     "End date" : "تاريخ الإنتهاء"
+=======
+    "you can not delete this item, it is default value, you can only edit it" : "لا يمكنك حذف القيمه الافتراضية.. يمكنك تعديلها فقط !",
+    "Detect The Stop Date of Dealing" : "من فضلك حدد تاريخ إيقاف التعامل ",
+    "Stop Date With Bank" : "تاريخ إايقاف التعامل",
+    "Branch Bank" : "فرع البنك",
+    "Start Date Dealing From" : "تاريخ بداية التعامل من",
+    "Start Date Dealing To" : "تاريخ بداية التعامل إلى",
+    "Stop Date Dealing From" : "تاريخ إايقاف التعامل من",
+    "Stop Date Dealing To" : "تاريخ إايقاف التعامل إلى",
+    "Units" : "eee"
+>>>>>>> 62aa8eee50c478630e24517b9e1d9dd913e8e236
 }
 

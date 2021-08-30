@@ -43,11 +43,13 @@ class Currency extends Model
         'is_main_currency',
         'conversion_factor',
         'status',
+        'seeder',
     ];
 
     protected $casts = [
         'is_main_currency' => 'boolean',
         'status' => 'boolean',
+        'seeder' => 'boolean',
     ];
 
     public function countries()

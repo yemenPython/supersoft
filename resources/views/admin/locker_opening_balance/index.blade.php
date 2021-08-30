@@ -86,48 +86,7 @@
     </div>
     </div>
 @endsection
-@section('js')
-    <script type="application/javascript">
-        // invoke_datatable($('#revenuesItems'))
-        server_side_datatable('#datatable-with-btns');
 
-        function printAsset() {
-            var element_id = 'assetDatatoPrint', page_title = document.title
-            print_element(element_id, page_title)
-        }
-
-        function getPrintData(id, show = null) {
-            $.ajax({
-                url: "{{ url('admin/assets_replacements/')}}" + '/' + id,
-                method: 'GET',
-                data : {
-                    show : show,
-                },
-                success: function (data) {
-                    if (show) {
-                        $("#boostrapModalResponse").html(data.view)
-                        let total = $("#totalInLettersShow").text()
-                        $("#totalInLettersShow").html(new Tafgeet(total, '{{config("currency.defualt_currency")}}').parse())
-                    } else {
-                        $("#assetDatatoPrint").html(data.view)
-                        let total_after_replacement = $("#totalInLetters").text()
-                        $("#totalInLetters").html(new Tafgeet(total_after_replacement, '{{config("currency.defualt_currency")}}').parse())
-                    }
-                }
-            });
-        }
-
-        function filterFunction($this) {
-            $("#loaderSearch").show();
-            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
-            $datatable.ajax.url($url).load();
-            $(".js__card_minus").trigger("click");
-            setTimeout(function () {
-                $("#loaderSearch").hide();
-            }, 1000)
-        }
-    </script>
-@endsection
 @section('modals')
     <div class="modal fade" id="boostrapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
@@ -160,4 +119,38 @@
             </div>
         </div>
     </div>
+    @include('admin.partial.print_modal', ['title'=> __('Locker Opening Balance')])
+@endsection
+
+@section('js')
+    <script type="application/javascript">
+        server_side_datatable('#datatable-with-btns');
+
+        function printAsset() {
+            var element_id = 'assetDatatoPrint', page_title = document.title
+            print_element(element_id, page_title)
+        }
+
+        function getPrintData(route) {
+            $.ajax({
+                url: route,
+                method: 'GET',
+                success: function (data) {
+                    $("#assetDatatoPrint").html(data.view)
+                    let total = $("#totalInLetters").text()
+                    $("#totalInLetters").html(new Tafgeet(parseFloat(total), '{{config("currency.defualt_currency")}}').parse())
+                }
+            });
+        }
+
+        function filterFunction($this) {
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout(function () {
+                $("#loaderSearch").hide();
+            }, 1000)
+        }
+    </script>
 @endsection

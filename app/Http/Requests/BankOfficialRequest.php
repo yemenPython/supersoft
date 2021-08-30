@@ -15,8 +15,8 @@ class BankOfficialRequest extends FormRequest
     {
         return [
             'bank_data_id' => 'required|exists:bank_data,id',
-            'date_from' => 'required|string|max:50',
-            'date_to' => 'nullable|max:50',
+            'date_from' => 'required',
+            'date_to' => 'nullable',
             'name_ar' => 'required|max:200|string',
             'name_en' => 'nullable|max:200|string',
             'phone1' => 'nullable|max:200|string',
