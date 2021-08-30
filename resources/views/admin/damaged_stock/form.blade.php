@@ -201,10 +201,10 @@
 
     <table class="table table-bordered">
         <tbody>
-        <th style="width:30%;background:#FFC5D7 !important;color:black !important">{{__('Total quantity')}}</label>
-        <td style="background:#FFC5D7">
+        <th style="width:30%;background:rgba(234, 84, 85, 0.15) !important;color:black !important">{{__('Total quantity')}}</label>
+        <td style="background:rgba(234, 84, 85, 0.15)">
             <input type="text" disabled id="total_quantity"
-                   style="background:#FFC5D7; border:none;text-align:center !important;" class="form-control"
+                   style="background:rgba(234, 84, 85, 0); border:none;text-align:center !important;" class="form-control"
                    value="{{isset($damagedStock) ? $totalQuantity : 0}}">
         </td>
         </tbody>

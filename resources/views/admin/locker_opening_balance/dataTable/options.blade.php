@@ -4,14 +4,14 @@
 
 @if (isset($withTotal))
     <span class="text-danger">
-        {{ $item->total }}
+        {{ $item->added_total }}
     </span>
 @endif
 
 @if(isset($withStatus))
-    @if ($item->status = 'progress')
+    @if ($item->status == 'progress')
         <span class="label label-warning wg-label"> {{__('Progress')}} </span>
-    @elseif($item->status = 'accepted')
+    @elseif($item->status == 'accepted')
         <span class="label label-success wg-label">  {{__('Accept')}} </span>
     @else
         <span class="label label-danger wg-label">  {{__('Reject')}} </span>

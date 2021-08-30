@@ -56,11 +56,20 @@
 
                                     <div class="form-group col-md-6">
                                         <label> {{ __('End Date From') }} </label>
-                                        <input type="text" name="end_date_from" class="form-control datepicker" placeholder="{{__('End Date From')}}">
+                                        <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                                        <input type="text" name="end_date_from" class="form-control datepicker text-right" placeholder="{{__('End Date From')}}">
                                     </div>
+                                    </div>
+
                                     <div class="form-group col-md-6">
                                         <label> {{ __('End Date To') }} </label>
-                                        <input type="text" name="end_date_to" class="form-control datepicker" placeholder="{{__('End Date To')}}">
+                                        <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                                        <input type="text" name="end_date_to" class="form-control datepicker text-right" placeholder="{{__('End Date To')}}">
+                                    </div>
                                     </div>
 
                             </div>
@@ -84,7 +93,7 @@
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control">
-                    <i class="fa fa-check-square-o"></i> {{__('Egyptian Federation')}}
+                    <i class="fa fa-file-text-o"></i> {{__('Egyptian Federation')}}
                 </h4>
 
                 <div class="card-content js__card_content" style="">
@@ -113,11 +122,11 @@
                             <thead>
                             <tr>
                                 <th class="text-center column-id" scope="col">#</th>
-                                <th class="text-center column-branch-name" scope="col">{!! __('Branch') !!}</th>
+                                <th class="text-center column-branch-name" scope="col">{!! __('Company name') !!}</th>
                                 <th class="text-center column-Membership-No" scope="col">{!! __('Membership No') !!}</th>
                                 <th class="text-center column-company-type" scope="col">{!! __('Company Type') !!}</th>
-                                <th class="text-center column-register-date" scope="col">{!! __('Date of register in the union') !!}</th>
                                 <th class="text-center column-funds-for" scope="col">{!! __('Subscription payment receipt') !!}</th>
+                                <th class="text-center column-register-date" scope="col">{!! __('Date of register in the union') !!}</th> 
                                 <th class="text-center column-funds-on" scope="col">{!! __('End date') !!}</th>
                                 <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
                                 <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
@@ -136,12 +145,12 @@
                                     <td class="text-center column-id">{{$loop->iteration}}</td>
                                     <td class="text-center column-branch-name">{!! optional($one->branch)->name !!}</td>
                                     <td class="text-center column-Membership-No">{!! $one->membership_no !!}</td>
-                                    <td class="text-danger text-center  column-company-type">{{ $one->payment_receipt }}</td>
-                                    <td class="text-danger text-center column-register-date">{{ $one->date_of_register }}</td>
-                                    <td class="text-danger text-center  column-funds-for">{{ $one->company_type }}</td>
-                                    <td class="text-danger text-center  column-funds-on">{{ $one->end_date }}</td>
-                                    <td class="text-center column-created-at">{!! $one->created_at->format('y-m-d h:i:s A') !!}</td>
-                                    <td class="text-center column-updated-at">{!! $one->updated_at->format('y-m-d h:i:s A') !!}</td>
+                                    <td class="text-center  column-funds-for">{{ $one->company_type }}</td>   
+                                    <td class="text-center  column-company-type">{{ $one->payment_receipt }}</td>
+                                    <td class="text-center column-register-date">{{ $one->date_of_register }}</td>
+                                    <td class="text-center  column-funds-on">{{ $one->end_date }}</td>
+                                    <td class="column-created-at">{!! $one->created_at->format('y-m-d h:i:s A') !!}</td>
+                                    <td class="column-updated-at">{!! $one->updated_at->format('y-m-d h:i:s A') !!}</td>
 
                                     <td>
                                         <div class="btn-group margin-top-10">
@@ -199,11 +208,11 @@
                             <tfoot>
                             <tr>
                                 <th class="text-center column-id" scope="col">#</th>
-                                <th class="text-center column-branch-name" scope="col">{!! __('Branch') !!}</th>
+                                <th class="text-center column-branch-name" scope="col">{!! __('Company name') !!}</th>
                                 <th class="text-center column-Membership-No" scope="col">{!! __('Membership No') !!}</th>
                                 <th class="text-center column-company-type" scope="col">{!! __('Company Type') !!}</th>
-                                <th class="text-center column-register-date" scope="col">{!! __('Date of register in the union') !!}</th>
                                 <th class="text-center column-funds-for" scope="col">{!! __('Subscription payment receipt') !!}</th>
+                                <th class="text-center column-register-date" scope="col">{!! __('Date of register in the union') !!}</th>
                                 <th class="text-center column-funds-on" scope="col">{!! __('End date') !!}</th>
                                 <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
                                 <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
