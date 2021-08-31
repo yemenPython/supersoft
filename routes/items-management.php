@@ -44,6 +44,7 @@ Route::post('stores/show', 'StoresController@show')->name('stores.show');
 
 //parts
 Route::resource('parts', 'PartsController');
+Route::post('parts/update/data', 'PartsController@update')->name('parts.update.data');
 Route::post('part-deleteSelected', 'PartsController@deleteSelected')->name('parts.deleteSelected');
 Route::get('part-print-barcode', 'PartsController@printBarcode')->name('parts.print.barcode');
 Route::get('getPartsBySparePartID', 'PartsController@getPartsBySparePartID')->name('getPartsBySparePartID');

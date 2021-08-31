@@ -1,5 +1,5 @@
 @if (isset($withDate))
-    <span class="text-danger">{!! $item->date !!}</span>
+    <span>{!! $item->date !!}</span>
 @endif
 
 @if (isset($withNumber))
@@ -8,7 +8,7 @@
 
 
 @if (isset($withTotal))
-    <span style="background:#F7F8CC !important">
+<span class="label light-danger wg-label">
         {{$item->total}}
     </span>
 @endif

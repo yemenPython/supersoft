@@ -84,7 +84,7 @@
         <div class="row center-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
 
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="date" class="control-label text-new1">{{__('Date From')}}</label>
                     <div class="input-group">
@@ -98,7 +98,7 @@
             </div>
 
 
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="date" class="control-label text-new1">{{__('Date to')}}</label>
                     <div class="input-group">
@@ -108,6 +108,54 @@
                     </div>
                     {{input_error($errors,'date_to')}}
                 </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label> {{ __('Type') }} </label>
+                    <div class="input-group">
+                        <ul class="list-inline">
+                            <li>
+                                <div class="radio info">
+                                    <input type="radio" id="radio_status_sale" name="type"
+                                           value="asset"
+                                        {{ isset($consumptionAsset) && $consumptionAsset->type=='asset' ? 'checked' :''}}
+                                        {{ isset($consumptionAsset) ? 'disabled' :''}}
+                                    >
+                                    <label for="radio_status_sale">{{ __('Assets') }}</label>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="radio info">
+                                    <input id="radio_status_exclusion" type="radio" name="type"
+                                           value="expenses"
+                                        {{ isset($consumptionAsset) && $consumptionAsset->type=='expenses' ? 'checked' :''}}
+                                        {{ isset($consumptionAsset) ? 'disabled' :''}}
+                                    >
+                                    <label
+                                        for="radio_status_exclusion">{{ __('Expenses') }}</label>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="radio info">
+                                    <input id="radio_status_all" type="radio" name="type"
+                                           value='both'
+                                        {{ isset($consumptionAsset) && $consumptionAsset->type=='both' ? 'checked' :''}}
+                                        {{ isset($consumptionAsset) ? 'disabled' :''}}
+                                    >
+                                    <label
+                                        for="radio_status_all">{{ __('Both') }}</label>
+                                </div>
+                            </li>
+                            @if(isset($consumptionAsset))
+                                <input  type="hidden" name="type"
+                                       value='{{$consumptionAsset->type}}'>
+                                @endif
+                        </ul>
+                    </div>
+                    {{input_error($errors,'type')}}
+                </div>
+
             </div>
 
 

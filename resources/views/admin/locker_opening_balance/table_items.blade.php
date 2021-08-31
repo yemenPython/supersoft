@@ -42,8 +42,8 @@
                         @endif
 
                         <td>
-                            <span>{{$item->current_balance}}</span>
-                            <input type="hidden"  name="items[{{$index}}][current_balance]" value="{{$item->current_balance}}" class="current_balance" id="current_balance_item{{$index}}">
+                            <span>{{optional($item->locker)->balance}}</span>
+                            <input type="hidden"  name="items[{{$index}}][current_balance]" value="{{optional($item->locker)->balance}}" class="current_balance" id="current_balance_item{{$index}}">
                         </td>
 
                         <td>

@@ -121,6 +121,19 @@
                         </td>
 
                         <th style="width: 30%;">
+                            {{__('Start Date With Bank')}}
+                        </th>
+                        <td>
+                            {{$item->stop_date ?? '--'}}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="col-md-12">
+                <table class="table wg-inside-table">
+                    <tr>
+                        <th style="width: 30%;">
                             {{__('Address')}}
                         </th>
                         <td>

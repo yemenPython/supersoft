@@ -3,10 +3,12 @@
         <div class="form-group">
             <div class="input-group">
                 <div class="checkbox">
+                    @if(isset($price) && !isset($formType))
+                        <input type="hidden"  name="prices[{{$key}}][id]" value="{{$priceSegment->id}}">
+                    @endif
                     <input type="checkbox" checked
                            id="price_segment_checkbox_{{$key}}"
                            value="{{isset($priceSegment) ? $priceSegment->id : ''}}"
-{{--                           name="prices[{{$key}}][id]"--}}
                            onclick="openPriceSegment('{{$key}}')">
                     <label for="price_segment_checkbox_{{$key}}"></label>
                 </div>

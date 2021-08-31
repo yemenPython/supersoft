@@ -8,7 +8,8 @@
         </li>
         <li role="presentation" disabled="">
 
-            <a class="unit_tab_li"  href="#profile-justified" role="tab" data-toggle="tab"  id="profile-tab-justified" aria-controls="profile">
+            <a class="unit_tab_li" href="#profile-justified" role="tab" data-toggle="{{isset($part) ? 'tab' : ''}}"
+               id="profile-tab-justified" aria-controls="profile">
                 {{__('Units')}}
             </a>
 
@@ -16,13 +17,19 @@
     </ul>
     <!-- /.nav-tabs -->
     <div class="tab-content" id="myTabContent-justified">
-        <div class="tab-pane fade in active part_tab" role="tabpanel" id="home-justified" aria-labelledby="home-tab-justified">
+        <div class="tab-pane fade in active part_tab" role="tabpanel" id="home-justified"
+             aria-labelledby="home-tab-justified">
 
-            <div class="row top-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+            <div class="row">
 
-                <form method="post" action="{{route('admin:parts.store')}}" class="form" enctype="multipart/form-data" id="part_form_data">
+                <form method="post" action="{{route('admin:parts.store')}}" class="form" enctype="multipart/form-data"
+                      id="part_form_data">
                     @csrf
                     @method('post')
+
+                    @if(isset($part))
+                        <input type="hidden" name="part_id" value="{{$part->id}}">
+                    @endif
 
                     @if(authIsSuperAdmin())
                         <div class="col-md-12">
@@ -35,7 +42,6 @@
                                                 id="branch_id"
                                                 {{isset($part) ? 'disabled':''}}
                                                 onchange="changeBranch()"
-                                            {{--                                onchange="getSparTypesByBranch()"--}}
                                         >
                                             <option value="">{{__('Select Branch')}}</option>
 
@@ -51,6 +57,10 @@
                                     </div>
                                     {{input_error($errors,'branch_id')}}
                                 </div>
+
+                                @if(isset($part))
+                                    <input type="hidden" name="branch_id" value="{{$part->branch_id}}">
+                                @endif
 
                             </div>
 
@@ -90,7 +100,8 @@
                                 <label for="inputStore" class="control-label">{{__('Store')}}</label>
                                 <div class="input-group">
                                     <span class="input-group-addon fa fa-building-o"></span>
-                                    <select class="form-control js-example-basic-single close_form" name="stores[]" id="store_id" multiple >
+                                    <select class="form-control js-example-basic-single close_form" name="stores[]"
+                                            id="store_id" multiple>
                                         @foreach($stores as $store)
                                             <option value="{{$store->id}}"
                                                     {{isset($part) && in_array($store->id, $part->stores()->pluck('store_id')->toArray() )? 'selected':''}}
@@ -122,9 +133,6 @@
                             </div>
                         </div>
 
-
-                        {{--        {{dd($part->spareParts()->pluck('spare_part_type_id')->toArray())}}--}}
-
                         <div class="col-md-4">
                             <div class="form-group has-feedback">
                                 <label for="inputType" class="control-label">{{__('Main Parts Type')}}</label>
@@ -144,7 +152,6 @@
                                                 {{$index + 1}} . {{$mainType->type}}
                                             </option>
                                         @endforeach
-                                        {{--                        {!! mainPartTypeSelectAsTree('removeToNewData' ,isset($part) ? $part->id : NULL) !!}--}}
                                     </select>
                                 </div>
                                 {{input_error($errors,'spare_part_type_id')}}
@@ -201,12 +208,12 @@
                             </div>
                         </div>
 
-
                         <div class="col-md-2">
                             <div class="form-group has-feedback">
                                 <label for="inputPhone" class="control-label">{{__('Status')}}</label>
                                 <div class="switch primary">
-                                    <input type="checkbox" class="close_form" id="switch-1" name="status"{{!isset($part)?'checked':''}}
+                                    <input type="checkbox" class="close_form" id="switch-1"
+                                           name="status"{{!isset($part)?'checked':''}}
                                         {{isset($part) && $part->status? 'checked':''}}
                                     >
                                     <label for="switch-1">{{__('Active')}}</label>
@@ -259,7 +266,8 @@
                                 <label for="inputimage" class="control-label">{{__('Image')}}</label>
                                 <div class="input-group">
                                     <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                    <input type="file" name="img" class="form-control close_form" onchange="preview_image(event)" >
+                                    <input type="file" name="img" class="form-control close_form"
+                                           onchange="preview_image(event)">
                                 </div>
                                 {{input_error($errors,'img')}}
                             </div>
@@ -289,18 +297,24 @@
                         </div>
                     </div>
 
-                    <div class="row top-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
-                        @include('admin.parts.suppliers.supplier')
+                    <div class="row">
+
+                        @if(isset($part))
+                            @include('admin.parts.suppliers.form', ['sups' => $suppliers])
+                        @else
+                            @include('admin.parts.suppliers.supplier')
+                        @endif
                     </div>
 
                     <div class="form-group col-sm-12">
 
-                        <button type="button" class="btn hvr-rectangle-in saveAdd-wg-btn close_form" onclick="storePart()">
+                        <button type="button" class="btn hvr-rectangle-in saveAdd-wg-btn close_form"
+                                onclick="{{isset($part) ? 'updatePart()' : 'storePart()'}}">
                             <i class="ico ico-left fa fa-save"></i>
                             {{__('Save')}}
                         </button>
 
-                        <button id="reset"  type="button" class="btn hvr-rectangle-in resetAdd-wg-btn close_form">
+                        <button id="reset" type="button" class="btn hvr-rectangle-in resetAdd-wg-btn close_form">
                             <i class="ico ico-left fa fa-trash"></i>
                             {{__('Reset')}}
                         </button>
@@ -315,11 +329,13 @@
             </div>
         </div>
 
-        <div class="tab-pane fade unit_tab" role="tabpanel" id="profile-justified" aria-labelledby="profile-tab-justified">
+        <div class="tab-pane fade unit_tab" role="tabpanel" id="profile-justified"
+             aria-labelledby="profile-tab-justified">
 
             <ul class="list-inline pull-left top-margin-wg">
                 <li class="list-inline-item">
-                    <a style=" margin-bottom: 12px; border-radius: 5px" type="button"   data-toggle="modal" data-target="#part_new_unit" onclick="createUnit()"
+                    <a style=" margin-bottom: 12px; border-radius: 5px" type="button" data-toggle="modal"
+                       data-target="#part_new_unit" onclick="createUnit()"
                        class="btn btn-icon btn-icon-left btn-create-wg waves-effect waves-light hvr-bounce-to-left">
                         {{__('Create')}} {{__('New')}} {{__('Unit')}}
                         <i class="ico fa fa-plus"></i>
@@ -329,7 +345,7 @@
             <div class="clearfix"></div>
 
             <div class="table-responsive" id="part_prices_table">
-                @include('admin.parts.units.index')
+                @include('admin.parts.units.index', ['prices'=> isset($part) ? $part->prices : null])
             </div>
 
         </div>

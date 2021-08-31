@@ -44,7 +44,28 @@
 
                             <div class="col-md-12">
 
-                                <div class="col-md-6">
+                                @if (authIsSuperAdmin())
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label> {{ __('Branches') }} </label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                                                <select class="form-control select2" name="branch_id" id="branch_id">
+                                                    <option value=""> {{ __('Select Branch') }} </option>
+                                                    @foreach(\App\Models\Branch::all() as $branch)
+                                                        <option {{ (old('branch_id') == $branch->id) || (isset($item) && $item->branch_id == $branch->id) ? 'selected' : '' }}
+                                                                value="{{ $branch->id }}"> {{ $branch->name }} </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @else
+                                    <input type="hidden" name="branch_id" value="{{ auth()->user()->branch_id }}"/>
+                                @endif
+
+
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="inputNameAR" class="control-label">{{__('Name In arabic')}} {!! required() !!}</label>
                                         <div class="input-group">
@@ -56,7 +77,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group has-feedback">
                                         <label for="inputNameEN" class="control-label">{{__('Name In English')}}</label>
                                         <div class="input-group">

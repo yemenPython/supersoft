@@ -13,16 +13,13 @@
 
             <div class="modal-body">
                 <div class="row" id="unit_form_place">
-
                     @include('admin.parts.units.form')
-
                 </div>
-
             </div>
 
             <div class="modal-footer">
 
-                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" onclick="storeUnit()">
+                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" id="save_action"  onclick="storeUnit()">
                     {{__('Save')}}
                 </button>
 

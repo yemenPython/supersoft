@@ -16,6 +16,7 @@ class BranchProductRequest extends FormRequest
         return [
             'name_ar' => 'required|string|max:200',
             'name_en' => 'nullable|string|max:200',
+            'branch_id' => 'required|exists:branches,id',
         ];
     }
 
@@ -24,6 +25,7 @@ class BranchProductRequest extends FormRequest
         return [
             'name_ar' => __('Name in Arabic'),
             'name_en' => __('Name in English'),
+            'branch_id' => __('Branch'),
         ];
     }
 }

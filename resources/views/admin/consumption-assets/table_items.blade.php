@@ -6,13 +6,14 @@
             <th width="2%"> # </th>
             <th width="col"> {{ __('Asset name') }} </th>
             <th scope="col"> {{ __('Asset group') }} </th>
-      
-            <th scope="col"> {{ __('work date') }} </th>
-            <th scope="col"> {{ __('purchase cost') }} </th>
-            <th scope="col"> {{ __('past consumtion') }} </th>
-            <th scope="col"> {{ __('net purchase cost') }} </th>
-            <th scope="col"> {{ __('consumtion rate') }} </th>
-            <th scope="col"> {{ __('consumption amount') }} </th>
+
+            <th scope="col" class="type_asset"> {{ __('work date') }} </th>
+            <th scope="col" class="type_asset"> {{ __('purchase cost') }} </th>
+            <th scope="col" class="type_asset"> {{ __('past consumtion') }} </th>
+            <th scope="col" class="type_asset"> {{ __('net purchase cost') }} </th>
+            <th scope="col" class="type_asset"> {{ __('consumtion rate') }} </th>
+            <th scope="col" class="type_asset"> {{ __('consumption amount') }} </th>
+            <th scope="col" class="type_expenses"> {{ __('consumption amount') }} </th>
             <th width="5%"> {{ __('Action') }} </th>
 
 
@@ -39,13 +40,14 @@
             <th width="2%"> # </th>
             <th width="col"> {{ __('Asset name') }} </th>
             <th scope="col"> {{ __('Asset group') }} </th>
-          
-            <th scope="col"> {{ __('work date') }} </th>
-            <th scope="col"> {{ __('purchase cost') }} </th>
-            <th scope="col"> {{ __('past consumtion') }} </th>
-            <th scope="col"> {{ __('net purchase cost') }} </th>
-            <th scope="col"> {{ __('consumtion rate') }} </th>
-            <th scope="col"> {{ __('consumption amount') }} </th>
+
+            <th scope="col" class="type_asset"> {{ __('work date') }} </th>
+            <th scope="col" class="type_asset"> {{ __('purchase cost') }} </th>
+            <th scope="col" class="type_asset"> {{ __('past consumtion') }} </th>
+            <th scope="col" class="type_asset"> {{ __('net purchase cost') }} </th>
+            <th scope="col" class="type_asset"> {{ __('consumtion rate') }} </th>
+            <th scope="col" class="type_asset"> {{ __('consumption amount') }} </th>
+            <th scope="col" class="type_expenses"> {{ __('consumption amount') }} </th>
             <th width="5%"> {{ __('Action') }} </th>
         </tr>
         </tfoot>

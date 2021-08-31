@@ -33,6 +33,7 @@ class BranchProductController extends Controller
             BranchProduct::create($request->all());
             return redirect()->route('admin:banks.branch_product.index')->with(['message' => __('Item has been created successfully ...'), 'alert-type' => 'success']);
         } catch (Exception $exception) {
+            dd($exception->getMessage());
             $this->logErrors($exception);
             return back()->withInput($request->all())->with(['message' => __('something went wrong'), 'alert-type' => 'error']);
         }
@@ -68,6 +69,9 @@ class BranchProductController extends Controller
     public function destroy(int $id)
     {
         $item = BranchProduct::findOrFail($id);
+       if ($item->banksData()->exists()) {
+           return redirect()->back()->with(['message' => __('words.can-not-delete-this-data-cause-there-is-related-data'), 'alert-type' => 'error']);
+       }
         $item->delete();
         return redirect()->route('admin:banks.branch_product.index')->with(['message' => __('Item has been Deleted successfully ...'), 'alert-type' => 'success']);
     }
@@ -75,7 +79,13 @@ class BranchProductController extends Controller
     public function deleteSelected(Request $request)
     {
         if (isset($request->ids)) {
-            BranchProduct::whereIn('id', $request->ids)->delete();
+            $items = BranchProduct::whereIn('id', $request->ids)->get();
+            foreach ($items as $item) {
+                if ($item->banksData()->exists()) {
+                    return redirect()->back()->with(['message' => __('words.can-not-delete-this-data-cause-there-is-related-data'), 'alert-type' => 'error']);
+                }
+                $item->delete();
+            }
             return redirect()->route('admin:banks.branch_product.index')->with(['message' => __('words.selected-row-deleted'), 'alert-type' => 'success']);
         }
         return redirect()->route('admin:banks.branch_product.index')->with(['message' => __('words.no-data-delete'), 'alert-type' => 'error']);

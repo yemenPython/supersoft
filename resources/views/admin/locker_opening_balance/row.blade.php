@@ -15,7 +15,7 @@
                 <select class="form-control js-example-basic-single" name="items[{{$index}}][currency_id]" required>
                     <option value="">{{__('Select')}}</option>
                     @foreach($currencies as $currency)
-                        <option class="bg-success" value="{{ $currency->id }}">{{ $currency->name }}</option>
+                        <option class="bg-success" {{$currency->id == 1 ? 'selected' : ''}} value="{{ $currency->id }}">{{ $currency->name }}</option>
                     @endforeach
                 </select>
             </div>

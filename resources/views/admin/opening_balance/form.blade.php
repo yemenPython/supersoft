@@ -166,9 +166,9 @@
 
 <table class="table table-bordered">
   <tbody>
-    <th style="width:30%;background:#FFC5D7 !important;color:black !important">{{ __('opening-balance.quantity') }}</th>
-    <td style="background:#FFC5D7">
-     <input type="text" disabled id="total_quantity" class="form-control" style="background:#FFC5D7; border:none;text-align:center !important;"
+    <th style="width:30%;background:rgba(234, 84, 85, 0.15) !important;color:black !important">{{ __('opening-balance.quantity') }}</th>
+    <td style="background:rgba(234, 84, 85, 0.15) !important">
+     <input type="text" disabled id="total_quantity" class="form-control" style="background:rgba(234, 84, 85, 0) !important;border:none;text-align:center !important;"
                        value="{{isset($openingBalance) ? $openingBalance->items->sum('quantity') : 0}}">
 </td>
                        </tbody>

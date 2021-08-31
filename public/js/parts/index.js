@@ -1,23 +1,3 @@
-function deleteSupplier(index) {
-    swal({
-        title: "{{__('Delete')}}",
-        text: "{{__('Are you sure want to Delete?')}}",
-        type: "success",
-        buttons: {
-            confirm: {
-                text: "{{__('Ok')}}",
-            },
-            cancel: {
-                text: "{{__('Cancel')}}",
-                visible: true,
-            }
-        }
-    }).then(function (isConfirm) {
-        if (isConfirm) {
-            $(".supplier-" + index).remove();
-        }
-    });
-}
 
 function openPriceSegment(id) {
 
@@ -35,26 +15,6 @@ function openPriceSegment(id) {
         $("#sales_price_segment_" + id).prop('disabled', true);
         $("#maintenance_price_segment_" + id).prop('disabled', true);
     }
-}
-
-function removePartPriceSegment(key) {
-
-    swal({
-
-        title: "Delete Price Segment",
-        text: "Are you sure want to delete this Segment ?",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-
-    }).then((willDelete) => {
-
-        if (willDelete) {
-
-            $("#price_segment_" + key).remove();
-        }
-    });
-
 }
 
 function calculatePrice() {

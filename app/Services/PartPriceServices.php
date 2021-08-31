@@ -151,8 +151,6 @@ class PartPriceServices
     public function partRules () {
 
         $rules = [
-
-//            'spare_part_unit_id' => 'required|integer|exists:spare_part_units,id',
             'suppliers_ids' => 'nullable',
             'description' => 'nullable|string',
             'part_in_store' => 'nullable|string',
@@ -190,6 +188,53 @@ class PartPriceServices
                 Rule::unique('parts')->where(function ($query) use($branch_id) {
                     return $query->where('name_ar', request()->name_ar)
                         ->where('branch_id', $branch_id)
+                        ->where('deleted_at', null);
+                }),
+            ];
+
+        return $rules;
+    }
+
+    public function updatePartRules ($part_id) {
+
+        $rules = [
+            'part_id' => 'required|integer|exists:parts,id',
+            'suppliers_ids' => 'nullable',
+            'description' => 'nullable|string',
+            'part_in_store' => 'nullable|string',
+            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'spare_part_type_ids'=>'required',
+            'spare_part_type_ids.*'=>'required|integer|exists:spare_parts,id',
+        ];
+
+        $branch_id = auth()->user()->branch_id;
+
+        if(authIsSuperAdmin()) {
+
+            $rules['branch_id'] = 'required|integer|exists:branches,id';
+            $branch_id = request()['branch_id'];
+        }
+
+        if (!request()->has('is_service')) {
+            $rules['stores.*'] = 'integer|exists:stores,id';
+        }
+
+        $rules['name_en'] =
+            [
+                'required', 'max:255',
+                Rule::unique('parts')->where(function ($query) use ($part_id) {
+                    return $query->where('id', '!=', $part_id)
+                        ->where('name_en', request()->name_en)
+                        ->where('deleted_at', null);
+                }),
+            ];
+
+        $rules['name_ar'] =
+            [
+                'required', 'max:255',
+                Rule::unique('parts')->where(function ($query) use($part_id) {
+                    return $query->where('id', '!=', $part_id)
+                        ->where('name_ar', request()->name_ar)
                         ->where('deleted_at', null);
                 }),
             ];

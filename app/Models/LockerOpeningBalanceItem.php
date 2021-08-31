@@ -24,9 +24,9 @@ class LockerOpeningBalanceItem extends Model
         return $this->belongsTo(Locker::class, 'locker_id');
     }
 
-    public function currency(): HasOne
+    public function currency(): BelongsTo
     {
-        return $this->hasOne(Currency::class, 'currency_id');
+        return $this->belongsTo(Currency::class, 'currency_id');
     }
 }
 

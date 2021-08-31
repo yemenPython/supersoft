@@ -1,11 +1,8 @@
 <div class="col-md-12" style="color:white;margin-bottom:60px;margin-right:0px;">
-        <div class="ribbon ribbon-r bg-secondary show-ribbon" style="background:#5685CC !important">
-                                                    <p class="mb-0">{{__('Main supplier')}}</p>
-                                                </div>
-        <!-- <span
-            style="color: white;font-size: 14px;background:#2980B9;padding:5px 10px;border-radius:3px">  </span>
-        <hr> -->
+    <div class="ribbon ribbon-r bg-secondary show-ribbon" style="background:#5685CC !important">
+        <p class="mb-0">{{__('Main supplier')}}</p>
     </div>
+</div>
 <div class="" style="padding:0 40px">
     <div class="form_new_supplier">
         @if(isset($part) && $part->suppliers_ids )
@@ -35,7 +32,8 @@
 
                             <label for="exampleInputEmail1">{{__('phone')}}</label>
                             <input type="text" readonly name="contacts[{{$index}}][phone_1]" id="phone{{$index}}"
-                                   value="{{$supplierPart->phone_1 .' | '. $supplierPart->phone_2}}" class="form-control">
+                                   value="{{$supplierPart->phone_1 .' | '. $supplierPart->phone_2}}"
+                                   class="form-control">
 
                         </div>
                     </div>
@@ -69,7 +67,7 @@
 <div class="col-md-12">
     <button type="button" title="new price" onclick="newSupplier()"
             class="btn btn-sm btn-info">
-            <li class="fa fa-plus"></li> {{__('New supplier')}}
+        <li class="fa fa-plus"></li> {{__('New supplier')}}
     </button>
     <br>
     <br>

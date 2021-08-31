@@ -6,11 +6,7 @@
         <th scope="col">{!! __('Quantity') !!}</th>
         <th scope="col">{!! __('Selling Price') !!}</th>
         <th scope="col">{!! __('Purchase Price') !!}</th>
-        <th scope="col">
-            <div class="checkbox danger">
-                <input type="checkbox" id="select-all">
-                <label for="select-all"></label>
-            </div>{!! __('Select') !!}</th>
+        <th scope="col">{!! __('Options') !!}</th>
     </tr>
     </thead>
     <tfoot>
@@ -20,7 +16,7 @@
         <th scope="col">{!! __('Quantity') !!}</th>
         <th scope="col">{!! __('Selling Price') !!}</th>
         <th scope="col">{!! __('Purchase Price') !!}</th>
-        <th scope="col">{!! __('Select') !!}</th>
+        <th scope="col">{!! __('Options') !!}</th>
     </tr>
     </tfoot>
     <tbody>

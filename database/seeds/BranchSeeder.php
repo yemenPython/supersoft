@@ -19,13 +19,14 @@ class BranchSeeder extends Seeder
             'name_en' => 'pound',
             'symbol_ar' => 'LE',
             'symbol_en' => 'LE',
+            'seeder' => 1,
         ]);
 
         $country = \App\Models\Country::create([
-
             'name_ar' => 'مصر',
             'name_en' => 'egypt',
             'currency_id' =>  $currency->id,
+            'seeder' => 1,
         ]);
 
         $city = \App\Models\City::create([
@@ -33,6 +34,7 @@ class BranchSeeder extends Seeder
             'name_ar' => 'القاهره',
             'name_en' => 'cairo',
             'country_id' => $country->id,
+            'seeder' => 1,
 
         ]);
 
@@ -41,6 +43,7 @@ class BranchSeeder extends Seeder
             'name_ar' => 'رمسيس',
             'name_en' => 'ramses',
             'city_id' =>  $city->id,
+            'seeder' => 1,
         ]);
 
         $branch = \App\Models\Branch::create([
