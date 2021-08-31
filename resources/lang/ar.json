@@ -2295,8 +2295,8 @@
     "If The Currency Is Main should be activate" : "اذا كانت العملة رئيسية يجب ان تكون نشطه",
     "you can only detect one currency as a Main Currency" : "تنبيه ! يمكنك تحديد عملة واحدة فقط كعملة رئيسية",
     "if you detected this currency to be main currency other currency will be not main" : "اذا تم تحديد هذه العملة كعملة رئيسية سوف يتم ألغاء العملة الرئيسية الاخرى",
-    "Title_ar" : "العنوان بالعربي",
-    "Title_en" :"العنوان بالانجليزي",
+    "Title_ar" : "اسم الملف عربي",
+    "Title_en" :"اسم الملف إنجليزي",
     "Total Added Balance" :"إجمالى الرصيد المضاف",
     "Total Current Balance" :"إجمالى الرصيد الحالى",
     "Current balance" :"الرصيد الحالى",
@@ -2364,7 +2364,24 @@
     "Start Date Dealing From" : "تاريخ بداية التعامل من",
     "Start Date Dealing To" : "تاريخ بداية التعامل إلى",
     "Stop Date Dealing From" : "تاريخ إايقاف التعامل من",
-    "Stop Date Dealing To" : "تاريخ إايقاف التعامل إلى"
+    "Stop Date Dealing To" : "تاريخ إايقاف التعامل إلى",
+    "Egyptian Federation Library" : "مرفقات قسم الإتحاد المصري للمقاولين",
+    "Create Commercial Register" : "إضافة مستند السجل التجاري",
+    "Commercial Registry Office" : "مكتب السجل التجاري",
+    "The National Number Of The Company" : "الرقم القومي للمنشأة",
+    "National Number" : "الرقم القومي للمنشأة",
+    "Deposit Number" : "رقم الإيداع",
+    "Deposit Date" : "تاريخ الإيداع",
+    "Valid Until" : "تاريخ الإنتهاء",
+    "Commercial feature" : "السمة التجارية",
+    "Commercial Feature" : "السمة التجارية",
+    "The purpose of establishing the company" : "الغرض من تأسيس الشركة",
+    "Number Of Years" : "عدد السنوات",
+    "No Of Years" : "عدد السنوات",
+    "Start On" : "المدة تبدأ من",
+    "End On" : "المدة تنتهي فى",
+    "Edit Commercial Register" : "تعديل مستند السجل التجاري",
+    "years" : "سنوات"
 
 }
 

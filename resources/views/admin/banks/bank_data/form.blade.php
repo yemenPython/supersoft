@@ -29,7 +29,7 @@
                     <span class="input-group-addon"><li class="fa fa-file"></li></span>
                     <input type="text" name="name_ar" class="form-control"
                            value="{{old('name_ar', isset($item)? $item->name_ar:'')}}">
-                </div>
+             </div>
             </div>
         </div>
 

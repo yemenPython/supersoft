@@ -54,13 +54,22 @@
                                     </div>
                                 @endif
 
-                                    <div class="form-group col-md-6">
-                                        <label> {{ __('Valid Until From') }} </label>
-                                        <input type="text" name="valid_until_from" class="form-control datepicker" placeholder="{{__('Valid Until From')}}">
+                                <div class="form-group col-md-6">
+                                        <label> {{ __('End Date From') }} </label>
+                                        <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                                        <input type="text" name="valid_until_from" class="form-control datepicker text-right" placeholder="{{__('End Date From')}}">
                                     </div>
+                                    </div>
+
                                     <div class="form-group col-md-6">
-                                        <label> {{ __('Valid Until To') }} </label>
-                                        <input type="text" name="valid_until_to" class="form-control datepicker" placeholder="{{__('Valid Until To')}}">
+                                        <label> {{ __('End Date To') }} </label>
+                                        <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                                        <input type="text" name="valid_until_to" class="form-control datepicker text-right" placeholder="{{__('End Date To')}}">
+                                    </div>
                                     </div>
 
                             </div>
@@ -84,7 +93,7 @@
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control">
-                    <i class="fa fa-check-square-o"></i> {{__('Commercial Register')}}
+                <i class="fa fa-file-text-o"></i>  {{__('Commercial Register')}}
                 </h4>
 
                 <div class="card-content js__card_content" style="">
@@ -109,17 +118,17 @@
                     <div class="clearfix"></div>
                     <div class="table-responsive">
                         <div class="clearfix"></div>
-                        <table id="currencies" class="table table-bordered" style="width:100%;margin-top:15px">
+                        <table id="currencies" class="table table-bordered wg-table-print table-hover" style="width:100%">
                             <thead>
                             <tr>
                                 <th class="text-center column-id" scope="col">#</th>
-                                <th class="text-center column-branch-name" scope="col">{!! __('Branch') !!}</th>
+                                <th class="text-center column-branch-name" scope="col">{!! __('Company name') !!}</th>
                                 <th class="text-center column-Membership-No" scope="col">{!! __('Commercial Registry Office') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('National Number') !!}</th>
-                                <th class="text-center column-register-date" scope="col">{!! __('Deposit Number') !!}</th>
-                                <th class="text-center column-funds-for" scope="col">{!! __('Deposit Date') !!}</th>
-                                <th class="text-center column-funds-on" scope="col">{!! __('Valid Until') !!}</th>
-                                <th class="text-center column-commercial_feature" scope="col">{!! __('Commercial Feature') !!}</th>
+                                <!-- <th class="text-center column-company-type" scope="col">{!! __('National Number') !!}</th> -->
+                                <!-- <th class="text-center column-register-date" scope="col">{!! __('Deposit Number') !!}</th> -->
+                                <!-- <th class="text-center column-funds-for" scope="col">{!! __('Deposit Date') !!}</th>
+                                <th class="text-center column-funds-on" scope="col">{!! __('Valid Until') !!}</th> -->
+                                <!-- <th class="text-center column-commercial_feature" scope="col">{!! __('Commercial Feature') !!}</th> -->
                                 <th class="text-center column-company_type" scope="col">{!! __('Company Type') !!}</th>
                                 <th class="text-center column-no_of_years" scope="col">{!! __('No Of Years') !!}</th>
                                 <th class="text-center column-start_at" scope="col">{!! __('Start On') !!}</th>
@@ -140,16 +149,24 @@
                                 <tr>
                                     <td class="text-center column-id">{{$loop->iteration}}</td>
                                     <td class="text-center column-branch-name">{!! optional($one->branch)->name !!}</td>
-                                    <td class="text-center column-Membership-No">{!! $one->commercial_registry_office !!}</td>
-                                    <td class="text-danger text-center  column-company-type">{{ $one->national_number }}</td>
-                                    <td class="text-danger text-center column-register-date">{{ $one->deposit_number }}</td>
-                                    <td class="text-danger text-center  column-funds-for">{{ $one->deposit_date }}</td>
-                                    <td class="text-danger text-center  column-funds-on">{{ $one->valid_until }}</td>
-                                    <td class="text-danger text-center  column-commercial_feature">{{ $one->commercial_feature }}</td>
-                                    <td class="text-danger text-center  column-company_type">{{ $one->company_type }}</td>
-                                    <td class="text-danger text-center  column-no_of_years">{{ $one->no_of_years }}</td>
-                                    <td class="text-danger text-center  column-start_at">{{ $one->start_at }}</td>
-                                    <td class="text-danger text-center  column-end_at">{{ $one->end_at }}</td>
+                                    <!-- <td class="text-center column-Membership-No">{!! $one->commercial_registry_office !!}</td> -->
+                                    <!-- <td class="text-center column-company-type">{{ $one->national_number }}</td> -->
+                                    <!-- <td class="text-center column-register-date">{{ $one->deposit_number }}</td>
+                                    <td class="text-center column-funds-for">{{ $one->deposit_date }}</td> -->
+                                    <!-- <td class="text-center column-funds-on">{{ $one->valid_until }}</td> -->
+                                    <td class="text-center column-commercial_feature">{{ $one->commercial_feature }}</td>
+                                    <td class="text-center column-company_type">{{ $one->company_type }}</td>
+                                    <td class="text-center column-no_of_years">{{ $one->no_of_years }} {{__('years')}}</td>
+                                    <td class="text-center column-start_at">
+                                    <span class="label light-primary wg-label">        
+                                    {{ $one->start_at }}
+                                    </span>
+                                    </td>
+                                    <td class="text-center column-end_at">
+                                    <span class="label light-danger wg-label">    
+                                    {{ $one->end_at }}
+                                    </span>
+                                    </td>
                                     <td class="text-center column-created-at">{!! $one->created_at->format('y-m-d h:i:s A') !!}</td>
                                     <td class="text-center column-updated-at">{!! $one->updated_at->format('y-m-d h:i:s A') !!}</td>
 
@@ -182,7 +199,7 @@
                                                     <a data-toggle="modal" data-target="#boostrapModal-2"
                                                        onclick="getLibrarySupplierId('{{$one->id}}')"
                                                        title="Supplier Library" class="btn btn-warning">
-                                                        <i class="fa fa-plus"> </i> {{__('Library')}}
+                                                       <i class="fa fa-file-archive-o text-primary"> </i> {{__('Library')}}
                                                     </a>
                                                 </li>
                                             </ul>
@@ -201,13 +218,13 @@
                             <tfoot>
                             <tr>
                                 <th class="text-center column-id" scope="col">#</th>
-                                <th class="text-center column-branch-name" scope="col">{!! __('Branch') !!}</th>
+                                <th class="text-center column-branch-name" scope="col">{!! __('Company name') !!}</th>
                                 <th class="text-center column-Membership-No" scope="col">{!! __('Commercial Registry Office') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('National Number') !!}</th>
-                                <th class="text-center column-register-date" scope="col">{!! __('Deposit Number') !!}</th>
-                                <th class="text-center column-funds-for" scope="col">{!! __('Deposit Date') !!}</th>
-                                <th class="text-center column-funds-on" scope="col">{!! __('Valid Until') !!}</th>
-                                <th class="text-center column-commercial_feature" scope="col">{!! __('Commercial Feature') !!}</th>
+                                <!-- <th class="text-center column-company-type" scope="col">{!! __('National Number') !!}</th> -->
+                                <!-- <th class="text-center column-register-date" scope="col">{!! __('Deposit Number') !!}</th> -->
+                                <!-- <th class="text-center column-funds-for" scope="col">{!! __('Deposit Date') !!}</th>
+                                <th class="text-center column-funds-on" scope="col">{!! __('Valid Until') !!}</th> -->
+                                <!-- <th class="text-center column-commercial_feature" scope="col">{!! __('Commercial Feature') !!}</th> -->
                                 <th class="text-center column-company_type" scope="col">{!! __('Company Type') !!}</th>
                                 <th class="text-center column-no_of_years" scope="col">{!! __('No Of Years') !!}</th>
                                 <th class="text-center column-start_at" scope="col">{!! __('Start On') !!}</th>
