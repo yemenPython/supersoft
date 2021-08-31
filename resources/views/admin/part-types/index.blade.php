@@ -28,6 +28,138 @@
 
 
 
+
+
+<!-- New Tree View -->
+
+<ul class="tree">
+  <li>
+    <div class="btn-group" data-toggle="buttons">
+      <label class="btn btn-default btn-xs">
+        <input type="radio" name="options">YES
+      </label>
+      <label class="btn btn-default btn-xs">
+        <input type="radio" name="options"> NO
+      </label>
+    </div>
+    <a href="#">CORPORATION</a>
+    <ul>
+      <li>
+        <div class="btn-group" data-toggle="buttons">
+          <label class="btn btn-default btn-xs">
+            <input type="radio" name="options">YES
+          </label>
+          <label class="btn btn-default btn-xs">
+            <input type="radio" name="options"> NO
+          </label>
+        </div>
+        DIVISION: [com name] <span rel="tooltip" data-toggle="tooltip" data-trigger="hover" data-placement="right" data-html="true" data-title="This is my tooltip!"><i class="fa fa-info-
+
+circle"></i></span>
+        <ul>
+          <li>
+            <div class="btn-group" data-toggle="buttons">
+              <label class="btn btn-default btn-xs">
+                <input type="radio" name="options">YES
+              </label>
+              <label class="btn btn-default btn-xs">
+                <input type="radio" name="options"> NO
+              </label>
+            </div>
+            MARKET
+            <ul>
+              <li>
+                <div class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-default btn-xs">
+                    <input type="radio" name="options">YES
+                  </label>
+                  <label class="btn btn-default btn-xs">
+                    <input type="radio" name="options"> NO
+                  </label>
+                </div>
+                Comm 1</li>
+              <li>
+                <div class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-default btn-xs">
+                    <input type="radio" name="options">YES
+                  </label>
+                  <label class="btn btn-default btn-xs">
+                    <input type="radio" name="options"> NO
+                  </label>
+                </div>
+                Comm 2</li>
+              <li>
+                <div class="btn-group" data-toggle="buttons">
+                  <label class="btn btn-default btn-xs">
+                    <input type="radio" name="options">YES
+                  </label>
+                  <label class="btn btn-default btn-xs">
+                    <input type="radio" name="options"> NO
+                  </label>
+                </div>
+                ANOTHER LEVEL
+                <ul>
+                  <li>
+                    <div class="btn-group" data-toggle="buttons">
+                      <label class="btn btn-default btn-xs">
+                        <input type="radio" name="options">YES
+                      </label>
+                      <label class="btn btn-default btn-xs">
+                        <input type="radio" name="options"> NO
+                      </label>
+                    </div>
+                    LEVEL 4
+                    <ul>
+                      <li>
+                        <div class="btn-group" data-toggle="buttons">
+                          <label class="btn btn-default btn-xs">
+                            <input type="radio" name="options">YES
+                          </label>
+                          <label class="btn btn-default btn-xs">
+                            <input type="radio" name="options"> NO
+                          </label>
+                        </div>
+                        Comm 1</li>
+                      <li>
+                        <div class="btn-group" data-toggle="buttons">
+                          <label class="btn btn-default btn-xs">
+                            <input type="radio" name="options">YES
+                          </label>
+                          <label class="btn btn-default btn-xs">
+                            <input type="radio" name="options"> NO
+                          </label>
+                        </div>
+                        Comm 2</li>
+                      <li>
+                        <div class="btn-group" data-toggle="buttons">
+                          <label class="btn btn-default btn-xs">
+                            <input type="radio" name="options">YES
+                          </label>
+                          <label class="btn btn-default btn-xs">
+                            <input type="radio" name="options"> NO
+                          </label>
+                        </div>
+                        Comm 3</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li> DIVISION</li>
+    </ul>
+  </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<!-- New Tree View -->
+
+
                 </div>
             </div>
         </div>
