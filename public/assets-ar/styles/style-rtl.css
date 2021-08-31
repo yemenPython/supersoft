@@ -2759,17 +2759,117 @@ input[type="time"]
                             #assetDatatoPrint .small-data-wg,
                             #assetDatatoPrint .small-data-wg {
                                 bottom: 15px;
-                                left: 15px;
+                                right: 15px;
                             }
                             
                             #invoiceDatatoPrint .top-logo-print,
                             #assetDatatoPrint .top-logo-print,
                             #assetDatatoPrint .top-logo-print {
                                 position: absolute;
-                                left: 15px;
+                                right: 15px;
                             }
                             /* .top-logo-print {
                                 position: absolute;
                                 left: 15px;
                             } */
                             /* أذونات البرنت */
+                            /* New Tree View */
+                            
+                            .tree,
+                            .tree ul {
+                                margin: 0;
+                                padding: 0;
+                                list-style: none;
+                            }
+                            
+                            .tree ul {
+                                margin-right: 0.4em;
+                                position: relative;
+                            }
+                            
+                            .tree ul ul {
+                                margin-right: .3em;
+                            }
+                            
+                            .tree ul:before {
+                                content: "";
+                                display: block;
+                                width: 0;
+                                position: absolute;
+                                top: 0;
+                                bottom: 0;
+                                right: 0;
+                                border-right: 1px solid;
+                            }
+                            
+                            .tree li {
+                                margin: 0;
+                                padding: 0 0.8em;
+                                line-height: 2em;
+                                color: #555;
+                                font-weight: 700;
+                                position: relative;
+                            }
+                            
+                            .tree ul li:before {
+                                content: "";
+                                display: block;
+                                width: 10px;
+                                height: 0;
+                                border-top: 1px solid;
+                                margin-top: -1px;
+                                position: absolute;
+                                top: 1em;
+                                right: 0;
+                            }
+                            
+                            .tree ul li:last-child:before {
+                                background: #fff;
+                                height: auto;
+                                top: 1em;
+                                bottom: 0;
+                            }
+                            
+                            .indicator {
+                                /*margin-right: 5px;*/
+                            }
+                            
+                            .tree li a {
+                                text-decoration: none;
+                                color: #555;
+                            }
+                            
+                            .tree li button,
+                            .tree li button:active,
+                            .tree li button:focus {
+                                text-decoration: none;
+                                color: #555;
+                                border: none;
+                                background: transparent;
+                                margin: 0px 0px 0px 0px;
+                                padding: 0px 0px 0px 0px;
+                                outline: 0;
+                            }
+                            
+                            .tree ul,
+                            .tree li {
+                                cursor: pointer;
+                            }
+                            
+                            .tree .btn-default.active {
+                                background-color: #1c90c1;
+                                color: #fff;
+                            }
+                            
+                            .tree .btn-default {
+                                background-color: #eee;
+                            }
+                            
+                            .tree .fa-info-circle {
+                                color: #1c90c1;
+                            }
+                            
+                            ul.tree li {
+                                margin: 10px 0px !important;
+                            }
+                            /* New Tree View */
