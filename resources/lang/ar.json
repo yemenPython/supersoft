@@ -2348,8 +2348,8 @@
     "Security Approval" : "الموافقة الأمنية",
     "End Date From" : "تاريخ الإنتهاء من",
     "End Date To" : "تاريخ الإنتهاء الى",
-    "Create Egyptian Federation" : "إضافة مستند الإتحاد المصري لمقاولي التشييد والبناء",
-    "Edit Egyptian Federation" : "تعديل مستند الإتحاد المصري لمقاولي التشييد والبناء",
+    "Create Egyptian Federation" : "إضافة مستند الإتحاد المصري للمقاولين",
+    "Edit Egyptian Federation" : "تعديل مستند الإتحاد المصري للمقاولين",
     "Company name" : "اسم الشركة",
     "Company Address" : "عنوان الشركة",
     "Membership No" : "رقم العضوية",
@@ -2381,7 +2381,19 @@
     "Start On" : "المدة تبدأ من",
     "End On" : "المدة تنتهي فى",
     "Edit Commercial Register" : "تعديل مستند السجل التجاري",
-    "years" : "سنوات"
+    "years" : "سنوات",
+    "Commercial Register Library" : "مرفقات قسم السجل التجاري",
+    "Create Company Tax Card" : "إضافة بيانات البطاقة الضريبية",
+    "Edit Company Tax Card" : "تعديل بيانات البطاقة الضريبية",
+    "Registration number" : "رقم التسجيل",
+    "Company Activity" : "نشاط الشركة",
+    "Registration Date" : "تاريخ التسجيل",
+    "Registration Number" : "رقم التسجيل",
+    "Tax Card Library" : "مرفقات قسم البطاقة الضريبية",
+    "Create Register Added Value" : "إضافة تسجيل القيمة المضافة",
+    "Edit Register Added Value" : "تعديل تسجيل القيمة المضافة",
+    "Errands" : "اسم المأمورية",
+    "Date Of Registration" : "تاريخ التسجيل"
 
 }
 
