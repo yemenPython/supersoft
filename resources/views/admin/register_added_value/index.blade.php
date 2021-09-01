@@ -55,12 +55,21 @@
                                 @endif
 
                                     <div class="form-group col-md-6">
-                                        <label> {{ __('Registration Date From') }} </label>
-                                        <input type="text" name="register_date_from" class="form-control datepicker" placeholder="{{__('Registration Date From')}}">
+                                        <label> {{ __('End Date From') }}  </label>
+                                        <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                                        <input type="text" name="register_date_from" class="form-control datepicker text-right" placeholder="{{ __('End Date From') }}">
                                     </div>
+                                    </div>
+
                                     <div class="form-group col-md-6">
-                                        <label> {{ __('Registration Date To') }} </label>
-                                        <input type="text" name="register_date_to" class="form-control datepicker" placeholder="{{__('Registration Date To')}}">
+                                        <label> {{ __('End Date To') }}</label>
+                                        <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                                        <input type="text" name="register_date_to" class="form-control datepicker text-right" placeholder="{{ __('End Date To') }}">
+                                    </div>
                                     </div>
 
                             </div>
@@ -84,7 +93,7 @@
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control">
-                    <i class="fa fa-check-square-o"></i> {{__('Register Added Value')}}
+                <i class="fa fa-file-text-o"></i>  {{__('Register Added Value')}}
                 </h4>
 
                 <div class="card-content js__card_content" style="">
@@ -134,8 +143,12 @@
                                     <td class="text-center column-id">{{$loop->iteration}}</td>
                                     <td class="text-center column-branch-name">{!! optional($one->branch)->name !!}</td>
                                     <td class="text-center column-Membership-No">{!! $one->area !!}</td>
-                                    <td class="text-danger text-center  column-company-type">{{ $one->errands }}</td>
-                                    <td class="text-danger text-center column-register-date">{{ $one->register_date }}</td>
+                                    <td class="text-center  column-company-type">{{ $one->errands }}</td>
+                                    <td class="text-center column-register-date">
+                                    <span class="label light-danger wg-label">      
+                                    {{ $one->register_date }}
+                                    </span>
+                                    </td>
                                     <td class="text-center column-created-at">{!! $one->created_at->format('y-m-d h:i:s A') !!}</td>
                                     <td class="text-center column-updated-at">{!! $one->updated_at->format('y-m-d h:i:s A') !!}</td>
 

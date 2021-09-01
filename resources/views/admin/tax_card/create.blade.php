@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Create Supplier') }} </title>
+    <title>{{__('Create Company Tax Card')}} </title>
 @endsection
 
 @section('content')
@@ -10,15 +10,15 @@
         <nav>
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
-                <li class="breadcrumb-item"><a href="{{route('admin:tax_card.index')}}"> {{__('Egyptian Federation')}}</a></li>
-                <li class="breadcrumb-item active"> {{__('Create Egyptian Federation')}}</li>
+                <li class="breadcrumb-item"><a href="{{route('admin:tax_card.index')}}"> {{__('Company Tax Card')}} </a></li>
+                <li class="breadcrumb-item active"> {{__('Create Company Tax Card')}}</li>
             </ol>
         </nav>
 
         <div class="col-xs-12">
             <div class=" card box-content-wg-new bordered-all primary">
-                <h4 class="box-title with-control" style="text-align: initial"><i
-                        class="fa fa-user ico"></i>{{__('Create Egyptian Federation')}}
+                <h4 class="box-title with-control" style="text-align: initial">
+                <i class="fa fa-file-text-o"></i>  {{__('Create Company Tax Card')}}
                         <span class="controls hidden-sm hidden-xs pull-left">
                       <button class="control text-white"
                               style="background:none;border:none;font-size:14px;font-weight:normal !important;">{{__('Save')}}
@@ -52,7 +52,7 @@
 
                                     @if(authIsSuperAdmin())
                                         <div class="form-group has-feedback">
-                                            <label for="inputPhone" class="control-label">{{__('Branch')}}</label>
+                                            <label for="inputPhone" class="control-label">{{__('Branch')}} {!! required() !!}</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon fa fa-file"></span>
                                                 <select class="form-control js-example-basic-single" name="branch_id" id="branch_id"
@@ -80,9 +80,9 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Company name')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Company name')}} {!! required() !!}</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                        <span class="input-group-addon"><li class="fa fa-file-o"></li></span>
                                             <input type="text" name="name" class="form-control" id="inputNameEn"
                                                    disabled
                                                    placeholder="{{__('Company name')}}"
@@ -93,9 +93,9 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Company Address')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Company Address')}} {!! required() !!}</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                        <span class="input-group-addon"><li class="fa fa-location-arrow"></li></span>
                                             <input type="text" name="name_ar" class="form-control" id="inputNameEn"
                                                    disabled
                                                    placeholder="{{__('Company Address')}}"
@@ -106,9 +106,9 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Company Activity')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Company Activity')}} {!! required() !!}</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                        <span class="input-group-addon"><li class="fa fa-file-o"></li></span>
                                             <input type="text" name="activity" class="form-control" id="activity"
                                                    placeholder="{{__('Company Activity')}}"
                                                    value="{{old('activity', !empty($last_created)? $last_created->activity:'')}}">
@@ -120,9 +120,9 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Registration number')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Registration number')}} {!! required() !!}</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                        <span class="input-group-addon"><li class="fa fa-file-text-o"></li></span>
                                             <input type="text" name="registration_number" class="form-control" id="membership_no"
                                                    placeholder="{{__('Registration number')}}"
                                                    value="{{old('registration_number', !empty($last_created)? $last_created->registration_number:'')}}">
@@ -134,10 +134,10 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Registration Date')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Registration Date')}} {!! required() !!}</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="registration_date" class="form-control datepicker" id="registration_date"
+                                        <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
+                                            <input type="text" name="registration_date" class="form-control datepicker text-right" id="registration_date"
                                                    placeholder="{{__('Registration Date')}}"
                                                    value="{{old('registration_date', !empty($last_created)? $last_created->registration_date:'')}}">
                                         </div>
@@ -147,10 +147,10 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('End date')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('End date')}} {!! required() !!}</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="end_date" class="form-control datepicker" id="end_date" autocomplete="off"
+                                        <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
+                                            <input type="text" name="end_date" class="form-control datepicker text-right" id="end_date" autocomplete="off"
                                                    placeholder="{{__('End date')}}"
                                                    value="{{old('end_date', !empty($last_created)? $last_created->end_date:'')}}">
                                         </div>
@@ -163,9 +163,8 @@
                         </div>
 
 
-                        <div class="form-group col-sm-12" >
                             @include('admin.buttons._save_buttons')
-                        </div>
+                 
                     </form>
                 </div>
 

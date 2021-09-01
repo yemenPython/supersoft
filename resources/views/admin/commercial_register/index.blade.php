@@ -156,7 +156,7 @@
                                     <!-- <td class="text-center column-funds-on">{{ $one->valid_until }}</td> -->
                                     <td class="text-center column-commercial_feature">{{ $one->commercial_feature }}</td>
                                     <td class="text-center column-company_type">{{ $one->company_type }}</td>
-                                    <td class="text-center column-no_of_years">{{ $one->no_of_years }} {{__('years')}}</td>
+                                    <td class="text-center text-danger column-no_of_years">{{ $one->no_of_years }} {{__('years')}}</td>
                                     <td class="text-center column-start_at">
                                     <span class="label light-primary wg-label">        
                                     {{ $one->start_at }}
@@ -248,13 +248,15 @@
 
 @section('modals')
 
-    <div class="modal fade" id="boostrapModal-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
+    <div class="modal fade modal-bg-wg" id="boostrapModal-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel-1">{{__('Commercial Register Library')}}</h4>
+                    <h4 class="modal-title" id="myModalLabel-1">
+                    <i class="fa fa-file-archive-o"> </i>       
+                    {{__('Commercial Register Library')}}</h4>
                 </div>
                 <div class="modal-body">
 
@@ -262,24 +264,31 @@
                         <form action="{{route('admin:commercial_register.upload.upload_library')}}" method="post"
                               enctype="multipart/form-data">
                             @csrf
-                            <div class="form-group col-md-3">
-                                <label>Title_ar</label>
+                            <div class="form-group col-md-4">
+                            <label>{{__('Title_ar')}} {!! required() !!}</label>
+                            <div class="input-group">
+                                <span class="input-group-addon"><li class="fa fa-file-archive-o"></li></span>
+
                                 <input type="text" name="title_ar" class="form-control" id="library_title_ar">
                             </div>
-                            <div class="form-group col-md-3">
-                                <label>Title_en</label>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                            <label>{{__('Title_en')}}</label>
+                                <div class="input-group">
+                                <span class="input-group-addon"><li class="fa fa-file-archive-o"></li></span>
+                               
                                 <input type="text" name="title_en" class="form-control" id="library_title_en">
                             </div>
+                            </div>
+                            
                             <div class="form-group col-md-4">
-                                <label>{{__('files')}}</label>
+                            <label>{{__('files')}} {!! required() !!}</label>
                                 <input type="file" name="files[]" class="form-control" id="files" multiple>
                                 <input type="hidden" name="supplier_id" value="" id="library_supplier_id">
                             </div>
+                      
 
-                            <div class="form-group col-md-1">
-                                <button type="button" class="btn btn-primary" onclick="uploadSupplierFiles()"
-                                        style="margin-top: 28px;">{{__('save')}}</button>
-                            </div>
 
                             <div class="form-group col-md-1" id="upload_loader" style="display: none;">
                                 <img src="{{asset('default-images/loading.gif')}}" title="loader"
@@ -297,8 +306,10 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" data-dismiss="modal">
-                        {{__('Close')}}
+                <button type="button" class="btn btn-primary" onclick="uploadSupplierFiles()">
+                <li class="fa fa-save"></li> {{__('save')}}</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    <li class="fa fa-close"></li>  {{__('Close')}}
                     </button>
                 </div>
             </div>
