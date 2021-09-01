@@ -110,6 +110,18 @@
 @section('js')
     @include('admin.partial.maps.show_location_js')
     <script>
+
+        server_side_datatable('#datatable-with-btns');
+        function filterFunction($this) {
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout(function () {
+                $("#loaderSearch").hide();
+            }, 1000)
+        }
+
         function getLibraryFiles(id) {
             $("#library_item_id").val(id);
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');

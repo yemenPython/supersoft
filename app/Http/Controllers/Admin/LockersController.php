@@ -63,14 +63,13 @@ class LockersController extends Controller
 
     public function store(CreateLockersRequest $request)
     {
-
         if (!auth()->user()->can('create_lockers')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
         try{
             $data = $request->validated();
-
+            $data['name_en'] = $request->filled('name_en') ? $request->name_en : $request->name_ar;
             $data['status'] = 0;
 
             if($request->has('status'))
@@ -91,7 +90,6 @@ class LockersController extends Controller
             }
 
         }catch (\Exception $e){
-
             return redirect()->back()
                 ->with(['message' => __('words.back-support'),'alert-type'=>'error']);
         }
@@ -134,7 +132,7 @@ class LockersController extends Controller
 
         try{
             $data = $request->validated();
-
+            $data['name_en'] = $request->filled('name_en') ? $request->name_en : $request->name_ar;
             $data['status'] = 0;
 
             if($request->has('status'))

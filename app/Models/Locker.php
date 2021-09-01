@@ -4,13 +4,14 @@ namespace App\Models;
 
 use App\Model\LockerUsers;
 use App\Scopes\BranchScope;
+use App\Traits\ColumnTranslation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Locker extends Model
 {
-    use SoftDeletes, LogsActivity;
+    use SoftDeletes, LogsActivity, ColumnTranslation;
 
     protected $fillable = ['name_en','name_ar','branch_id','status','balance','description','special'];
 
@@ -59,11 +60,6 @@ class Locker extends Model
 
     public function getActiveAttribute(){
         return $this->status == 1? __('Active'): __('inActive');
-    }
-
-    public function getNameAttribute()
-    {
-        return app()->getLocale() == 'ar' ? $this['name_ar'] : $this['name_en'];
     }
 
     public function users(){

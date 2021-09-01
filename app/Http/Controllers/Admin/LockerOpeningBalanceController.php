@@ -67,15 +67,17 @@ class LockerOpeningBalanceController extends Controller
             if ($lockerOpeningBalance) {
                 foreach ($request->items as $item) {
                     $currencyId =  isset($item['currency_id']) ? $item['currency_id'] : null;
+                    $currency = Currency::find($currencyId);
+                    $conversion_factor = $currency && $currency->conversion_factor ? $currency->conversion_factor : 1;
                     $lockerOpeningBItem = LockerOpeningBalanceItem::create([
                         'locker_opening_balance_id' => $lockerOpeningBalance->id,
                         'locker_id' => $item['locker_id'],
                         'current_balance' => $item['current_balance'],
-                        'added_balance' => $item['added_balance'],
-                        'total' =>  $item['current_balance'] + $item['added_balance'],
+                        'added_balance' => $item['added_balance'] * $conversion_factor,
+                        'total' =>  $item['current_balance'] +( $item['added_balance'] * $conversion_factor),
                         'currency_id' =>  $currencyId,
                     ]);
-                    $this->updateLocker($lockerOpeningBItem, $request->status, $currencyId);
+                    $this->updateLocker($lockerOpeningBItem, $request->status, $currency);
                 }
             }
             return redirect()->to('admin/lockers_opening_balance')
@@ -126,13 +128,15 @@ class LockerOpeningBalanceController extends Controller
                         $oldLockerOpeningBalance = LockerOpeningBalanceItem::find($item['id']);
                         if ($oldLockerOpeningBalance) {
                             $currencyId =  isset($item['currency_id']) ? $item['currency_id'] : null;
+                            $currency = Currency::find($currencyId);
+                            $conversion_factor = $currency && $currency->conversion_factor ? $currency->conversion_factor : 1;
                             $oldLockerOpeningBalance->update([
                                 'current_balance' => $item['current_balance'],
-                                'added_balance' => $item['added_balance'],
-                                'total' =>  $item['current_balance'] + $item['added_balance'],
+                                'added_balance' => $item['added_balance'] * $conversion_factor,
+                                'total' =>  $item['current_balance'] +( $item['added_balance'] * $conversion_factor),
                                 'currency_id' =>  $currencyId,
                             ]);
-                            $this->updateLocker($oldLockerOpeningBalance, $request->status, $currencyId);
+                            $this->updateLocker($oldLockerOpeningBalance, $request->status, $currency);
                         }
                     } else {
                         $currencyId =  isset($item['currency_id']) ? $item['currency_id'] : null;
@@ -144,7 +148,7 @@ class LockerOpeningBalanceController extends Controller
                             'total' =>  $item['current_balance'] + $item['added_balance'],
                             'currency_id' =>  $currencyId,
                         ]);
-                        $this->updateLocker($lockerOpeningBalance, $request->status,  $currencyId);
+                        $this->updateLocker($lockerOpeningBalance, $request->status,  $currency);
                     }
                 }
             }
@@ -259,10 +263,9 @@ class LockerOpeningBalanceController extends Controller
         return $items;
     }
 
-    private function updateLocker(LockerOpeningBalanceItem $lockerOpeningBalanceItem, string $status, int $currencyId = null)
+    private function updateLocker(LockerOpeningBalanceItem $lockerOpeningBalanceItem, string $status, Currency $currency = null)
     {
         if ($status == Status::Accepted) {
-            $currency = Currency::find($currencyId);
             $addedBalance = $currency && $currency->conversion_factor ?
                 $lockerOpeningBalanceItem->added_balance * $currency->conversion_factor : $lockerOpeningBalanceItem->added_balance;
             $locker = Locker::find($lockerOpeningBalanceItem->locker_id);

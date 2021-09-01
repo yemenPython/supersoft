@@ -81,12 +81,21 @@
     function updateBalance(index) {
         let currentBalance = $('#current_balance_item'+index).val();
         let addedBalance = $('#added_balance'+index).val();
-        let total = parseFloat(currentBalance) + parseFloat(addedBalance);
+        let current_currency = getConversionFactor(index);
+        var total = 0;
+        if (current_currency) {
+             total = parseFloat(currentBalance) + parseFloat(addedBalance)*parseFloat(current_currency);
+            setSpanWithTheOperation(index, addedBalance, current_currency)
+        } else {
+            total = parseFloat(currentBalance) + parseFloat(addedBalance);
+            setSpanWithTheOperation(index, addedBalance, 1)
+        }
         if (isNaN(total)) {
             total = 0;
            $('#added_balance'+index).val(0);
+            setSpanWithTheOperation(index, false, false)
         }
-        $('#total_item_balance'+index).val(total);
+        $('#total_item_balance'+index).val(total.toFixed(2));
         calculateCurrentBalanceTotal();
         calculateAddedBalanceTotal();
         calculateBalanceTotal();
@@ -107,9 +116,9 @@
     function calculateCurrentBalanceTotal() {
         var currentBalanceTotal = 0;
         $(".current_balance").each(function(index, item){
-            var v =  parseInt($(this).val());
-            if (isNaN( parseInt($(this).val()))) { v  = 0 }
-            currentBalanceTotal = (parseInt(currentBalanceTotal) + v);
+            var v =  parseFloat($(this).val());
+            if (isNaN( parseFloat($(this).val()))) { v  = 0 }
+            currentBalanceTotal = (parseFloat(currentBalanceTotal) + v);
         })
         $('#total_current_balance_items').val(currentBalanceTotal.toFixed(2));
         $('#total_current_balance_items_hidden').val(currentBalanceTotal.toFixed(2));
@@ -117,10 +126,10 @@
 
     function calculateAddedBalanceTotal() {
         var addedBalanceTotal = 0;
-        $(".added_balance").each(function(index, item){
-            var v =  parseInt($(this).val());
-            if (isNaN( parseInt($(this).val()))) { v  = 0 }
-            addedBalanceTotal = (parseInt(addedBalanceTotal) + v);
+        $(".added_balance_hidden").each(function(index, item){
+            var v =  parseFloat($(this).val());
+            if (isNaN( parseFloat($(this).val()))) { v  = 0 }
+            addedBalanceTotal = (parseFloat(addedBalanceTotal) + v);
         })
         $('#total_added_balance_items').val(addedBalanceTotal.toFixed(2));
         $('#total_added_balance_items_hidden').val(addedBalanceTotal.toFixed(2));
@@ -129,11 +138,42 @@
     function calculateBalanceTotal() {
         var allBalanceTotal = 0;
         $(".total_balance").each(function(index, item){
-            var v =  parseInt($(this).val());
-            if (isNaN( parseInt($(this).val()))) { v  = 0 }
-            allBalanceTotal = (parseInt(allBalanceTotal) + v);
+            var v =  parseFloat($(this).val());
+            if (isNaN( parseFloat($(this).val()))) { v  = 0 }
+            allBalanceTotal = (parseFloat(allBalanceTotal) + v);
         })
         $('#total_balance_items').val(allBalanceTotal.toFixed(2));
         $('#total_balance_items_items_hidden').val(allBalanceTotal.toFixed(2));
+    }
+
+    function calculateWithCurrency(index) {
+        let conversion_factor = getConversionFactor(index);
+       if (conversion_factor) {
+           $("#conversion_factor"+index).html(conversion_factor)
+           updateBalance(index)
+       } else {
+           $("#conversion_factor"+index).html(1)
+           updateBalance(index)
+       }
+    }
+
+    function getConversionFactor(index) {
+        let current_currency = $("#current_currency"+index);
+        let conversion_factor = $("option:selected", current_currency).data('conversion_factor')
+        if (conversion_factor) {
+            return conversion_factor;
+        }
+        return false;
+    }
+
+    function setSpanWithTheOperation(index, addedBalance, current_currency) {
+        if (addedBalance > 0 && current_currency) {
+            $("#resultOfThTotal"+index).html(addedBalance + " * " + current_currency + " = " + (parseFloat(addedBalance)*parseFloat(current_currency)).toFixed(2))
+            $('#added_balance_hidden'+index).val((parseFloat(addedBalance) * parseFloat(current_currency)).toFixed(2));
+        } else {
+            $("#resultOfThTotal"+index).html(0 + " * " + 0 + " = " + 0)
+            $('#added_balance_hidden'+index).val(0);
+
+        }
     }
 </script>
