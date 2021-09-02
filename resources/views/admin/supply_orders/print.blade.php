@@ -140,6 +140,8 @@
                             <th>{{__('Total After Discount')}}</th>
                             <th>{{__('The Tax')}}</th>
                             <th>{{__('Final Total')}}</th>
+                            <th> {{ __('Barcode') }} </th>
+                            <th> {{ __('Supplier Barcode') }} </th>
                         </tr>
 
                         </thead>
@@ -158,7 +160,8 @@
                                 <td>{{$item->total_after_discount}}</td>
                                 <td>{{$item->tax}}</td>
                                 <td>{{$item->total}}</td>
-
+                                <td>{{$item->partPrice  ? $item->partPrice->barcode : '---'}}</td>
+                                <td>{{$item->partPrice ? $item->partPrice->supplier_barcode : '---'}}</td>
                             </tr>
 
                         @endforeach

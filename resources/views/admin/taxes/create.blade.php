@@ -184,14 +184,14 @@
                                             <td>{{__('Invoices')}}</td>
                                             <td>
                                                 <div class="switch primary" style="margin:0">
-                                                    <input type="checkbox" id="switch-1" name="active_invoices" >
+                                                    <input type="checkbox" id="switch-1" name="active_invoices">
                                                     <label for="switch-1">{{__('Active')}}</label>
                                                 </div>
                                             </td>
                                             <td>{{__('Quotations')}}</td>
                                             <td>
                                                 <div class="switch primary" style="margin:0">
-                                                    <input type="checkbox" id="switch-2" name="active_offers" >
+                                                    <input type="checkbox" id="switch-2" name="active_offers">
                                                     <label for="switch-2">{{__('Active')}}</label>
                                                 </div>
                                             </td>
@@ -206,7 +206,8 @@
                                             <td>{{__('Supply Order')}}</td>
                                             <td>
                                                 <div class="switch primary" style="margin:0">
-                                                    <input type="checkbox" id="switch-supply" name="supply_order" VALUE="1">
+                                                    <input type="checkbox" id="switch-supply" name="supply_order"
+                                                           VALUE="1">
                                                     <label for="switch-supply">{{__('Active')}}</label>
                                                 </div>
                                             </td>
@@ -243,6 +244,19 @@
                                                 </div>
                                             </td>
                                         </tr>
+
+                                        <tr>
+
+                                            <td>{{__('Sale Supply Order')}}</td>
+                                            <td>
+                                                <div class="switch primary" style="margin:0">
+                                                    <input type="checkbox" id="switch-sale_supply_order" name="sale_supply_order">
+                                                    <label for="switch-sale_supply_order">{{__('Active')}}</label>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+
                                         </tbody>
                                     </table>
 

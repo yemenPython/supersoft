@@ -119,6 +119,8 @@
                             <th> {{ __('Quantity') }} </th>
                             <th> {{ __('Price') }} </th>
                             <th> {{ __('Total') }} </th>
+                            <th> {{ __('Barcode') }} </th>
+                            <th> {{ __('Supplier Barcode') }} </th>
                         </tr>
 
                         </thead>
@@ -169,6 +171,14 @@
 
                                     <td>
                                         {{isset($item) ? ($item->price * $item->quantity) : 0}}
+                                    </td>
+
+                                    <td>
+                                        {{$item->partPrice  ? $item->partPrice->barcode : '---'}}
+                                    </td>
+
+                                    <td>
+                                        {{$item->partPrice ? $item->partPrice->supplier_barcode : '---'}}
                                     </td>
                                 </tr>
                             @endforeach

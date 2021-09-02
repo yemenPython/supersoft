@@ -179,10 +179,10 @@ class SalesInvoicesController extends Controller
             $data = $this->filter($request, $data);
         }
 
-        $paymentTerms = SupplyTerm::where('purchase_invoice', 1)->where('status', 1)->where('type', 'payment')
+        $paymentTerms = SupplyTerm::where('sales_invoice', 1)->where('status', 1)->where('type', 'payment')
             ->select('id', 'term_' . $this->lang)->get();
 
-        $supplyTerms = SupplyTerm::where('purchase_invoice', 1)->where('status', 1)->where('type', 'supply')
+        $supplyTerms = SupplyTerm::where('sales_invoice', 1)->where('status', 1)->where('type', 'supply')
             ->select('id', 'term_' . $this->lang)->get();
 
         if ($request->isDataTable) {

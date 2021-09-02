@@ -49,10 +49,13 @@ class SaleSupplyOrderController extends Controller
     public function index(Request $request)
     {
         $sale_supply_orders = SaleSupplyOrder::query()->latest();
-        $data['paymentTerms'] = SupplyTerm::where('supply_order', 1)->where('status', 1)->where('type', 'payment')
+
+        $data['paymentTerms'] = SupplyTerm::where('sale_supply_order', 1)->where('status', 1)->where('type', 'payment')
             ->select('id', 'term_' . $this->lang)->get();
-        $data['supplyTerms'] = SupplyTerm::where('supply_order', 1)->where('status', 1)->where('type', 'supply')
+
+        $data['supplyTerms'] = SupplyTerm::where('sale_supply_order', 1)->where('status', 1)->where('type', 'supply')
             ->select('id', 'term_' . $this->lang)->get();
+
         if ($request->isDataTable) {
             return $this->dataTableColumns($sale_supply_orders);
         } else {
@@ -83,22 +86,17 @@ class SaleSupplyOrderController extends Controller
             ->select('name_' . $this->lang, 'id')
             ->get();
 
-        $data['taxes'] = TaxesFees::where('supply_order', 1)
+        $data['taxes'] = TaxesFees::where('sale_supply_order', 1)
             ->where('branch_id', $branch_id)
             ->where('type', 'tax')
             ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
             ->get();
 
-        $data['additionalPayments'] = TaxesFees::where('supply_order', 1)
+        $data['additionalPayments'] = TaxesFees::where('sale_supply_order', 1)
             ->where('branch_id', $branch_id)
             ->where('type', 'additional_payments')
             ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
             ->get();
-
-//        $data['saleQuotations'] = SaleQuotation::where('branch_id', $branch_id)
-//            ->where('status','finished')
-//            ->select('id', 'number', 'salesable_id', 'salesable_type')
-//            ->get();
 
         $data['suppliers'] = Supplier::where('status', 1)
             ->where('branch_id', $branch_id)
@@ -178,13 +176,13 @@ class SaleSupplyOrderController extends Controller
             ->select('name_' . $this->lang, 'id')
             ->get();
 
-        $data['taxes'] = TaxesFees::where('supply_order', 1)
+        $data['taxes'] = TaxesFees::where('sale_supply_order', 1)
             ->where('branch_id', $branch_id)
             ->where('type', 'tax')
             ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
             ->get();
 
-        $data['additionalPayments'] = TaxesFees::where('supply_order', 1)
+        $data['additionalPayments'] = TaxesFees::where('sale_supply_order', 1)
             ->where('branch_id', $branch_id)
             ->where('type', 'additional_payments')
             ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)

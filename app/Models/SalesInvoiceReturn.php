@@ -196,10 +196,10 @@ class SalesInvoiceReturn extends Model
         return $this->morphTo();
     }
 
-    //    public function terms()
-//    {
-//        return $this->belongsToMany(SupplyTerm::class, 'sales_invoice_supply_terms', 'sales_invoice_id', 'supply_term_id');
-//    }
+    public function terms()
+    {
+        return $this->belongsToMany(SupplyTerm::class, 'sales_invoice_return_supply_terms', 'sales_return_id', 'supply_term_id');
+    }
 
     function files()
     {
