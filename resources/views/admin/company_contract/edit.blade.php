@@ -121,7 +121,7 @@
                                     {{input_error($errors,'commercial_registration_no')}}
                                 </div>
 
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('Contract Date')}}</label>
                                         <div class="input-group">
@@ -137,7 +137,7 @@
                                 </div>
 
 
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="inputNameAr"
                                                class="control-label">{{__('Date Of Registration')}}</label>
@@ -152,7 +152,7 @@
                                     </div>
                                     {{input_error($errors,'register_date')}}
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="inputNameAr"
                                                class="control-label">{{__('Commercial Feature')}}</label>
@@ -167,7 +167,7 @@
                                     </div>
                                     {{input_error($errors,'commercial_feature')}}
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('Company Purpose')}}</label>
                                         <div class="input-group">
@@ -181,7 +181,7 @@
                                     </div>
                                     {{input_error($errors,'company_purpose')}}
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('Share Capital')}}</label>
                                         <div class="input-group">
@@ -195,7 +195,7 @@
                                     </div>
                                     {{input_error($errors,'share_capital')}}
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="inputNameAr"
                                                class="control-label">{{__('Duration Of Partnership')}}</label>
@@ -210,7 +210,7 @@
                                     </div>
                                     {{input_error($errors,'partnership_duration')}}
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('Start On')}}</label>
                                         <div class="input-group">
@@ -224,7 +224,7 @@
                                     </div>
                                     {{input_error($errors,'start_at')}}
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('End On')}}</label>
                                         <div class="input-group">
@@ -329,8 +329,8 @@
                                     <div class="form-group has-feedback">
                                         <label for="" class="control-label">{{__('Renewable')}}</label>
                                         <div class="switch primary">
-                                            <input type="checkbox" id="switch-1" name="renewable"{{!isset($commercial_register)?'checked':''}}
-                                                {{isset($commercial_register) && $commercial_register->renewable? 'checked':''}}
+                                            <input type="checkbox" id="switch-1" name="renewable"{{!isset($company_contract)?'checked':''}}
+                                                {{isset($company_contract) && $company_contract->renewable? 'checked':''}}
                                             >
                                             <label for="switch-1">{{__('Yes')}}</label>
                                         </div>

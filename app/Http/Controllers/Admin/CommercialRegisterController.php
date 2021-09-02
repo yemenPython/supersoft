@@ -114,6 +114,8 @@ class CommercialRegisterController extends Controller
             }
             if ($request->has('renewable')) {
                 $data['renewable'] = 1;
+            }else{
+                $data['renewable'] = 0;
             }
             $commercial_register->update( $data );
         } catch (Exception $e) {
