@@ -109,18 +109,18 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Tax Card')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Commercial Registration No')}}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="tax_card" class="form-control" id="inputNameEn"
-                                                   disabled
-                                                   placeholder="{{__('Tax Card')}}"
-                                                   value="{{old('address', !empty($branch)? $branch->tax_card:'')}}">
+                                            <input type="text" name="commercial_registration_no" class="form-control text-right" id="commercial_registration_no"
+                                                   placeholder="{{__('Commercial Registration No')}}"
+                                                   value="{{old('commercial_registration_no', !empty($company_contract)? $company_contract->commercial_registration_no:'')}}">
                                         </div>
-                                    </div>
 
+                                    </div>
+                                    {{input_error($errors,'commercial_registration_no')}}
                                 </div>
-                               
+
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('Contract Date')}}</label>
@@ -324,6 +324,18 @@
                                         </div>
                                     @endforeach
                                 @endif
+
+                                <div class="col-md-4">
+                                    <div class="form-group has-feedback">
+                                        <label for="" class="control-label">{{__('Renewable')}}</label>
+                                        <div class="switch primary">
+                                            <input type="checkbox" id="switch-1" name="renewable"{{!isset($commercial_register)?'checked':''}}
+                                                {{isset($commercial_register) && $commercial_register->renewable? 'checked':''}}
+                                            >
+                                            <label for="switch-1">{{__('Yes')}}</label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

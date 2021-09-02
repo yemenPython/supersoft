@@ -84,6 +84,9 @@ class CompanyContractController extends Controller
                 $data['branch_id'] = auth()->user()->branch_id;
             }
             $data['user_id'] = auth()->id();
+            if ($request->has('renewable')) {
+                $data['renewable'] = 1;
+            }
            $contact=  CompanyContract::create( $data );
 
           if (count(array_filter($request->all()['partners']))) {
@@ -129,6 +132,9 @@ class CompanyContractController extends Controller
 
             if (!authIsSuperAdmin()) {
                 $data['branch_id'] = auth()->user()->branch_id;
+            }
+            if ($request->has('renewable')) {
+                $data['renewable'] = 1;
             }
             $company_contract->update( $data );
             $company_contract->partners()->delete();

@@ -34,6 +34,7 @@ class CompanyContractRequest extends FormRequest
             'partnership_duration'=>'required',
             'start_at'=>'required',
             'end_at'=>'required',
+            'commercial_registration_no'=>'required',
         ];
 
         if(authIsSuperAdmin()){

@@ -77,20 +77,6 @@
 
 
                             <div class="">
-
-{{--                                <div class="col-md-4">--}}
-{{--                                    <div class="form-group">--}}
-{{--                                        <label for="inputNameAr" class="control-label">{{__('Company name')}}</label>--}}
-{{--                                        <div class="input-group">--}}
-{{--                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>--}}
-{{--                                            <input type="text" name="name" class="form-control" id="inputNameEn"--}}
-{{--                                                   disabled--}}
-{{--                                                   placeholder="{{__('Company name')}}"--}}
-{{--                                                   value="{{old('name', !empty($branch)? $branch->company_name:'')}}">--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-
-{{--                                </div>--}}
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('Company Address')}}</label>
@@ -106,18 +92,18 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Tax Card')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Commercial Registration No')}}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="tax_card" class="form-control" id="inputNameEn"
-                                                   disabled
-                                                   placeholder="{{__('Tax Card')}}"
-                                                   value="{{old('address', !empty($branch)? $branch->tax_card:'')}}">
+                                            <input type="text" name="commercial_registration_no" class="form-control text-right" id="commercial_registration_no"
+                                                   placeholder="{{__('Commercial Registration No')}}"
+                                                   value="{{old('commercial_registration_no', !empty($last_created)? $last_created->commercial_registration_no:'')}}">
                                         </div>
-                                    </div>
 
+                                    </div>
+                                    {{input_error($errors,'commercial_registration_no')}}
                                 </div>
-                               
+
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('Contract Date')}}</label>
@@ -248,14 +234,14 @@
                                     </div>
                                 </div>
 
-                                
+
                                 @if(!empty($last_created) && $last_created->partners->isNotEmpty())
                                     @foreach($last_created->partners as $partner)
                                     <div class="col-md-6">
                                         <div class="form-group added_images">
                                             <label class=" form-label font-weight-bolder"
                                                    style="display:block">{{__('Partner')}}</label>
-                                                   
+
                                             <input type="text" class=" form-control form-control-rounded"
                                                    value="{{$partner->partner}}" name="partners[]" style="width: 80%;
     display: inline-block;">
@@ -267,7 +253,7 @@
                                             <div class="invalid-feedback" id="emails-form-error"></div>
 
                                         </div>
-                                        
+
                                         </div>
                                     @endforeach
                                 @endif
@@ -315,11 +301,23 @@
                                         </div>
                                     @endforeach
                                 @endif
+
+                                <div class="col-md-4">
+                                    <div class="form-group has-feedback">
+                                        <label for="" class="control-label">{{__('Renewable')}}</label>
+                                        <div class="switch primary">
+                                            <input type="checkbox" id="switch-1" name="renewable"{{!isset($last_created)?'checked':''}}
+                                                {{isset($last_created) && $last_created->renewable? 'checked':''}}
+                                            >
+                                            <label for="switch-1">{{__('Yes')}}</label>
+                                        </div>
+                                    </div>
+                                </div>
                         </div>
                         </div>
 
                             @include('admin.buttons._save_buttons')
-                    
+
                     </form>
                 </div>
 

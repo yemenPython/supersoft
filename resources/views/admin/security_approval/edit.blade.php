@@ -106,17 +106,32 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Tax Card')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Fax')}}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="tax_card" class="form-control" id="inputNameEn"
+                                            <input type="text" name="fax" class="form-control" id="inputNameEn"
                                                    disabled
-                                                   placeholder="{{__('Tax Card')}}"
-                                                   value="{{old('address', !empty($branch)? $branch->tax_card:'')}}">
+                                                   placeholder="{{__('Fax')}}"
+                                                   value="{{old('fax', !empty($branch)? $branch->fax:'')}}">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="inputNameAr" class="control-label">{{__('Commercial Registration No')}}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                            <input type="text" name="commercial_registration_no" class="form-control text-right" id="commercial_registration_no"
+                                                   placeholder="{{__('Commercial Registration No')}}"
+                                                   value="{{old('commercial_registration_no', !empty($security_approval)? $security_approval->commercial_registration_no:'')}}">
+                                        </div>
+
+                                    </div>
+                                    {{input_error($errors,'commercial_registration_no')}}
+                                </div>
+
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('Phone 1')}}</label>
                                         <div class="input-group">
@@ -128,7 +143,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('Phone 2')}}</label>
                                         <div class="input-group">
@@ -300,18 +315,17 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Fax')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Date')}}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="fax" class="form-control" id="fax"
-                                                   placeholder="{{__('Fax')}}"
-                                                   value="{{old('fax', !empty($security_approval)? $security_approval->fax:'')}}">
+                                            <input type="text" name="date" class="form-control datepicker" id="date"
+                                                   placeholder="{{__('Date')}}"
+                                                   value="{{old('date', !empty($security_approval)? $security_approval->date:'')}}">
                                         </div>
 
                                     </div>
-                                    {{input_error($errors,'fax')}}
+                                    {{input_error($errors,'date')}}
                                 </div>
-
                                 <div class="col-md-10 owners">
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('Owner')}}</label>

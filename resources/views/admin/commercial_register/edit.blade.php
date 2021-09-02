@@ -260,11 +260,23 @@
                                     {{input_error($errors,'end_at')}}
                                 </div>
 
+                                <div class="col-md-4">
+                                    <div class="form-group has-feedback">
+                                        <label for="" class="control-label">{{__('Renewable')}}</label>
+                                        <div class="switch primary">
+                                            <input type="checkbox" id="switch-1" name="renewable"{{!isset($commercial_register)?'checked':''}}
+                                                {{isset($commercial_register) && $commercial_register->renewable? 'checked':''}}
+                                            >
+                                            <label for="switch-1">{{__('Yes')}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
                             @include('admin.buttons._save_buttons')
-                    
+
                     </form>
                 </div>
 
