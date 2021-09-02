@@ -34,7 +34,11 @@ class Country extends Model
      * @var array
      */
     protected $fillable = [
-        'name_ar', 'name_en', 'currency_id'
+        'name_ar', 'name_en', 'currency_id', 'seeder'
+    ];
+
+    protected $casts = [
+      'seeder' => 'boolean',
     ];
 
     public function cities()

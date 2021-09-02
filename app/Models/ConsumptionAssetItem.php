@@ -10,7 +10,7 @@ class ConsumptionAssetItem extends Model
 {
     use SoftDeletes, LogsActivity;
 
-    protected $dates = ['created_by', 'updated_at', 'deleted_at'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
     protected $fillable = [
         'consumption_asset_id',
         'asset_id',
@@ -28,6 +28,10 @@ class ConsumptionAssetItem extends Model
     public function asset()
     {
         return $this->belongsTo( Asset::class, 'asset_id' );
+    }
+    public function consumptionAssetItemExpenses()
+    {
+        return $this->hasMany( ConsumptionAssetItemExpense::class, 'consumption_asset_item_id' );
     }
 
 }

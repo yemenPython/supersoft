@@ -1,15 +1,6 @@
 <script type="application/javascript" defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD4YXeD4XTeNieaKWam43diRHXjsGg7aVY&callback=initMap"></script>
 <script type="application/javascript">
-    server_side_datatable('#datatable-with-btns');
-    function filterFunction($this) {
-        $("#loaderSearch").show();
-        $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
-        $datatable.ajax.url($url).load();
-        $(".js__card_minus").trigger("click");
-        setTimeout(function () {
-            $("#loaderSearch").hide();
-        }, 1000)
-    }
+
     var map;
     var marker = false;
     function initMap(lat, long) {

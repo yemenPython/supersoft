@@ -17,8 +17,7 @@
 
         <div class="col-xs-12">
             <div class=" card box-content-wg-new bordered-all primary">
-                <h4 class="box-title with-control" style="text-align: initial"><i
-                        class="fa fa-user ico"></i>{{__('Edit Commercial Register')}}
+                <h4 class="box-title with-control" style="text-align: initial"><i class="fa fa-file-text-o"></i>{{__('Edit Commercial Register')}}
                     <span class="controls hidden-sm hidden-xs pull-left">
                       <button class="control text-white"
                               style="background:none;border:none;font-size:14px;font-weight:normal !important;">{{__('Save')}}
@@ -52,9 +51,9 @@
 
                                     @if(authIsSuperAdmin())
                                         <div class="form-group has-feedback">
-                                            <label for="inputPhone" class="control-label">{{__('Branch')}}</label>
+                                            <label for="inputPhone" class="control-label">{{__('Branch')}} {!! required() !!}</label>
                                             <div class="input-group">
-                                                <span class="input-group-addon fa fa-file"></span>
+                                            <span class="input-group-addon fa fa-file"></span>
                                                 <select class="form-control js-example-basic-single" name="branch_id" id="branch_id"
                                                         onchange="changeBranch();"
                                                 >
@@ -78,12 +77,11 @@
 
                             <div class="">
 
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Company name')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Company name')}} {!! required() !!}</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="name" class="form-control" id="inputNameEn"
+                                        <span class="input-group-addon"><li class="fa fa-file-o"></li></span>                                            <input type="text" name="name" class="form-control" id="inputNameEn"
                                                    disabled
                                                    placeholder="{{__('Company name')}}"
                                                    value="{{old('name', !empty($branch)? $branch->company_name:'')}}">
@@ -91,12 +89,11 @@
                                     </div>
 
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Company Address')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Company Address')}} {!! required() !!}</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="name_ar" class="form-control" id="inputNameEn"
+                                        <span class="input-group-addon"><li class="fa fa-location-arrow"></li></span>                                            <input type="text" name="name_ar" class="form-control" id="inputNameEn"
                                                    disabled
                                                    placeholder="{{__('Company Address')}}"
                                                    value="{{old('address', !empty($branch)? $branch->address:'')}}">
@@ -106,9 +103,9 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Tax Card')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Tax Card')}} {!! required() !!}</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                        <span class="input-group-addon"><li class="fa fa-file-text-o"></li></span>
                                             <input type="text" name="tax_card" class="form-control" id="inputNameEn"
                                                    disabled
                                                    placeholder="{{__('Tax Card')}}"
@@ -117,11 +114,11 @@
                                     </div>
 
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Commercial Registry Office')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Commercial Registry Office')}} {!! required() !!}</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                        <span class="input-group-addon"><li class="fa fa-building-o"></li></span>
                                             <input type="text" name="commercial_registry_office" class="form-control" id="commercial_registry_office"
                                                    placeholder="{{__('Commercial Registry Office')}}"
                                                    value="{{old('commercial_registry_office', !empty($commercial_register)? $commercial_register->commercial_registry_office:'')}}">
@@ -131,11 +128,11 @@
                                     {{input_error($errors,'commercial_registry_office')}}
                                 </div>
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('The National Number Of The Company')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('The National Number Of The Company')}} {!! required() !!}</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                        <span class="input-group-addon"><li class="fa fa-file-text-o"></li></span>
                                             <input type="text" name="national_number" class="form-control" id="national_number"
                                                    placeholder="{{__('The National Number Of The Company')}}"
                                                    value="{{old('national_number', !empty($commercial_register)? $commercial_register->national_number:'')}}">
@@ -147,9 +144,9 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Deposit Number')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Deposit Number')}} {!! required() !!}</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                        <span class="input-group-addon"><li class="fa fa-file-text-o"></li></span>
                                             <input type="text" name="deposit_number" class="form-control" id="deposit_number"
                                                    placeholder="{{__('Deposit Number')}}"
                                                    value="{{old('deposit_number', !empty($commercial_register)? $commercial_register->deposit_number:'')}}">
@@ -160,10 +157,10 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Deposit Date')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Deposit Date')}} {!! required() !!}</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="deposit_date" class="form-control datepicker" id="deposit_date"
+                                        <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
+                                            <input type="text" name="deposit_date" class="form-control datepicker text-right" id="deposit_date"
                                                    placeholder="{{__('Deposit Date')}}"
                                                    value="{{old('deposit_date', !empty($commercial_register)? $commercial_register->deposit_date:'')}}">
                                         </div>
@@ -173,10 +170,10 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Valid Until')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Valid Until')}} {!! required() !!}</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="valid_until" class="form-control datepicker" id="valid_until" autocomplete="off"
+                                        <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
+                                            <input type="text" name="valid_until" class="form-control datepicker text-right" id="valid_until" autocomplete="off"
                                                    placeholder="{{__('Valid Until')}}"
                                                    value="{{old('valid_until', !empty($commercial_register)? $commercial_register->valid_until:'')}}">
                                         </div>
@@ -186,9 +183,9 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Commercial feature')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Commercial feature')}} {!! required() !!}</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                        <span class="input-group-addon"><li class="fa fa-file-text-o"></li></span>
                                             <input type="text" name="commercial_feature" class="form-control" id="commercial_feature" autocomplete="off"
                                                    placeholder="{{__('Commercial feature')}}"
                                                    value="{{old('commercial_feature', !empty($commercial_register)? $commercial_register->commercial_feature:'')}}">
@@ -199,9 +196,9 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Company Type')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Company Type')}} {!! required() !!}</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                        <span class="input-group-addon"><li class="fa fa-file-o"></li></span>
                                             <input type="text" name="company_type" class="form-control" id="company_type" autocomplete="off"
                                                    placeholder="{{__('Company Type')}}"
                                                    value="{{old('company_type', !empty($commercial_register)? $commercial_register->company_type:'')}}">
@@ -212,9 +209,9 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('The purpose of establishing the company')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('The purpose of establishing the company')}} {!! required() !!}</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                        <span class="input-group-addon"><li class="fa fa-file-text-o"></li></span>
                                             <input type="text" name="purpose" class="form-control" id="purpose" autocomplete="off"
                                                    placeholder="{{__('The purpose of establishing the company')}}"
                                                    value="{{old('purpose', !empty($commercial_register)? $commercial_register->purpose:'')}}">
@@ -225,9 +222,9 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Number Of Years')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Number Of Years')}} {!! required() !!}</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                        <span class="input-group-addon"><li class="fa fa-file"></li></span>
                                             <input type="number" name="no_of_years" class="form-control" id="no_of_years" autocomplete="off"
                                                    placeholder="{{__('Number Of Years')}}"
                                                    value="{{old('no_of_years', !empty($commercial_register)? $commercial_register->no_of_years:'')}}">
@@ -238,10 +235,10 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Start On')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Start On')}} {!! required() !!}</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="start_at" class="form-control datepicker" id="start_at" autocomplete="off"
+                                        <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
+                                            <input type="text" name="start_at" class="form-control datepicker text-right" id="start_at" autocomplete="off"
                                                    placeholder="{{__('Start On')}}"
                                                    value="{{old('start_at', !empty($commercial_register)? $commercial_register->start_at:'')}}">
                                         </div>
@@ -251,10 +248,10 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('End On')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('End On')}} {!! required() !!}</label>
                                         <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="end_at" class="form-control datepicker" id="end_at" autocomplete="off"
+                                        <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
+                                            <input type="text" name="end_at" class="form-control datepicker text-right" id="end_at" autocomplete="off"
                                                    placeholder="{{__('End On')}}"
                                                    value="{{old('end_at', !empty($commercial_register)? $commercial_register->end_at:'')}}">
                                         </div>
@@ -266,10 +263,8 @@
                             </div>
                         </div>
 
-
-                        <div class="form-group col-sm-12" >
                             @include('admin.buttons._save_buttons')
-                        </div>
+                    
                     </form>
                 </div>
 

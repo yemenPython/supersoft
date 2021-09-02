@@ -7,6 +7,7 @@
                 <th width="10%"> {{ __('Locker name') }} </th>
                 @if ($setting->active_multi_currency)
                     <th width="10%"> {{ __('Select Currency') }} </th>
+                    <th width="10%"> {{ __('Conversion Factor') }} </th>
                 @endif
                 <th width="10%"> {{ __('Current balance') }} </th>
                 <th width="10%"> {{ __('Added balance') }} </th>
@@ -31,22 +32,35 @@
                         @if ($setting->active_multi_currency)
                             <td class="inline-flex-span">
                                 <div class="form-group has-feedback">
-                                    <select class="form-control js-example-basic-single" name="items[{{$index}}][currency_id]" required>
+                                    <select class="form-control js-example-basic-single" id="current_currency{{$index}}"
+                                            onchange="calculateWithCurrency('{{$index}}')" name="items[{{$index}}][currency_id]" required>
                                         <option value="">{{__('Select')}}</option>
                                         @foreach($currencies as $currency)
-                                            <option {{$item->currency_id == $currency->id ? 'selected' : ''}} value="{{ $currency->id }}">{{ $currency->name }}</option>
+                                            <option
+                                                data-conversion_factor="{{$currency->conversion_factor}}"
+                                                {{$item->currency_id == $currency->id ? 'selected' : ''}}
+                                                value="{{ $currency->id }}">
+                                                {{ $currency->name }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
                             </td>
+                            <td>
+                                <span id="conversion_factor{{$index}}">{{optional($item->currency)->conversion_factor ?? 1}}</span>
+                            </td>
                         @endif
 
                         <td>
-                            <span>{{$item->current_balance}}</span>
-                            <input type="hidden"  name="items[{{$index}}][current_balance]" value="{{$item->current_balance}}" class="current_balance" id="current_balance_item{{$index}}">
+                            <span>{{optional($item->locker)->balance}}</span>
+                            <input type="hidden"  name="items[{{$index}}][current_balance]" value="{{optional($item->locker)->balance}}" class="current_balance" id="current_balance_item{{$index}}">
                         </td>
 
                         <td>
+                            @if ($setting->active_multi_currency)
+                                <span class="text-danger" id="resultOfThTotal{{$index}}"></span>
+                            @endif
+                                <input type="hidden" id="added_balance_hidden{{$index}}" class="added_balance_hidden"  value="{{$item->added_balance}}">
                             <input type="number" class="added_balance border5" id="added_balance{{$index}}"
                                    onkeyup="updateBalance('{{$index}}')"
                                    onchange="updateBalance('{{$index}}')"
@@ -75,6 +89,7 @@
                 <th width="10%"> {{ __('Locker name') }} </th>
                 @if ($setting->active_multi_currency)
                     <th width="10%"> {{ __('Select Currency') }} </th>
+                    <th width="10%"> {{ __('Conversion Factor') }} </th>
                 @endif
                 <th width="10%"> {{ __('Current balance') }} </th>
                 <th width="10%"> {{ __('Added balance') }} </th>

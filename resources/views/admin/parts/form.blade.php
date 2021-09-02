@@ -20,7 +20,7 @@
         <div class="tab-pane fade in active part_tab" role="tabpanel" id="home-justified"
              aria-labelledby="home-tab-justified">
 
-            <div class="row top-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+            <div class="row">
 
                 <form method="post" action="{{route('admin:parts.store')}}" class="form" enctype="multipart/form-data"
                       id="part_form_data">
@@ -297,8 +297,7 @@
                         </div>
                     </div>
 
-                    <div class="row top-data-wg"
-                         style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+                    <div class="row">
 
                         @if(isset($part))
                             @include('admin.parts.suppliers.form', ['sups' => $suppliers])

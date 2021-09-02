@@ -56,11 +56,20 @@
 
                                     <div class="form-group col-md-6">
                                         <label> {{ __('End Date From') }} </label>
-                                        <input type="text" name="end_date_from" class="form-control datepicker" placeholder="{{__('End Date From')}}">
+                                        <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                                        <input type="text" name="end_date_from" class="form-control datepicker text-right" placeholder="{{__('End Date From')}}">
                                     </div>
+                                    </div>
+
                                     <div class="form-group col-md-6">
                                         <label> {{ __('End Date To') }} </label>
-                                        <input type="text" name="end_date_to" class="form-control datepicker" placeholder="{{__('End Date To')}}">
+                                        <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                                        <input type="text" name="end_date_to" class="form-control datepicker text-right" placeholder="{{__('End Date To')}}">
+                                    </div>
                                     </div>
 
                             </div>
@@ -84,7 +93,7 @@
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control">
-                    <i class="fa fa-check-square-o"></i> {{__('Egyptian Federation')}}
+                    <i class="fa fa-file-text-o"></i> {{__('Egyptian Federation')}}
                 </h4>
 
                 <div class="card-content js__card_content" style="">
@@ -109,15 +118,15 @@
                     <div class="clearfix"></div>
                     <div class="table-responsive">
                         <div class="clearfix"></div>
-                        <table id="currencies" class="table table-bordered" style="width:100%;margin-top:15px">
+                        <table id="currencies" class="table table-bordered wg-table-print table-hover" style="width:100%">
                             <thead>
                             <tr>
                                 <th class="text-center column-id" scope="col">#</th>
-                                <th class="text-center column-branch-name" scope="col">{!! __('Branch') !!}</th>
+                                <th class="text-center column-branch-name" scope="col">{!! __('Company name') !!}</th>
                                 <th class="text-center column-Membership-No" scope="col">{!! __('Membership No') !!}</th>
                                 <th class="text-center column-company-type" scope="col">{!! __('Company Type') !!}</th>
-                                <th class="text-center column-register-date" scope="col">{!! __('Date of register in the union') !!}</th>
                                 <th class="text-center column-funds-for" scope="col">{!! __('Subscription payment receipt') !!}</th>
+                                <th class="text-center column-register-date" scope="col">{!! __('Date of register in the union') !!}</th> 
                                 <th class="text-center column-funds-on" scope="col">{!! __('End date') !!}</th>
                                 <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
                                 <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
@@ -136,12 +145,20 @@
                                     <td class="text-center column-id">{{$loop->iteration}}</td>
                                     <td class="text-center column-branch-name">{!! optional($one->branch)->name !!}</td>
                                     <td class="text-center column-Membership-No">{!! $one->membership_no !!}</td>
-                                    <td class="text-danger text-center  column-company-type">{{ $one->payment_receipt }}</td>
-                                    <td class="text-danger text-center column-register-date">{{ $one->date_of_register }}</td>
-                                    <td class="text-danger text-center  column-funds-for">{{ $one->company_type }}</td>
-                                    <td class="text-danger text-center  column-funds-on">{{ $one->end_date }}</td>
-                                    <td class="text-center column-created-at">{!! $one->created_at->format('y-m-d h:i:s A') !!}</td>
-                                    <td class="text-center column-updated-at">{!! $one->updated_at->format('y-m-d h:i:s A') !!}</td>
+                                    <td class="text-center  column-funds-for">{{ $one->company_type }}</td>   
+                                    <td class="text-center  column-company-type">{{ $one->payment_receipt }}</td>
+                                    <td class="text-center column-register-date">
+                                    <span class="label light-primary wg-label">    
+                                    {{ $one->date_of_register }}
+                                    </span>
+                                    </td>
+                                    <td class="text-center column-funds-on">
+                                    <span class="label light-danger wg-label">
+                                        {{ $one->end_date }}
+                                    </span>
+                                    </td>
+                                    <td class="column-created-at">{!! $one->created_at->format('y-m-d h:i:s A') !!}</td>
+                                    <td class="column-updated-at">{!! $one->updated_at->format('y-m-d h:i:s A') !!}</td>
 
                                     <td>
                                         <div class="btn-group margin-top-10">
@@ -180,7 +197,7 @@
                                                     <a data-toggle="modal" data-target="#boostrapModal-2"
                                                        onclick="getLibrarySupplierId('{{$one->id}}')"
                                                        title="Supplier Library" class="btn btn-warning">
-                                                        <i class="fa fa-plus"> </i> {{__('Library')}}
+                                                        <i class="fa fa-file-archive-o text-primary"> </i> {{__('Library')}}
                                                     </a>
                                                 </li>
                                             </ul>
@@ -199,11 +216,11 @@
                             <tfoot>
                             <tr>
                                 <th class="text-center column-id" scope="col">#</th>
-                                <th class="text-center column-branch-name" scope="col">{!! __('Branch') !!}</th>
+                                <th class="text-center column-branch-name" scope="col">{!! __('Company name') !!}</th>
                                 <th class="text-center column-Membership-No" scope="col">{!! __('Membership No') !!}</th>
                                 <th class="text-center column-company-type" scope="col">{!! __('Company Type') !!}</th>
-                                <th class="text-center column-register-date" scope="col">{!! __('Date of register in the union') !!}</th>
                                 <th class="text-center column-funds-for" scope="col">{!! __('Subscription payment receipt') !!}</th>
+                                <th class="text-center column-register-date" scope="col">{!! __('Date of register in the union') !!}</th>
                                 <th class="text-center column-funds-on" scope="col">{!! __('End date') !!}</th>
                                 <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
                                 <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
@@ -227,37 +244,45 @@
 
 @section('modals')
 
-    <div class="modal fade" id="boostrapModal-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
+    <div class="modal fade modal-bg-wg" id="boostrapModal-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel-1">{{__('Egyptian Federation Library')}}</h4>
+                    <h4 class="modal-title" id="myModalLabel-1">
+                    <i class="fa fa-file-archive-o"> </i>    
+                    {{__('Egyptian Federation Library')}}
+                    
+                    </h4>
                 </div>
+                
                 <div class="modal-body">
 
                     <div class="row">
                         <form action="{{route('admin:egyptian_federation.upload.upload_library')}}" method="post"
                               enctype="multipart/form-data">
                             @csrf
-                            <div class="form-group col-md-3">
-                                <label>Title_ar</label>
+                            <div class="form-group col-md-4">
+                                <label>{{__('Title_ar')}} {!! required() !!}</label>
+                                <div class="input-group">
+                                <span class="input-group-addon"><li class="fa fa-file-archive-o"></li></span>
                                 <input type="text" name="title_ar" class="form-control" id="library_title_ar">
                             </div>
-                            <div class="form-group col-md-3">
-                                <label>Title_en</label>
-                                <input type="text" name="title_en" class="form-control" id="library_title_en">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>{{__('files')}}</label>
-                                <input type="file" name="files[]" class="form-control" id="files" multiple>
-                                <input type="hidden" name="supplier_id" value="" id="library_supplier_id">
                             </div>
 
-                            <div class="form-group col-md-1">
-                                <button type="button" class="btn btn-primary" onclick="uploadSupplierFiles()"
-                                        style="margin-top: 28px;">{{__('save')}}</button>
+                            <div class="form-group col-md-4">
+                                <label>{{__('Title_en')}}</label>
+                                <div class="input-group">
+                                <span class="input-group-addon"><li class="fa fa-file-archive-o"></li></span>
+                                <input type="text" name="title_en" class="form-control" id="library_title_en">
+                            </div>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label>{{__('files')}} {!! required() !!}</label>
+                                <input type="file" name="files[]" class="form-control" id="files" multiple>
+                                <input type="hidden" name="supplier_id" value="" id="library_supplier_id">
                             </div>
 
                             <div class="form-group col-md-1" id="upload_loader" style="display: none;">
@@ -276,8 +301,11 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" data-dismiss="modal">
-                        {{__('Close')}}
+                <button type="button" class="btn btn-primary" onclick="uploadSupplierFiles()">
+                <li class="fa fa-save"></li> {{__('save')}}</button>
+
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    <li class="fa fa-close"></li>   {{__('Close')}}
                     </button>
                 </div>
             </div>

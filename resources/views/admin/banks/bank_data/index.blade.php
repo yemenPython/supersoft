@@ -19,6 +19,7 @@
             </ol>
         </nav>
 
+        @include('admin.banks.bank_data.search_form')
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control">
@@ -49,6 +50,7 @@
                                     <th>{{__('Branch Code')}}</th>
                                     <th>{{__('Swift Code')}}</th>
                                     <th scope="col"> {{ __('Start Date With Bank') }} </th>
+                                    <th scope="col"> {{ __('Stop Date With Bank') }} </th>
                                     <th scope="col"> {{ __('status') }} </th>
                                     <th scope="col">{!! __('Options') !!}</th>
                                     <th scope="col">
@@ -67,6 +69,7 @@
                                     <th>{{__('Branch Code')}}</th>
                                     <th>{{__('Swift Code')}}</th>
                                     <th scope="col"> {{ __('Start Date With Bank') }} </th>
+                                    <th scope="col"> {{ __('Stop Date With Bank') }} </th>
                                     <th scope="col"> {{ __('status') }} </th>
                                     <th scope="col">{!! __('Options') !!}</th>
                                     <th scope="col">{!! __('Select') !!}</th>
@@ -101,11 +104,24 @@
             </div>
         </div>
     </div>
+    @include('admin.banks.bank_data.modal_for_update_date_stop')
 @endsection
 
 @section('js')
     @include('admin.partial.maps.show_location_js')
     <script>
+
+        server_side_datatable('#datatable-with-btns');
+        function filterFunction($this) {
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout(function () {
+                $("#loaderSearch").hide();
+            }, 1000)
+        }
+
         function getLibraryFiles(id) {
             $("#library_item_id").val(id);
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
@@ -226,7 +242,11 @@
            } else {
                $inputs.prop('checked', '');
            }
+        }
 
+        function setFormDataToUpdate(route, bankName) {
+            $("#formUpdateStopDate").attr('action', route);
+            $("#bankName").html(`[${bankName}]`);
         }
     </script>
 @endsection

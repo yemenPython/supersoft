@@ -190,8 +190,19 @@
         });
         $('#assetsOptions').on('change', function () {
             var dateFrom = $('#date_from').val();
+            var dateTo = $('#date_to').val();
+            let type = $("input[name='type']:checked").val();
             if (dateFrom == '') {
                 swal({text: '{{__('sorry, please select date from first')}}', icon: "error"});
+                $('#assetsOptions').val('');
+                return false;
+            }
+            if (dateTo == '') {
+                swal({text: '{{__('sorry, please select date to first')}}', icon: "error"});
+                $('#assetsOptions').val('');
+                return false;
+            } if (type == '' || type== undefined) {
+                swal({text: '{{__('sorry, please select type first')}}', icon: "error"});
                 $('#assetsOptions').val('');
                 return false;
             }
@@ -207,6 +218,7 @@
             let index = $('#items_count').val();
             let date_from = $('#date_from').val();
             let date_to = $('#date_to').val();
+
             $.ajax({
                 url: "{{ route('admin:consumption_assets.get_Assets_By_Asset_Id') }}?asset_id=" + $(this).val(),
                 method: 'get',
@@ -216,16 +228,20 @@
                     index: index,
                     date_from: date_from,
                     date_to: date_to,
+                    type: type,
                     _token: '{{csrf_token()}}',
                 },
                 success: function (data) {
                     $('#items_data').append(data.items);
                     $("#items_count").val(data.index);
+                    $("#expenses_total_"+ data.index).val(data.expenses_total.toFixed(2));
+                    $("#expenses_total_hidden_"+ data.index).val(data.expenses_total.toFixed(2));
                     totalPurchaseCost(index);
                     totalPastConsumtion(index);
                     netTotal(index);
                     consumptionAmount(data.index);
                     totalReplacements();
+                    checkType(data.index);
                     $('.js-example-basic-single').select2();
                 },
                 error: function (jqXhr, json, errorThrown) {
@@ -262,10 +278,19 @@
         }
         function totalReplacements() {
             let total = '';
-            $(".total_replacement").each(function () {
-                var value = $($(this)).val();
-                total = +total + +value;
-            });
+            var value = $("input[name='type']:checked").val()
+            if (value =='asset' || value =='both') {
+                $(".total_replacement").each(function () {
+                    var value = $($(this)).val();
+                    total = +total + +value;
+                });
+            }
+            if (value =='expenses' || value =='both') {
+                $(".total_replacement_expenses").each(function () {
+                    var value = $($(this)).val();
+                    total = +total + +value;
+                });
+            }
             $('#total_replacement').val(total);
         }
 
@@ -359,6 +384,29 @@
                 $('.consumption_amount_' + index).val(value.toFixed(2));
             }
         }
+        function checkType(index){
+            var value = $("input[name='type']:checked").val();
+
+            if(value =='asset'){
+                $('.type_expenses').hide();
+                $('.type_asset').show();
+                // $('#expenses_total_' + index).val(0);
+            }else if (value =='expenses'){
+                $('.type_asset').hide();
+                $('.type_expenses').show();
+                // $('.consumption_amount_' + index).val(0);
+            }else {
+                $('.type_asset').show();
+                $('.type_expenses').show();
+            }
+            totalReplacements();
+        }
+        $(function (){
+            $("input[type='radio'][name='type']").click(function() {
+
+                checkType( $("#items_count").val());
+            });
+        })
     </script>
 
 

@@ -68,12 +68,12 @@
 
                         </td>
                         <td>
-                            <input type="text"  style="width: 100px !important;" class="border4 annual_consumtion_rate_{{$index}} form-control valid" onchange="annual_consumtion_rate_value('{{$index}}')" onkeyup="annual_consumtion_rate_value('{{$index}}')" value="{{$item->annual_consumtion_rate}}" name="items[{{$index}}][annual_consumtion_rate]">
+                            <input type="text"  style="width: 100px !important;" class="border4 annual_consumtion_rate_{{$index}} form-control valid" onchange="annual_consumtion_rate_value('{{$index}}')" onkeyup="annual_consumtion_rate_value('{{$index}}')" value="{{$item->annual_consumtion_rate}}" name="items[{{$index +1}}][annual_consumtion_rate]">
                         </td>
 
                         <td>
                             <div class="input-group">
-                                <input type="text" readonly style="width: 100px !important;" class="border5 asset_age_{{$index}} form-control valid"  value="{{$item->price?number_format(($item->price / $item->annual_consumtion_rate) /100,2):''}}" name="items[{{$index}}][expense_age]">
+                                <input type="text" readonly style="width: 100px !important;" class="border5 asset_age_{{$index}} form-control valid"  value="{{$item->price&&$item->annual_consumtion_rate?number_format(($item->price / $item->annual_consumtion_rate) /100,2):''}}" name="items[{{$index +1}}][expense_age]">
                             </div>
                         </td>
 

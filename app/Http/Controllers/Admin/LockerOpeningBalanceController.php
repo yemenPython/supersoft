@@ -66,14 +66,18 @@ class LockerOpeningBalanceController extends Controller
             $lockerOpeningBalance = LockerOpeningBalance::create($data);
             if ($lockerOpeningBalance) {
                 foreach ($request->items as $item) {
-                    LockerOpeningBalanceItem::create([
+                    $currencyId =  isset($item['currency_id']) ? $item['currency_id'] : null;
+                    $currency = Currency::find($currencyId);
+                    $conversion_factor = $currency && $currency->conversion_factor ? $currency->conversion_factor : 1;
+                    $lockerOpeningBItem = LockerOpeningBalanceItem::create([
                         'locker_opening_balance_id' => $lockerOpeningBalance->id,
                         'locker_id' => $item['locker_id'],
                         'current_balance' => $item['current_balance'],
-                        'added_balance' => $item['added_balance'],
-                        'total' =>  $item['current_balance'] + $item['added_balance'],
-                        'currency_id' =>  isset($item['currency_id']) ? $item['currency_id'] : null,
+                        'added_balance' => $item['added_balance'] * $conversion_factor,
+                        'total' =>  $item['current_balance'] +( $item['added_balance'] * $conversion_factor),
+                        'currency_id' =>  $currencyId,
                     ]);
+                    $this->updateLocker($lockerOpeningBItem, $request->status, $currency);
                 }
             }
             return redirect()->to('admin/lockers_opening_balance')
@@ -99,20 +103,13 @@ class LockerOpeningBalanceController extends Controller
             compact('lockers', 'branches', 'lockerOpeningBalance', 'setting', 'currencies'));
     }
 
-    public function show(Request $request, int $id): JsonResponse
+    public function show(int $id): JsonResponse
     {
-        $assetReplacement = AssetReplacement::findOrFail($id);
-        $isOnlyShow = $request->show;
-        if ($isOnlyShow) {
-            $view = view('admin.assets_replacements.onlyShow', compact('assetReplacement'))->render();
-
-        } else {
-            $view = view('admin.assets_replacements.show', compact('assetReplacement'))->render();
-        }
+        $item = LockerOpeningBalance::findOrFail($id);
+        $view = view('admin.locker_opening_balance.show', compact('item'))->render();
         return response()->json([
             'view' => $view
         ]);
-
     }
 
     public function update(UpdateLockerOpeningBalanceRequest $request, int $id): RedirectResponse
@@ -130,24 +127,28 @@ class LockerOpeningBalanceController extends Controller
                     if (isset($item['id'])) {
                         $oldLockerOpeningBalance = LockerOpeningBalanceItem::find($item['id']);
                         if ($oldLockerOpeningBalance) {
+                            $currencyId =  isset($item['currency_id']) ? $item['currency_id'] : null;
+                            $currency = Currency::find($currencyId);
+                            $conversion_factor = $currency && $currency->conversion_factor ? $currency->conversion_factor : 1;
                             $oldLockerOpeningBalance->update([
                                 'current_balance' => $item['current_balance'],
-                                'added_balance' => $item['added_balance'],
-                                'total' =>  $item['current_balance'] + $item['added_balance'],
-                                'currency_id' =>  isset($item['currency_id']) ? $item['currency_id'] : null,
+                                'added_balance' => $item['added_balance'] * $conversion_factor,
+                                'total' =>  $item['current_balance'] +( $item['added_balance'] * $conversion_factor),
+                                'currency_id' =>  $currencyId,
                             ]);
-                            $this->updateLocker($oldLockerOpeningBalance, $request->status);
+                            $this->updateLocker($oldLockerOpeningBalance, $request->status, $currency);
                         }
                     } else {
+                        $currencyId =  isset($item['currency_id']) ? $item['currency_id'] : null;
                         $lockerOpeningBalance =LockerOpeningBalanceItem::create([
                             'locker_opening_balance_id' => $lockerOpeningBalance->id,
                             'locker_id' => $item['locker_id'],
                             'current_balance' => $item['current_balance'],
                             'added_balance' => $item['added_balance'],
                             'total' =>  $item['current_balance'] + $item['added_balance'],
-                            'currency_id' =>  isset($item['currency_id']) ? $item['currency_id'] : null,
+                            'currency_id' =>  $currencyId,
                         ]);
-                        $this->updateLocker($lockerOpeningBalance, $request->status);
+                        $this->updateLocker($lockerOpeningBalance, $request->status,  $currency);
                     }
                 }
             }
@@ -262,12 +263,14 @@ class LockerOpeningBalanceController extends Controller
         return $items;
     }
 
-    private function updateLocker(LockerOpeningBalanceItem $lockerOpeningBalanceItem, string $status)
+    private function updateLocker(LockerOpeningBalanceItem $lockerOpeningBalanceItem, string $status, Currency $currency = null)
     {
         if ($status == Status::Accepted) {
+            $addedBalance = $currency && $currency->conversion_factor ?
+                $lockerOpeningBalanceItem->added_balance * $currency->conversion_factor : $lockerOpeningBalanceItem->added_balance;
             $locker = Locker::find($lockerOpeningBalanceItem->locker_id);
             $locker->update([
-               'balance' => $locker->balance + $lockerOpeningBalanceItem->added_balance
+               'balance' => $locker->balance + $addedBalance
             ]);
         }
     }

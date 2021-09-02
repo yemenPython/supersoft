@@ -1,3 +1,6 @@
+@php
+    $currency = \App\Models\Currency::where('is_main_currency', 1)->first();
+@endphp
 <div class="row">
     <div class="col-xs-12">
         <div class="row top-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
@@ -122,6 +125,10 @@
             <input id="total_current_balance_items_hidden" type="hidden" name="current_total"
                    value="{{isset($lockerOpeningBalance) ? $lockerOpeningBalance->current_total : 0}}">
         </td>
+        @if ($setting->active_multi_currency && $currency)
+            <th style="width:30%;background:#FFC5D7 !important;color:black !important">{{$currency->name}} - {{$currency->symbol}}</th>
+        @endif
+
         </tbody>
     </table>
 
@@ -135,6 +142,9 @@
             <input id="total_added_balance_items_hidden" type="hidden" name="added_total"
                    value="{{isset($lockerOpeningBalance) ? $lockerOpeningBalance->added_total : 0}}">
         </td>
+        @if ($setting->active_multi_currency && $currency)
+            <th style="width:30%;background:#F9EFB7 !important;color:black !important">{{$currency->name}} - {{$currency->symbol}}</th>
+        @endif
         </tbody>
     </table>
 
@@ -148,6 +158,9 @@
             <input id="total_balance_items_items_hidden" type="hidden" name="total"
                    value="{{isset($lockerOpeningBalance) ? $lockerOpeningBalance->total : 0}}">
         </td>
+        @if ($setting->active_multi_currency && $currency)
+            <th style="width:30%;background:#ffeb7f !important;color:black !important">{{$currency->name}} - {{$currency->symbol}}</th>
+        @endif
         </tbody>
 
     </table>
