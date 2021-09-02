@@ -2412,13 +2412,16 @@
     "Create Security Approval" : "إضافة بيانات الموافقة الأمنية",
     "Edit Security Approval" : "تعديل بيانات الموافقة الأمنية",
     "Approval Expiration Date" : "تاريخ الإنتهاء",
+    "Approval expiration date" : "تاريخ الإنتهاء",
     "Representatives" : "المسؤولين",
     "The Company Field Of Activity" : "نشاط الشركة",
     "Owners" : "ملاك الشركة",
     "Owner" : "اسم المالك",
     "Add Representatives" : "إضافة مسؤولين",
     "Add Owners" : "إضافة مالك",
-    "Add phones" : "إضافة هاتف"
+    "Add phones" : "إضافة هاتف",
+    "Company Field" : "نشاط الشركة",
+    "Representative" : "اسم المسؤول"
 
 }
 

@@ -125,10 +125,10 @@
                                 <th class="text-center column-id" scope="col">#</th>
                                 <th class="text-center column-branch-name" scope="col">{!! __('Company name') !!}</th>
                                 <th class="text-center column-Membership-No" scope="col">{!! __('Registration Number') !!}</th>
+                                <th class="text-center column-company-type" scope="col">{!! __('Company Type') !!}</th> 
                                 <th class="text-center column-register-date" scope="col">{!! __('Approval Expiration Date') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('Commercial Feature') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('Company Type') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('Company Field') !!}</th>
+                                <!-- <th class="text-center column-company-type" scope="col">{!! __('Commercial Feature') !!}</th> -->
+                                <!-- <th class="text-center column-company-type" scope="col">{!! __('Company Field') !!}</th> -->
                                 <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
                                 <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
                                 <th scope="col">{{__('Options')}}</th>
@@ -146,10 +146,14 @@
                                     <td class="text-center column-id">{{$loop->iteration}}</td>
                                     <td class="text-center column-branch-name">{!! optional($one->branch)->name !!}</td>
                                     <td class="text-center column-Membership-No">{!! $one->register_no !!}</td>
-                                    <td class="text-danger text-center  column-company-type">{{ $one->expiration_date }}</td>
-                                    <td class="text-danger text-center column-register-date">{{ $one->commercial_feature }}</td>
-                                    <td class="text-danger text-center column-register-date">{{ $one->company_type }}</td>
-                                    <td class="text-danger text-center column-register-date">{{ $one->company_field }}</td>
+                                    <td class="text-center column-register-date">{{ $one->company_type }}</td>  
+                                    <td class="text-center column-company-type">
+                                    <span class="label light-danger wg-label">
+                                    {{ $one->expiration_date }}
+                                    </span>
+                                    </td>
+                                    <!-- <td class="text-center column-register-date">{{ $one->commercial_feature }}</td> -->
+                                    <!-- <td class="text-center column-register-date">{{ $one->company_field }}</td> -->
                                     <td class="text-center column-created-at">{!! $one->created_at->format('y-m-d h:i:s A') !!}</td>
                                     <td class="text-center column-updated-at">{!! $one->updated_at->format('y-m-d h:i:s A') !!}</td>
 
@@ -203,10 +207,10 @@
                                 <th class="text-center column-id" scope="col">#</th>
                                 <th class="text-center column-branch-name" scope="col">{!! __('Company name') !!}</th>
                                 <th class="text-center column-Membership-No" scope="col">{!! __('Registration Number') !!}</th>
+                                <th class="text-center column-company-type" scope="col">{!! __('Company Type') !!}</th> 
                                 <th class="text-center column-register-date" scope="col">{!! __('Approval Expiration Date') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('Commercial Feature') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('Company Type') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('Company Field') !!}</th>
+                                <!-- <th class="text-center column-company-type" scope="col">{!! __('Commercial Feature') !!}</th> -->
+                                <!-- <th class="text-center column-company-type" scope="col">{!! __('Company Field') !!}</th> -->
                                 <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
                                 <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
                                 <th scope="col">{{__('Options')}}</th>
@@ -226,7 +230,7 @@
 
 @section('modals')
 
-    <div class="modal fade" id="boostrapModal-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
+    <div class="modal fade modal-bg-wg" id="boostrapModal-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
