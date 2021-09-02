@@ -2405,7 +2405,9 @@
     "Company Share" : "حصة الشراكة",
     "Add Company Share" : "إضافة حصة",
     "company_share" : "حصة الشراكة",
-    "Partner" : "اسم الشريك"
+    "Partner" : "اسم الشريك",
+    "Company Contract Library" : "مرفقات قسم عقد الشركة",
+    "Register Added Value Library" : "مرفقات قسم تسجيل القيمة المضافة"
 
 }
 
