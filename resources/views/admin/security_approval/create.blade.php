@@ -17,8 +17,8 @@
 
         <div class="col-xs-12">
             <div class=" card box-content-wg-new bordered-all primary">
-                <h4 class="box-title with-control" style="text-align: initial"><i
-                        class="fa fa-user ico"></i>{{__('Create Security Approval')}}
+                <h4 class="box-title with-control" style="text-align: initial">
+                <i class="fa fa-file-text-o"></i> {{__('Create Security Approval')}}
                         <span class="controls hidden-sm hidden-xs pull-left">
                       <button class="control text-white"
                               style="background:none;border:none;font-size:14px;font-weight:normal !important;">{{__('Save')}}
@@ -200,8 +200,8 @@
                                         <label for="inputNameAr" class="control-label">{{__('Approval Expiration Date')}}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="expiration_date" class="form-control datepicker" id="expiration_date" autocomplete="off"
-                                                   placeholder="{{__('Approval expiration date')}}"
+                                            <input type="text" name="expiration_date" class="form-control datepicker text-right" id="expiration_date" autocomplete="off"
+                                                   placeholder="{{__('Approval Expiration Date')}}"
                                                    value="{{old('expiration_date', !empty($last_created)? $last_created->expiration_date:'')}}">
                                         </div>
 
@@ -211,7 +211,7 @@
 
                                 <div class="col-md-10 representatives">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Representative')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Representatives')}}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-user"></li></span>
                                             <select type="text" name="representatives[]" class="form-control representatives_select"  style="width: 80% !important;
@@ -318,7 +318,7 @@
 
                                 <div class="col-md-10 owners">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Owner')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Owners')}}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-user"></li></span>
                                             <input type="text" name="owners[]" class="form-control" id="owners" autocomplete="off"

@@ -2407,7 +2407,18 @@
     "company_share" : "حصة الشراكة",
     "Partner" : "اسم الشريك",
     "Company Contract Library" : "مرفقات قسم عقد الشركة",
-    "Register Added Value Library" : "مرفقات قسم تسجيل القيمة المضافة"
+    "Register Added Value Library" : "مرفقات قسم تسجيل القيمة المضافة",
+    "Security Approval Library" : "مرفقات قسم الموافقة الأمنية",
+    "Create Security Approval" : "إضافة بيانات الموافقة الأمنية",
+    "Edit Security Approval" : "تعديل بيانات الموافقة الأمنية",
+    "Approval Expiration Date" : "تاريخ الإنتهاء",
+    "Representatives" : "المسؤولين",
+    "The Company Field Of Activity" : "نشاط الشركة",
+    "Owners" : "ملاك الشركة",
+    "Owner" : "اسم المالك",
+    "Add Representatives" : "إضافة مسؤولين",
+    "Add Owners" : "إضافة مالك",
+    "Add phones" : "إضافة هاتف"
 
 }
 
