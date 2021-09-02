@@ -55,12 +55,21 @@
                                 @endif
 
                                     <div class="form-group col-md-6">
-                                        <label> {{ __('End At From') }} </label>
-                                        <input type="text" name="end_at_from" class="form-control datepicker" placeholder="{{__('End At From')}}">
+                                    <label> {{ __('End Date From') }} </label>
+                                        <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                                        <input type="text" name="end_at_from"class="form-control datepicker text-right" placeholder="{{__('End Date From')}}">
                                     </div>
+                                    </div>
+
                                     <div class="form-group col-md-6">
-                                        <label> {{ __('End At To') }} </label>
-                                        <input type="text" name="end_at_to" class="form-control datepicker" placeholder="{{__('End At To')}}">
+                                    <label> {{ __('End Date To') }} </label>
+                                        <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                                        <input type="text" name="end_at_to" class="form-control datepicker text-right" placeholder="{{__('End Date To')}}">
+                                    </div>
                                     </div>
 
                             </div>
@@ -84,7 +93,7 @@
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control">
-                    <i class="fa fa-check-square-o"></i> {{__('Company Contract')}}
+                <i class="fa fa-file-text-o"></i>  {{__('Company Contract')}}
                 </h4>
 
                 <div class="card-content js__card_content" style="">
@@ -109,16 +118,16 @@
                     <div class="clearfix"></div>
                     <div class="table-responsive">
                         <div class="clearfix"></div>
-                        <table id="currencies" class="table table-bordered" style="width:100%;margin-top:15px">
+                        <table id="currencies" class="table table-bordered wg-table-print table-hover" style="width:100%;margin-top:15px">
                             <thead>
                             <tr>
                                 <th class="text-center column-id" scope="col">#</th>
-                                <th class="text-center column-branch-name" scope="col">{!! __('Branch') !!}</th>
+                                <th class="text-center column-branch-name" scope="col">{!! __('Company name') !!}</th>
                                 <th class="text-center column-Membership-No" scope="col">{!! __('Contract Date') !!}</th>
                                 <th class="text-center column-register-date" scope="col">{!! __('Date Of Registration') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('Commercial Feature') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('Company Purpose') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('Share Capital') !!}</th>
+                                <!-- <th class="text-center column-company-type" scope="col">{!! __('Commercial Feature') !!}</th> -->
+                                <!-- <th class="text-center column-company-type" scope="col">{!! __('Company Purpose') !!}</th> -->
+                                <!-- <th class="text-center column-company-type" scope="col">{!! __('Share Capital') !!}</th> -->
                                 <th class="text-center column-company-type" scope="col">{!! __('Duration Of Partnership') !!}</th>
                                 <th class="text-center column-company-type" scope="col">{!! __('Start On') !!}</th>
                                 <th class="text-center column-company-type" scope="col">{!! __('End On') !!}</th>
@@ -138,14 +147,30 @@
                                 <tr>
                                     <td class="text-center column-id">{{$loop->iteration}}</td>
                                     <td class="text-center column-branch-name">{!! optional($one->branch)->name !!}</td>
-                                    <td class="text-center column-Membership-No">{!! $one->contract_date !!}</td>
-                                    <td class="text-danger text-center  column-company-type">{{ $one->register_date }}</td>
-                                    <td class="text-danger text-center column-register-date">{{ $one->commercial_feature }}</td>
-                                    <td class="text-danger text-center column-register-date">{{ $one->company_purpose }}</td>
-                                    <td class="text-danger text-center column-register-date">{{ $one->share_capital }}</td>
-                                    <td class="text-danger text-center column-register-date">{{ $one->partnership_duration }}</td>
-                                    <td class="text-danger text-center column-register-date">{{ $one->start_at }}</td>
-                                    <td class="text-danger text-center column-register-date">{{ $one->end_at }}</td>
+                                    <td class="text-center column-Membership-No">
+                                    <span class="label light-primary wg-label">      
+                                    {!! $one->contract_date !!}
+                                    </span>
+                                    </td>
+                                    <td class="text-center column-company-type">
+                                    <span class="label light-primary wg-label">      
+                                    {{ $one->register_date }}
+                                    </span>
+                                   </td>
+                                    <!-- <td class="ttext-center column-register-date">{{ $one->commercial_feature }}</td> -->
+                                    <!-- <td class="text-center column-register-date">{{ $one->company_purpose }}</td> -->
+                                    <!-- <td class="text-center column-register-date">{{ $one->share_capital }}</td> -->
+                                    <td class="text-danger text-center column-register-date">{{ $one->partnership_duration }} {{__('years')}}</td>
+                                    <td class="text-center column-register-date">
+                                    <span class="label light-primary wg-label">     
+                                        {{ $one->start_at }}
+                                        </span>
+                                    </td>
+                                    <td class="text-center column-register-date">
+                                    <span class="label light-danger wg-label">         
+                                    {{ $one->end_at }}
+                                    </span>
+                                    </td>
                                     <td class="text-center column-created-at">{!! $one->created_at->format('y-m-d h:i:s A') !!}</td>
                                     <td class="text-center column-updated-at">{!! $one->updated_at->format('y-m-d h:i:s A') !!}</td>
 
@@ -197,12 +222,12 @@
                             <tfoot>
                             <tr>
                                 <th class="text-center column-id" scope="col">#</th>
-                                <th class="text-center column-branch-name" scope="col">{!! __('Branch') !!}</th>
+                                <th class="text-center column-branch-name" scope="col">{!! __('Company name') !!}</th>
                                 <th class="text-center column-Membership-No" scope="col">{!! __('Contract Date') !!}</th>
                                 <th class="text-center column-register-date" scope="col">{!! __('Date Of Registration') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('Commercial Feature') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('Company Purpose') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('Share Capital') !!}</th>
+                                <!-- <th class="text-center column-company-type" scope="col">{!! __('Commercial Feature') !!}</th> -->
+                                <!-- <th class="text-center column-company-type" scope="col">{!! __('Company Purpose') !!}</th> -->
+                                <!-- <th class="text-center column-company-type" scope="col">{!! __('Share Capital') !!}</th> -->
                                 <th class="text-center column-company-type" scope="col">{!! __('Duration Of Partnership') !!}</th>
                                 <th class="text-center column-company-type" scope="col">{!! __('Start On') !!}</th>
                                 <th class="text-center column-company-type" scope="col">{!! __('End On') !!}</th>

@@ -2393,7 +2393,19 @@
     "Create Register Added Value" : "إضافة تسجيل القيمة المضافة",
     "Edit Register Added Value" : "تعديل تسجيل القيمة المضافة",
     "Errands" : "اسم المأمورية",
-    "Date Of Registration" : "تاريخ التسجيل"
+    "Date Of Registration" : "تاريخ التسجيل",
+    "Create Company Contract" : "إضافة عقد الشركة",
+    "Edit Company Contract" : "تعديل عقد الشركة",
+    "Partners" : "الشركاء",
+    "Add Partner" : "إضافة شريك",
+    "Contract Date" : "تاريخ القيد",
+    "Company Purpose" : "غرض الشركة",
+    "Share Capital" : "رأس المال",
+    "Duration Of Partnership" : "مدة الشراكة (سنوات)",
+    "Company Share" : "حصة الشراكة",
+    "Add Company Share" : "إضافة حصة",
+    "company_share" : "حصة الشراكة",
+    "Partner" : "اسم الشريك"
 
 }
 

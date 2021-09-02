@@ -118,7 +118,7 @@
                     <div class="clearfix"></div>
                     <div class="table-responsive">
                         <div class="clearfix"></div>
-                        <table id="currencies" class="table table-bordered" style="width:100%;margin-top:15px">
+                        <table id="currencies" class="table table-bordered wg-table-print table-hover" style="width:100%;margin-top:15px">
                             <thead>
                             <tr>
                                 <th class="text-center column-id" scope="col">#</th>

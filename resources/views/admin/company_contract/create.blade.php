@@ -17,8 +17,8 @@
 
         <div class="col-xs-12">
             <div class=" card box-content-wg-new bordered-all primary">
-                <h4 class="box-title with-control" style="text-align: initial"><i
-                        class="fa fa-user ico"></i>{{__('Create Company Contract')}}
+                <h4 class="box-title with-control" style="text-align: initial">
+                <i class="fa fa-file-text-o"></i>  {{__('Create Company Contract')}}
                         <span class="controls hidden-sm hidden-xs pull-left">
                       <button class="control text-white"
                               style="background:none;border:none;font-size:14px;font-weight:normal !important;">{{__('Save')}}
@@ -117,13 +117,121 @@
                                     </div>
 
                                 </div>
-                                <div class="col-md-10 partners">
+                               
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Partner')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Contract Date')}}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                            <input type="text" name="contract_date" class="form-control datepicker text-right" id="contract_date"
+                                                   placeholder="{{__('Contract Date')}}"
+                                                   value="{{old('contract_date', !empty($last_created)? $last_created->contract_date:'')}}">
+                                        </div>
+
+                                    </div>
+                                    {{input_error($errors,'contract_date')}}
+                                </div>
+
+
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="inputNameAr" class="control-label">{{__('Date Of Registration')}}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                            <input type="text" name="register_date" class="form-control datepicker text-right" id="register_date" autocomplete="off"
+                                                   placeholder="{{__('Date Of Registration')}}"
+                                                   value="{{old('register_date', !empty($last_created)? $last_created->register_date:'')}}">
+                                        </div>
+
+                                    </div>
+                                    {{input_error($errors,'register_date')}}
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="inputNameAr" class="control-label">{{__('Commercial Feature')}}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                            <input type="text" name="commercial_feature" class="form-control" id="commercial_feature"
+                                                   placeholder="{{__('Commercial Feature')}}"
+                                                   value="{{old('commercial_feature', !empty($last_created)? $last_created->commercial_feature:'')}}">
+                                        </div>
+
+                                    </div>
+                                    {{input_error($errors,'commercial_feature')}}
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="inputNameAr" class="control-label">{{__('Company Purpose')}}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                            <input type="text" name="company_purpose" class="form-control" id="company_purpose"
+                                                   placeholder="{{__('Company Purpose')}}"
+                                                   value="{{old('company_purpose', !empty($last_created)? $last_created->company_purpose:'')}}">
+                                        </div>
+
+                                    </div>
+                                    {{input_error($errors,'company_purpose')}}
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="inputNameAr" class="control-label">{{__('Share Capital')}}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                            <input type="text" name="share_capital" class="form-control" id="share_capital"
+                                                   placeholder="{{__('Share Capital')}}"
+                                                   value="{{old('share_capital', !empty($last_created)? $last_created->share_capital:'')}}">
+                                        </div>
+
+                                    </div>
+                                    {{input_error($errors,'share_capital')}}
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="inputNameAr" class="control-label">{{__('Duration Of Partnership')}}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                            <input type="number" name="partnership_duration" class="form-control" id="partnership_duration"
+                                                   placeholder="{{__('Duration Of Partnership')}}"
+                                                   value="{{old('partnership_duration', !empty($last_created)? $last_created->partnership_duration:'')}}">
+                                        </div>
+
+                                    </div>
+                                    {{input_error($errors,'partnership_duration')}}
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="inputNameAr" class="control-label">{{__('Start On')}}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                            <input type="text" name="start_at" class="form-control datepicker text-right" id="start_at"
+                                                   placeholder="{{__('Start On')}}"
+                                                   value="{{old('start_at', !empty($last_created)? $last_created->start_at:'')}}">
+                                        </div>
+
+                                    </div>
+                                    {{input_error($errors,'start_at')}}
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="inputNameAr" class="control-label">{{__('End On')}}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                            <input type="text" name="end_at" class="form-control datepicker text-right" id="end_at"
+                                                   placeholder="{{__('End On')}}"
+                                                   value="{{old('end_at', !empty($last_created)? $last_created->end_at:'')}}">
+                                        </div>
+
+                                    </div>
+                                    {{input_error($errors,'end_at')}}
+                                </div>
+
+                                <div class="col-md-4 partners">
+                                    <div class="form-group">
+                                        <label for="inputNameAr" class="control-label">{{__('Partners')}}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-user"></li></span>
                                             <input type="text" name="partners[]" class="form-control" id="partners" autocomplete="off"
-                                                   placeholder="{{__('Partner')}}"
+                                                   placeholder="{{__('Partners')}}"
                                                    value="">
                                         </div>
                                     </div>
@@ -140,11 +248,14 @@
                                     </div>
                                 </div>
 
+                                
                                 @if(!empty($last_created) && $last_created->partners->isNotEmpty())
                                     @foreach($last_created->partners as $partner)
+                                    <div class="col-md-6">
                                         <div class="form-group added_images">
                                             <label class=" form-label font-weight-bolder"
                                                    style="display:block">{{__('Partner')}}</label>
+                                                   
                                             <input type="text" class=" form-control form-control-rounded"
                                                    value="{{$partner->partner}}" name="partners[]" style="width: 80%;
     display: inline-block;">
@@ -156,114 +267,10 @@
                                             <div class="invalid-feedback" id="emails-form-error"></div>
 
                                         </div>
+                                        
+                                        </div>
                                     @endforeach
                                 @endif
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Contract Date')}}</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="contract_date" class="form-control datepicker" id="contract_date"
-                                                   placeholder="{{__('Contract Date')}}"
-                                                   value="{{old('contract_date', !empty($last_created)? $last_created->contract_date:'')}}">
-                                        </div>
-
-                                    </div>
-                                    {{input_error($errors,'contract_date')}}
-                                </div>
-
-
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Date Of Registration')}}</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="register_date" class="form-control datepicker" id="register_date" autocomplete="off"
-                                                   placeholder="{{__('Date Of Registration')}}"
-                                                   value="{{old('register_date', !empty($last_created)? $last_created->register_date:'')}}">
-                                        </div>
-
-                                    </div>
-                                    {{input_error($errors,'register_date')}}
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Commercial Feature')}}</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="commercial_feature" class="form-control" id="commercial_feature"
-                                                   placeholder="{{__('Commercial Feature')}}"
-                                                   value="{{old('commercial_feature', !empty($last_created)? $last_created->commercial_feature:'')}}">
-                                        </div>
-
-                                    </div>
-                                    {{input_error($errors,'commercial_feature')}}
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Company Purpose')}}</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="company_purpose" class="form-control" id="company_purpose"
-                                                   placeholder="{{__('Company Purpose')}}"
-                                                   value="{{old('company_purpose', !empty($last_created)? $last_created->company_purpose:'')}}">
-                                        </div>
-
-                                    </div>
-                                    {{input_error($errors,'company_purpose')}}
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Share Capital')}}</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="share_capital" class="form-control" id="share_capital"
-                                                   placeholder="{{__('Share Capital')}}"
-                                                   value="{{old('share_capital', !empty($last_created)? $last_created->share_capital:'')}}">
-                                        </div>
-
-                                    </div>
-                                    {{input_error($errors,'share_capital')}}
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Duration Of Partnership')}}</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="number" name="partnership_duration" class="form-control" id="partnership_duration"
-                                                   placeholder="{{__('Duration Of Partnership')}}"
-                                                   value="{{old('partnership_duration', !empty($last_created)? $last_created->partnership_duration:'')}}">
-                                        </div>
-
-                                    </div>
-                                    {{input_error($errors,'partnership_duration')}}
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Start On')}}</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="start_at" class="form-control datepicker" id="start_at"
-                                                   placeholder="{{__('Start On')}}"
-                                                   value="{{old('start_at', !empty($last_created)? $last_created->start_at:'')}}">
-                                        </div>
-
-                                    </div>
-                                    {{input_error($errors,'start_at')}}
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('End On')}}</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="end_at" class="form-control datepicker" id="end_at"
-                                                   placeholder="{{__('End On')}}"
-                                                   value="{{old('end_at', !empty($last_created)? $last_created->end_at:'')}}">
-                                        </div>
-
-                                    </div>
-                                    {{input_error($errors,'end_at')}}
-                                </div>
 
                                 <div class="col-md-10 company_share">
                                     <div class="form-group">
@@ -311,10 +318,8 @@
                         </div>
                         </div>
 
-
-                        <div class="form-group col-sm-12" >
                             @include('admin.buttons._save_buttons')
-                        </div>
+                    
                     </form>
                 </div>
 
