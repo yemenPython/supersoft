@@ -17,8 +17,8 @@
 
         <div class="col-xs-12">
             <div class=" card box-content-wg-new bordered-all primary">
-                <h4 class="box-title with-control" style="text-align: initial"><i
-                        class="fa fa-user ico"></i>{{__('Create Security Approval')}}
+                <h4 class="box-title with-control" style="text-align: initial">
+                <i class="fa fa-file-text-o"></i> {{__('Create Security Approval')}}
                         <span class="controls hidden-sm hidden-xs pull-left">
                       <button class="control text-white"
                               style="background:none;border:none;font-size:14px;font-weight:normal !important;">{{__('Save')}}
@@ -78,7 +78,7 @@
 
                             <div class="">
 
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('Company name')}}</label>
                                         <div class="input-group">
@@ -91,7 +91,7 @@
                                     </div>
 
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('Company Address')}}</label>
                                         <div class="input-group">
@@ -106,17 +106,31 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Tax Card')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Fax')}}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="tax_card" class="form-control" id="inputNameEn"
+                                            <input type="text" name="fax" class="form-control" id="inputNameEn"
                                                    disabled
-                                                   placeholder="{{__('Tax Card')}}"
-                                                   value="{{old('address', !empty($branch)? $branch->tax_card:'')}}">
+                                                   placeholder="{{__('Fax')}}"
+                                                   value="{{old('fax', !empty($branch)? $branch->fax:'')}}">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="inputNameAr" class="control-label">{{__('Commercial Registration No')}}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                            <input type="text" name="commercial_registration_no" class="form-control text-right" id="commercial_registration_no"
+                                                   placeholder="{{__('Commercial Registration No')}}"
+                                                   value="{{old('commercial_registration_no', !empty($last_created)? $last_created->commercial_registration_no:'')}}">
+                                        </div>
+
+                                    </div>
+                                    {{input_error($errors,'commercial_registration_no')}}
+                                </div>
+                                <div class="col-md-4">
+
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('Phone 1')}}</label>
                                         <div class="input-group">
@@ -128,7 +142,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('Phone 2')}}</label>
                                         <div class="input-group">
@@ -140,6 +154,81 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="inputNameAr" class="control-label">{{__('Registration Number')}}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                            <input type="text" name="register_no" class="form-control" id="register_no"
+                                                   placeholder="{{__('Registration Number')}}"
+                                                   value="{{old('register_no', !empty($last_created)? $last_created->register_no:'')}}">
+                                        </div>
+
+                                    </div>
+                                    {{input_error($errors,'register_no')}}
+                                </div>
+
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="inputNameAr" class="control-label">{{__('Approval Expiration Date')}}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                            <input type="text" name="expiration_date" class="form-control datepicker text-right" id="expiration_date" autocomplete="off"
+                                                   placeholder="{{__('Approval Expiration Date')}}"
+                                                   value="{{old('expiration_date', !empty($last_created)? $last_created->expiration_date:'')}}">
+                                        </div>
+
+                                    </div>
+                                    {{input_error($errors,'expiration_date')}}
+                                </div>
+
+
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="inputNameAr" class="control-label">{{__('Commercial Feature')}}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                            <input type="text" name="commercial_feature" class="form-control" id="commercial_feature"
+                                                   placeholder="{{__('Commercial Feature')}}"
+                                                   value="{{old('commercial_feature', !empty($last_created)? $last_created->commercial_feature:'')}}">
+                                        </div>
+
+                                    </div>
+                                    {{input_error($errors,'commercial_feature')}}
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="inputNameAr" class="control-label">{{__('Company Type')}}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                            <input type="text" name="company_type" class="form-control" id="company_type"
+                                                   placeholder="{{__('Company Type')}}"
+                                                   value="{{old('company_type', !empty($last_created)? $last_created->company_type:'')}}">
+                                        </div>
+
+                                    </div>
+                                    {{input_error($errors,'company_type')}}
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="inputNameAr" class="control-label">{{__('The Company Field Of Activity')}}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                            <input type="text" name="company_field" class="form-control" id="company_field"
+                                                   placeholder="{{__('The Company Field Of Activity')}}"
+                                                   value="{{old('company_field', !empty($last_created)? $last_created->company_field:'')}}">
+                                        </div>
+
+                                    </div>
+                                    {{input_error($errors,'company_field')}}
+                                </div>
+
                                 <div class="col-md-10 partners">
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('Phone')}}</label>
@@ -180,38 +269,11 @@
                                         </div>
                                     @endforeach
                                 @endif
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Registration Number')}}</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="register_no" class="form-control" id="register_no"
-                                                   placeholder="{{__('Registration Number')}}"
-                                                   value="{{old('register_no', !empty($last_created)? $last_created->register_no:'')}}">
-                                        </div>
 
-                                    </div>
-                                    {{input_error($errors,'register_no')}}
-                                </div>
-
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Approval Expiration Date')}}</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="expiration_date" class="form-control datepicker" id="expiration_date" autocomplete="off"
-                                                   placeholder="{{__('Approval expiration date')}}"
-                                                   value="{{old('expiration_date', !empty($last_created)? $last_created->expiration_date:'')}}">
-                                        </div>
-
-                                    </div>
-                                    {{input_error($errors,'expiration_date')}}
-                                </div>
 
                                 <div class="col-md-10 representatives">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Representative')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Representatives')}}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-user"></li></span>
                                             <select type="text" name="representatives[]" class="form-control representatives_select"  style="width: 80% !important;
@@ -239,7 +301,7 @@
                                 @if(!empty($last_created) && $last_created->representatives->isNotEmpty())
                                     @foreach($last_created->representatives as $representative)
                                         <div class="form-group added_images">
-                                            <label class=" form-label font-weight-bolder"
+                                            <label class="form-label font-weight-bolder"
                                                    style="display:block">{{__('Representative')}}</label>
                                             <select type="text" name="representatives[]" class="form-control representatives_select"  style="width: 80% !important;display: initial !important;"
                                                     autocomplete="off">
@@ -301,24 +363,23 @@
                                     </div>
                                     {{input_error($errors,'company_field')}}
                                 </div>
-
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Fax')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Date')}}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="fax" class="form-control" id="fax"
-                                                   placeholder="{{__('Fax')}}"
-                                                   value="{{old('fax', !empty($last_created)? $last_created->fax:'')}}">
+                                            <input type="text" name="date" class="form-control datepicker" id="date"
+                                                   placeholder="{{__('Date')}}"
+                                                   value="{{old('date', !empty($last_created)? $last_created->date:'')}}">
                                         </div>
 
                                     </div>
-                                    {{input_error($errors,'fax')}}
+                                    {{input_error($errors,'date')}}
                                 </div>
 
                                 <div class="col-md-10 owners">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Owner')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Owners')}}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-user"></li></span>
                                             <input type="text" name="owners[]" class="form-control" id="owners" autocomplete="off"
@@ -439,8 +500,8 @@
             var template = `
                                     <div class="form-group added_images">
                                         <label class=" form-label font-weight-bolder" style="display:block">{{__('company_share')}}</label>
-                                        <input type="text" class=" form-control form-control-rounded shared" name="company_share[]" style="width: 80%;
-    display: inline-block;"  onchange="validateSumShare();">
+                                        <input type="text" class=" form-control form-control-rounded" name="company_share[]" style="width: 80%;
+    display: inline-block;">
     <a href="javascript:void(0);" onclick="$(this).closest('.added_images').remove();" class="btn btn-icon btn-danger px-3 py-2" style=" display: inline-block;">
                 <i class="fa fa-trash"></i></a>
             <div class="invalid-feedback" id="emails-form-error"></div>
@@ -459,8 +520,8 @@
             var template = `
                                     <div class="form-group added_images">
                                         <label class=" form-label font-weight-bolder" style="display:block">{{__('Owners')}}</label>
-                                        <input type="text" class=" form-control form-control-rounded shared" name="owners[]" style="width: 80%;
-    display: inline-block;"  onchange="validateSumShare();">
+                                        <input type="text" class=" form-control form-control-rounded" name="owners[]" style="width: 80%;
+    display: inline-block;" >
     <a href="javascript:void(0);" onclick="$(this).closest('.added_images').remove();" class="btn btn-icon btn-danger px-3 py-2" style=" display: inline-block;">
                 <i class="fa fa-trash"></i></a>
             <div class="invalid-feedback" id="emails-form-error"></div>
@@ -478,17 +539,6 @@
         function changeBranch () {
             let branch_id = $('#branch_id').find(":selected").val();
             window.location.href = "{{route('admin:security_approval.create')}}" + "?branch_id=" + branch_id ;
-        }
-        function validateSumShare(){
-                let total = '';
-                $(".shared").each(function () {
-                    var value = $($(this)).val();
-                    total = +total + +value;
-                });
-            if (total > 100) {
-                swal({text: '{{__('sorry, Company Share Can Not be greater than 100%')}}', icon: "error"});
-                return false;
-            }
         }
 
     </script>

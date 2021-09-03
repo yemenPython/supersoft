@@ -31,6 +31,8 @@ class SecurityApprovalRequest extends FormRequest
             'commercial_feature'=>'required',
             'company_type'=>'required',
             'company_field'=>'required',
+            'commercial_registration_no'=>'required',
+            'date'=>'required',
         ];
 
         if(authIsSuperAdmin()){

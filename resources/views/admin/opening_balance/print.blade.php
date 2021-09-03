@@ -1,5 +1,4 @@
-
-<div id="concession_to_print" >
+<div id="concession_to_print">
     <div class="border-container" style="">
         @foreach($openingBalance->items()->get()->chunk(15) as $one)
 
@@ -31,7 +30,8 @@
             @if( $loop->first)
                 <div class="row row-right-data" @if( !$loop->first)style="visibility: hidden !important;" @endif>
                     <div class="col-xs-6"></div>
-                    <div class="col-xs-6 right-top-detail"  @if( !$loop->first)style="visibility: hidden !important;" @endif>
+                    <div class="col-xs-6 right-top-detail"
+                         @if( !$loop->first)style="visibility: hidden !important;" @endif>
                         <h3>
                             @if( $loop->first)
                                 <span> {{__('words.stores-transfers')}} </span>
@@ -93,7 +93,8 @@
                 <h5 class="invoice-to-title">{{__('stores transfers items')}}</h5>
 
                 <div class="table-responsive">
-                    <table class="table print-table-wg table-borderless" @if(!$loop->first) style="margin-top: 20px;" @endif>
+                    <table class="table print-table-wg table-borderless"
+                           @if(!$loop->first) style="margin-top: 20px;" @endif>
                         <thead>
 
                         <tr class="spacer" style="border-radius: 30px;">
@@ -106,6 +107,8 @@
                             <th> {{ __('Quantity') }} </th>
                             <th> {{ __('Price') }} </th>
                             <th> {{ __('Total') }} </th>
+                            <th> {{ __('Barcode') }} </th>
+                            <th> {{ __('Supplier Barcode') }} </th>
                         </tr>
 
                         </thead>
@@ -133,7 +136,6 @@
                                     <td>
                                         <span> {{optional($item->partPrice)->quantity}}  </span>
                                         <span> {{ $part->sparePartsUnit->unit }} </span>
-
                                     </td>
 
                                     <td>
@@ -156,6 +158,14 @@
 
                                     <td>
                                         {{isset($item) ? ($item->price * $item->quantity) : 0}}
+                                    </td>
+
+                                    <td>
+                                        {{$item->partPrice  ? $item->partPrice->barcode : '---'}}
+                                    </td>
+
+                                    <td>
+                                        {{$item->partPrice ? $item->partPrice->supplier_barcode : '---'}}
                                     </td>
                                 </tr>
                             @endforeach
@@ -204,7 +214,8 @@
                             <div class="row last-total" style="background-color:#ddd !important">
 
                                 <div class="col-xs-12">
-                                    <h6 data-id="data-totalInLetters" id="totalInLetters"> {{$openingBalance->total_money}} </h6>
+                                    <h6 data-id="data-totalInLetters"
+                                        id="totalInLetters"> {{$openingBalance->total_money}} </h6>
                                 </div>
                             </div>
 
@@ -227,7 +238,7 @@
                 </div>
             @endif
 
-            <div class="print-foot-wg position-relative ml-0" >
+            <div class="print-foot-wg position-relative ml-0">
                 <div class="row for-reverse-en" style="display: flex;
     align-items: flex-end;">
                     <div class="col-xs-7">

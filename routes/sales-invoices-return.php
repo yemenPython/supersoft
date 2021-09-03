@@ -35,7 +35,7 @@ Route::post('sales-invoices-return-deleteSelected', 'SalesInvoiceReturnControlle
 Route::post('/sales-returns/part-quantity', 'SalesInvoiceReturnController@showPartQuantity')->name('purchase.returns.show.part.quantity');
 
 // terms
-//Route::post('/purchase-return/terms', 'PurchaseReturnsController@terms')->name('purchase.return.terms');
+Route::post('/sales-returns/terms', 'SalesInvoiceReturnController@terms')->name('sales.return.terms');
 
 // purchase quotations library
 Route::post('sales-returns/library/get-files', 'SalesInvoiceReturnLibraryController@getFiles')->name('sates.returns.library.get.files');

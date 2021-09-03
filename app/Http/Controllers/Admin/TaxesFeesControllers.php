@@ -56,7 +56,6 @@ class TaxesFeesControllers extends Controller
 
     public function store(TaxRequest $request)
     {
-//        dd($request->all());
         if (!auth()->user()->can('create_taxes')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
@@ -72,6 +71,7 @@ class TaxesFeesControllers extends Controller
         $data['active_offers'] = $request->has('active_offers') ? 1 : 0;
         $data['active_services'] = $request->has('active_services') ? 1 : 0;
         $data['active_purchase_invoice'] = $request->has('active_purchase_invoice') ? 1 : 0;
+        $data['sale_supply_order'] = $request->has('sale_supply_order') ? 1 : 0;
 
         if (!authIsSuperAdmin()) {
             $data['branch_id'] = auth()->user()->branch_id;
@@ -111,6 +111,7 @@ class TaxesFeesControllers extends Controller
         $data['active_offers'] = $request->has('active_offers') ? 1 : 0;
         $data['active_services'] = $request->has('active_services') ? 1 : 0;
         $data['active_purchase_invoice'] = $request->has('active_purchase_invoice') ? 1 : 0;
+        $data['sale_supply_order'] = $request->has('sale_supply_order') ? 1 : 0;
 
         $taxesFees->update($data);
 

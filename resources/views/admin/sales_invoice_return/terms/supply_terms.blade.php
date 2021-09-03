@@ -11,7 +11,7 @@
                     <h4 class="modal-title" id="myModalLabel-1">{{__('Supply & payments')}}</h4>
                 </div>
 
-                <form action="{{route('admin:purchase.return.terms')}}" method="post">
+                <form action="{{route('admin:sales.return.terms')}}" method="post">
                     @csrf
 
                     <div class="modal-body">
@@ -50,7 +50,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach($data['supplyTerms'] as $term)
+                                            @foreach($supplyTerms as $term)
                                                 <tr>
                                                     <td>
                                                         <input type="checkbox" name="terms[]" value="{{$term->id}}"
@@ -76,7 +76,7 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach($data['paymentTerms'] as $term)
+                                            @foreach($paymentTerms as $term)
                                                 <tr>
                                                     <td>
                                                         <input type="checkbox" name="terms[]" value="{{$term->id}}"
@@ -94,7 +94,7 @@
                                 <!-- /.tab-content -->
                             </div>
 
-                            <input type="hidden" name="purchase_return_id"  value="{{$item->id}}">
+                            <input type="hidden" name="sales_return_id"  value="{{$item->id}}">
                         </div>
 
                     </div>

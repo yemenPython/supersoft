@@ -131,6 +131,8 @@
                             <th scope="col">{{__('Quantity')}}</th>
                             <th scope="col">{{__('Price')}}</th>
                             <th scope="col">{{__('Total')}}</th>
+                            <th> {{ __('Barcode') }} </th>
+                            <th> {{ __('Supplier Barcode') }} </th>
                         </tr>
 
                         </thead>
@@ -145,6 +147,8 @@
                                 <td>{{$item->quantity}}</td>
                                 <td>{{$item->price}}</td>
                                 <td> {{ $item->price * $item->quantity}}</td>
+                                <td>{{$item->partPrice  ? $item->partPrice->barcode : '---'}}</td>
+                                <td>{{$item->partPrice ? $item->partPrice->supplier_barcode : '---'}}</td>
                             </tr>
 
                         @endforeach

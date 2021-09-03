@@ -56,10 +56,10 @@ class SalesInvoiceReturnController extends Controller
             $data = $this->filter($request, $data);
         }
 
-        $paymentTerms = SupplyTerm::where('purchase_invoice', 1)->where('status', 1)->where('type', 'payment')
+        $paymentTerms = SupplyTerm::where('sales_invoice_return', 1)->where('status', 1)->where('type', 'payment')
             ->select('id', 'term_' . $this->lang)->get();
 
-        $supplyTerms = SupplyTerm::where('purchase_invoice', 1)->where('status', 1)->where('type', 'supply')
+        $supplyTerms = SupplyTerm::where('sales_invoice_return', 1)->where('status', 1)->where('type', 'supply')
             ->select('id', 'term_' . $this->lang)->get();
 
         if ($request->isDataTable) {
@@ -105,8 +105,6 @@ class SalesInvoiceReturnController extends Controller
 
     public function store(CreateSalesInvoiceReturnRequest $request)
     {
-//        dd($request->all());
-
         if (!auth()->user()->can('create_sales_invoices_return')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
@@ -455,20 +453,20 @@ class SalesInvoiceReturnController extends Controller
     public function terms(Request $request)
     {
         $this->validate($request, [
-            'purchase_return_id' => 'required|integer|exists:purchase_returns,id'
+            'sales_return_id' => 'required|integer|exists:sales_invoice_returns,id'
         ]);
 
         try {
 
-            $purchaseReturn = PurchaseReturn::find($request['purchase_return_id']);
+            $salesReturn = SalesInvoiceReturn::find($request['sales_return_id']);
 
-            $purchaseReturn->terms()->sync($request['terms']);
+            $salesReturn->terms()->sync($request['terms']);
 
         } catch (\Exception $e) {
             return redirect()->back()->with(['message' => 'sorry, please try later', 'alert-type' => 'error']);
         }
 
-        return redirect()->back()->with(['message' => __('purchase.return.terms.successfully'), 'alert-type' => 'success']);
+        return redirect()->back()->with(['message' => __('sales.return.terms.successfully'), 'alert-type' => 'success']);
     }
 
     /**

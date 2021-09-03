@@ -104,6 +104,8 @@
                             <th>{{__('Price')}}</th>
                             <th>{{__('Total')}}</th>
                             <th>{{__('Store')}}</th>
+                            <th> {{ __('Barcode') }} </th>
+                            <th> {{ __('Supplier Barcode') }} </th>
                         </tr>
 
                         </thead>
@@ -120,6 +122,8 @@
                                 <td>{{$item->price}}</td>
                                 <td>{{$item->price * $item->quantity}}</td>
                                 <td>{{$item->store ? $item->store->name : __('Not determined') }}</td>
+                                <td>{{$item->partPrice  ? $item->partPrice->barcode : '---'}}</td>
+                                <td>{{$item->partPrice ? $item->partPrice->supplier_barcode : '---'}}</td>
                             </tr>
 
                         @endforeach
