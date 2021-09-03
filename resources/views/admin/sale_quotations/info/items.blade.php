@@ -136,6 +136,18 @@
     </td>
 
     <td>
+        <span id="barcode_{{$index}}">
+            {{ isset($update_item) && $update_item->partPrice ? $update_item->partPrice->barcode : $part->default_barcode }}
+        </span>
+    </td>
+
+    <td>
+        <span id="supplier_barcode_{{$index}}">
+             {{ isset($update_item) && $update_item->partPrice ? $update_item->partPrice->supplier_barcode : $part->default_supplier_barcode }}
+        </span>
+    </td>
+
+    <td>
         <div class="col-md-2" style="margin-top: 10px;">
             <div class="form-group has-feedback">
                 <input type="checkbox" id="checkbox_item_{{$index}}" name="items[{{$index}}][checked]" disabled

@@ -207,6 +207,8 @@
             let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
             let part_price_id = $('#prices_part_' + index).find(":selected").val();
+            let barcode = $('#prices_part_' + index).find(":selected").data('barcode');
+            let supplier_barcode = $('#prices_part_' + index).find(":selected").data('supplier-barcode');
 
             $.ajax({
 
@@ -223,6 +225,9 @@
                 success: function (data) {
 
                     $("#price_segments_part_" + index).html(data.segments);
+
+                    $("#barcode_" + index).text(barcode);
+                    $("#supplier_barcode_" + index).text(supplier_barcode);
 
                     let unit_quantity = $('#prices_part_' + index).find(":selected").data('quantity');
                     $('#unit_quantity_' + index).val(unit_quantity);

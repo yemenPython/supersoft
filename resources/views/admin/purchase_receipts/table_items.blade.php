@@ -16,6 +16,8 @@
             <th width="7%"> {{ __('Accepted Quantity') }} </th>
             <th width="7%"> {{ __('Defect Percent') }} </th>
             <th width="7%"> {{ __('Store') }} </th>
+            <th width="5%"> {{ __('Barcode') }} </th>
+            <th width="5%"> {{ __('Supplier Barcode') }} </th>
         </tr>
         </thead>
         <tbody id="parts_data">
@@ -48,6 +50,8 @@
             <th width="7%"> {{ __('Accepted Quantity') }} </th>
             <th width="7%"> {{ __('Defect Percent') }} </th>
             <th width="7%"> {{ __('Store') }} </th>
+            <th width="5%"> {{ __('Barcode') }} </th>
+            <th width="5%"> {{ __('Supplier Barcode') }} </th>
         </tr>
         </tfoot>
 

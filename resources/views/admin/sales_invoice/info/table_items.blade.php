@@ -19,6 +19,8 @@
                     <th width="8%"> {{ __('Taxes') }} </th>
                     <th width="8%"> {{ __('Total') }} </th>
                     <th width="8%"> {{ __('Store') }} </th>
+                    <th width="5%"> {{ __('Barcode') }} </th>
+                    <th width="5%"> {{ __('Supplier Barcode') }} </th>
                 </tr>
                 </thead>
                 <tbody id="parts_data">
@@ -54,6 +56,8 @@
                     <th width="8%"> {{ __('Taxes') }} </th>
                     <th width="8%"> {{ __('Total') }} </th>
                     <th width="8%"> {{ __('Store') }} </th>
+                    <th width="5%"> {{ __('Barcode') }} </th>
+                    <th width="5%"> {{ __('Supplier Barcode') }} </th>
                 </tr>
                 </tfoot>
 

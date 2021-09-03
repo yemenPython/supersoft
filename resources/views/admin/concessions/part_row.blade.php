@@ -5,7 +5,8 @@
         </td>
 
         <td>
-            <span style="width: 150px !important;display:block; cursor: pointer" data-img="{{optional($item->part)->image}}" data-toggle="modal" data-target="#part_img"
+            <span style="width: 150px !important;display:block; cursor: pointer"
+                  data-img="{{optional($item->part)->image}}" data-toggle="modal" data-target="#part_img"
                   title="Part image" onclick="getPartImage('{{$index}}')" id="part_img_id_{{$index}}">
 
                   {{optional($item->part)->name}}
@@ -13,7 +14,7 @@
         </td>
 
         <td>
-            <span > {{ $item->sparePart ? $item->sparePart->type : '---' }} </span>
+            <span> {{ $item->sparePart ? $item->sparePart->type : '---' }} </span>
         </td>
 
         <td class="inline-flex-span">
@@ -64,9 +65,22 @@
         </td>
 
         <td>
-            <button type="button" class="btn btn-primary" data-toggle="modal" onclick="showPartQuantity({{$item->part_id}})"
+        <span id="barcode_{{$index}}">
+            {{ isset($item) && $item->partPrice ? $item->partPrice->barcode : '---'}}
+        </span>
+        </td>
+
+        <td>
+        <span id="supplier_barcode_{{$index}}">
+             {{ isset($item) && $item->partPrice ? $item->partPrice->supplier_barcode : '---' }}
+        </span>
+        </td>
+
+        <td>
+            <button type="button" class="btn btn-primary" data-toggle="modal"
+                    onclick="showPartQuantity({{$item->part_id}})"
                     data-target="#part_store_quantity">
-                    <i class="fa fa-cubes"></i>
+                <i class="fa fa-cubes"></i>
             </button>
         </td>
 

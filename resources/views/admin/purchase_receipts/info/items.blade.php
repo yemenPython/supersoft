@@ -117,6 +117,21 @@
             <span>{{$update_item->store ? $update_item->store ->name : '---' }}</span>
         </div>
     </td>
+
+
+    <td>
+        <span id="barcode_{{$index}}">
+            {{ $update_item->partPrice ? $update_item->partPrice->barcode : '---' }}
+        </span>
+    </td>
+
+    <td>
+        <span id="supplier_barcode_{{$index}}">
+            {{ $update_item->partPrice ? $update_item->partPrice->supplier_barcode : '---' }}
+
+        </span>
+    </td>
+
 </tr>
 
 

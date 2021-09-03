@@ -17,6 +17,8 @@
             <th width="8%"> {{ __('Total After Discount') }} </th>
             <th width="8%"> {{ __('Taxes') }} </th>
             <th width="8%"> {{ __('Total') }} </th>
+            <th width="5%"> {{ __('Barcode') }} </th>
+            <th width="5%"> {{ __('Supplier Barcode') }} </th>
             <th width="1%">
                 {{ __('Select') }}
                 <input type="checkbox" class="select_all_items form-control" style="margin-right: 16px;"
@@ -57,6 +59,8 @@
             <th width="8%"> {{ __('Total After Discount') }} </th>
             <th width="8%"> {{ __('Taxes') }} </th>
             <th width="8%"> {{ __('Total') }} </th>
+            <th width="5%"> {{ __('Barcode') }} </th>
+            <th width="5%"> {{ __('Supplier Barcode') }} </th>
             <th width="1%"> {{ __('Select') }} </th>
             <th width="5%"> {{ __('Action') }} </th>
         </tr>

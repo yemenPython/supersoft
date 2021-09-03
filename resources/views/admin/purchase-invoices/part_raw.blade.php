@@ -20,7 +20,7 @@
 
     @if((isset($invoiceType) && $invoiceType == 'normal') || (isset($purchaseInvoice) && $purchaseInvoice->invoice_type == 'normal'))
         <td>
-        <div class="input-group" style="width: 180px !important;">
+            <div class="input-group" style="width: 180px !important;">
                 <select class="form-control js-example-basic-single" name="items[{{$index}}][spare_part_id]"
                         id="spare_part_id_{{$index}}">
                     @foreach($part->part_types_tree as $sparePartId => $sparePartValue)
@@ -43,7 +43,8 @@
                            value="{{$update_item->sparePart ? $update_item->spare_part_id : null}}">
                 @else
                     <span>{{$item->sparePart ? $item->sparePart->type : '---'}}</span>
-                    <input type="hidden" name="items[{{$index}}][spare_part_id]" value="{{$item->sparePart ? $item->spare_part_id : null}}">
+                    <input type="hidden" name="items[{{$index}}][spare_part_id]"
+                           value="{{$item->sparePart ? $item->spare_part_id : null}}">
                 @endif
             </div>
         </td>
@@ -65,7 +66,7 @@
     </td>
 
     <td>
-    <div class="input-group" style="width: 90px !important;">
+        <div class="input-group" style="width: 90px !important;">
 
             <select style="width: 150px !important;" class="form-control js-example-basic-single"
                     name="items[{{$index}}][part_price_id]"
@@ -80,6 +81,8 @@
                         data-purchase-price="{{$price->purchase_price}}"
                         data-big-percent-discount="{{$price->biggest_percent_discount}}"
                         data-big-amount-discount="{{$price->biggest_amount_discount}}"
+                        data-barcode="{{$price->barcode}}"
+                        data-supplier-barcode="{{$price->supplier_barcode}}"
                         value="{{$price->id}}">
                         {{optional($price->unit)->unit}}
                     </option>
@@ -293,6 +296,40 @@
 
             </select>
         </div>
+    </td>
+
+    <td>
+        <span id="barcode_{{$index}}">
+
+            @if(isset($update_item) && $update_item->partPrice)
+
+                {{$update_item->partPrice->barcode}}
+
+            @elseif (isset($item) && $item->partPrice)
+
+               {{ $item->partPrice->barcode}}
+            @else
+
+                {{$part->default_barcode}}
+            @endif
+        </span>
+    </td>
+
+    <td>
+        <span id="supplier_barcode_{{$index}}">
+
+             @if(isset($update_item) && $update_item->partPrice)
+
+                {{$update_item->partPrice->supplier_barcode}}
+
+            @elseif (isset($item) && $item->partPrice)
+
+                {{ $item->partPrice->supplier_barcode}}
+            @else
+
+                {{$part->default_supplier_barcode}}
+            @endif
+        </span>
     </td>
 
     <td>

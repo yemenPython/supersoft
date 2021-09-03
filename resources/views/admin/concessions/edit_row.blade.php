@@ -46,6 +46,18 @@
     </td>
 
     <td>
+        <span id="barcode">
+            {{ isset($item) && $item->partPrice ? $item->partPrice->barcode : '---'}}
+        </span>
+    </td>
+
+    <td>
+        <span id="supplier_barcode">
+             {{ isset($item) && $item->partPrice ? $item->partPrice->supplier_barcode : '---' }}
+        </span>
+    </td>
+
+    <td>
         <button type="button" class="btn btn-primary" data-toggle="modal" onclick="showPartQuantity({{$item->part_id}})"
                 data-target="#part_store_quantity">
                 <i class="fa fa-cubes"></i>

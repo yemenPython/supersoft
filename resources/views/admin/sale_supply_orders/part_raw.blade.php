@@ -60,6 +60,8 @@
                             data-sale-price="{{$price->selling_price}}"
                             data-big-percent-discount="{{$price->biggest_percent_discount}}"
                             data-big-amount-discount="{{$price->biggest_amount_discount}}"
+                            data-barcode="{{$price->barcode}}"
+                            data-supplier-barcode="{{$price->supplier_barcode}}"
                             value="{{$price->id}}">
                         {{optional($price->unit)->unit}}
                     </option>
@@ -250,6 +252,39 @@
                value="{{isset($update_item) ? $update_item->total : 0}}" min="0"
                name="items[{{$index}}][total]" disabled>
         {{input_error($errors, 'items['.$index.'][total]')}}
+    </td>
+
+    <td>
+        <span id="barcode_{{$index}}">
+
+            @if(isset($update_item) && $update_item->partPrice)
+                {{$update_item->partPrice->barcode }}
+
+            @elseif(isset($item) && $item->partPrice)
+                {{$item->partPrice->barcode}}
+
+            @else
+                {{$part->default_barcode}}
+
+            @endif
+        </span>
+    </td>
+
+    <td>
+        <span id="supplier_barcode_{{$index}}">
+
+            @if(isset($update_item) && $update_item->partPrice)
+                {{$update_item->partPrice->supplier_barcode }}
+
+            @elseif(isset($item) && $item->partPrice)
+                {{$item->partPrice->supplier_barcode}}
+
+            @else
+                {{$part->default_supplier_barcode}}
+
+            @endif
+
+        </span>
     </td>
 
     <td>

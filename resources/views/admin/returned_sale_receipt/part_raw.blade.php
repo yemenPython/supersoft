@@ -7,8 +7,9 @@
     </td>
 
     <td>
-        <span style="display:block; cursor: pointer;width: 150px !important;" data-img="{{$part->image}}" data-toggle="modal" data-target="#part_img" title="Part image"
-              onclick="getPartImage('{{$index}}')" id="part_img_id_{{$index}}" >
+        <span style="display:block; cursor: pointer;width: 150px !important;" data-img="{{$part->image}}"
+              data-toggle="modal" data-target="#part_img" title="Part image"
+              onclick="getPartImage('{{$index}}')" id="part_img_id_{{$index}}">
 
             {{$part->name}}
         </span>
@@ -17,13 +18,13 @@
     <td>
 
         <div class="input-group" style="width: 120px !important;">
-        @if(isset($item))
-            <span>{{$item->sparePart ? $item->sparePart->type : __('Not determined')}}</span>
-        @elseif(isset($update_item))
-            <span>{{$update_item->sparePart ? $update_item->sparePart->type :  __('Not determined')}}</span>
-        @else
-            <span> __('Not determined')}}</span>
-        @endif
+            @if(isset($item))
+                <span>{{$item->sparePart ? $item->sparePart->type : __('Not determined')}}</span>
+            @elseif(isset($update_item))
+                <span>{{$update_item->sparePart ? $update_item->sparePart->type :  __('Not determined')}}</span>
+            @else
+                <span> __('Not determined')}}</span>
+            @endif
         </div>
     </td>
 
@@ -55,10 +56,12 @@
     <td>
         <div class="input-group" style="width: 120px !important;">
             @if(isset($update_item))
-            <span style="background:#F7F8CC !important">{{isset($update_item) ? $update_item->price : __('Not determined')}}</span>
+                <span
+                    style="background:#F7F8CC !important">{{isset($update_item) ? $update_item->price : __('Not determined')}}</span>
                 <input type="hidden" disabled id="price_{{$index}}" value="{{$update_item->price}}">
             @else
-            <span style="background:#F7F8CC !important">{{isset($item) ? $item->price : __('Not determined')}}</span>
+                <span
+                    style="background:#F7F8CC !important">{{isset($item) ? $item->price : __('Not determined')}}</span>
                 <input type="hidden" disabled id="price_{{$index}}" value="{{$item->price}}">
             @endif
         </div>
@@ -105,7 +108,8 @@
     </td>
 
     <td>
-        <span id="defect_percent_{{$index}}">{{isset($update_item) ? ' % ' . $update_item->calculate_defected_percent : '0 %'}}</span>
+        <span
+            id="defect_percent_{{$index}}">{{isset($update_item) ? ' % ' . $update_item->calculate_defected_percent : '0 %'}}</span>
     </td>
 
     <td>
@@ -124,6 +128,26 @@
             </select>
         </div>
     </td>
+
+    <td>
+        @if(isset($update_item) && $update_item->partPrice )
+            {{$update_item->partPrice->barcode }}
+
+        @elseif (isset($item) && $item->partPrice)
+            {{$item->partPrice->barcode }}
+        @endif
+    </td>
+
+    <td>
+
+        @if(isset($update_item) && $update_item->partPrice )
+            {{$update_item->partPrice->supplier_barcode }}
+
+        @elseif (isset($item) && $item->partPrice)
+            {{$item->partPrice->supplier_barcode }}
+        @endif
+    </td>
+
 </tr>
 
 

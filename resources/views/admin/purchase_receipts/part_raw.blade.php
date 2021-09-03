@@ -53,7 +53,7 @@
     </td>
 
     <td>
-   
+
         <div class="input-group" style="width: 120px !important;">
             @if(isset($update_item))
             <span style="background:#F7F8CC !important">
@@ -130,6 +130,31 @@
             </select>
         </div>
     </td>
+
+    <td>
+        <span id="barcode_{{$index}}">
+            @if(isset($update_item) && $update_item->partPrice)
+                {{ $update_item->partPrice->barcode }}
+            @endif
+
+            @if(isset($item) && $item->partPrice)
+                {{  $item->partPrice->barcode  }}
+            @endif
+        </span>
+    </td>
+
+    <td>
+        <span id="supplier_barcode_{{$index}}">
+             @if(isset($update_item) && $update_item->partPrice)
+                {{ $update_item->partPrice->supplier_barcode }}
+            @endif
+
+            @if(isset($item) && $item->partPrice)
+                {{  $item->partPrice->supplier_barcode  }}
+            @endif
+        </span>
+    </td>
+
 </tr>
 
 

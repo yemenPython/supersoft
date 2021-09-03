@@ -110,6 +110,8 @@
                                     <th width="13%"> {{ __('opening-balance.buy-price') }} </th>
                                     <th width="13%"> {{ __('opening-balance.total') }} </th>
                                     <th width="13%"> {{ __('opening-balance.store') }} </th>
+                                    <th width="25%"> {{ __('Barcode') }} </th>
+                                    <th width="25%"> {{ __('Supplier Barcode') }} </th>
                                 </tr>
                                 </thead>
                                 <tbody id="opening-balance-items">
@@ -170,10 +172,23 @@
                                         </td>
 
                                         <td>
-                                    <span class="label wg-label" style="background:#60B28E !important">
-                                       {{ $item->store->name }}
-                                    </span>
+                                            <span class="label wg-label" style="background:#60B28E !important">
+                                               {{ $item->store->name }}
+                                            </span>
                                         </td>
+
+                                        <td>
+                                            <span id="barcode_{{$index}}">
+                                                {{ $item->part_price ? $item->part_price->barcode : '---' }}
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            <span id="supplier_barcode_{{$index}}">
+                                                 {{ $item->part_price ? $item->part_price->supplier_barcode : '---' }}
+                                            </span>
+                                        </td>
+
                                     </tr>
 
                                 @endforeach
@@ -191,6 +206,8 @@
                                     <th width="13%"> {{ __('opening-balance.buy-price') }} </th>
                                     <th width="13%"> {{ __('opening-balance.total') }} </th>
                                     <th width="13%"> {{ __('opening-balance.store') }} </th>
+                                    <th width="25%"> {{ __('Barcode') }} </th>
+                                    <th width="25%"> {{ __('Supplier Barcode') }} </th>
                                 </tr>
                                 </tfoot>
                             </table>

@@ -19,6 +19,8 @@
             <th width="8%"> {{ __('Total After Discount') }} </th>
             <th width="8%"> {{ __('Taxes') }} </th>
             <th width="8%"> {{ __('Total') }} </th>
+            <th width="5%"> {{ __('Barcode') }} </th>
+            <th width="5%"> {{ __('Supplier Barcode') }} </th>
             <th width="8%">
                 {{ __('Check') }}
                 <input type="checkbox" onclick="selectAllItems()" class="select_all" checked>
@@ -29,14 +31,14 @@
         </thead>
         <tbody id="parts_data">
 
-        @if(isset($purchaseReturn))
+        @if(isset($salesInvoiceReturn))
 
-            @foreach ($purchaseReturn->items as $index => $item)
+            @foreach ($salesInvoiceReturn->items as $index => $item)
                 @php
                     $index +=1;
                     $part = $item->part;
                 @endphp
-                @include('admin.purchase_returns.items.purchase_return_edit')
+                @include('admin.sales_invoice_return.part_raw')
             @endforeach
         @endif
 
@@ -59,12 +61,14 @@
             <th width="8%"> {{ __('Total After Discount') }} </th>
             <th width="8%"> {{ __('Taxes') }} </th>
             <th width="8%"> {{ __('Total') }} </th>
+            <th width="5%"> {{ __('Barcode') }} </th>
+            <th width="5%"> {{ __('Supplier Barcode') }} </th>
             <th width="8%"> {{ __('Check') }} </th>
             <th width="5%"> {{ __('Action') }} </th>
         </tr>
         </tfoot>
 
-        <input type="hidden" name="index" id="items_count" value="{{isset($purchaseReturn) ? $purchaseReturn->items->count() : 0}}">
+        <input type="hidden" name="index" id="items_count" value="{{isset($salesInvoiceReturn) ? $salesInvoiceReturn->items->count() : 0}}">
     </table>
 </div>
 </div>

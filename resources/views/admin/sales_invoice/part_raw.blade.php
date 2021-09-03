@@ -58,6 +58,8 @@
                         data-purchase-price="{{$price->selling_price}}"
                         data-big-percent-discount="{{$price->biggest_percent_discount}}"
                         data-big-amount-discount="{{$price->biggest_amount_discount}}"
+                        data-barcode="{{$price->barcode}}"
+                        data-supplier-barcode="{{$price->supplier_barcode}}"
                         value="{{$price->id}}">
                         {{optional($price->unit)->unit}}
                     </option>
@@ -246,6 +248,18 @@
 
             </select>
         </div>
+    </td>
+
+    <td>
+        <span id="barcode_{{$index}}">
+            {{ isset($item) && $item->partPrice ? $item->partPrice->barcode : $part->default_barcode }}
+        </span>
+    </td>
+
+    <td>
+        <span id="supplier_barcode_{{$index}}">
+             {{ isset($item) && $item->partPrice ? $item->partPrice->supplier_barcode : $part->default_supplier_barcode }}
+        </span>
     </td>
 
     <td>

@@ -7,8 +7,8 @@
 
     <td style="width: 150px !important;">
 
-        <span style="width: 150px !important;display:block; cursor: pointer" data-img="{{$part->image}}" data-toggle="modal" data-target="#part_img" title="Part image" onclick="getPartImage('{{$index}}')"
-              id="part_img_id_{{$index}}" >
+        <span style="width: 150px !important;display:block; cursor: pointer" data-img="{{$part->image}}" data-toggle="modal" data-target="#part_img" title="Part image"
+              onclick="getPartImage('{{$index}}')" id="part_img_id_{{$index}}" >
 
             {{$part->name}}
         </span>
@@ -52,6 +52,9 @@
                     <option style="width: 150px !important;" value="{{$price->id}}"
                             data-purchase-price="{{$price->purchase_price}}"
                             data-quantity="{{$price->quantity}}"
+                            data-barcode="{{$price->barcode}}"
+                            data-supplier-barcode="{{$price->supplier_barcode}}"
+
                         {{isset($item) && $item->part_price_id == $price->id ? 'selected':''}}>
                         {{optional($price->unit)->unit}}
                     </option>
@@ -127,10 +130,21 @@
     </td>
 
     <td>
-
         <input style="width: 150px;" type="text" id="total_{{$index}}" disabled class="form-control border3"
                value="{{isset($item) ? ($item->buy_price * $item->quantity) : 0}}"
                name="items[{{$index}}][total]">
+    </td>
+
+    <td>
+        <span id="barcode_{{$index}}">
+            {{ isset($item) && $item->part_price ? $item->part_price->barcode : $part->default_barcode }}
+        </span>
+    </td>
+
+    <td>
+        <span id="supplier_barcode_{{$index}}">
+             {{ isset($item) && $item->part_price ? $item->part_price->supplier_barcode : $part->default_supplier_barcode }}
+        </span>
     </td>
 
     <td>

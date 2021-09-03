@@ -141,6 +141,8 @@
                 <th width="16%"> {{ __('Name') }} </th>
                 <th width="12%"> {{ __('Unit') }} </th>
                 <th width="5%"> {{ __('Quantity') }} </th>
+                <th width="5%"> {{ __('Barcode') }} </th>
+                <th width="5%"> {{ __('Supplier Barcode') }} </th>
                 <th width="5%"> {{ __('Approval Quantity') }} </th>
                 <th width="5%"> {{ __('Actions') }} </th>
             </tr>
@@ -178,6 +180,18 @@
                         </td>
 
                         <td>
+                            <span id="barcode_{{$index}}">
+                                {{$item->partPrice ? $item->partPrice->barcode : '---' }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <span id="supplier_barcode_{{$index}}">
+                                 {{ $item->partPrice ? $item->partPrice->supplier_barcode : '---' }}
+                            </span>
+                        </td>
+
+                        <td>
                             <a data-toggle="modal" data-target="#part_types_{{$index}}" title="Part Types"
                                class="btn btn-info">
                                 <i class="fa fa-cubes"></i>
@@ -193,6 +207,8 @@
                 <th width="16%"> {{ __('Name') }} </th>
                 <th width="12%"> {{ __('Unit') }} </th>
                 <th width="5%"> {{ __('Quantity') }} </th>
+                <th width="5%"> {{ __('Barcode') }} </th>
+                <th width="5%"> {{ __('Supplier Barcode') }} </th>
                 <th width="5%"> {{ __('Approval Quantity') }} </th>
                 <th width="5%"> {{ __('Actions') }} </th>
             </tr>

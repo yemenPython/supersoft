@@ -90,6 +90,8 @@
             <th> {{ __('Price') }} </th>
             <th> {{ __('Total') }} </th>
             <th width="5%"> {{ __('Store') }} </th>
+            <th width="25%"> {{ __('Barcode') }} </th>
+            <th width="25%"> {{ __('Supplier Barcode') }} </th>
         </tr>
         </thead>
         <tbody id="parts_data">
@@ -167,6 +169,19 @@
                         {{optional($item->store)->name}}
                         </span>
                     </td>
+
+                    <td>
+                        <span id="barcode_{{$index}}">
+                            {{ $item->partPrice ? $item->partPrice->barcode : '---' }}
+                        </span>
+                    </td>
+
+                    <td>
+                        <span id="supplier_barcode_{{$index}}">
+                             {{$item->partPrice ? $item->partPrice->supplier_barcode : '---'}}
+                        </span>
+                    </td>
+
                 </tr>
             @endforeach
         @endif
@@ -183,6 +198,8 @@
             <th> {{ __('Price') }} </th>
             <th> {{ __('Total') }} </th>
             <th width="5%"> {{ __('Store') }} </th>
+            <th width="25%"> {{ __('Barcode') }} </th>
+            <th width="25%"> {{ __('Supplier Barcode') }} </th>
         </tr>
         </tfoot>
     </table>

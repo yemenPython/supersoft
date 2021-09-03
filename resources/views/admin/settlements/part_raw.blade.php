@@ -55,6 +55,8 @@
                     <option value="{{$price->id}}"
                             data-damaged-price="{{$price->purchase_price}}"
                             data-quantity="{{$price->quantity}}"
+                            data-barcode="{{$price->barcode}}"
+                            data-supplier-barcode="{{$price->supplier_barcode}}"
                         {{isset($item) && $item->part_price_id == $price->id ? 'selected':''}}>
                         {{optional($price->unit)->unit}}
                     </option>
@@ -137,6 +139,18 @@
         <input style="width: 150px !important;" type="text" id="total_{{$index}}" disabled class="form-control border3"
                value="{{isset($item) ? ($item->price * $item->quantity) : 0}}"
                name="items[{{$index}}][total]">
+    </td>
+
+    <td>
+        <span id="barcode_{{$index}}">
+            {{ isset($item) && $item->partPrice ? $item->partPrice->barcode : $part->default_barcode }}
+        </span>
+    </td>
+
+    <td>
+        <span id="supplier_barcode_{{$index}}">
+             {{ isset($item) && $item->partPrice ? $item->partPrice->supplier_barcode : $part->default_supplier_barcode }}
+        </span>
     </td>
 
     <td>

@@ -56,6 +56,8 @@
                             data-purchase-price="{{$price->selling_price}}"
                             data-big-percent-discount="{{$price->biggest_percent_discount}}"
                             data-big-amount-discount="{{$price->biggest_amount_discount}}"
+                            data-barcode="{{$price->barcode}}"
+                            data-supplier-barcode="{{$price->supplier_barcode}}"
                         {{isset($item) && $item->part_price_id == $price->id ? 'selected':''}}
                     >
                         {{optional($price->unit)->unit}}
@@ -234,6 +236,18 @@
         <input style="width: 150px !important;" type="number" class="form-control border3" id="total_{{$index}}"
                value="{{isset($item) ? $item->total : 0}}" min="0"
                name="items[{{$index}}][total]" disabled>
+    </td>
+
+    <td>
+        <span id="barcode_{{$index}}">
+            {{ isset($item) && $item->partPrice ? $item->partPrice->barcode : $part->default_barcode }}
+        </span>
+    </td>
+
+    <td>
+        <span id="supplier_barcode_{{$index}}">
+             {{ isset($item) && $item->partPrice ? $item->partPrice->supplier_barcode : $part->default_supplier_barcode }}
+        </span>
     </td>
 
     <td>
