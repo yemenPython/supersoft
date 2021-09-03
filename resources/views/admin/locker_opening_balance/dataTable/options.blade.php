@@ -39,6 +39,7 @@
             <li>
                 @component('admin.buttons._edit_button',['id' => $item->id, 'route'=>'admin:lockers_opening_balance.edit'])@endcomponent
             </li>
+            @if ($item->status !== \App\Enum\Status::Accepted)
             <li class="btn-style-drop">
                 @component('admin.buttons._delete_button',[
                 'id'=>$item->id,
@@ -47,12 +48,15 @@
                  ])
                 @endcomponent
             </li>
+                @endif
         </ul>
     </div>
 @endif
 
 @if (isset($withOptions))
+    @if ($item->status !== \App\Enum\Status::Accepted)
     @component('admin.buttons._delete_selected',['id' => $item->id, 'route' => 'admin:lockers_opening_balance.deleteSelected', ])
     @endcomponent
+    @endif
 @endif
 

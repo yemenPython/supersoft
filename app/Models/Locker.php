@@ -6,6 +6,7 @@ use App\Model\LockerUsers;
 use App\Scopes\BranchScope;
 use App\Traits\ColumnTranslation;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -100,5 +101,10 @@ class Locker extends Model
     function files()
     {
         return $this->hasMany(LockerLibrary::class, 'locker_id');
+    }
+
+    public function lockerOpeningBalanceItems(): HasMany
+    {
+        return $this->hasMany(LockerOpeningBalanceItem::class, 'locker_id');
     }
 }
