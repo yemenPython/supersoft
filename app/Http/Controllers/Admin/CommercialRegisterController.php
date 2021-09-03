@@ -78,6 +78,9 @@ class CommercialRegisterController extends Controller
             if (!authIsSuperAdmin()) {
                 $data['branch_id'] = auth()->user()->branch_id;
             }
+            if ($request->has('renewable')) {
+                $data['renewable'] = 1;
+            }
             CommercialRegister::create( $data );
         } catch (Exception $e) {
             return redirect()->back()
@@ -108,6 +111,11 @@ class CommercialRegisterController extends Controller
 
             if (!authIsSuperAdmin()) {
                 $data['branch_id'] = auth()->user()->branch_id;
+            }
+            if ($request->has('renewable')) {
+                $data['renewable'] = 1;
+            }else{
+                $data['renewable'] = 0;
             }
             $commercial_register->update( $data );
         } catch (Exception $e) {

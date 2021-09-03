@@ -34,6 +34,7 @@ class CommercialRegister extends Model
         'no_of_years',
         'start_at',
         'end_at',
+        'renewable'
     ];
 
     protected static $logAttributes = [

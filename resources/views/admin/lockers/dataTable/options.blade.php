@@ -27,8 +27,8 @@
             <li>
                 @component('admin.buttons._edit_button',['id' => $item->id, 'route'=>'admin:lockers.edit'])@endcomponent
             </li>
-            @if(!$item->revenueReceipts || !$item->expensesReceipts)
-                    <li>
+            @if($item->balance == 0 &&  $item->lockerOpeningBalanceItems()->count() == 0)
+                <li class="btn-style-drop">
                         @component('admin.buttons._delete_button',[
                         'id'=>$item->id,
                         'route' => 'admin:lockers.destroy',
@@ -45,7 +45,9 @@
 @endif
 
 @if (isset($withOptions))
+    @if($item->balance == 0 &&  $item->lockerOpeningBalanceItems()->count() == 0)
     @component('admin.buttons._delete_selected',['id' => $item->id, 'route' => 'admin:lockers.deleteSelected', ])
     @endcomponent
+        @endif
 @endif
 

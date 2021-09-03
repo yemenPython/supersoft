@@ -266,11 +266,9 @@ class LockerOpeningBalanceController extends Controller
     private function updateLocker(LockerOpeningBalanceItem $lockerOpeningBalanceItem, string $status, Currency $currency = null)
     {
         if ($status == Status::Accepted) {
-            $addedBalance = $currency && $currency->conversion_factor ?
-                $lockerOpeningBalanceItem->added_balance * $currency->conversion_factor : $lockerOpeningBalanceItem->added_balance;
             $locker = Locker::find($lockerOpeningBalanceItem->locker_id);
             $locker->update([
-               'balance' => $locker->balance + $addedBalance
+               'balance' => $locker->balance +  $lockerOpeningBalanceItem->added_balance
             ]);
         }
     }
