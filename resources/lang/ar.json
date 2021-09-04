@@ -2421,7 +2421,16 @@
     "Add Owners" : "إضافة مالك",
     "Add phones" : "إضافة هاتف",
     "Company Field" : "نشاط الشركة",
-    "Representative" : "اسم المسؤول"
+    "Representative" : "اسم المسؤول",
+    "Renewable" : "قابل للتجديد",
+    "Yes / No" : "نعم / لا",
+    "Commercial Registration No" : "رقم السجل التجاري",
+    "Stop And Activate Asset" : "توقف وإعادة تشغيل الأصول",
+    "Stop And Activate Assets" : "توقف وإعادة تشغيل الأصول",
+    "activate asset" : "إعادة تشغيل أصل",
+    "stop asset" : "توقف أصل",
+    "Create Stop And Activate Asset" : "إضافة عملية",
+    "Edit Stop And Activate Asset" : "تعديل البيانات"
 
 }
 

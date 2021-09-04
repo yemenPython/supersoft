@@ -17,7 +17,7 @@
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
                 <li class="breadcrumb-item active">
                     <a href="{{route('admin:stop_and_activate_assets.index')}}"> {{__('Stop And Activate Asset')}}</a></li>
-                <li class="breadcrumb-item active"> {{__('Create Stop And Activate Asset')}}</li>
+                <li class="breadcrumb-item active"> {{__('Edit Stop And Activate Asset')}}</li>
             </ol>
         </nav>
 

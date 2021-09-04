@@ -308,7 +308,7 @@
                                             <input type="checkbox" id="switch-1" name="renewable"{{!isset($last_created)?'checked':''}}
                                                 {{isset($last_created) && $last_created->renewable? 'checked':''}}
                                             >
-                                            <label for="switch-1">{{__('Yes')}}</label>
+                                            <label for="switch-1">{{__('Yes / No')}}</label>
                                         </div>
                                     </div>
                                 </div>
