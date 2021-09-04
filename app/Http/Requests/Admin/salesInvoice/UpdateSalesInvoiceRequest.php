@@ -50,7 +50,9 @@ class UpdateSalesInvoiceRequest extends FormRequest
 
             'additional_payments.*' => 'nullable|integer|exists:taxes_fees,id',
 
-            'sale_quotation_ids.*'=>'nullable|integer|exists:sale_quotations,id'
+            'sale_quotation_ids.*'=>'nullable|integer|exists:sale_quotations,id',
+
+            'salesable_id'=>'required|integer'
         ];
 
         $branch_id = auth()->user()->branch_id;
@@ -68,16 +70,16 @@ class UpdateSalesInvoiceRequest extends FormRequest
             $rules['salesable_id'] = 'required|integer|exists:customers,id';
         }
 
-        $rules['number'] =
-            [
-                'required','string', 'max:50',
-                Rule::unique('sales_invoices')->ignore($this->salesInvoice->id)->where(function ($query) use($branch_id) {
-                    return $query->where('number', request()->number)
-                        ->where('branch_id', $branch_id);
-//                        ->where('deleted_at', null)
-
-                }),
-            ];
+//        $rules['number'] =
+//            [
+//                'required','string', 'max:50',
+//                Rule::unique('sales_invoices')->ignore($this->salesInvoice->id)->where(function ($query) use($branch_id) {
+//                    return $query->where('number', request()->number)
+//                        ->where('branch_id', $branch_id);
+////                        ->where('deleted_at', null)
+//
+//                }),
+//            ];
 
         return $rules;
     }

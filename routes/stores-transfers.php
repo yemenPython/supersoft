@@ -1,6 +1,7 @@
 <?php
 //stores transfers
-Route::resource('stores-transfers', 'StoreTransferCont');
+Route::resource('stores-transfers', 'StoreTransferCont')->except('update');
+Route::post('stores-transfers/{id}/update', 'StoreTransferCont@update')->name('stores-transfers.update');
 
 Route::post('stores-transfers-deleteSelected', 'StoreTransferCont@deleteSelected')->name('stores-transfers.deleteSelected');
 Route::post('stores-transfers-get-store-parts' ,'StoreTransferCont@getStoreParts')->name('get-store-parts');
@@ -16,3 +17,6 @@ Route::get('stores_transfers/print/{id}' ,'StoreTransferCont@getViewToPrint')->n
 Route::post('stores-transfers/library/get-files', 'StoreTransferLibraryController@getFiles')->name('stores.transfers.library.get.files');
 Route::post('stores-transfers/upload_library', 'StoreTransferLibraryController@uploadLibrary')->name('stores.transfers.upload_library');
 Route::post('stores-transfers/library/file-delete', 'StoreTransferLibraryController@destroyFile')->name('stores.transfers.library.file.delete');
+
+//check stock
+Route::post('stores-transfers-check-stock', 'StoreTransferCont@checkStock')->name('stores.transfers.check.stock');

@@ -64,16 +64,16 @@ class CreateSalesInvoiceReturnRequest extends FormRequest
             $rules['items.*.item_id'] = 'required|integer|exists:returned_sale_receipt_items,id';
         }
 
-        $rules['number'] =
-            [
-                'required','string', 'max:50',
-                Rule::unique('sales_invoice_returns')->where(function ($query) use($branch_id) {
-                    return $query->where('number', request()->number)
-                        ->where('branch_id', $branch_id);
-//                        ->where('deleted_at', null)
-
-                }),
-            ];
+//        $rules['number'] =
+//            [
+//                'required','string', 'max:50',
+//                Rule::unique('sales_invoice_returns')->where(function ($query) use($branch_id) {
+//                    return $query->where('number', request()->number)
+//                        ->where('branch_id', $branch_id);
+////                        ->where('deleted_at', null)
+//
+//                }),
+//            ];
 
         return $rules;
     }

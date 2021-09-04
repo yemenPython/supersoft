@@ -411,6 +411,29 @@ class DamagedStockController extends Controller
         return response()->json(['view' => $view]);
     }
 
+    public function checkStock(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'items' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        try {
+
+            if ($this->damagedStockService->checkMaxQuantityOfItem($request['items'])) {
+                return response()->json(__('quantity not available'), 400);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json(['sorry, please try later'], 400);
+        }
+
+        return response()->json(['message' => __('quantity available')], 200);
+    }
+
     /**
      * @param Builder $damagedStocks
      * @return mixed

@@ -42,14 +42,27 @@
                 </h4>
 
                 <div class="box-content">
-                    <form method="post" action="{{route('admin:settlements.update', $settlement->id)}}" class="form" enctype="multipart/form-data">
+                    <form method="post" action="{{route('admin:settlements.update', $settlement->id)}}" id="settlement_form"
+                          class="form" enctype="multipart/form-data">
                         @csrf
-                        @method('PATCH')
 
                         @include('admin.settlements.form')
 
                         <div class="form-group col-sm-12">
-                            @include('admin.buttons._save_buttons')
+                            <button id="btnsave" type="button" class="btn hvr-rectangle-in saveAdd-wg-btn" onclick="checkStockQuantity()">
+                                <i class="ico ico-left fa fa-save"></i>
+                                {{__('Save')}}
+                            </button>
+
+                            <button id="reset"  type="button" class="btn hvr-rectangle-in resetAdd-wg-btn">
+                                <i class="ico ico-left fa fa-trash"></i>
+                                {{__('Reset')}}
+                            </button>
+
+                            <button id="back" type="button" class="btn hvr-rectangle-in closeAdd-wg-btn">
+                                <i class="ico ico-left fa fa-close"></i>
+                                {{__('Back')}}
+                            </button>
                         </div>
 
                     </form>
@@ -571,6 +584,29 @@
                             swal({text: errors, icon: "error"})
                         }
                     });
+                }
+            });
+        }
+
+        function checkStockQuantity () {
+
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+
+                type: 'post',
+
+                url: '{{route('admin:settlements.check.stock')}}',
+
+                data: $('#settlement_form').serialize() + '&_token=' + CSRF_TOKEN,
+
+                success: function (data) {
+                    $("#settlement_form").submit();
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
                 }
             });
         }

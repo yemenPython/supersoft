@@ -48,8 +48,8 @@
                         <label for="inputNameAr" class="control-label">{{__('Quotation Number')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-bars"></li></span>
-                            <input type="text" name="number" class="form-control" placeholder="{{__('Number')}}"
-                                   value="{{old('number', isset($saleQuotation)? $saleQuotation->number :'')}}">
+                            <input type="text" name="number" class="form-control" placeholder="{{__('Number')}}" disabled
+                                   value="{{old('number', isset($saleQuotation)? $saleQuotation->number : $number)}}">
                         </div>
                         {{input_error($errors,'number')}}
                     </div>

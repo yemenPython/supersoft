@@ -1,5 +1,8 @@
 <?php
-Route::resource('/concessions', 'ConcessionController')->except('show');
+Route::resource('/concessions', 'ConcessionController')->except('show', 'update');
+Route::post('/concessions-update', 'ConcessionController@update')->name('concessions.update');
+
+
 Route::get('/concessions/show', 'ConcessionController@show')->name('concessions.show');
 Route::post('/concessions/deleteSelected', 'ConcessionController@deleteSelected')->name('concessions.deleteSelected');
 
@@ -23,6 +26,6 @@ Route::post('/concessions-execution/save', 'ConcessionExecutionController@save')
 
 Route::get('/concessions/data/show/{concession}', 'ConcessionController@showData')->name('concessions.data.show');
 
-
 // part quantity
 Route::post('/concessions/part/stores/quantity', 'ConcessionController@partStoreQuantity')->name('concessions.part.stores.quantity');
+

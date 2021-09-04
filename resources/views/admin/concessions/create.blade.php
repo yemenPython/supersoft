@@ -40,16 +40,30 @@
 						</span>
                 </h4>
 
-
                 <div class="box-content">
-                    <form method="post" action="{{route('admin:concessions.store')}}" class="form" enctype="multipart/form-data">
+                    <form method="post" action="{{route('admin:concessions.store')}}" id="concession_form"
+                          class="form" enctype="multipart/form-data" >
                         @csrf
                         @method('post')
 
                         @include('admin.concessions.form')
 
                         <div class="form-group col-sm-12">
-                            @include('admin.buttons._save_buttons')
+
+                            <button id="btnsave" type="button" class="btn hvr-rectangle-in saveAdd-wg-btn" onclick="store()">
+                                <i class="ico ico-left fa fa-save"></i>
+                                {{__('Save')}}
+                            </button>
+
+                            <button id="reset"  type="button" class="btn hvr-rectangle-in resetAdd-wg-btn">
+                                <i class="ico ico-left fa fa-trash"></i>
+                                {{__('Reset')}}
+                            </button>
+
+                            <button id="back" type="button" class="btn hvr-rectangle-in closeAdd-wg-btn">
+                                <i class="ico ico-left fa fa-close"></i>
+                                {{__('Back')}}
+                            </button>
                         </div>
 
                     </form>
@@ -107,7 +121,7 @@
 
 @section('js-validation')
 
-    {!! JsValidator::formRequest('App\Http\Requests\Admin\Concession\CreateRequest', '.form'); !!}
+{{--    {!! JsValidator::formRequest('App\Http\Requests\Admin\Concession\CreateRequest', '.form'); !!}--}}
 
     @include('admin.partial.sweet_alert_messages')
 
@@ -316,6 +330,34 @@
                         text: '<i class="fa fa-list"></i> {{__('Columns visibility')}}',
                     },
                 ],
+            });
+        }
+
+        function store () {
+
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+
+                type: 'post',
+
+                url: '{{route('admin:concessions.store')}}',
+
+                data: $('#concession_form').serialize() + '&_token=' + CSRF_TOKEN,
+
+                success: function (data) {
+
+                    swal({text: data.message, icon: "success"});
+
+                    setTimeout(function(){
+                        window.location.href = data.link;
+                    }, 2000);
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
             });
         }
 

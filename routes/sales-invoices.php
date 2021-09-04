@@ -69,6 +69,9 @@ Route::post('sales-invoices/library/get-files', 'SalesInvoiceLibraryController@g
 Route::post('sales-invoices/upload_library', 'SalesInvoiceLibraryController@uploadLibrary')->name('sales.invoices.upload_library');
 Route::post('sales-invoices/library/file-delete', 'SalesInvoiceLibraryController@destroyFile')->name('sales.invoices.library.file.delete');
 
+//check stock
+Route::post('sales-invoices-check-stock', 'SalesInvoicesController@checkStock')->name('sales.invoices.check.stock');
+
 //purchase receipt
 //Route::post('/purchase-invoices/purchase-receipt', 'PurchaseInvoicesController@getPurchaseReceipts')->name('purchase.invoices.purchase-receipts');
 //Route::post('/purchase-invoices/add-purchase-receipts', 'PurchaseInvoicesController@addPurchaseReceipts')->name('purchase.invoices.add.purchase.receipts');

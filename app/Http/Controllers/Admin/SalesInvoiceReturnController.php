@@ -100,6 +100,12 @@ class SalesInvoiceReturnController extends Controller
             ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
             ->get();
 
+        $lastNumber = SalesInvoiceReturn::where('branch_id', $branch_id)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        $data['number'] = $lastNumber ? $lastNumber->number + 1 : 1;
+
         return view('admin.sales_invoice_return.create', compact('data'));
     }
 
@@ -123,6 +129,12 @@ class SalesInvoiceReturnController extends Controller
 
             $invoice_data['created_by'] = auth()->id();
             $invoice_data['branch_id'] = authIsSuperAdmin() ? $request['branch_id'] : auth()->user()->branch_id;
+
+            $lastNumber = SalesInvoiceReturn::where('branch_id', $invoice_data['branch_id'])
+                ->orderBy('id', 'desc')
+                ->first();
+
+            $invoice_data['number'] = $lastNumber ? $lastNumber->number + 1 : 1;
 
             $salesInvoiceReturn = SalesInvoiceReturn::create($invoice_data);
 

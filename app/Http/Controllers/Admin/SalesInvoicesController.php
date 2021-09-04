@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Part;
+use App\Models\PartPrice;
 use App\Models\PartPriceSegment;
 use App\Models\PointRule;
 use App\Models\SaleQuotation;
@@ -241,13 +242,17 @@ class SalesInvoicesController extends Controller
             ->select('id', 'name_' . $this->lang, 'customer_category_id')
             ->get();
 
+        $lastNumber = SalesInvoice::where('branch_id', $branch_id)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        $data['number'] = $lastNumber ? $lastNumber->number + 1 : 1;
+
         return view('admin.sales_invoice.create', compact('data'));
     }
 
     public function store(CreateSalesInvoiceRequest $request)
     {
-//        dd($request->all());
-
         if (!$request->has('items')) {
             return redirect()->back()->with(['message' => __('sorry,  items required'), 'alert-type' => 'error']);
         }
@@ -262,6 +267,12 @@ class SalesInvoicesController extends Controller
 
             $invoice_data['created_by'] = auth()->id();
             $invoice_data['branch_id'] = authIsSuperAdmin() ? $request['branch_id'] : auth()->user()->branch_id;
+
+            $lastNumber = SalesInvoice::where('branch_id', $invoice_data['branch_id'])
+                ->orderBy('id', 'desc')
+                ->first();
+
+            $invoice_data['number'] = $lastNumber ? $lastNumber->number + 1 : 1;
 
             $salesInvoice = SalesInvoice::create($invoice_data);
 
@@ -574,6 +585,29 @@ class SalesInvoicesController extends Controller
             ->get();
 
         return view('admin.sales_invoice.info.show', compact('salesInvoice', 'data'));
+    }
+
+    public function checkStock(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'items' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        try {
+
+            if ($this->salesInvoiceServices->checkMaxQuantityOfItem($request['items'])) {
+                return response()->json(__('quantity not available'), 400);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json(['sorry, please try later'], 400);
+        }
+
+        return response()->json(['message' => __('quantity available')], 200);
     }
 
     /**

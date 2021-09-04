@@ -337,4 +337,23 @@ class ConcessionService
 
         return false;
     }
+
+    public function createConcessionRules () {
+
+        $rules = [
+
+            'date'=>'required|date',
+            'time'=>'required',
+            'status'=>'required|string|in:pending,accepted,finished,rejected',
+            'concession_type_id'=> 'required|integer|exists:concession_types,id',
+            'item_id'=>'required|integer',
+            'description'=> 'nullable|string'
+        ];
+
+        if (authIsSuperAdmin()) {
+            $rules['branch_id'] = 'required|integer|exists:branches,id';
+        }
+
+        return $rules;
+    }
 }

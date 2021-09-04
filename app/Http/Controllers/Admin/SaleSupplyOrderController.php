@@ -108,6 +108,12 @@ class SaleSupplyOrderController extends Controller
             ->select('id', 'name_' . $this->lang, 'customer_category_id')
             ->get();
 
+        $lastNumber = SaleSupplyOrder::where('branch_id', $branch_id)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        $data['number'] = $lastNumber ? $lastNumber->number + 1 : 1;
+
         return view('admin.sale_supply_orders.create', compact('data'));
     }
 
@@ -127,6 +133,12 @@ class SaleSupplyOrderController extends Controller
 
             $supplyOrderData['user_id'] = auth()->id();
             $supplyOrderData['branch_id'] = authIsSuperAdmin() ? $data['branch_id'] : auth()->user()->branch_id;
+
+            $lastNumber = SaleSupplyOrder::where('branch_id', $supplyOrderData['branch_id'])
+                ->orderBy('id', 'desc')
+                ->first();
+
+            $supplyOrderData['number'] = $lastNumber ? $lastNumber->number + 1 : 1;
 
             $supplyOrder = SaleSupplyOrder::create($supplyOrderData);
 
