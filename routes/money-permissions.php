@@ -18,6 +18,7 @@ Route::group(['namespace' => 'MoneyPermissions'] ,function () {
         Route::get('/reject/{id}' ,'LockerExchangeController@reject')->name('locker-exchanges.reject');
 
         Route::get('/lockers-by-branch' ,'LockerExchangeController@load_branch_lockers')->name('locker-exchanges.lockers-by-branch');
+        Route::get('/getLockerExchangeTOReceive/{lockerExchangePermission}' ,'LockerExchangeController@getLockerExchangeTOReceive')->name('locker-exchanges.getLockerExchangeTOReceive');
     });
 
     Route::group(['prefix' => 'locker-receives'] ,function () {

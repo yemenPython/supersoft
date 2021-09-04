@@ -163,6 +163,10 @@ class LockerOpeningBalanceController extends Controller
     public function destroy(int $id): RedirectResponse
     {
         $item = LockerOpeningBalance::findOrFail($id);
+        if ($item->status == Status::Accepted) {
+            return redirect()->to('admin/lockers_opening_balance')
+                ->with(['message' => __('words.can_not_delete_this_operation_cause_it_has_been_accepted'), 'alert-type' => 'error']);
+        }
         $item->items()->delete();
         $item->delete();
         return redirect()->to('admin/lockers_opening_balance')
@@ -174,6 +178,10 @@ class LockerOpeningBalanceController extends Controller
         if (isset($request->ids)) {
             $items = LockerOpeningBalance::whereIn('id', $request->ids)->get();
             foreach ($items as $item) {
+                if ($item->status == Status::Accepted) {
+                    return redirect()->to('admin/lockers_opening_balance')
+                        ->with(['message' => __('words.can_not_delete_this_operation_cause_it_has_been_accepted'), 'alert-type' => 'error']);
+                }
                 $item->items()->delete();
                 $item->delete();
             }
