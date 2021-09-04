@@ -33,11 +33,11 @@
                 </div>
             </div>
         @endif
-        
+
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control">
-                    <i class="fa fa-money"></i>   {{__('Lockers Transfer')}}
+                    <i class="fa fa-money"></i> {{__('Lockers Transfer')}}
                 </h4>
                 <div class="card-content js__card_content" style="">
                     <ul class="list-inline pull-left top-margin-wg">
@@ -63,25 +63,42 @@
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
-                        @php
-                            $view_path = 'admin.money-permissions.locker-exchange.options-datatable';
-                        @endphp
-                        @include($view_path . '.option-row')
                         <div class="clearfix"></div>
-                        <table id="currencies" class="table table-bordered" style="width:100%;margin-top:15px">
-                            @include($view_path . '.table-thead')
+                        <table id="datatable-with-btns" class="table table-bordered" style="width:100%;margin-top:15px">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">{!! __('words.permission-number') !!}</th>
+                                <th scope="col">{!! __('words.from') !!}</th>
+                                <th scope="col">{!! __('words.to') !!}</th>
+                                <th scope="col">{!! __('words.destination-type') !!}</th>
+                                <th scope="col">{!! __('words.money-receiver') !!}</th>
+                                <th scope="col">{!! __('the Amount') !!}</th>
+                                <th scope="col">{!! __('words.operation-date') !!}</th>
+                                <th scope="col">{!! __('words.permission-status') !!}</th>
+                                <th scope="col">{!! __('created at') !!}</th>
+                                <th scope="col">{!! __('Updated at') !!}</th>
+                                <th scope="col">{!! __('Options') !!}</th>
+                                <th scope="col">
+                                    <div class="checkbox danger">
+                                        <input type="checkbox"  id="select-all">
+                                        <label for="select-all"></label>
+                                    </div>{!! __('Select') !!}</th>
+                            </tr>
+                            </thead>
                             <tfoot>
                             <tr>
-                                <th class="text-center column-permission-number" scope="col">{!! __('words.permission-number') !!}</th>
-                                <th class="text-center column-locker-from" scope="col">{!! __('words.from') !!}</th>
-                                <th class="text-center column-locker-to" scope="col">{!! __('words.to') !!}</th>
-                                <th class="text-center column-destination-type" scope="col">{!! __('words.destination-type') !!}</th>
-                                <th class="text-center column-money-receiver" scope="col">{!! __('words.money-receiver') !!}</th>
-                                <th class="text-center column-amount" scope="col">{!! __('the Amount') !!}</th>
-                                <th class="text-center column-operation-date" scope="col">{!! __('words.operation-date') !!}</th>
-                                <th class="text-center column-status" scope="col">{!! __('words.permission-status') !!}</th>
-                                <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
-                                <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
+                                <th scope="col">#</th>
+                                <th scope="col">{!! __('words.permission-number') !!}</th>
+                                <th scope="col">{!! __('words.from') !!}</th>
+                                <th scope="col">{!! __('words.to') !!}</th>
+                                <th scope="col">{!! __('words.destination-type') !!}</th>
+                                <th scope="col">{!! __('words.money-receiver') !!}</th>
+                                <th scope="col">{!! __('the Amount') !!}</th>
+                                <th scope="col">{!! __('words.operation-date') !!}</th>
+                                <th scope="col">{!! __('words.permission-status') !!}</th>
+                                <th scope="col">{!! __('created at') !!}</th>
+                                <th scope="col">{!! __('Updated at') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">{!! __('Select') !!}</th>
                             </tr>
@@ -127,7 +144,7 @@
                                             @endcomponent
                                         @endif
                                         <a class="btn btn-info"
-                                            onclick="load_money_permission_model('{{ route('admin:locker-exchanges.show' ,['id' => $exchange->id]) }}')">
+                                           onclick="load_money_permission_model('{{ route('admin:locker-exchanges.show' ,['id' => $exchange->id]) }}')">
                                             <i class="fa fa-eye"></i> {{ __('Show') }}
                                         </a>
                                     </td>
@@ -144,7 +161,6 @@
                             @endforeach
                             </tbody>
                         </table>
-                        {{ $exchanges->links() }}
                     </div>
                 </div>
             </div>
@@ -154,7 +170,38 @@
 
 @section('accounting-module-modal-area')
     @include('admin.money-permissions.print-modal')
-    @include($view_path . '.column-visible')
+    <div class="modal fade wg-content" id="addNewLockerReceive" role="dialog">
+        <div class="modal-dialog" style="width:800px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-center"> {{ __('Create Locker receive') }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="box-loader">
+                        <p>{{__('Loading')}}</p>
+                        <div class="loader-31"></div>
+                    </div>
+                    <div id="responseData">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" form="formCreateNewLockerReciver" class="btn hvr-rectangle-in saveAdd-wg-btn">
+                            <i class="ico ico-left fa fa-save"></i>
+                            {{__('Save')}}
+                        </button>
+                        <button  type="button" class="btn hvr-rectangle-in closeAdd-wg-btn" data-dismiss="modal">
+                            <i class="ico ico-left fa fa-close"></i>
+                            {{__('Close')}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('js')
@@ -173,17 +220,48 @@
                 },
                 error: function (err) {
                     console.log(err)
-                    // alert(err.responseJSON.message)
                 }
             })
         }
 
         function printExchange(id) {
-            var element_id = 'printThis' + id ,page_title = document.title
-            print_element(element_id ,page_title)
+            var element_id = 'printThis' + id, page_title = document.title
+            print_element(element_id, page_title)
             return true
         }
-    </script>
-    <script type="application/javascript" src="{{ asset('accounting-module/options-for-dt.js') }}"></script>
 
+        server_side_datatable('#datatable-with-btns');
+
+        function filterFunction($this) {
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout(function () {
+                $("#loaderSearch").hide();
+            }, 1000)
+        }
+
+        function loadDataWithModal(route) {
+            event.preventDefault();
+            $.ajax({
+                url: route,
+                type: 'get',
+                success: function (response) {
+                    $('#addNewLockerReceive').modal('show');
+                    setTimeout( () => {
+                        $('.box-loader').hide();
+                        $('#responseData').html(response.data);
+                        $('#empModalTOFire').select2();
+                        $('#cost_center_id_modal').select2();
+                    },3000)
+                }
+            });
+        }
+
+        $('#addNewLockerReceive').on('hidden.bs.modal', function () {
+            $('.box-loader').show();
+            $('#responseData').html('');
+        })
+    </script>
 @endsection

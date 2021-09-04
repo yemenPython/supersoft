@@ -12,7 +12,7 @@
     @if ($item->status)
         <span class="label label-success wg-label"> {{__('Active')}} </span>
     @else
-    <span class="label label-danger wg-label">  {{__('Inactive')}} </span>
+        <span class="label label-danger wg-label">  {{__('Inactive')}} </span>
     @endif
 @endif
 
@@ -27,16 +27,14 @@
             <li>
                 @component('admin.buttons._edit_button',['id' => $item->id, 'route'=>'admin:lockers.edit'])@endcomponent
             </li>
-            @if($item->balance == 0 &&  $item->lockerOpeningBalanceItems()->count() == 0)
-                <li class="btn-style-drop">
-                        @component('admin.buttons._delete_button',[
-                        'id'=>$item->id,
-                        'route' => 'admin:lockers.destroy',
-                        'tooltip' => __('Delete '.$item->name),
-                         ])
-                        @endcomponent
-                    </li>
-            @endif
+            <li class="btn-style-drop">
+                @component('admin.buttons._delete_button',[
+                'id'=>$item->id,
+                'route' => 'admin:lockers.destroy',
+                'tooltip' => __('Delete '.$item->name),
+                 ])
+                @endcomponent
+            </li>
             <li>
                 @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])
             </li>
@@ -45,9 +43,7 @@
 @endif
 
 @if (isset($withOptions))
-    @if($item->balance == 0 &&  $item->lockerOpeningBalanceItems()->count() == 0)
     @component('admin.buttons._delete_selected',['id' => $item->id, 'route' => 'admin:lockers.deleteSelected', ])
     @endcomponent
-        @endif
 @endif
 
