@@ -58,7 +58,7 @@
         </span>
         </td>
 
-        <td>
+        <td>{{dd($item)}}
         <span class="label wg-label" style="background: rgb(113, 101, 218) !important;">
 
             @if($modelName == 'StoreTransfer' && $concessionType->type == 'withdrawal')

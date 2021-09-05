@@ -1,7 +1,7 @@
 <div class="col-md-4">
     <div class="form-group">
         <label> {{ __('accounting-module.cost-center') }} </label>
-        <select name="cost_center_id" class="form-control select2">
+        <select name="cost_center_id" class="form-control select2" id="cost_center_id_modal">
             {!!
                 \App\AccountingModule\Controllers\CostCenterCont::build_centers_options(
                     isset($selected_id) ? $selected_id : NULL ,
