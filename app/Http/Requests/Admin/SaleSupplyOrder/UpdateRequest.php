@@ -48,6 +48,7 @@ class UpdateRequest extends FormRequest
             'items.*.spare_part_id' => 'required|integer|exists:spare_parts,id',
 
             'taxes.*' => 'nullable|integer|exists:taxes_fees,id',
+            'salesable_id' => 'required|integer'
         ];
 
         $branch_id = auth()->user()->branch_id;
@@ -57,17 +58,16 @@ class UpdateRequest extends FormRequest
             $branch_id = request()['branch_id'];
         }
 
-        $rules['number'] =
-            [
-                'required','string', 'max:50',
-                Rule::unique('sale_supply_orders')->ignore($this->sale_supply_order->id)->where(function ($query) use($branch_id) {
-                    return $query->where('number', request()->number)
-                        ->where('branch_id', $branch_id)
-//                        ->where('deleted_at', null)
-                        ;
-                }),
-            ];
-
+//        $rules['number'] =
+//            [
+//                'required','string', 'max:50',
+//                Rule::unique('sale_supply_orders')->ignore($this->sale_supply_order->id)->where(function ($query) use($branch_id) {
+//                    return $query->where('number', request()->number)
+//                        ->where('branch_id', $branch_id)
+////                        ->where('deleted_at', null)
+//                        ;
+//                }),
+//            ];
 
         if (request()->type_for == 'supplier') {
             $rules['salesable_id'] = 'required|integer|exists:suppliers,id';

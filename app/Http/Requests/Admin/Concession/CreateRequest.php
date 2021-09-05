@@ -34,7 +34,6 @@ class CreateRequest extends FormRequest
         ];
 
         if (authIsSuperAdmin()) {
-
             $rules['branch_id'] = 'required|integer|exists:branches,id';
         }
 

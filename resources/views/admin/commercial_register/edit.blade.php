@@ -267,7 +267,7 @@
                                             <input type="checkbox" id="switch-1" name="renewable"{{!isset($commercial_register)?'checked':''}}
                                                 {{isset($commercial_register) && $commercial_register->renewable? 'checked':''}}
                                             >
-                                            <label for="switch-1">{{__('Yes')}}</label>
+                                            <label for="switch-1">{{__('Yes / No')}}</label>
                                         </div>
                                     </div>
                                 </div>

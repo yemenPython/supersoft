@@ -33,7 +33,7 @@
                 </div>
             </div>
         @endif
-        
+
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control">
@@ -56,86 +56,45 @@
                     </ul>
                     <div class="clearfix"></div>
                     <div class="table-responsive">
-                        @php
-                            $view_path = 'admin.money-permissions.locker-receive.options-datatable';
-                        @endphp
-                        @include($view_path . '.option-row')
                         <div class="clearfix"></div>
-                        <table id="currencies" class="table table-bordered" style="width:100%;margin-top:15px">
-                            @include($view_path . '.table-thead')
+                        <table id="datatable-with-btns" class="table table-bordered" style="width:100%;margin-top:15px">
+                            <thead>
+                            <tr>
+                                <th class="text-center" scope="col">#</th>
+                                <th class="text-center" scope="col">{!! __('words.permission-number') !!}</th>
+                                <th class="text-center " scope="col">{!! __('words.exchange-number') !!}</th>
+                                <th class="text-center " scope="col">{!! __('words.source-type') !!}</th>
+                                <th class="text-center " scope="col">{!! __('words.money-receiver') !!}</th>
+                                <th class="text-center " scope="col">{!! __('the Amount') !!}</th>
+                                <th class="text-center " scope="col">{!! __('words.operation-date') !!}</th>
+                                <th class="text-center " scope="col">{!! __('words.permission-status') !!}</th>
+                                <th class="text-center " scope="col">{!! __('created at') !!}</th>
+                                <th class="text-center " scope="col">{!! __('Updated at') !!}</th>
+                                <th scope="col">{!! __('Options') !!}</th>
+                                <th scope="col">
+                                    <div class="checkbox danger">
+                                        <input type="checkbox"  id="select-all">
+                                        <label for="select-all"></label>
+                                    </div>{!! __('Select') !!}</th>
+                            </tr>
+                            </thead>
                             <tfoot>
                             <tr>
-                                <th class="text-center column-permission-number" scope="col">{!! __('words.permission-number') !!}</th>
-                                <th class="text-center column-exchange-number" scope="col">{!! __('words.exchange-number') !!}</th>
-                                <th class="text-center column-source-type" scope="col">{!! __('words.source-type') !!}</th>
-                                <th class="text-center column-money-receiver" scope="col">{!! __('words.money-receiver') !!}</th>
-                                <th class="text-center column-amount" scope="col">{!! __('the Amount') !!}</th>
-                                <th class="text-center column-operation-date" scope="col">{!! __('words.operation-date') !!}</th>
-                                <th class="text-center column-status" scope="col">{!! __('words.permission-status') !!}</th>
-                                <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
-                                <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
+                                <th class="text-center" scope="col">#</th>
+                                <th class="text-center" scope="col">{!! __('words.permission-number') !!}</th>
+                                <th class="text-center" scope="col">{!! __('words.exchange-number') !!}</th>
+                                <th class="text-center" scope="col">{!! __('words.source-type') !!}</th>
+                                <th class="text-center" scope="col">{!! __('words.money-receiver') !!}</th>
+                                <th class="text-center" scope="col">{!! __('the Amount') !!}</th>
+                                <th class="text-center" scope="col">{!! __('words.operation-date') !!}</th>
+                                <th class="text-center" scope="col">{!! __('words.permission-status') !!}</th>
+                                <th class="text-center" scope="col">{!! __('created at') !!}</th>
+                                <th class="text-center" scope="col">{!! __('Updated at') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">{!! __('Select') !!}</th>
                             </tr>
                             </tfoot>
-                            <tbody>
-                            @foreach($receives as $exchange)
-                                <tr>
-                                    <td class="text-center column-permission-number">{!! $exchange->permission_number !!}</td>
-                                    <td class="text-center column-exchange-number">
-                                        @if($exchange->source_type == 'locker')
-                                            {!! optional($exchange->exchange_permission)->permission_number !!}
-                                        @else
-                                            {!! optional($exchange->bank_exchange_permission)->permission_number !!}
-                                        @endif
-                                    </td>
-                                    <td class="text-center column-source-type"> {{ __('words.'.$exchange->source_type) }} </td>
-                                    <td class="text-center column-money-receiver">{!! optional($exchange->employee)->name !!}</td>
-                                    <td class="text-danger text-center column-amount">{!! $exchange->amount !!}</td>
-                                    <td class="text-center column-operation-date">{!! $exchange->operation_date !!}</td>
-                                    <td class="text-center column-status">
-                                        {!! $exchange->render_status($exchange->status ,__('words.'.$exchange->status)) !!}
-                                    </td>
-                                    <td class="text-center column-created-at">
-                                        {!! optional($exchange->created_at)->format('y-m-d h:i:s A') !!}
-                                    </td>
-                                    <td class="text-center column-updated-at">
-                                        {!! optional($exchange->updated_at)->format('y-m-d h:i:s A') !!}
-                                    </td>
-                                    <td>
-                                        @if($exchange->status == 'pending')
-                                            @component('admin.buttons._edit_button',[
-                                                'id' => $exchange->id,
-                                                'route' => 'admin:locker-receives.edit',
-                                            ])
-                                            @endcomponent
-
-                                            @component('admin.buttons._delete_button',[
-                                                'id' => $exchange->id,
-                                                'route' => 'admin:locker-receives.destroy',
-                                                'tooltip' => __('Delete '.$exchange->permission_number),
-                                            ])
-                                            @endcomponent
-                                        @endif
-                                        <a class="btn btn-info"
-                                            onclick="load_money_permission_model('{{ route('admin:locker-receives.show' ,['id' => $exchange->id]) }}')">
-                                            <i class="fa fa-eye"></i> {{ __('Show') }}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        @if($exchange->status == 'pending')
-                                            @component('admin.buttons._delete_selected',[
-                                                'id' => $exchange->id,
-                                                'route' => 'admin:locker-receives.delete_selected',
-                                            ])
-                                            @endcomponent
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
                         </table>
-                        {{ $receives->links() }}
                     </div>
                 </div>
             </div>
@@ -145,7 +104,6 @@
 
 @section('accounting-module-modal-area')
     @include('admin.money-permissions.print-modal')
-    @include($view_path . '.column-visible')
 @endsection
 
 @section('js')
@@ -173,6 +131,18 @@
             var element_id = 'printThis' + id ,page_title = document.title
             print_element(element_id ,page_title)
             return true
+        }
+
+        server_side_datatable('#datatable-with-btns');
+
+        function filterFunction($this) {
+            $("#loaderSearch").show();
+            $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+            $datatable.ajax.url($url).load();
+            $(".js__card_minus").trigger("click");
+            setTimeout(function () {
+                $("#loaderSearch").hide();
+            }, 1000)
         }
     </script>
     <script type="application/javascript" src="{{ asset('accounting-module/options-for-dt.js') }}"></script>

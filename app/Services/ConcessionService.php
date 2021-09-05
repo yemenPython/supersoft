@@ -68,8 +68,9 @@ class ConcessionService
                 'spare_part_id' => $item->spare_part_id
             ];
 
-            if ($className == 'StoreTransfer' && $concession->type == 'add') {
-                $data['store_id'] = $concession->concessionable->store_to_id;
+            if ($className == 'StoreTransfer') {
+                $data['store_id'] = $concession->type == 'add' ?
+                    $concession->concessionable->store_to_id : $concession->concessionable->store_from_id ;
             }
 
             ConcessionItem::create($data);
@@ -336,5 +337,24 @@ class ConcessionService
         }
 
         return false;
+    }
+
+    public function createConcessionRules () {
+
+        $rules = [
+
+            'date'=>'required|date',
+            'time'=>'required',
+            'status'=>'required|string|in:pending,accepted,finished,rejected',
+            'concession_type_id'=> 'required|integer|exists:concession_types,id',
+            'item_id'=>'required|integer',
+            'description'=> 'nullable|string'
+        ];
+
+        if (authIsSuperAdmin()) {
+            $rules['branch_id'] = 'required|integer|exists:branches,id';
+        }
+
+        return $rules;
     }
 }

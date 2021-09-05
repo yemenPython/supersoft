@@ -100,8 +100,15 @@ class SaleQuotationController extends Controller
             ->select('id', 'name_' . $this->lang, 'customer_category_id')
             ->get();
 
+        $lastNumber = SaleQuotation::where('branch_id', $branch_id)
+            ->orderBy('id', 'desc')
+            ->first();
+
+        $number = $lastNumber ? $lastNumber->number + 1 : 1;
+
         return view('admin.sale_quotations.create',
-            compact('branches', 'mainTypes', 'subTypes','additionalPayments', 'parts', 'taxes', 'customers', 'suppliers'));
+            compact('branches', 'mainTypes', 'subTypes','additionalPayments', 'parts', 'taxes',
+                'customers', 'suppliers', 'number'));
     }
 
     public function store(CreateRequest $request) {
@@ -122,6 +129,12 @@ class SaleQuotationController extends Controller
             $saleQuotationData['user_id'] = auth()->id();
             $saleQuotationData['branch_id'] = authIsSuperAdmin() ? $data['branch_id']  : auth()->user()->branch_id;
 
+            $lastNumber = SaleQuotation::where('branch_id', $saleQuotationData['branch_id'])
+                ->orderBy('id', 'desc')
+                ->first();
+
+            $saleQuotationData['number'] = $lastNumber ? $lastNumber->number + 1 : 1;
+
             $saleQuotation = SaleQuotation::create($saleQuotationData);
 
             $this->saleQuotationServices->saleQuotationTaxes($saleQuotation, $data);
@@ -141,6 +154,7 @@ class SaleQuotationController extends Controller
         }catch (\Exception $e) {
             DB::rollBack();
 
+            dd($e->getMessage());
             return redirect()->back()->with(['message'=>'sorry, please try later', 'alert-type'=>'error']);
         }
 

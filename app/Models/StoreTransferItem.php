@@ -51,4 +51,14 @@ class StoreTransferItem extends Model
         return $this->belongsTo(SparePart::class, 'spare_part_id');
     }
 
+    public function getStoreFromAttribute() {
+
+        return $this->store_transfer  && $this->store_transfer->store_from ? $this->store_transfer->store_from->name : __('Not determined');
+    }
+
+    public function getStoreToAttribute() {
+
+        return $this->store_transfer  && $this->store_transfer->store_to ? $this->store_transfer->store_to->name : __('Not determined');
+    }
+
 }

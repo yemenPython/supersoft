@@ -58,9 +58,21 @@
         </span>
         </td>
 
-        <td>
+        <td>{{dd($item)}}
         <span class="label wg-label" style="background: rgb(113, 101, 218) !important;">
-        {{ $item->store ? $item->store->name : __('Not determined')}}
+
+            @if($modelName == 'StoreTransfer' && $concessionType->type == 'withdrawal')
+
+                {{$item->store_from}}
+
+            @elseif($modelName == 'StoreTransfer' && $concessionType->type == 'add')
+
+                {{ $item->store_to }}
+            @else
+
+                {{ $item->store ? $item->store->name : __('Not determined')}}
+            @endif
+
         </span>
         </td>
 

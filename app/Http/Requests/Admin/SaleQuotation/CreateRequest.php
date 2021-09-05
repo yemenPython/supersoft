@@ -69,15 +69,15 @@ class CreateRequest extends FormRequest
             $rules['salesable_id'] = 'required|integer|exists:customers,id';
         }
 
-        $rules['number'] =
-            [
-                'required','string', 'max:50',
-                Rule::unique('sale_quotations')->where(function ($query) use($branch_id) {
-                    return $query->where('number', request()->number)
-                        ->where('branch_id', $branch_id)
-                        ;
-                }),
-            ];
+//        $rules['number'] =
+//            [
+//                'required','string', 'max:50',
+//                Rule::unique('sale_quotations')->where(function ($query) use($branch_id) {
+//                    return $query->where('number', request()->number)
+//                        ->where('branch_id', $branch_id)
+//                        ;
+//                }),
+//            ];
 
         return $rules;
     }

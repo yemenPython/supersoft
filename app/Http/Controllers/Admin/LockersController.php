@@ -146,7 +146,13 @@ class LockersController extends Controller
         }
 
         if (isset($request->ids)) {
-            Locker::whereIn('id', $request->ids)->delete();
+            $lockers = Locker::whereIn('id', $request->ids)->get();
+            foreach ($lockers as $locker) {
+                if($locker->balance > 0 &&  $locker->lockerOpeningBalanceItems()->exists()) {
+                    return redirect()->back()->with(['message' => __('words.this locker has transaction'),'alert-type'=>'error']);
+                }
+                $locker->delete();
+            }
             return redirect(route('admin:lockers.index'))
                 ->with(['message' => __('words.selected-row-deleted'), 'alert-type' => 'success']);
 
