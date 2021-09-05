@@ -250,6 +250,7 @@
             let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             let concession_item_id = $("#concession_item_id").val();
             let model = $("#model").val();
+            let concession_type_id = $('#concession_type_id').find(":selected").val();
 
             $.ajax({
 
@@ -260,7 +261,8 @@
                 data: {
                     _token: CSRF_TOKEN,
                     concession_item_id:concession_item_id,
-                    model:model
+                    model:model,
+                    concession_type_id:concession_type_id
                 },
 
                 success: function (data) {
