@@ -216,10 +216,8 @@ class OpeningBalanceAssetsController extends Controller
             $assets = Asset::all();
             $branches = Branch::all()->pluck( 'name', 'id' );
             $assetsGroups = AssetGroup::select( ['id', 'name_ar', 'name_en'] )->get();
-            $numbers = PurchaseAsset::pluck( 'invoice_number' )->unique();
-            $suppliers = Supplier::select( ['name_en', 'name_ar', 'id'] )->get();
-
-            return view( 'admin.opening-balance-assets.index', compact( 'numbers', 'assets', 'assetsGroups', 'js_columns', 'suppliers' ) );
+            $numbers = PurchaseAsset::where( 'operation_type', '=', 'opening_balance' )->pluck( 'invoice_number' )->unique();
+            return view( 'admin.opening-balance-assets.index', compact( 'numbers', 'assets', 'assetsGroups', 'js_columns' ) );
         }
     }
 
@@ -524,9 +522,9 @@ class OpeningBalanceAssetsController extends Controller
     public function getNumbersByBranchId(Request $request): JsonResponse
     {
         if (!empty( $request->branch_id )) {
-            $numbers = PurchaseAsset::where( 'branch_id', $request->branch_id )->pluck( 'invoice_number' )->unique();
+            $numbers = PurchaseAsset::where( 'branch_id', $request->branch_id )->where( 'operation_type', '=', 'opening_balance' )->pluck( 'invoice_number' )->unique();
         } else {
-            $numbers = PurchaseAsset::pluck( 'invoice_number' )->unique();
+            $numbers = PurchaseAsset::where( 'operation_type', '=', 'opening_balance' )->pluck( 'invoice_number' )->unique();
         }
         if ($numbers) {
             $numbers_data = view( 'admin.opening-balance-assets.invoice_number_by_branch_id', compact( 'numbers' ) )->render();

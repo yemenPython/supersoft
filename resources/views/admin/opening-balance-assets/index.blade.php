@@ -74,26 +74,6 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group has-feedback">
-                                        <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon fa fa-user"></span>
-
-                                            <select class="form-control" name="supplier_id" id="supplier_id">
-                                                <option value="">{{__('Select')}}</option>
-
-                                                @foreach($suppliers as $supplier)
-                                                    <option value="{{$supplier->id}}">
-                                                        {{$supplier->name}}
-                                                    </option>
-                                                @endforeach
-
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <div class="form-group col-md-3">
                                 <label> {{ __('date From') }}</label>
                                 <div class="input-group">

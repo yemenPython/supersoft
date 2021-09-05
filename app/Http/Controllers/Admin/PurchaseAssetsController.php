@@ -185,7 +185,6 @@ class PurchaseAssetsController extends Controller
                     'supplier_id' => 'purchase_assets.supplier_id',
                     'type' => 'purchase_assets.type',
                     'total_purchase_cost' => 'purchase_assets.total_purchase_cost',
-                    //'total_past_consumtion' => 'purchase_assets.total_past_consumtion',
                     'paid_amount' => 'purchase_assets.paid_amount',
                     'remaining_amount' => 'purchase_assets.remaining_amount',
                     'created_at' => 'purchase_assets.created_at',
@@ -202,7 +201,6 @@ class PurchaseAssetsController extends Controller
                     'supplier_id' => 'purchase_assets.supplier_id',
                     'type' => 'purchase_assets.type',
                     'total_purchase_cost' => 'purchase_assets.total_purchase_cost',
-                   // 'total_past_consumtion' => 'purchase_assets.total_past_consumtion',
                     'paid_amount' => 'purchase_assets.paid_amount',
                     'remaining_amount' => 'purchase_assets.remaining_amount',
                     'created_at' => 'purchase_assets.created_at',
@@ -216,7 +214,7 @@ class PurchaseAssetsController extends Controller
             $assets = Asset::all();
             $branches = Branch::all()->pluck( 'name', 'id' );
             $assetsGroups = AssetGroup::select( ['id', 'name_ar', 'name_en'] )->get();
-            $numbers = PurchaseAsset::pluck( 'invoice_number' )->unique();
+            $numbers = PurchaseAsset::where( 'operation_type', '=', 'purchase' )->pluck( 'invoice_number' )->unique();
             $suppliers = Supplier::select( ['name_en', 'name_ar', 'id'] )->get();
 
             return view( 'admin.purchase-assets.index', compact( 'numbers', 'assets', 'assetsGroups', 'js_columns', 'suppliers' ) );
@@ -509,9 +507,9 @@ class PurchaseAssetsController extends Controller
     public function getNumbersByBranchId(Request $request): JsonResponse
     {
         if (!empty( $request->branch_id )) {
-            $numbers = PurchaseAsset::where( 'branch_id', $request->branch_id )->pluck( 'invoice_number' )->unique();
+            $numbers = PurchaseAsset::where( 'branch_id', $request->branch_id )->where( 'operation_type', '=', 'purchase' )->pluck( 'invoice_number' )->unique();
         } else {
-            $numbers = PurchaseAsset::pluck( 'invoice_number' )->unique();
+            $numbers = PurchaseAsset::where( 'operation_type', '=', 'purchase' )->pluck( 'invoice_number' )->unique();
         }
         if ($numbers) {
             $numbers_data = view( 'admin.purchase-assets.invoice_number_by_branch_id', compact( 'numbers' ) )->render();
