@@ -26,7 +26,7 @@
         <h3>
         {{ $asset->name }}
 </h3>
-        
+
     </div>
 </div>
 
@@ -34,7 +34,7 @@
 <div class="invoice-to">
     <div clas="row">
 
-      
+
     </div>
 
 </div>
@@ -60,7 +60,9 @@
                                         {{ __('continues') }}
                                     @elseif($asset->asset_status == 2)
                                         {{ __('sell') }}
-                                    @else
+                                       @elseif($asset->asset_status == 4)
+                                           {{ __('stop') }}
+                                       @else
                                         {{ __('ignore') }}
                                     @endif</td>
                              </tr>
@@ -138,9 +140,9 @@
 <div class="col-xs-6">
     <h5 class="title">{{__('Notes')}}<h5>
     <p style="font-size:14px">
-   
+
     {!! $asset->asset_details !!}
-       
+
     </p>
 </div>
 </div>

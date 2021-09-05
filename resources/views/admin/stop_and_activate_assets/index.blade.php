@@ -101,7 +101,7 @@
                                         <div class="input-group">
                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                             <select name="status" id="status">
-                                                <option></option>
+                                                <option value="0">{{__('Select All')}}</option>
                                                 <option value="stop">{{__('stop')}}</option>
                                                 <option value="activate">{{__('activate')}}</option>
                                             </select>

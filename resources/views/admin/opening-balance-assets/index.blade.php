@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Purchase Assets') }} </title>
+    <title>{{ __('Opening Balance Assets') }} </title>
 @endsection
 
 
@@ -11,7 +11,7 @@
         <nav>
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
-                <li class="breadcrumb-item active"> {{__('Purchase Assets')}}</li>
+                <li class="breadcrumb-item active"> {{__('Opening Balance Assets')}}</li>
             </ol>
         </nav>
         @if(filterSetting())
@@ -125,47 +125,7 @@
                                     </div>
                                 </div>
 
-{{--                                    <div class="form-group col-md-6">--}}
-{{--                                        <label> {{ __('Operation Type') }} </label>--}}
-{{--                                        <div class="input-group">--}}
-{{--                                            <span class="input-group-addon"><i class="fa fa-file-text"></i></span>--}}
 
-{{--                                            <select class="form-control select2" id="operation_type"--}}
-{{--                                                    name="operation_type">--}}
-{{--                                            <option value="">{{__('Select')}}</option>--}}
-{{--                                                    <option value="purchase">{{__('Purchase')}}</option>--}}
-{{--                                                    <option value="opening_balance">{{__('Opening Balance')}}</option>--}}
-{{--                                                    <option value="together">{{__('Together')}}</option>--}}
-{{--                                            </select>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-
-
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label> {{ __('Invoice Type') }} </label>
-                                            <div class="input-group">
-                                                <ul class="list-inline">
-                                                    <li>
-                                                        <div class="radio info">
-                                                            <input type="radio" id="radio_status_cash" name="type"
-                                                                   value="cash"
-                                                            >
-                                                            <label for="radio_status_cash">{{ __('Cash') }}</label>
-                                                        </div>
-                                                    </li>
-
-                                                    <li>
-                                                        <div class="radio info">
-                                                            <input id="radio_status_delay" type="radio" name="type"
-                                                                   value="delay">
-                                                            <label for="radio_status_delay">{{ __('Credit') }}</label>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
                             </div>
 
                             @include('admin.btns.btn_search')
@@ -181,7 +141,7 @@
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control">
-                    <i class="fa fa-file-o"></i> {{__('Purchase Assets')}}
+                    <i class="fa fa-file-o"></i> {{__('Opening Balance Assets')}}
                 </h4>
 
                 <div class="card-content js__card_content" style="">
@@ -189,7 +149,7 @@
 
                         <li class="list-inline-item">
                             @include('admin.buttons.add-new', [
-                           'route' => 'admin:purchase-assets.create',
+                           'route' => 'admin:opening-balance-assets.create',
                            'new' => '',
                           ])
                         </li>
@@ -197,7 +157,7 @@
                         <li class="list-inline-item">
                             <button style="margin-bottom: 12px; border-radius: 5px" type="button"
                                     class="btn btn-icon btn-icon-left btn-delete-wg waves-effect waves-light hvr-bounce-to-left"
-                                    onclick="confirmDeleteSelected('{{route('admin:purchase-assets.deleteSelected')}}')">
+                                    onclick="confirmDeleteSelected('{{route('admin:opening-balance-assets.deleteSelected')}}')">
                                 <i class="ico fa fa-trash"></i> {{__('Delete Selected')}}
                             </button>
 
@@ -217,12 +177,8 @@
 
                                 <th class="text-center column-invoice-number"
                                     scope="col">{!! __('Invoice Number') !!}</th>
-
-
-                                <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
-                                <th class="text-center" scope="col">{!! __('Invoice Type') !!}</th>
                                 <th>{{__('total purchase cost')}}</th>
-{{--                                <th>{{__('total past consumtion')}}</th>--}}
+                                <th>{{__('total past consumtion')}}</th>
                                 <th>{{__('paid amount')}}</th>
                                 <th>{{__('remaining amount')}}</th>
                                 <th class="text-center">{!! __('created at') !!}</th>
@@ -251,12 +207,8 @@
                                 <th class="text-center column-invoice-number"
                                     scope="col">{!! __('Invoice Number') !!}</th>
 
-
-                                <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
-                                <th class="text-center" scope="col">{!! __('Invoice Type') !!}</th>
-
                                 <th>{{__('total purchase cost')}}</th>
-{{--                                <th>{{__('total past consumtion')}}</th>--}}
+                                <th>{{__('total past consumtion')}}</th>
                                 <th>{{__('paid amount')}}</th>
                                 <th>{{__('remaining amount')}}</th>
                                 <th class="text-center">{!! __('created at') !!}</th>
@@ -292,7 +244,7 @@
 
         function getPrintData(id, show = null) {
             $.ajax({
-                url: "{{ route('admin:purchase-assets.show') }}?id=" + id,
+                url: "{{ route('admin:opening-balance-assets.show') }}?id=" + id,
                 method: 'GET',
                 data : {
                   show : show,
@@ -327,7 +279,7 @@
             const branch_id = $(this).val();
             $.ajax({
                 type: 'post',
-                url: "{{ route('admin:purchase-assets.getSuppliersByBranchId')}}",
+                url: "{{ route('admin:opening-balance-assets.getSuppliersByBranchId')}}",
                 data: {
                     branch_id: branch_id,
                     _token: CSRF_TOKEN,
@@ -419,7 +371,7 @@
             const supplier_id = $(this).val();
             $.ajax({
                 type: 'post',
-                url: "{{ route('admin:purchase-assets.getInvoiceNumbersBySupplierId')}}",
+                url: "{{ route('admin:opening-balance-assets.get_invoice_numbers_by_supplierId')}}",
                 data: {
                     supplier_id: supplier_id,
                     _token: CSRF_TOKEN,
@@ -441,7 +393,7 @@
             const branch_id = $(this).val();
             $.ajax({
                 type: 'post',
-                url: "{{ route('admin:purchase-assets.get_Numbers_By_BranchId')}}",
+                url: "{{ route('admin:opening-balance-assets.get_Numbers_By_BranchId')}}",
                 data: {
                     branch_id: branch_id,
                     _token: CSRF_TOKEN,

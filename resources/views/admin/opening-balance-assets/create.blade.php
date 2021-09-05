@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Edit Consumption Assets') }} </title>
+    <title>{{ __('Create Opening Balance Asset') }} </title>
 @endsection
 
 @section('style')
@@ -16,8 +16,8 @@
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
                 <li class="breadcrumb-item active">
-                    <a href="{{route('admin:consumption-assets.index')}}"> {{__('Consumption Assets')}}</a></li>
-                <li class="breadcrumb-item active"> {{__('Edit Consumption Assets')}}</li>
+                    <a href="{{route('admin:opening-balance-assets.index')}}"> {{__('Opening Balance Asset')}}</a></li>
+                <li class="breadcrumb-item active"> {{__('Create Opening Balance Asset')}}</li>
             </ol>
         </nav>
 
@@ -28,7 +28,7 @@
             <div class=" card box-content-wg-new bordered-all primary">
 
                 <h4 class="box-title with-control" style="text-align: initial"><i class="fa fa-file-text-o"></i>
-                    {{__('Edit Purchase Asset')}}
+                    {{__('Create Opening Balance Asset')}}
                     <span class="controls hidden-sm hidden-xs pull-left">
                       <button class="control text-white"
                               style="background:none;border:none;font-size:14px;font-weight:normal !important;">{{__('Save')}}
@@ -49,13 +49,12 @@
                 </h4>
 
                 <div class="box-content">
-                    <form method="post" action="{{route('admin:consumption-assets.update', $consumptionAsset->id)}}"
-                          class="form"
+                    <form method="post" action="{{route('admin:opening-balance-assets.store')}}" class="form"
                           enctype="multipart/form-data">
                         @csrf
-                        @method('PATCH')
+                        @method('post')
 
-                        @include('admin.consumption-assets.form')
+                        @include('admin.opening-balance-assets.form')
 
                         <div class="form-group col-sm-12">
                             @include('admin.buttons._save_buttons')
@@ -73,38 +72,29 @@
     <!-- /.row small-spacing -->
 @endsection
 
+
 @section('js-validation')
-
-    {!! JsValidator::formRequest('App\Http\Requests\Admin\Asset\ConsumptionAssetRequest', '.form'); !!}
-
+    {!! JsValidator::formRequest('App\Http\Requests\Admin\Asset\PurchaseAssetRequest', '.form'); !!}
     @include('admin.partial.sweet_alert_messages')
-
 @endsection
 
 @section('js')
 
     <script src="{{asset('js/purchase_invoice/index.js')}}"></script>
-
     <script type="application/javascript">
-
         function changeBranch() {
             let branch_id = $('#branch_id').find(":selected").val();
-            window.location.href = "{{route('admin:consumption-assets.create')}}" + "?branch_id=" + branch_id;
+            window.location.href = "{{route('admin:opening-balance-assets.create')}}" + "?branch_id=" + branch_id;
         }
-
         function removeItem(index) {
             swal({
-
                 title: "Delete Item",
                 text: "Are you sure want to delete this item ?",
                 icon: "warning",
                 buttons: true,
                 dangerMode: true,
-
             }).then((willDelete) => {
-
                 if (willDelete) {
-
                     $('#tr_part_' + index).remove();
                     $('#part_types_' + index).remove();
                     calculateItem(index);
@@ -112,11 +102,9 @@
                     totalPurchaseCost(index);
                     totalPastConsumtion(index);
                     netTotal(index);
-                    totalReplacements()
                 }
             });
         }
-
 
         function reorderItems() {
 
@@ -174,17 +162,11 @@
 
 
         $('#assetsGroups').on('change', function () {
-
             if (!checkBranchValidation()) {
                 swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
                 return false;
             }
-            let isSuperAdmin = '{{authIsSuperAdmin()}}';
-            if (isSuperAdmin) {
-                var branch_id = $('#branch_id').find(":selected").val();
-            }else {
-                var branch_id = $('#branch_id_hidden').val();
-            }
+            let branch_id = $('#branch_id').find(":selected").val();
             $.ajax({
                 url: "{{ route('admin:assets_expenses.getAssetsByAssetGroup') }}?asset_group_id=" + $(this).val()+"&branch_id="+branch_id,
                 method: 'GET',
@@ -194,13 +176,6 @@
             });
         });
         $('#assetsOptions').on('change', function () {
-            var dateFrom = $('#date_from').val();
-            console.log(dateFrom);
-            if (dateFrom == '') {
-                swal({text: '{{__('sorry, please select date from first')}}', icon: "error"});
-                $('#assetsOptions').val('');
-                return false;
-            }
             if (!checkBranchValidation()) {
                 swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
                 return false;
@@ -211,32 +186,21 @@
             }
             let branch_id = $('#branch_id').find(":selected").val();
             let index = $('#items_count').val();
-            let date_from = $('#date_from').val();
-            let date_to = $('#date_to').val();
-            let type = $("input[name='type']:checked").val();
             $.ajax({
-                url: "{{ route('admin:consumption_assets.get_Assets_By_Asset_Id') }}?asset_id=" + $(this).val(),
+                url: "{{ route('admin:opening-balance-assets.getAssetsByAssetId') }}?asset_id=" + $(this).val(),
                 method: 'get',
                 data: {
                     asset_id: $(this).val(),
                     branch_id: branch_id,
                     index: index,
-                    date_from: date_from,
-                    date_to: date_to,
-                    type: type,
                     _token: '{{csrf_token()}}',
                 },
                 success: function (data) {
                     $('#items_data').append(data.items);
                     $("#items_count").val(data.index);
-                    $("#expenses_total_"+ data.index).val(data.expenses_total.toFixed(2));
-                    $("#expenses_total_hidden_"+ data.index).val(data.expenses_total.toFixed(2));
                     totalPurchaseCost(index);
                     totalPastConsumtion(index);
                     netTotal(index);
-                    consumptionAmount(data.index,data.diff);
-                    totalReplacements();
-                    checkType(data.index);
                     $('.js-example-basic-single').select2();
                 },
                 error: function (jqXhr, json, errorThrown) {
@@ -256,60 +220,55 @@
 
         function totalPurchaseCost() {
             let total = '';
-            $(".purchase_cost").each(function () {
-                var value = $($(this)).val();
-                total = +total + +value;
+            $(".purchase_cost").each(function(){
+                var value =  $($(this)).val();
+                total = +total +  +value;
             });
             $('#total_purchase_cost').val(total);
         }
 
         function totalPastConsumtion() {
             let total = '';
-            $(".past_consumtion").each(function () {
-                var value = $($(this)).val();
-                total = +total + +value;
+            $(".past_consumtion").each(function(){
+                var value =  $($(this)).val();
+                total = +total +  +value;
             });
             $('#total_past_consumtion').val(total);
-        }
-        function totalReplacements() {
-            let total = '';
-            var value = $("input[name='type']:checked").val()
-            if (value =='asset' || value =='both') {
-                $(".total_replacement").each(function () {
-                    var value = $($(this)).val();
-                    total = +total + +value;
-                });
-            }
-            if (value =='expenses' || value =='both') {
-                $(".total_replacement_expenses").each(function () {
-                    var value = $($(this)).val();
-                    total = +total + +value;
-                });
-            }
-            $('#total_replacement').val(total.toFixed(2));
         }
 
         function netTotal() {
             let total = '';
-            $(".current_consumtion").each(function () {
-                var value = $($(this)).val();
-                total = +total + +value;
+            $(".current_consumtion").each(function(){
+                var value =  $($(this)).val();
+                total = +total +  +value;
             });
             $('#net_total').val(total);
         }
 
         function annual_consumtion_rate_value(index) {
-            var annual_consumtion_rate = $('.annual_consumtion_rate_' + index).val();
+            var annual_consumtion_rate = $('.annual_consumtion_rate_'+index).val();
 
-            var purchase_cost = $('.purchase_cost_' + index).val();
+            var purchase_cost = $('.purchase_cost_'+index).val();
 
-            if (annual_consumtion_rate != '' && purchase_cost != '') {
+            if (annual_consumtion_rate !='' && purchase_cost !=''){
 
-                var asset_age = (purchase_cost / annual_consumtion_rate) / 100;
-                $('.asset_age_' + index).val(asset_age.toFixed(2));
+                var asset_age = ( purchase_cost / annual_consumtion_rate) / 100;
+                $('.asset_age_'+index).val( asset_age.toFixed(2));
             }
         }
 
+        $('#invoice_number').on('change', function () {
+            if (!checkBranchValidation()) {
+                swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
+                return false;
+            }
+        });
+        $('#supplier_id').on('change', function () {
+            if (!checkBranchValidation()) {
+                swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
+                return false;
+            }
+        });
         $('#note').on('change', function () {
             if (!checkBranchValidation()) {
                 swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
@@ -328,78 +287,15 @@
                 return false;
             }
         });
-        $('#date_to').on('change', function () {
-            if (!checkBranchValidation()) {
-                swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
-                return false;
-            }
-            var date_from = $('#date_from').val();
-            var date_to = $('#date_to').val();
-            if (date_from == '') {
-                swal({text: '{{__('sorry, please select date from first')}}', icon: "error"});
-                return false;
-            }
-            const date1 = new Date(date_from);
-            const date2 = new Date(date_to);
-            const date_of_wok = new Date(date_to);
-            const diffTime = Math.abs(date2 - date1);
-            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            if (diffDays < 30) {
-                swal({text: '{{__('sorry, please select period equal or more than month')}}', icon: "error"});
-                var date_to = $('#date_to').val('');
-                return false;
-            }
-            let index = $("#items_count").val();
-            consumptionAmount(index);
-        });
-        $('#date_from').on('change', function () {
-            if (!checkBranchValidation()) {
-                swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
-                return false;
-            }
-            let index = $("#items_count").val();
-            consumptionAmount(index);
-        });
-        function consumptionAmount(index,diff=0) {
-            var date_from = $('#date_from').val();
-            var date_to = $('#date_to').val();
-            var total_net_purchase_cost = $('.net_purchase_cost_' + index).val();
-            var total_replacements = $('.total_replacements_' + index).val();
-            var annual_consumtion_rate = $('.annual_consumtion_rate_' + index).val();
-            var net_purchase_cost = +total_net_purchase_cost + +total_replacements;
-            if (date_from != '' && date_to != '' && net_purchase_cost != '' && annual_consumtion_rate != '') {
-                const date1 = new Date(date_from);
-                const date2 = new Date(date_to);
-                const diffTime = Math.abs(date2 - date1);
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                var age = (+net_purchase_cost / +annual_consumtion_rate) / 100;
-                var months = age * 12;
-                var asd = +net_purchase_cost / +months;
-                var any = diffDays - diff;
-                var value = +asd * (+any / 30);
-                $('.consumption_amount_' + index).val(value.toFixed(2));
+
+        function detectOperationType() {
+            let operationType = $("#operation_type").val();
+            if (operationType == 'opening_balance')  {
+                $("#supplierSection").hide();
+            } else {
+                $("#supplierSection").show();
             }
         }
-        function checkType(index){
-            var value = $("input[name='type']:checked").val();
-            if(value =='asset'){
-                $('.type_expenses').hide();
-                $('.type_asset').show();
-            }else if (value =='expenses'){
-                $('.type_asset').hide();
-                $('.type_expenses').show();
-            }else {
-                $('.type_asset').show();
-                $('.type_expenses').show();
-            }
-            totalReplacements();
-        }
-        $(function (){
-            $("input[type='radio'][name='type']").click(function() {
-                checkType( $("#items_count").val());
-            });
-            checkType( $("#items_count").val());
-        })
     </script>
 
 

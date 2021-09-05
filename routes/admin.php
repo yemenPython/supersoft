@@ -22,7 +22,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => [
         Route::get('autocomplete','AjaxController@AutoComplete');
 
         Route::get('/', 'DashboardController@index')->name('home');
+        include 'opening-balance-assets.php';
         include 'purchase-assets.php';
+
         include 'consumption-assets.php';
         include 'stop_and_activate_assets.php';
         include 'sale-assets.php';
