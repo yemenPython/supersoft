@@ -1,6 +1,6 @@
 {{--NOT USED PLEASE CHECK--}}
 
-<tr id="tr_part_{{$index}}" class="remove_on_change_branch text-center-inputs">
+<tr id="tr_part_{{$index}}" class="remove_on_change_branch text-center-inputs tr_part_{{$index}}">
 
     <td>
         <span id="item_number_{{$index}}">{{$index}}</span>
@@ -100,6 +100,7 @@
     </td>
 
 </tr>
+
 
 
 

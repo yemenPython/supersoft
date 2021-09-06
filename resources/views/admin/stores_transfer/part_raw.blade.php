@@ -1,11 +1,11 @@
-<tr class="text-center-inputs" id="tr_part_{{$index}}">
+<tr class="text-center-inputs tr_part_{{$index}}" id="tr_part_{{$index}}">
 
     <td>
         <span id="item_number_{{$index}}">{{$index}}</span>
     </td>
 
     <td>
-        <span style="width: 150px !important;display:block; cursor: pointer" data-img="{{$part->image}}" data-toggle="modal"
+        <span style="display:block; cursor: pointer" data-img="{{$part->image}}" data-toggle="modal"
               data-target="#part_img" title="Part image" onclick="getPartImage('{{$index}}')"
               id="part_img_id_{{$index}}" data-img="{{$part->img}}">
 
@@ -19,7 +19,7 @@
     </td>
 
     <td>
-        <div class="input-group" style="width: 180px !important;">
+        <div class="input-group" >
 
             <select class="form-control js-example-basic-single" name="items[{{$index}}][spare_part_id]" id="spare_part_id_{{$index}}">
 
@@ -34,7 +34,7 @@
         </div>
     </td>
 
-    <td class="inline-flex-span" style="">
+    <td class="inline-flex-span" >
 
         <span id="unit_quantity_{{$index}}">
             {{isset($item) && $item->partPrice ? $item->partPrice->quantity : $part->first_price_quantity}}
@@ -45,7 +45,7 @@
     <td>
         <div class="input-group">
 
-            <select style="width: 150px !important;" class="form-control js-example-basic-single"
+            <select  class="form-control js-example-basic-single"
                     name="items[{{$index}}][part_price_id]" id="prices_part_{{$index}}"
                     onchange="priceSegments('{{$index}}');">
 
@@ -106,23 +106,6 @@
     </td>
 
     <td>
-        <input style="width: 120px !important;" type="number" class="form-control border1" id="quantity_{{$index}}"
-               onkeyup="checkPartQuantity('{{$index}}'); calculateItem('{{$index}}'); quantityValidation('{{$index}}','{{__('sorry, quantity not  valid')}}')"
-               onchange="checkPartQuantity('{{$index}}'); calculateItem('{{$index}}')"
-               value="{{isset($item) ? $item->quantity : 1}}" min="1" name="items[{{$index}}][quantity]">
-    </td>
-
-    <td>
-        <input style="width: 150px !important;" type="text" id="price_{{$index}}" class="form-control border2" disabled
-               value="{{isset($item) ? $item->price : $part->default_purchase_price}}">
-    </td>
-
-    <td>
-        <input style="width: 150px !important;" type="text" id="total_{{$index}}" disabled class="form-control border3"
-               value="{{isset($item) ? ($item->price * $item->quantity) : 0}}" name="items[{{$index}}][total]">
-    </td>
-
-    <td>
         <span id="barcode_{{$index}}">
             {{ isset($item) && $item->partPrice ? $item->partPrice->barcode : $part->default_barcode }}
         </span>
@@ -135,8 +118,57 @@
     </td>
 
     <td>
+        <button type="button" class="btn btn-default btn-sm accordion-toggle" data-toggle="collapse" data-target="#demo{{$index}}" >
+            <i class="glyphicon glyphicon-eye-open"></i>
+        </button>
+
         <div class="input-group" id="stores">
             <button type="button" class="btn btn-danger fa fa-trash" onclick="removeItem('{{$index}}')"></button>
+        </div>
+    </td>
+</tr>
+
+{{-- SECOND TR --}}
+
+<tr class="tr_part_{{$index}}">
+
+    <td colspan="12" class="hiddenRow">
+        <div class="accordian-body collapse" id="demo{{$index}}">
+            <table class=" table table-responsive table-bordered table-hover">
+                <thead>
+                <tr class="info">
+                    <th > {{ __('Quantity') }} </th>
+                    <th > {{ __('Price') }} </th>
+                    <th > {{ __('Total') }} </th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr >
+
+                    <td>
+                        <input type="number" class="form-control border1" id="quantity_{{$index}}"
+                               onkeyup="checkPartQuantity('{{$index}}'); calculateItem('{{$index}}'); quantityValidation('{{$index}}','{{__('sorry, quantity not  valid')}}')"
+                               onchange="checkPartQuantity('{{$index}}'); calculateItem('{{$index}}')"
+                               value="{{isset($item) ? $item->quantity : 1}}" min="1" name="items[{{$index}}][quantity]">
+                    </td>
+
+                    <td>
+                        <input  type="text" id="price_{{$index}}" class="form-control border2" disabled
+                               value="{{isset($item) ? $item->price : $part->default_purchase_price}}">
+                    </td>
+
+                    <td>
+                        <input type="text" id="total_{{$index}}" disabled class="form-control border3"
+                               value="{{isset($item) ? ($item->price * $item->quantity) : 0}}" name="items[{{$index}}][total]">
+                    </td>
+
+                </tr>
+
+                </tbody>
+            </table>
+
         </div>
     </td>
 </tr>

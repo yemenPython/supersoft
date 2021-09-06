@@ -1,4 +1,5 @@
 @foreach($items as $index=>$item)
+
     <tr class="text-center-inputs">
         <td>
             {{$index+1}}
@@ -39,26 +40,7 @@
 
         </td>
 
-        <td class="text-danger">
-
-        <span>
-        {{$item->quantity}}
-        </span>
-        </td>
-
         <td>
-        <span>
-        {{ $item->price}}
-        </span>
-        </td>
-
-        <td>
-        <span style="background:#F7F8CC !important">
-        {{ $item->price * $item->quantity}}
-        </span>
-        </td>
-
-        <td>{{dd($item)}}
         <span class="label wg-label" style="background: rgb(113, 101, 218) !important;">
 
             @if($modelName == 'StoreTransfer' && $concessionType->type == 'withdrawal')
@@ -89,6 +71,12 @@
         </td>
 
         <td>
+
+            <button type="button" class="btn btn-default btn-sm accordion-toggle" data-toggle="collapse"
+                    data-target="#demo{{$index}}">
+                <i class="glyphicon glyphicon-eye-open"></i>
+            </button>
+
             <button type="button" class="btn btn-primary" data-toggle="modal"
                     onclick="showPartQuantity({{$item->part_id}})"
                     data-target="#part_store_quantity">
@@ -96,6 +84,52 @@
             </button>
         </td>
 
+    </tr>
+
+    {{-- SECOND TR --}}
+
+    <tr>
+        <td colspan="12" class="hiddenRow">
+            <div class="accordian-body collapse" id="demo{{$index}}">
+                <table class=" table table-responsive table-bordered table-hover">
+                    <thead>
+                    <tr class="info">
+                        <th> {{ __('quantity') }} </th>
+                        <th> {{ __('Price') }} </th>
+                        <th> {{ __('Total') }} </th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr>
+
+                        <td class="text-danger">
+
+                            <span>
+                            {{$item->quantity}}
+                            </span>
+                        </td>
+
+                        <td>
+                            <span>
+                            {{ $item->price}}
+                            </span>
+                        </td>
+
+                        <td>
+                            <span style="background:#F7F8CC !important">
+                            {{ $item->price * $item->quantity}}
+                            </span>
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </td>
     </tr>
 
 @endforeach

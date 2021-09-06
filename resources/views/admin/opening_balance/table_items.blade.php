@@ -9,10 +9,6 @@
             <th width="10%"> {{ __('Unit Quantity') }} </th>
             <th width="25%"> {{ __('Unit') }} </th>
             <th width="13%"> {{ __('Price Segments') }} </th>
-            <th width="5%"> {{ __('Store') }} </th>
-            <th width="5%"> {{ __('Quantity') }} </th>
-            <th width="25%"> {{ __('Price') }} </th>
-            <th width="25%"> {{ __('Total') }} </th>
             <th width="25%"> {{ __('Barcode') }} </th>
             <th width="25%"> {{ __('Supplier Barcode') }} </th>
             <th width="5%"> {{ __('Action') }} </th>
@@ -38,10 +34,6 @@
             <th width="10%"> {{ __('Unit Quantity') }} </th>
             <th width="25%"> {{ __('Unit') }} </th>
             <th width="13%"> {{ __('Price Segments') }} </th>
-            <th width="5%"> {{ __('Store') }} </th>
-            <th width="25%"> {{ __('Quantity') }} </th>
-            <th width="25%"> {{ __('Price') }} </th>
-            <th width="25%"> {{ __('Total') }} </th>
             <th width="25%"> {{ __('Barcode') }} </th>
             <th width="25%"> {{ __('Supplier Barcode') }} </th>
             <th width="5%"> {{ __('Action') }} </th>

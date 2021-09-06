@@ -345,7 +345,7 @@
 
                 if (willDelete) {
 
-                    $('#tr_part_' + index).remove();
+                    $('.tr_part_' + index).remove();
                     $('#part_types_' + index).remove();
 
                     // let items_count = $('#items_count').val();
