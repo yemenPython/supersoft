@@ -279,6 +279,7 @@ route('admin:assets_expenses_types.index'),
 route('admin:assets_expenses_items.index'),
 route('admin:assets_expenses.index'),
 route('admin:purchase-assets.index'),
+route('admin:opening-balance-assets.index'),
 route('admin:assets_replacements.index'),
 route('admin:consumption-assets.index'),
 route('admin:sale-assets.index'),
@@ -312,6 +313,11 @@ route('admin:stop_and_activate_assets.index'),
                         <li class="{{setActivationClass(route('admin:purchase-assets.index'))}}">
                             <a href="{{route('admin:purchase-assets.index')}}">
                                 {{__('Purchase Assets')}}
+                            </a>
+                        </li>
+                        <li class="{{setActivationClass(route('admin:opening-balance-assets.index'))}}">
+                            <a href="{{route('admin:opening-balance-assets.index')}}">
+                                {{__('Opening Balance Assets')}}
                             </a>
                         </li>
 
@@ -549,7 +555,7 @@ route('admin:financial_management.type_expenses.index'),
                             </a>
                         </li>
 
-                        
+
                         <li class="{{setActivationClass(route('admin:banks.bank_data.index'))}}">
                             <a href="{{route('admin:banks.bank_data.index')}}">
                                 {{__('Banks Data')}}
@@ -763,7 +769,7 @@ route('admin:reservations.index'),
                 </li>
 
 
-         
+
                 <li class="{{setActivationClass([
 url('admin/shifts'),
 url('admin/employee_settings'),

@@ -19,6 +19,8 @@
                             {{ __('continues') }}
                         @elseif($asset->asset_status == 2)
                             {{ __('sell') }}
+                        @elseif($asset->asset_status == 4)
+                            {{ __('stop') }}
                         @else
                             {{ __('ignore') }}
                         @endif</td>

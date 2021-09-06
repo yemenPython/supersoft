@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
 
 @section('title')
-    <title>{{ __('Create Stop And Activate Asset') }} </title>
+    <title>{{ __('Edit '.$status.' Asset') }} </title>
 @endsection
 
 @section('style')
@@ -17,7 +17,7 @@
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
                 <li class="breadcrumb-item active">
                     <a href="{{route('admin:stop_and_activate_assets.index')}}"> {{__('Stop And Activate Asset')}}</a></li>
-                <li class="breadcrumb-item active"> {{__('Edit Stop And Activate Asset')}}</li>
+                <li class="breadcrumb-item active"> {{ __('Edit '.$status.' Asset') }}</li>
             </ol>
         </nav>
 
@@ -28,7 +28,7 @@
             <div class=" card box-content-wg-new bordered-all primary">
 
                 <h4 class="box-title with-control" style="text-align: initial"><i class="fa fa-file-text-o"></i>
-                    {{__('Create Stop And Activate Asset')}}
+                    {{ __('Edit '.$status.' Asset') }}
                     <span class="controls hidden-sm hidden-xs pull-left">
                       <button class="control text-white"
                               style="background:none;border:none;font-size:14px;font-weight:normal !important;">{{__('Save')}}
@@ -110,12 +110,24 @@
                 swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
                 return false;
             }
-            let branch_id = $('#branch_id').find(":selected").val();
+            let isSuperAdmin = '{{authIsSuperAdmin()}}';
+            if (isSuperAdmin) {
+                var branch_id = $('#branch_id').find(":selected").val();
+            }else {
+                var branch_id = $('#branch_id_hidden').val();
+            }
             $.ajax({
-                url: "{{ route('admin:assets_expenses.getAssetsByAssetGroup') }}?asset_group_id=" + $(this).val()+"&branch_id="+branch_id,
+                url: "{{ route('admin:stop_and_activate_assets.get_assets_by_asset_group') }}?asset_group_id=" + $(this).val()+"&branch_id="+branch_id+ "&status="+ '{{$status}}',
                 method: 'GET',
                 success: function (data) {
                     $('#assetsOptions').html(data.assets);
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                    $('#assetsOptions').val(null);
+                    // $("#assetsOptions").select2("val", "0");
+
                 }
             });
         });

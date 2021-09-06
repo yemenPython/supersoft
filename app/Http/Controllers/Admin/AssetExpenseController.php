@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Filters\AssetExpenseFilter;
 use App\Models\AssetReplacement;
+use App\Models\ConsumptionAssetItemExpense;
+use App\Models\SaleAssetItem;
 use Exception;
 use App\Models\Asset;
 use App\Models\Branch;
@@ -287,6 +289,13 @@ class AssetExpenseController extends Controller
     public function destroy(int $id): RedirectResponse
     {
         $assetExpense = AssetExpense::findOrFail( $id );
+
+        foreach ($assetExpense->assetExpensesItems as $item) {
+            if (SaleAssetItem::where( 'asset_id',  $item->asset->id)->exists()) {
+                return redirect()->to( route( 'admin:consumption-assets.index' ) )
+                    ->with( ['message' => __( 'words.Can not delete this asset expense' ), 'alert-type' => 'error'] );
+            }
+        }
         $assetExpense->assetExpensesItems()->delete();
         $assetExpense->delete();
         return redirect()->to( 'admin/assets_expenses' )
@@ -298,6 +307,13 @@ class AssetExpenseController extends Controller
         if (isset( $request->ids )) {
             $assets = AssetExpense::whereIn( 'id', $request->ids )->get();
             foreach ($assets as $asset) {
+                foreach ($asset->assetExpensesItems as $item) {
+                    if (SaleAssetItem::where( 'asset_id',  $item->asset->id)->exists() || ConsumptionAssetItemExpense::where('expense_id',$item->asset_expense_id)->exists()) {
+                        return redirect()->to( route( 'admin:consumption-assets.index' ) )
+                            ->with( ['message' => __( 'words.Can not delete this asset expense' ), 'alert-type' => 'error'] );
+                    }
+                }
+
                 $asset->assetExpensesItems()->delete();
                 $asset->delete();
             }

@@ -170,9 +170,13 @@ class StopAndActivateAssetsController extends Controller
     {
         $branch_id = $request->has('branch_id') ? $request['branch_id'] : auth()->user()->branch_id;
         $assetsGroups = AssetGroup::where('branch_id', $branch_id)->get();
-        $assets = Asset::where('branch_id', $branch_id)->get();
         $data['branches'] = Branch::where('status', 1)->select('id', 'name_' . $this->lang)->get();
         $status = $request->status;
+        $assets = Asset::where('branch_id', $branch_id);
+        if ($status =='activate'){
+            $assets->where('status','=','stop');
+        }
+        $assets = $assets->get();
         return view('admin.stop_and_activate_assets.create', compact('data', 'assetsGroups', 'assets','status'));
     }
 
@@ -188,7 +192,7 @@ class StopAndActivateAssetsController extends Controller
             ];
             $data['branch_id'] = authIsSuperAdmin() ? $request['branch_id'] : auth()->user()->branch_id;
             $record = StopAndActivateAsset::create($data);
-            $record->asset()->update(['status'=>$request->status]);
+            $record->status =='stop'? $record->asset()->update(['status'=>$request->status,'asset_status'=>4]):$record->asset()->update(['status'=>$request->status]);
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
@@ -211,9 +215,14 @@ class StopAndActivateAssetsController extends Controller
         $data['branches'] = Branch::where('status', 1)->select('id', 'name_' . $this->lang)->get();
         $branch_id = $stopAndActivateAsset->branch_id;
         $assetsGroups = AssetGroup::where('branch_id', $branch_id)->get();
-        $assets = Asset::where('branch_id', $branch_id)->get();
         $stop_and_activate_assets = $stopAndActivateAsset;
-        return view('admin.stop_and_activate_assets.edit', compact('data', 'stop_and_activate_assets', 'assets', 'assetsGroups'));
+        $status = $stopAndActivateAsset->status;
+        $assets = Asset::where('branch_id', $branch_id);
+        if ($status =='activate'){
+            $assets->where('status','=','stop');
+        }
+        $assets = $assets->get();
+        return view('admin.stop_and_activate_assets.edit', compact('data', 'stop_and_activate_assets', 'assets', 'assetsGroups','status'));
     }
 
     public function update(StopAndActivateAssetRequest $request, StopAndActivateAsset $stopAndActivateAsset)
@@ -229,7 +238,7 @@ class StopAndActivateAssetsController extends Controller
             ];
             $data['branch_id'] = authIsSuperAdmin() ? $request['branch_id'] : auth()->user()->branch_id;
             $stopAndActivateAsset->update($data);
-            $stopAndActivateAsset->asset()->update(['status'=>$request->status]);
+            $stopAndActivateAsset->status =='stop'? $stopAndActivateAsset->asset()->update(['status'=>$request->status,'asset_status'=>4]):$stopAndActivateAsset->asset()->update(['status'=>$request->status]);
 
             DB::commit();
         } catch (Exception $e) {
@@ -245,7 +254,20 @@ class StopAndActivateAssetsController extends Controller
 
     public function destroy(StopAndActivateAsset $stopAndActivateAsset)
     {
+        $status = $stopAndActivateAsset->status =='stop'?'activate':'stop';
+        $stopAndActivateAsset->status =='stop'? $stopAndActivateAsset->asset()->update(['status'=>$status,'asset_status'=>1]):$stopAndActivateAsset->asset()->update(['status'=>$status,'asset_status'=>4]);
+        if ($stopAndActivateAsset->status =='stop' && StopAndActivateAsset::where('asset_id',$stopAndActivateAsset->asset_id)->latest()->first()->status =='activate'){
+            return redirect()->to( route( 'admin:stop_and_activate_assets.index' ) )
+                ->with( ['message' => __( 'words.Can not delete this stop asset' ), 'alert-type' => 'error'] );
+        }
+       $consumption =  ConsumptionAsset::where('date_to','>=',$stopAndActivateAsset->date)->whereHas('items',function ($query)use($stopAndActivateAsset){
+            $query->where('asset_id',$stopAndActivateAsset->asset_id);
+        })->first();
 
+        if (!empty($consumption)){
+            return redirect()->to( route( 'admin:stop_and_activate_assets.index' ) )
+                ->with( ['message' => __( 'words.Can not delete this stop asset' ), 'alert-type' => 'error'] );
+        }
         $stopAndActivateAsset->delete();
         return redirect()->back()
             ->with(['message' => __('words.stop_and_activate_assets-deleted'), 'alert-type' => 'success']);
@@ -258,6 +280,8 @@ class StopAndActivateAssetsController extends Controller
             foreach (array_unique($request->ids) as $invoiceId) {
 
                 $stopAndActivateAsset = StopAndActivateAsset::find($invoiceId);
+                $status = $stopAndActivateAsset->status =='stop'?'activate':'stop';
+                $stopAndActivateAsset->asset()->update(['status'=>$status]);
                 $stopAndActivateAsset->delete();
             }
 
@@ -279,6 +303,33 @@ class StopAndActivateAssetsController extends Controller
             return response()->json(__('Asset already '.$request->status), 400);
         }
         return response()->json([],200);
+    }
+    public function getAssetsByAssetGroup(Request $request): JsonResponse
+    {
+        if (empty($request->branch_id) ){
+            return response()->json(__('please select valid Branch'), 400);
+        }
+        $assets = Asset::query();
+        if (!$request->asset_group_id) {
+            $assets = $assets->where('branch_id' , $request->branch_id);
+        }
+        if ($request->asset_group_id && $request->branch_id) {
+            $assets = $assets->where([
+                'asset_group_id' => $request->asset_group_id,
+                'branch_id' => $request->branch_id,
+            ]);
+        }
+        if (!empty($request->status) && $request->status =='activate'){
+            $assets = $assets->where('status','=','stop');
+        }
+        $assets = $assets->get();
+        $htmlAssets = '<option value="">'.__('Select Assets').'</option>';
+        foreach ($assets as $asset) {
+            $htmlAssets .= '<option value="' . $asset->id . '">' . $asset->name . '</option>';
+        }
+        return response()->json( [
+            'assets' => $htmlAssets,
+        ] );
     }
 
 }

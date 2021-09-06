@@ -8,6 +8,8 @@ Route::post('/stop_and_activate_assets/delete-selected', 'StopAndActivateAssetsC
 
 Route::get('stop_and_activate_asset/show','StopAndActivateAssetsController@show')->name('stop_and_activate_assets.show');
 
+Route::get('stop_and_activate_assets/getAssetsByAssetGroup', 'StopAndActivateAssetsController@getAssetsByAssetGroup')->name('stop_and_activate_assets.get_assets_by_asset_group');
+
 Route::resource('stop_and_activate_assets','StopAndActivateAssetsController')->except('show');
 
 

@@ -30,15 +30,15 @@
 
                             {{input_error($errors,'branch_id')}}
 
-                            @if(isset($consumptionAsset))
-                                <input type="hidden" name="branch_id" value="{{$consumptionAsset->branch_id}}">
-                            @endif
                         </div>
-
                     </div>
                 </div>
+            @else
+                <input type="hidden" name="branch_id" value="{{auth()->user()->branch_id}}" id="branch_id_hidden">
             @endif
-
+            @if(isset($consumptionAsset))
+                <input type="hidden" name="branch_id" value="{{$consumptionAsset->branch_id}}">
+            @endif
             <div class="col-md-12">
 
                 <div class="col-md-4">
@@ -148,9 +148,9 @@
                                 </div>
                             </li>
                             @if(isset($consumptionAsset))
-                                <input  type="hidden" name="type"
+                                <input type="hidden" name="type"
                                        value='{{$consumptionAsset->type}}'>
-                                @endif
+                            @endif
                         </ul>
                     </div>
                     {{input_error($errors,'type')}}
@@ -195,15 +195,13 @@
             </div>
 
 
-
-
-
             @include('admin.consumption-assets.table_items')
 
         </div>
 
 
-        <div class="bottom-data-wg" style="width:100%;box-shadow: 0 0 7px 1px #DDD;margin:5px auto 10px;padding:7px 7px 3px">
+        <div class="bottom-data-wg"
+             style="width:100%;box-shadow: 0 0 7px 1px #DDD;margin:5px auto 10px;padding:7px 7px 3px">
 
 
             @include('admin.consumption-assets.financial_details')
@@ -211,17 +209,17 @@
         </div>
 
         <div class="col-md-12">
-        <br>
-                    <div class="form-group">
-                        <label> {{ __('Notes') }} </label>
-                        <div class="input-group">
-                            <span class="input-group-addon"><li class="fa fa-file"></li></span>
-                        <textarea class="form-control" name="note" id="note"
-                                  placeholder="{{ __('Notes') }}">{{isset($consumptionAsset)? $consumptionAsset->note:old('notes') }}</textarea>
-                    </div>
-                    {{input_error($errors,'note')}}
+            <br>
+            <div class="form-group">
+                <label> {{ __('Notes') }} </label>
+                <div class="input-group">
+                    <span class="input-group-addon"><li class="fa fa-file"></li></span>
+                    <textarea class="form-control" name="note" id="note"
+                              placeholder="{{ __('Notes') }}">{{isset($consumptionAsset)? $consumptionAsset->note:old('notes') }}</textarea>
                 </div>
-                </div>
+                {{input_error($errors,'note')}}
+            </div>
+        </div>
 
     </div>
 </div>

@@ -30,15 +30,17 @@
 
                             {{input_error($errors,'branch_id')}}
 
-                            @if(isset($stop_and_activate_assets))
-                                <input type="hidden" name="branch_id" value="{{$stop_and_activate_assets->branch_id}}">
-                            @endif
+
                         </div>
 
                     </div>
                 </div>
+            @else
+                    <input type="hidden" name="branch_id" value="{{auth()->user()->branch_id}}" id="branch_id_hidden">
             @endif
-
+                @if(isset($stop_and_activate_assets))
+                    <input type="hidden" name="branch_id" value="{{$stop_and_activate_assets->branch_id}}">
+                @endif
             <div class="col-md-12">
 
 
@@ -66,7 +68,7 @@
                         <div class="input-group">
                             <span class="input-group-addon fa fa-cube"></span>
                             <select class="form-control js-example-basic-single" id="assetsOptions" name="asset_id">
-                                <option value="">{{__('Select Assets')}}</option>
+                                <option>{{__('Select Assets')}}</option>
                                 @foreach($assets as $asset)
                                     <option value="{{$asset->id}}" {{isset($stop_and_activate_assets) && $stop_and_activate_assets->asset_id == $asset->id? 'selected':''}}>
                                         {{$asset->name}}
