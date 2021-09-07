@@ -70,28 +70,24 @@ class AssetExpenseController extends Controller
                     return '<span class="text-danger">' . optional( $assetExpense->branch )->name . '</span>';
                 } )
                 ->addColumn( 'date', function ($assetExpense) {
-                    return '<span class="text-danger">' .$assetExpense->date . ' ' . $assetExpense->time . '</span>';
+                    return '<span class="text-danger">' . $assetExpense->date . ' ' . $assetExpense->time . '</span>';
                 } )
                 ->addColumn( 'number', function ($assetExpense) {
                     return $assetExpense->number;
 
                 } )
                 ->addColumn( 'total', function ($assetsReplacement) {
-                    return '<span style="background:#F7F8CC !important">' .number_format($assetsReplacement->total, 2) . '</span>';
+                    return '<span style="background:#F7F8CC !important">' . number_format( $assetsReplacement->total, 2 ) . '</span>';
                 } )
-
                 ->addColumn( 'status', function ($assetExpense) {
                     if ($assetExpense->status == 'pending') {
-                        return ' <span class="label label-info wg-label">'.__('Pending').'</span>';
-                        }
-                    elseif($assetExpense->status == 'accept')
-                    {
-                        return  '<span class="label label-success wg-label" >'.__('Accepted').'</span>';
-                    }elseif($assetExpense->status =='cancel'){
-                        return '<span class="label label-danger wg-label" >'.__('Rejected').'</span>';
+                        return ' <span class="label label-info wg-label">' . __( 'Pending' ) . '</span>';
+                    } elseif ($assetExpense->status == 'accept') {
+                        return '<span class="label label-success wg-label" >' . __( 'Accepted' ) . '</span>';
+                    } elseif ($assetExpense->status == 'cancel') {
+                        return '<span class="label label-danger wg-label" >' . __( 'Rejected' ) . '</span>';
                     }
                 } )
-
                 ->addColumn( 'created_at', function ($assetsReplacement) {
                     return $assetsReplacement->created_at;
                 } )
@@ -146,38 +142,37 @@ class AssetExpenseController extends Controller
             if (authIsSuperAdmin()) {
                 $js_columns = [
 
-                'DT_RowIndex' => 'DT_RowIndex',
-                'branch_id' => 'asset_expenses.branch_id',
-                'date' => 'date',
-                'number' => 'asset_expenses.number',
-                'total' => 'asset_expenses.total',
-                'status' => 'asset_expenses.status',
+                    'DT_RowIndex' => 'DT_RowIndex',
+                    'branch_id' => 'asset_expenses.branch_id',
+                    'date' => 'date',
+                    'number' => 'asset_expenses.number',
+                    'total' => 'asset_expenses.total',
+                    'status' => 'asset_expenses.status',
 
-                'created_at' => 'asset_expenses.created_at',
-                'updated_at' => 'asset_expenses.updated_at',
-                'action' => 'action',
-                'options' => 'options'
-            ];
-        }
-        else {
-            $js_columns = [
-                'DT_RowIndex' => 'DT_RowIndex',
+                    'created_at' => 'asset_expenses.created_at',
+                    'updated_at' => 'asset_expenses.updated_at',
+                    'action' => 'action',
+                    'options' => 'options'
+                ];
+            } else {
+                $js_columns = [
+                    'DT_RowIndex' => 'DT_RowIndex',
 
-                'date' => 'date',
-                'number' => 'asset_expenses.number',
-                'total' => 'asset_expenses.total',
-                'status' => 'asset_expenses.status',
+                    'date' => 'date',
+                    'number' => 'asset_expenses.number',
+                    'total' => 'asset_expenses.total',
+                    'status' => 'asset_expenses.status',
 
-                'created_at' => 'asset_expenses.created_at',
-                'updated_at' => 'asset_expenses.updated_at',
-                'action' => 'action',
-                'options' => 'options'
-            ];
-        }
+                    'created_at' => 'asset_expenses.created_at',
+                    'updated_at' => 'asset_expenses.updated_at',
+                    'action' => 'action',
+                    'options' => 'options'
+                ];
+            }
 
             $branches = Branch::all();
 
-            return view( 'admin.assets_expenses.index', compact( 'branches','js_columns' ) );
+            return view( 'admin.assets_expenses.index', compact( 'branches', 'js_columns' ) );
         }
     }
 
@@ -219,7 +214,7 @@ class AssetExpenseController extends Controller
             return redirect()->to( 'admin/assets_expenses' )
                 ->with( ['message' => __( 'words.expense-item-created' ), 'alert-type' => 'success'] );
         } catch (Exception $exception) {
-            dd($exception->getMessage());
+            dd( $exception->getMessage() );
             $this->logErrors( $exception );
             return back()->with( ['message' => __( 'words.something-went-wrong' ), 'alert-type' => 'error'] );
         }
@@ -244,7 +239,7 @@ class AssetExpenseController extends Controller
     {
         $assetExpense = AssetExpense::with( 'assetExpensesItems' )->findOrFail( $id );
         $isOnlyShow = $request->show;
-        if ($isOnlyShow){
+        if ($isOnlyShow) {
             $invoice = view( 'admin.assets_expenses.onlyShow', compact( 'assetExpense' ) )->render();
 
         } else {
@@ -291,9 +286,11 @@ class AssetExpenseController extends Controller
         $assetExpense = AssetExpense::findOrFail( $id );
 
         foreach ($assetExpense->assetExpensesItems as $item) {
-            if (SaleAssetItem::where( 'asset_id',  $item->asset->id)->exists()) {
-                return redirect()->to( route( 'admin:consumption-assets.index' ) )
-                    ->with( ['message' => __( 'words.Can not delete this asset expense' ), 'alert-type' => 'error'] );
+            if ($assetExpense->status == 'accept') {
+                if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists()) {
+                    return redirect()->to( route( 'admin:assets_expenses.index' ) )
+                        ->with( ['message' => __( 'words.Can not delete this asset expense' ), 'alert-type' => 'error'] );
+                }
             }
         }
         $assetExpense->assetExpensesItems()->delete();
@@ -308,9 +305,11 @@ class AssetExpenseController extends Controller
             $assets = AssetExpense::whereIn( 'id', $request->ids )->get();
             foreach ($assets as $asset) {
                 foreach ($asset->assetExpensesItems as $item) {
-                    if (SaleAssetItem::where( 'asset_id',  $item->asset->id)->exists() || ConsumptionAssetItemExpense::where('expense_id',$item->asset_expense_id)->exists()) {
-                        return redirect()->to( route( 'admin:consumption-assets.index' ) )
-                            ->with( ['message' => __( 'words.Can not delete this asset expense' ), 'alert-type' => 'error'] );
+                    if ($asset->status == 'accept') {
+                        if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || ConsumptionAssetItemExpense::where( 'expense_id', $item->asset_expense_id )->exists()) {
+                            return redirect()->to( route( 'admin:assets_expenses.index' ) )
+                                ->with( ['message' => __( 'words.Can not delete this asset expense' ), 'alert-type' => 'error'] );
+                        }
                     }
                 }
 
@@ -326,21 +325,21 @@ class AssetExpenseController extends Controller
 
     public function getAssetsByAssetGroup(Request $request): JsonResponse
     {
-        if (empty($request->branch_id) ){
-            return response()->json(__('please select valid Branch'), 400);
+        if (empty( $request->branch_id )) {
+            return response()->json( __( 'please select valid Branch' ), 400 );
         }
         $assets = Asset::query();
         if (!$request->asset_group_id) {
-            $assets = $assets->where('branch_id' , $request->branch_id);
+            $assets = $assets->where( 'branch_id', $request->branch_id );
         }
         if ($request->asset_group_id && $request->branch_id) {
-            $assets = $assets->where([
+            $assets = $assets->where( [
                 'asset_group_id' => $request->asset_group_id,
                 'branch_id' => $request->branch_id,
-            ]);
+            ] );
         }
         $assets = $assets->get();
-        $htmlAssets = '<option value="">'.__('Select Assets').'</option>';
+        $htmlAssets = '<option value="">' . __( 'Select Assets' ) . '</option>';
         foreach ($assets as $asset) {
             $htmlAssets .= '<option value="' . $asset->id . '">' . $asset->name . '</option>';
         }
