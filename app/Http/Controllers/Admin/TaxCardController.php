@@ -89,9 +89,12 @@ class TaxCardController extends Controller
             ->with( ['message' => __( 'words.tax_card-created' ), 'alert-type' => 'success'] );
     }
 
-    public function show()
+    public function show(TaxCard $tax_card)
     {
-        return back();
+        $item = $tax_card;
+        return response()->json([
+            'data' => view('admin.tax_card.show', compact('item'))->render()
+        ]);
     }
 
     public function edit(TaxCard $tax_card, Request $request)

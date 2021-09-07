@@ -87,14 +87,12 @@ class EgyptianFederationofConstructionController extends Controller
             ->with( ['message' => __( 'words.egyptian_federation_of_construction_and_building_contractors-created' ), 'alert-type' => 'success'] );
     }
 
-    public function show(Supplier $supplier)
+    public function show(EgyptianFederationOfConstructionAndBuildingContractors $egyptian_federation)
     {
-        if (!auth()->user()->can( 'view_suppliers' )) {
-            return redirect()->back()->with( ['authorization' => 'error'] );
-        }
-        $supplierGroupsTreeMain = $this->getMainSupplierGroupsAsTree( $supplier->main_groups_id );
-        $supplierGroupsTreeSub = $this->getSubSupplierGroupsAsTree( $supplier->sub_groups_id );
-        return view( 'admin.suppliers.show', compact( 'supplier', 'supplierGroupsTreeMain', 'supplierGroupsTreeSub' ) );
+        $item = $egyptian_federation;
+        return response()->json([
+           'data' => view('admin.egyptian_federation_of_construction_and_building_contractors.show', compact('item'))->render()
+        ]);
     }
 
     public function edit(EgyptianFederationOfConstructionAndBuildingContractors $egyptian_federation, Request $request)

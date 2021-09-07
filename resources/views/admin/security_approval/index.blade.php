@@ -125,7 +125,7 @@
                                 <th class="text-center column-id" scope="col">#</th>
                                 <th class="text-center column-branch-name" scope="col">{!! __('Company name') !!}</th>
                                 <th class="text-center column-Membership-No" scope="col">{!! __('Registration Number') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('Company Type') !!}</th> 
+                                <th class="text-center column-company-type" scope="col">{!! __('Company Type') !!}</th>
                                 <th class="text-center column-register-date" scope="col">{!! __('Approval Expiration Date') !!}</th>
                                 <!-- <th class="text-center column-company-type" scope="col">{!! __('Commercial Feature') !!}</th> -->
                                 <!-- <th class="text-center column-company-type" scope="col">{!! __('Company Field') !!}</th> -->
@@ -146,7 +146,7 @@
                                     <td class="text-center column-id">{{$loop->iteration}}</td>
                                     <td class="text-center column-branch-name">{!! optional($one->branch)->name !!}</td>
                                     <td class="text-center column-Membership-No">{!! $one->register_no !!}</td>
-                                    <td class="text-center column-register-date">{{ $one->company_type }}</td>  
+                                    <td class="text-center column-register-date">{{ $one->company_type }}</td>
                                     <td class="text-center column-company-type">
                                     <span class="label light-danger wg-label">
                                     {{ $one->expiration_date }}
@@ -167,6 +167,12 @@
 
                                             </button>
                                             <ul class="dropdown-menu dropdown-wg">
+                                                <li>
+                                                    <a class="btn btn-wg-show hvr-radial-out"
+                                                       onclick="loadDataWithModal('{{route('admin:security_approval.show', $one->id)}}')" >
+                                                        <i class="fa fa-eye"></i> {{__('Show')}}
+                                                    </a>
+                                                </li>
                                                 <li class="btn-style-drop">
                                                     @component('admin.buttons._edit_button',[
                                                                 'id' => $one->id,
@@ -207,7 +213,7 @@
                                 <th class="text-center column-id" scope="col">#</th>
                                 <th class="text-center column-branch-name" scope="col">{!! __('Company name') !!}</th>
                                 <th class="text-center column-Membership-No" scope="col">{!! __('Registration Number') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('Company Type') !!}</th> 
+                                <th class="text-center column-company-type" scope="col">{!! __('Company Type') !!}</th>
                                 <th class="text-center column-register-date" scope="col">{!! __('Approval Expiration Date') !!}</th>
                                 <!-- <th class="text-center column-company-type" scope="col">{!! __('Commercial Feature') !!}</th> -->
                                 <!-- <th class="text-center column-company-type" scope="col">{!! __('Company Field') !!}</th> -->
@@ -237,7 +243,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel-1">
-                    <i class="fa fa-file-archive-o"> </i>      
+                    <i class="fa fa-file-archive-o"> </i>
                     {{__('Security Approval Library')}}</h4>
                 </div>
                 <div class="modal-body">
@@ -250,7 +256,7 @@
                                 <label>{{__('Title_ar')}} {!! required() !!}</label>
                                 <div class="input-group">
                                 <span class="input-group-addon"><li class="fa fa-file-archive-o"></li></span>
-                               
+
                                 <input type="text" name="title_ar" class="form-control" id="library_title_ar">
                             </div>
                             </div>
@@ -259,7 +265,7 @@
                                 <label>{{__('Title_en')}}</label>
                                 <div class="input-group">
                                 <span class="input-group-addon"><li class="fa fa-file-archive-o"></li></span>
-                               
+
                                 <input type="text" name="title_en" class="form-control" id="library_title_en">
                             </div>
                             </div>
@@ -295,7 +301,7 @@
             </div>
         </div>
     </div>
-
+    @include('admin.partial.general_modal')
 @endsection
 
 @section('js')
@@ -475,6 +481,27 @@
             });
         }
 
+
+        function loadDataWithModal(route) {
+            event.preventDefault();
+            $('#modalToShow').modal('show');
+            $.ajax({
+                url: route,
+                type: 'get',
+                success: function (response) {
+                    $('#modalToShow').modal('show');
+                    setTimeout( () => {
+                        $('.box-loader').hide();
+                        $('#modalToShowResponse').html(response.data);
+                    },1000)
+                }
+            });
+        }
+
+        $('#modalToShow').on('hidden.bs.modal', function () {
+            $('.box-loader').show();
+            $('#modalToShowResponse').html('');
+        })
     </script>
 
     <script type="application/javascript" src="{{ asset('accounting-module/options-for-dt.js') }}"></script>

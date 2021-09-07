@@ -150,12 +150,12 @@
                                     <td class="text-center column-Membership-No">{!! $one->activity !!}</td>
                                     <td class="text-center  column-company-type">{{ $one->registration_number }}</td>
                                     <td class="text-center column-register-date">
-                                    <span class="label light-primary wg-label">      
+                                    <span class="label light-primary wg-label">
                                     {{ $one->registration_date }}
                                     </span>
                                 </td>
                                     <td class="text-center column-funds-on">
-                                    <span class="label light-danger wg-label">        
+                                    <span class="label light-danger wg-label">
                                     {{ $one->end_date }}
                                     </span>
                                 </td>
@@ -172,14 +172,12 @@
 
                                             </button>
                                             <ul class="dropdown-menu dropdown-wg">
-{{--                                                <li>--}}
-
-{{--                                                    @component('admin.buttons._show_button',[--}}
-{{--                                                                   'id' => $one->id,--}}
-{{--                                                                   'route'=>'admin:tax_card.show'--}}
-{{--                                                                    ])--}}
-{{--                                                    @endcomponent--}}
-{{--                                                </li>--}}
+                                                <li>
+                                                    <a class="btn btn-wg-show hvr-radial-out"
+                                                       onclick="loadDataWithModal('{{route('admin:tax_card.show', $one->id)}}')" >
+                                                        <i class="fa fa-eye"></i> {{__('Show')}}
+                                                    </a>
+                                                </li>
                                                 <li class="btn-style-drop">
                                                     @component('admin.buttons._edit_button',[
                                                                 'id' => $one->id,
@@ -252,9 +250,9 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                         
+
                     <h4 class="modal-title" id="myModalLabel-1">
-                    <i class="fa fa-file-archive-o"> </i>       
+                    <i class="fa fa-file-archive-o"> </i>
                     {{__('Tax Card Library')}}</h4>
                 </div>
                 <div class="modal-body">
@@ -315,7 +313,7 @@
             </div>
         </div>
     </div>
-
+    @include('admin.partial.general_modal')
 @endsection
 
 @section('js')
@@ -495,6 +493,26 @@
             });
         }
 
+        function loadDataWithModal(route) {
+            event.preventDefault();
+            $('#modalToShow').modal('show');
+            $.ajax({
+                url: route,
+                type: 'get',
+                success: function (response) {
+                    $('#modalToShow').modal('show');
+                    setTimeout( () => {
+                        $('.box-loader').hide();
+                        $('#modalToShowResponse').html(response.data);
+                    },1000)
+                }
+            });
+        }
+
+        $('#modalToShow').on('hidden.bs.modal', function () {
+            $('.box-loader').show();
+            $('#modalToShowResponse').html('');
+        })
     </script>
 
     <script type="application/javascript" src="{{ asset('accounting-module/options-for-dt.js') }}"></script>

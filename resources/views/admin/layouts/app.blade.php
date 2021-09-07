@@ -1126,7 +1126,7 @@ ${element_html}
     }
 </script>
 
-
+<script type="application/javascript" src="{{asset('js/dark_mode.js')}}"></script>
 @yield('accounting-scripts')
 
 @include('admin.layouts.select_2_scripts')

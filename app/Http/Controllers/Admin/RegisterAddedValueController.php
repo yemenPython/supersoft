@@ -86,9 +86,12 @@ class RegisterAddedValueController extends Controller
             ->with( ['message' => __( 'words.register_added_value-created' ), 'alert-type' => 'success'] );
     }
 
-    public function show()
+    public function show(RegisterAddedValue $register_added_value)
     {
-        return back();
+        $item = $register_added_value;
+        return response()->json([
+            'data' => view('admin.register_added_value.show', compact('item'))->render()
+        ]);
     }
 
     public function edit(RegisterAddedValue $register_added_value, Request $request)
