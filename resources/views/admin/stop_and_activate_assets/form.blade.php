@@ -53,7 +53,7 @@
                             <select class="form-control js-example-basic-single" id="assetsGroups">
                                 <option value="0">{{__('Select Assets Groups')}}</option>
                                 @foreach($assetsGroups as $key => $type)
-                                    <option value="{{$type->id}}"  >
+                                    <option value="{{$type->id}}"  {{isset($stop_and_activate_assets) && $stop_and_activate_assets->asset->asset_group_id == $type->id? 'selected':''}}>
                                         {{$type->name}}
                                     </option>
                                 @endforeach
