@@ -14,7 +14,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Asset extends Model
 {
-    use ColumnTranslation, LogsActivity, SoftDeletes;
+    use ColumnTranslation, LogsActivity;
     /**
      * @var string
      */

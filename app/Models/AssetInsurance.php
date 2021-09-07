@@ -12,7 +12,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class AssetInsurance extends Model
 {
-    use ColumnTranslation, LogsActivity, SoftDeletes;
+    use ColumnTranslation, LogsActivity;
     /**
      * @var string
      */

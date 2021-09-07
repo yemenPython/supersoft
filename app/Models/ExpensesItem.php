@@ -11,7 +11,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class ExpensesItem extends Model
 {
-    use ColumnTranslation, SoftDeletes, LogsActivity;
+    use ColumnTranslation, SoftDeletes;
 
     protected $table = 'expenses_items';
 

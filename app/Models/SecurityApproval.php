@@ -13,7 +13,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class SecurityApproval extends Model
 {
-    use ColumnTranslation, LogsActivity, SoftDeletes;
+    use ColumnTranslation, LogsActivity;
     /**
      * @var string
      */

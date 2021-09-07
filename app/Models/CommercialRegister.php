@@ -13,7 +13,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class CommercialRegister extends Model
 {
-    use ColumnTranslation, LogsActivity, SoftDeletes;
+    use ColumnTranslation, LogsActivity;
     /**
      * @var string
      */

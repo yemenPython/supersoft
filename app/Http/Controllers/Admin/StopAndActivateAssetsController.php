@@ -281,7 +281,19 @@ class StopAndActivateAssetsController extends Controller
 
                 $stopAndActivateAsset = StopAndActivateAsset::find($invoiceId);
                 $status = $stopAndActivateAsset->status =='stop'?'activate':'stop';
-                $stopAndActivateAsset->asset()->update(['status'=>$status]);
+                $stopAndActivateAsset->status =='stop'? $stopAndActivateAsset->asset()->update(['status'=>$status,'asset_status'=>1]):$stopAndActivateAsset->asset()->update(['status'=>$status,'asset_status'=>4]);
+                if ($stopAndActivateAsset->status =='stop' && StopAndActivateAsset::where('asset_id',$stopAndActivateAsset->asset_id)->latest()->first()->status =='activate'){
+                    return redirect()->to( route( 'admin:stop_and_activate_assets.index' ) )
+                        ->with( ['message' => __( 'words.Can not delete this stop asset' ), 'alert-type' => 'error'] );
+                }
+                $consumption =  ConsumptionAsset::where('date_to','>=',$stopAndActivateAsset->date)->whereHas('items',function ($query)use($stopAndActivateAsset){
+                    $query->where('asset_id',$stopAndActivateAsset->asset_id);
+                })->first();
+
+                if (!empty($consumption)){
+                    return redirect()->to( route( 'admin:stop_and_activate_assets.index' ) )
+                        ->with( ['message' => __( 'words.Can not delete this stop asset' ), 'alert-type' => 'error'] );
+                }
                 $stopAndActivateAsset->delete();
             }
 

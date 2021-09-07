@@ -8,7 +8,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class SaleAssetItem extends Model
 {
-    use SoftDeletes, LogsActivity;
+    use LogsActivity;
 
     protected $dates = ['created_by', 'updated_at', 'deleted_at'];
     protected $fillable = [
