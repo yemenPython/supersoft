@@ -279,7 +279,7 @@
 
                 if (willDelete) {
 
-                    $('#tr_part_' + index).remove();
+                    $('.tr_part_' + index).remove();
                     calculateTotal();
                     reorderItems();
                 }

@@ -52,7 +52,7 @@ $.fn.extend({
       tree.addClass("tree");
       tree.find('li').has("ul").each(function() {
         var branch = $(this); //li with children ul
-        branch.prepend("<i class='indicator fa fa-plus-square-o'></i>");
+        // branch.prepend("<i class='indicator fa fa-plus-square-o'></i>");
         branch.addClass('branch');
         branch.on('click', function(e) {
           if (this == e.target) {

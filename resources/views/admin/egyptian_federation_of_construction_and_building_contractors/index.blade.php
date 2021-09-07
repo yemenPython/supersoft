@@ -126,7 +126,7 @@
                                 <th class="text-center column-Membership-No" scope="col">{!! __('Membership No') !!}</th>
                                 <th class="text-center column-company-type" scope="col">{!! __('Company Type') !!}</th>
                                 <th class="text-center column-funds-for" scope="col">{!! __('Subscription payment receipt') !!}</th>
-                                <th class="text-center column-register-date" scope="col">{!! __('Date of register in the union') !!}</th> 
+                                <th class="text-center column-register-date" scope="col">{!! __('Date of register in the union') !!}</th>
                                 <th class="text-center column-funds-on" scope="col">{!! __('End date') !!}</th>
                                 <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
                                 <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
@@ -145,10 +145,10 @@
                                     <td class="text-center column-id">{{$loop->iteration}}</td>
                                     <td class="text-center column-branch-name">{!! optional($one->branch)->name !!}</td>
                                     <td class="text-center column-Membership-No">{!! $one->membership_no !!}</td>
-                                    <td class="text-center  column-funds-for">{{ $one->company_type }}</td>   
+                                    <td class="text-center  column-funds-for">{{ $one->company_type }}</td>
                                     <td class="text-center  column-company-type">{{ $one->payment_receipt }}</td>
                                     <td class="text-center column-register-date">
-                                    <span class="label light-primary wg-label">    
+                                    <span class="label light-primary wg-label">
                                     {{ $one->date_of_register }}
                                     </span>
                                     </td>
@@ -170,14 +170,12 @@
 
                                             </button>
                                             <ul class="dropdown-menu dropdown-wg">
-{{--                                                <li>--}}
-
-{{--                                                    @component('admin.buttons._show_button',[--}}
-{{--                                                                   'id' => $one->id,--}}
-{{--                                                                   'route'=>'admin:egyptian_federation.show'--}}
-{{--                                                                    ])--}}
-{{--                                                    @endcomponent--}}
-{{--                                                </li>--}}
+                                                <li>
+                                                    <a class="btn btn-wg-show hvr-radial-out"
+                                                       onclick="loadDataWithModal('{{route('admin:egyptian_federation.show', $one->id)}}')" >
+                                                        <i class="fa fa-eye"></i> {{__('Show')}}
+                                                    </a>
+                                                </li>
                                                 <li class="btn-style-drop">
                                                     @component('admin.buttons._edit_button',[
                                                                 'id' => $one->id,
@@ -251,12 +249,12 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel-1">
-                    <i class="fa fa-file-archive-o"> </i>    
+                    <i class="fa fa-file-archive-o"> </i>
                     {{__('Egyptian Federation Library')}}
-                    
+
                     </h4>
                 </div>
-                
+
                 <div class="modal-body">
 
                     <div class="row">
@@ -312,6 +310,7 @@
         </div>
     </div>
 
+    @include('admin.partial.general_modal')
 @endsection
 
 @section('js')
@@ -491,6 +490,26 @@
             });
         }
 
+        function loadDataWithModal(route) {
+            event.preventDefault();
+            $('#modalToShow').modal('show');
+            $.ajax({
+                url: route,
+                type: 'get',
+                success: function (response) {
+                    $('#modalToShow').modal('show');
+                    setTimeout( () => {
+                        $('.box-loader').hide();
+                        $('#modalToShowResponse').html(response.data);
+                    },1000)
+                }
+            });
+        }
+
+        $('#modalToShow').on('hidden.bs.modal', function () {
+            $('.box-loader').show();
+            $('#modalToShowResponse').html('');
+        })
     </script>
 
     <script type="application/javascript" src="{{ asset('accounting-module/options-for-dt.js') }}"></script>

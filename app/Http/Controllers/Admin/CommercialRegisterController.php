@@ -90,9 +90,12 @@ class CommercialRegisterController extends Controller
             ->with( ['message' => __( 'words.commercial_register-created' ), 'alert-type' => 'success'] );
     }
 
-    public function show()
+    public function show(CommercialRegister $commercial_register)
     {
-        return back();
+        $item = $commercial_register;
+        return response()->json([
+            'data' => view('admin.commercial_register.show', compact('item'))->render()
+        ]);
     }
 
     public function edit(CommercialRegister $commercial_register, Request $request)

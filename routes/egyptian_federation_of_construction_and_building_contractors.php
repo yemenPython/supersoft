@@ -10,3 +10,4 @@ Route::post('egyptian_federation/upload_library', 'EgyptianFederationofConstruct
 Route::post('egyptian_federation/upload_library/file-delete', 'EgyptianFederationofConstructionController@destroyFile')->name('egyptian_federation.upload_library.file.delete');
 
 Route::post('egyptian_federation/get-sub-groups-by-main-ids', 'EgyptianFederationofConstructionController@getSubGroupsByMainIds')->name('egyptian_federation.getSubGroupsByMainIds');
+Route::get('egyptian_federation/{egyptian_federation}', 'EgyptianFederationofConstructionController@show')->name('egyptian_federation.show');

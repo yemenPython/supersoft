@@ -148,12 +148,12 @@
                                     <td class="text-center column-id">{{$loop->iteration}}</td>
                                     <td class="text-center column-branch-name">{!! optional($one->branch)->name !!}</td>
                                     <td class="text-center column-Membership-No">
-                                    <span class="label light-primary wg-label">      
+                                    <span class="label light-primary wg-label">
                                     {!! $one->contract_date !!}
                                     </span>
                                     </td>
                                     <td class="text-center column-company-type">
-                                    <span class="label light-primary wg-label">      
+                                    <span class="label light-primary wg-label">
                                     {{ $one->register_date }}
                                     </span>
                                    </td>
@@ -162,12 +162,12 @@
                                     <!-- <td class="text-center column-register-date">{{ $one->share_capital }}</td> -->
                                     <td class="text-danger text-center column-register-date">{{ $one->partnership_duration }} {{__('years')}}</td>
                                     <td class="text-center column-register-date">
-                                    <span class="label light-primary wg-label">     
+                                    <span class="label light-primary wg-label">
                                         {{ $one->start_at }}
                                         </span>
                                     </td>
                                     <td class="text-center column-register-date">
-                                    <span class="label light-danger wg-label">         
+                                    <span class="label light-danger wg-label">
                                     {{ $one->end_at }}
                                     </span>
                                     </td>
@@ -184,6 +184,12 @@
 
                                             </button>
                                             <ul class="dropdown-menu dropdown-wg">
+                                                <li>
+                                                    <a class="btn btn-wg-show hvr-radial-out"
+                                                       onclick="loadDataWithModal('{{route('admin:company_contract.show', $one->id)}}')" >
+                                                        <i class="fa fa-eye"></i> {{__('Show')}}
+                                                    </a>
+                                                </li>
                                                 <li class="btn-style-drop">
                                                     @component('admin.buttons._edit_button',[
                                                                 'id' => $one->id,
@@ -257,7 +263,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel-1">
-                    <i class="fa fa-file-archive-o"> </i>    
+                    <i class="fa fa-file-archive-o"> </i>
                     {{__('Company Contract Library')}}</h4>
                 </div>
                 <div class="modal-body">
@@ -270,7 +276,7 @@
                             <label>{{__('Title_ar')}} {!! required() !!}</label>
                                 <div class="input-group">
                                 <span class="input-group-addon"><li class="fa fa-file-archive-o"></li></span>
-                               
+
                                 <input type="text" name="title_ar" class="form-control" id="library_title_ar">
                             </div>
                             </div>
@@ -279,7 +285,7 @@
                                                             <label>{{__('Title_en')}}</label>
                                 <div class="input-group">
                                 <span class="input-group-addon"><li class="fa fa-file-archive-o"></li></span>
-                              
+
                                 <input type="text" name="title_en" class="form-control" id="library_title_en">
                             </div>
                             </div>
@@ -316,7 +322,7 @@
             </div>
         </div>
     </div>
-
+    @include('admin.partial.general_modal')
 @endsection
 
 @section('js')
@@ -496,6 +502,27 @@
             });
         }
 
+
+        function loadDataWithModal(route) {
+            event.preventDefault();
+            $('#modalToShow').modal('show');
+            $.ajax({
+                url: route,
+                type: 'get',
+                success: function (response) {
+                    $('#modalToShow').modal('show');
+                    setTimeout( () => {
+                        $('.box-loader').hide();
+                        $('#modalToShowResponse').html(response.data);
+                    },1000)
+                }
+            });
+        }
+
+        $('#modalToShow').on('hidden.bs.modal', function () {
+            $('.box-loader').show();
+            $('#modalToShowResponse').html('');
+        })
     </script>
 
     <script type="application/javascript" src="{{ asset('accounting-module/options-for-dt.js') }}"></script>

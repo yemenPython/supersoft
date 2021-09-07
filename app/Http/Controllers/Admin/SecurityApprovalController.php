@@ -118,9 +118,12 @@ class SecurityApprovalController extends Controller
             ->with( ['message' => __( 'words.security_approval-created' ), 'alert-type' => 'success'] );
     }
 
-    public function show()
+    public function show(SecurityApproval $security_approval)
     {
-        return back();
+        $item = $security_approval;
+        return response()->json([
+            'data' => view('admin.security_approval.show', compact('item'))->render()
+        ]);
     }
 
     public function edit(SecurityApproval $security_approval, Request $request)

@@ -110,9 +110,12 @@ class CompanyContractController extends Controller
             ->with( ['message' => __( 'words.company_contract-created' ), 'alert-type' => 'success'] );
     }
 
-    public function show()
+    public function show(CompanyContract $company_contract)
     {
-        return back();
+        $item = $company_contract;
+        return response()->json([
+            'data' => view('admin.company_contract.show', compact('item'))->render()
+        ]);
     }
 
     public function edit(CompanyContract $company_contract, Request $request)
