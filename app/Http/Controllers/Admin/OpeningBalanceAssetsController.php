@@ -237,7 +237,7 @@ class OpeningBalanceAssetsController extends Controller
         return view( 'admin.opening-balance-assets.create', compact( 'data', 'assetsGroups', 'assets' ) );
     }
 
-    public function store(PurchaseAssetRequest $request)
+    public function store(OpeningBalanceAssetRequest $request)
     {
         if (!isset( $request->items )) {
             return redirect()->to( route( 'admin:opening-balance-assets.create' ) )

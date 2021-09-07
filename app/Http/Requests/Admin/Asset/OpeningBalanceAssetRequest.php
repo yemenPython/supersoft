@@ -21,6 +21,7 @@ class OpeningBalanceAssetRequest extends FormRequest
                 Rule::unique( 'purchase_assets' )
                     ->ignore( $this->opening_balance_asset )
                     ->whereNull( 'deleted_at' )
+                   ->where( 'operation_type',  'opening_balance' )
                     ->where( 'branch_id', $branch_id )
             ],
             'date' => 'required|date',
