@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Filters\AssetExpenseFilter;
 use App\Models\AssetReplacement;
+use App\Models\AssetReplacementItem;
 use App\Models\ConsumptionAssetItemExpense;
 use App\Models\SaleAssetItem;
 use Exception;
@@ -286,12 +287,12 @@ class AssetExpenseController extends Controller
         $assetExpense = AssetExpense::findOrFail( $id );
 
         foreach ($assetExpense->assetExpensesItems as $item) {
-            if ($assetExpense->status == 'accept') {
-                if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists()) {
+
+            if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || ConsumptionAssetItemExpense::where( 'expense_id', $item->asset_expense_id )->exists() || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists()) {
                     return redirect()->to( route( 'admin:assets_expenses.index' ) )
                         ->with( ['message' => __( 'words.Can not delete this asset expense' ), 'alert-type' => 'error'] );
                 }
-            }
+
         }
         $assetExpense->assetExpensesItems()->delete();
         $assetExpense->delete();
@@ -305,12 +306,10 @@ class AssetExpenseController extends Controller
             $assets = AssetExpense::whereIn( 'id', $request->ids )->get();
             foreach ($assets as $asset) {
                 foreach ($asset->assetExpensesItems as $item) {
-                    if ($asset->status == 'accept') {
-                        if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || ConsumptionAssetItemExpense::where( 'expense_id', $item->asset_expense_id )->exists()) {
+                        if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || ConsumptionAssetItemExpense::where( 'expense_id', $item->asset_expense_id )->exists() || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists()) {
                             return redirect()->to( route( 'admin:assets_expenses.index' ) )
                                 ->with( ['message' => __( 'words.Can not delete this asset expense' ), 'alert-type' => 'error'] );
                         }
-                    }
                 }
 
                 $asset->assetExpensesItems()->delete();

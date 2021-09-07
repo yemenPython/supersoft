@@ -551,7 +551,9 @@ class ConsumptionAssetsController extends Controller
             return response()->json( __( 'can not create consumption for asset in same dates more than once' ), 400 );
         }
         $expenses_total = 0;
-        foreach ($asset->expenses as $expens) {
+        foreach ($asset->expenses()->whereHas('assetExpense',function ($q){
+            $q->where('status','=','accept');
+        })->get() as $expens) {
             $to = Carbon::createFromFormat( 'Y-m-d', $request->date_to );
             $from = Carbon::createFromFormat( 'Y-m-d', $request->date_from );
 

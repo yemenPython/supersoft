@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\Asset\StopAndActivateAssetRequest;
 use App\Models\Asset;
 use App\Models\AssetEmployee;
 use App\Models\AssetGroup;
+use App\Models\AssetReplacementItem;
 use App\Models\AssetType;
 use App\Models\ConsumptionAsset;
 use App\Models\ConsumptionAssetItem;
@@ -262,9 +263,8 @@ class StopAndActivateAssetsController extends Controller
         }
        $consumption =  ConsumptionAsset::where('date_to','>=',$stopAndActivateAsset->date)->whereHas('items',function ($query)use($stopAndActivateAsset){
             $query->where('asset_id',$stopAndActivateAsset->asset_id);
-        })->first();
-
-        if (!empty($consumption)){
+        })->where('created_at','>',$stopAndActivateAsset->created_at)->first();
+        if (!empty($consumption) || AssetReplacementItem::where( 'asset_id', $stopAndActivateAsset->asset_id )->where('created_at','>',$stopAndActivateAsset->created_at)->exists()){
             return redirect()->to( route( 'admin:stop_and_activate_assets.index' ) )
                 ->with( ['message' => __( 'words.Can not delete this stop asset' ), 'alert-type' => 'error'] );
         }
@@ -290,7 +290,7 @@ class StopAndActivateAssetsController extends Controller
                     $query->where('asset_id',$stopAndActivateAsset->asset_id);
                 })->first();
 
-                if (!empty($consumption)){
+                if (!empty($consumption) || AssetReplacementItem::where( 'asset_id', $stopAndActivateAsset->asset_id )->exists()){
                     return redirect()->to( route( 'admin:stop_and_activate_assets.index' ) )
                         ->with( ['message' => __( 'words.Can not delete this stop asset' ), 'alert-type' => 'error'] );
                 }

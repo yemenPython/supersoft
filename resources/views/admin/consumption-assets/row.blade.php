@@ -86,8 +86,10 @@
             </span>
 
                 <ul class="dropdown-menu" style="margin-top: 19px;">
-                    @if($asset->expenses->isNotEmpty())
-                        @foreach($asset->expenses as $tax_index => $expense)
+                    @if($asset->expenses()->whereHas('assetExpense',function ($q){
+            $q->where('status','=','accept');
+        })->get()->isNotEmpty())
+                        @foreach($asset->expenses()->where('status','=','accept')->get() as $tax_index => $expense)
                             <li>
                                 <span>
                                Price = {{$expense->price}}
