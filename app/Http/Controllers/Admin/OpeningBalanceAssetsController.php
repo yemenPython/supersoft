@@ -489,36 +489,6 @@ class OpeningBalanceAssetsController extends Controller
         ] );
     }
 
-    public function getInvoiceNumbersBySupplierId(Request $request): JsonResponse
-    {
-        if (!empty( $request->supplier_id )) {
-            $numbers = PurchaseAsset::where( 'supplier_id', $request->supplier_id )->pluck( 'invoice_number' )->unique();
-        } else {
-            $numbers = PurchaseAsset::pluck( 'invoice_number' )->unique();
-        }
-        if ($numbers) {
-            $numbers_data = view( 'admin.opening-balance-assets.invoice_number_by_supplier_id', compact( 'numbers' ) )->render();
-            return response()->json( [
-                'data' => $numbers_data,
-            ] );
-        }
-    }
-
-    public function getSuppliersByBranchId(Request $request)
-    {
-        if (!empty( $request->branch_id )) {
-            $suppliers = Supplier::where( 'branch_id', $request->branch_id )->get();
-        } else {
-            $suppliers = Supplier::all();
-        }
-        if ($suppliers) {
-            $suppliers_data = view( 'admin.opening-balance-assets.suppliers_by_branch_id', compact( 'suppliers' ) )->render();
-            return response()->json( [
-                'data' => $suppliers_data,
-            ] );
-        }
-    }
-
     public function getNumbersByBranchId(Request $request): JsonResponse
     {
         if (!empty( $request->branch_id )) {

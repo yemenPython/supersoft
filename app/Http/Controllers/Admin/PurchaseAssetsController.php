@@ -274,12 +274,6 @@ class PurchaseAssetsController extends Controller
                     'annual_consumtion_rate' => $item['annual_consumtion_rate'],
                     'asset_age' => $item['asset_age'],
                 ] );
-
-//                $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
-//                $sum_total_current_consumtion_for_group = $assetGroup->assets()->sum( 'total_current_consumtion' );
-//                $sum_total_current_consumtion_for_group += $item['past_consumtion'];
-//                $assetGroup->update( ['total_consumtion' => $sum_total_current_consumtion_for_group] );
-
                 PurchaseAssetItem::create( [
                     'purchase_asset_id' => $purchaseAsset->id,
                     'asset_id' => $item['asset_id'],
@@ -297,9 +291,6 @@ class PurchaseAssetsController extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
-
-//            dd( $e->getMessage() );
-
             return redirect()->to( route( 'admin:purchase-assets.create' ) )
                 ->with( ['message' => __( $e->getMessage() ), 'alert-type' => 'error'] );
         }
@@ -374,10 +365,6 @@ class PurchaseAssetsController extends Controller
                     'annual_consumtion_rate' => $item['annual_consumtion_rate'],
                     'asset_age' => $item['asset_age'],
                 ] );
-//                $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
-//                $sum_total_current_consumtion_for_group = $assetGroup->assets()->sum( 'total_current_consumtion' );
-//                $sum_total_current_consumtion_for_group += $item['past_consumtion'];
-//                $assetGroup->update( ['total_consumtion' => $sum_total_current_consumtion_for_group] );
                 PurchaseAssetItem::create( [
                     'purchase_asset_id' => $purchaseAsset->id,
                     'asset_id' => $item['asset_id'],
@@ -392,9 +379,6 @@ class PurchaseAssetsController extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
-
-            dd( $e->getMessage() );
-
             return redirect()->to( 'admin/purchase-invoices' )
                 ->with( ['message' => __( 'words.purchase-invoice-cant-created' ), 'alert-type' => 'error'] );
         }
@@ -426,7 +410,6 @@ class PurchaseAssetsController extends Controller
             foreach (array_unique( $request->ids ) as $invoiceId) {
 
                 $purchaseAsset = PurchaseAsset::find( $invoiceId );
-
 
                 foreach ($purchaseAsset->items as $item) {
                     if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists() || AssetExpenseItem::where('asset_id',$item->asset->id)->exists() || ConsumptionAssetItem::where('asset_id',$item->asset->id)->exists()) {
