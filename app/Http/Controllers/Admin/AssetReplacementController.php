@@ -342,12 +342,13 @@ class AssetReplacementController extends Controller
     {
         if (!is_null( $request->asset_id )) {
             $var = ConsumptionAssetItem::where( 'asset_id', $request->asset_id )->with( 'consumptionAsset' )->latest()->first();
-            if ($var && !$var->consumptionAsset->date_to > Carbon::now()) {
+
+            if ($var &&  !($var->consumptionAsset->date_to >  date( 'Y-m-d' ) )) {
                 $from = Carbon::createFromFormat( 'Y-m-d', $var->consumptionAsset->date_to );
                 $to = Carbon::createFromFormat( 'Y-m-d', date( 'Y-m-d' ) );
                 $diff_in_days = $to->diffInDays( $from );
-                if ($diff_in_days >= 15) {
-                    return response()->json( __( 'Please add consumption asset before !' ), 400 );
+                if ($diff_in_days >= 2) {
+                    return response()->json( __( 'Please add consumption asset until '.Carbon::parse(Carbon::yesterday())->format('d-m-Y') ), 400 );
                 }
             } else if (!$var) {
                 return response()->json( __( 'Please  add consumption asset before !' ), 400 );

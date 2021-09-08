@@ -29,7 +29,7 @@ class AssetRequest extends FormRequest
             'branch_id' => 'required|numeric|exists:branches,id',
             'asset_group_id' => 'required|exists:assets_groups,id',
             'asset_type_id' => 'required|exists:assets_types,id',
-            'asset_status' => 'required|numeric|min:1|max:3',
+            'asset_status' => 'required|numeric|min:1|max:4',
              'annual_consumtion_rate' => 'required|numeric|min:0|max:100',
 //            'asset_details' => 'required',
 //            'purchase_date' => 'required',
