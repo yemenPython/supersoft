@@ -193,7 +193,7 @@ class StopAndActivateAssetsController extends Controller
             ];
             $data['branch_id'] = authIsSuperAdmin() ? $request['branch_id'] : auth()->user()->branch_id;
             $record = StopAndActivateAsset::create($data);
-            $record->status =='stop'? $record->asset()->update(['status'=>$request->status,'asset_status'=>4]):$record->asset()->update(['status'=>$request->status]);
+            $record->status =='stop'? $record->asset()->update(['status'=>$request->status,'asset_status'=>4]):$record->asset()->update(['status'=>$request->status,'asset_status'=>1]);
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
@@ -239,7 +239,7 @@ class StopAndActivateAssetsController extends Controller
             ];
             $data['branch_id'] = authIsSuperAdmin() ? $request['branch_id'] : auth()->user()->branch_id;
             $stopAndActivateAsset->update($data);
-            $stopAndActivateAsset->status =='stop'? $stopAndActivateAsset->asset()->update(['status'=>$request->status,'asset_status'=>4]):$stopAndActivateAsset->asset()->update(['status'=>$request->status]);
+            $stopAndActivateAsset->status =='stop'? $stopAndActivateAsset->asset()->update(['status'=>$request->status,'asset_status'=>4]):$stopAndActivateAsset->asset()->update(['status'=>$request->status,'asset_status'=>1]);
 
             DB::commit();
         } catch (Exception $e) {
