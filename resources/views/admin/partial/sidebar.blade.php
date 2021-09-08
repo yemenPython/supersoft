@@ -574,6 +574,19 @@ route('admin:financial_management.type_expenses.index'),
                                 {{__('Types Bank Accounts')}}
                             </a>
                         </li>
+
+                        <li class="{{setActivationClass(route('admin:lockers.index'))}}">
+                            <a href="{{route('admin:lockers.index')}}">
+                                {{__('Lockers')}}
+                </a>
+            </li>
+
+                        <li class="{{setActivationClass(route('admin:lockers_opening_balance.index'))}}">
+                            <a href="{{route('admin:lockers_opening_balance.index')}}">
+                                {{__('Locker Opening Balance')}}
+                            </a>
+                        </li>
+
                         <li class="{{setActivationClass(route('admin:customers.index'))}}">
                             <a href="{{route('admin:lockers-transfer.index')}}">
                                 {{__('Lockers Transfer')}}
@@ -610,18 +623,7 @@ route('admin:lockers_opening_balance.index'),
                         <span class="menu-arrow fa fa-angle-down"></span>
                     </a>
                     <ul class="sub-menu js__content">
-                        <li class="{{setActivationClass(route('admin:lockers.index'))}}">
-                            <a href="{{route('admin:lockers.index')}}">
-                                {{__('Lockers')}}
-                </a>
-            </li>
-
-                        <li class="{{setActivationClass(route('admin:lockers_opening_balance.index'))}}">
-                            <a href="{{route('admin:lockers_opening_balance.index')}}">
-                                {{__('Locker Opening Balance')}}
-                            </a>
-                        </li>
-
+                       
             <li class="{{setActivationClass(route('admin:accounts.index'))}}">
                             <a href="{{route('admin:accounts.index')}}">
                                 {{__('Accounts')}}
