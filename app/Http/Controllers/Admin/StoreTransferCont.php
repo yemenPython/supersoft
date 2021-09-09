@@ -250,8 +250,12 @@ class StoreTransferCont extends Controller
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
-        if ($this->storeTransferServices->checkMaxQuantityOfItem($request['items'], $request['store_from_id'])) {
-            return redirect()->back()->with(['message' => __('quantity not available'), 'alert-type' => 'error']);
+        $invalidItems = $this->storeTransferServices->checkMaxQuantityOfItem($request['items'], $request['store_from_id']);
+
+        if (!empty($invalidItems)) {
+
+            $message = __('quantity not available for this items ') . '('.implode($invalidItems,' ,').')';
+            return redirect()->back()->with(['message' => $message, 'alert-type' => 'error']);
         }
 
         try {
@@ -354,9 +358,12 @@ class StoreTransferCont extends Controller
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
-        if ($this->storeTransferServices->checkMaxQuantityOfItem($request['items'], $request['store_from_id'])) {
+        $invalidItems = $this->storeTransferServices->checkMaxQuantityOfItem($request['items'], $request['store_from_id']);
 
-            return redirect()->back()->with(['message' => __('quantity not available'), 'alert-type' => 'error']);
+        if (!empty($invalidItems)) {
+
+            $message = __('quantity not available for this items ') . '('.implode($invalidItems,' ,').')';
+            return redirect()->back()->with(['message' => $message, 'alert-type' => 'error']);
         }
 
         $storeTransfer = StoreTransfer::findOrFail($id);
@@ -554,8 +561,12 @@ class StoreTransferCont extends Controller
 
         try {
 
-            if ($this->storeTransferServices->checkMaxQuantityOfItem($request['items'], $request['store_from_id'])) {
-                return response()->json(__('quantity not available'), 400);
+            $invalidItems = $this->storeTransferServices->checkMaxQuantityOfItem($request['items'], $request['store_from_id']);
+
+            if (!empty($invalidItems)) {
+
+                $message = __('quantity not available for this items ') . '('.implode($invalidItems,' ,').')';
+                return response()->json($message, 400);
             }
 
         } catch (Exception $e) {

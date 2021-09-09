@@ -104,6 +104,14 @@ class ConcessionController extends Controller
                 return response()->json( __('sorry, this item has old concession'), 400);
             }
 
+            $invalidItems = $this->concessionService->checkMaxQuantityOfItem($className, $request['item_id'], $request['type']);
+
+            if (!empty($invalidItems)) {
+
+                $message = __('quantity not available for this items ') . '('.implode($invalidItems,' ,').')';
+                return response()->json($message, 400);
+            }
+
             $data = $request->all();
 
             $data['concessionable_type'] = $className;
@@ -281,6 +289,14 @@ class ConcessionController extends Controller
                 $this->concessionService->checkItemHasOldConcession($className, $request['item_id'],$concessionType->type)) {
 
                 return response()->json( __('sorry, this item has old concession'), 400);
+            }
+
+            $invalidItems = $this->concessionService->checkMaxQuantityOfItem($className, $request['item_id'], $request['type']);
+
+            if (!empty($invalidItems)) {
+
+                $message = __('quantity not available for this items ') . '('.implode($invalidItems,' ,').')';
+                return response()->json($message, 400);
             }
 
             if ($className == 'StoreTransfer' && $concession->type == 'add') {

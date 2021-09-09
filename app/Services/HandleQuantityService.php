@@ -9,7 +9,15 @@ class HandleQuantityService
 
     public function acceptQuantity($items, $type)
     {
+        $response = ['status' => false];
+
         foreach ($items as $item) {
+
+            $part = $item->part;
+
+            if ($part->is_service) {
+                continue;
+            }
 
             if ($type != 'add') {
 
@@ -18,7 +26,7 @@ class HandleQuantityService
                 if (!$data['status']) {
 
                     $message = isset($data['message']) ? $data['message'] : '';
-                    return ['status'=> false , 'message'=> $message];
+                    return ['status' => false, 'message' => $message];
                 }
             }
 
@@ -27,7 +35,7 @@ class HandleQuantityService
             $this->savePartQuantity($item, $type);
         }
 
-        return ['status'=> true];
+        return $response;
     }
 
     public function checkItemQuantity($item)

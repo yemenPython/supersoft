@@ -1,4 +1,4 @@
-<tr id="tr_part_{{$index}}" class="remove_on_change_branch text-center-inputs tr_part_{{$index}}">
+ <tr id="tr_part_{{$index}}" class="remove_on_change_branch text-center-inputs tr_part_{{$index}}">
 
     <td>
         <span id="item_number_{{$index}}">{{$index}}</span>
@@ -126,7 +126,7 @@
 
 {{-- SECOND TR --}}
 
-<tr class="tr_part_{{$index}}">
+<tr class="tr_part_{{$index}} remove_on_change_branch">
 
     <td colspan="12" class="hiddenRow">
         <div class="accordian-body collapse" id="demo{{$index}}">

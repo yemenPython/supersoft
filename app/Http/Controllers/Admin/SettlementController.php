@@ -100,8 +100,12 @@ class SettlementController extends Controller
             return redirect()->back()->with(['message' => __('items required'), 'alert-type' => 'error']);
         }
 
-        if ($this->settlementService->checkMaxQuantityOfItem($request['items'])) {
-            return redirect()->back()->with(['message' => __('quantity not available'), 'alert-type' => 'error']);
+        $invalidItems = $this->settlementService->checkMaxQuantityOfItem($request['items']);
+
+        if (!empty($invalidItems)) {
+
+            $message = __('quantity not available for this items ') . '('.implode($invalidItems,' ,').')';
+            return redirect()->back()->with(['message' => $message, 'alert-type' => 'error']);
         }
 
         try {
@@ -199,8 +203,12 @@ class SettlementController extends Controller
             return redirect()->back()->with(['message'=> __('sorry, this item has related data'), 'alert-type'=>'error']);
         }
 
-        if ($this->settlementService->checkMaxQuantityOfItem($request['items'])) {
-            return redirect()->back()->with(['message' => __('quantity not available'), 'alert-type' => 'error']);
+        $invalidItems = $this->settlementService->checkMaxQuantityOfItem($request['items']);
+
+        if (!empty($invalidItems)) {
+
+            $message = __('quantity not available for this items ') . '('.implode($invalidItems,' ,').')';
+            return redirect()->back()->with(['message' => $message, 'alert-type' => 'error']);
         }
 
         try {
@@ -359,8 +367,12 @@ class SettlementController extends Controller
 
         try {
 
-            if ($this->settlementService->checkMaxQuantityOfItem($request['items'])) {
-                return response()->json(__('quantity not available'), 400);
+            $invalidItems = $this->settlementService->checkMaxQuantityOfItem($request['items']);
+
+            if (!empty($invalidItems)) {
+
+                $message = __('quantity not available for this items ') . '('.implode($invalidItems,' ,').')';
+                return response()->json($message, 400);
             }
 
         } catch (\Exception $e) {

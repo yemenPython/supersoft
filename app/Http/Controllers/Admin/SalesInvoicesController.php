@@ -599,8 +599,12 @@ class SalesInvoicesController extends Controller
 
         try {
 
-            if ($this->salesInvoiceServices->checkMaxQuantityOfItem($request['items'])) {
-                return response()->json(__('quantity not available'), 400);
+            $invalidItems = $this->salesInvoiceServices->checkMaxQuantityOfItem($request['items']);
+
+            if (!empty($invalidItems)) {
+
+                $message = __('quantity not available for this items ') . '('.implode($invalidItems,' ,').')';
+                return response()->json($message, 400);
             }
 
         } catch (\Exception $e) {

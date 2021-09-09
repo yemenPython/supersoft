@@ -65,7 +65,7 @@ class StoreTransferServices
 
     public function checkMaxQuantityOfItem ($items, $store_id) {
 
-        $status = false;
+        $invalidItems = [];
 
         foreach ($items as $item) {
 
@@ -79,12 +79,11 @@ class StoreTransferServices
 
             if (!$store || !$partPrice || $requestedQuantity > $store->pivot->quantity) {
 
-               $status = true;
-               return $status;
+                $invalidItems[] = $part->name;
             }
         }
 
-        return $status;
+        return $invalidItems;
     }
 
     public function resetItems ($storeTransfer) {

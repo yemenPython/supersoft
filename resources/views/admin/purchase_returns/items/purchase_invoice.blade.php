@@ -127,7 +127,7 @@
 
 {{-- SECOND TR --}}
 
-<tr class="tr_part_{{$index}}">
+<tr class="tr_part_{{$index}} remove_on_change_branch">
 
     <td colspan="12" class="hiddenRow">
         <div class="accordian-body collapse" id="demo{{$index}}">

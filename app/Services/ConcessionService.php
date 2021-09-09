@@ -6,6 +6,8 @@ namespace App\Services;
 
 use App\Models\Concession;
 use App\Models\ConcessionItem;
+use App\Models\ConcessionType;
+use App\Models\Part;
 use App\Models\PartPrice;
 
 class ConcessionService
@@ -158,6 +160,12 @@ class ConcessionService
 
         foreach ($concessionItems as $item) {
 
+            $part = $item->part;
+
+            if ($part->is_service) {
+                continue;
+            }
+
             if ($concessionType != 'add') {
 
                 $data = $this->checkConcessionItemQuantity($item);
@@ -264,7 +272,6 @@ class ConcessionService
     {
 
         $data = [
-
             'status' => true
         ];
 
@@ -356,5 +363,43 @@ class ConcessionService
         }
 
         return $rules;
+    }
+
+    public function checkMaxQuantityOfItem ($className, $item_id, $type) {
+
+        $model = $this->getModelNameSpace($className);
+
+        $modelData = $model::find($item_id);
+
+        $invalidItems = [];
+
+        if (!$modelData || !$modelData->items || $type == 'add') {
+
+            return $invalidItems;
+        }
+
+        foreach ($modelData->items as $item) {
+
+            $part = $item->part;
+
+            if ($part->is_service) {
+                continue;
+            }
+
+            $store_id = $className == 'StoreTransfer' ? $item->store_from_id : $item->store_id;
+
+            $store = $part->stores()->where('store_id', $store_id)->first();
+
+            $partPrice = PartPrice::find($item['part_price_id']);
+
+            $requestedQuantity = $partPrice->quantity * $item['quantity'];
+
+            if (!$store || !$partPrice || $requestedQuantity > $store->pivot->quantity) {
+
+                $invalidItems[] = $part->name;
+            }
+        }
+
+        return $invalidItems;
     }
 }
