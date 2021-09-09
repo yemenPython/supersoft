@@ -104,6 +104,7 @@
                                                 <option value="0">{{__('Select All')}}</option>
                                                 <option value="stop">{{__('stop')}}</option>
                                                 <option value="activate">{{__('activate')}}</option>
+                                                <option value="stopped">{{__('stop,and still stopped')}}</option>
                                             </select>
                                         </div>
                                     </div>
