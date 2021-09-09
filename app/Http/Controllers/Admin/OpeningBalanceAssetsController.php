@@ -13,6 +13,7 @@ use App\Models\ConsumptionAssetItem;
 use App\Models\PurchaseAsset;
 use App\Models\PurchaseAssetItem;
 use App\Models\SaleAssetItem;
+use App\Models\StopAndActivateAsset;
 use Exception;
 use App\Models\Branch;
 use App\Models\Supplier;
@@ -276,9 +277,7 @@ class OpeningBalanceAssetsController extends Controller
                 ] );
 
                 $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
-                $sum_total_current_consumtion_for_group = $assetGroup->assets()->sum( 'total_current_consumtion' );
-                $sum_total_current_consumtion_for_group += $item['past_consumtion'];
-                $assetGroup->update( ['total_consumtion' => $sum_total_current_consumtion_for_group] );
+                $assetGroup->increment( 'total_consumtion' , $item['past_consumtion'] );
 
                 PurchaseAssetItem::create( [
                     'purchase_asset_id' => $purchaseAsset->id,
@@ -297,9 +296,6 @@ class OpeningBalanceAssetsController extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
-
-//            dd( $e->getMessage() );
-
             return redirect()->to( route( 'admin:opening-balance-assets.create' ) )
                 ->with( ['message' => __( $e->getMessage() ), 'alert-type' => 'error'] );
         }
@@ -362,6 +358,11 @@ class OpeningBalanceAssetsController extends Controller
                 'operation_type' => 'opening_balance'
             ];
             $openingBalanceAsset->update( $invoice_data );
+            foreach ($openingBalanceAsset->items as $one){
+                $asset = Asset::find( $one->asset_id );
+                $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
+                $assetGroup->decrement( 'total_consumtion' , $one->past_consumtion );
+            }
             $openingBalanceAsset->items()->delete();
             foreach ($data['items'] as $item) {
                 $asset = Asset::find( $item['asset_id'] );
@@ -374,9 +375,7 @@ class OpeningBalanceAssetsController extends Controller
                     'asset_age' => $item['asset_age'],
                 ] );
                 $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
-                $sum_total_current_consumtion_for_group = $assetGroup->assets()->sum( 'total_current_consumtion' );
-                $sum_total_current_consumtion_for_group += $item['past_consumtion'];
-                $assetGroup->update( ['total_consumtion' => $sum_total_current_consumtion_for_group] );
+                $assetGroup->increment( 'total_consumtion' , $item['past_consumtion'] );
                 PurchaseAssetItem::create( [
                     'purchase_asset_id' => $openingBalanceAsset->id,
                     'asset_id' => $item['asset_id'],
@@ -391,12 +390,12 @@ class OpeningBalanceAssetsController extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
-            return redirect()->to( 'admin/purchase-invoices' )
-                ->with( ['message' => __( 'words.purchase-invoice-cant-created' ), 'alert-type' => 'error'] );
+            return redirect()->to( route( 'admin:opening-balance-assets.index' ) )
+                ->with( ['message' => __( 'words.opening-balance-asset-cant-created' ), 'alert-type' => 'error'] );
         }
 
         return redirect()->to( route( 'admin:opening-balance-assets.index' ) )
-            ->with( ['message' => __( 'words.purchase-assets-created' ), 'alert-type' => 'success'] );
+            ->with( ['message' => __( 'words.opening-balance-asset-updated' ), 'alert-type' => 'success'] );
 
     }
 
@@ -414,7 +413,6 @@ class OpeningBalanceAssetsController extends Controller
             $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
             $assetGroup->decrement( 'total_consumtion' , $item->past_consumtion );
         }
-
         $openingBalanceAsset->delete();
         $openingBalanceAsset->items()->delete();
 
@@ -436,7 +434,6 @@ class OpeningBalanceAssetsController extends Controller
                             ->with( ['message' => __( 'words.Can not delete this opening balance asset' ), 'alert-type' => 'error'] );
                     }
                 }
-
                 foreach ($openingBalanceAsset->items as $item) {
                     $asset = Asset::find( $item->asset_id);
                     $asset->decrement('past_consumtion',$item->past_consumtion);
@@ -475,6 +472,9 @@ class OpeningBalanceAssetsController extends Controller
                 $q->where( 'operation_type', '=', 'purchase' );
             } )->count()) {
             return response()->json( __( 'Please add Purchase for or add purchase cost this asset before adding opening balance' ), 400 );
+        }
+        if (SaleAssetItem::where( 'asset_id',$request->asset_id )->exists() || AssetReplacementItem::where( 'asset_id',$request->asset_id )->exists() || AssetExpenseItem::where( 'asset_id',$request->asset_id )->exists() || ConsumptionAssetItem::where( 'asset_id',$request->asset_id )->exists() || StopAndActivateAsset::where( 'asset_id',$request->asset_id )->exists()) {
+            return response()->json( __( 'Can not add opening balance for this asset !' ), 400 );
         }
         $index = $request['index'] + 1;
 

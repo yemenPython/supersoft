@@ -43,28 +43,39 @@ class StopAndActivateAssetsController extends Controller
     public function index(Request $request)
     {
         if ($request->isDataTable) {
-            $StopAndActivateAsset = StopAndActivateAsset::select([
-                'id',
-                'branch_id',
-                'date',
-                'user_id',
-                'asset_id',
-                'status',
-                'created_at',
-                'updated_at'
-            ])->with(['asset'=>function($query){
-                $query->select(['id','name_ar','name_en']);
+            $StopAndActivateAsset = StopAndActivateAsset::with(['asset'=>function($query){
+                $query->select(['id','name_ar','name_en','status']);
             }]);
+            $select = [
+                'stop_activate_assets.id',
+                'stop_activate_assets.branch_id',
+                'stop_activate_assets.date',
+                'stop_activate_assets.user_id',
+                'stop_activate_assets.asset_id',
+                'stop_activate_assets.status',
+                'stop_activate_assets.created_at',
+                'stop_activate_assets.updated_at'
 
+            ];
             if ($request->has('branch_id') && !empty($request['branch_id']))
-                $StopAndActivateAsset->where('branch_id', $request['branch_id']);
+                $StopAndActivateAsset->where('stop_activate_assets.branch_id', $request['branch_id']);
             if ($request->has('asset_id') && !empty($request->asset_id))
-                $StopAndActivateAsset->where('asset_id', $request['asset_id']);
-            if ($request->has('status') && !empty($request->status))
-                $StopAndActivateAsset->where('status', $request['status']);
+                $StopAndActivateAsset->where('stop_activate_assets.asset_id', $request['asset_id']);
+            if ($request->has('status') && !empty($request->status) && $request->status !='stopped')
+                $StopAndActivateAsset->where('stop_activate_assets.status', $request['status']);
+            if ($request->has('status') && $request->status=='stopped') {
+                $StopAndActivateAsset = $StopAndActivateAsset->join( 'assets_tb', 'assets_tb.id', '=', 'stop_activate_assets.asset_id' )
+                    ->where( 'assets_tb.status', 'stop' )
+                    ->where( 'stop_activate_assets.status', 'stop' )
+                    ->groupBy( 'stop_activate_assets.asset_id')
+                    ->orderBy( 'stop_activate_assets.created_at','DESC' );
+                array_push($select,DB::raw('MAX(stop_activate_assets.id) AS mx'));
+            }
+
+            $StopAndActivateAsset->select($select);
 
             whereBetween($StopAndActivateAsset, 'date', $request->date_from, $request->date_to);
-            return DataTables::of($StopAndActivateAsset)
+            return DataTables::of($StopAndActivateAsset->orderBy( 'stop_activate_assets.id','DESC' ))
                 ->addIndexColumn()
                 ->addColumn('branch_id', function ($asset) {
                     return '<span class="text-danger">' . optional($asset->branch)->name . '</span>';
@@ -87,7 +98,21 @@ class StopAndActivateAssetsController extends Controller
                 ->addColumn('updated_at', function ($consumptionAsset) {
                     return $consumptionAsset->updated_at;
                 })
-                ->addColumn('action', function ($consumptionAsset) {
+                ->addColumn('action', function ($consumptionAsset) use ($request){
+                    $asd = StopAndActivateAsset::where('asset_id',$consumptionAsset->asset_id)->latest()->first();
+                    if ($asd->status =='stop' && $asd->asset->status=='stop' && $asd->id == $consumptionAsset->id || $request->has('status') && $request->status=='stopped'){
+                        $string = '
+                                           <li> <a class="btn btn-wg-edit hvr-radial-out" href="' . route("admin:stop_and_activate_assets.create",['branch_id'=>auth()->user()->branch_id,'asset_id'=>$consumptionAsset->asset_id,'status'=>'activate']) . '">
+    <i class="fa fa-edit"></i>  ' . __('Activate') . '
+        </a></li>';
+                    }else{
+                        $string  = '
+  <li> <a class="btn btn-wg-edit hvr-radial-out" href="#">
+     ' . __('Can not activate asset from here') . '
+        </a></li>
+                                      ';
+                    }
+
                     return '
                       <div class="btn-group margin-top-10">
 
@@ -113,6 +138,7 @@ class StopAndActivateAssetsController extends Controller
            data-target="#boostrapModal" title="' . __('print') . '">
             <i class="fa fa-print"></i> ' . __('Print') . '</a>
         </li>
+        '.$string.'
           </ul> </div>
                  ';
                 })->addColumn('options', function ($consumptionAsset) {

@@ -70,7 +70,7 @@
                             <select class="form-control js-example-basic-single" id="assetsOptions" name="asset_id">
                                 <option>{{__('Select Assets')}}</option>
                                 @foreach($assets as $asset)
-                                    <option value="{{$asset->id}}" {{isset($stop_and_activate_assets) && $stop_and_activate_assets->asset_id == $asset->id? 'selected':''}}>
+                                    <option value="{{$asset->id}}" {{isset($stop_and_activate_assets) && $stop_and_activate_assets->asset_id == $asset->id? 'selected':''}} {{request('asset_id') && request('asset_id') == $asset->id? 'selected':''}}>
                                         {{$asset->name}}
                                     </option>
                                 @endforeach

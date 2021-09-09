@@ -89,17 +89,19 @@
                     @if($asset->expenses()->whereHas('assetExpense',function ($q){
             $q->where('status','=','accept');
         })->get()->isNotEmpty())
-                        @foreach($asset->expenses()->where('status','=','accept')->get() as $tax_index => $expense)
+                        @foreach($asset->expenses()->whereHas('assetExpense',function ($q){
+            $q->where('status','=','accept');
+        })->get() as $tax_index => $expense)
                             <li>
                                 <span>
                                Price = {{$expense->price}}
                                 <span>Consumtion Rate = {{$expense->annual_consumtion_rate}}</span>
                                     </span>
                             </li>
-                            <input type="hidden" value="{{$expense->price}}" class="price_{{$index}}" name="expenses[{{$index}}][annual_consumtion_rate]">
-                            <input type="hidden" value="{{$expense->annual_consumtion_rate}}" class="annual_consumtion_rate_{{$index}}" name="expenses[{{$index}}][annual_consumtion_rate]">
-                            <input type="hidden" value="{{$expense->id}}" name="expenses[{{$index}}][id]">
-                            <input type="hidden"  name="expenses[{{$index}}][total]"   id="expenses_total_hidden_{{$index}}">
+                            <input type="hidden" value="{{$expense->price}}" class="price_{{$tax_index}}" name="expenses[{{$tax_index}}][annual_consumtion_rate]">
+                            <input type="hidden" value="{{$expense->annual_consumtion_rate}}" class="annual_consumtion_rate_{{$tax_index}}" name="expenses[{{$tax_index}}][annual_consumtion_rate]">
+                            <input type="hidden" value="{{$expense->id}}" name="expenses[{{$tax_index}}][id]">
+                            <input type="hidden"  name="expenses[{{$tax_index}}][total]"   id="expenses_total_hidden_{{$tax_index}}">
                         @endforeach
                     @else
                         <li>
