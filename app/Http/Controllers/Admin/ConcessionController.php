@@ -108,7 +108,7 @@ class ConcessionController extends Controller
 
             if (!empty($invalidItems)) {
 
-                $message = __('quantity not available for this items ') . '('.implode($invalidItems,' ,').')';
+                $message = __('quantity not available for this items ') ."\n          ". '('.implode(' ,', $invalidItems).')';
                 return response()->json($message, 400);
             }
 
