@@ -28,6 +28,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
 
@@ -219,9 +220,12 @@ class AssetReplacementController extends Controller
                     } else {
                         $asset_age = 0;
                     }
+                    $asset->increment( 'total_replacements', $item['value_replacement'] );
+                    $book_value = $asset->purchase_cost + $asset->total_replacements - $asset->total_current_consumtion - $asset->past_consumtion;
                     $asset->update( [
                         'asset_age' => $asset_age,
                         'annual_consumtion_rate' => $item['value_after_replacement'],
+                        'book_value' => $book_value
                     ] );
                 }
             }
@@ -264,9 +268,14 @@ class AssetReplacementController extends Controller
     {
         try {
             $assetReplacement = AssetReplacement::findOrFail( $id );
+
             $data = $request->all();
             $data['user_id'] = Auth::id();
             $assetExpenseUpdated = $assetReplacement->update( $data );
+            foreach ($assetReplacement->assetReplacementItems as $one) {
+                $asset = Asset::find( $one->asset_id );
+                $asset->decrement( 'total_replacements', $one->value_replacement );
+            }
             $assetReplacement->assetReplacementItems()->delete();
             if ($assetExpenseUpdated) {
                 foreach ($request->items as $item) {
@@ -285,16 +294,18 @@ class AssetReplacementController extends Controller
                     } else {
                         $asset_age = 0;
                     }
+                    $asset->increment( 'total_replacements', $item['value_replacement'] );
+                    $book_value = $asset->purchase_cost + $asset->total_replacements - $asset->total_current_consumtion - $asset->past_consumtion;
                     $asset->update( [
                         'asset_age' => $asset_age,
                         'annual_consumtion_rate' => $item['value_after_replacement'],
+                        'book_value' => $book_value
                     ] );
                 }
             }
             return redirect()->to( 'admin/assets_replacements' )
                 ->with( ['message' => __( 'words.assets-replacement-updated' ), 'alert-type' => 'success'] );
         } catch (Exception $exception) {
-            dd( $exception->getMessage() );
             $this->logErrors( $exception );
             return back()->with( ['message' => __( 'words.something-went-wrong' ), 'alert-type' => 'error'] );
         }
@@ -304,14 +315,29 @@ class AssetReplacementController extends Controller
     {
         $assetExpense = AssetReplacement::findOrFail( $id );
         foreach ($assetExpense->assetReplacementItems as $item) {
-            if (SaleAssetItem::where( 'asset_id',  $item->asset->id)->exists()) {
+            if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists()) {
                 return redirect()->to( route( 'admin:consumption-assets.index' ) )
                     ->with( ['message' => __( 'words.Can not delete this asset replacements' ), 'alert-type' => 'error'] );
             }
         }
+        DB::beginTransaction();
+        try {
+            foreach ($assetExpense->assetReplacementItems as $one) {
+                $asset = Asset::find( $one->asset_id );
+                $diff_total_replacements = $asset->total_replacements - $one->value_replacement;
+                $book_value = $asset->purchase_cost + $diff_total_replacements - $asset->total_current_consumtion - $asset->past_consumtion;
+                $asset->update( ['book_value' => $book_value] );
+                $asset->decrement( 'total_replacements', $one->value_replacement );
 
-        $assetExpense->assetReplacementItems()->delete();
-        $assetExpense->delete();
+            }
+            $assetExpense->assetReplacementItems()->delete();
+            $assetExpense->delete();
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->to( route( 'admin:consumption-assets.index' ) )
+                ->with( ['message' => __( $e->getMessage() ), 'alert-type' => 'error'] );
+        }
         return redirect()->to( 'admin/assets_replacements' )
             ->with( ['message' => __( 'words.assets-replacement-deleted' ), 'alert-type' => 'success'] );
     }
@@ -322,14 +348,29 @@ class AssetReplacementController extends Controller
             $assets = AssetReplacement::whereIn( 'id', $request->ids )->get();
             foreach ($assets as $asset) {
                 foreach ($asset->assetReplacementItems as $item) {
-                    if (SaleAssetItem::where( 'asset_id',  $item->asset->id)->exists()) {
+                    if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists()) {
                         return redirect()->to( route( 'admin:consumption-assets.index' ) )
                             ->with( ['message' => __( 'words.Can not delete this asset replacements' ), 'alert-type' => 'error'] );
                     }
                 }
+                DB::beginTransaction();
+                try {
+                    foreach ($assets->assetReplacementItems as $one) {
+                        $asset = Asset::find( $one->asset_id );
+                        $diff_total_replacements = $asset->total_replacements - $one->value_replacement;
+                        $book_value = $asset->purchase_cost + $diff_total_replacements - $asset->total_current_consumtion - $asset->past_consumtion;
+                        $asset->update( ['book_value' => $book_value] );
+                        $asset->decrement( 'total_replacements', $one->value_replacement );
 
-                $asset->assetReplacementItems()->delete();
-                $asset->delete();
+                    }
+                    $asset->assetReplacementItems()->delete();
+                    $asset->delete();
+                    DB::commit();
+                } catch (Exception $e) {
+                    DB::rollBack();
+                    return redirect()->to( route( 'admin:consumption-assets.index' ) )
+                        ->with( ['message' => __( $e->getMessage() ), 'alert-type' => 'error'] );
+                }
             }
             return redirect()->to( 'admin/assets_replacements' )
                 ->with( ['message' => __( 'words.selected-row-deleted' ), 'alert-type' => 'success'] );
@@ -343,12 +384,12 @@ class AssetReplacementController extends Controller
         if (!is_null( $request->asset_id )) {
             $var = ConsumptionAssetItem::where( 'asset_id', $request->asset_id )->with( 'consumptionAsset' )->latest()->first();
 
-            if ($var &&  !($var->consumptionAsset->date_to >  date( 'Y-m-d' ) )) {
+            if ($var && !($var->consumptionAsset->date_to > date( 'Y-m-d' ))) {
                 $from = Carbon::createFromFormat( 'Y-m-d', $var->consumptionAsset->date_to );
                 $to = Carbon::createFromFormat( 'Y-m-d', date( 'Y-m-d' ) );
                 $diff_in_days = $to->diffInDays( $from );
                 if ($diff_in_days >= 2) {
-                    return response()->json( __( 'Please add consumption asset until '.Carbon::parse(Carbon::yesterday())->format('d-m-Y') ), 400 );
+                    return response()->json( __( 'Please add consumption asset until ' . Carbon::parse( Carbon::yesterday() )->format( 'd-m-Y' ) ), 400 );
                 }
             } else if (!$var) {
                 return response()->json( __( 'Please  add consumption asset before !' ), 400 );
