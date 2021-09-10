@@ -290,7 +290,7 @@ class AssetExpenseController extends Controller
 
             if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || ConsumptionAssetItemExpense::where( 'expense_id', $item->asset_expense_id )->exists() || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists()) {
                     return redirect()->to( route( 'admin:assets_expenses.index' ) )
-                        ->with( ['message' => __( 'words.Can not delete this asset expense' ), 'alert-type' => 'error'] );
+                        ->with( ['message' => __( 'words.can-not-delete-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
                 }
 
         }
@@ -308,7 +308,7 @@ class AssetExpenseController extends Controller
                 foreach ($asset->assetExpensesItems as $item) {
                         if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || ConsumptionAssetItemExpense::where( 'expense_id', $item->asset_expense_id )->exists() || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists()) {
                             return redirect()->to( route( 'admin:assets_expenses.index' ) )
-                                ->with( ['message' => __( 'words.Can not delete this asset expense' ), 'alert-type' => 'error'] );
+                                ->with( ['message' => __( 'words.can-not-delete-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
                         }
                 }
 

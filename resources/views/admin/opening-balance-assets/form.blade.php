@@ -46,8 +46,8 @@
                 <label for="inputNameAr" class="control-label">{{__('Invoice Number')}}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><li class="fa fa-bars"></li></span>
-                    <input type="text" name="invoice_number" id="invoice_number" class="form-control" placeholder="{{__('Invoice Number')}}"
-                           value="{{old('invoice_number', isset($openingBalanceAsset)? $openingBalanceAsset->invoice_number :'')}}">
+                    <input type="text" name="invoice_number" id="invoice_number" class="form-control" readonly placeholder="{{__('Invoice Number')}}"
+                           value="{{old('invoice_number', isset($openingBalanceAsset)? $openingBalanceAsset->invoice_number :$number)}}">
                 </div>
                 {{input_error($errors,'invoice_number')}}
             </div>

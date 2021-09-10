@@ -412,9 +412,12 @@ class AssetsController extends Controller
     {
 
         $request->ids = array_unique( $request->ids );
+
         if (isset( $request->ids )) {
             // delete Asset Insurances
+
             foreach ($request->ids as $id) {
+
                 $purchase_assets = PurchaseAssetItem::where( 'asset_id', $id )->count();
                 $purchase_expenses = AssetExpenseItem::where( 'asset_id', $id )->count();
                 $purchase_replacemens = AssetReplacementItem::where( 'asset_id', $id )->count();
@@ -431,12 +434,13 @@ class AssetsController extends Controller
                     // delete Asset Employees
                     AssetEmployee::where( "asset_id", $id )->delete();
                     // delete Asset
-                    Asset::where( "id", $id )->delete();
+                    Asset::find($id)->delete();
 
                 }
-                return redirect()->to( 'admin/assets' )
-                    ->with( ['message' => __( 'words.selected-rows-delete' ), 'alert-type' => 'success'] );
+
             }
+            return redirect()->to( 'admin/assets' )
+                ->with( ['message' => __( 'words.selected-rows-delete' ), 'alert-type' => 'success'] );
         }
         return redirect()->to( 'admin/assets' )
             ->with( ['message' => __( 'words.no-data-delete' ), 'alert-type' => 'error'] );

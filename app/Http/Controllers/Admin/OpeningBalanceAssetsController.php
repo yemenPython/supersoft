@@ -235,7 +235,9 @@ class OpeningBalanceAssetsController extends Controller
             ->get();
         $assetsGroups = AssetGroup::where( 'branch_id', $branch_id )->get();
         $assets = Asset::where( 'branch_id', $branch_id )->get();
-        return view( 'admin.opening-balance-assets.create', compact( 'data', 'assetsGroups', 'assets' ) );
+        $lastNumber = PurchaseAsset::where( 'branch_id', $branch_id )->where( 'operation_type', '=', 'opening_balance' )->orderBy( 'id', 'desc' )->first();
+        $number = $lastNumber ? $lastNumber->invoice_number + 1 : 1;
+        return view( 'admin.opening-balance-assets.create', compact( 'data', 'assetsGroups', 'assets','number' ) );
     }
 
     public function store(OpeningBalanceAssetRequest $request)
