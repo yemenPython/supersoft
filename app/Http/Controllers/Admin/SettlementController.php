@@ -369,13 +369,16 @@ class SettlementController extends Controller
 
             $invalidItems = $this->settlementService->checkMaxQuantityOfItem($request['items']);
 
+
+
             if (!empty($invalidItems)) {
 
-                $message = __('quantity not available for this items ') . '('.implode($invalidItems,' ,').')';
+                $message = __('quantity not available for this items ') . '('.implode(' ,', $invalidItems).')';
                 return response()->json($message, 400);
             }
 
         } catch (\Exception $e) {
+            // dd($e->getMessage());
             return response()->json(['sorry, please try later'], 400);
         }
 
