@@ -55,7 +55,7 @@ class StoreTransfer extends Model
 
     public function getNumberAttribute () {
 
-        return $this->transfer_number . '_#';
+        return $this->transfer_number;
     }
 
     public function concession()

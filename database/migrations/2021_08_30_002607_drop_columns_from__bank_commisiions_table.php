@@ -14,6 +14,8 @@ class DropColumnsFromBankCommisiionsTable extends Migration
     public function up()
     {
         Schema::table('bank_commissioners', function (Blueprint $table) {
+
+            $table->dropForeign(['branch_id']);
             $table->dropColumn('branch_id');
             $table->dropColumn('name_ar');
             $table->dropColumn('name_en');

@@ -24,7 +24,7 @@ class LockerExchangeRequest extends FormRequest
     {
         return [
             'branch_id' => 'required|exists:branches,id',
-            'cost_center_id' => 'required|exists:cost_centers,id',
+//            'cost_center_id' => 'required|exists:cost_centers,id',
             'permission_number' => 'required',
             'operation_date' => 'required|date',
             'employee_id' => 'required|exists:employee_data,id',

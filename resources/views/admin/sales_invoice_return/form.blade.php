@@ -48,8 +48,8 @@
                         <label for="inputNameAr" class="control-label">{{__('Number')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-bars"></li></span>
-                            <input type="text" name="number" class="form-control" placeholder="{{__('Number')}}"
-                                   value="{{old('number', isset($salesInvoiceReturn)? $salesInvoiceReturn->number :'')}}">
+                            <input type="text" name="number" class="form-control" placeholder="{{__('Number')}}" disabled
+                                   value="{{old('number', isset($salesInvoiceReturn)? $salesInvoiceReturn->number : $data['number'])}}">
                         </div>
                         {{input_error($errors,'number')}}
                     </div>
@@ -214,7 +214,7 @@
 
         <div class="row center-data-wg" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
-            @include('admin.purchase_returns.table_items')
+            @include('admin.sales_invoice_return.table_items')
 
         </div>
 

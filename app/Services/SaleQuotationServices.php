@@ -42,7 +42,6 @@ class SaleQuotationServices
     public function saleQuotationData($requestData)
     {
         $data = [
-            'number' => $requestData['number'],
             'type' => $requestData['type'],
             'date' => $requestData['date'],
             'time' => $requestData['time'],

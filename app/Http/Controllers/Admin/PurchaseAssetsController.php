@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\Asset\PurchaseAssetRequest;
 use App\Models\Asset;
+use App\Models\AssetExpenseItem;
 use App\Models\AssetGroup;
-use App\Models\ConsumptionAsset;
+use App\Models\AssetReplacementItem;
+use App\Models\ConsumptionAssetItem;
 use App\Models\PurchaseAsset;
 use App\Models\PurchaseAssetItem;
+use App\Models\SaleAssetItem;
 use Exception;
 use App\Models\Branch;
 use App\Models\Supplier;
@@ -49,7 +52,8 @@ class PurchaseAssetsController extends Controller
                 'purchase_assets.total_past_consumtion',
                 'purchase_assets.type',
                 'purchase_assets.operation_type',
-            ] )->leftjoin( 'purchase_asset_items', 'purchase_assets.id', '=', 'purchase_asset_items.purchase_asset_id' )->latest();
+            ] )->where('operation_type','=','purchase')
+                ->leftjoin( 'purchase_asset_items', 'purchase_assets.id', '=', 'purchase_asset_items.purchase_asset_id' )->latest();
 
             if ($request->has( 'branch_id' ) && !empty( $request['branch_id'] ))
                 $purchaseAssets->where( 'purchase_assets.branch_id', $request['branch_id'] );
@@ -109,9 +113,9 @@ class PurchaseAssetsController extends Controller
                 ->addColumn( 'total_purchase_cost', function ($purchaseAsset) {
                     return '<span style="background:#F7F8CC !important">'. number_format( $purchaseAsset->total_purchase_cost, 2 ).'</span>';
                 } )
-                ->addColumn( 'total_past_consumtion', function ($purchaseAsset) {
-                    return '<span style="background:#F7F8CC !important">' .number_format( $purchaseAsset->total_past_consumtion, 2 ).'</span>';
-                } )
+//                ->addColumn( 'total_past_consumtion', function ($purchaseAsset) {
+//                    return '<span style="background:#F7F8CC !important">' .number_format( $purchaseAsset->total_past_consumtion, 2 ).'</span>';
+//                } )
                 ->addColumn( 'paid_amount', function ($purchaseAsset) {
                     return '<span style="background:#D7FDF9 !important">' .number_format( $purchaseAsset->paid_amount, 2 ).'</span>';
                 } )
@@ -181,7 +185,6 @@ class PurchaseAssetsController extends Controller
                     'supplier_id' => 'purchase_assets.supplier_id',
                     'type' => 'purchase_assets.type',
                     'total_purchase_cost' => 'purchase_assets.total_purchase_cost',
-                    'total_past_consumtion' => 'purchase_assets.total_past_consumtion',
                     'paid_amount' => 'purchase_assets.paid_amount',
                     'remaining_amount' => 'purchase_assets.remaining_amount',
                     'created_at' => 'purchase_assets.created_at',
@@ -198,7 +201,6 @@ class PurchaseAssetsController extends Controller
                     'supplier_id' => 'purchase_assets.supplier_id',
                     'type' => 'purchase_assets.type',
                     'total_purchase_cost' => 'purchase_assets.total_purchase_cost',
-                    'total_past_consumtion' => 'purchase_assets.total_past_consumtion',
                     'paid_amount' => 'purchase_assets.paid_amount',
                     'remaining_amount' => 'purchase_assets.remaining_amount',
                     'created_at' => 'purchase_assets.created_at',
@@ -212,7 +214,7 @@ class PurchaseAssetsController extends Controller
             $assets = Asset::all();
             $branches = Branch::all()->pluck( 'name', 'id' );
             $assetsGroups = AssetGroup::select( ['id', 'name_ar', 'name_en'] )->get();
-            $numbers = PurchaseAsset::pluck( 'invoice_number' )->unique();
+            $numbers = PurchaseAsset::where( 'operation_type', '=', 'purchase' )->pluck( 'invoice_number' )->unique();
             $suppliers = Supplier::select( ['name_en', 'name_ar', 'id'] )->get();
 
             return view( 'admin.purchase-assets.index', compact( 'numbers', 'assets', 'assetsGroups', 'js_columns', 'suppliers' ) );
@@ -254,10 +256,10 @@ class PurchaseAssetsController extends Controller
                 'remaining_amount' => $data['remaining_amount'],
                 'note' => $data['note'],
                 'total_purchase_cost' => $request->total_purchase_cost,
-                'total_past_consumtion' => $request->total_past_consumtion,
+                'total_past_consumtion' =>0,
                 'user_id'=>auth()->id(),
                 'type'=>$request->type,
-                'operation_type'=>$request->operation_type
+                'operation_type'=>'purchase'
             ];
             $invoice_data['branch_id'] = authIsSuperAdmin() ? $request['branch_id'] : auth()->user()->branch_id;
 
@@ -269,26 +271,19 @@ class PurchaseAssetsController extends Controller
                     'purchase_date' => $item['purchase_date'],
                     'date_of_work' => $item['date_of_work'],
                     'purchase_cost' => $item['purchase_cost'],
-                    'past_consumtion' => $item['past_consumtion'],
                     'annual_consumtion_rate' => $item['annual_consumtion_rate'],
                     'asset_age' => $item['asset_age'],
                 ] );
-
-                $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
-                $sum_total_current_consumtion_for_group = $assetGroup->assets()->sum( 'total_current_consumtion' );
-                $sum_total_current_consumtion_for_group += $item['past_consumtion'];
-                $assetGroup->update( ['total_consumtion' => $sum_total_current_consumtion_for_group] );
-
                 PurchaseAssetItem::create( [
                     'purchase_asset_id' => $purchaseAsset->id,
                     'asset_id' => $item['asset_id'],
                     'asset_group_id' => $asset->asset_group_id,
                     'purchase_cost' => $item['purchase_cost'],
-                    'past_consumtion' => $item['past_consumtion'],
+                    'past_consumtion' => 0,
                     'annual_consumtion_rate' => $item['annual_consumtion_rate'],
                     'asset_age' => $item['asset_age'],
                     'total_purchase_cost' => $request->total_purchase_cost,
-                    'total_past_consumtion' => $request->total_past_consumtion,
+                    'total_past_consumtion' => 0,
                     'net_total' => $request->net_total
                 ] );
             }
@@ -296,9 +291,6 @@ class PurchaseAssetsController extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
-
-//            dd( $e->getMessage() );
-
             return redirect()->to( route( 'admin:purchase-assets.create' ) )
                 ->with( ['message' => __( $e->getMessage() ), 'alert-type' => 'error'] );
         }
@@ -358,9 +350,9 @@ class PurchaseAssetsController extends Controller
                 'remaining_amount' => $data['remaining_amount'],
                 'note' => $data['note'],
                 'total_purchase_cost' => $request->total_purchase_cost,
-                'total_past_consumtion' => $request->total_past_consumtion,
+                'total_past_consumtion' => 0,
                 'type'=>$request->type,
-                'operation_type'=>$request->operation_type
+                'operation_type'=>'purchase'
             ];
             $purchaseAsset->update( $invoice_data );
             $purchaseAsset->items()->delete();
@@ -370,20 +362,15 @@ class PurchaseAssetsController extends Controller
                     'purchase_date' => $item['purchase_date'],
                     'date_of_work' => $item['date_of_work'],
                     'purchase_cost' => $item['purchase_cost'],
-                    'past_consumtion' => $item['past_consumtion'],
                     'annual_consumtion_rate' => $item['annual_consumtion_rate'],
                     'asset_age' => $item['asset_age'],
                 ] );
-                $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
-                $sum_total_current_consumtion_for_group = $assetGroup->assets()->sum( 'total_current_consumtion' );
-                $sum_total_current_consumtion_for_group += $item['past_consumtion'];
-                $assetGroup->update( ['total_consumtion' => $sum_total_current_consumtion_for_group] );
                 PurchaseAssetItem::create( [
                     'purchase_asset_id' => $purchaseAsset->id,
                     'asset_id' => $item['asset_id'],
                     'asset_group_id' => $asset->asset_group_id,
                     'purchase_cost' => $item['purchase_cost'],
-                    'past_consumtion' => $item['past_consumtion'],
+                    'past_consumtion' => 0,
                     'annual_consumtion_rate' => $item['annual_consumtion_rate'],
                     'asset_age' => $item['asset_age'],
                 ] );
@@ -392,9 +379,6 @@ class PurchaseAssetsController extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
-
-            dd( $e->getMessage() );
-
             return redirect()->to( 'admin/purchase-invoices' )
                 ->with( ['message' => __( 'words.purchase-invoice-cant-created' ), 'alert-type' => 'error'] );
         }
@@ -406,7 +390,12 @@ class PurchaseAssetsController extends Controller
 
     public function destroy(PurchaseAsset $purchaseAsset)
     {
-
+        foreach ($purchaseAsset->items as $item) {
+            if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists() || AssetExpenseItem::where('asset_id',$item->asset->id)->exists() || ConsumptionAssetItem::where('asset_id',$item->asset->id)->exists()) {
+                return redirect()->to( route( 'admin:purchase-assets.index' ) )
+                    ->with( ['message' => __( 'words.Can not delete this purchase asset' ), 'alert-type' => 'error'] );
+            }
+        }
         $purchaseAsset->delete();
         $purchaseAsset->items()->delete();
 
@@ -421,6 +410,14 @@ class PurchaseAssetsController extends Controller
             foreach (array_unique( $request->ids ) as $invoiceId) {
 
                 $purchaseAsset = PurchaseAsset::find( $invoiceId );
+
+                foreach ($purchaseAsset->items as $item) {
+                    if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists() || AssetExpenseItem::where('asset_id',$item->asset->id)->exists() || ConsumptionAssetItem::where('asset_id',$item->asset->id)->exists()) {
+                        return redirect()->to( route( 'admin:purchase-assets.index' ) )
+                            ->with( ['message' => __( 'words.Can not delete this purchase asset' ), 'alert-type' => 'error'] );
+                    }
+                }
+
                 $purchaseAsset->delete();
                 $purchaseAsset->items()->delete();
 
@@ -443,7 +440,9 @@ class PurchaseAssetsController extends Controller
         if (is_null( $request->branch_id ) && authIsSuperAdmin()) {
             return response()->json( __( 'please select valid branch' ), 400 );
         }
-        if (PurchaseAssetItem::where('asset_id',$request->asset_id)->count()){
+        if (PurchaseAssetItem::where('asset_id',$request->asset_id)->whereHas('purchaseAsset',function ($q){
+            $q->where('operation_type','=','purchase');
+        })->count()){
             return response()->json( __( 'Purchase added before for this asset' ), 400 );
         }
         $index = $request['index'] + 1;
@@ -491,9 +490,9 @@ class PurchaseAssetsController extends Controller
     public function getNumbersByBranchId(Request $request): JsonResponse
     {
         if (!empty( $request->branch_id )) {
-            $numbers = PurchaseAsset::where( 'branch_id', $request->branch_id )->pluck( 'invoice_number' )->unique();
+            $numbers = PurchaseAsset::where( 'branch_id', $request->branch_id )->where( 'operation_type', '=', 'purchase' )->pluck( 'invoice_number' )->unique();
         } else {
-            $numbers = PurchaseAsset::pluck( 'invoice_number' )->unique();
+            $numbers = PurchaseAsset::where( 'operation_type', '=', 'purchase' )->pluck( 'invoice_number' )->unique();
         }
         if ($numbers) {
             $numbers_data = view( 'admin.purchase-assets.invoice_number_by_branch_id', compact( 'numbers' ) )->render();

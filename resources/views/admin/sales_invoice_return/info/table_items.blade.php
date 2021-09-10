@@ -19,6 +19,8 @@
                 <th width="8%"> {{ __('Total After Discount') }} </th>
                 <th width="8%"> {{ __('Taxes') }} </th>
                 <th width="8%"> {{ __('Total') }} </th>
+                <th width="5%"> {{ __('Barcode') }} </th>
+                <th width="5%"> {{ __('Supplier Barcode') }} </th>
                 <th width="8%">
                     {{ __('Check') }}
                 </th>
@@ -56,6 +58,8 @@
                 <th width="8%"> {{ __('Total After Discount') }} </th>
                 <th width="8%"> {{ __('Taxes') }} </th>
                 <th width="8%"> {{ __('Total') }} </th>
+                <th width="5%"> {{ __('Barcode') }} </th>
+                <th width="5%"> {{ __('Supplier Barcode') }} </th>
                 <th width="8%"> {{ __('Check') }} </th>
             </tr>
             </tfoot>

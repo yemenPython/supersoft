@@ -1,5 +1,5 @@
 
-<tr class="text-center-inputs" id="tr_part_{{$index}}">
+<tr class="text-center-inputs tr_part_{{$index}}" id="tr_part_{{$index}}">
 
     <td>
         <span id="item_number_{{$index}}">{{$index}}</span>
@@ -7,8 +7,8 @@
 
     <td style="width: 150px !important;">
 
-        <span style="width: 150px !important;display:block; cursor: pointer" data-img="{{$part->image}}" data-toggle="modal" data-target="#part_img" title="Part image" onclick="getPartImage('{{$index}}')"
-              id="part_img_id_{{$index}}" >
+        <span style="width: 150px !important;display:block; cursor: pointer" data-img="{{$part->image}}" data-toggle="modal" data-target="#part_img" title="Part image"
+              onclick="getPartImage('{{$index}}')" id="part_img_id_{{$index}}" >
 
             {{$part->name}}
         </span>
@@ -52,6 +52,9 @@
                     <option style="width: 150px !important;" value="{{$price->id}}"
                             data-purchase-price="{{$price->purchase_price}}"
                             data-quantity="{{$price->quantity}}"
+                            data-barcode="{{$price->barcode}}"
+                            data-supplier-barcode="{{$price->supplier_barcode}}"
+
                         {{isset($item) && $item->part_price_id == $price->id ? 'selected':''}}>
                         {{optional($price->unit)->unit}}
                     </option>
@@ -99,43 +102,89 @@
     </td>
 
     <td>
-        <div class="input-group">
-            <select style="width: 150px !important; " class="form-control js-example-basic-single" name="items[{{$index}}][store_id]" id="store_part_{{$index}}">
-
-                @foreach($part->stores as $store)
-                    <option value="{{$store->id}}" data-quantity="{{ $store->pivot ? $store->pivot->quantity : 0 }}"
-                        {{isset($item) && $item->store_id == $store->id ? 'selected':'' }}>
-                        {{$store->name}}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-    </td>
-
-
-    <td>
-        <input style="width: 120px !important;" type="number" class="form-control border1" id="quantity_{{$index}}"
-               onkeyup="calculateItem('{{$index}}'); quantityValidation('{{$index}}', '{{__('sorry, quantity not valid')}}')"
-               onchange="calculateItem('{{$index}}');"
-               value="{{isset($item) ? $item->quantity : 1}}" min="1" name="items[{{$index}}][quantity]">
+        <span id="barcode_{{$index}}">
+            {{ isset($item) && $item->part_price ? $item->part_price->barcode : $part->default_barcode }}
+        </span>
     </td>
 
     <td>
-        <input style="width: 150px !important;" type="text" id="price_{{$index}}" class="form-control border2"
-               onkeyup="calculateItem('{{$index}}'); priceValidation('{{$index}}', '{{__('sorry, price not valid')}}')"
-               value="{{isset($item) ? $item->buy_price : $part->default_purchase_price}}" name="items[{{$index}}][buy_price]">
-    </td>
-
-    <td>
-
-        <input style="width: 150px;" type="text" id="total_{{$index}}" disabled class="form-control border3"
-               value="{{isset($item) ? ($item->buy_price * $item->quantity) : 0}}"
-               name="items[{{$index}}][total]">
+        <span id="supplier_barcode_{{$index}}">
+             {{ isset($item) && $item->part_price ? $item->part_price->supplier_barcode : $part->default_supplier_barcode }}
+        </span>
     </td>
 
     <td>
         <div class="input-group" id="stores">
+
+            <button type="button" class="btn btn-default btn-sm accordion-toggle" data-toggle="collapse" data-target="#demo{{$index}}" >
+                <i class="glyphicon glyphicon-eye-open"></i>
+            </button>
+
             <button type="button" class="btn btn-danger fa fa-trash" onclick="removeItem('{{$index}}')"></button>
+        </div>
+    </td>
+</tr>
+
+
+{{-- SECOND TR --}}
+
+<tr class="tr_part_{{$index}}">
+
+    <td colspan="12" class="hiddenRow">
+        <div class="accordian-body collapse" id="demo{{$index}}">
+            <table class=" table table-responsive table-bordered table-hover">
+                <thead>
+                <tr class="info">
+                    <th > {{ __('Store') }} </th>
+                    <th > {{ __('Quantity') }} </th>
+                    <th > {{ __('Price') }} </th>
+                    <th > {{ __('Total') }} </th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr >
+
+                    <td>
+                        <div class="input-group">
+                            <select style="width: 150px !important; " class="form-control js-example-basic-single"
+                                    name="items[{{$index}}][store_id]" id="store_part_{{$index}}">
+
+                                @foreach($part->stores as $store)
+                                    <option value="{{$store->id}}" data-quantity="{{ $store->pivot ? $store->pivot->quantity : 0 }}"
+                                        {{isset($item) && $item->store_id == $store->id ? 'selected':'' }}>
+                                        {{$store->name}}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </td>
+
+                    <td>
+                        <input style="width: 120px !important;" type="number" class="form-control border1" id="quantity_{{$index}}"
+                               onkeyup="calculateItem('{{$index}}'); quantityValidation('{{$index}}', '{{__('sorry, quantity not valid')}}')"
+                               onchange="calculateItem('{{$index}}');"
+                               value="{{isset($item) ? $item->quantity : 1}}" min="1" name="items[{{$index}}][quantity]">
+                    </td>
+
+                    <td>
+                        <input style="width: 150px !important;" type="text" id="price_{{$index}}" class="form-control border2"
+                               onkeyup="calculateItem('{{$index}}'); priceValidation('{{$index}}', '{{__('sorry, price not valid')}}')"
+                               value="{{isset($item) ? $item->buy_price : $part->default_purchase_price}}" name="items[{{$index}}][buy_price]">
+                    </td>
+
+                    <td>
+                        <input style="width: 150px;" type="text" id="total_{{$index}}" disabled class="form-control border3"
+                               value="{{isset($item) ? ($item->buy_price * $item->quantity) : 0}}"
+                               name="items[{{$index}}][total]">
+                    </td>
+
+                </tr>
+
+                </tbody>
+            </table>
+
         </div>
     </td>
 </tr>

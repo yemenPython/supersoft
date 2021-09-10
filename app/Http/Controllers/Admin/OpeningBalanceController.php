@@ -97,7 +97,7 @@ class OpeningBalanceController extends Controller
             ->orderBy('id', 'desc')
             ->first();
 
-        $number = $lastNumber ? $lastNumber->number + 1 : 2000000;
+        $number = $lastNumber ? $lastNumber->number + 1 : 1;
 
         return view('admin.opening_balance.create', compact('branches', 'mainTypes', 'subTypes', 'parts', 'number'));
     }
@@ -125,7 +125,7 @@ class OpeningBalanceController extends Controller
                 ->orderBy('id', 'desc')
                 ->first();
 
-            $openingBalanceData['serial_number'] = $lastNumber ? $lastNumber->number + 1 : 2000000;
+            $openingBalanceData['serial_number'] = $lastNumber ? $lastNumber->number + 1 : 1;
 
             $openingBalance = OpeningBalance::create($openingBalanceData);
 

@@ -79,9 +79,9 @@ class AssetsController extends Controller
                 $assets->where( 'asset_status', $request['asset_status'] );
 
             if ($request->has( 'employee_id' ) && !empty( $request['employee_id'] )) {
-                $assets->whereHas('asset_employees', function ($query) use ($request) {
-                        $query->where( 'employee_id', $request->employee_id );
-                    }
+                $assets->whereHas( 'asset_employees', function ($query) use ($request) {
+                    $query->where( 'employee_id', $request->employee_id );
+                }
                 );
             }
             whereBetween( $assets, 'DATE(purchase_date)', $request->purchase_date1, $request->purchase_date2 );
@@ -106,6 +106,8 @@ class AssetsController extends Controller
                         return '<span class="label label-info wg-label">' . __( 'continues' ) . '</span>';
                     } elseif ($asset->asset_status == 2) {
                         return '<span class="label label-info wg-label">' . __( 'sell' ) . '</span>';
+                    } elseif ($asset->asset_status == 4) {
+                        return '<span class="label label-info wg-label">' . __( 'stop' ) . '</span>';
                     } else {
                         return '<span class="label label-info wg-label">' . __( 'ignore' ) . '</span>';
                     }
@@ -114,15 +116,15 @@ class AssetsController extends Controller
                     return '<span style="background:#F7F8CC !important">' . $asset->annual_consumtion_rate . '%' . '</span>';
                 } )
                 ->editColumn( 'asset_age', function ($asset) {
-                    return '<span class="price-span">' . number_format($asset->asset_age,2) . ' ' . __( 'year' ) . '</span>';
-                } )->editColumn('employees_active_count', function ($asset){
-                    return'<span class="label label-success m-5 ">
+                    return '<span class="price-span">' . number_format( $asset->asset_age, 2 ) . ' ' . __( 'year' ) . '</span>';
+                } )->editColumn( 'employees_active_count', function ($asset) {
+                    return '<span class="label label-success m-5 ">
                                          <a style="color: white !important;font-size: 14px"
-                                            target="_blank" href="'.route('admin:assetsEmployees.index', ['asset' => $asset->id]).'">
-                                            '.count($asset->asset_employees->where('status', 1)).'
+                                            target="_blank" href="' . route( 'admin:assetsEmployees.index', ['asset' => $asset->id] ) . '">
+                                            ' . count( $asset->asset_employees->where( 'status', 1 ) ) . '
                                          </a>
                                      </span>';
-                })
+                } )
                 ->editColumn( 'created_at', '{{$created_at}}' )
                 ->editColumn( 'updated_at', '{{$updated_at}}' )
                 ->addColumn( 'action', function ($asset) {
@@ -200,8 +202,7 @@ class AssetsController extends Controller
                     'action' => 'action',
                     'options' => 'options'
                 ];
-            }
-            else {
+            } else {
                 $js_columns = [
                     'DT_RowIndex' => 'DT_RowIndex',
 
@@ -219,7 +220,6 @@ class AssetsController extends Controller
                 ];
 
             }
-
 
 
             $assets = Asset::all();
@@ -412,9 +412,12 @@ class AssetsController extends Controller
     {
 
         $request->ids = array_unique( $request->ids );
+
         if (isset( $request->ids )) {
             // delete Asset Insurances
+
             foreach ($request->ids as $id) {
+
                 $purchase_assets = PurchaseAssetItem::where( 'asset_id', $id )->count();
                 $purchase_expenses = AssetExpenseItem::where( 'asset_id', $id )->count();
                 $purchase_replacemens = AssetReplacementItem::where( 'asset_id', $id )->count();
@@ -431,12 +434,13 @@ class AssetsController extends Controller
                     // delete Asset Employees
                     AssetEmployee::where( "asset_id", $id )->delete();
                     // delete Asset
-                    Asset::where( "id", $id )->delete();
+                    Asset::find($id)->delete();
 
                 }
-                return redirect()->to( 'admin/assets' )
-                    ->with( ['message' => __( 'words.selected-rows-delete' ), 'alert-type' => 'success'] );
+
             }
+            return redirect()->to( 'admin/assets' )
+                ->with( ['message' => __( 'words.selected-rows-delete' ), 'alert-type' => 'success'] );
         }
         return redirect()->to( 'admin/assets' )
             ->with( ['message' => __( 'words.no-data-delete' ), 'alert-type' => 'error'] );
@@ -509,11 +513,11 @@ class AssetsController extends Controller
     public function getAssetsByAssetsGroup(Request $request): JsonResponse
     {
         $branchId = $request->branch_id ?? auth()->user()->branch_id;
-        if (!empty( $request->asset_group_id ) && !empty($branchId)) {
-            $assets = Asset::where( 'asset_group_id', $request->asset_group_id )->where('branch_id',$branchId)->get();
-        } else if (empty( $request->asset_group_id ) && !empty($branchId)) {
-            $assets = Asset::where('branch_id',$branchId)->get();
-        }else{
+        if (!empty( $request->asset_group_id ) && !empty( $branchId )) {
+            $assets = Asset::where( 'asset_group_id', $request->asset_group_id )->where( 'branch_id', $branchId )->get();
+        } else if (empty( $request->asset_group_id ) && !empty( $branchId )) {
+            $assets = Asset::where( 'branch_id', $branchId )->get();
+        } else {
             $assets = Asset::all();
         }
         if ($assets) {
@@ -538,9 +542,9 @@ class AssetsController extends Controller
     public function showAssetDetails(Asset $asset)
     {
         $assetType = AssetType::where( "id", $asset->asset_type_id )->first();
-        $view = view('admin.global_modals.show_asset_response', compact('asset', 'assetType'))->render();
-       return response()->json([
-           'data' => $view
-       ]);
+        $view = view( 'admin.global_modals.show_asset_response', compact( 'asset', 'assetType' ) )->render();
+        return response()->json( [
+            'data' => $view
+        ] );
     }
 }

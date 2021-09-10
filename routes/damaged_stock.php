@@ -1,7 +1,8 @@
 <?php
 
 //DAMAGED STOCK
-Route::resource('damaged-stock', 'DamagedStockController');
+Route::resource('damaged-stock', 'DamagedStockController')->except('update');
+Route::post('damaged-stock/{damagedStock}/update', 'DamagedStockController@update')->name('damaged-stock.update');
 
 //ajax
 Route::post('damaged-stock/select-part', 'DamagedStockController@selectPartRaw')->name('damage.stock.select.part');
@@ -19,3 +20,7 @@ Route::get('/damaged-stock/print/data', 'DamagedStockController@print')->name('d
 Route::post('damaged-stock/library/get-files', 'DamagedStockLibraryController@getFiles')->name('damaged.stock.library.get.files');
 Route::post('damaged-stock/upload_library', 'DamagedStockLibraryController@uploadLibrary')->name('damaged.stock.upload_library');
 Route::post('damaged-stock/library/file-delete', 'DamagedStockLibraryController@destroyFile')->name('damaged.stock.library.file.delete');
+
+
+//check stock
+Route::post('damaged-stock-check-stock', 'DamagedStockController@checkStock')->name('damaged.stock.check.stock');

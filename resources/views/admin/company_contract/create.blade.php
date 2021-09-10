@@ -17,8 +17,8 @@
 
         <div class="col-xs-12">
             <div class=" card box-content-wg-new bordered-all primary">
-                <h4 class="box-title with-control" style="text-align: initial"><i
-                        class="fa fa-user ico"></i>{{__('Create Company Contract')}}
+                <h4 class="box-title with-control" style="text-align: initial">
+                <i class="fa fa-file-text-o"></i>  {{__('Create Company Contract')}}
                         <span class="controls hidden-sm hidden-xs pull-left">
                       <button class="control text-white"
                               style="background:none;border:none;font-size:14px;font-weight:normal !important;">{{__('Save')}}
@@ -77,20 +77,6 @@
 
 
                             <div class="">
-
-{{--                                <div class="col-md-4">--}}
-{{--                                    <div class="form-group">--}}
-{{--                                        <label for="inputNameAr" class="control-label">{{__('Company name')}}</label>--}}
-{{--                                        <div class="input-group">--}}
-{{--                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>--}}
-{{--                                            <input type="text" name="name" class="form-control" id="inputNameEn"--}}
-{{--                                                   disabled--}}
-{{--                                                   placeholder="{{__('Company name')}}"--}}
-{{--                                                   value="{{old('name', !empty($branch)? $branch->company_name:'')}}">--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-
-{{--                                </div>--}}
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('Company Address')}}</label>
@@ -106,64 +92,23 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Tax Card')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Commercial Registration No')}}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="tax_card" class="form-control" id="inputNameEn"
-                                                   disabled
-                                                   placeholder="{{__('Tax Card')}}"
-                                                   value="{{old('address', !empty($branch)? $branch->tax_card:'')}}">
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="col-md-10 partners">
-                                    <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Partner')}}</label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="partners[]" class="form-control" id="partners" autocomplete="off"
-                                                   placeholder="{{__('Partner')}}"
-                                                   value="">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label for="inputNameAr" class="control-label" style="visibility: hidden">{{__('add')}}</label>
-                                        <div class="input-group">
-                                            <a class="btn btn-primary add"
-                                               onclick="onPlusPartnersClick()">{{__('Add Partner')}}</a>
+                                            <input type="text" name="commercial_registration_no" class="form-control text-right" id="commercial_registration_no"
+                                                   placeholder="{{__('Commercial Registration No')}}"
+                                                   value="{{old('commercial_registration_no', !empty($last_created)? $last_created->commercial_registration_no:'')}}">
                                         </div>
 
                                     </div>
+                                    {{input_error($errors,'commercial_registration_no')}}
                                 </div>
-
-                                @if(!empty($last_created) && $last_created->partners->isNotEmpty())
-                                    @foreach($last_created->partners as $partner)
-                                        <div class="form-group added_images">
-                                            <label class=" form-label font-weight-bolder"
-                                                   style="display:block">{{__('Partner')}}</label>
-                                            <input type="text" class=" form-control form-control-rounded"
-                                                   value="{{$partner->partner}}" name="partners[]" style="width: 80%;
-    display: inline-block;">
-                                            <a href="javascript:void(0);"
-                                               onclick="$(this).closest('.added_images').remove();"
-                                               class="btn btn-icon btn-danger px-3 py-2"
-                                               style=" display: inline-block;">
-                                                <i class="fa fa-trash"></i></a>
-                                            <div class="invalid-feedback" id="emails-form-error"></div>
-
-                                        </div>
-                                    @endforeach
-                                @endif
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('Contract Date')}}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="contract_date" class="form-control datepicker" id="contract_date"
+                                            <input type="text" name="contract_date" class="form-control datepicker text-right" id="contract_date"
                                                    placeholder="{{__('Contract Date')}}"
                                                    value="{{old('contract_date', !empty($last_created)? $last_created->contract_date:'')}}">
                                         </div>
@@ -178,7 +123,7 @@
                                         <label for="inputNameAr" class="control-label">{{__('Date Of Registration')}}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="register_date" class="form-control datepicker" id="register_date" autocomplete="off"
+                                            <input type="text" name="register_date" class="form-control datepicker text-right" id="register_date" autocomplete="off"
                                                    placeholder="{{__('Date Of Registration')}}"
                                                    value="{{old('register_date', !empty($last_created)? $last_created->register_date:'')}}">
                                         </div>
@@ -199,7 +144,7 @@
                                     </div>
                                     {{input_error($errors,'commercial_feature')}}
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('Company Purpose')}}</label>
                                         <div class="input-group">
@@ -212,7 +157,7 @@
                                     </div>
                                     {{input_error($errors,'company_purpose')}}
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('Share Capital')}}</label>
                                         <div class="input-group">
@@ -238,12 +183,12 @@
                                     </div>
                                     {{input_error($errors,'partnership_duration')}}
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('Start On')}}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="start_at" class="form-control datepicker" id="start_at"
+                                            <input type="text" name="start_at" class="form-control datepicker text-right" id="start_at"
                                                    placeholder="{{__('Start On')}}"
                                                    value="{{old('start_at', !empty($last_created)? $last_created->start_at:'')}}">
                                         </div>
@@ -251,12 +196,12 @@
                                     </div>
                                     {{input_error($errors,'start_at')}}
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="inputNameAr" class="control-label">{{__('End On')}}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-user"></li></span>
-                                            <input type="text" name="end_at" class="form-control datepicker" id="end_at"
+                                            <input type="text" name="end_at" class="form-control datepicker text-right" id="end_at"
                                                    placeholder="{{__('End On')}}"
                                                    value="{{old('end_at', !empty($last_created)? $last_created->end_at:'')}}">
                                         </div>
@@ -264,6 +209,53 @@
                                     </div>
                                     {{input_error($errors,'end_at')}}
                                 </div>
+
+                                <div class="col-md-4 partners">
+                                    <div class="form-group">
+                                        <label for="inputNameAr" class="control-label">{{__('Partners')}}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><li class="fa fa-user"></li></span>
+                                            <input type="text" name="partners[]" class="form-control" id="partners" autocomplete="off"
+                                                   placeholder="{{__('Partners')}}"
+                                                   value="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label for="inputNameAr" class="control-label" style="visibility: hidden">{{__('add')}}</label>
+                                        <div class="input-group">
+                                            <a class="btn btn-primary add"
+                                               onclick="onPlusPartnersClick()">{{__('Add Partner')}}</a>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+                                @if(!empty($last_created) && $last_created->partners->isNotEmpty())
+                                    @foreach($last_created->partners as $partner)
+                                    <div class="col-md-6">
+                                        <div class="form-group added_images">
+                                            <label class=" form-label font-weight-bolder"
+                                                   style="display:block">{{__('Partner')}}</label>
+
+                                            <input type="text" class=" form-control form-control-rounded"
+                                                   value="{{$partner->partner}}" name="partners[]" style="width: 80%;
+    display: inline-block;">
+                                            <a href="javascript:void(0);"
+                                               onclick="$(this).closest('.added_images').remove();"
+                                               class="btn btn-icon btn-danger px-3 py-2"
+                                               style=" display: inline-block;">
+                                                <i class="fa fa-trash"></i></a>
+                                            <div class="invalid-feedback" id="emails-form-error"></div>
+
+                                        </div>
+
+                                        </div>
+                                    @endforeach
+                                @endif
 
                                 <div class="col-md-10 company_share">
                                     <div class="form-group">
@@ -308,13 +300,23 @@
                                         </div>
                                     @endforeach
                                 @endif
+
+                                <div class="col-md-4">
+                                    <div class="form-group has-feedback">
+                                        <label for="" class="control-label">{{__('Renewable')}}</label>
+                                        <div class="switch primary">
+                                            <input type="checkbox" id="switch-1" name="renewable"{{!isset($last_created)?'checked':''}}
+                                                {{isset($last_created) && $last_created->renewable? 'checked':''}}
+                                            >
+                                            <label for="switch-1">{{__('Yes / No')}}</label>
+                                        </div>
+                                    </div>
+                                </div>
                         </div>
                         </div>
 
-
-                        <div class="form-group col-sm-12" >
                             @include('admin.buttons._save_buttons')
-                        </div>
+
                     </form>
                 </div>
 

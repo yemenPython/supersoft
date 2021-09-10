@@ -29,7 +29,8 @@ class TaxesFees extends Model
         'purchase_quotation',
         'execution_time',
         'supply_order',
-        'purchase_return'
+        'purchase_return',
+        'sale_supply_order'
     ];
 
     public function getNameAttribute()

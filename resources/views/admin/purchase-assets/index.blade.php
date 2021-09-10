@@ -125,20 +125,20 @@
                                     </div>
                                 </div>
 
-                                    <div class="form-group col-md-6">
-                                        <label> {{ __('Operation Type') }} </label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+{{--                                    <div class="form-group col-md-6">--}}
+{{--                                        <label> {{ __('Operation Type') }} </label>--}}
+{{--                                        <div class="input-group">--}}
+{{--                                            <span class="input-group-addon"><i class="fa fa-file-text"></i></span>--}}
 
-                                            <select class="form-control select2" id="operation_type"
-                                                    name="operation_type">
-                                            <option value="">{{__('Select')}}</option>
-                                                    <option value="purchase">{{__('Purchase')}}</option>
-                                                    <option value="opening_balance">{{__('Opening Balance')}}</option>
-                                                    <option value="together">{{__('Together')}}</option>
-                                            </select>
-                                        </div>
-                                    </div>
+{{--                                            <select class="form-control select2" id="operation_type"--}}
+{{--                                                    name="operation_type">--}}
+{{--                                            <option value="">{{__('Select')}}</option>--}}
+{{--                                                    <option value="purchase">{{__('Purchase')}}</option>--}}
+{{--                                                    <option value="opening_balance">{{__('Opening Balance')}}</option>--}}
+{{--                                                    <option value="together">{{__('Together')}}</option>--}}
+{{--                                            </select>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
 
 
                                     <div class="col-md-6">
@@ -222,7 +222,7 @@
                                 <th class="text-center column-supplier" scope="col">{!! __('Supplier Name') !!}</th>
                                 <th class="text-center" scope="col">{!! __('Invoice Type') !!}</th>
                                 <th>{{__('total purchase cost')}}</th>
-                                <th>{{__('total past consumtion')}}</th>
+{{--                                <th>{{__('total past consumtion')}}</th>--}}
                                 <th>{{__('paid amount')}}</th>
                                 <th>{{__('remaining amount')}}</th>
                                 <th class="text-center">{!! __('created at') !!}</th>
@@ -256,7 +256,7 @@
                                 <th class="text-center" scope="col">{!! __('Invoice Type') !!}</th>
 
                                 <th>{{__('total purchase cost')}}</th>
-                                <th>{{__('total past consumtion')}}</th>
+{{--                                <th>{{__('total past consumtion')}}</th>--}}
                                 <th>{{__('paid amount')}}</th>
                                 <th>{{__('remaining amount')}}</th>
                                 <th class="text-center">{!! __('created at') !!}</th>

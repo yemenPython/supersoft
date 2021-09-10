@@ -37,11 +37,15 @@ class DamagedStockServices
 
     public function checkMaxQuantityOfItem ($items) {
 
-        $status = false;
+        $invalidItems = [];
 
         foreach ($items as $item) {
 
             $part = Part::find($item['part_id']);
+
+            if ($part->is_service) {
+                continue;
+            }
 
             $store = $part->stores()->where('store_id', $item['store_id'])->first();
 
@@ -51,11 +55,10 @@ class DamagedStockServices
 
             if (!$store || !$partPrice || $requestedQuantity > $store->pivot->quantity) {
 
-                $status = true;
-                return $status;
+                $invalidItems[] = $part->name;
             }
         }
 
-        return $status;
+        return $invalidItems;
     }
 }

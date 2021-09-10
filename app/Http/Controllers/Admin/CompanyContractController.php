@@ -84,6 +84,9 @@ class CompanyContractController extends Controller
                 $data['branch_id'] = auth()->user()->branch_id;
             }
             $data['user_id'] = auth()->id();
+            if ($request->has('renewable')) {
+                $data['renewable'] = 1;
+            }
            $contact=  CompanyContract::create( $data );
 
           if (count(array_filter($request->all()['partners']))) {
@@ -107,13 +110,17 @@ class CompanyContractController extends Controller
             ->with( ['message' => __( 'words.company_contract-created' ), 'alert-type' => 'success'] );
     }
 
-    public function show()
+    public function show(CompanyContract $company_contract)
     {
-        return back();
+        $item = $company_contract;
+        return response()->json([
+            'data' => view('admin.company_contract.show', compact('item'))->render()
+        ]);
     }
 
     public function edit(CompanyContract $company_contract, Request $request)
     {
+//        dd($company_contract);
         $branch_id = $request->has( 'branch_id' ) ? $request['branch_id'] : $company_contract->branch_id;
         $branches = Branch::all()->pluck( 'name', 'id' );
         $branch = Branch::where( 'id', $branch_id )->get( ['name_' . app()->getLocale() . ' as company_name', 'address_' . app()->getLocale() . ' as address','tax_card'] )->first();
@@ -129,6 +136,11 @@ class CompanyContractController extends Controller
 
             if (!authIsSuperAdmin()) {
                 $data['branch_id'] = auth()->user()->branch_id;
+            }
+            if ($request->has('renewable')) {
+                $data['renewable'] = 1;
+            }else{
+                $data['renewable'] = 0;
             }
             $company_contract->update( $data );
             $company_contract->partners()->delete();

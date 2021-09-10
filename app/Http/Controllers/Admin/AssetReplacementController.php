@@ -19,6 +19,7 @@ use App\Models\Branch;
 use App\Models\ConsumptionAsset;
 use App\Models\ConsumptionAssetItem;
 use App\Models\PurchaseAsset;
+use App\Models\SaleAssetItem;
 use App\Models\Supplier;
 use App\Traits\LoggerError;
 use Carbon\Carbon;
@@ -302,6 +303,13 @@ class AssetReplacementController extends Controller
     public function destroy(int $id): RedirectResponse
     {
         $assetExpense = AssetReplacement::findOrFail( $id );
+        foreach ($assetExpense->assetReplacementItems as $item) {
+            if (SaleAssetItem::where( 'asset_id',  $item->asset->id)->exists()) {
+                return redirect()->to( route( 'admin:consumption-assets.index' ) )
+                    ->with( ['message' => __( 'words.Can not delete this asset replacements' ), 'alert-type' => 'error'] );
+            }
+        }
+
         $assetExpense->assetReplacementItems()->delete();
         $assetExpense->delete();
         return redirect()->to( 'admin/assets_replacements' )
@@ -311,8 +319,15 @@ class AssetReplacementController extends Controller
     public function deleteSelected(Request $request): RedirectResponse
     {
         if (isset( $request->ids )) {
-            $assets = AssetReplacementItem::whereIn( 'id', $request->ids )->get();
+            $assets = AssetReplacement::whereIn( 'id', $request->ids )->get();
             foreach ($assets as $asset) {
+                foreach ($asset->assetReplacementItems as $item) {
+                    if (SaleAssetItem::where( 'asset_id',  $item->asset->id)->exists()) {
+                        return redirect()->to( route( 'admin:consumption-assets.index' ) )
+                            ->with( ['message' => __( 'words.Can not delete this asset replacements' ), 'alert-type' => 'error'] );
+                    }
+                }
+
                 $asset->assetReplacementItems()->delete();
                 $asset->delete();
             }
@@ -327,12 +342,13 @@ class AssetReplacementController extends Controller
     {
         if (!is_null( $request->asset_id )) {
             $var = ConsumptionAssetItem::where( 'asset_id', $request->asset_id )->with( 'consumptionAsset' )->latest()->first();
-            if ($var && !$var->consumptionAsset->date_to > Carbon::now()) {
+
+            if ($var &&  !($var->consumptionAsset->date_to >  date( 'Y-m-d' ) )) {
                 $from = Carbon::createFromFormat( 'Y-m-d', $var->consumptionAsset->date_to );
                 $to = Carbon::createFromFormat( 'Y-m-d', date( 'Y-m-d' ) );
                 $diff_in_days = $to->diffInDays( $from );
-                if ($diff_in_days >= 15) {
-                    return response()->json( __( 'Please add consumption asset before !' ), 400 );
+                if ($diff_in_days >= 2) {
+                    return response()->json( __( 'Please add consumption asset until '.Carbon::parse(Carbon::yesterday())->format('d-m-Y') ), 400 );
                 }
             } else if (!$var) {
                 return response()->json( __( 'Please  add consumption asset before !' ), 400 );

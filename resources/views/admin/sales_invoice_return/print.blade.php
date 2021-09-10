@@ -120,6 +120,8 @@
                             <th>{{__('Total After Discount')}}</th>
                             <th>{{__('The Tax')}}</th>
                             <th>{{__('Final Total')}}</th>
+                            <th> {{ __('Barcode') }} </th>
+                            <th> {{ __('Supplier Barcode') }} </th>
                         </tr>
 
                         </thead>
@@ -138,6 +140,8 @@
                                 <td>{{number_format(($item->total_after_discount),2)}}</td>
                                 <td>{{number_format($item->tax, 2)}}</td>
                                 <td>{{number_format($item->total, 2)}}</td>
+                                <td>{{$item->partPrice  ? $item->partPrice->barcode : '---'}}</td>
+                                <td>{{$item->partPrice ? $item->partPrice->supplier_barcode : '---'}}</td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -343,32 +347,36 @@
 
                         <div class="col-xs-12" style="padding:0 !important">
 
-                            {{--                            <div class="col-xs-6">--}}
-                            {{--                                <h5 class="title">{{__('Supply Terms')}}</h5>--}}
-                            {{--                                <p style="font-size:14px">--}}
-                            {{--                                    @foreach($salesInvoiceReturn->terms()->where('type','supply')->get() as $index=>$term)--}}
-                            {{--                                        <tr class="item">--}}
-                            {{--                                            <td>{{$index+1}}</td>--}}
-                            {{--                                            <td>{{$term->term}}</td>--}}
-                            {{--                                        </tr>--}}
-                            {{--                                    @endforeach--}}
+                            <div class="col-xs-12">
+                                <br>
+                                <div class="col-xs-6">
+                                    <h5 class="title">{{__('Supply Terms')}}</h5>
+                                    <p style="font-size:14px">
+                                        @foreach($salesInvoiceReturn->terms()->where('type','supply')->get() as $index=>$term)
 
-                            {{--                                </p>--}}
-                            {{--                            </div>--}}
+                                            {{$index+1}}.
+                                            {{$term->term}}
+                                            <br> <br>
 
-                            {{--                            <div class="col-xs-6">--}}
-                            {{--                                <h5 class="title">{{__('Payment Terms')}}</h5>--}}
-                            {{--                                <h5>--}}
-                            {{--                                    <p style="font-size:14px">--}}
-                            {{--                                        @foreach($salesInvoiceReturn->terms()->where('type','payment')->get() as $index=>$term)--}}
-                            {{--                                            <tr class="item">--}}
-                            {{--                                                <td>{{$index+1}}</td>--}}
-                            {{--                                                <td>{{$term->term}}</td>--}}
-                            {{--                                            </tr>--}}
-                            {{--                                        @endforeach--}}
-                            {{--                                    </p>--}}
-                            {{--                                </h5>--}}
-                            {{--                            </div>--}}
+                                        @endforeach
+                                    </p>
+                                </div>
+
+                                <div class="col-xs-6">
+                                    <h5 class="title">{{__('Payment Terms')}}
+                                    </h5>
+                                    <p style="font-size:14px">
+                                        @foreach($salesInvoiceReturn->terms()->where('type','payment')->get() as $index=>$term)
+
+                                            {{$index+1}}.
+                                            {{$term->term}}
+                                            <br> <br>
+
+                                        @endforeach
+                                    </p>
+                                </div>
+
+                            </div>
 
                         </div>
                     </div>

@@ -270,6 +270,20 @@
                                             </div>
                                         </td>
                                     </tr>
+
+                                    <tr>
+
+                                        <td>{{__('Sale Supply Order')}}</td>
+                                        <td>
+                                            <div class="switch primary" style="margin:0">
+                                                <input type="checkbox" id="switch-sale_supply_order"  name="sale_supply_order"
+                                                       {{$taxesFees->sale_supply_order ? "checked":""}}>
+                                                <label for="switch-sale_supply_order">{{__('Active')}}</label>
+                                            </div>
+                                        </td>
+
+                                    </tr>
+
                                     </tbody>
                                 </table>
 

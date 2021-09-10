@@ -74,26 +74,42 @@ class ConcessionController extends Controller
         return view('admin.concessions.create', compact('concessionTypes', 'branches', 'number'));
     }
 
-    public function store(CreateRequest $request)
+    public function store(Request $request)
     {
+        $rules = $this->concessionService->createConcessionRules();
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
         try {
 
             $concessionType = ConcessionType::find($request['concession_type_id']);
 
             if ($concessionType->type != $request['type']) {
-                return redirect()->back()->with(['message' => 'sorry, concession type not valid', 'alert-type' => 'error']);
+                return response()->json( __('sorry, concession type not valid'), 400);
             }
 
             $concessionTypeItem = $concessionType->concessionItem;
 
             if (!$concessionTypeItem) {
-                return redirect()->back()->with(['message' => 'sorry, concession type not have item', 'alert-type' => 'error']);
+                return response()->json( __('sorry, concession type not have item'), 400);
             }
 
             $className = $concessionTypeItem->model;
 
             if ($this->concessionService->checkItemHasOldConcession($className, $request['item_id'],$concessionType->type)) {
-                return redirect()->back()->with(['message' => 'sorry, this item has old concession', 'alert-type' => 'error']);
+                return response()->json( __('sorry, this item has old concession'), 400);
+            }
+
+            $invalidItems = $this->concessionService->checkMaxQuantityOfItem($className, $request['item_id'], $request['type']);
+
+            if (!empty($invalidItems)) {
+
+                $message = __('quantity not available for this items ') ."\n          ". '('.implode(' ,', $invalidItems).')';
+                return response()->json($message, 400);
             }
 
             $data = $request->all();
@@ -109,9 +125,7 @@ class ConcessionController extends Controller
             if ($className == 'StoreTransfer' && $concession->type == 'add') {
 
                 if (!$this->concessionService->checkStoreTransferHasConcession($concession)) {
-
-                    return redirect()->back()->with(['message' => __('sorry, please create withdrawal concession first and accept'),
-                        'alert-type' => 'error']);
+                    return response()->json( __('sorry, please create withdrawal concession first and accept'), 400);
                 }
             }
 
@@ -124,7 +138,8 @@ class ConcessionController extends Controller
                 if (isset($acceptQuantityData['status']) && !$acceptQuantityData['status']) {
 
                     $message = isset($acceptQuantityData['message']) ? $acceptQuantityData['message'] : __('sorry, please try later');
-                    return redirect()->back()->with(['message' => $message, 'alert-type' => 'error']);
+
+                    return response()->json( __($message), 400);
                 }
             }
 
@@ -132,10 +147,10 @@ class ConcessionController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
 
-            return redirect()->back()->with(['message' => 'sorry, please try later', 'alert-type' => 'error']);
+            return response()->json( __('sorry, please try later'), 400);
         }
 
-        return redirect(route('admin:concessions.index'))->with(['message' => 'Concession created successfully', 'alert-type' => 'success']);
+        return response()->json( ['message' => __('Concession created successfully'), 'link'=> route('admin:concessions.index') ], 200);
     }
 
     public function edit(Concession $concession)
@@ -226,8 +241,20 @@ class ConcessionController extends Controller
         return $concessionTypeItems;
     }
 
-    public function update(CreateRequest $request, Concession $concession)
+    public function update(Request $request)
     {
+        $rules = $this->concessionService->createConcessionRules();
+
+        $rules['concession_id'] = 'required|integer|exists:concessions,id';
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        $concession = Concession::find($request['concession_id']);
+
         if ($concession->status != 'pending') {
             return redirect()->back()->with(['message' => 'sorry, you can note update this item', 'alert-type' => 'error']);
         }
@@ -237,13 +264,13 @@ class ConcessionController extends Controller
             $concessionType = ConcessionType::find($request['concession_type_id']);
 
             if ($concessionType->type != $request['type']) {
-                return redirect()->back()->with(['message' => 'sorry, concession type not valid', 'alert-type' => 'error']);
+                return response()->json( __('sorry, concession type not valid'), 400);
             }
 
             $concessionTypeItem = $concessionType->concessionItem;
 
             if (!$concessionTypeItem) {
-                return redirect()->back()->with(['message' => 'sorry, concession type not have item', 'alert-type' => 'error']);
+                return response()->json( __('sorry, concession type not have item'), 400);
             }
 
             $data = $request->all();
@@ -261,14 +288,22 @@ class ConcessionController extends Controller
             if ($concession->concessionable_id != $data['item_id'] &&
                 $this->concessionService->checkItemHasOldConcession($className, $request['item_id'],$concessionType->type)) {
 
-                return redirect()->back()->with(['message' => 'sorry, this item has old concession', 'alert-type' => 'error']);
+                return response()->json( __('sorry, this item has old concession'), 400);
+            }
+
+            $invalidItems = $this->concessionService->checkMaxQuantityOfItem($className, $request['item_id'], $request['type']);
+
+            if (!empty($invalidItems)) {
+
+                $message = __('quantity not available for this items ') . '('.implode($invalidItems,' ,').')';
+                return response()->json($message, 400);
             }
 
             if ($className == 'StoreTransfer' && $concession->type == 'add') {
 
                 if (!$this->concessionService->checkStoreTransferHasConcession($concession)) {
 
-                    return redirect()->back()->with(['message' => __('sorry, please create withdrawal concession first'), 'alert-type' => 'error']);
+                    return response()->json( __('sorry, please create withdrawal concession first'), 400);
                 }
             }
 
@@ -283,7 +318,8 @@ class ConcessionController extends Controller
                 if (isset($acceptQuantityData['status']) && !$acceptQuantityData['status']) {
 
                     $message = isset($acceptQuantityData['message']) ? $acceptQuantityData['message'] : __('sorry, please try later');
-                    return redirect()->back()->with(['message' => $message, 'alert-type' => 'error']);
+
+                    return response()->json( __($message), 400);
                 }
             }
 
@@ -291,10 +327,10 @@ class ConcessionController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
 
-            return redirect()->back()->with(['message' => 'sorry, please try later', 'alert-type' => 'error']);
+            return response()->json( __('sorry, please try later'), 400);
         }
 
-        return redirect(route('admin:concessions.index'))->with(['message' => 'Concession created successfully', 'alert-type' => 'success']);
+        return response()->json( ['message' => __('Concession updated successfully'), 'link'=> route('admin:concessions.index') ], 200);
     }
 
     public function show(Request $request)

@@ -6,6 +6,8 @@ namespace App\Services;
 
 use App\Models\Concession;
 use App\Models\ConcessionItem;
+use App\Models\ConcessionType;
+use App\Models\Part;
 use App\Models\PartPrice;
 
 class ConcessionService
@@ -68,8 +70,9 @@ class ConcessionService
                 'spare_part_id' => $item->spare_part_id
             ];
 
-            if ($className == 'StoreTransfer' && $concession->type == 'add') {
-                $data['store_id'] = $concession->concessionable->store_to_id;
+            if ($className == 'StoreTransfer') {
+                $data['store_id'] = $concession->type == 'add' ?
+                    $concession->concessionable->store_to_id : $concession->concessionable->store_from_id ;
             }
 
             ConcessionItem::create($data);
@@ -156,6 +159,12 @@ class ConcessionService
         $concessionType = $concession->type;
 
         foreach ($concessionItems as $item) {
+
+            $part = $item->part;
+
+            if ($part->is_service) {
+                continue;
+            }
 
             if ($concessionType != 'add') {
 
@@ -263,7 +272,6 @@ class ConcessionService
     {
 
         $data = [
-
             'status' => true
         ];
 
@@ -336,5 +344,62 @@ class ConcessionService
         }
 
         return false;
+    }
+
+    public function createConcessionRules () {
+
+        $rules = [
+
+            'date'=>'required|date',
+            'time'=>'required',
+            'status'=>'required|string|in:pending,accepted,finished,rejected',
+            'concession_type_id'=> 'required|integer|exists:concession_types,id',
+            'item_id'=>'required|integer',
+            'description'=> 'nullable|string'
+        ];
+
+        if (authIsSuperAdmin()) {
+            $rules['branch_id'] = 'required|integer|exists:branches,id';
+        }
+
+        return $rules;
+    }
+
+    public function checkMaxQuantityOfItem ($className, $item_id, $type) {
+
+        $model = $this->getModelNameSpace($className);
+
+        $modelData = $model::find($item_id);
+
+        $invalidItems = [];
+
+        if (!$modelData || !$modelData->items || $type == 'add') {
+
+            return $invalidItems;
+        }
+
+        foreach ($modelData->items as $item) {
+
+            $part = $item->part;
+
+            if ($part->is_service) {
+                continue;
+            }
+
+            $store_id = $className == 'StoreTransfer' ? $item->store_from_id : $item->store_id;
+
+            $store = $part->stores()->where('store_id', $store_id)->first();
+
+            $partPrice = PartPrice::find($item['part_price_id']);
+
+            $requestedQuantity = $partPrice->quantity * $item['quantity'];
+
+            if (!$store || !$partPrice || $requestedQuantity > $store->pivot->quantity) {
+
+                $invalidItems[] = $part->name;
+            }
+        }
+
+        return $invalidItems;
     }
 }

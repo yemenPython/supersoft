@@ -179,7 +179,12 @@
                 swal({text: '{{__('sorry, please select branch first')}}', icon: "error"});
                 return false;
             }
-            let branch_id = $('#branch_id').find(":selected").val();
+            let isSuperAdmin = '{{authIsSuperAdmin()}}';
+            if (isSuperAdmin) {
+                var branch_id = $('#branch_id').find(":selected").val();
+            }else {
+                var branch_id = $('#branch_id_hidden').val();
+            }
             $.ajax({
                 url: "{{ route('admin:assets_expenses.getAssetsByAssetGroup') }}?asset_group_id=" + $(this).val()+"&branch_id="+branch_id,
                 method: 'GET',
@@ -229,7 +234,7 @@
                     totalPurchaseCost(index);
                     totalPastConsumtion(index);
                     netTotal(index);
-                    consumptionAmount(data.index);
+                    consumptionAmount(data.index,data.diff);
                     totalReplacements();
                     checkType(data.index);
                     $('.js-example-basic-single').select2();
@@ -355,7 +360,7 @@
             let index = $("#items_count").val();
             consumptionAmount(index);
         });
-        function consumptionAmount(index) {
+        function consumptionAmount(index,diff=0) {
             var date_from = $('#date_from').val();
             var date_to = $('#date_to').val();
             var total_net_purchase_cost = $('.net_purchase_cost_' + index).val();
@@ -370,7 +375,8 @@
                 var age = (+net_purchase_cost / +annual_consumtion_rate) / 100;
                 var months = age * 12;
                 var asd = +net_purchase_cost / +months;
-                var value = +asd * (+diffDays / 30);
+                var any = diffDays - diff;
+                var value = +asd * (+any / 30);
                 $('.consumption_amount_' + index).val(value.toFixed(2));
             }
         }

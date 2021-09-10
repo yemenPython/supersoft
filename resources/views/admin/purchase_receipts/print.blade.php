@@ -108,6 +108,8 @@
                             <th>{{__('Total Quantity')}}</th>
                             <th>{{__('Refused Quantity')}}</th>
                             <th>{{__('Accepted Quantity')}}</th>
+                            <th> {{ __('Barcode') }} </th>
+                            <th> {{ __('Supplier Barcode') }} </th>
                         </tr>
 
                         </thead>
@@ -122,6 +124,8 @@
                                 <td>{{$item->total_quantity}}</td>
                                 <td>{{$item->refused_quantity}}</td>
                                 <td>{{$item->accepted_quantity}}</td>
+                                <td>{{$item->partPrice  ? $item->partPrice->barcode : '---'}}</td>
+                                <td>{{$item->partPrice ? $item->partPrice->supplier_barcode : '---'}}</td>
                             </tr>
 
                         @endforeach

@@ -55,12 +55,22 @@
                                 @endif
 
                                     <div class="form-group col-md-6">
-                                        <label> {{ __('Approval Expiration Date From') }} </label>
-                                        <input type="text" name="expiration_date_from" class="form-control datepicker" placeholder="{{__('Approval Expiration Date From')}}">
+                                    <label> {{ __('End Date From') }} </label>
+                                        <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                                        <input type="text" name="expiration_date_from" class="form-control datepicker text-right" placeholder="{{__('End Date From')}}">
                                     </div>
+                                    </div>
+
+
                                     <div class="form-group col-md-6">
-                                        <label> {{ __('Approval Expiration Date To') }} </label>
-                                        <input type="text" name="expiration_date_to" class="form-control datepicker" placeholder="{{__('Approval Expiration Date To')}}">
+                                        <label> {{ __('End Date To') }} </label>
+                                        <div class="input-group">
+
+<span class="input-group-addon fa fa-calendar"></span>
+                                        <input type="text" name="expiration_date_to" class="form-control datepicker text-right" placeholder="{{__('End Date To')}}">
+                                    </div>
                                     </div>
 
                             </div>
@@ -84,7 +94,7 @@
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control">
-                    <i class="fa fa-check-square-o"></i> {{__('Security Approval')}}
+                <i class="fa fa-file-text-o"></i> {{__('Security Approval')}}
                 </h4>
 
                 <div class="card-content js__card_content" style="">
@@ -113,12 +123,12 @@
                             <thead>
                             <tr>
                                 <th class="text-center column-id" scope="col">#</th>
-                                <th class="text-center column-branch-name" scope="col">{!! __('Branch') !!}</th>
+                                <th class="text-center column-branch-name" scope="col">{!! __('Company name') !!}</th>
                                 <th class="text-center column-Membership-No" scope="col">{!! __('Registration Number') !!}</th>
-                                <th class="text-center column-register-date" scope="col">{!! __('Approval Expiration Date') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('Commercial Feature') !!}</th>
                                 <th class="text-center column-company-type" scope="col">{!! __('Company Type') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('Company Field') !!}</th>
+                                <th class="text-center column-register-date" scope="col">{!! __('Approval Expiration Date') !!}</th>
+                                <!-- <th class="text-center column-company-type" scope="col">{!! __('Commercial Feature') !!}</th> -->
+                                <!-- <th class="text-center column-company-type" scope="col">{!! __('Company Field') !!}</th> -->
                                 <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
                                 <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
                                 <th scope="col">{{__('Options')}}</th>
@@ -136,10 +146,14 @@
                                     <td class="text-center column-id">{{$loop->iteration}}</td>
                                     <td class="text-center column-branch-name">{!! optional($one->branch)->name !!}</td>
                                     <td class="text-center column-Membership-No">{!! $one->register_no !!}</td>
-                                    <td class="text-danger text-center  column-company-type">{{ $one->expiration_date }}</td>
-                                    <td class="text-danger text-center column-register-date">{{ $one->commercial_feature }}</td>
-                                    <td class="text-danger text-center column-register-date">{{ $one->company_type }}</td>
-                                    <td class="text-danger text-center column-register-date">{{ $one->company_field }}</td>
+                                    <td class="text-center column-register-date">{{ $one->company_type }}</td>
+                                    <td class="text-center column-company-type">
+                                    <span class="label light-danger wg-label">
+                                    {{ $one->expiration_date }}
+                                    </span>
+                                    </td>
+                                    <!-- <td class="text-center column-register-date">{{ $one->commercial_feature }}</td> -->
+                                    <!-- <td class="text-center column-register-date">{{ $one->company_field }}</td> -->
                                     <td class="text-center column-created-at">{!! $one->created_at->format('y-m-d h:i:s A') !!}</td>
                                     <td class="text-center column-updated-at">{!! $one->updated_at->format('y-m-d h:i:s A') !!}</td>
 
@@ -153,6 +167,12 @@
 
                                             </button>
                                             <ul class="dropdown-menu dropdown-wg">
+                                                <li>
+                                                    <a class="btn btn-wg-show hvr-radial-out"
+                                                       onclick="loadDataWithModal('{{route('admin:security_approval.show', $one->id)}}')" >
+                                                        <i class="fa fa-eye"></i> {{__('Show')}}
+                                                    </a>
+                                                </li>
                                                 <li class="btn-style-drop">
                                                     @component('admin.buttons._edit_button',[
                                                                 'id' => $one->id,
@@ -172,7 +192,7 @@
                                                     <a data-toggle="modal" data-target="#boostrapModal-2"
                                                        onclick="getLibrarySupplierId('{{$one->id}}')"
                                                        title="Supplier Library" class="btn btn-warning">
-                                                        <i class="fa fa-plus"> </i> {{__('Library')}}
+                                                       <i class="fa fa-file-archive-o text-primary"> </i> {{__('Library')}}
                                                     </a>
                                                 </li>
                                             </ul>
@@ -191,12 +211,12 @@
                             <tfoot>
                             <tr>
                                 <th class="text-center column-id" scope="col">#</th>
-                                <th class="text-center column-branch-name" scope="col">{!! __('Branch') !!}</th>
+                                <th class="text-center column-branch-name" scope="col">{!! __('Company name') !!}</th>
                                 <th class="text-center column-Membership-No" scope="col">{!! __('Registration Number') !!}</th>
-                                <th class="text-center column-register-date" scope="col">{!! __('Approval Expiration Date') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('Commercial Feature') !!}</th>
                                 <th class="text-center column-company-type" scope="col">{!! __('Company Type') !!}</th>
-                                <th class="text-center column-company-type" scope="col">{!! __('Company Field') !!}</th>
+                                <th class="text-center column-register-date" scope="col">{!! __('Approval Expiration Date') !!}</th>
+                                <!-- <th class="text-center column-company-type" scope="col">{!! __('Commercial Feature') !!}</th> -->
+                                <!-- <th class="text-center column-company-type" scope="col">{!! __('Company Field') !!}</th> -->
                                 <th class="text-center column-created-at" scope="col">{!! __('created at') !!}</th>
                                 <th class="text-center column-updated-at" scope="col">{!! __('Updated at') !!}</th>
                                 <th scope="col">{{__('Options')}}</th>
@@ -216,13 +236,15 @@
 
 @section('modals')
 
-    <div class="modal fade" id="boostrapModal-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
+    <div class="modal fade modal-bg-wg" id="boostrapModal-2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel-1">{{__('Security Approval Library')}}</h4>
+                    <h4 class="modal-title" id="myModalLabel-1">
+                    <i class="fa fa-file-archive-o"> </i>
+                    {{__('Security Approval Library')}}</h4>
                 </div>
                 <div class="modal-body">
 
@@ -230,23 +252,28 @@
                         <form action="{{route('admin:security_approval.upload.upload_library')}}" method="post"
                               enctype="multipart/form-data">
                             @csrf
-                            <div class="form-group col-md-3">
-                                <label>Title_ar</label>
+                            <div class="form-group col-md-4">
+                                <label>{{__('Title_ar')}} {!! required() !!}</label>
+                                <div class="input-group">
+                                <span class="input-group-addon"><li class="fa fa-file-archive-o"></li></span>
+
                                 <input type="text" name="title_ar" class="form-control" id="library_title_ar">
                             </div>
-                            <div class="form-group col-md-3">
-                                <label>Title_en</label>
-                                <input type="text" name="title_en" class="form-control" id="library_title_en">
-                            </div>
-                            <div class="form-group col-md-4">
-                                <label>{{__('files')}}</label>
-                                <input type="file" name="files[]" class="form-control" id="files" multiple>
-                                <input type="hidden" name="supplier_id" value="" id="library_supplier_id">
                             </div>
 
-                            <div class="form-group col-md-1">
-                                <button type="button" class="btn btn-primary" onclick="uploadSupplierFiles()"
-                                        style="margin-top: 28px;">{{__('save')}}</button>
+                                             <div class="form-group col-md-4">
+                                <label>{{__('Title_en')}}</label>
+                                <div class="input-group">
+                                <span class="input-group-addon"><li class="fa fa-file-archive-o"></li></span>
+
+                                <input type="text" name="title_en" class="form-control" id="library_title_en">
+                            </div>
+                            </div>
+
+                            <div class="form-group col-md-4">
+                                <label>{{__('files')}} {!! required() !!}</label>
+                                <input type="file" name="files[]" class="form-control" id="files" multiple>
+                                <input type="hidden" name="supplier_id" value="" id="library_supplier_id">
                             </div>
 
                             <div class="form-group col-md-1" id="upload_loader" style="display: none;">
@@ -265,14 +292,16 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" data-dismiss="modal">
-                        {{__('Close')}}
+                <button type="button" class="btn btn-primary" onclick="uploadSupplierFiles()">
+                <li class="fa fa-save"></li> {{__('save')}}</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">
+                    <li class="fa fa-close"></li> {{__('Close')}}
                     </button>
                 </div>
             </div>
         </div>
     </div>
-
+    @include('admin.partial.general_modal')
 @endsection
 
 @section('js')
@@ -452,6 +481,27 @@
             });
         }
 
+
+        function loadDataWithModal(route) {
+            event.preventDefault();
+            $('#modalToShow').modal('show');
+            $.ajax({
+                url: route,
+                type: 'get',
+                success: function (response) {
+                    $('#modalToShow').modal('show');
+                    setTimeout( () => {
+                        $('.box-loader').hide();
+                        $('#modalToShowResponse').html(response.data);
+                    },1000)
+                }
+            });
+        }
+
+        $('#modalToShow').on('hidden.bs.modal', function () {
+            $('.box-loader').show();
+            $('#modalToShowResponse').html('');
+        })
     </script>
 
     <script type="application/javascript" src="{{ asset('accounting-module/options-for-dt.js') }}"></script>

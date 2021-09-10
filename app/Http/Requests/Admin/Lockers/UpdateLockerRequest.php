@@ -42,13 +42,7 @@ class UpdateLockerRequest extends FormRequest
 
         $rules['name_en'] =
             [
-                'required','string','max:150',
-                Rule::unique('lockers')->where(function ($query) use($branch){
-                    return $query->where('id','!=', $this->locker->id)
-                        ->where('name_en', request()->name_en)
-                        ->where('branch_id', $branch)
-                        ->where('deleted_at', null);
-                }),
+                'nullable','string','max:150'
             ];
 
         $rules['name_ar'] =

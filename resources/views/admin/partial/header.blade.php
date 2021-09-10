@@ -60,9 +60,9 @@
     <!-- /.pull-left -->
     <div class="pull-right">
 
-    <i style="cursor: pointer;" class="glyphicon glyphicon-headphones" data-toggle="modal" data-target="#exampleModal"></i>
-
-
+        <i id="turn_on_dark_mode" onclick="switchDarkMode(1)" style="cursor: pointer;font-size: 25px;margin-left: 8px" class="fa fa-toggle-on fa-2x"></i>
+        <i id="turn_off_dark_mode" onclick="switchDarkMode(0)" style="display:none; cursor: pointer;font-size: 25px;margin-left: 8px" class="fa fa-toggle-off fa-2x"></i>
+        <i style="cursor: pointer;" class="glyphicon glyphicon-headphones" data-toggle="modal" data-target="#exampleModal"></i>
 
         <i href="#" class="ico-item">
             @if (App::isLocale('ar'))

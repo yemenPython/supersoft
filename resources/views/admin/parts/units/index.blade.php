@@ -33,7 +33,6 @@
                 <td>
 
                     <div class="btn-group margin-top-10">
-
                         <button type="button" class="btn btn-options dropdown-toggle" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                             <i class="ico fa fa-bars"></i>
@@ -43,7 +42,7 @@
                         <ul class="dropdown-menu dropdown-wg">
 
                             <li>
-                                <button type="button" class="btn btn-wg-delete hvr-radial-out"
+                                <button type="button" class="btn btn-wg-edit hvr-radial-out"
                                         onclick="editUnit('{{$price->id}}')">
                                     <i class="fa fa-pencil"></i> {{__('Edit')}}
                                 </button>

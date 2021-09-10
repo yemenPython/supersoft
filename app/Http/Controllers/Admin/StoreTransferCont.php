@@ -71,7 +71,6 @@ class StoreTransferCont extends Controller
         $numbers = StoreTransfer::select('id', 'transfer_number')->get();
 
         $collection = StoreTransfer::query()
-
             ->when($store_from, function ($q) use ($store_from) {
                 $q->where('store_from_id', $store_from);
             })
@@ -251,8 +250,12 @@ class StoreTransferCont extends Controller
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
-        if ($this->storeTransferServices->checkMaxQuantityOfItem($request['items'], $request['store_from_id'])) {
-            return redirect()->back()->with(['message' => __('quantity not available'), 'alert-type' => 'error']);
+        $invalidItems = $this->storeTransferServices->checkMaxQuantityOfItem($request['items'], $request['store_from_id']);
+
+        if (!empty($invalidItems)) {
+
+            $message = __('quantity not available for this items ') ."\n          ". '('.implode(' ,', $invalidItems).')';
+            return redirect()->back()->with(['message' => $message, 'alert-type' => 'error']);
         }
 
         try {
@@ -355,9 +358,12 @@ class StoreTransferCont extends Controller
             return redirect()->back()->with(['authorization' => 'error']);
         }
 
-        if ($this->storeTransferServices->checkMaxQuantityOfItem($request['items'], $request['store_from_id'])) {
+        $invalidItems = $this->storeTransferServices->checkMaxQuantityOfItem($request['items'], $request['store_from_id']);
 
-            return redirect()->back()->with(['message' => __('quantity not available'), 'alert-type' => 'error']);
+        if (!empty($invalidItems)) {
+
+            $message = __('quantity not available for this items ') ."\n          ". '('.implode(' ,', $invalidItems).')';
+            return redirect()->back()->with(['message' => $message, 'alert-type' => 'error']);
         }
 
         $storeTransfer = StoreTransfer::findOrFail($id);
@@ -541,6 +547,35 @@ class StoreTransferCont extends Controller
 
     }
 
+    public function checkStock(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+
+            'items' => 'required',
+            'store_from_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        try {
+
+            $invalidItems = $this->storeTransferServices->checkMaxQuantityOfItem($request['items'], $request['store_from_id']);
+
+            if (!empty($invalidItems)) {
+
+                $message = __('quantity not available for this items ') ."\n          ". '('.implode(' ,', $invalidItems).')';
+                return response()->json($message, 400);
+            }
+
+        } catch (Exception $e) {
+            return response()->json(['sorry, please try later'], 400);
+        }
+
+        return response()->json(['message' => __('quantity available')], 200);
+    }
+
     /**
      * @param Builder $storeTransfers
      * @return mixed
@@ -549,14 +584,14 @@ class StoreTransferCont extends Controller
     private function dataTableColumns(Builder $storeTransfers)
     {
         return DataTables::of($storeTransfers)->addIndexColumn()
-            ->addColumn( 'branch_id', function ($storeTransfer) {
+            ->addColumn('branch_id', function ($storeTransfer) {
                 $withBranch = true;
-                return view(self::view_path.'options-datatable.options',
+                return view(self::view_path . 'options-datatable.options',
                     compact('storeTransfer', 'withBranch'))->render();
             })
             ->addColumn('transfer_date', function ($storeTransfer) {
                 $withOperationData = true;
-                return view(self::view_path.'options-datatable.options',
+                return view(self::view_path . 'options-datatable.options',
                     compact('storeTransfer', 'withOperationData'))->render();
             })
             ->addColumn('transfer_number', function ($storeTransfer) {
@@ -564,22 +599,22 @@ class StoreTransferCont extends Controller
             })
             ->addColumn('store_from', function ($storeTransfer) {
                 $withStoreFrom = true;
-                return view(self::view_path.'options-datatable.options',
+                return view(self::view_path . 'options-datatable.options',
                     compact('storeTransfer', 'withStoreFrom'))->render();
             })
             ->addColumn('store_to', function ($storeTransfer) {
                 $withStoreTo = true;
-                return view(self::view_path.'options-datatable.options',
+                return view(self::view_path . 'options-datatable.options',
                     compact('storeTransfer', 'withStoreTo'))->render();
             })
             ->addColumn('total', function ($storeTransfer) {
                 $withTotal = true;
-                return view(self::view_path.'options-datatable.options',
+                return view(self::view_path . 'options-datatable.options',
                     compact('storeTransfer', 'withTotal'))->render();
             })
             ->addColumn('status', function ($storeTransfer) {
                 $withStatus = true;
-                return view(self::view_path.'options-datatable.options',
+                return view(self::view_path . 'options-datatable.options',
                     compact('storeTransfer', 'withStatus'))->render();
             })
             ->addColumn('created_at', function ($storeTransfer) {
@@ -590,10 +625,10 @@ class StoreTransferCont extends Controller
             })
             ->addColumn('action', function ($storeTransfer) {
                 $withActions = true;
-                return view(self::view_path.'options-datatable.options', compact('storeTransfer', 'withActions'))->render();
+                return view(self::view_path . 'options-datatable.options', compact('storeTransfer', 'withActions'))->render();
             })->addColumn('options', function ($storeTransfer) {
                 $withOptions = true;
-                return view(self::view_path.'options-datatable.options', compact('storeTransfer', 'withOptions'))->render();
+                return view(self::view_path . 'options-datatable.options', compact('storeTransfer', 'withOptions'))->render();
             })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
     }
 

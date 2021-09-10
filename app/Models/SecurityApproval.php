@@ -13,7 +13,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class SecurityApproval extends Model
 {
-    use ColumnTranslation, LogsActivity, SoftDeletes;
+    use ColumnTranslation, LogsActivity;
     /**
      * @var string
      */
@@ -30,7 +30,9 @@ class SecurityApproval extends Model
         'company_type',
         'company_field',
         'fax',
-        'library_path'
+        'library_path',
+        'commercial_registration_no',
+        'date'
     ];
 
     protected static $logAttributes = [

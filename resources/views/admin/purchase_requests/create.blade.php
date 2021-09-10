@@ -352,6 +352,12 @@
 
             let unit_quantity = $('#prices_part_' + index).find(":selected").data('quantity');
             $('#unit_quantity_' + index).text(unit_quantity);
+
+            let barcode = $('#prices_part_' + index).find(":selected").data('barcode');
+            let supplier_barcode = $('#prices_part_' + index).find(":selected").data('supplier-barcode');
+
+            $("#barcode_" + index).text(barcode);
+            $("#supplier_barcode_" + index).text(supplier_barcode);
         }
 
         function getPartImage (index) {

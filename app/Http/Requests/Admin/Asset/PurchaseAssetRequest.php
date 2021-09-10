@@ -21,6 +21,7 @@ class PurchaseAssetRequest extends FormRequest
                 Rule::unique( 'purchase_assets' )
                     ->ignore( $this->purchase_asset )
                     ->whereNull( 'deleted_at' )
+                    ->where( 'operation_type',  'purchase' )
                     ->where( 'branch_id', $branch_id )
             ],
             'date' => 'required|date',

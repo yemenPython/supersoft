@@ -279,6 +279,7 @@ route('admin:assets_expenses_types.index'),
 route('admin:assets_expenses_items.index'),
 route('admin:assets_expenses.index'),
 route('admin:purchase-assets.index'),
+route('admin:opening-balance-assets.index'),
 route('admin:assets_replacements.index'),
 route('admin:consumption-assets.index'),
 route('admin:sale-assets.index'),
@@ -312,6 +313,11 @@ route('admin:stop_and_activate_assets.index'),
                         <li class="{{setActivationClass(route('admin:purchase-assets.index'))}}">
                             <a href="{{route('admin:purchase-assets.index')}}">
                                 {{__('Purchase Assets')}}
+                            </a>
+                        </li>
+                        <li class="{{setActivationClass(route('admin:opening-balance-assets.index'))}}">
+                            <a href="{{route('admin:opening-balance-assets.index')}}">
+                                {{__('Opening Balance Assets')}}
                             </a>
                         </li>
 
@@ -549,7 +555,7 @@ route('admin:financial_management.type_expenses.index'),
                             </a>
                         </li>
 
-                        
+
                         <li class="{{setActivationClass(route('admin:banks.bank_data.index'))}}">
                             <a href="{{route('admin:banks.bank_data.index')}}">
                                 {{__('Banks Data')}}
@@ -568,29 +574,7 @@ route('admin:financial_management.type_expenses.index'),
                                 {{__('Types Bank Accounts')}}
                             </a>
                         </li>
-                        
-                    </ul>
-                </li>
 
-
-              <li class="{{setActivationClass([
-route('admin:lockers.index'),
-route('admin:accounts.index'),
-route('admin:lockers-transfer.index'),
-route('admin:accounts-transfer.index'),
-route('admin:lockers-transactions.index'),
-route('admin:locker-exchanges.index'),
-route('admin:locker-receives.index'),
-route('admin:bank-exchanges.index'),
-route('admin:bank-receives.index'),
-route('admin:lockers_opening_balance.index'),
-                     ])}}">
-                    <a class="parent-item js__control" href="#">
-                        <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
-                        <span>{{__('Lockers and Banks')}}</span>
-                        <span class="menu-arrow fa fa-angle-down"></span>
-                    </a>
-                    <ul class="sub-menu js__content">
                         <li class="{{setActivationClass(route('admin:lockers.index'))}}">
                             <a href="{{route('admin:lockers.index')}}">
                                 {{__('Lockers')}}
@@ -603,24 +587,9 @@ route('admin:lockers_opening_balance.index'),
                             </a>
                         </li>
 
-            <li class="{{setActivationClass(route('admin:accounts.index'))}}">
-                            <a href="{{route('admin:accounts.index')}}">
-                                {{__('Accounts')}}
-                </a>
-            </li>
-            <li class="{{setActivationClass(route('admin:customers.index'))}}">
+                        <li class="{{setActivationClass(route('admin:customers.index'))}}">
                             <a href="{{route('admin:lockers-transfer.index')}}">
                                 {{__('Lockers Transfer')}}
-                </a>
-            </li>
-            <li class="{{setActivationClass(route('admin:accounts-transfer.index'))}}">
-                            <a href="{{route('admin:accounts-transfer.index')}}">
-                                {{__('Accounts Transfer')}}
-                </a>
-            </li>
-            <li class="{{setActivationClass(route('admin:lockers-transactions.index'))}}">
-                            <a href="{{route('admin:lockers-transactions.index')}}">
-                                {{__('words.locker-transaction')}}
                 </a>
             </li>
             <li class="{{setActivationClass(route('admin:locker-exchanges.index'))}}">
@@ -633,6 +602,45 @@ route('admin:lockers_opening_balance.index'),
                                 {{ __('words.locker-receives') }}
                 </a>
             </li>
+                    </ul>
+                </li>
+
+
+              <li class="{{setActivationClass([
+
+route('admin:accounts.index'),
+route('admin:lockers-transfer.index'),
+route('admin:accounts-transfer.index'),
+route('admin:lockers-transactions.index'),
+
+route('admin:bank-exchanges.index'),
+route('admin:bank-receives.index'),
+route('admin:lockers_opening_balance.index'),
+                     ])}}">
+                    <a class="parent-item js__control" href="#">
+                        <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
+                        <span>{{__('Lockers and Banks')}}</span>
+                        <span class="menu-arrow fa fa-angle-down"></span>
+                    </a>
+                    <ul class="sub-menu js__content">
+                       
+            <li class="{{setActivationClass(route('admin:accounts.index'))}}">
+                            <a href="{{route('admin:accounts.index')}}">
+                                {{__('Accounts')}}
+                </a>
+            </li>
+
+            <li class="{{setActivationClass(route('admin:accounts-transfer.index'))}}">
+                            <a href="{{route('admin:accounts-transfer.index')}}">
+                                {{__('Accounts Transfer')}}
+                </a>
+            </li>
+            <li class="{{setActivationClass(route('admin:lockers-transactions.index'))}}">
+                            <a href="{{route('admin:lockers-transactions.index')}}">
+                                {{__('words.locker-transaction')}}
+                </a>
+            </li>
+
             <li class="{{setActivationClass(route('admin:bank-exchanges.index'))}}">
                             <a href="{{route('admin:bank-exchanges.index')}}">
                                 {{ __('words.bank-exchanges') }}
@@ -763,7 +771,7 @@ route('admin:reservations.index'),
                 </li>
 
 
-         
+
                 <li class="{{setActivationClass([
 url('admin/shifts'),
 url('admin/employee_settings'),

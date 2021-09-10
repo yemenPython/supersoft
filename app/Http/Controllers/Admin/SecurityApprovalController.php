@@ -64,12 +64,13 @@ class SecurityApprovalController extends Controller
     public function create(Request $request)
     {
         $branch_id = $request->has( 'branch_id' ) ? $request['branch_id'] : auth()->user()->branch_id;
-        $branch = Branch::where( 'id', $branch_id )->get( ['id', 'name_' . app()->getLocale() . ' as company_name', 'address_' . app()->getLocale() . ' as address','tax_card','phone1','phone2'] )->first();
+        $branch = Branch::where( 'id', $branch_id )->get( ['id', 'name_' . app()->getLocale() . ' as company_name', 'address_' . app()->getLocale() . ' as address','tax_card','phone1','phone2','fax'] )->first();
         $branches = Branch::all()->pluck( 'name', 'id' );
         $last_created = SecurityApproval::latest()->first();
         if (!empty( $last_created ) && !$request->has( 'branch_id' )) {
-            $branch = Branch::where( 'id', $last_created->branch_id )->get( ['id', 'name_' . app()->getLocale() . ' as company_name', 'address_' . app()->getLocale() . ' as address','tax_card','phone1','phone2'] )->first();
+            $branch = Branch::where( 'id', $last_created->branch_id )->get( ['id', 'name_' . app()->getLocale() . ' as company_name', 'address_' . app()->getLocale() . ' as address','tax_card','phone1','phone2','fax'] )->first();
         }
+//        dd($last_created);
         $employees = EmployeeData::all(['id','name_ar','name_en']);
         return view( 'admin.security_approval.create', compact( 'branches', 'branch', 'last_created','employees' ) );
     }
@@ -117,16 +118,19 @@ class SecurityApprovalController extends Controller
             ->with( ['message' => __( 'words.security_approval-created' ), 'alert-type' => 'success'] );
     }
 
-    public function show()
+    public function show(SecurityApproval $security_approval)
     {
-        return back();
+        $item = $security_approval;
+        return response()->json([
+            'data' => view('admin.security_approval.show', compact('item'))->render()
+        ]);
     }
 
     public function edit(SecurityApproval $security_approval, Request $request)
     {
         $branch_id = $request->has( 'branch_id' ) ? $request['branch_id'] : $security_approval->branch_id;
         $branches = Branch::all()->pluck( 'name', 'id' );
-        $branch = Branch::where( 'id', $branch_id )->get( ['name_' . app()->getLocale() . ' as company_name', 'address_' . app()->getLocale() . ' as address','tax_card','phone1','phone2'] )->first();
+        $branch = Branch::where( 'id', $branch_id )->get( ['name_' . app()->getLocale() . ' as company_name', 'address_' . app()->getLocale() . ' as address','tax_card','phone1','phone2','fax'] )->first();
         $employees = EmployeeData::all(['id','name_ar','name_en']);
         return view( 'admin.security_approval.edit', compact( 'branches', 'branch', 'security_approval','employees' ) );
     }

@@ -59,7 +59,6 @@ class SalesInvoiceReturnServices
 
         $data = [
 
-            'number' => $data_request['number'],
             'time' => $data_request['time'],
             'date' => $data_request['date'],
             'type' => $data_request['type'],

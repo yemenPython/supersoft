@@ -133,6 +133,15 @@
                                                         <label for="radio_status_3">{{ __('ignore') }}</label>
                                                     </div>
                                                 </li>
+                                                <li>
+                                                    <div class="radio info">
+                                                        <input type="radio" disabled id="radio_status_4" name="asset_status"
+                                                               @if($asset->asset_status == 4) checked
+                                                               @endif
+                                                               value="4">
+                                                        <label for="radio_status_4">{{ __('stop') }}</label>
+                                                    </div>
+                                                </li>
                                             </ul>
                                         </div>
                                     </div>

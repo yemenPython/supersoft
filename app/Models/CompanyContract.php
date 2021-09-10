@@ -13,7 +13,7 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class CompanyContract extends Model
 {
-    use ColumnTranslation, LogsActivity, SoftDeletes;
+    use ColumnTranslation, LogsActivity;
     /**
      * @var string
      */
@@ -32,7 +32,9 @@ class CompanyContract extends Model
         'partnership_duration',
         'start_at',
         'end_at',
-        'library_path'
+        'library_path',
+        'renewable',
+        'commercial_registration_no'
     ];
 
     protected static $logAttributes = [

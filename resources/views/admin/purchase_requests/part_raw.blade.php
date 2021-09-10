@@ -35,12 +35,16 @@
 
             <select style="width: 150px !important;" class="form-control js-example-basic-single"
                     name="items[{{$index}}][part_price_id]"
-                    id="prices_part_{{$index}}" onchange="defaultUnitQuantity('{{$index}}')"
+                    id="prices_part_{{$index}}"
+                    onchange="defaultUnitQuantity('{{$index}}')"
                 {{isset($request_type) && $request_type == 'approval' ? 'disabled' : ''}}
             >
-
                 @foreach($part->prices as $price)
-                    <option data-quantity="{{$price->quantity}}"
+                    <option
+                        data-quantity="{{$price->quantity}}"
+                        data-barcode="{{$price->barcode}}"
+                        data-supplier-barcode="{{$price->supplier_barcode}}"
+
                             value="{{$price->id}}"{{isset($item) && $item->part_price_id == $price->id ? 'selected':''}}>
                         {{optional($price->unit)->unit}}
                     </option>
@@ -59,6 +63,17 @@
         {{input_error($errors, 'items['.$index.'][quantity]')}}
     </td>
 
+    <td>
+        <span id="barcode_{{$index}}">
+            {{ isset($item) && $item->partPrice ? $item->partPrice->barcode : $part->default_barcode }}
+        </span>
+    </td>
+
+    <td>
+        <span id="supplier_barcode_{{$index}}">
+             {{ isset($item) && $item->partPrice ? $item->partPrice->supplier_barcode : $part->default_supplier_barcode }}
+        </span>
+    </td>
 
     @if(isset($request_type) && $request_type == 'approval')
         <td>

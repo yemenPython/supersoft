@@ -46,8 +46,8 @@
                         <label for="inputNameAr" class="control-label">{{__('Number')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-bars"></li></span>
-                            <input type="text" name="number" class="form-control" placeholder="{{__('Number')}}"
-                                   value="{{old('number', isset($saleSupplyOrder)? $saleSupplyOrder->number :'')}}">
+                            <input type="text" name="number" class="form-control" placeholder="{{__('Number')}}" disabled
+                                   value="{{old('number', isset($saleSupplyOrder)? $saleSupplyOrder->number : $data['number'])}}">
                         </div>
                         {{input_error($errors,'number')}}
                     </div>

@@ -59,15 +59,15 @@ class UpdateRequest extends FormRequest
             $branch_id = request()['branch_id'];
         }
 
-        $rules['number'] =
-            [
-                'required','string', 'max:50',
-                Rule::unique('sale_quotations')->ignore($this->sale_quotation->id)->where(function ($query) use($branch_id) {
-                    return $query->where('number', request()->number)
-                        ->where('branch_id', $branch_id)
-                        ;
-                }),
-            ];
+//        $rules['number'] =
+//            [
+//                'required','string', 'max:50',
+//                Rule::unique('sale_quotations')->ignore($this->sale_quotation->id)->where(function ($query) use($branch_id) {
+//                    return $query->where('number', request()->number)
+//                        ->where('branch_id', $branch_id)
+//                        ;
+//                }),
+//            ];
 
         if (request()->type_for == 'supplier') {
             $rules['salesable_id'] = 'required|integer|exists:suppliers,id';

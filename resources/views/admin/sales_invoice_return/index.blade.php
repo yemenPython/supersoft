@@ -103,6 +103,7 @@
     </div>
 @endsection
 
+
 @section('modals')
 
     <div class="modal fade" id="boostrapModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
@@ -133,9 +134,9 @@
         </div>
     </div>
 
-{{--    @include('admin.purchase_returns.terms.supply_terms', ['items' => $invoices->get()])--}}
-
     @include('admin.partial.upload_library.form', ['url'=> route('admin:sales.returns.upload_library')])
+
+    @include('admin.sales_invoice_return.terms.supply_terms', ['items' => $data->get()])
 
 @endsection
 

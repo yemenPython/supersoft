@@ -51,7 +51,7 @@ class DamagedStock extends Model
 
     public function getSpecialNumberAttribute()
     {
-        return $this->number . '_#';
+        return $this->number;
     }
 
     public function items()

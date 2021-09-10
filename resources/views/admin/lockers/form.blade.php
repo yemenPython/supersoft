@@ -58,7 +58,7 @@
                 <label for="inputNameAr" class="control-label">{{__('Locker balance')}}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><li class="fa fa-money"></li></span>
-                    <input type="text" name="balance" class="form-control" value="0" readonly>
+                    <input type="text" name="balance" class="form-control" value="{{ isset($locker)? $locker->balance: 0}}" readonly>
                 </div>
             </div>
         </div>

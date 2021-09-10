@@ -33,4 +33,8 @@ class AssetExpenseItem extends Model
     {
         return $this->belongsTo(Asset::class, 'asset_id');
     }
+    public function assetExpense()
+    {
+        return $this->belongsTo(AssetExpense::class,'asset_expense_id');
+    }
 }

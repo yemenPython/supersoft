@@ -62,5 +62,8 @@
 @section('js-validation')
     {!! JsValidator::formRequest('App\Http\Requests\BankDataRequest', '.form'); !!}
     @include('admin.partial.sweet_alert_messages')
+@endsection
+
+@section('js')
     @include('admin.partial.maps.js')
 @endsection

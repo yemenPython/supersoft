@@ -221,6 +221,9 @@
 
             let price_id = $('#prices_part_' + index).val();
 
+            let barcode = $('#prices_part_' + index).find(":selected").data('barcode');
+            let supplier_barcode = $('#prices_part_' + index).find(":selected").data('supplier-barcode');
+
             $.ajax({
 
                 type: 'post',
@@ -238,6 +241,9 @@
                     $("#price_segments_part_" + index).html(data.view);
 
                     $('.js-example-basic-single').select2();
+
+                    $("#barcode_" + index).text(barcode);
+                    $("#supplier_barcode_" + index).text(supplier_barcode);
 
                     defaultUnitQuantity (index);
                 },
@@ -263,7 +269,7 @@
 
                 if (willDelete) {
 
-                    $('#tr_part_' + index).remove();
+                    $('.tr_part_' + index).remove();
                     $('#part_types_' + index).remove();
                     calculateItem(index);
                     reorderItems();

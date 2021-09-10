@@ -97,8 +97,12 @@ class DamagedStockController extends Controller
 
     public function store(CreateRequest $request)
     {
-        if ($this->damagedStockService->checkMaxQuantityOfItem($request['items'])) {
-            return redirect()->back()->with(['message' => __('quantity not available'), 'alert-type' => 'error']);
+        $invalidItems = $this->damagedStockService->checkMaxQuantityOfItem($request['items']);
+
+        if (!empty($invalidItems)) {
+
+            $message = __('quantity not available for this items ') ."\n          ". '('.implode(' ,', $invalidItems).')';
+            return redirect()->back()->with(['message' => $message, 'alert-type' => 'error']);
         }
 
         try {
@@ -142,7 +146,6 @@ class DamagedStockController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-//            dd($e->getMessage());
 
             return redirect()->back()->with(['message' => 'sorry, please try later', 'alert-type' => 'error']);
         }
@@ -190,8 +193,12 @@ class DamagedStockController extends Controller
             return redirect()->back()->with(['message' => 'sorry, please select items', 'alert-type' => 'error']);
         }
 
-        if ($this->damagedStockService->checkMaxQuantityOfItem($request['items'])) {
-            return redirect()->back()->with(['message' => __('quantity not available'), 'alert-type' => 'error']);
+        $invalidItems = $this->damagedStockService->checkMaxQuantityOfItem($request['items']);
+
+        if (!empty($invalidItems)) {
+
+            $message = __('quantity not available for this items ') ."\n          ". '('.implode(' ,', $invalidItems).')';
+            return redirect()->back()->with(['message' => $message, 'alert-type' => 'error']);
         }
 
         try {
@@ -409,6 +416,33 @@ class DamagedStockController extends Controller
         $damagedStock = DamagedStock::findOrFail($request['damaged_stock_id']);
         $view = view('admin.damaged_stock.print', compact('damagedStock'))->render();
         return response()->json(['view' => $view]);
+    }
+
+    public function checkStock(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'items' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        try {
+
+            $invalidItems = $this->damagedStockService->checkMaxQuantityOfItem($request['items']);
+
+            if (!empty($invalidItems)) {
+
+                $message = __('quantity not available for this items ') ."\n          ". '('.implode(' ,', $invalidItems).')';
+                return response()->json($message, 400);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json(['sorry, please try later'], 400);
+        }
+
+        return response()->json(['message' => __('quantity available')], 200);
     }
 
     /**

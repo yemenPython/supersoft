@@ -114,7 +114,8 @@ class ConcessionServiceController extends Controller
 
             $search = $request->has('search') ? true : false;
 
-            $view = view('admin.concession_services.ajax_concession_items', compact('data', 'search'))->render();
+            $view = view('admin.concession_services.ajax_concession_items',
+                compact('data', 'search'))->render();
 
             return response()->json(['view' => $view, 'model' => $concessionTypeItem->model], 200);
 
@@ -184,7 +185,8 @@ class ConcessionServiceController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'concession_item_id' => 'required|integer',
-            'model' => 'required|string'
+            'model' => 'required|string',
+            'concession_type_id' => 'required|integer|exists:concession_types,id'
         ]);
 
         if ($validator->fails()) {
@@ -192,6 +194,8 @@ class ConcessionServiceController extends Controller
         }
 
         try {
+
+            $concessionType = ConcessionType::find($request['concession_type_id']);
 
             $model = $this->concessionService->getModelNameSpace($request['model']);
 
@@ -227,13 +231,11 @@ class ConcessionServiceController extends Controller
 
             $modelName = $request['model'];
 
-            $view = view('admin.concessions.part_row', compact('items', 'modelName'))->render();
+            $view = view('admin.concessions.part_row', compact('items', 'modelName', 'concessionType'))->render();
 
             return response()->json(['view' => $view, 'total_quantity' => $totalQuantity, 'total_price' => $totalPrice], 200);
 
         } catch (\Exception $e) {
-
-            dd($e->getMessage());
             return response()->json('sorry, please try later', 400);
         }
     }

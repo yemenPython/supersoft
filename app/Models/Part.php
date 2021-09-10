@@ -231,6 +231,18 @@ class Part extends Model
         return $firstPrice ? $firstPrice->purchase_price : 0;
     }
 
+    public function getDefaultBarcodeAttribute()
+    {
+        $firstPrice = $this->prices->first();
+        return $firstPrice ? $firstPrice->barcode : '---';
+    }
+
+    public function getDefaultSupplierBarcodeAttribute()
+    {
+        $firstPrice = $this->prices->first();
+        return $firstPrice ? $firstPrice->supplier_barcode : '---';
+    }
+
     public function getDefaultSalePriceAttribute()
     {
         $firstPrice = $this->prices->first();

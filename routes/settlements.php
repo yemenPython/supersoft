@@ -1,7 +1,8 @@
 <?php
 
 //SETTLEMENTS
-Route::resource('settlements', 'SettlementController');
+Route::resource('settlements', 'SettlementController')->except('update');
+Route::post('settlements/{settlement}/update', 'SettlementController@update')->name('settlements.update');
 
 //ajax
 Route::post('settlements/select-part', 'SettlementController@selectPartRaw')->name('settlements.select.part');
@@ -19,3 +20,6 @@ Route::post('settlements/library/file-delete', 'SettlementLibraryController@dest
 // employees
 Route::post('settlements/new/employee', 'SettlementController@newEmployee')->name('settlements.new.employee');
 Route::post('settlements/destroy/employee', 'SettlementController@destroyEmployee')->name('settlements.destroy.employee');
+
+//check stock
+Route::post('settlements-check-stock', 'SettlementController@checkStock')->name('settlements.check.stock');

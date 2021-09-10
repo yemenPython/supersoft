@@ -99,7 +99,7 @@
                             <th>{{__('Asset name')}}</th>
                             <th>{{__('Asset Group')}}</th>
                             <th>{{__('purchase cost')}}</th>
-                            <th>{{__('past consumtion')}}</th>
+{{--                            <th>{{__('past consumtion')}}</th>--}}
                             <th>{{__('purchase date')}}</th>
                             <th>{{__('work date')}}</th>
                             <th>{{__('consumtion rate')}}</th>
@@ -115,7 +115,7 @@
                                 <td>{{$item->asset->name}}</td>
                                 <td>{{$item->asset->group->name}}</td>
                                 <td>{{$item->purchase_cost}}</td>
-                                <td>{{$item->past_consumtion}}</td>
+{{--                                <td>{{$item->past_consumtion}}</td>--}}
                                 <td>{{$item->asset->purchase_date}}</td>
                                 <td>{{$item->asset->date_of_work}}</td>
                                 <td>{{$item->annual_consumtion_rate}}</td>

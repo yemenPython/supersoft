@@ -1,10 +1,6 @@
-<form id="filtration-form">
-    <input type="hidden" name="rows" value="{{ isset($_GET['rows']) ? $_GET['rows'] : '' }}"/>
-    <input type="hidden" name="key" value="{{ isset($_GET['key']) ? $_GET['key'] : '' }}"/>
-    <input type="hidden" name="sort_method" value="{{ isset($_GET['sort_method']) ? $_GET['sort_method'] : '' }}"/>
-    <input type="hidden" name="sort_by" value="{{ isset($_GET['sort_by']) ? $_GET['sort_by'] : '' }}"/>
-    <input type="hidden" name="invoker"/>
-    
+<form  onsubmit="filterFunction($(this));return false;">
+  <input type="hidden" name="filter" value="1">
+
     <div class="list-inline margin-bottom-0 row">
         @if(authIsSuperAdmin())
             <div class="col-md-12">
@@ -55,10 +51,8 @@
             <input type="date" name="date_to" {{ isset($_GET['date_to']) ? $_GET['date_to'] : '' }} class="form-control">
         </div>
     </div>
-    <button type="submit" class="btn sr4-wg-btn   waves-effect waves-light hvr-rectangle-out">
-        <i class=" fa fa-search "></i> {{__('Search')}}
-    </button>
-    <a href="{{ $back_link }}" class="btn bc-wg-btn   waves-effect waves-light hvr-rectangle-out">
-        <i class=" fa fa-reply"></i> {{__('Back')}}
-    </a>
+
+
+    @include('admin.btns.btn_search')
+
 </form>

@@ -42,14 +42,30 @@
 
 
                 <div class="box-content">
-                    <form method="post" action="{{route('admin:stores-transfers.store')}}" class="form" enctype="multipart/form-data">
+                    <form method="post" action="{{route('admin:stores-transfers.store')}}" class="form" id="store_transfer_form"
+                          enctype="multipart/form-data">
                         @csrf
                         @method('post')
 
                         @include('admin.stores_transfer.form')
 
                         <div class="form-group col-sm-12">
-                            @include('admin.buttons._save_buttons')
+
+                            <button id="btnsave" type="button" class="btn hvr-rectangle-in saveAdd-wg-btn" onclick="checkStockQuantity()">
+                                <i class="ico ico-left fa fa-save"></i>
+                                {{__('Save')}}
+                            </button>
+
+                            <button id="reset"  type="button" class="btn hvr-rectangle-in resetAdd-wg-btn">
+                                <i class="ico ico-left fa fa-trash"></i>
+                                {{__('Reset')}}
+                            </button>
+
+                            <button id="back" type="button" class="btn hvr-rectangle-in closeAdd-wg-btn">
+                                <i class="ico ico-left fa fa-close"></i>
+                                {{__('Back')}}
+                            </button>
+
                         </div>
 
                     </form>
@@ -207,6 +223,8 @@
             let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
             let part_price_id = $('#prices_part_' + index).find(":selected").val();
+            let barcode = $('#prices_part_' + index).find(":selected").data('barcode');
+            let supplier_barcode = $('#prices_part_' + index).find(":selected").data('supplier-barcode');
 
             $.ajax({
 
@@ -223,6 +241,9 @@
                 success: function (data) {
 
                     $("#price_segments_part_" + index).html(data.segments);
+
+                    $("#barcode_" + index).text(barcode);
+                    $("#supplier_barcode_" + index).text(supplier_barcode);
 
                     let unit_quantity = $('#prices_part_' + index).find(":selected").data('quantity');
                     $('#unit_quantity_' + index).val(unit_quantity);
@@ -258,7 +279,7 @@
 
                 if (willDelete) {
 
-                    $('#tr_part_' + index).remove();
+                    $('.tr_part_' + index).remove();
                     calculateTotal();
                     reorderItems();
                 }
@@ -450,6 +471,29 @@
             }
 
             calculateTotal();
+        }
+
+        function checkStockQuantity () {
+
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+
+                type: 'post',
+
+                url: '{{route('admin:stores.transfers.check.stock')}}',
+
+                data: $('#store_transfer_form').serialize() + '&_token=' + CSRF_TOKEN,
+
+                success: function (data) {
+                    $("#store_transfer_form").submit();
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
         }
 
     </script>

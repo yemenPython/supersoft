@@ -8,6 +8,8 @@
             <th width="10%"> {{ __('Unit Quantity') }} </th>
             <th width="8%"> {{ __('Unit') }} </th>
             <th width="5%"> {{ __('Requested Qty') }} </th>
+            <th width="25%"> {{ __('Barcode') }} </th>
+            <th width="25%"> {{ __('Supplier Barcode') }} </th>
             @if(isset($request_type) && $request_type == 'approval')
                 <th width="5%"> {{ __('Available Quantity') }} </th>
                 <th width="5%"> {{ __('Approval Quantity') }} </th>
@@ -34,6 +36,8 @@
             <th width="10%"> {{ __('Unit Quantity') }} </th>
             <th width="8%"> {{ __('Unit') }} </th>
             <th width="5%"> {{ __('Requested Qty') }} </th>
+            <th width="25%"> {{ __('Barcode') }} </th>
+            <th width="25%"> {{ __('Supplier Barcode') }} </th>
             @if(isset($request_type) && $request_type == 'approval')
                 <th width="5%"> {{ __('Available Quantity') }} </th>
                 <th width="5%"> {{ __('Approval Quantity') }} </th>

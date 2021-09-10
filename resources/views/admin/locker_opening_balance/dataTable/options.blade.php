@@ -39,6 +39,7 @@
             <li>
                 @component('admin.buttons._edit_button',['id' => $item->id, 'route'=>'admin:lockers_opening_balance.edit'])@endcomponent
             </li>
+
             <li class="btn-style-drop">
                 @component('admin.buttons._delete_button',[
                 'id'=>$item->id,

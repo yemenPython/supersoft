@@ -47,7 +47,7 @@
                 </h4>
 
                 <div class="box-content">
-                    <form method="post" action="{{route('admin:sales.invoices.store')}}" class="form"
+                    <form method="post" action="{{route('admin:sales.invoices.store')}}" class="form" id="sales_invoice_form"
                           enctype="multipart/form-data">
                         @csrf
                         @method('post')
@@ -55,7 +55,20 @@
                         @include('admin.sales_invoice.form')
 
                         <div class="form-group col-sm-12">
-                            @include('admin.buttons._save_buttons')
+                            <button id="btnsave" type="button" class="btn hvr-rectangle-in saveAdd-wg-btn" onclick="checkStockQuantity()">
+                                <i class="ico ico-left fa fa-save"></i>
+                                {{__('Save')}}
+                            </button>
+
+                            <button id="reset"  type="button" class="btn hvr-rectangle-in resetAdd-wg-btn">
+                                <i class="ico ico-left fa fa-trash"></i>
+                                {{__('Reset')}}
+                            </button>
+
+                            <button id="back" type="button" class="btn hvr-rectangle-in closeAdd-wg-btn">
+                                <i class="ico ico-left fa fa-close"></i>
+                                {{__('Back')}}
+                            </button>
                         </div>
 
                     </form>
@@ -468,6 +481,9 @@
             let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             let price_id = $('#prices_part_' + index).val();
 
+            let barcode = $('#prices_part_' + index).find(":selected").data('barcode');
+            let supplier_barcode = $('#prices_part_' + index).find(":selected").data('supplier-barcode');
+
             $.ajax({
 
                 type: 'post',
@@ -484,6 +500,9 @@
 
                     $("#price_segments_part_" + index).html(data.view);
                     $('.js-example-basic-single').select2();
+
+                    $("#barcode_" + index).text(barcode);
+                    $("#supplier_barcode_" + index).text(supplier_barcode);
 
                     defaultUnitQuantity(index);
                 },
@@ -509,7 +528,7 @@
 
                 if (willDelete) {
 
-                    $('#tr_part_' + index).remove();
+                    $('.tr_part_' + index).remove();
                     $('#part_types_' + index).remove();
 
                     // let items_count = $('#items_count').val();
@@ -692,6 +711,29 @@
                 }
             });
 
+        }
+
+        function checkStockQuantity () {
+
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+
+                type: 'post',
+
+                url: '{{route('admin:sales.invoices.check.stock')}}',
+
+                data: $('#sales_invoice_form').serialize() + '&_token=' + CSRF_TOKEN,
+
+                success: function (data) {
+                    $("#sales_invoice_form").submit();
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
         }
 
     </script>

@@ -41,7 +41,8 @@
             @if( $loop->first)
                 <div class="middle-data-h-print">
 
-                    <div class="invoice-to print-padding-top" @if($saleSupplyOrder->items->count() <=13) style="margin-bottom: -70px;" @endif>
+                    <div class="invoice-to print-padding-top"
+                         @if($saleSupplyOrder->items->count() <=13) style="margin-bottom: -70px;" @endif>
                         <div class="row">
                             <div class="col-xs-6">
                                 <h5>{{__('Sale Supply Order data')}}</h5>
@@ -120,7 +121,8 @@
             <div style="padding:0 20px;">
                 <h5>{{__('Sale Supply Order items')}}</h5>
 
-                <div class="table-responsive" @if($saleSupplyOrder->items->count() <=13) style="margin-bottom: -17px;" @endif>
+                <div class="table-responsive"
+                     @if($saleSupplyOrder->items->count() <=13) style="margin-bottom: -17px;" @endif>
                     <table class="table print-table-wg table-borderless"
                            @if(!$loop->first) style="margin-top: 20px;" @endif>
                         <thead>
@@ -137,6 +139,8 @@
                             <th>{{__('Total After Discount')}}</th>
                             <th>{{__('The Tax')}}</th>
                             <th>{{__('Final Total')}}</th>
+                            <th> {{ __('Barcode') }} </th>
+                            <th> {{ __('Supplier Barcode') }} </th>
                         </tr>
 
                         </thead>
@@ -155,7 +159,8 @@
                                 <td>{{$item->total_after_discount}}</td>
                                 <td>{{$item->tax}}</td>
                                 <td>{{$item->total}}</td>
-
+                                <td>{{$item->partPrice  ? $item->partPrice->barcode : '---'}}</td>
+                                <td>{{$item->partPrice ? $item->partPrice->supplier_barcode : '---'}}</td>
                             </tr>
 
                         @endforeach
@@ -170,7 +175,8 @@
             @if( $loop->last)
                 <div class="row right-peice-wg" style="padding:0 30px 50px 30px;margin-bottom:30px">
 
-                    <div class="col-xs-6" @if($saleSupplyOrder->items->count() <=13) style="margin-bottom: -10px;" @endif>
+                    <div class="col-xs-6"
+                         @if($saleSupplyOrder->items->count() <=13) style="margin-bottom: -10px;" @endif>
                         <table class="table table-bordered">
                             <thead>
                             <tr class="heading">
@@ -203,7 +209,8 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="col-xs-6" @if($saleSupplyOrder->items->count() <=13) style="margin-bottom: -10px;" @endif>
+                    <div class="col-xs-6"
+                         @if($saleSupplyOrder->items->count() <=13) style="margin-bottom: -10px;" @endif>
                         <table class="table table-bordered">
                             <thead>
                             <tr class="heading">
@@ -237,7 +244,8 @@
                         </table>
                     </div>
 
-                    <div class="col-xs-12" @if($saleSupplyOrder->items->count() <=13) style="margin-bottom: -10px;" @endif>
+                    <div class="col-xs-12"
+                         @if($saleSupplyOrder->items->count() <=13) style="margin-bottom: -10px;" @endif>
                         <div class="col-xs-4 text-center" style="padding:5px !important">
 
 
@@ -281,7 +289,8 @@
                         </div>
                     </div>
 
-                    <div class="col-xs-12" @if($saleSupplyOrder->items->count() <=13) style="margin-bottom: -10px;" @endif>
+                    <div class="col-xs-12"
+                         @if($saleSupplyOrder->items->count() <=13) style="margin-bottom: -10px;" @endif>
                         <div class="col-xs-4 text-center" style="padding:5px !important">
 
 
@@ -330,7 +339,8 @@
                         </div>
                     </div>
 
-                    <div class="col-xs-12" @if($saleSupplyOrder->items->count() <=13) style="margin-bottom: -10px;" @endif>
+                    <div class="col-xs-12"
+                         @if($saleSupplyOrder->items->count() <=13) style="margin-bottom: -10px;" @endif>
                         <div class="col-xs-12 text-center" style="padding:5px !important">
 
 
@@ -355,7 +365,8 @@
                             <div class="row last-total" style="background-color:#ddd !important">
 
                                 <div class="col-xs-12" style="padding:5px">
-                                    <h6 data-id="data-totalInLetters" id="totalInLetters"> {{$saleSupplyOrder->total}} </h6>
+                                    <h6 data-id="data-totalInLetters"
+                                        id="totalInLetters"> {{$saleSupplyOrder->total}} </h6>
                                 </div>
                             </div>
 
@@ -382,16 +393,16 @@
 
                         <div class="col-xs-6">
                             <h5 class="title">{{__('Payment Terms')}}
-                                </h5>
-                                    <p style="font-size:14px">
-                                        @foreach($saleSupplyOrder->terms()->where('type','payment')->get() as $index=>$term)
+                            </h5>
+                            <p style="font-size:14px">
+                                @foreach($saleSupplyOrder->terms()->where('type','payment')->get() as $index=>$term)
 
-                                            {{$index+1}}.
-                                            {{$term->term}}
-                                            <br> <br>
+                                    {{$index+1}}.
+                                    {{$term->term}}
+                                    <br> <br>
 
-                                        @endforeach
-                                    </p>
+                                @endforeach
+                            </p>
                         </div>
 
                     </div>

@@ -133,6 +133,14 @@
                                                     <label for="radio_status_3">{{ __('ignore') }}</label>
                                                 </div>
                                             </li>
+
+                                            <li>
+                                                <div class="radio info">
+                                                    <input type="radio" disabled id="radio_status_3" name="asset_status"
+                                                           value="4">
+                                                    <label for="radio_status_3">{{ __('stop') }}</label>
+                                                </div>
+                                            </li>
                                         </ul>
                                     </div>
                                 </div>

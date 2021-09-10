@@ -38,7 +38,6 @@ class SaleSupplyOrderService
     public function supplyOrderData($requestData)
     {
         $data = [
-            'number' => $requestData['number'],
             'type' => $requestData['type'],
             'date' => $requestData['date'],
             'time' => $requestData['time'],

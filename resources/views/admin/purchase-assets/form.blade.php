@@ -79,25 +79,20 @@
 
         <div class="col-md-12">
 
-            <div class="col-md-4">
-                <div class="form-group has-feedback">
-                    <label for="inputStore" class="control-label">{{__('Operation Type')}}</label>
-                    <div class="input-group">
-                        <span class="input-group-addon fa fa-check"></span>
+{{--            <div class="col-md-4">--}}
+{{--                <div class="form-group has-feedback">--}}
+{{--                    <label for="inputStore" class="control-label">{{__('Operation Type')}}</label>--}}
+{{--                    <div class="input-group">--}}
+{{--                        <span class="input-group-addon fa fa-check"></span>--}}
+{{--                        <input type="text" disabled class="form-control" name="operation_type" value="Purchase">--}}
+{{--                    </div>--}}
 
-                        <select class="form-control js-example-basic-single" name="operation_type" id="operation_type"
-                                onchange="detectOperationType()">
-                            <option value="">{{__('Select')}}</option>
-                            <option value="purchase" {{isset($purchaseAsset) && $purchaseAsset->operation_type == 'purchase' ? 'selected' : ''}}>{{__('Purchase')}}</option>
-                            <option value="opening_balance" {{isset($purchaseAsset) && $purchaseAsset->operation_type == 'opening_balance' ? 'selected' : ''}}>{{__('Opening Balance')}}</option>
-                        </select>
-                    </div>
+{{--                    {{input_error($errors,'operation_type')}}--}}
+{{--                </div>--}}
+{{--            </div>--}}
+            <input type="hidden"  class="form-control" name="operation_type" value="purchase">
 
-                    {{input_error($errors,'operation_type')}}
-                </div>
-            </div>
-
-        <div class="col-md-4" id="supplierSection" style="display: {{isset($purchaseAsset) && $purchaseAsset->operation_type == 'opening_balance' ? 'none' : 'block'}}">
+        <div class="col-md-4">
             <div class="form-group has-feedback">
                 <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
                 <div class="input-group">

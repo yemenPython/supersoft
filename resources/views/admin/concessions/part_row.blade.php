@@ -1,11 +1,13 @@
 @foreach($items as $index=>$item)
+
     <tr class="text-center-inputs">
         <td>
             {{$index+1}}
         </td>
 
         <td>
-            <span style="width: 150px !important;display:block; cursor: pointer" data-img="{{optional($item->part)->image}}" data-toggle="modal" data-target="#part_img"
+            <span style="width: 150px !important;display:block; cursor: pointer"
+                  data-img="{{optional($item->part)->image}}" data-toggle="modal" data-target="#part_img"
                   title="Part image" onclick="getPartImage('{{$index}}')" id="part_img_id_{{$index}}">
 
                   {{optional($item->part)->name}}
@@ -13,7 +15,7 @@
         </td>
 
         <td>
-            <span > {{ $item->sparePart ? $item->sparePart->type : '---' }} </span>
+            <span> {{ $item->sparePart ? $item->sparePart->type : '---' }} </span>
         </td>
 
         <td class="inline-flex-span">
@@ -38,38 +40,96 @@
 
         </td>
 
-        <td class="text-danger">
-
-        <span>
-        {{$item->quantity}}
-        </span>
-        </td>
-
-        <td>
-        <span>
-        {{ $item->price}}
-        </span>
-        </td>
-
-        <td>
-        <span style="background:#F7F8CC !important">
-        {{ $item->price * $item->quantity}}
-        </span>
-        </td>
-
         <td>
         <span class="label wg-label" style="background: rgb(113, 101, 218) !important;">
-        {{ $item->store ? $item->store->name : __('Not determined')}}
+
+            @if($modelName == 'StoreTransfer' && $concessionType->type == 'withdrawal')
+
+                {{$item->store_from}}
+
+            @elseif($modelName == 'StoreTransfer' && $concessionType->type == 'add')
+
+                {{ $item->store_to }}
+            @else
+
+                {{ $item->store ? $item->store->name : __('Not determined')}}
+            @endif
+
         </span>
         </td>
 
         <td>
-            <button type="button" class="btn btn-primary" data-toggle="modal" onclick="showPartQuantity({{$item->part_id}})"
+        <span id="barcode_{{$index}}">
+            {{ isset($item) && $item->partPrice ? $item->partPrice->barcode : '---'}}
+        </span>
+        </td>
+
+        <td>
+        <span id="supplier_barcode_{{$index}}">
+             {{ isset($item) && $item->partPrice ? $item->partPrice->supplier_barcode : '---' }}
+        </span>
+        </td>
+
+        <td>
+
+            <button type="button" class="btn btn-default btn-sm accordion-toggle" data-toggle="collapse"
+                    data-target="#demo{{$index}}">
+                <i class="glyphicon glyphicon-eye-open"></i>
+            </button>
+
+            <button type="button" class="btn btn-primary" data-toggle="modal"
+                    onclick="showPartQuantity({{$item->part_id}})"
                     data-target="#part_store_quantity">
-                    <i class="fa fa-cubes"></i>
+                <i class="fa fa-cubes"></i>
             </button>
         </td>
 
+    </tr>
+
+    {{-- SECOND TR --}}
+
+    <tr>
+        <td colspan="12" class="hiddenRow">
+            <div class="accordian-body collapse" id="demo{{$index}}">
+                <table class=" table table-responsive table-bordered table-hover">
+                    <thead>
+                    <tr class="info">
+                        <th> {{ __('quantity') }} </th>
+                        <th> {{ __('Price') }} </th>
+                        <th> {{ __('Total') }} </th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr>
+
+                        <td class="text-danger">
+
+                            <span>
+                            {{$item->quantity}}
+                            </span>
+                        </td>
+
+                        <td>
+                            <span>
+                            {{ $item->price}}
+                            </span>
+                        </td>
+
+                        <td>
+                            <span style="background:#F7F8CC !important">
+                            {{ $item->price * $item->quantity}}
+                            </span>
+                        </td>
+
+                    </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </td>
     </tr>
 
 @endforeach

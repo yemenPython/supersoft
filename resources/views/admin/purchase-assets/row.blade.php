@@ -19,10 +19,10 @@
 
     </td>
 
-    <td>
-            <input type="text"  style="width: 150px !important;" class="form-control border1 valid past_consumtion " onchange="totalPastConsumtion('{{$index}}')" onkeyup="totalPastConsumtion('{{$index}}')" value="{{isset($update_item)?$update_item->past_consumtion:$asset->past_consumtion}}" name="items[{{$index}}][past_consumtion]">
+{{--    <td>--}}
+{{--            <input type="text"  style="width: 150px !important;" class="form-control border1 valid past_consumtion " onchange="totalPastConsumtion('{{$index}}')" onkeyup="totalPastConsumtion('{{$index}}')" value="{{isset($update_item)?$update_item->past_consumtion:$asset->past_consumtion}}" name="items[{{$index}}][past_consumtion]">--}}
 
-    </td>
+{{--    </td>--}}
 
 
     <td>

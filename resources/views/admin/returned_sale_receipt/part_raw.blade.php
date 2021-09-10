@@ -7,8 +7,9 @@
     </td>
 
     <td>
-        <span style="display:block; cursor: pointer;width: 150px !important;" data-img="{{$part->image}}" data-toggle="modal" data-target="#part_img" title="Part image"
-              onclick="getPartImage('{{$index}}')" id="part_img_id_{{$index}}" >
+        <span style="display:block; cursor: pointer;width: 150px !important;" data-img="{{$part->image}}"
+              data-toggle="modal" data-target="#part_img" title="Part image"
+              onclick="getPartImage('{{$index}}')" id="part_img_id_{{$index}}">
 
             {{$part->name}}
         </span>
@@ -17,13 +18,13 @@
     <td>
 
         <div class="input-group" style="width: 120px !important;">
-        @if(isset($item))
-            <span>{{$item->sparePart ? $item->sparePart->type : __('Not determined')}}</span>
-        @elseif(isset($update_item))
-            <span>{{$update_item->sparePart ? $update_item->sparePart->type :  __('Not determined')}}</span>
-        @else
-            <span> __('Not determined')}}</span>
-        @endif
+            @if(isset($item))
+                <span>{{$item->sparePart ? $item->sparePart->type : __('Not determined')}}</span>
+            @elseif(isset($update_item))
+                <span>{{$update_item->sparePart ? $update_item->sparePart->type :  __('Not determined')}}</span>
+            @else
+                <span> __('Not determined')}}</span>
+            @endif
         </div>
     </td>
 
@@ -52,61 +53,7 @@
         </div>
     </td>
 
-    <td>
-        <div class="input-group" style="width: 120px !important;">
-            @if(isset($update_item))
-            <span style="background:#F7F8CC !important">{{isset($update_item) ? $update_item->price : __('Not determined')}}</span>
-                <input type="hidden" disabled id="price_{{$index}}" value="{{$update_item->price}}">
-            @else
-            <span style="background:#F7F8CC !important">{{isset($item) ? $item->price : __('Not determined')}}</span>
-                <input type="hidden" disabled id="price_{{$index}}" value="{{$item->price}}">
-            @endif
-        </div>
 
-    </td>
-
-    <td>
-        <input style="width: 130px !important;" type="number" class="form-control border1"
-               id="total_quantity_{{$index}}"
-               value="{{isset($update_item) ? $update_item->total_quantity : $item->quantity}}" disabled
-               name="items[{{isset($update_item) ? $update_item->itemable_id : $item->id}}][total_quantity]">
-    </td>
-
-    <td>
-        <input style="width: 130px !important;" type="number" class="form-control border5"
-               id="old_accepted_quantity_{{$index}}"
-               value="{{ isset($update_item) ? $update_item->old_accepted_quantity : $item->accepted_quantity}}"
-               disabled>
-    </td>
-
-    <td>
-        <input style="width: 130px !important;" type="number" class="form-control border4"
-               id="remaining_quantity_{{$index}}"
-               value="{{isset($update_item) ? $update_item->remaining_quantity : $item->remaining_quantity_for_accept}}"
-               disabled>
-    </td>
-
-    <td>
-        <input style="width: 130px !important;" type="number" class="form-control border2"
-               id="refused_quantity_{{$index}}"
-               value="{{isset($update_item) ? $update_item->remaining_quantity - $update_item->accepted_quantity  : 0}}"
-               min="0"
-               name="items[{{ isset($update_item) ? $update_item->itemable_id : $item->id}}][refused_quantity]"
-               onchange="calculateRefusedQuantity('{{$index}}')" onkeyup="calculateRefusedQuantity('{{$index}}')">
-    </td>
-
-    <td>
-        <input style="width: 130px !important;" type="number" class="form-control border6"
-               id="accepted_quantity_{{$index}}"
-               value="{{ isset($update_item) ? $update_item->accepted_quantity : $item->remaining_quantity_for_accept}}"
-               min="0"
-               name="items[{{isset($update_item) ? $update_item->itemable_id : $item->id}}][accepted_quantity]"
-               onchange="calculateAcceptedQuantity('{{$index}}')" onkeyup="calculateAcceptedQuantity('{{$index}}')">
-    </td>
-
-    <td>
-        <span id="defect_percent_{{$index}}">{{isset($update_item) ? ' % ' . $update_item->calculate_defected_percent : '0 %'}}</span>
-    </td>
 
     <td>
         <div class="input-group">
@@ -122,6 +69,125 @@
                 @endforeach
 
             </select>
+        </div>
+    </td>
+
+    <td>
+        @if(isset($update_item) && $update_item->partPrice )
+            {{$update_item->partPrice->barcode }}
+
+        @elseif (isset($item) && $item->partPrice)
+            {{$item->partPrice->barcode }}
+        @endif
+    </td>
+
+    <td>
+
+        @if(isset($update_item) && $update_item->partPrice )
+            {{$update_item->partPrice->supplier_barcode }}
+
+        @elseif (isset($item) && $item->partPrice)
+            {{$item->partPrice->supplier_barcode }}
+        @endif
+    </td>
+
+    <td>
+
+        <button type="button" class="btn btn-default btn-sm accordion-toggle" data-toggle="collapse" data-target="#demo{{$index}}" >
+            <i class="glyphicon glyphicon-eye-open"></i>
+        </button>
+
+    </td>
+
+</tr>
+
+{{-- SECOND TR --}}
+
+<tr class="tr_part_{{$index}}">
+
+    <td colspan="12" class="hiddenRow">
+        <div class="accordian-body collapse" id="demo{{$index}}">
+            <table class=" table table-responsive table-bordered table-hover">
+                <thead>
+                <tr class="info">
+                    <th> {{ __('Price') }} </th>
+                    <th width="7%"> {{ __('Total Quantity') }} </th>
+                    <th width="7%"> {{ __('Last Accepted Quantity') }} </th>
+                    <th width="7%"> {{ __('Remaining Quantity') }} </th>
+                    <th width="7%"> {{ __('Refused Quantity') }} </th>
+                    <th width="7%"> {{ __('Accepted Quantity') }} </th>
+                    <th width="7%"> {{ __('Defect Percent') }} </th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+               <tr>
+
+                   <td>
+                       <div class="input-group">
+                           @if(isset($update_item))
+                               <span
+                                   style="background:#F7F8CC !important">{{isset($update_item) ? $update_item->price : __('Not determined')}}</span>
+                               <input type="hidden" disabled id="price_{{$index}}" value="{{$update_item->price}}">
+                           @else
+                               <span
+                                   style="background:#F7F8CC !important">{{isset($item) ? $item->price : __('Not determined')}}</span>
+                               <input type="hidden" disabled id="price_{{$index}}" value="{{$item->price}}">
+                           @endif
+                       </div>
+
+                   </td>
+
+                   <td>
+                       <input style="width: 130px !important;" type="number" class="form-control border1"
+                              id="total_quantity_{{$index}}"
+                              value="{{isset($update_item) ? $update_item->total_quantity : $item->quantity}}" disabled
+                              name="items[{{isset($update_item) ? $update_item->itemable_id : $item->id}}][total_quantity]">
+                   </td>
+
+                   <td>
+                       <input style="width: 130px !important;" type="number" class="form-control border5"
+                              id="old_accepted_quantity_{{$index}}"
+                              value="{{ isset($update_item) ? $update_item->old_accepted_quantity : $item->accepted_quantity}}"
+                              disabled>
+                   </td>
+
+                   <td>
+                       <input style="width: 130px !important;" type="number" class="form-control border4"
+                              id="remaining_quantity_{{$index}}"
+                              value="{{isset($update_item) ? $update_item->remaining_quantity : $item->remaining_quantity_for_accept}}"
+                              disabled>
+                   </td>
+
+                   <td>
+                       <input style="width: 130px !important;" type="number" class="form-control border2"
+                              id="refused_quantity_{{$index}}"
+                              value="{{isset($update_item) ? $update_item->remaining_quantity - $update_item->accepted_quantity  : 0}}"
+                              min="0"
+                              name="items[{{ isset($update_item) ? $update_item->itemable_id : $item->id}}][refused_quantity]"
+                              onchange="calculateRefusedQuantity('{{$index}}')" onkeyup="calculateRefusedQuantity('{{$index}}')">
+                   </td>
+
+                   <td>
+                       <input style="width: 130px !important;" type="number" class="form-control border6"
+                              id="accepted_quantity_{{$index}}"
+                              value="{{ isset($update_item) ? $update_item->accepted_quantity : $item->remaining_quantity_for_accept}}"
+                              min="0"
+                              name="items[{{isset($update_item) ? $update_item->itemable_id : $item->id}}][accepted_quantity]"
+                              onchange="calculateAcceptedQuantity('{{$index}}')" onkeyup="calculateAcceptedQuantity('{{$index}}')">
+                   </td>
+
+                   <td>
+        <span
+            id="defect_percent_{{$index}}">{{isset($update_item) ? ' % ' . $update_item->calculate_defected_percent : '0 %'}}</span>
+                   </td>
+
+               </tr>
+
+                </tbody>
+            </table>
+
         </div>
     </td>
 </tr>

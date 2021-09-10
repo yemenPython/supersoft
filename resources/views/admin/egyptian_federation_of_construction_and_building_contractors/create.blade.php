@@ -18,7 +18,7 @@
         <div class="col-xs-12">
             <div class=" card box-content-wg-new bordered-all primary">
                 <h4 class="box-title with-control" style="text-align: initial"><i
-                        class="fa fa-user ico"></i>{{__('Create Egyptian Federation')}}
+                        class="fa fa-file-text-o"></i>{{__('Create Egyptian Federation')}}
                         <span class="controls hidden-sm hidden-xs pull-left">
                       <button class="control text-white"
                               style="background:none;border:none;font-size:14px;font-weight:normal !important;">{{__('Save')}}
@@ -52,7 +52,7 @@
 
                                     @if(authIsSuperAdmin())
                                         <div class="form-group has-feedback">
-                                            <label for="inputPhone" class="control-label">{{__('Branch')}}</label>
+                                            <label for="inputPhone" class="control-label">{{__('Branch')}} {!! required() !!}</label>
                                             <div class="input-group">
                                                 <span class="input-group-addon fa fa-file"></span>
                                                 <select class="form-control js-example-basic-single" name="branch_id" id="branch_id"
@@ -80,7 +80,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Company name')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Company name')}} {!! required() !!}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-file-o"></li></span>
                                             <input type="text" name="name" class="form-control" id="inputNameEn"
@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Company Address')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Company Address')}} {!! required() !!}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-location-arrow"></li></span>
                                             <input type="text" name="name_ar" class="form-control" id="inputNameEn"
@@ -106,7 +106,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Membership No')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Membership No')}} {!! required() !!}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-file"></li></span>
                                             <input type="text" name="membership_no" class="form-control" id="membership_no"
@@ -120,7 +120,7 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Subscription payment receipt')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Subscription payment receipt')}} {!! required() !!}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-file-text"></li></span>
                                             <input type="text" name="payment_receipt" class="form-control" id="payment_receipt"
@@ -136,7 +136,7 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Date of register in the union')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Date of register in the union')}} {!! required() !!}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
                                             <input type="text" name="date_of_register" class="form-control datepicker text-right" id="date_of_register"
@@ -150,7 +150,7 @@
 
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('End date')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('End date')}} {!! required() !!}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
                                             <input type="text" name="end_date" class="form-control datepicker text-right" id="end_date" autocomplete="off"
@@ -164,7 +164,7 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="inputNameAr" class="control-label">{{__('Company Type')}}</label>
+                                        <label for="inputNameAr" class="control-label">{{__('Company Type')}} {!! required() !!}</label>
                                         <div class="input-group">
                                             <span class="input-group-addon"><li class="fa fa-building"></li></span>
                                             <input type="text" name="company_type" class="form-control" id="membership_no"

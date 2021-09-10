@@ -208,6 +208,9 @@
 
             let purchase_price = $('#prices_part_' + index).find(":selected").data('purchase-price');
 
+            let barcode = $('#prices_part_' + index).find(":selected").data('barcode');
+            let supplier_barcode = $('#prices_part_' + index).find(":selected").data('supplier-barcode');
+
             $.ajax({
 
                 type: 'post',
@@ -224,6 +227,9 @@
 
                     $("#price_segments_part_" + index).html(data.view);
                     $("#price_" + index).val(purchase_price);
+
+                    $("#barcode_" + index).text(barcode);
+                    $("#supplier_barcode_" + index).text(supplier_barcode);
 
                     calculateItem(index);
 

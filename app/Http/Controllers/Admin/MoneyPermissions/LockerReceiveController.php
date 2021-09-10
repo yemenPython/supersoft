@@ -3,16 +3,17 @@ namespace App\Http\Controllers\Admin\MoneyPermissions;
 
 use Exception;
 use App\Models\EmployeeData;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\ExportPrinterFactory;
 use App\ModelsMoneyPermissions\BankExchangePermission;
 use App\ModelsMoneyPermissions\LockerReceivePermission;
 use App\ModelsMoneyPermissions\LockerExchangePermission;
 use App\Http\Requests\MoneyPermissions\LockerReceiveRequest;
 use App\Http\Requests\MoneyPermissions\LockerReceiveEditRequest;
-use App\Http\Controllers\DataExportCore\MoneyPermissions\LockerReceives;
+use Throwable;
+use Yajra\DataTables\DataTables;
 
 class LockerReceiveController extends Controller {
 
@@ -26,13 +27,12 @@ class LockerReceiveController extends Controller {
         $receiver_id = $req->has('receiver_id') && $req->receiver_id != '' ? $req->receiver_id : NULL;
         $date_from = $req->has('date_from') && $req->date_from != '' ? $req->date_from : NULL;
         $date_to = $req->has('date_to') && $req->date_to != '' ? $req->date_to : date('Y-m-d');
-        $rows = $req->has('rows') && $req->rows != '' ? $req->rows : 10;
         $key = $req->has('key') && $req->key != '' ? $req->key : NULL;
         $branch = $req->has('branch_id') && authIsSuperAdmin() && $req->branch_id != '' ? $req->branch_id : NULL;
         if (!authIsSuperAdmin()) $branch = auth()->user()->branch_id;
 
         $search_form = (new CommonLogic)->builde_receive_search_form(route('admin:locker-receives.index'));
-        $receives = LockerReceivePermission::select(
+        $receives = LockerReceivePermission::latest()->select(
             'permission_number' ,'amount' ,'operation_date' ,'status' ,'created_at' ,'updated_at' ,
             'locker_exchange_permission_id' ,'employee_id' ,'id' ,'source_type'
         )
@@ -66,38 +66,15 @@ class LockerReceiveController extends Controller {
             $q->where('permission_number' ,'like' ,"%$key%")->orWhere('operation_date' ,'like' ,"%$key%");
         });
 
-        if ($req->has('sort_by') && $req->sort_by != '') {
-            $sort_by = $req->sort_by;
-            $sort_method = $req->has('sort_method') ? $req->sort_method : 'asc';
-            if (!in_array($sort_method, ['asc', 'desc'])) $sort_method = 'desc';
-            $sort_fields = [
-                'permission-number' => 'permission_number',
-                'exchange-number' => 'locker_exchange_permission_id',
-                'source-type' => 'source_type',
-                'money-receiver' => 'employee_id',
-                'amount' => 'amount',
-                'operation-date' => 'operation_date',
-                'status' => 'status',
-            ];
-            $receives = $receives->orderBy($sort_fields[$sort_by], $sort_method);
+        if ($req->isDataTable) {
+            return $this->dataTableColumns($receives);
         } else {
-            $receives = $receives->orderBy('id', 'desc');
+            return view('admin.money-permissions.locker-receive.index', [
+                'receives' => $receives,
+                'search_form' => $search_form,
+                'js_columns' => LockerReceivePermission::getJsDataTablesColumns(),
+            ]);
         }
-        
-        if ($req->has('invoker') && in_array($req->invoker, ['print', 'excel'])) {
-            if (
-                ($req->invoker == 'print' && !auth()->user()->can('print_locker_receive_permissions')) ||
-                ($req->invoker == 'excel' && !auth()->user()->can('export_locker_receive_permissions'))
-            ) {
-                return redirect(route('admin:locker-receives.index'))->with(['authorization' => __('words.unauthorized')]);
-            }
-            $visible_columns = $req->has('visible_columns') ? $req->visible_columns : [];
-            return (new ExportPrinterFactory(new LockerReceives($receives, $visible_columns), $req->invoker))();
-        }
-
-        $receives = $receives->paginate($rows);
-
-        return view('admin.money-permissions.locker-receive.index' ,compact('receives' ,'search_form'));
     }
 
     function create() {
@@ -154,7 +131,7 @@ class LockerReceiveController extends Controller {
             return redirect(route('admin:locker-receives.index'))->with(['authorization' => __('words.unauthorized')]);
         }
         $data = $req->all();
-        
+
         $exchange = $data['source_type'] == 'locker' ?
             LockerExchangePermission::select(
                 'amount', 'branch_id', 'id'
@@ -172,11 +149,17 @@ class LockerReceiveController extends Controller {
 
         $data['branch_id'] = $exchange->branch_id;
         $data['amount'] = $exchange->amount;
-        
+
         $receive_id = LockerReceivePermission::create($data)->id;
         $receive_key = $data['source_type'] == 'locker' ? 'locker_receive_permission_id' : 'bank_receive_permission_id';
         $exchange->update([$receive_key => $receive_id]);
 
+        if ($req->filled('fromAjax')) {
+            return back()->with([
+                'message' => __('words.permission-is-created'),
+                'alert-type' => 'success'
+            ]);
+        }
         return redirect(route('admin:locker-receives.index'))->with([
             'message' => __('words.permission-is-created'),
             'alert-type' => 'success'
@@ -255,14 +238,15 @@ class LockerReceiveController extends Controller {
             DB::beginTransaction();
             $receive = $this->receive_maintainable($id);
             $locker = $receive->source_type == 'locker' ? $receive->exchange_permission->toLocker : $receive->bank_exchange_permission->toLocker;
-            $money_permission_account = (new CommonLogic)->account_relation_exists('receive');
-            $locker_account = (new CommonLogic)->get_locker_account_tree($locker);
+//            dd($locker, $receive);
+//            $money_permission_account = (new CommonLogic)->account_relation_exists('receive');
+//            $locker_account = (new CommonLogic)->get_locker_account_tree($locker);
             $receive->update(['status' => 'approved']);
-            $locker_process = new LockerProcess($receive->amount ,$locker);
-            $locker_process->increment();
-            $restriction_process = new LockerRestrictionProcess($money_permission_account ,$locker_account);
-            $restriction_process->set_receive_permission($receive);
-            $restriction_process();
+//            $locker_process = new LockerProcess($receive->amount ,$locker);
+//            $locker_process->increment();
+//            $restriction_process = new LockerRestrictionProcess($money_permission_account ,$locker_account);
+//            $restriction_process->set_receive_permission($receive);
+//            $restriction_process();
             if ($receive->source_type == 'locker') CommonLogic::create_locker_transfer($receive);
             else CommonLogic::create_bank_locker_transaction($receive);
         } catch (Exception $e) {
@@ -285,9 +269,53 @@ class LockerReceiveController extends Controller {
         }
         return $this->run_update($req ,$id);
     }
-    
+
     function get_invoker_name() {
         return StaticNames::LOCKER;
     }
 
+    /**
+     * @param Builder $items
+     * @return mixed
+     * @throws Throwable|Throwable
+     */
+    private function dataTableColumns(Builder $items)
+    {
+        $viewPath = 'admin.money-permissions.locker-receive.options-datatable.options';
+        return DataTables::of($items)->addIndexColumn()
+            ->addColumn('permission_number', function ($item) use ($viewPath) {
+                return $item->permission_number;
+            })
+            ->addColumn('locker', function ($item) use ($viewPath) {
+                $withLocker = true;
+                return view($viewPath, compact('item', 'withLocker'))->render();
+            })
+            ->addColumn('source_type', function ($item) use ($viewPath) {
+                return __('words.'.$item->source_type);
+            })
+            ->addColumn('employee', function ($item) {
+                return  optional($item->employee)->name;
+            })
+            ->addColumn('amount', function ($item) use ($viewPath) {
+                return $item->amount;
+            })
+            ->addColumn('operation_date', function ($item) use ($viewPath) {
+                return $item->operation_date;
+            })
+            ->addColumn('status', function ($item) use ($viewPath) {
+                return $item->render_status($item->status ,__('words.'.$item->status));
+            })
+            ->addColumn('created_at', function ($item) {
+                return $item->created_at->format('y-m-d h:i:s A');
+            })
+            ->addColumn('updated_at', function ($item) {
+                return $item->updated_at->format('y-m-d h:i:s A');
+            })->addColumn('actions', function ($item) use ($viewPath) {
+                $withActions = true;
+                return view($viewPath, compact('item', 'withActions'))->render();
+            })->addColumn('options', function ($item) use ($viewPath) {
+                $withOptions = true;
+                return view($viewPath, compact('item', 'withOptions'))->render();
+            })->rawColumns(['actions'])->rawColumns(['options'])->escapeColumns([])->make(true);
+    }
 }

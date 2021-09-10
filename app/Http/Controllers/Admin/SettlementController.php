@@ -100,8 +100,12 @@ class SettlementController extends Controller
             return redirect()->back()->with(['message' => __('items required'), 'alert-type' => 'error']);
         }
 
-        if ($this->settlementService->checkMaxQuantityOfItem($request['items'])) {
-            return redirect()->back()->with(['message' => __('quantity not available'), 'alert-type' => 'error']);
+        $invalidItems = $this->settlementService->checkMaxQuantityOfItem($request['items']);
+
+        if (!empty($invalidItems)) {
+
+            $message = __('quantity not available for this items ') ."\n          ". '('.implode(' ,', $invalidItems).')';
+            return redirect()->back()->with(['message' => $message, 'alert-type' => 'error']);
         }
 
         try {
@@ -199,8 +203,12 @@ class SettlementController extends Controller
             return redirect()->back()->with(['message'=> __('sorry, this item has related data'), 'alert-type'=>'error']);
         }
 
-        if ($this->settlementService->checkMaxQuantityOfItem($request['items'])) {
-            return redirect()->back()->with(['message' => __('quantity not available'), 'alert-type' => 'error']);
+        $invalidItems = $this->settlementService->checkMaxQuantityOfItem($request['items']);
+
+        if (!empty($invalidItems)) {
+
+            $message = __('quantity not available for this items ') ."\n          ". '('.implode(' ,', $invalidItems).')';
+            return redirect()->back()->with(['message' => $message, 'alert-type' => 'error']);
         }
 
         try {
@@ -345,6 +353,34 @@ class SettlementController extends Controller
         $settlement = Settlement::findOrFail($request['settlement_id']);
         $view = view('admin.settlements.print', compact('settlement'))->render();
         return response()->json(['view' => $view]);
+    }
+
+    public function checkStock(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'items' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        try {
+
+            $invalidItems = $this->settlementService->checkMaxQuantityOfItem($request['items']);
+
+            if (!empty($invalidItems)) {
+
+                $message = __('quantity not available for this items ') ."\n          ". '('.implode(' ,', $invalidItems).')';
+                return response()->json($message, 400);
+            }
+
+        } catch (\Exception $e) {
+            // dd($e->getMessage());
+            return response()->json(['sorry, please try later'], 400);
+        }
+
+        return response()->json(['message' => __('quantity available')], 200);
     }
 
     /**

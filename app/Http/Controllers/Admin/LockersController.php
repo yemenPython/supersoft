@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\Lockers\UpdateLockerRequest;
 use App\Models\Branch;
 use App\Models\Locker;
 use App\Models\User;
+use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -63,35 +64,19 @@ class LockersController extends Controller
 
     public function store(CreateLockersRequest $request)
     {
-
         if (!auth()->user()->can('create_lockers')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
-
         try{
             $data = $request->validated();
-
+            $data['name_en'] = $request->filled('name_en') ? $request->name_en : $request->name_ar;
             $data['status'] = 0;
-
             if($request->has('status'))
                 $data['status'] = 1;
-
-            $data['special'] = 0;
-
-            if($request->has('special'))
-                $data['special'] = 1;
-
             if(!authIsSuperAdmin())
                 $data['branch_id'] = auth()->user()->branch_id;
-
-            $locker = Locker::create($data);
-
-            if($request->has('special')){
-                $locker->users()->attach($request['users']);
-            }
-
-        }catch (\Exception $e){
-
+           Locker::create($data);
+        }catch (Exception $e){
             return redirect()->back()
                 ->with(['message' => __('words.back-support'),'alert-type'=>'error']);
         }
@@ -105,7 +90,6 @@ class LockersController extends Controller
         if (!auth()->user()->can('view_lockers')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
-
         return view('admin.lockers.show',compact('locker'));
     }
 
@@ -114,13 +98,6 @@ class LockersController extends Controller
         if (!auth()->user()->can('update_lockers')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
-
-        if($locker->special && !in_array( auth()->id(), $locker->users->pluck('id')->toArray()) && !authIsSuperAdmin() ){
-
-            return redirect()->back()
-                ->with(['message' => __('words.cant-access-page'),'alert-type'=>'error']);
-        }
-
         $branches = Branch::all()->pluck('name','id');
         $users = User::orderBy('id','ASC')->branch()->pluck('name','id');
         return view('admin.lockers.edit',compact('branches','locker','users'));
@@ -134,39 +111,17 @@ class LockersController extends Controller
 
         try{
             $data = $request->validated();
-
+            $data['name_en'] = $request->filled('name_en') ? $request->name_en : $request->name_ar;
             $data['status'] = 0;
-
             if($request->has('status'))
                 $data['status'] = 1;
-
-            $data['special'] = 0;
-
-            if($request->has('special'))
-                $data['special'] = 1;
-
             if(!authIsSuperAdmin())
                 $data['branch_id'] = auth()->user()->branch_id;
-
-            if($locker->revenueReceipts->count() || $locker->expensesReceipts->count()){
-                $data['balance'] = $locker->balance;
-            }
-
             $locker->update($data);
-
-            if($request->has('special')){
-                $locker->users()->sync($request['users']);
-            }else{
-
-                $locker->users()->detach();
-            }
-
-        }catch (\Exception $e){
-
+        }catch (Exception $e){
             return redirect()->back()
                 ->with(['message' => __('words.back-support'),'alert-type'=>'error']);
         }
-
         return redirect(route('admin:lockers.index'))
             ->with(['message' => __('words.locker-updated'),'alert-type'=>'success']);
     }
@@ -176,19 +131,9 @@ class LockersController extends Controller
         if (!auth()->user()->can('delete_lockers')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
-
-        if($locker->special && !in_array( auth()->id(), $locker->users->pluck('id')->toArray() ) && !authIsSuperAdmin()){
-
-            return redirect()->back()
-                ->with(['message' => __('words.cant-access-page'),'alert-type'=>'error']);
+        if($locker->balance > 0 &&  $locker->lockerOpeningBalanceItems()->exists()) {
+            return redirect()->back()->with(['message' => __('words.this locker has transaction'),'alert-type'=>'error']);
         }
-
-        if($locker->revenueReceipts || $locker->expensesReceipts){
-
-            return redirect()->back()
-                ->with(['message' => __('words.this locker has transaction'),'alert-type'=>'error']);
-        }
-
         $locker->delete();
         return redirect(route('admin:lockers.index'))
             ->with(['message' => __('words.locker-deleted'),'alert-type'=>'success']);
@@ -201,15 +146,13 @@ class LockersController extends Controller
         }
 
         if (isset($request->ids)) {
-
-            Locker::where(function ($q){
-
-                $q->orWhereDoesntHave('revenueReceipts');
-
-                $q->orWhereDoesntHave('expensesReceipts');
-
-            })->whereIn('id', $request->ids)->delete();
-
+            $lockers = Locker::whereIn('id', $request->ids)->get();
+            foreach ($lockers as $locker) {
+                if($locker->balance > 0 &&  $locker->lockerOpeningBalanceItems()->exists()) {
+                    return redirect()->back()->with(['message' => __('words.this locker has transaction'),'alert-type'=>'error']);
+                }
+                $locker->delete();
+            }
             return redirect(route('admin:lockers.index'))
                 ->with(['message' => __('words.selected-row-deleted'), 'alert-type' => 'success']);
 

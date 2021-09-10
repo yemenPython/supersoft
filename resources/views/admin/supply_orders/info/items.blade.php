@@ -135,4 +135,16 @@
         {{input_error($errors, 'items['.$index.'][total]')}}
     </td>
 
+    <td>
+        <span id="barcode_{{$index}}">
+            {{ $update_item->partPrice ? $update_item->partPrice->barcode : '---' }}
+        </span>
+    </td>
+
+    <td>
+        <span id="supplier_barcode_{{$index}}">
+             {{ $update_item->partPrice ? $update_item->partPrice->supplier_barcode : '---' }}
+        </span>
+    </td>
+
 </tr>
