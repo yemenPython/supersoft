@@ -306,7 +306,7 @@ class AssetExpenseController extends Controller
             $assets = AssetExpense::whereIn( 'id', $request->ids )->get();
             foreach ($assets as $asset) {
                 foreach ($asset->assetExpensesItems as $item) {
-                        if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || ConsumptionAssetItemExpense::where( 'expense_id', $item->asset_expense_id )->exists() || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists()) {
+                        if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || ConsumptionAssetItemExpense::where( 'expense_id', $item->id )->exists() || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists()) {
                             return redirect()->to( route( 'admin:assets_expenses.index' ) )
                                 ->with( ['message' => __( 'words.can-not-delete-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
                         }
