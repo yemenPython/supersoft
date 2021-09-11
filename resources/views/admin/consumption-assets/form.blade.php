@@ -96,8 +96,7 @@
                     {{input_error($errors,'date_from')}}
                 </div>
             </div>
-
-
+            <input type="hidden"  class="diff">
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="date" class="control-label text-new1">{{__('Date to')}}</label>
