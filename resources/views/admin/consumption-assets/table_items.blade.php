@@ -14,6 +14,7 @@
             <th scope="col" class="type_asset"> {{ __('consumtion rate') }} </th>
             <th scope="col" class="type_asset"> {{ __('consumption amount') }} </th>
             <th scope="col" class="type_expenses"> {{ __('consumption amount') }} </th>
+            <th scope="col" class="total_all"> {{ __('total consumption asset and expense') }} </th>
             <th width="5%"> {{ __('Action') }} </th>
 
 
@@ -25,7 +26,6 @@
 
             @foreach ($consumptionAsset->items as $index => $update_item)
                 @php
-
                     $index +=1;
                     $asset = $update_item->asset;
 
@@ -48,6 +48,7 @@
             <th scope="col" class="type_asset"> {{ __('consumtion rate') }} </th>
             <th scope="col" class="type_asset"> {{ __('consumption amount') }} </th>
             <th scope="col" class="type_expenses"> {{ __('consumption amount') }} </th>
+            <th scope="col" class="total_all"> {{ __('total consumption asset and expense') }} </th>
             <th width="5%"> {{ __('Action') }} </th>
         </tr>
         </tfoot>

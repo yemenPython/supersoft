@@ -701,4 +701,39 @@ class ConsumptionAssetsController extends Controller
             ] );
         }
     }
+    public function expenseTotal(Request $request){
+        $expenses_total = 0;
+        if (!empty( $request->asset_id)) {
+            $asset = Asset::with( 'group' )->find( $request->asset_id );
+            foreach ($asset->expenses()->whereHas( 'assetExpense', function ($q) {
+                $q->where( 'status', '=', 'accept' );
+            } )->get() as $expens) {
+
+                $to = Carbon::createFromFormat( 'Y-m-d', $request->date_to );
+                $from = Carbon::createFromFormat( 'Y-m-d', $request->date_from );
+
+                $diff = 0;
+                $stop_date = StopAndActivateAsset::where( 'asset_id', $asset->id )->where( 'status', '=', 'stop' )->latest()->exists() ? StopAndActivateAsset::where( 'asset_id', $asset->id )->where( 'status', '=', 'stop' )->latest()->first()->date : '';
+                $activate_date = StopAndActivateAsset::where( 'asset_id', $asset->id )->where( 'status', '=', 'activate' )->latest()->exists() ? StopAndActivateAsset::where( 'asset_id', $asset->id )->where( 'status', '=', 'activate' )->latest()->first()->date : '';
+                if (!empty( $stop_date ) && !empty( $activate_date )) {
+                    $activate_date = Carbon::createFromFormat( 'Y-m-d', $activate_date );
+                    $stop_date = Carbon::createFromFormat( 'Y-m-d', $stop_date );
+                    $diff = $activate_date->diffInDays( $stop_date );;
+                }
+                $diff_in_days = $to->diffInDays( $from );
+                $diff_in_days -= $diff;
+
+                $age = $expens->annual_consumtion_rate ? ($expens->price / $expens->annual_consumtion_rate) / 100 : 0;
+                $months = $age * 12;
+                $asd = $months ? $expens->price / $months : 0;
+                $value = $asd * ($diff_in_days / 30);
+                $expenses_total += number_format( $value, 2 );
+            }
+        }
+        $index = $request['index'] ;
+        return response()->json( [
+            'expenses_total' => $expenses_total,
+            'index' => $index,
+        ] );
+    }
 }

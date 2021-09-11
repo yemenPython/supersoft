@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Scope;
 use Illuminate\Support\Facades\Auth;
 
-class BranchScope implements Scope
+class StopAnactivateAssetBranchScope implements Scope
 {
     /**
      * Apply the scope to a given Eloquent query builder.
@@ -37,7 +37,7 @@ class BranchScope implements Scope
         ];
 
         if(!authIsSuperAdmin() && isset(request()->segments()[1]) && request()->segments()[1] == 'admin' && auth()->check()) {
-            $builder->where('branch_id', auth()->user()->branch_id);
+            $builder->where('stop_activate_assets.branch_id', auth()->user()->branch_id);
         }
     }
 }

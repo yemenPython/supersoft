@@ -43,10 +43,7 @@ class StopAndActivateAssetsController extends Controller
     public function index(Request $request)
     {
         if ($request->isDataTable) {
-            $StopAndActivateAsset = StopAndActivateAsset::with(['asset'=>function($query){
-                $query->select(['id','name_ar','name_en','status']);
-            }]);
-            $select = [
+            $StopAndActivateAsset = StopAndActivateAsset::select( [
                 'stop_activate_assets.id',
                 'stop_activate_assets.branch_id',
                 'stop_activate_assets.date',
@@ -55,8 +52,10 @@ class StopAndActivateAssetsController extends Controller
                 'stop_activate_assets.status',
                 'stop_activate_assets.created_at',
                 'stop_activate_assets.updated_at'
+            ])->with(['asset'=>function($query){
+                $query->select(['id','name_ar','name_en','status']);
+            }]);
 
-            ];
             if ($request->has('branch_id') && !empty($request['branch_id']))
                 $StopAndActivateAsset->where('stop_activate_assets.branch_id', $request['branch_id']);
             if ($request->has('asset_id') && !empty($request->asset_id))
@@ -69,10 +68,8 @@ class StopAndActivateAssetsController extends Controller
                     ->where( 'stop_activate_assets.status', 'stop' )
                     ->groupBy( 'stop_activate_assets.asset_id')
                     ->orderBy( 'stop_activate_assets.created_at','DESC' );
-                array_push($select,DB::raw('MAX(stop_activate_assets.id) AS mx'));
             }
 
-            $StopAndActivateAsset->select($select);
 
             whereBetween($StopAndActivateAsset, 'date', $request->date_from, $request->date_to);
             return DataTables::of($StopAndActivateAsset->orderBy( 'stop_activate_assets.id','DESC' ))

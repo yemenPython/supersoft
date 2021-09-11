@@ -182,11 +182,11 @@
             let isSuperAdmin = '{{authIsSuperAdmin()}}';
             if (isSuperAdmin) {
                 var branch_id = $('#branch_id').find(":selected").val();
-            }else {
+            } else {
                 var branch_id = $('#branch_id_hidden').val();
             }
             $.ajax({
-                url: "{{ route('admin:assets_expenses.getAssetsByAssetGroup') }}?asset_group_id=" + $(this).val()+"&branch_id="+branch_id,
+                url: "{{ route('admin:assets_expenses.getAssetsByAssetGroup') }}?asset_group_id=" + $(this).val() + "&branch_id=" + branch_id,
                 method: 'GET',
                 success: function (data) {
                     $('#assetsOptions').html(data.assets);
@@ -206,7 +206,8 @@
                 swal({text: '{{__('sorry, please select date to first')}}', icon: "error"});
                 $('#assetsOptions').val('');
                 return false;
-            } if (type == '' || type== undefined) {
+            }
+            if (type == '' || type == undefined) {
                 swal({text: '{{__('sorry, please select type first')}}', icon: "error"});
                 $('#assetsOptions').val('');
                 return false;
@@ -239,12 +240,14 @@
                 success: function (data) {
                     $('#items_data').append(data.items);
                     $("#items_count").val(data.index);
-                    $("#expenses_total_"+ data.index).val(data.expenses_total.toFixed(2));
-                    $("#expenses_total_hidden_"+ data.index).val(data.expenses_total.toFixed(2));
+                    $(".diff").val(data.diff);
+                    $("#expenses_total_" + data.index).val(data.expenses_total.toFixed(2));
+                    $("#expenses_total_hidden_" + data.index).val(data.expenses_total.toFixed(2));
                     totalPurchaseCost(index);
                     totalPastConsumtion(index);
                     netTotal(index);
-                    consumptionAmount(data.index,data.diff);
+                    consumptionAmount(data.index);
+                    totalAll(data.index);
                     totalReplacements();
                     checkType(data.index);
                     $('.js-example-basic-single').select2();
@@ -281,22 +284,32 @@
             });
             $('#total_past_consumtion').val(total);
         }
+
         function totalReplacements() {
             let total = '';
             var value = $("input[name='type']:checked").val()
-            if (value =='asset' || value =='both') {
+            if (value == 'asset' || value == 'both') {
                 $(".total_replacement").each(function () {
                     var value = $($(this)).val();
                     total = +total + +value;
                 });
             }
-            if (value =='expenses' || value =='both') {
+            if (value == 'expenses' || value == 'both') {
                 $(".total_replacement_expenses").each(function () {
                     var value = $($(this)).val();
                     total = +total + +value;
                 });
             }
             $('#total_replacement').val(total);
+        }
+
+        function totalAll(index) {
+            let total = '';
+            var expenses_total = $('#expenses_total_' + index).val();
+
+            var consumption_amount = $('.consumption_amount_' + index).val();
+            total = +expenses_total + +consumption_amount;
+            $('.total_all_' + index).val(total.toFixed(2));
         }
 
         function netTotal() {
@@ -359,8 +372,29 @@
                 var date_to = $('#date_to').val('');
                 return false;
             }
-           let index = $("#items_count").val();
+            let index = $("#items_count").val();
+            $.ajax({
+                url: "{{ route('admin:consumption_assets.get_expense_total') }}?asset_id=" + $('#assetsOptions').val(),
+                method: 'get',
+                data: {
+                    asset_id: $('#assetsOptions').val(),
+                    date_from: date_from,
+                    date_to: date_to,
+                    index: index,
+                    _token: '{{csrf_token()}}',
+                },
+                success: function (data) {
+                    $("#expenses_total_" + data.index).val(data.expenses_total.toFixed(2));
+                    $("#expenses_total_hidden_" + data.index).val(data.expenses_total.toFixed(2));
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
             consumptionAmount(index);
+            totalAll(index);
         });
         $('#date_from').on('change', function () {
             if (!checkBranchValidation()) {
@@ -368,15 +402,42 @@
                 return false;
             }
             let index = $("#items_count").val();
+            let date_from = $('#date_from').val();
+            let date_to = $('#date_to').val();
+
+            $.ajax({
+                url: "{{ route('admin:consumption_assets.get_expense_total') }}?asset_id=" + $('#assetsOptions').val(),
+                method: 'get',
+                data: {
+                    asset_id: $('#assetsOptions').val(),
+                    date_from: date_from,
+                    date_to: date_to,
+                    index: index,
+                    _token: '{{csrf_token()}}',
+                },
+                success: function (data) {
+                    $("#expenses_total_" + data.index).val(data.expenses_total.toFixed(2));
+                    $("#expenses_total_hidden_" + data.index).val(data.expenses_total.toFixed(2));
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+
+
             consumptionAmount(index);
+            totalAll(index);
         });
-        function consumptionAmount(index,diff=0) {
+
+        function consumptionAmount(index) {
             var date_from = $('#date_from').val();
             var date_to = $('#date_to').val();
             var total_net_purchase_cost = $('.net_purchase_cost_' + index).val();
             var total_replacements = $('.total_replacements_' + index).val();
             var annual_consumtion_rate = $('.annual_consumtion_rate_' + index).val();
             var net_purchase_cost = +total_net_purchase_cost + +total_replacements;
+            var diff = $('.diff').val();
             if (date_from != '' && date_to != '' && net_purchase_cost != '' && annual_consumtion_rate != '') {
                 const date1 = new Date(date_from);
                 const date2 = new Date(date_to);
@@ -390,27 +451,30 @@
                 $('.consumption_amount_' + index).val(value.toFixed(2));
             }
         }
-        function checkType(index){
+
+        function checkType(index) {
             var value = $("input[name='type']:checked").val();
 
-            if(value =='asset'){
+            if (value == 'asset') {
                 $('.type_expenses').hide();
                 $('.type_asset').show();
-                // $('#expenses_total_' + index).val(0);
-            }else if (value =='expenses'){
+                $('.total_all').hide();
+            } else if (value == 'expenses') {
                 $('.type_asset').hide();
+                $('.total_all').hide();
                 $('.type_expenses').show();
-                // $('.consumption_amount_' + index).val(0);
-            }else {
+            } else {
                 $('.type_asset').show();
                 $('.type_expenses').show();
+                $('.total_all').show();
             }
             totalReplacements();
         }
-        $(function (){
-            $("input[type='radio'][name='type']").click(function() {
 
-                checkType( $("#items_count").val());
+        $(function () {
+            $("input[type='radio'][name='type']").click(function () {
+
+                checkType($("#items_count").val());
             });
         })
     </script>
