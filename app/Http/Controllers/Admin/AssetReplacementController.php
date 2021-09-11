@@ -240,6 +240,14 @@ class AssetReplacementController extends Controller
     public function edit(Request $request, int $id)
     {
         $assetReplacement = AssetReplacement::findOrFail( $id );
+
+        foreach ($assetReplacement->assetReplacementItems as $item) {
+            if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists()) {
+                return redirect()->to( route( 'admin:consumption-assets.index' ) )
+                    ->with( ['message' => __( 'words.can-not-update-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
+            }
+        }
+
         $branch_id = $request->has( 'branch_id' ) ? $request['branch_id'] : $assetReplacement->branch_id;
         $assetsGroups = AssetGroup::where( 'branch_id', $branch_id )->get();
         $assets = Asset::where( 'branch_id', $branch_id )->get();
@@ -317,7 +325,7 @@ class AssetReplacementController extends Controller
         foreach ($assetExpense->assetReplacementItems as $item) {
             if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists()) {
                 return redirect()->to( route( 'admin:consumption-assets.index' ) )
-                    ->with( ['message' => __( 'words.Can not delete this asset replacements' ), 'alert-type' => 'error'] );
+                    ->with( ['message' => __( 'words.can-not-delete-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
             }
         }
         DB::beginTransaction();
@@ -350,7 +358,7 @@ class AssetReplacementController extends Controller
                 foreach ($asset->assetReplacementItems as $item) {
                     if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists()) {
                         return redirect()->to( route( 'admin:consumption-assets.index' ) )
-                            ->with( ['message' => __( 'words.Can not delete this asset replacements' ), 'alert-type' => 'error'] );
+                            ->with( ['message' => __( 'words.can-not-delete-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
                     }
                 }
                 DB::beginTransaction();

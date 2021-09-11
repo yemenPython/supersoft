@@ -52,7 +52,7 @@ class PurchaseAssetsController extends Controller
                 'purchase_assets.total_past_consumtion',
                 'purchase_assets.type',
                 'purchase_assets.operation_type',
-            ] )->where('operation_type','=','purchase')
+            ] )->where( 'operation_type', '=', 'purchase' )
                 ->leftjoin( 'purchase_asset_items', 'purchase_assets.id', '=', 'purchase_asset_items.purchase_asset_id' )->latest();
 
             if ($request->has( 'branch_id' ) && !empty( $request['branch_id'] ))
@@ -74,11 +74,11 @@ class PurchaseAssetsController extends Controller
             if ($request->has( 'asset_id' ) && !empty( $request->asset_id ))
                 $purchaseAssets->where( 'purchase_asset_items.asset_id', $request['asset_id'] );
 
-            if ($request->filled( 'operation_type' ) &&  $request->operation_type != 'together' ) {
+            if ($request->filled( 'operation_type' ) && $request->operation_type != 'together') {
                 $purchaseAssets->where( 'purchase_assets.operation_type', $request['operation_type'] );
             }
 
-            if ($request->filled( 'operation_type' ) &&  $request->operation_type == 'together' ) {
+            if ($request->filled( 'operation_type' ) && $request->operation_type == 'together') {
                 $purchaseAssets->whereIn( 'purchase_assets.operation_type', ['purchase', 'opening_balance'] );
             }
 
@@ -91,36 +91,35 @@ class PurchaseAssetsController extends Controller
                     return '<span class="text-danger">' . optional( $asset->branch )->name . '</span>';
                 } )
                 ->addColumn( 'date', function ($saleAsset) {
-                    return '<span class="text-danger">' .$saleAsset->date . ' ' . $saleAsset->time . '</span>';
+                    return '<span class="text-danger">' . $saleAsset->date . ' ' . $saleAsset->time . '</span>';
                 } )
                 ->addColumn( 'invoice_number', function ($saleAsset) {
                     return $saleAsset->invoice_number;
 
                 } )
-
                 ->addColumn( 'supplier_id', function ($purchaseAsset) {
                     return optional( $purchaseAsset->supplier )->name;
                 } )
                 ->addColumn( 'type', function ($purchaseAsset) {
 
-                        if ($purchaseAsset->type == 'cash') {
-                            return '<span class="label label-primary wg-label">' . __( 'Cash' ) . '</span>';
-                        } else {
-                            return '<span class="label label-info wg-label">' . __( 'Credit' ) . '</span>';
-                        }
+                    if ($purchaseAsset->type == 'cash') {
+                        return '<span class="label label-primary wg-label">' . __( 'Cash' ) . '</span>';
+                    } else {
+                        return '<span class="label label-info wg-label">' . __( 'Credit' ) . '</span>';
+                    }
 
                 } )
                 ->addColumn( 'total_purchase_cost', function ($purchaseAsset) {
-                    return '<span style="background:#F7F8CC !important">'. number_format( $purchaseAsset->total_purchase_cost, 2 ).'</span>';
+                    return '<span style="background:#F7F8CC !important">' . number_format( $purchaseAsset->total_purchase_cost, 2 ) . '</span>';
                 } )
 //                ->addColumn( 'total_past_consumtion', function ($purchaseAsset) {
 //                    return '<span style="background:#F7F8CC !important">' .number_format( $purchaseAsset->total_past_consumtion, 2 ).'</span>';
 //                } )
                 ->addColumn( 'paid_amount', function ($purchaseAsset) {
-                    return '<span style="background:#D7FDF9 !important">' .number_format( $purchaseAsset->paid_amount, 2 ).'</span>';
+                    return '<span style="background:#D7FDF9 !important">' . number_format( $purchaseAsset->paid_amount, 2 ) . '</span>';
                 } )
                 ->addColumn( 'remaining_amount', function ($purchaseAsset) {
-                    return '<span style="background:#D7FDF9 !important">' .number_format( $purchaseAsset->remaining_amount, 2 ).'</span>';
+                    return '<span style="background:#D7FDF9 !important">' . number_format( $purchaseAsset->remaining_amount, 2 ) . '</span>';
                 } )
                 ->addColumn( 'created_at', function ($purchaseAsset) {
                     return $purchaseAsset->created_at;
@@ -128,7 +127,6 @@ class PurchaseAssetsController extends Controller
                 ->addColumn( 'updated_at', function ($purchaseAsset) {
                     return $purchaseAsset->updated_at;
                 } )
-
                 ->addColumn( 'action', function ($purchaseAsset) {
                     return '
                       <div class="btn-group margin-top-10">
@@ -256,10 +254,10 @@ class PurchaseAssetsController extends Controller
                 'remaining_amount' => $data['remaining_amount'],
                 'note' => $data['note'],
                 'total_purchase_cost' => $request->total_purchase_cost,
-                'total_past_consumtion' =>0,
-                'user_id'=>auth()->id(),
-                'type'=>$request->type,
-                'operation_type'=>'purchase'
+                'total_past_consumtion' => 0,
+                'user_id' => auth()->id(),
+                'type' => $request->type,
+                'operation_type' => 'purchase'
             ];
             $invoice_data['branch_id'] = authIsSuperAdmin() ? $request['branch_id'] : auth()->user()->branch_id;
 
@@ -304,7 +302,7 @@ class PurchaseAssetsController extends Controller
     {
         $asset = PurchaseAsset::find( $request->id );
         $isOnlyShow = $request->show;
-        if ($isOnlyShow){
+        if ($isOnlyShow) {
             $invoice = view( 'admin.purchase-assets.onlyShow', compact( 'asset' ) )->render();
 
         } else {
@@ -316,6 +314,14 @@ class PurchaseAssetsController extends Controller
 
     public function edit(PurchaseAsset $purchaseAsset)
     {
+        foreach ($purchaseAsset->items as $item) {
+            if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists()
+                || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists()
+                || ConsumptionAssetItem::where( 'asset_id', $item->asset->id )->exists()) {
+                return redirect()->to( route( 'admin:purchase-assets.index' ) )
+                    ->with( ['message' => __( 'words.can-not-update-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
+            }
+        }
 
         $data['branches'] = Branch::where( 'status', 1 )->select( 'id', 'name_' . $this->lang )->get();
 
@@ -351,8 +357,8 @@ class PurchaseAssetsController extends Controller
                 'note' => $data['note'],
                 'total_purchase_cost' => $request->total_purchase_cost,
                 'total_past_consumtion' => 0,
-                'type'=>$request->type,
-                'operation_type'=>'purchase'
+                'type' => $request->type,
+                'operation_type' => 'purchase'
             ];
             $purchaseAsset->update( $invoice_data );
             $purchaseAsset->items()->delete();
@@ -391,9 +397,9 @@ class PurchaseAssetsController extends Controller
     public function destroy(PurchaseAsset $purchaseAsset)
     {
         foreach ($purchaseAsset->items as $item) {
-            if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists() || AssetExpenseItem::where('asset_id',$item->asset->id)->exists() || ConsumptionAssetItem::where('asset_id',$item->asset->id)->exists()) {
+            if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists() || AssetExpenseItem::where( 'asset_id', $item->asset->id )->exists() || ConsumptionAssetItem::where( 'asset_id', $item->asset->id )->exists()) {
                 return redirect()->to( route( 'admin:purchase-assets.index' ) )
-                    ->with( ['message' => __( 'words.Can not delete this purchase asset' ), 'alert-type' => 'error'] );
+                    ->with( ['message' => __( 'words.can-not-delete-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
             }
         }
         $purchaseAsset->delete();
@@ -412,9 +418,9 @@ class PurchaseAssetsController extends Controller
                 $purchaseAsset = PurchaseAsset::find( $invoiceId );
 
                 foreach ($purchaseAsset->items as $item) {
-                    if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists() || AssetExpenseItem::where('asset_id',$item->asset->id)->exists() || ConsumptionAssetItem::where('asset_id',$item->asset->id)->exists()) {
+                    if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists() || AssetExpenseItem::where( 'asset_id', $item->asset->id )->exists() || ConsumptionAssetItem::where( 'asset_id', $item->asset->id )->exists()) {
                         return redirect()->to( route( 'admin:purchase-assets.index' ) )
-                            ->with( ['message' => __( 'words.Can not delete this purchase asset' ), 'alert-type' => 'error'] );
+                            ->with( ['message' => __( 'words.can-not-delete-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
                     }
                 }
 
@@ -440,9 +446,9 @@ class PurchaseAssetsController extends Controller
         if (is_null( $request->branch_id ) && authIsSuperAdmin()) {
             return response()->json( __( 'please select valid branch' ), 400 );
         }
-        if (PurchaseAssetItem::where('asset_id',$request->asset_id)->whereHas('purchaseAsset',function ($q){
-            $q->where('operation_type','=','purchase');
-        })->count()){
+        if (PurchaseAssetItem::where( 'asset_id', $request->asset_id )->whereHas( 'purchaseAsset', function ($q) {
+            $q->where( 'operation_type', '=', 'purchase' );
+        } )->count()) {
             return response()->json( __( 'Purchase added before for this asset' ), 400 );
         }
         $index = $request['index'] + 1;
@@ -487,6 +493,7 @@ class PurchaseAssetsController extends Controller
             ] );
         }
     }
+
     public function getNumbersByBranchId(Request $request): JsonResponse
     {
         if (!empty( $request->branch_id )) {

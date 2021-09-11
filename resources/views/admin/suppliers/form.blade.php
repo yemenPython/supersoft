@@ -201,7 +201,7 @@
 
     <div class="">
         <div class="col-md-3">
-            <div class="col-md-6">
+            <div class="">
 
                     <label for="inputPhone" class="control-label">{{__('Supplier nature')}}</label>
                     <div class="radio primary">

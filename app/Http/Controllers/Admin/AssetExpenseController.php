@@ -215,7 +215,6 @@ class AssetExpenseController extends Controller
             return redirect()->to( 'admin/assets_expenses' )
                 ->with( ['message' => __( 'words.expense-item-created' ), 'alert-type' => 'success'] );
         } catch (Exception $exception) {
-            dd( $exception->getMessage() );
             $this->logErrors( $exception );
             return back()->with( ['message' => __( 'words.something-went-wrong' ), 'alert-type' => 'error'] );
         }
@@ -224,6 +223,18 @@ class AssetExpenseController extends Controller
     public function edit(Request $request, int $id)
     {
         $assetExpense = AssetExpense::findOrFail( $id );
+
+        foreach ($assetExpense->assetExpensesItems as $item) {
+
+            if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists()
+                || ConsumptionAssetItemExpense::where( 'expense_id', $item->id )->exists()
+                || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists()) {
+                return redirect()->to( route( 'admin:assets_expenses.index' ) )
+                    ->with( ['message' => __( 'words.can-not-update-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
+            }
+
+        }
+
         $branch_id = $request->has( 'branch_id' ) ? $request['branch_id'] : $assetExpense->branch_id;
         $assetsGroups = AssetGroup::where( 'branch_id', $branch_id )->get();
         $assets = Asset::where( 'branch_id', $branch_id )->get();
@@ -289,9 +300,9 @@ class AssetExpenseController extends Controller
         foreach ($assetExpense->assetExpensesItems as $item) {
 
             if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || ConsumptionAssetItemExpense::where( 'expense_id', $item->id )->exists() || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists()) {
-                    return redirect()->to( route( 'admin:assets_expenses.index' ) )
-                        ->with( ['message' => __( 'words.can-not-delete-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
-                }
+                return redirect()->to( route( 'admin:assets_expenses.index' ) )
+                    ->with( ['message' => __( 'words.can-not-delete-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
+            }
 
         }
         $assetExpense->assetExpensesItems()->delete();
@@ -306,10 +317,10 @@ class AssetExpenseController extends Controller
             $assets = AssetExpense::whereIn( 'id', $request->ids )->get();
             foreach ($assets as $asset) {
                 foreach ($asset->assetExpensesItems as $item) {
-                        if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || ConsumptionAssetItemExpense::where( 'expense_id', $item->id )->exists() || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists()) {
-                            return redirect()->to( route( 'admin:assets_expenses.index' ) )
-                                ->with( ['message' => __( 'words.can-not-delete-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
-                        }
+                    if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || ConsumptionAssetItemExpense::where( 'expense_id', $item->id )->exists() || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists()) {
+                        return redirect()->to( route( 'admin:assets_expenses.index' ) )
+                            ->with( ['message' => __( 'words.can-not-delete-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
+                    }
                 }
 
                 $asset->assetExpensesItems()->delete();
