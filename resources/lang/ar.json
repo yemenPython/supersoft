@@ -2433,7 +2433,30 @@
     "Create Stop And Activate Asset" : "إضافة عملية",
     "Edit Stop And Activate Asset" : "تعديل البيانات",
 
-    "Create Locker receive" : "إنشاء إذن إستلام"
+    "Create Locker receive" : "إنشاء إذن إستلام",
+    "Deposit accounts and certificates" : "حسابات ودائع وشهادات",
+    "Current Accounts" : "حسابات جارية",
+    "Bank Account Type" : "نوع الحساب البنكى",
+    "Please Select valid bank account type" : "من فضلك أختر نوع حساب بنكى صالح",
+    "warning" : "تنبيه !!",
+    "sorry, please select branch first" : "من فضلك أختر الفرع أولا !",
+    "Current Account Type" : "نوع الحساب الجارى",
+    "credit current accounts" : "حسابات جارية دائنة ",
+    "debit current accounts" : " حسابات جارية مدينة",
+    "Credit Current Account Data" : "بيانات الحساب الجارية الدائنة",
+    "Account Name" : "اسم الحساب",
+    "Account Type" : "نوع الحساب",
+    "Account Open Date" : "تاريخ فتح الحساب",
+    "Interest Rate" : "معدل الفائدة",
+    "Customer Number" : "رقم العميل",
+    "With Returning" : "عائد",
+    "Without Returning" : "بدون عائد",
+    "Account Status" : "حالة الحساب",
+    "check books" : "دفاتر الشيكات",
+    "Overdraft" : "سحب على المكشوف",
+    "yes / no" : "نعم / لا",
+    "dddddddddddd" : "fffffff",
+    "dddddddddddd" : "fffffff"
 
 
 }

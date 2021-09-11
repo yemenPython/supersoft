@@ -1124,6 +1124,23 @@ ${element_html}
             },
         });
     }
+
+    function alertWithMsg(message) {
+        swal({
+            title: '{{__('warning')}}',
+            text: message,
+            icon: "warning",
+            reverseButtons: false,
+            buttons: {
+                cancel: {
+                    text: "{{ __('words.ok') }}",
+                    className: "btn btn-primary",
+                    value: null,
+                    visible: true
+                }
+            }
+        })
+    }
 </script>
 
 <script type="application/javascript" src="{{asset('js/dark_mode.js')}}"></script>
