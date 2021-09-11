@@ -180,14 +180,14 @@
             let ul_tree_id = targetElement.data('current-ul')
             let ul_tree = $("#" + ul_tree_id)
             if (ul_tree.css('display') === 'none') {
-                targetElement.removeClass('fa-plus')
-                targetElement.addClass('fa-minus')
+                targetElement.removeClass('fa-plus-square-o')
+                targetElement.addClass('fa-minus-square-o')
                 targetElement.siblings('span.folder-span').addClass('fa-folder-open')
                 targetElement.siblings('span.folder-span').removeClass('fa-folder')
                 ul_tree.show()
             } else {
-                targetElement.removeClass('fa-minus')
-                targetElement.addClass('fa-plus')
+                targetElement.removeClass('fa-minus-square-o')
+                targetElement.addClass('fa-plus-square-o')
                 targetElement.siblings('span.folder-span').removeClass('fa-folder-open')
                 targetElement.siblings('span.folder-span').addClass('fa-folder')
                 ul_tree.hide()
