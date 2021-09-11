@@ -246,6 +246,9 @@ class StopAndActivateAssetsController extends Controller
             $assets->where('status','=','stop');
         }
         $assets = $assets->get();
+        if (!count($assets)){
+            $assets = Asset::where('id',$stopAndActivateAsset->asset_id)->get();
+        }
         return view('admin.stop_and_activate_assets.edit', compact('data', 'stop_and_activate_assets', 'assets', 'assetsGroups','status'));
     }
 
