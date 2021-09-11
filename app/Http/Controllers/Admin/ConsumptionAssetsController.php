@@ -335,6 +335,13 @@ class ConsumptionAssetsController extends Controller
 
     public function edit(ConsumptionAsset $consumptionAsset)
     {
+        foreach ($consumptionAsset->items as $item) {
+            if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists()
+                || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists()) {
+                return redirect()->to( route( 'admin:consumption-assets.index' ) )
+                    ->with( ['message' => __( 'words.can-not-update-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
+            }
+        }
         $data['branches'] = Branch::where( 'status', 1 )->select( 'id', 'name_' . $this->lang )->get();
         $branch_id = $consumptionAsset->branch_id;
         $assetsGroups = AssetGroup::where( 'branch_id', $branch_id )->get();
@@ -483,7 +490,7 @@ class ConsumptionAssetsController extends Controller
         foreach ($consumptionAsset->items as $item) {
             if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists()) {
                 return redirect()->to( route( 'admin:consumption-assets.index' ) )
-                    ->with( ['message' => __( 'words.Can not delete this consumption asset' ), 'alert-type' => 'error'] );
+                    ->with( ['message' => __( 'words.can-not-delete-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
             }
         }
         DB::beginTransaction();
@@ -509,8 +516,8 @@ class ConsumptionAssetsController extends Controller
             $consumptionAsset->items()->delete();
             $consumptionAsset->delete();
             DB::commit();
-            $asd = Asset::whereIn( 'id',array_unique($assets))->get();
-            foreach ($asd as $value){
+            $asd = Asset::whereIn( 'id', array_unique( $assets ) )->get();
+            foreach ($asd as $value) {
                 $book_value = $value->purchase_cost + $value->total_replacements - $value->total_current_consumtion - $value->past_consumtion;
                 $value->update( ['book_value' => $book_value] );
             }
@@ -535,7 +542,7 @@ class ConsumptionAssetsController extends Controller
                 foreach ($consumptionAsset->items as $item) {
                     if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists()) {
                         return redirect()->to( route( 'admin:consumption-assets.index' ) )
-                            ->with( ['message' => __( 'words.Can not delete this consumption asset' ), 'alert-type' => 'error'] );
+                            ->with( ['message' => __( 'words.can-not-delete-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
                     }
                 }
                 DB::beginTransaction();
@@ -561,11 +568,11 @@ class ConsumptionAssetsController extends Controller
                     $consumptionAsset->items()->delete();
                     $consumptionAsset->delete();
                     DB::commit();
-                   $asd = Asset::whereIn( 'id',array_unique($assets))->get();
-                   foreach ($asd as $value){
-                       $book_value = $value->purchase_cost + $value->total_replacements - $value->total_current_consumtion - $value->past_consumtion;
+                    $asd = Asset::whereIn( 'id', array_unique( $assets ) )->get();
+                    foreach ($asd as $value) {
+                        $book_value = $value->purchase_cost + $value->total_replacements - $value->total_current_consumtion - $value->past_consumtion;
                         $value->update( ['book_value' => $book_value] );
-                   }
+                    }
 
                 } catch (Exception $e) {
                     DB::rollBack();
@@ -619,7 +626,7 @@ class ConsumptionAssetsController extends Controller
                         ->orWhereBetween( 'consumption_assets.date_from', array($request->date_from, $request->date_to) );
                 } )
                 ->where( 'consumption_asset_items.asset_id', $request->asset_id )
-                ->where( 'consumption_asset_items.consumption_amount', '>',0 )
+                ->where( 'consumption_asset_items.consumption_amount', '>', 0 )
                 ->count( 'consumption_assets.id' );
 
             if ($consumption_asset && $request->type != 'update') {
@@ -701,9 +708,11 @@ class ConsumptionAssetsController extends Controller
             ] );
         }
     }
-    public function expenseTotal(Request $request){
+
+    public function expenseTotal(Request $request)
+    {
         $expenses_total = 0;
-        if (!empty( $request->asset_id)) {
+        if (!empty( $request->asset_id )) {
             $asset = Asset::with( 'group' )->find( $request->asset_id );
             foreach ($asset->expenses()->whereHas( 'assetExpense', function ($q) {
                 $q->where( 'status', '=', 'accept' );
@@ -730,7 +739,7 @@ class ConsumptionAssetsController extends Controller
                 $expenses_total += number_format( $value, 2 );
             }
         }
-        $index = $request['index'] ;
+        $index = $request['index'];
         return response()->json( [
             'expenses_total' => $expenses_total,
             'index' => $index,

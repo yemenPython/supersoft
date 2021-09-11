@@ -325,6 +325,15 @@ class OpeningBalanceAssetsController extends Controller
 
     public function edit(PurchaseAsset $openingBalanceAsset)
     {
+        foreach ($openingBalanceAsset->items as $item) {
+            if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists()
+                || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists()
+                || AssetExpenseItem::where( 'asset_id', $item->asset->id )->exists()
+                || ConsumptionAssetItem::where( 'asset_id', $item->asset->id )->exists()) {
+                return redirect()->to( route( 'admin:opening-balance-assets.index' ) )
+                    ->with( ['message' => __( 'words.can-not-update-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
+            }
+        }
         $data['branches'] = Branch::where( 'status', 1 )->select( 'id', 'name_' . $this->lang )->get();
 
         $branch_id = $openingBalanceAsset->branch_id;
@@ -408,7 +417,7 @@ class OpeningBalanceAssetsController extends Controller
         foreach ($openingBalanceAsset->items as $item) {
             if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists() || AssetExpenseItem::where( 'asset_id', $item->asset->id )->exists() || ConsumptionAssetItem::where( 'asset_id', $item->asset->id )->exists()) {
                 return redirect()->to( route( 'admin:opening-balance-assets.index' ) )
-                    ->with( ['message' => __( 'words.Can not delete this opening balance asset' ), 'alert-type' => 'error'] );
+                    ->with( ['message' => __( 'words.can-not-delete-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
             }
         }
         DB::beginTransaction();
@@ -446,7 +455,7 @@ class OpeningBalanceAssetsController extends Controller
                 foreach ($openingBalanceAsset->items as $item) {
                     if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists() || AssetExpenseItem::where( 'asset_id', $item->asset->id )->exists() || ConsumptionAssetItem::where( 'asset_id', $item->asset->id )->exists()) {
                         return redirect()->to( route( 'admin:opening-balance-assets.index' ) )
-                            ->with( ['message' => __( 'words.Can not delete this opening balance asset' ), 'alert-type' => 'error'] );
+                            ->with( ['message' => __( 'words.can-not-delete-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
                     }
                 }
                 DB::beginTransaction();
