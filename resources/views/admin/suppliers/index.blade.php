@@ -312,7 +312,7 @@
                                                                  ])
                                                     @endcomponent
                                                 </li>
-                                                <li class="btn-style-drop">
+                                                <li class="btn-style-drop" style="margin-bottom:5px">
                                                     <a data-toggle="modal" data-target="#boostrapModal-2"
                                                        onclick="getLibrarySupplierId('{{$supplier->id}}')"
                                                        title="Supplier Library" class="btn btn-warning">
@@ -320,14 +320,14 @@
                                                     </a>
                                                 </li>
 
-                                                <li>
+                                                <li class="btn-style-drop">
                                                     <a class="btn btn-wg-show hvr-radial-out" target="_blank"
                                                        href="{{route('admin:suppliers_contacts.index', ['supplier' => $supplier->id])}}" >
                                                         <i class="fa fa-eye"></i> {{ __( 'Supplier Contacts' )}}</a>
 
                                                 </li>
 
-                                                <li>
+                                                <li class="btn-style-drop">
                                                     <a class="btn btn-wg-show hvr-radial-out" target="_blank"
                                                        href="{{route('admin:suppliers_bank_account.index', ['supplier' => $supplier->id])}}" >
                                                         <i class="fa fa-eye"></i> {{ __( 'Bank Accounts' )}}</a>

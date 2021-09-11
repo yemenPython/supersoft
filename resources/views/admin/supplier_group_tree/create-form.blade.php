@@ -66,22 +66,22 @@
         </div>
 
         <div class="col-md-3">
-            <div class="col-md-6">
                 <div class="form-group has-feedback">
                     <label for="inputPhone" class="control-label">{{__('Discount Type')}}</label>
-                    <div class="radio primary">
+                    <ul class="list-inline ul-float" style="text-align: justify">
+                    <li class="radio primary">
                         <input type="radio" id="switch-2" name="discount_type" value="amount">
                         <label for="switch-2">{{__('Amount')}}</label>
-                    </div>
+                    </li>
 
-                    <div class="radio primary">
+                    <li class="radio primary">
                         <input type="radio" id="switch-3" name="discount_type" value="percent">
                         <label for="switch-3">{{__('Percent')}}</label>
+                    </li>
                     </div>
                     {{input_error($errors,'discount_type')}}
                 </div>
                 
-            </div>
         </div>
 
 
