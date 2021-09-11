@@ -386,6 +386,7 @@
                 success: function (data) {
                     $("#expenses_total_" + data.index).val(data.expenses_total.toFixed(2));
                     $("#expenses_total_hidden_" + data.index).val(data.expenses_total.toFixed(2));
+                    totalAll(data.index);
                 },
                 error: function (jqXhr, json, errorThrown) {
                     var errors = jqXhr.responseJSON;
@@ -394,7 +395,7 @@
             });
 
             consumptionAmount(index);
-            totalAll(index);
+
         });
         $('#date_from').on('change', function () {
             if (!checkBranchValidation()) {
@@ -418,6 +419,7 @@
                 success: function (data) {
                     $("#expenses_total_" + data.index).val(data.expenses_total.toFixed(2));
                     $("#expenses_total_hidden_" + data.index).val(data.expenses_total.toFixed(2));
+                    totalAll(data.index);
                 },
                 error: function (jqXhr, json, errorThrown) {
                     var errors = jqXhr.responseJSON;
@@ -427,7 +429,6 @@
 
 
             consumptionAmount(index);
-            totalAll(index);
         });
 
         function consumptionAmount(index) {
