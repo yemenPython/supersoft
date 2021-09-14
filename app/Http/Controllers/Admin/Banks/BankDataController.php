@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Banks;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BankDataRequest;
 use App\Models\Banks\BankData;
+use App\Models\Banks\BranchProduct;
 use App\Traits\LoggerError;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -224,5 +225,18 @@ class BankDataController extends Controller
             $items = $items->where('status', '0');
         }
         return $items;
+    }
+
+    public function getProductsByBank(Request $request)
+    {
+        $products = BranchProduct::all();
+        if ($request->filled('bank_data_id')) {
+            $products = BankData::with('products')->findOrFail($request->bank_data_id)->products;
+        }
+       return response()->json([
+          'data' => view('admin.banks.banks_accounts.ajax.options-products', [
+              'products' => $products
+          ]) ->render()
+       ]);
     }
 }

@@ -1,6 +1,4 @@
-<option value="{{ $child->id }}"
-    class="{{ isset($className) ? $className : '' }}"
-    {{isset($supplier) &&
-in_array($child->id, $supplier->main_groups_id->pluck('id')->toArray()) ? 'selected':''}}>
-    {{ isset($counter) ? $counter.' .' : ''  }} {{ $child->name_ar }}
+<option value="{{ $child->id }}" data-mainType="{{$child->name}}"
+{{isset($bankAccount) && $bankAccount->main_type_bank_account_id == $child->id ? 'selected' : ''}}>
+    {{ isset($counter) ? $counter.' .' : ''  }} {{ $child->name }}
 </option>

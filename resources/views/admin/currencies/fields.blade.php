@@ -76,7 +76,6 @@
                         <label for="checkbox-1">{{__('Active')}}</label>
                     </div>
                 </div>
-                <span class="text-from text-danger">{{__('if you detected this currency to be main currency other currency will be not main')}}</span>
             </div>
             <div class="col-md-6">
                 <div class="form-group has-feedback">
@@ -89,6 +88,12 @@
                                placeholder="{{__('Conversion Factor')}}">
                     </div>
                 </div>
+            </div>
+            <div class="col-md-12">
+            <span class="text-from div-if-condition">
+            <i class="fa fa-bell"></i>    
+            {{__('if you detected this currency to be main currency other currency will be not main')}}</span>
+
             </div>
         @endif
 

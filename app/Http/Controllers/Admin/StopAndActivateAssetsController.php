@@ -43,10 +43,7 @@ class StopAndActivateAssetsController extends Controller
     public function index(Request $request)
     {
         if ($request->isDataTable) {
-            $StopAndActivateAsset = StopAndActivateAsset::with(['asset'=>function($query){
-                $query->select(['id','name_ar','name_en','status']);
-            }]);
-            $select = [
+            $StopAndActivateAsset = StopAndActivateAsset::select( [
                 'stop_activate_assets.id',
                 'stop_activate_assets.branch_id',
                 'stop_activate_assets.date',
@@ -55,8 +52,10 @@ class StopAndActivateAssetsController extends Controller
                 'stop_activate_assets.status',
                 'stop_activate_assets.created_at',
                 'stop_activate_assets.updated_at'
+            ])->with(['asset'=>function($query){
+                $query->select(['id','name_ar','name_en','status']);
+            }]);
 
-            ];
             if ($request->has('branch_id') && !empty($request['branch_id']))
                 $StopAndActivateAsset->where('stop_activate_assets.branch_id', $request['branch_id']);
             if ($request->has('asset_id') && !empty($request->asset_id))
@@ -69,10 +68,8 @@ class StopAndActivateAssetsController extends Controller
                     ->where( 'stop_activate_assets.status', 'stop' )
                     ->groupBy( 'stop_activate_assets.asset_id')
                     ->orderBy( 'stop_activate_assets.created_at','DESC' );
-                array_push($select,DB::raw('MAX(stop_activate_assets.id) AS mx'));
             }
 
-            $StopAndActivateAsset->select($select);
 
             whereBetween($StopAndActivateAsset, 'date', $request->date_from, $request->date_to);
             return DataTables::of($StopAndActivateAsset->orderBy( 'stop_activate_assets.id','DESC' ))
@@ -239,6 +236,18 @@ class StopAndActivateAssetsController extends Controller
 
     public function edit(StopAndActivateAsset $stopAndActivateAsset)
     {
+        $consumption =  ConsumptionAsset::where('date_to','>=',$stopAndActivateAsset->date)->whereHas('items',function ($query)use($stopAndActivateAsset){
+            $query->where('asset_id',$stopAndActivateAsset->asset_id);
+        })->where('created_at','>',$stopAndActivateAsset->created_at)->first();
+        if (!empty($consumption)
+            || AssetReplacementItem::where( 'asset_id', $stopAndActivateAsset->asset_id )->where('created_at','>',$stopAndActivateAsset->created_at)->exists()
+            || SaleAssetItem::where( 'asset_id', $stopAndActivateAsset->asset_id )->where('created_at','>',$stopAndActivateAsset->created_at)->exists()
+        ){
+            return redirect()->to( route( 'admin:stop_and_activate_assets.index' ) )
+                ->with( ['message' => __( 'words.can-not-delete-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
+        }
+
+
         $data['branches'] = Branch::where('status', 1)->select('id', 'name_' . $this->lang)->get();
         $branch_id = $stopAndActivateAsset->branch_id;
         $assetsGroups = AssetGroup::where('branch_id', $branch_id)->get();
@@ -249,6 +258,9 @@ class StopAndActivateAssetsController extends Controller
             $assets->where('status','=','stop');
         }
         $assets = $assets->get();
+        if (!count($assets)){
+            $assets = Asset::where('id',$stopAndActivateAsset->asset_id)->get();
+        }
         return view('admin.stop_and_activate_assets.edit', compact('data', 'stop_and_activate_assets', 'assets', 'assetsGroups','status'));
     }
 
@@ -282,18 +294,18 @@ class StopAndActivateAssetsController extends Controller
     public function destroy(StopAndActivateAsset $stopAndActivateAsset)
     {
         $status = $stopAndActivateAsset->status =='stop'?'activate':'stop';
-        $stopAndActivateAsset->status =='stop'? $stopAndActivateAsset->asset()->update(['status'=>$status,'asset_status'=>1]):$stopAndActivateAsset->asset()->update(['status'=>$status,'asset_status'=>4]);
         if ($stopAndActivateAsset->status =='stop' && StopAndActivateAsset::where('asset_id',$stopAndActivateAsset->asset_id)->latest()->first()->status =='activate'){
             return redirect()->to( route( 'admin:stop_and_activate_assets.index' ) )
-                ->with( ['message' => __( 'words.Can not delete this stop asset' ), 'alert-type' => 'error'] );
+                ->with( ['message' => __( 'words.can-not-delete-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
         }
        $consumption =  ConsumptionAsset::where('date_to','>=',$stopAndActivateAsset->date)->whereHas('items',function ($query)use($stopAndActivateAsset){
             $query->where('asset_id',$stopAndActivateAsset->asset_id);
         })->where('created_at','>',$stopAndActivateAsset->created_at)->first();
         if (!empty($consumption) || AssetReplacementItem::where( 'asset_id', $stopAndActivateAsset->asset_id )->where('created_at','>',$stopAndActivateAsset->created_at)->exists()){
             return redirect()->to( route( 'admin:stop_and_activate_assets.index' ) )
-                ->with( ['message' => __( 'words.Can not delete this stop asset' ), 'alert-type' => 'error'] );
+                ->with( ['message' => __( 'words.can-not-delete-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
         }
+        $stopAndActivateAsset->status =='stop'? $stopAndActivateAsset->asset()->update(['status'=>$status,'asset_status'=>1]):$stopAndActivateAsset->asset()->update(['status'=>$status,'asset_status'=>4]);
         $stopAndActivateAsset->delete();
         return redirect()->back()
             ->with(['message' => __('words.stop_and_activate_assets-deleted'), 'alert-type' => 'success']);
@@ -310,7 +322,7 @@ class StopAndActivateAssetsController extends Controller
                 $stopAndActivateAsset->status =='stop'? $stopAndActivateAsset->asset()->update(['status'=>$status,'asset_status'=>1]):$stopAndActivateAsset->asset()->update(['status'=>$status,'asset_status'=>4]);
                 if ($stopAndActivateAsset->status =='stop' && StopAndActivateAsset::where('asset_id',$stopAndActivateAsset->asset_id)->latest()->first()->status =='activate'){
                     return redirect()->to( route( 'admin:stop_and_activate_assets.index' ) )
-                        ->with( ['message' => __( 'words.Can not delete this stop asset' ), 'alert-type' => 'error'] );
+                        ->with( ['message' => __( 'words.can-not-delete-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
                 }
                 $consumption =  ConsumptionAsset::where('date_to','>=',$stopAndActivateAsset->date)->whereHas('items',function ($query)use($stopAndActivateAsset){
                     $query->where('asset_id',$stopAndActivateAsset->asset_id);
@@ -318,7 +330,7 @@ class StopAndActivateAssetsController extends Controller
 
                 if (!empty($consumption) || AssetReplacementItem::where( 'asset_id', $stopAndActivateAsset->asset_id )->exists()){
                     return redirect()->to( route( 'admin:stop_and_activate_assets.index' ) )
-                        ->with( ['message' => __( 'words.Can not delete this stop asset' ), 'alert-type' => 'error'] );
+                        ->with( ['message' => __( 'words.can-not-delete-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
                 }
                 $stopAndActivateAsset->delete();
             }

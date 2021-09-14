@@ -2486,6 +2486,32 @@ input[type="time"]
                                 left: auto !important;
                                 top: 0px !important;
                             }
+
+
+
+
+.div-if-condition
+{
+    background: #5A77B0;
+    margin-top:20px;
+    margin-bottom:20px;
+    color:white;
+    display: block;
+    width: fit-content;
+    padding-left:10px;
+    border-radius:5px
+}
+
+.div-if-condition i
+{
+    padding:15px;
+    margin-left:10px;
+    background:#2f5296;
+    color: white;
+    border-radius: 0 5px 5px 0
+}
+
+
                             /* أذونات البرنت */
                             
                             .print-border {
@@ -2773,6 +2799,8 @@ input[type="time"]
                                 left: 15px;
                             } */
                             /* أذونات البرنت */
+
+                            
                             /* New Tree View */
                             
                             .tree,

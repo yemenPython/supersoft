@@ -16,6 +16,11 @@ class TypeBankAccount extends Model
     /**
      * @var string
      */
+    protected static $viewPath = 'admin.banks.type_bank_accounts.';
+
+    /**
+     * @var string
+     */
     protected $table = 'type_bank_accounts';
 
     /**
@@ -50,5 +55,26 @@ class TypeBankAccount extends Model
     public function children(): HasMany
     {
         return $this->hasMany(TypeBankAccount::class, 'parent_id');
+    }
+
+    public static function getMainTypes(int $branch_id = NULL, BankAccount $bankAccount = null)
+    {
+        $htmlCode = "<option value=''>". __('words.select-one') ."</option>";
+        $startCounter = 1;
+        TypeBankAccount::where('status', 1)->select()
+            ->whereNull('parent_id')
+            ->when($branch_id ,function ($q) use ($branch_id) {
+                $q->where('branch_id' ,$branch_id);
+            })
+            ->get()
+            ->each(function ($type) use (&$htmlCode ,&$startCounter, $bankAccount) {
+                $htmlCode .= view(self::$viewPath . '.tree-option' , [
+                    'child' => $type,
+                    'counter' => $startCounter,
+                    'bankAccount' => $bankAccount,
+                ])->render();
+                $startCounter++;
+            });
+        return $htmlCode;
     }
 }

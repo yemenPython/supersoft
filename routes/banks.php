@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 Route::namespace('Banks')
     ->prefix('banks')
     ->name('banks.')->group(function () {
+        Route::get('bank_data/products', 'BankDataController@getProductsByBank')->name('bank_data.getProductsByBank');
         Route::post('bank_data/assign_products', 'BankDataController@assignProducts')->name('bank_data.assign_products');
         Route::get('bank_data/start_dealing/{id}', 'BankDataController@StartDealing')->name('bank_data.StartDealing');
         Route::post('bank_data/deleteSelected', 'BankDataController@deleteSelected')->name('bank_data.deleteSelected');
@@ -34,4 +35,6 @@ Route::namespace('Banks')
 
         Route::get('type_bank_accounts/delete/{id}', 'TypeBankAccountController@delete')->name('type_bank_accounts.delete');
         Route::resource('type_bank_accounts', 'TypeBankAccountController');
+        Route::get('banks_accounts/get_credit_current_account_form', 'BankAccountController@getCreditForm')->name('banks_accounts.getCreditForm');
+        Route::resource('banks_accounts', 'BankAccountController');
     });

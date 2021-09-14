@@ -10,23 +10,13 @@ class AddDefaultDataToTypesBanksAccountForAllBranches extends Migration
     {
         $branches = Branch::all();
         foreach ($branches as $branch) {
-            TypeBankAccount::create([
+            $typeBankAccount = TypeBankAccount::create([
                 'branch_id' => $branch->id,
                 'name_ar' => 'حسابات جارية',
                 'name_en' => 'حسابات جارية',
                 'parent_id' => null,
                 'status' => 1,
             ]);
-        }
-        foreach ($branches as $branch) {
-            $typeBankAccount = TypeBankAccount::create([
-                'branch_id' => $branch->id,
-                'name_ar' => 'حسابات ودائع وشهادات',
-                'name_en' => 'حسابات ودائع وشهادات',
-                'parent_id' => null,
-                'status' => 1,
-            ]);
-
             $children = [
                 'child1' => [
                     'branch_id' => $branch->id,
@@ -46,6 +36,15 @@ class AddDefaultDataToTypesBanksAccountForAllBranches extends Migration
             foreach ($children as $child) {
                 TypeBankAccount::create($child);
             }
+        }
+        foreach ($branches as $branch) {
+            TypeBankAccount::create([
+                'branch_id' => $branch->id,
+                'name_ar' => 'حسابات ودائع وشهادات',
+                'name_en' => 'حسابات ودائع وشهادات',
+                'parent_id' => null,
+                'status' => 1,
+            ]);
         }
     }
 

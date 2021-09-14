@@ -255,10 +255,10 @@ class ConsumptionAssetsController extends Controller
                     $value = $asd * ($diff_in_days / 30);
                     $consumption_amount = number_format( $value, 2 );
 
-                    $asset->increment( 'total_current_consumtion' , $value);
-                    $asset->increment( 'current_consumtion' , $value);
-                    $book_value = $asset->purchase_cost + $asset->total_replacements - $asset->total_current_consumtion;
-                    $asset->update(['book_value' => $book_value]);
+                    $asset->increment( 'total_current_consumtion', $value );
+                    $asset->increment( 'current_consumtion', $value );
+                    $book_value = $asset->purchase_cost + $asset->total_replacements - $asset->total_current_consumtion - $asset->past_consumtion;
+                    $asset->update( ['book_value' => $book_value] );
                     $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
                     $assetGroup->increment( 'total_consumtion', $consumption_amount );
                 }
@@ -296,10 +296,10 @@ class ConsumptionAssetsController extends Controller
                             ]
                         );
 
-                        $asset->increment( 'total_current_consumtion' , $value);
-                        $asset->increment( 'current_consumtion' , $value);
-                        $book_value = $asset->purchase_cost + $asset->total_replacements - $asset->total_current_consumtion;
-                        $asset->update(['book_value' => $book_value]);
+                        $asset->increment( 'total_current_consumtion', $value );
+                        $asset->increment( 'current_consumtion', $value );
+                        $book_value = $asset->purchase_cost + $asset->total_replacements - $asset->total_current_consumtion - $asset->past_consumtion;
+                        $asset->update( ['book_value' => $book_value] );
                         $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
                         $assetGroup->increment( 'total_consumtion', $value );
                     }
@@ -335,6 +335,13 @@ class ConsumptionAssetsController extends Controller
 
     public function edit(ConsumptionAsset $consumptionAsset)
     {
+        foreach ($consumptionAsset->items as $item) {
+            if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists()
+                || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists()) {
+                return redirect()->to( route( 'admin:consumption-assets.index' ) )
+                    ->with( ['message' => __( 'words.can-not-update-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
+            }
+        }
         $data['branches'] = Branch::where( 'status', 1 )->select( 'id', 'name_' . $this->lang )->get();
         $branch_id = $consumptionAsset->branch_id;
         $assetsGroups = AssetGroup::where( 'branch_id', $branch_id )->get();
@@ -373,10 +380,10 @@ class ConsumptionAssetsController extends Controller
             foreach ($consumptionAsset->items as $one) {
                 // decrement old values
                 $asset = Asset::find( $one->asset_id );
-                $asset->decrement( 'total_current_consumtion' , $one->consumption_amount);
-                $asset->decrement( 'current_consumtion' , $one->consumption_amount);
-                $book_value = $asset->purchase_cost + $asset->total_replacements - $asset->total_current_consumtion;
-                $asset->update(['book_value' => $book_value]);
+                $asset->decrement( 'total_current_consumtion', $one->consumption_amount );
+                $asset->decrement( 'current_consumtion', $one->consumption_amount );
+                $book_value = $asset->purchase_cost + $asset->total_replacements - $asset->total_current_consumtion - $asset->past_consumtion;
+                $asset->update( ['book_value' => $book_value] );
                 $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
                 $assetGroup->decrement( 'total_consumtion', $one->consumption_amount );
                 if ($one->consumptionAssetItemExpenses) {
@@ -384,8 +391,6 @@ class ConsumptionAssetsController extends Controller
                         $asset = Asset::find( $itemExpens->asset_id );
                         $asset->decrement( 'total_current_consumtion', $itemExpens->consumption_amount );
                         $asset->decrement( 'current_consumtion', $itemExpens->consumption_amount );
-                        $book_value = $asset->purchase_cost + $asset->total_replacements - $asset->total_current_consumtion;
-                        $asset->update(['book_value' => $book_value]);
                         $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
                         $assetGroup->decrement( 'total_consumtion', $itemExpens->consumption_amount );
                     }
@@ -412,10 +417,10 @@ class ConsumptionAssetsController extends Controller
                     $value = $asd * ($diff_in_days / 30);
                     $consumption_amount = number_format( $value, 2 );
 
-                    $asset->increment( 'total_current_consumtion' , $value);
-                    $asset->increment( 'current_consumtion' , $value);
-                    $book_value = $asset->purchase_cost + $asset->total_replacements - $asset->total_current_consumtion;
-                    $asset->update(['book_value' => $book_value]);
+                    $asset->increment( 'total_current_consumtion', $value );
+                    $asset->increment( 'current_consumtion', $value );
+                    $book_value = $asset->purchase_cost + $asset->total_replacements - $asset->total_current_consumtion - $asset->past_consumtion;
+                    $asset->update( ['book_value' => $book_value] );
                     $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
                     $assetGroup->increment( 'total_consumtion', $consumption_amount );
                 }
@@ -457,10 +462,10 @@ class ConsumptionAssetsController extends Controller
                                 'expense_id' => $expens->id
                             ]
                         );
-                        $asset->increment( 'total_current_consumtion' , $value);
-                        $asset->increment( 'current_consumtion' , $value);
-                        $book_value = $asset->purchase_cost + $asset->total_replacements - $asset->total_current_consumtion;
-                        $asset->update(['book_value' => $book_value]);
+                        $asset->increment( 'total_current_consumtion', $value );
+                        $asset->increment( 'current_consumtion', $value );
+                        $book_value = $asset->purchase_cost + $asset->total_replacements - $asset->total_current_consumtion - $asset->past_consumtion;
+                        $asset->update( ['book_value' => $book_value] );
                         $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
                         $assetGroup->increment( 'total_consumtion', $value );
                     }
@@ -485,30 +490,43 @@ class ConsumptionAssetsController extends Controller
         foreach ($consumptionAsset->items as $item) {
             if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists()) {
                 return redirect()->to( route( 'admin:consumption-assets.index' ) )
-                    ->with( ['message' => __( 'words.Can not delete this consumption asset' ), 'alert-type' => 'error'] );
+                    ->with( ['message' => __( 'words.can-not-delete-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
             }
         }
-        foreach ($consumptionAsset->items as $item) {
-            $item->asset->group()->decrement( 'total_consumtion', $item->consumption_amount );
-            $item->asset()->decrement( 'total_current_consumtion', $item->consumption_amount );
-            $item->asset()->decrement( 'current_consumtion', $item->consumption_amount );
-        }
-        foreach ($consumptionAsset->items as $one) {
-            if ($one->consumptionAssetItemExpenses) {
-                foreach ($one->consumptionAssetItemExpenses as $itemExpens) {
-                    $asset = Asset::find( $itemExpens->asset_id );
-                    $asset->decrement( 'total_current_consumtion', $itemExpens->consumption_amount );
-                    $asset->decrement( 'current_consumtion', $itemExpens->consumption_amount );
-                    $book_value = $asset->purchase_cost + $asset->total_replacements - $asset->total_current_consumtion;
-                    $asset->update(['book_value' => $book_value]);
-                    $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
-                    $assetGroup->decrement( 'total_consumtion', $itemExpens->consumption_amount );
+        DB::beginTransaction();
+        try {
+            foreach ($consumptionAsset->items as $item) {
+                if ($item->consumptionAssetItemExpenses) {
+                    foreach ($item->consumptionAssetItemExpenses as $itemExpens) {
+                        $asset = Asset::find( $itemExpens->asset_id );
+                        $assets[] = $itemExpens->asset_id;
+                        $asset->decrement( 'total_current_consumtion', $itemExpens->consumption_amount );
+                        $asset->decrement( 'current_consumtion', $itemExpens->consumption_amount );
+                        $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
+                        $assetGroup->decrement( 'total_consumtion', $itemExpens->consumption_amount );
+                    }
+                    $item->consumptionAssetItemExpenses()->delete();
                 }
-                $one->consumptionAssetItemExpenses()->delete();
+                $item->asset->group()->decrement( 'total_consumtion', $item->consumption_amount );
+                $item->asset()->decrement( 'total_current_consumtion', $item->consumption_amount );
+                $item->asset()->decrement( 'current_consumtion', $item->consumption_amount );
+                $assets[] = $item->asset->id;
+
             }
+            $consumptionAsset->items()->delete();
+            $consumptionAsset->delete();
+            DB::commit();
+            $asd = Asset::whereIn( 'id', array_unique( $assets ) )->get();
+            foreach ($asd as $value) {
+                $book_value = $value->purchase_cost + $value->total_replacements - $value->total_current_consumtion - $value->past_consumtion;
+                $value->update( ['book_value' => $book_value] );
+            }
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->to( route( 'admin:consumption-assets.index' ) )
+                ->with( ['message' => __( $e->getMessage() ), 'alert-type' => 'error'] );
         }
-        $consumptionAsset->items()->delete();
-        $consumptionAsset->delete();
         return redirect()->back()
             ->with( ['message' => __( 'words.consumption-asset-deleted' ), 'alert-type' => 'success'] );
     }
@@ -516,7 +534,7 @@ class ConsumptionAssetsController extends Controller
     public function deleteSelected(Request $request)
     {
         if (isset( $request->ids )) {
-
+            $assets = [];
             foreach (array_unique( $request->ids ) as $invoiceId) {
 
                 $consumptionAsset = ConsumptionAsset::find( $invoiceId );
@@ -524,34 +542,43 @@ class ConsumptionAssetsController extends Controller
                 foreach ($consumptionAsset->items as $item) {
                     if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists() || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists()) {
                         return redirect()->to( route( 'admin:consumption-assets.index' ) )
-                            ->with( ['message' => __( 'words.Can not delete this consumption asset' ), 'alert-type' => 'error'] );
+                            ->with( ['message' => __( 'words.can-not-delete-this-data-cause-there-is-related-data' ), 'alert-type' => 'error'] );
                     }
                 }
-
-                foreach ($consumptionAsset->items as $one) {
-                    if ($one->consumptionAssetItemExpenses) {
-                        foreach ($one->consumptionAssetItemExpenses as $itemExpens) {
-                            $asset = Asset::find( $itemExpens->asset_id );
-                            $asset->decrement( 'total_current_consumtion', $itemExpens->consumption_amount );
-                            $asset->decrement( 'current_consumtion', $itemExpens->consumption_amount );
-                            $book_value = $asset->purchase_cost + $asset->total_replacements - $asset->total_current_consumtion;
-                            $asset->update(['book_value' => $book_value]);
-                            $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
-                            $assetGroup->decrement( 'total_consumtion', $itemExpens->consumption_amount );
+                DB::beginTransaction();
+                try {
+                    foreach ($consumptionAsset->items as $item) {
+                        if ($item->consumptionAssetItemExpenses) {
+                            foreach ($item->consumptionAssetItemExpenses as $itemExpens) {
+                                $asset = Asset::find( $itemExpens->asset_id );
+                                $assets[] = $itemExpens->asset_id;
+                                $asset->decrement( 'total_current_consumtion', $itemExpens->consumption_amount );
+                                $asset->decrement( 'current_consumtion', $itemExpens->consumption_amount );
+                                $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
+                                $assetGroup->decrement( 'total_consumtion', $itemExpens->consumption_amount );
+                            }
+                            $item->consumptionAssetItemExpenses()->delete();
                         }
-                        $one->consumptionAssetItemExpenses()->delete();
+                        $item->asset->group()->decrement( 'total_consumtion', $item->consumption_amount );
+                        $item->asset()->decrement( 'total_current_consumtion', $item->consumption_amount );
+                        $item->asset()->decrement( 'current_consumtion', $item->consumption_amount );
+                        $assets[] = $item->asset->id;
+
+                    }
+                    $consumptionAsset->items()->delete();
+                    $consumptionAsset->delete();
+                    DB::commit();
+                    $asd = Asset::whereIn( 'id', array_unique( $assets ) )->get();
+                    foreach ($asd as $value) {
+                        $book_value = $value->purchase_cost + $value->total_replacements - $value->total_current_consumtion - $value->past_consumtion;
+                        $value->update( ['book_value' => $book_value] );
                     }
 
+                } catch (Exception $e) {
+                    DB::rollBack();
+                    return redirect()->to( route( 'admin:consumption-assets.index' ) )
+                        ->with( ['message' => __( $e->getMessage() ), 'alert-type' => 'error'] );
                 }
-                foreach ($consumptionAsset->items as $item) {
-                    $item->asset->group()->decrement( 'total_consumtion', $item->consumption_amount );
-                    $item->asset()->decrement( 'total_current_consumtion', $item->consumption_amount );
-                    $item->asset()->decrement( 'current_consumtion', $item->consumption_amount );
-                }
-
-                $consumptionAsset->delete();
-                $consumptionAsset->items()->delete();
-
             }
 
             return redirect()->back()
@@ -592,15 +619,32 @@ class ConsumptionAssetsController extends Controller
         if ($datew->gt( $datef )) {
             return response()->json( __( 'can not choice date to consumption before  date of work' ), 400 );
         }
-        $consumption_asset = ConsumptionAsset::join( 'consumption_asset_items', 'consumption_assets.id', '=', 'consumption_asset_items.consumption_asset_id' )
-            ->where( function ($q) use ($request) {
-                $q->whereBetween( 'consumption_assets.date_to', array($request->date_to, $request->date_from) )
-                    ->orWhereBetween( 'consumption_assets.date_from', array($request->date_from, $request->date_to) );
-            } )
-            ->where( 'consumption_asset_items.asset_id', $request->asset_id )
-            ->count( 'consumption_assets.id' );
-        if ($consumption_asset && $request->type != 'update') {
-            return response()->json( __( 'can not create consumption for asset in same dates more than once' ), 400 );
+        if ($request->type != 'expenses') {
+            $consumption_asset = ConsumptionAsset::join( 'consumption_asset_items', 'consumption_assets.id', '=', 'consumption_asset_items.consumption_asset_id' )
+                ->where( function ($q) use ($request) {
+                    $q->whereBetween( 'consumption_assets.date_to', array($request->date_to, $request->date_from) )
+                        ->orWhereBetween( 'consumption_assets.date_from', array($request->date_from, $request->date_to) );
+                } )
+                ->where( 'consumption_asset_items.asset_id', $request->asset_id )
+                ->where( 'consumption_asset_items.consumption_amount', '>', 0 )
+                ->count( 'consumption_assets.id' );
+
+            if ($consumption_asset && $request->type != 'update') {
+                return response()->json( __( 'can not create consumption for asset in same dates more than once' ), 400 );
+            }
+        } else {
+            $consumption_asset = ConsumptionAsset::join( 'consumption_asset_items', 'consumption_assets.id', '=', 'consumption_asset_items.consumption_asset_id' )
+                ->join( 'consumption_asset_item_expenses', 'consumption_asset_items.id', '=', 'consumption_asset_item_expenses.consumption_asset_item_id' )
+                ->where( function ($q) use ($request) {
+                    $q->whereBetween( 'consumption_assets.date_to', array($request->date_to, $request->date_from) )
+                        ->orWhereBetween( 'consumption_assets.date_from', array($request->date_from, $request->date_to) )
+                        ->orWhereBetween( 'consumption_assets.date_to', array($request->date_from, $request->date_to) );
+                } )
+                ->where( 'consumption_asset_item_expenses.asset_id', $request->asset_id )
+                ->count();
+            if ($consumption_asset && $request->type != 'update') {
+                return response()->json( __( 'can not create consumption for expense in same dates more than once' ), 400 );
+            }
         }
 
         $expenses_total = 0;
@@ -663,5 +707,42 @@ class ConsumptionAssetsController extends Controller
                 'data' => $numbers_data,
             ] );
         }
+    }
+
+    public function expenseTotal(Request $request)
+    {
+        $expenses_total = 0;
+        if (!empty( $request->asset_id )) {
+            $asset = Asset::with( 'group' )->find( $request->asset_id );
+            foreach ($asset->expenses()->whereHas( 'assetExpense', function ($q) {
+                $q->where( 'status', '=', 'accept' );
+            } )->get() as $expens) {
+
+                $to = Carbon::createFromFormat( 'Y-m-d', $request->date_to );
+                $from = Carbon::createFromFormat( 'Y-m-d', $request->date_from );
+
+                $diff = 0;
+                $stop_date = StopAndActivateAsset::where( 'asset_id', $asset->id )->where( 'status', '=', 'stop' )->latest()->exists() ? StopAndActivateAsset::where( 'asset_id', $asset->id )->where( 'status', '=', 'stop' )->latest()->first()->date : '';
+                $activate_date = StopAndActivateAsset::where( 'asset_id', $asset->id )->where( 'status', '=', 'activate' )->latest()->exists() ? StopAndActivateAsset::where( 'asset_id', $asset->id )->where( 'status', '=', 'activate' )->latest()->first()->date : '';
+                if (!empty( $stop_date ) && !empty( $activate_date )) {
+                    $activate_date = Carbon::createFromFormat( 'Y-m-d', $activate_date );
+                    $stop_date = Carbon::createFromFormat( 'Y-m-d', $stop_date );
+                    $diff = $activate_date->diffInDays( $stop_date );;
+                }
+                $diff_in_days = $to->diffInDays( $from );
+                $diff_in_days -= $diff;
+
+                $age = $expens->annual_consumtion_rate ? ($expens->price / $expens->annual_consumtion_rate) / 100 : 0;
+                $months = $age * 12;
+                $asd = $months ? $expens->price / $months : 0;
+                $value = $asd * ($diff_in_days / 30);
+                $expenses_total += number_format( $value, 2 );
+            }
+        }
+        $index = $request['index'];
+        return response()->json( [
+            'expenses_total' => $expenses_total,
+            'index' => $index,
+        ] );
     }
 }

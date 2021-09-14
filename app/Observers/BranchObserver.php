@@ -9,14 +9,14 @@ class BranchObserver
 {
     public function created(Branch $branch)
     {
-        TypeBankAccount::create([
+        $typeBankAccount = TypeBankAccount::create([
             'branch_id' => $branch->id,
             'name_ar' => 'حسابات جارية',
             'name_en' => 'حسابات جارية',
             'parent_id' => null,
             'status' => 1,
         ]);
-        $typeBankAccount = TypeBankAccount::create([
+          TypeBankAccount::create([
             'branch_id' => $branch->id,
             'name_ar' => 'حسابات ودائع وشهادات',
             'name_en' => 'حسابات ودائع وشهادات',

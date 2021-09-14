@@ -117,17 +117,17 @@
 
                         <li class="form-group col-md-8">
 
-                            <div class="radio primary col-md-2" style="margin-top: 37px;">
+                            <div class="radio primary col-md-4" style="margin-top: 37px;">
                                 <input type="radio" name="settlement_type" value="positive" id="positive"  {{ isset($_GET['settlement_type']) && $_GET['settlement_type'] == 'positive' ? 'checked' : '' }}>
                                 <label for="positive">{{__('Positive')}}</label>
                             </div>
 
-                            <div class="radio primary col-md-2" style="margin-top: 37px;margin-right: 118px;">
+                            <div class="radio primary col-md-4" style="margin-top: 37px;">
                                 <input type="radio" name="settlement_type" id="negative" value="negative"  {{ isset($_GET['settlement_type']) && $_GET['settlement_type'] == 'negative' ? 'checked' : '' }}>
                                 <label for="negative">{{__('Negative')}}</label>
                             </div>
 
-                            <div class="radio primary col-md-2" style="margin-top: 37px;margin-right: 118px;">
+                            <div class="radio primary col-md-4" style="margin-top: 37px;">
                                 <input type="radio" name="settlement_type" id="both" value="both"  {{ isset($_GET['settlement_type']) && $_GET['settlement_type'] == 'both' ? 'checked' : '' }}>
                                 <label for="both">{{__('All')}}</label>
                             </div>

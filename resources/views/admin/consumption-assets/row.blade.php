@@ -112,12 +112,23 @@
 
                     @endif
                 </ul>
-{{--                {{dd($update_item->consumptionAssetItemExpenses)}}--}}
                 <input style="width: 120px !important;  margin: 0 5px;" type="number" class="form-control border5 total_replacement_expenses"
                        id="expenses_total_{{$index}}"
                        value="{{isset($update_item) && $update_item->consumptionAssetItemExpenses->isNotEmpty()? $update_item->consumptionAssetItemExpenses->sum('consumption_amount') : 0 }}"
                        min="0" name="expenses[{{$index}}][total]" disabled>
             </div>
+        </td>
+
+
+
+        <td style="display: none" class="total_all">
+            <input type="text" readonly style="width: 100px !important;"
+                   class="total_all_{{$index}} border6 form-control valid total_all"
+                   onchange="totalAll('{{$index}}')"
+                   onkeyup="totalAll('{{$index}}')"
+
+            value="{{isset($update_item)?  $update_item->consumptionAssetItemExpenses->isNotEmpty()?$update_item->consumptionAssetItemExpenses->sum('consumption_amount')+$update_item->consumption_amount :$update_item->consumption_amount : 0 }}"
+            >
         </td>
 
     <td>

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Scopes\BranchScope;
+use App\Scopes\StopAnactivateAssetBranchScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -42,7 +43,7 @@ class StopAndActivateAsset extends Model
     protected static function boot()
     {
         parent::boot();
-        static::addGlobalScope( new BranchScope() );
+        static::addGlobalScope( new StopAnactivateAssetBranchScope() );
     }
 
 

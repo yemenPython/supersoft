@@ -523,6 +523,7 @@ route('admin:maintenance-detections.index'),
                 <li class="{{setActivationClass([
 route('admin:financial_management.type_revenue.index'),
 route('admin:financial_management.type_expenses.index'),
+route('admin:banks.banks_accounts.index'),
                      ])}}">
                     <a class="parent-item js__control" href="#">
                         <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
@@ -575,6 +576,12 @@ route('admin:financial_management.type_expenses.index'),
                             </a>
                         </li>
 
+                        <li class="{{setActivationClass(route('admin:banks.banks_accounts.index'))}}">
+                            <a href="{{route('admin:banks.banks_accounts.index')}}">
+                                {{__('Accounts')}}
+                            </a>
+                        </li>
+
                         <li class="{{setActivationClass(route('admin:lockers.index'))}}">
                             <a href="{{route('admin:lockers.index')}}">
                                 {{__('Lockers')}}
@@ -623,7 +630,7 @@ route('admin:lockers_opening_balance.index'),
                         <span class="menu-arrow fa fa-angle-down"></span>
                     </a>
                     <ul class="sub-menu js__content">
-                       
+
             <li class="{{setActivationClass(route('admin:accounts.index'))}}">
                             <a href="{{route('admin:accounts.index')}}">
                                 {{__('Accounts')}}
