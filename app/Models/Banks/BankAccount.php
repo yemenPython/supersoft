@@ -2,66 +2,60 @@
 
 namespace App\Models\Banks;
 
+use App\Models\Branch;
 use App\Scopes\BranchScope;
 use App\Traits\ColumnTranslation;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class BankAccount extends Model
 {
-    use ColumnTranslation;
-
     /**
      * @var string
      */
-    protected $table = 'bank_data';
+    protected $table = 'banks_accounts';
 
     /**
      * @var string[]
      */
     protected $fillable = [
-        'name_ar',
-        'name_en',
-        'short_name_ar',
-        'short_name_en',
-        'branch',
-        'code',
-        'swift_code',
-        'address',
-        'long',
-        'lat',
-        'phone',
-        'website',
-        'url',
-        'date',
-        'status',
-        'library_path',
         'branch_id',
-        'country_id',
-        'city_id',
-        'area_id',
-        'stop_date',
+        'bank_data_id',
+        'branch_product_id',
+        'currency_id',
+        'main_type_bank_account_id',
+        'sub_type_bank_account_id',
+        'bank_account_child_id',
+        'account_number',
+        'account_name',
+        'iban',
+        'customer_number',
+        'granted_limit',
+        'deposit_number',
+        'deposit_term',
+        'periodicity_return_disbursement',
+        'account_open_date',
+        'expiry_date',
+        'Last_renewal_date',
+        'deposit_opening_date',
+        'deposit_expiry_date',
+        'interest_rate',
+        'deposit_amount',
+        'type',
+        'yield_rate_type',
+        'auto_renewal',
+        'with_returning',
+        'status',
+        'check_books',
+        'overdraft',
     ];
 
     protected $casts = [
         'status' => 'boolean',
-    ];
-
-    public static $rules = [
-        'name_ar' => 'required|string|max:200',
-        'website' => 'nullable|string|url',
-        'url' => 'nullable|string|url',
-        'short_name_ar' => 'nullable|max:200|string',
-        'short_name_en' => 'nullable|max:200|string',
-        'branch' => 'nullable|max:200|string',
-        'code' => 'nullable|max:200|string',
-        'swift_code' => 'nullable|max:200|string',
-        'address' => 'nullable|max:200|string',
-        'long' => 'nullable|max:200|numeric',
-        'lat' => 'nullable|max:200|numeric',
-        'phone' => 'nullable|max:200|string',
-        'date' => 'required',
-        'status' => 'in:1,0',
-        'branch_id' => 'required|exists:branches,id',
+        'auto_renewal' => 'boolean',
+        'with_returning' => 'boolean',
+        'check_books' => 'boolean',
+        'overdraft' => 'boolean',
     ];
 
     /**
@@ -69,13 +63,11 @@ class BankAccount extends Model
      */
     protected static $dataTableColumns = [
         'DT_RowIndex' => 'DT_RowIndex',
-        'name' => 'name',
-        'branch' => 'branch',
-        'code' => 'code',
-        'swift_code' => 'swift_code',
-        'date' => 'date',
-        'stop_date' => 'stop_date',
-        'status' => 'status',
+        'branch_id' => 'branch_id',
+        'type_bank_account' => 'type_bank_account',
+        'bank_name' => 'bank_name',
+        'created_at' => 'created_at',
+        'updated_at' => 'updated_at',
         'action' => 'action',
         'options' => 'options'
     ];
@@ -86,16 +78,34 @@ class BankAccount extends Model
         static::addGlobalScope(new BranchScope());
     }
 
-    public function setNameEnAttribute($value)
-    {
-        $this->attributes['name_en'] = is_null($value) ? $this->attributes['name_ar'] : $value;
-    }
-
     /**
      * @return string[]
      */
     public static function getJsDataTablesColumns(): array
     {
+        if (!authIsSuperAdmin()) {
+            unset(self::$dataTableColumns['branch_id']);
+        }
         return self::$dataTableColumns;
+    }
+
+    public function bankData(): BelongsTo
+    {
+        return $this->belongsTo(BankData::class, 'bank_data_id');
+    }
+
+    public function mainType(): BelongsTo
+    {
+        return $this->belongsTo(TypeBankAccount::class, 'main_type_bank_account_id');
+    }
+
+    public function subType(): BelongsTo
+    {
+        return $this->belongsTo(TypeBankAccount::class, 'sub_type_bank_account_id');
+    }
+
+    public function branch(): BelongsTo
+    {
+        return $this->belongsTo(Branch::class, 'branch_id');
     }
 }

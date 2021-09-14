@@ -2455,9 +2455,32 @@
     "check books" : "دفاتر الشيكات",
     "Overdraft" : "سحب على المكشوف",
     "yes / no" : "نعم / لا",
+    "Expiry or due date" : " تاريخ الإنتهاء او الإستحقاق",
+    "Granted limit" : "الحد الممنوح ",
+    "Debit current account data" : "بيانات الحساب الجارية المدينة",
+    "Data of deposit accounts and certificates" : "بيانات حسابات الودائع والشهادات",
+    "deposit for" : " وديعة لأجل",
+    "savings certificate" : " شهادة إدخار ",
+    "Last renewal date" : "تاريخ أخر تجديد",
+    "deposit number" : " رقم الوديعة",
+    "Deposit opening date" : "تاريخ فتح الوديعة",
+    "Deposit term" : "مدة الوديعة",
+    "Deposit expiry date" : "تاريخ إنتهاء الوديعة",
+    "deposit amount" : "مبلغ الوديعة",
+    "Yield rate type" : "نوع سعر العائد",
+    "Fixed" : "ثابت",
+    "not Fixed" : "متغير",
+    "Periodicity of return disbursement" : "دورية صرف العائد",
+    "Add interest in an account" : "إضافة العائد فى حساب",
+    "auto renewal" : "تجديد تلقائي",
+    "Type Bank Account" : "نوع الحساب البنكى",
+    "dddddddddddd" : "fffffff",
     "dddddddddddd" : "fffffff",
     "dddddddddddd" : "fffffff"
 
 
 }
+
+
+
 

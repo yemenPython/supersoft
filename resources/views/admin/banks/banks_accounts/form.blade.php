@@ -6,7 +6,8 @@
                     <label> {{ __('Branches') }} </label>
                     <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
-                        <select class="form-control select2" name="branch_id" id="branch_id" onchange="changeBranch()">
+                        <select class="form-control select2" name="branch_id" id="branch_id"
+                                onchange="changeBranch()" {{ isset($item) && $item->branch_id ? 'disabled' : ''}}>
                             <option value=""> {{ __('Select Branch') }} </option>
                             @foreach(\App\Models\Branch::all() as $branch)
                                 <option
@@ -19,7 +20,7 @@
                 </div>
             </div>
         @else
-            <input type="hidden" name="branch_id" value="{{ auth()->user()->branch_id }}"/>
+            <input id="branch_id" type="hidden" name="branch_id" value="{{ auth()->user()->branch_id }}"/>
         @endif
 
         <div class="col-md-6">
@@ -27,26 +28,28 @@
                 <label> {{ __('Bank Account Type') }} </label>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
-                    <select class="form-control select2" name="main_type_bank_account_id" id="main_type_bank_account_id">
-                        <option value=""> {{ __('Select') }} </option>
-                        @foreach($mainTypes as $index=>$type)
-                            <option value="{{$type->id}}" data-mainType="{{$type->name}}">{{$index + 1}} - {{ $type->name }} </option>
-                        @endforeach
+                    <select class="form-control select2" name="main_type_bank_account_id"
+                            id="main_type_bank_account_id">
+                        {!! $mainTypes !!}
                     </select>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-6" style="display: none" id="current_account_type_section">
+        <div class="col-md-6"
+             style="display: {{isset($item) && optional($item->mainType)->name ==  'حسابات جارية' ? 'block' : 'none'}}"
+             id="current_account_type_section">
             <div class="form-group">
                 <label> {{ __('Current Account Type') }} </label>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
                     <select class="form-control select2" name="sub_type_bank_account_id" id="sub_type_bank_account_id">
                         <option value=""> {{ __('Select') }} </option>
-                            @foreach($subTypes as $type)
-                                <option value="{{$type->id}}" data-subType="{{$type->name}}">1. {{$index + 1}} {{ $type->name }} </option>
-                            @endforeach
+                        @foreach($subTypes as $index=>$type)
+                            <option value="{{$type->id}}" data-subType="{{$type->name}}"
+                                {{isset($item) && $item->sub_type_bank_account_id == $type->id ? 'selected' : ''}}>
+                                1. {{$index + 1}} {{ $type->name }} </option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -54,13 +57,20 @@
     </div>
 
     <div class="">
-       <div class="col-md-12" id="loaderSection" style="display: none">
-           <div class="box-loader">
-               <p>{{__('Loading')}}</p>
-               <div class="loader-31"></div>
-           </div>
-       </div>
+        <div class="col-md-12" id="loaderSection" style="display: none">
+            <div class="box-loader">
+                <p>{{__('Loading')}}</p>
+                <div class="loader-31"></div>
+            </div>
+        </div>
         <div class="col-md-12" id="dataResponse">
+            @if (isset($item) && optional($item->mainType)->name ==  'حسابات ودائع وشهادات')
+                @include('admin.banks.banks_accounts.forms.cert_form')
+            @endif
+
+            @if (isset($item) && optional($item->subType)->name ==  'حسابات جارية مدينة' || isset($item) && optional($item->subType)->name ==  'حسابات جارية دائنة')
+                @include('admin.banks.banks_accounts.forms.credit_form')
+            @endif
 
         </div>
     </div>
@@ -72,6 +82,7 @@
 </div>
 
 @section('js-validation')
+    {!! JsValidator::formRequest('App\Http\Requests\BankAccountRequest', '.form'); !!}
     <script>
         function checkBranchValidation() {
             let branch_id = $('#branch_id').find(":selected").val();
@@ -90,11 +101,18 @@
         }
 
         $("#main_type_bank_account_id").change(function () {
+            $('#dataResponse').html('');
             if (checkBranchValidation()) {
                 alertWithMsg('{{__('sorry, please select branch first')}}');
                 return false;
             }
+            let branch_id = $('#branch_id').find(":selected").val();
+            if (!branch_id) {
+                branch_id = $('#branch_id').val();
+            }
             let main_bank_account_type = $(this).find(':selected').attr('data-mainType')
+            let main_bank_account_type_id = $(this).val();
+            let bank_account_id = $('#bank_account_id').val();
             if (!main_bank_account_type) {
                 alertWithMsg('{{__('Please Select valid bank account type')}}')
                 $("#current_account_type_section").hide();
@@ -104,26 +122,51 @@
                 $("#current_account_type_section").show();
             } else {
                 $("#current_account_type_section").hide();
+                $('#loaderSection').show();
+                $.ajax({
+                    url: "{{ route('admin:banks.banks_accounts.getCreditForm') }}?branch_id=" + branch_id,
+                    method: 'GET',
+                    data: {
+                        main_bank_account_type_id: main_bank_account_type_id,
+                        bank_account_id: bank_account_id,
+                    },
+                    success: function (data) {
+                        $('#loaderSection').hide();
+                        $('#dataResponse').html(data.data);
+                        $('.select2').select2();
+                    }
+                });
             }
         });
 
 
         $("#sub_type_bank_account_id").change(function () {
+            $('#dataResponse').html('');
             if (checkBranchValidation()) {
                 alertWithMsg('{{__('sorry, please select branch first')}}');
                 return false;
             }
             let branch_id = $('#branch_id').find(":selected").val();
+            if (!branch_id) {
+                branch_id = $('#branch_id').val();
+            }
             let sub_type_bank_account = $(this).find(':selected').attr('data-subType')
+            let sub_type_bank_account_id = $(this).val();
             if (!sub_type_bank_account) {
                 alertWithMsg('{{__('Please Select valid bank account type')}}')
                 return false;
             }
-            if (sub_type_bank_account == 'حسابات جارية دائنة') {
+
+            if (sub_type_bank_account == 'حسابات جارية دائنة' || sub_type_bank_account == 'حسابات جارية مدينة') {
+                let bank_account_id = $('#bank_account_id').val();
                 $('#loaderSection').show();
                 $.ajax({
                     url: "{{ route('admin:banks.banks_accounts.getCreditForm') }}?branch_id=" + branch_id,
                     method: 'GET',
+                    data: {
+                        sub_type_bank_account_id: sub_type_bank_account_id,
+                        bank_account_id: bank_account_id,
+                    },
                     success: function (data) {
                         $('#loaderSection').hide();
                         $('#dataResponse').html(data.data);
@@ -137,12 +180,20 @@
         function setBankData() {
             let bank_data_id = $("#bank_data_id").val();
             let bank_branch = $("#bank_data_id").find(':selected').attr('data-bankBranch')
-            console.log($("#bank_data_id").find(':selected'), bank_data_id)
             if (!bank_branch) {
                 $("#bankBranch").val('Not Fount')
             } else {
                 $("#bankBranch").val(bank_branch)
             }
+
+            $.ajax({
+                url: "{{ route('admin:banks.bank_data.getProductsByBank') }}?bank_data_id=" + bank_data_id,
+                method: 'GET',
+                success: function (data) {
+                    $('#branch_product_id').html(data.data);
+                    $('.select2').select2();
+                }
+            });
         }
     </script>
 @endsection

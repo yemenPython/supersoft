@@ -10,7 +10,7 @@
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
                 <li class="breadcrumb-item"><a href="#"> {{__('Managing bank accounts')}}</a></li>
-                <li class="breadcrumb-item"><a href="{{route('admin:banks.bank_data.index')}}"> {{__('Accounts')}}</a>
+                <li class="breadcrumb-item"><a href="{{route('admin:banks.banks_accounts.index')}}"> {{__('Accounts')}}</a>
                 </li>
                 <li class="breadcrumb-item active"> {{__('Create')}}</li>
             </ol>
@@ -57,16 +57,10 @@
     <!-- /.row small-spacing -->
 @endsection
 
-@section('modals')
-    @include('admin.partial.maps.modal')
-@endsection
 
 @section('js-validation')
-    {!! JsValidator::formRequest('App\Http\Requests\BankDataRequest', '.form'); !!}
     @include('admin.partial.sweet_alert_messages')
 @endsection
 
-@section('js')
-    @include('admin.partial.maps.js')
-@endsection
+
 

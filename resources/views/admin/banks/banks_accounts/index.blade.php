@@ -45,13 +45,17 @@
                                 <thead>
                                 <tr>
                                     <th scope="col"> {{ __('#') }} </th>
+                                    @if (authIsSuperAdmin())
+                                        <th>{{__('Branch')}}</th>
+                                    @endif
+                                    <th scope="col">{!! __('Type Bank Account') !!}</th>
                                     <th>{{__('Bank Name')}}</th>
-                                    <th>{{__('Branch Name')}}</th>
-                                    <th>{{__('Branch Code')}}</th>
-                                    <th>{{__('Swift Code')}}</th>
-                                    <th scope="col"> {{ __('Start Date With Bank') }} </th>
-                                    <th scope="col"> {{ __('Stop Date With Bank') }} </th>
-                                    <th scope="col"> {{ __('status') }} </th>
+{{--                                    <th>{{__('Branch Code')}}</th>--}}
+{{--                                    <th>{{__('Swift Code')}}</th>--}}
+{{--                                    <th scope="col"> {{ __('Start Date With Bank') }} </th>--}}
+{{--                                    <th scope="col"> {{ __('Stop Date With Bank') }} </th>--}}
+                                    <th scope="col">{!! __('created at') !!}</th>
+                                    <th scope="col">{!! __('Updated at') !!}</th>
                                     <th scope="col">{!! __('Options') !!}</th>
                                     <th scope="col">
                                         <div class="checkbox danger">
@@ -64,13 +68,17 @@
                                 <tfoot>
                                 <tr>
                                     <th scope="col"> {{ __('#') }} </th>
+                                    @if (authIsSuperAdmin())
+                                        <th>{{__('Branch')}}</th>
+                                    @endif
+                                    <th scope="col">{!! __('Type Bank Account') !!}</th>
                                     <th>{{__('Bank Name')}}</th>
-                                    <th>{{__('Branch Name')}}</th>
-                                    <th>{{__('Branch Code')}}</th>
-                                    <th>{{__('Swift Code')}}</th>
-                                    <th scope="col"> {{ __('Start Date With Bank') }} </th>
-                                    <th scope="col"> {{ __('Stop Date With Bank') }} </th>
-                                    <th scope="col"> {{ __('status') }} </th>
+                                    {{--                                    <th>{{__('Branch Code')}}</th>--}}
+                                    {{--                                    <th>{{__('Swift Code')}}</th>--}}
+                                    {{--                                    <th scope="col"> {{ __('Start Date With Bank') }} </th>--}}
+                                    {{--                                    <th scope="col"> {{ __('Stop Date With Bank') }} </th>--}}
+                                    <th scope="col">{!! __('created at') !!}</th>
+                                    <th scope="col">{!! __('Updated at') !!}</th>
                                     <th scope="col">{!! __('Options') !!}</th>
                                     <th scope="col">{!! __('Select') !!}</th>
                                 </tr>

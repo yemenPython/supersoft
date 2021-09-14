@@ -1,26 +1,36 @@
-@if (isset($withDate))
-    <span class="text-danger">{!! $item->date !!}</span>
-@endif
-
-@if (isset($withStopDate))
-    <span class="text-danger">{!! $item->stop_date ?? '---'!!}</span>
+@if (isset($withBranch))
+    <span class="text-danger">{{ optional($item->branch)->name }} </span>
 @endif
 
 
-@if (isset($withName))
-{{ $item->name}}
-@if ($item->short_name)
-    <span class="text-danger"> - [ {!! $item->short_name !!} ]</span>
-@endif
+@if (isset($type_bank_account))
+    <span>
+        {{ optional($item->mainType)->name }}
+        @if ($item->subType)
+           <strong class="text-danger">[   {{ optional($item->subType)->name }}  ]</strong>
+        @endif
+    </span>
 @endif
 
-@if (isset($withStatus))
-    @if( $item->status )
-        <span class="label label-success wg-label"> {{__('Active')}}</span>
-    @else
-        <span class="label label-danger wg-label">  {{__('inActive')}} </span>
-    @endif
-@endif
+{{--@if (isset($withStopDate))--}}
+{{--    <span class="text-danger">{!! $item->stop_date ?? '---'!!}</span>--}}
+{{--@endif--}}
+
+
+{{--@if (isset($withName))--}}
+{{--{{ $item->name}}--}}
+{{--@if ($item->short_name)--}}
+{{--    <span class="text-danger"> - [ {!! $item->short_name !!} ]</span>--}}
+{{--@endif--}}
+{{--@endif--}}
+
+{{--@if (isset($withStatus))--}}
+{{--    @if( $item->status )--}}
+{{--        <span class="label label-success wg-label"> {{__('Active')}}</span>--}}
+{{--    @else--}}
+{{--        <span class="label label-danger wg-label">  {{__('inActive')}} </span>--}}
+{{--    @endif--}}
+{{--@endif--}}
 
 @if (isset($withActions))
 
@@ -33,65 +43,16 @@
         </button>
         <ul class="dropdown-menu dropdown-wg">
             <li>
-                @if ($item->status)
-                    <a  data-toggle="modal" data-target="#updateStopDate" onclick="setFormDataToUpdate('{{route('admin:banks.bank_data.StartDealing', [$item->id])}}', '{{$item->name}}')"
-                        class="btn btn-wg-edit hvr-radial-out">
-                        <i class="fa fa-ban text-danger"></i>  {{__('Stop Dealing')}}
-                    </a>
-                @else
-                    <a class="btn btn-wg-edit hvr-radial-out" onclick="confirmAction('{{route('admin:banks.bank_data.StartDealing', [$item->id])}}', '{{__('Are you Sure To Start Dealing')}}')">
-                        <i class="fa fa-check text-success"></i>  {{__('Start Dealing')}}
-                    </a>
-                @endif
-            </li>
-
-
-            <li>
-                <a style="cursor:pointer" onclick="loadDataWithModal('{{route('admin:banks.branch_product.show', [$item->id])}}', '#showProducts', '#showProductsResponse')" data-id="{{$item->id}}"
-                   class="btn btn-terms-wg text-white hvr-radial-out" title="{{__('branch Products')}}">
-                    <i class="fa fa-product-hunt"></i> {{__('branch products')}} [{{count($item->products)}}]
-                </a>
-            </li>
-
-            <li>
-
                 <a style="cursor:pointer" onclick="loadDataWithModal('{{route('admin:banks.bank_data.show', [$item->id])}}', '#showBankData', '#showBankDataResponse')" data-id="{{$item->id}}"
                    class="btn btn-terms-wg text-white hvr-radial-out" title="{{__('Show')}}">
                     <i class="fa fa-eye"></i> {{__('Show')}}
                 </a>
             </li>
 
-
-            <li>
-                @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])
-            </li>
-
-
-            <li>
-                <a target="_blank" style="cursor:pointer"  href="{{route('admin:banks.bank_officials.index', [$item->id])}}"
-                   class="btn btn-terms-wg text-white hvr-radial-out" title="{{__('Bank Officials')}}">
-                    <i class="fa fa-users"></i> {{__('Bank Officials')}} [{{count($item->bankOfficials)}}]
-                </a>
-            </li>
-
-            <li>
-                <a target="_blank" style="cursor:pointer"  href="{{route('admin:banks.bank_commissioners.index', [$item->id])}}"
-                   class="btn btn-terms-wg text-white hvr-radial-out" title="{{__('Bank Commissioners')}}">
-                    <i class="fa fa-users"></i> {{__('Bank Commissioners')}} [{{count($item->bankcommissioners)}}]
-                </a>
-            </li>
-
-            <li>
-                <a style="cursor:pointer" onclick="OpenLocation('{{$item->lat}}', '{{$item->long}}')"
-                   class="btn btn-terms-wg text-white hvr-radial-out" title="{{__('Location')}}">
-                    <i class="fa fa-location-arrow"></i> {{__('Location')}}
-                </a>
-            </li>
-
             <li>
                 @component('admin.buttons._edit_button',[
                             'id'=> $item->id,
-                            'route' => 'admin:banks.bank_data.edit',
+                            'route' => 'admin:banks.banks_accounts.edit',
                              ])
                 @endcomponent
             </li>
@@ -99,7 +60,7 @@
             <li class="btn-style-drop">
                 @component('admin.buttons._delete_button',[
                             'id'=> $item->id,
-                            'route' => 'admin:banks.bank_data.destroy',
+                            'route' => 'admin:banks.banks_accounts.destroy',
                              ])
                 @endcomponent
             </li>
