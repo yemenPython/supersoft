@@ -19,12 +19,12 @@
             </ol>
         </nav>
 
-         {{--@include('admin.banks.bank_data.search_form')--}}
+         @include('admin.banks.banks_accounts.search_form')
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
                 <h4 class="box-title bg-secondary with-control">
                     <i class="fa fa-bank"></i> {{__('Accounts')}}
-                    <span class="text-danger">[ {{count($items->get())}} ]</span>
+                    <span class="text-danger">[{{count($items->get())}}]</span>
                 </h4>
 
                 <div class="card-content js__card_content" style="">
@@ -50,10 +50,7 @@
                                     @endif
                                     <th scope="col">{!! __('Type Bank Account') !!}</th>
                                     <th>{{__('Bank Name')}}</th>
-{{--                                    <th>{{__('Branch Code')}}</th>--}}
-{{--                                    <th>{{__('Swift Code')}}</th>--}}
-{{--                                    <th scope="col"> {{ __('Start Date With Bank') }} </th>--}}
-{{--                                    <th scope="col"> {{ __('Stop Date With Bank') }} </th>--}}
+                                    <th>{{__('Balance')}}</th>
                                     <th scope="col">{!! __('created at') !!}</th>
                                     <th scope="col">{!! __('Updated at') !!}</th>
                                     <th scope="col">{!! __('Options') !!}</th>
@@ -73,10 +70,7 @@
                                     @endif
                                     <th scope="col">{!! __('Type Bank Account') !!}</th>
                                     <th>{{__('Bank Name')}}</th>
-                                    {{--                                    <th>{{__('Branch Code')}}</th>--}}
-                                    {{--                                    <th>{{__('Swift Code')}}</th>--}}
-                                    {{--                                    <th scope="col"> {{ __('Start Date With Bank') }} </th>--}}
-                                    {{--                                    <th scope="col"> {{ __('Stop Date With Bank') }} </th>--}}
+                                    <th>{{__('Balance')}}</th>
                                     <th scope="col">{!! __('created at') !!}</th>
                                     <th scope="col">{!! __('Updated at') !!}</th>
                                     <th scope="col">{!! __('Options') !!}</th>
@@ -146,6 +140,25 @@
             $('#showBankDataResponse').html('');
         })
 
+
+        $("#main_type_bank_account_id").change(function () {
+            let main_bank_account_type = $(this).find(':selected').attr('data-mainType')
+            if (!main_bank_account_type) {
+                $("#sectionSwitchForCurrentAccounts").show();
+                $("#sectionSwitchCertAccounts").show();
+                $("#sectionSelectCertAccounts").show();
+                return false;
+            }
+            if (main_bank_account_type == 'حسابات جارية') {
+                $("#sectionSwitchForCurrentAccounts").show();
+                $("#sectionSwitchCertAccounts").hide();
+                $("#sectionSelectCertAccounts").hide();
+            } else {
+                $("#sectionSwitchForCurrentAccounts").hide();
+                $("#sectionSwitchCertAccounts").show();
+                $("#sectionSelectCertAccounts").show();
+            }
+        });
 
     </script>
 @endsection

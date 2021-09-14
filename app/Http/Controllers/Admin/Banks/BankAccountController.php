@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers\Admin\Banks;
 
-use App\Http\Requests\BankAccountRequest;
-use App\Models\Banks\BankAccount;
-use App\Models\Banks\BranchProduct;
+use Throwable;
+use Exception;
 use App\Models\Currency;
 use App\Traits\LoggerError;
-use Exception;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Models\Banks\BankData;
-use App\Http\Controllers\Controller;
-use App\Models\Banks\TypeBankAccount;
-use App\Http\Requests\BankDataRequest;
-use Illuminate\Support\Facades\Auth;
-use Throwable;
 use Yajra\DataTables\DataTables;
+use App\Models\Banks\BankAccount;
+use App\Models\Banks\BranchProduct;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Banks\TypeBankAccount;
+use App\Http\Requests\BankAccountRequest;
+use Illuminate\Database\Eloquent\Builder;
 
 class BankAccountController extends Controller
 {
@@ -27,14 +26,20 @@ class BankAccountController extends Controller
     public function index(Request $request)
     {
         $items = BankAccount::latest();
-//        if ($request->filled('filter')) {
-//        $items = $this->filter($request, $items);
-//        }
+        $mainTypes = TypeBankAccount::getMainTypes();
+        $subTypes = TypeBankAccount::where('parent_id', '!=', null)->get();
+        $currencies = Currency::all();
+        if ($request->filled('filter')) {
+        $items = $this->filter($request, $items);
+        }
         if ($request->isDataTable) {
             return $this->dataTableColumns($items);
         } else {
             return view(self::ViewPath.'index', [
                 'items' => $items,
+                'currencies' => $currencies,
+                'mainTypes' => $mainTypes,
+                'subTypes' => $subTypes,
                 'js_columns' => BankAccount::getJsDataTablesColumns(),
             ]);
         }
@@ -63,9 +68,9 @@ class BankAccountController extends Controller
         }
     }
 
-    public function show(int $bankDataId)
+    public function show(int $id)
     {
-        $item = BankData::findOrFail($bankDataId);
+        $item = BankAccount::findOrFail($id);
         $view =  view(self::ViewPath . 'show', compact('item'))->render();
         return response()->json([
             'data' => $view
@@ -74,7 +79,7 @@ class BankAccountController extends Controller
 
     public function edit(int $id)
     {
-       $item = BankAccount::findOrfail($id);
+        $item = BankAccount::findOrfail($id);
         $mainTypes = TypeBankAccount::getMainTypes($item->branch_id, $item);
         $subTypes = TypeBankAccount::where('parent_id', '!=', null)->where('branch_id', $item->branch_id)->get();
         $banksData = BankData::where('branch_id', $item->branch_id)->get();
@@ -165,6 +170,10 @@ class BankAccountController extends Controller
             ->addColumn('bank_name', function ($item) {
                 return optional($item->bankData)->name;
             })
+            ->addColumn('balance', function ($item) use ($viewPath){
+                $balance = true;
+                return view($viewPath, compact('item', 'balance'))->render();
+            })
             ->addColumn('created_at', function ($item) {
                 return $item->created_at->format('y-m-d h:i:s A');
             })
@@ -180,4 +189,80 @@ class BankAccountController extends Controller
             })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
     }
 
+    private function filter(Request $request, Builder $items)
+    {
+        if ($request->filled('branchId')) {
+            $items = $items->where('branch_id', $request['branchId']);
+        }
+        if ($request->filled('bank_data_id')) {
+            $items = $items->where('bank_data_id', $request['bank_data_id']);
+        }
+        if ($request->filled('branch')) {
+            $items = $items->where('bank_data_id', $request['branch']);
+        }
+        if ($request->filled('branch_product_id')) {
+            $items = $items->where('branch_product_id', $request['branch_product_id']);
+        }
+
+        if ($request->filled('main_type_bank_account_id')) {
+            $items = $items->where('main_type_bank_account_id', $request['main_type_bank_account_id']);
+        }
+
+        if ($request->filled('sub_type_bank_account_id')) {
+            $items = $items->where('sub_type_bank_account_id', $request['sub_type_bank_account_id']);
+        }
+
+        if ($request->filled('currency_id')) {
+            $items = $items->where('currency_id', $request['currency_id']);
+        }
+
+        if ($request->filled('type')) {
+            $items = $items->where('type', $request['type']);
+        }
+
+        if ($request->filled('yield_rate_type')) {
+            $items = $items->where('yield_rate_type', $request['yield_rate_type']);
+        }
+
+        if ($request->has('active') && $request['active'] != '') {
+            $items = $items->where('status', '1');
+        }
+        if ($request->has('inactive') && $request['inactive'] != '') {
+            $items = $items->where('status', '0');
+        }
+
+        if ($request->has('with_returning') && $request['with_returning'] != '') {
+            $items = $items->where('with_returning', '1');
+        }
+        if ($request->has('without_returning') && $request['without_returning'] != '') {
+            $items = $items->where('without_returning', '0');
+        }
+
+        if ($request->has('with_check_books') && $request['with_check_books'] != '') {
+            $items = $items->where('check_books', '1');
+        }
+
+        if ($request->has('without_check_books') && $request['without_check_books'] != '') {
+            $items = $items->where('check_books', '0');
+        }
+
+        if ($request->has('with_overdraft') && $request['with_overdraft'] != '') {
+            $items = $items->where('overdraft', '1');
+        }
+
+        if ($request->has('without_overdraft') && $request['without_overdraft'] != '') {
+            $items = $items->where('overdraft', '0');
+        }
+
+        if ($request->has('with_auto_renewal') && $request['with_auto_renewal'] != '') {
+            $items = $items->where('auto_renewal', '1');
+        }
+
+        if ($request->has('without_auto_renewal') && $request['without_auto_renewal'] != '') {
+            $items = $items->where('auto_renewal', '0');
+        }
+
+
+        return $items;
+    }
 }

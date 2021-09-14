@@ -25,7 +25,7 @@
             <label for="inputNameAr" class="control-label">{{__('Branch Bank')}}</label>
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-file"></i></span>
-                <input type="text" id="bankBranch" readonly class="form-control" value="{{isset($item) ? optional($item->bankData)->name : ''}}">
+                <input type="text" id="bankBranch" readonly class="form-control" value="{{isset($item) ? optional($item->bankData)->branch : ''}}">
             </div>
         </div>
     </div>
@@ -86,7 +86,7 @@
             <label for="inputNameAr" class="control-label">{{__('deposit number')}}</label>
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-file"></i></span>
-                <input type="text" name="deposit_number"  class="form-control" value="{{isset($item) ? $item->Last_renewal_date : ''}}">
+                <input type="text" name="deposit_number"  class="form-control" value="{{isset($item) ? $item->deposit_number : ''}}">
             </div>
         </div>
     </div>

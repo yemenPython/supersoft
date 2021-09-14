@@ -23,7 +23,7 @@
             <input id="branch_id" type="hidden" name="branch_id" value="{{ auth()->user()->branch_id }}"/>
         @endif
 
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="form-group">
                 <label> {{ __('Bank Account Type') }} </label>
                 <div class="input-group">
@@ -36,7 +36,17 @@
             </div>
         </div>
 
-        <div class="col-md-6"
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label> {{ __('Balance') }} </label>
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
+                     <input type="text" readonly class="form-control text-danger" name="balance" value="{{isset($item) ? number_format($item->balance, 2) : 0.00}}">
+                    </div>
+                </div>
+            </div>
+
+        <div class="col-md-4"
              style="display: {{isset($item) && optional($item->mainType)->name ==  'حسابات جارية' ? 'block' : 'none'}}"
              id="current_account_type_section">
             <div class="form-group">

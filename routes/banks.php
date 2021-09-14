@@ -36,5 +36,6 @@ Route::namespace('Banks')
         Route::get('type_bank_accounts/delete/{id}', 'TypeBankAccountController@delete')->name('type_bank_accounts.delete');
         Route::resource('type_bank_accounts', 'TypeBankAccountController');
         Route::get('banks_accounts/get_credit_current_account_form', 'BankAccountController@getCreditForm')->name('banks_accounts.getCreditForm');
+        Route::post('banks_accounts/deleteSelected', 'BankAccountController@deleteSelected')->name('banks_accounts.deleteSelected');
         Route::resource('banks_accounts', 'BankAccountController');
     });
