@@ -70,7 +70,7 @@
                                     {{ __('From Purchase Request') }}
                                 </option>
 
-                                <option value="normal"
+                                <option value="normal" {{request()->query('quotation') ? 'disabled="disabled"':'' }}
                                     {{isset($supplyOrder) && $supplyOrder->type == 'normal'? 'selected':'' }}>
                                     {{ __('Normal Purchase Request') }}
                                 </option>
@@ -108,7 +108,6 @@
                 </div>
             </div>
 
-
             <div class="col-md-12">
 
                 <div class="col-md-3">
@@ -116,7 +115,8 @@
                         <label for="date" class="control-label">{{__('Period of supply order from')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                            <input type="text" name="date_from" class="form-control datepicker" id="date_from" onchange="getDate()"
+                            <input type="text" name="date_from" class="form-control datepicker" id="date_from"
+                                   onchange="getDate()"
                                    value="{{old('date_from', isset($supplyOrder)? $supplyOrder->date_from : \Carbon\Carbon::now()->format('Y-m-d'))}}">
                         </div>
                         {{input_error($errors,'date_from')}}
@@ -128,7 +128,8 @@
                         <label for="date" class="control-label">{{__('Period of supply order to')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                            <input type="text" name="date_to" class="form-control datepicker" id="date_to" onchange="getDate()"
+                            <input type="text" name="date_to" class="form-control datepicker" id="date_to"
+                                   onchange="getDate()"
                                    value="{{old('date_to', isset($supplyOrder)? $supplyOrder->date_to : \Carbon\Carbon::now()->format('Y-m-d'))}}">
                         </div>
                         {{input_error($errors,'date_to')}}
@@ -158,6 +159,7 @@
                 </div>
 
             </div>
+
             <div class="col-md-12">
 
                 <div class="col-md-6 purchase_request_type"
@@ -170,10 +172,14 @@
 
                             <select class="form-control js-example-basic-single" name="purchase_request_id"
                                     id="purchase_request_id" onchange="quotationType()">
-                                <option value="">{{__('Select')}}</option>
+
+                                <option value="" {{request()->query('quotation') ? 'disabled="disabled"':'' }}>
+                                    {{__('Select')}}
+                                </option>
 
                                 @foreach($data['purchaseRequests'] as $purchaseRequest)
-                                    <option value="{{$purchaseRequest->id}}"
+                                    <option
+                                        value="{{$purchaseRequest->id}}" {{request()->query('quotation') ? 'disabled="disabled"':'' }}
                                         {{isset($supplyOrder) && $supplyOrder->purchase_request_id == $purchaseRequest->id? 'selected':''}}>
                                         {{$purchaseRequest->special_number}}
                                     </option>
@@ -196,8 +202,9 @@
 
                                 <li class="col-md-6">
                                     <button type="button" onclick="getPurchaseQuotations(); quotationType()"
+                                            id="get_purchase_quotation_btn" {{request()->query('quotation') ? 'disabled="disabled"':'' }}
                                             class="btn btn-new1 waves-effect waves-light btn-xs">
-                                            <i class="fa fa-file-text-o"></i> 
+                                        <i class="fa fa-file-text-o"></i>
                                         {{__('Get Purchase Quotations')}}
                                     </button>
                                 </li>
@@ -206,7 +213,7 @@
                                     <button type="button" class="btn btn-new2 waves-effect waves-light btn-xs"
                                             data-toggle="modal" data-target="#purchase_quotations"
                                             style="margin-right: 10px;">
-                                            <i class="fa fa-file-text-o"></i> 
+                                        <i class="fa fa-file-text-o"></i>
                                         {{__('Show selected Quotations')}}
                                     </button>
                                 <li>

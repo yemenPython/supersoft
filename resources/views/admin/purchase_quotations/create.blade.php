@@ -122,7 +122,6 @@
                                         </tr>
 
 
-
                                         </tbody>
                                     </table>
                                 </div>
@@ -176,6 +175,17 @@
     <script src="{{asset('js/purchase_quotation/index.js')}}"></script>
 
     <script type="application/javascript">
+
+        @if(request()->query('quotation'))
+
+            var purchase_request_id = '{{request()->query('quotation')}}';
+
+            $("#purchase_request_id").val(purchase_request_id).change();
+
+            $("#purchase_request_id").find(':selected').attr('disabled', false);
+
+        @endif
+
 
         function changeBranch() {
 

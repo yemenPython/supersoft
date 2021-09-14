@@ -109,7 +109,7 @@ class SupplyOrderController extends Controller
 
     public function store(CreateRequest $request)
     {
-
+        
         if (!$request->has('items')) {
             return redirect()->back()->with(['message' => 'sorry, please select items', 'alert-type' => 'error']);
         }

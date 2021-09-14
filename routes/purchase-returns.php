@@ -32,3 +32,5 @@ Route::get('/purchase-returns/data/show/{purchaseReturn}', 'PurchaseReturnsContr
 Route::post('purchase-returns/library/get-files', 'PurchaseReturnLibraryController@getFiles')->name('purchase.returns.library.get.files');
 Route::post('purchase-returns/upload_library', 'PurchaseReturnLibraryController@uploadLibrary')->name('purchase.returns.upload_library');
 Route::post('purchase-returns/library/file-delete', 'PurchaseReturnLibraryController@destroyFile')->name('purchase.returns.library.file.delete');
+
+Route::post('purchase-returns-check-stock', 'PurchaseReturnsController@checkStock')->name('purchase.returns.orders.check.stock');

@@ -125,6 +125,7 @@ class PurchaseReturnsController extends Controller
 
     public function store(PurchaseReturnRequest $request)
     {
+
         if (!auth()->user()->can('create_purchase_return_invoices')) {
             return redirect()->back()->with(['authorization' => 'error']);
         }
@@ -564,6 +565,34 @@ class PurchaseReturnsController extends Controller
             ->get();
 
         return view('admin.purchase_returns.info.show', compact('purchaseReturn', 'data'));
+    }
+
+    public function checkStock(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'items' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        try {
+
+            $invalidItems = $this->purchaseReturnServices->checkMaxQuantityOfItem($request['items']);
+
+            if (!empty($invalidItems)) {
+
+                $message = __('quantity not available for this items ') ."\n          ". '('.implode(' ,', $invalidItems).')';
+                return response()->json($message, 400);
+            }
+
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return response()->json(['sorry, please try later'], 400);
+        }
+
+        return response()->json(['message' => __('quantity available')], 200);
     }
 
     /**

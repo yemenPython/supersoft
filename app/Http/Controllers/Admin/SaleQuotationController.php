@@ -304,12 +304,6 @@ class SaleQuotationController extends Controller
 
             $view = view('admin.sale_quotations.part_raw', compact('part', 'index'))->render();
 
-//            $partMainTypes = $part->spareParts()->where('status', 1)->whereNull('spare_part_id')->orderBy('id', 'ASC')->get();
-
-//            $partTypes = $this->purchaseQuotationServices->getPartTypes($partMainTypes, $part->id);
-
-//            $partTypesView = view('admin.purchase_quotations.part_types', compact( 'part','index', 'partTypes'))->render();
-
             return response()->json(['parts'=> $view, 'index'=> $index], 200);
 
         }catch (\Exception $e) {
@@ -391,6 +385,35 @@ class SaleQuotationController extends Controller
             ->get();
 
         return view('admin.sale_quotations.info.show', compact('saleQuotation', 'taxes', 'additionalPayments'));
+    }
+
+    public function checkStock(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'items' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        try {
+
+            $invalidItems = $this->saleQuotationServices->checkMaxQuantityOfItem($request['items']);
+
+            if (!empty($invalidItems)) {
+
+                $message = __('quantity not available for this items ') ."\n          ". '('.implode(' ,', $invalidItems).')';
+                return response()->json($message, 400);
+            }
+
+        } catch (\Exception $e) {
+
+            dd($e->getMessage());
+            return response()->json(['sorry, please try later'], 400);
+        }
+
+        return response()->json(['message' => __('quantity available')], 200);
     }
 
     /**

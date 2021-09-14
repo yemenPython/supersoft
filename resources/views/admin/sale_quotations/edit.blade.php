@@ -44,13 +44,27 @@
 
                 <div class="box-content">
                     <form method="post" action="{{route('admin:sale-quotations.update', $saleQuotation->id)}}" class="form"
-                          enctype="multipart/form-data">
+                          enctype="multipart/form-data" id="quotation_form">
                         @csrf
-                        @method('PATCH')
 
                         @include('admin.sale_quotations.form')
 
-                        @include('admin.buttons._save_buttons')
+                        <div class="form-group col-sm-12">
+                            <button  type="button" class="btn hvr-rectangle-in saveAdd-wg-btn" onclick="checkStockQuantity()">
+                                <i class="ico ico-left fa fa-save"></i>
+                                {{__('Save')}}
+                            </button>
+
+                            <button id="reset"  type="button" class="btn hvr-rectangle-in resetAdd-wg-btn">
+                                <i class="ico ico-left fa fa-trash"></i>
+                                {{__('Reset')}}
+                            </button>
+
+                            <button id="back" type="button" class="btn hvr-rectangle-in closeAdd-wg-btn">
+                                <i class="ico ico-left fa fa-close"></i>
+                                {{__('Back')}}
+                            </button>
+                        </div>
 
                     </form>
                 </div>
@@ -369,6 +383,29 @@
 
             let image_path = $('#part_img_id_' + index).data('img');
             $('#part_image').attr('src', image_path);
+        }
+
+        function checkStockQuantity () {
+
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+
+                type: 'post',
+
+                url: '{{route('admin:sale.quotations.check.stock')}}',
+
+                data: $('#quotation_form').serialize() + '&_token=' + CSRF_TOKEN,
+
+                success: function (data) {
+                    $("#quotation_form").submit();
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
         }
 
     </script>

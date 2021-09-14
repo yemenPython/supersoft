@@ -72,7 +72,7 @@
                                     {{ __('From Purchase Request') }}
                                 </option>
 
-                                <option value="out_purchase_request"
+                                <option value="out_purchase_request" {{request()->query('quotation') ? 'disabled="disabled"':'' }}
                                     {{isset($purchaseQuotation) && $purchaseQuotation->type == 'out_purchase_request'? 'selected':'' }}>
                                     {{ __('Out Purchase Request') }}
                                 </option>
@@ -93,10 +93,13 @@
 
                             <select class="form-control js-example-basic-single" name="purchase_request_id"
                                     id="purchase_request_id" onchange="selectPurchaseRequest()">
-                                <option value="">{{__('Select')}}</option>
+
+                                <option value="" {{request()->query('quotation') ? 'disabled="disabled"':'' }}>
+                                    {{__('Select')}}
+                                </option>
 
                                 @foreach($purchaseRequests as $purchaseRequest)
-                                    <option value="{{$purchaseRequest->id}}"
+                                    <option value="{{$purchaseRequest->id}}" {{request()->query('quotation') ? 'disabled="disabled"':'' }}
                                         {{isset($purchaseQuotation) && $purchaseQuotation->purchase_request_id == $purchaseRequest->id? 'selected':''}}>
                                         {{$purchaseRequest->special_number}}
                                     </option>
