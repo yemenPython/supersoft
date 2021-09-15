@@ -88,6 +88,8 @@
 @endsection
 
 @section('modals')
+
+    @include('admin.partial.upload_library.form', ['url'=> route('admin:opening.balance.upload_library')])
     <div class="modal fade wg-content" id="showBankData" role="dialog">
         <div class="modal-dialog" style="width:800px;">
             <!-- Modal content-->
@@ -147,18 +149,113 @@
                 $("#sectionSwitchForCurrentAccounts").show();
                 $("#sectionSwitchCertAccounts").show();
                 $("#sectionSelectCertAccounts").show();
+                $("#datesForCert").show();
                 return false;
             }
             if (main_bank_account_type == 'حسابات جارية') {
                 $("#sectionSwitchForCurrentAccounts").show();
                 $("#sectionSwitchCertAccounts").hide();
                 $("#sectionSelectCertAccounts").hide();
+                $("#datesForCert").hide();
             } else {
                 $("#sectionSwitchForCurrentAccounts").hide();
                 $("#sectionSwitchCertAccounts").show();
                 $("#sectionSelectCertAccounts").show();
+                $("#datesForCert").show();
             }
         });
 
+
+        function getLibraryFiles(id) {
+            $("#library_item_id").val(id);
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            $.ajax({
+                type: 'post',
+                url: '{{route('admin:banks.banks_accounts.library.get.files')}}',
+                data: {
+                    _token: CSRF_TOKEN,
+                    id: id,
+                },
+                success: function (data) {
+                    $("#files_area").html(data.view);
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
+        }
+
+        function removeFile(id) {
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            swal({
+                title: "Delete File",
+                text: "Are you sure want to delete this file ?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        type: 'post',
+                        url: '{{route('admin:banks.banks_accounts.library.file.delete')}}',
+                        data: {
+                            _token: CSRF_TOKEN,
+                            id: id,
+                        },
+                        success: function (data) {
+                            $("#file_" + data.id).remove();
+                            swal({text: 'file deleted successfully', icon: "success"});
+                        },
+                        error: function (jqXhr, json, errorThrown) {
+                            var errors = jqXhr.responseJSON;
+                            swal({text: errors, icon: "error"})
+                        }
+                    });
+                }
+            });
+        }
+
+        function uploadFiles() {
+            var form_data = new FormData();
+            var item_id = $("#library_item_id").val();
+            var title_ar = $("#library_title_ar").val();
+            var title_en = $("#library_title_en").val();
+            var totalfiles = document.getElementById('files').files.length;
+            for (var index = 0; index < totalfiles; index++) {
+                form_data.append("files[]", document.getElementById('files').files[index]);
+            }
+            form_data.append("item_id", item_id);
+            form_data.append("title_ar", title_ar);
+            form_data.append("title_en", title_en);
+            $.ajax({
+                url: "{{route('admin:banks.banks_accounts.upload_library')}}",
+                type: "post",
+                headers: {
+                    "X-CSRF-TOKEN": $("meta[name='csrf-token']").attr("content")
+                },
+                data: form_data,
+                dataType: 'json',
+                contentType: false,
+                processData: false,
+                beforeSend: function () {
+                    $('#upload_loader').show();
+                },
+                success: function (data) {
+                    $('#upload_loader').hide();
+                    swal("{{__('Success')}}", data.message, "success");
+                    $("#files_area").prepend(data.view);
+                    $("#files").val('');
+                    $("#library_title_ar").val('');
+                    $("#library_title_en").val('');
+                    $("#no_files").remove();
+                },
+                error: function (jqXhr, json, errorThrown) {
+                    $('#upload_loader').hide();
+                    var errors = jqXhr.responseJSON;
+                    swal("{{__('Sorry')}}", errors, "error");
+                },
+            });
+        }
     </script>
 @endsection

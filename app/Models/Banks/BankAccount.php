@@ -7,6 +7,7 @@ use App\Models\Currency;
 use App\Scopes\BranchScope;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class BankAccount extends Model
 {
@@ -48,6 +49,7 @@ class BankAccount extends Model
         'status',
         'check_books',
         'overdraft',
+        'library_path',
     ];
 
     protected $casts = [
@@ -119,4 +121,10 @@ class BankAccount extends Model
     {
         return $this->belongsTo(Currency::class, 'currency_id');
     }
+
+    public function files(): HasMany
+    {
+        return $this->hasMany(BankAccountLibrary::class, 'bank_account_id');
+    }
+
 }

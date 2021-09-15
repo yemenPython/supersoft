@@ -43,6 +43,10 @@
                 @endcomponent
             </li>
 
+            <li>
+                @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])
+            </li>
+
             <li class="btn-style-drop">
                 @component('admin.buttons._delete_button',[
                             'id'=> $item->id,

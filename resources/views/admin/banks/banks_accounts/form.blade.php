@@ -36,15 +36,16 @@
             </div>
         </div>
 
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label> {{ __('Balance') }} </label>
-                    <div class="input-group">
-                        <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
-                     <input type="text" readonly class="form-control text-danger" name="balance" value="{{isset($item) ? number_format($item->balance, 2) : 0.00}}">
-                    </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label> {{ __('Balance') }} </label>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-dollar"></i></span>
+                    <input type="text" readonly class="form-control text-danger" name="balance"
+                           value="{{isset($item) ? number_format($item->balance, 2) : 0.00}}">
                 </div>
             </div>
+        </div>
 
         <div class="col-md-4"
              style="display: {{isset($item) && optional($item->mainType)->name ==  'حسابات جارية' ? 'block' : 'none'}}"
@@ -81,18 +82,18 @@
             @if (isset($item) && optional($item->subType)->name ==  'حسابات جارية مدينة' || isset($item) && optional($item->subType)->name ==  'حسابات جارية دائنة')
                 @include('admin.banks.banks_accounts.forms.credit_form')
             @endif
+        </div>
 
+        <div class="form-group col-sm-12">
+            @include('admin.buttons._save_buttons')
         </div>
     </div>
 </div>
 
 
-<div class="form-group col-sm-12">
-    @include('admin.buttons._save_buttons')
-</div>
 
 @section('js-validation')
-    {!! JsValidator::formRequest('App\Http\Requests\BankAccountRequest', '.form'); !!}
+    {{--    {!! JsValidator::formRequest('App\Http\Requests\BankAccountRequest', '.form'); !!}--}}
     <script>
         function checkBranchValidation() {
             let branch_id = $('#branch_id').find(":selected").val();
@@ -144,6 +145,7 @@
                         $('#loaderSection').hide();
                         $('#dataResponse').html(data.data);
                         $('.select2').select2();
+                        $('.datepicker').datepicker();
                     }
                 });
             }
@@ -181,6 +183,7 @@
                         $('#loaderSection').hide();
                         $('#dataResponse').html(data.data);
                         $('.select2').select2();
+                        $('.datepicker').datepicker();
                     }
                 });
             }

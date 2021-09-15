@@ -12,7 +12,7 @@
         <label> {{ __('Bank Name') }} {!! required() !!}</label>
         <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
-            <select class="form-control select2" name="bank_data_id" id="bank_data_id" onchange="setBankData()">
+            <select required class="form-control select2" name="bank_data_id" id="bank_data_id" onchange="setBankData()">
                 <option value=""> {{ __('Select') }} </option>
                 @foreach($banksData as $bank)
                     <option value="{{$bank->id}}" data-bankBranch="{{$bank->branch}}"
@@ -37,17 +37,17 @@
             <label for="inputNameAr" class="control-label">{{__('Account Number')}} {!! required() !!}</label>
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-file"></i></span>
-                <input type="text" name="account_number"  class="form-control" value="{{isset($item) ? $item->account_number : ''}}">
+                <input required type="text" name="account_number"  class="form-control" value="{{isset($item) ? $item->account_number : ''}}">
             </div>
         </div>
     </div>
 
     <div class="col-md-4">
         <div class="form-group">
-            <label for="inputNameAr" class="control-label">{{__('Account Name')}}</label>
+            <label for="inputNameAr" class="control-label">{{__('Account Name')}} {!! required() !!}</label>
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-file"></i></span>
-                <input type="text" name="account_name"  class="form-control" value="{{isset($item) ? $item->account_name : ''}}">
+                <input required type="text" name="account_name"  class="form-control" value="{{isset($item) ? $item->account_name : ''}}">
             </div>
         </div>
     </div>
@@ -56,7 +56,7 @@
         <label> {{ __('Account Type') }} {!! required() !!}</label>
         <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
-            <select class="form-control select2" name="branch_product_id" id="branch_product_id">
+            <select required class="form-control select2" name="branch_product_id" id="branch_product_id">
                 <option value=""> {{ __('Select') }} </option>
                 @foreach($products as $product)
                     <option value="{{$product->id}}"  {{isset($item) && $item->branch_product_id == $product->id ? 'selected' : ''}}> {{ $product->name }} </option>
@@ -70,7 +70,7 @@
             <label for="inputNameAr" class="control-label">{{__('Account Open Date')}} {!! required() !!}</label>
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-birthday-cake"></i></span>
-                <input type="date" name="account_open_date"  class="form-control" value="{{isset($item) ? $item->account_open_date : ''}}">
+                <input required type="text" name="account_open_date"  class="form-control datepicker" value="{{isset($item) ? $item->account_open_date : ''}}">
             </div>
         </div>
     </div>
@@ -78,10 +78,10 @@
     @if (isset($subTypeBank) && $subTypeBank->name == 'حسابات جارية مدينة' || isset($item) && optional($item->mainType)->name)
         <div class="col-md-4">
             <div class="form-group">
-                <label for="inputNameAr" class="control-label">{{__('Expiry or due date')}}</label>
+                <label for="inputNameAr" class="control-label">{{__('Expiry or due date')}} {!! required() !!}</label>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-birthday-cake"></i></span>
-                    <input type="date" name="expiry_date"  class="form-control" value="{{isset($item) ? $item->expiry_date : ''}}">
+                    <input required type="text" name="expiry_date"  class="form-control datepicker" value="{{isset($item) ? $item->expiry_date : ''}}">
                 </div>
             </div>
         </div>
@@ -89,10 +89,10 @@
 
     <div class="col-md-4">
         <div class="form-group">
-            <label for="inputNameAr" class="control-label">{{__('IBAN')}}</label>
+            <label for="inputNameAr" class="control-label">{{__('IBAN')}} {!! required() !!}</label>
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-birthday-cake"></i></span>
-                <input type="text" name="iban"  class="form-control" value="{{isset($item) ? $item->iban : ''}}">
+                <input required type="text" name="iban"  class="form-control" value="{{isset($item) ? $item->iban : ''}}">
             </div>
         </div>
     </div>
@@ -101,7 +101,7 @@
         <label> {{ __('Currency') }} {!! required() !!} </label>
         <div class="input-group">
             <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
-            <select class="form-control select2" name="currency_id">
+            <select required class="form-control select2" name="currency_id">
                 <option value=""> {{ __('Select') }} </option>
                 @foreach($currencies as $currency)
                     <option value="{{$currency->id}}" {{isset($item) && $item->currency_id == $currency->id ? 'selected' : ''}}> {{ $currency->name }} </option>
@@ -112,20 +112,20 @@
 
     <div class="col-md-4">
         <div class="form-group">
-            <label for="inputNameAr" class="control-label">{{__('Interest Rate')}}</label>
+            <label for="inputNameAr" class="control-label">{{__('Interest Rate')}} {!! required() !!}</label>
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-percent"></i></span>
-                <input type="number" name="interest_rate"  class="form-control" value="{{isset($item) ? $item->interest_rate :  old('interest_rate')}}">
+                <input  required type="number" name="interest_rate"  class="form-control" value="{{isset($item) ? $item->interest_rate :  old('interest_rate')}}">
             </div>
         </div>
     </div>
 
     <div class="col-md-4">
         <div class="form-group">
-            <label for="inputNameAr" class="control-label">{{__('Customer Number')}}</label>
+            <label for="inputNameAr" class="control-label">{{__('Customer Number')}} {!! required() !!}</label>
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                <input type="text" name="customer_number"  class="form-control" value="{{isset($item) ? $item->customer_number : ''}}">
+                <input required type="text" name="customer_number"  class="form-control" value="{{isset($item) ? $item->customer_number : ''}}">
             </div>
         </div>
     </div>
@@ -133,15 +133,16 @@
     @if (isset($subTypeBank) && $subTypeBank->name == 'حسابات جارية مدينة' || isset($item) && optional($item->mainType)->name)
     <div class="col-md-4">
         <div class="form-group">
-            <label for="inputNameAr" class="control-label">{{__('Granted limit')}}</label>
+            <label for="inputNameAr" class="control-label">{{__('Granted limit')}} {!! required() !!}</label>
             <div class="input-group">
                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                <input type="text" name="granted_limit"  class="form-control" value="{{isset($item) ? $item->granted_limit : ''}}">
+                <input required type="text" name="granted_limit"  class="form-control" value="{{isset($item) ? $item->granted_limit : ''}}">
             </div>
         </div>
     </div>
     @endif
 
+    @if (isset($subTypeBank) && $subTypeBank->name != 'حسابات جارية مدينة')
     <div class="col-md-12" style="margin-bottom: 30px">
         <div class="switch primary col-md-3">
             <input type="hidden" name="with_returning" value="0">
@@ -149,6 +150,7 @@
                 {{isset($item) && $item->with_returning ? 'checked' : ''}} {{!isset($item) ? 'checked' : ''}}>
             <label for="switch-with_returning">{{__('With Returning')}}  /  {{__('Without Returning')}}</label>
         </div>
+        @endif
 
         <div class="switch primary col-md-3">
             <input type="hidden" name="status" value="0">

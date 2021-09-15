@@ -5,8 +5,10 @@ use App\Models\Branch;
 use App\Models\Locker;
 use App\Models\Account;
 use App\Models\EmployeeData;
+use App\Models\LockerExchangeLibrary;
 use Illuminate\Database\Eloquent\Model;
 use App\AccountingModule\Models\CostCenter;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class LockerExchangePermission extends Model
 {
@@ -14,7 +16,7 @@ class LockerExchangePermission extends Model
 
     protected $fillable = [
         'permission_number' ,'locker_receive_permission_id' ,'from_locker_id' ,'to_locker_id' ,'destination_type' ,
-        'amount' ,'employee_id' ,'operation_date' ,'status' ,'branch_id' ,'note' ,'cost_center_id'
+        'amount' ,'employee_id' ,'operation_date' ,'status' ,'branch_id' ,'note' ,'cost_center_id', 'library_path'
     ];
 
     /**
@@ -66,5 +68,10 @@ class LockerExchangePermission extends Model
     public static function getJsDataTablesColumns(): array
     {
         return self::$dataTableColumns;
+    }
+
+    public function files(): HasMany
+    {
+        return $this->hasMany(LockerExchangeLibrary::class, 'locker_exchange_id');
     }
 }
