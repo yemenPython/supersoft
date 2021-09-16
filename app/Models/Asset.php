@@ -45,7 +45,11 @@ class Asset extends Model
         'deleted_at',
         'user_id',
         'total_replacements',
-        'status'
+        'status',
+        'consumption_type',
+        'age_years',
+        'age_months',
+        'consumption_period'
     ];
 
     protected static $logAttributes = [

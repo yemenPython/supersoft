@@ -209,6 +209,10 @@ class AssetExpenseController extends Controller
                         'asset_expense_id' => $asset->id,
                         'asset_expense_item_id' => $item['asset_expense_item_id'],
                         'annual_consumtion_rate' => $item['annual_consumtion_rate'],
+                        'consumption_type'=>$item['consumption_type'],
+                        'age_years'=>$item['age_years'],
+                        'age_months'=>$item['age_months'],
+                        'consumption_period'=>$item['consumption_period'],
                     ] );
                 }
             }
@@ -282,6 +286,10 @@ class AssetExpenseController extends Controller
                         'asset_expense_id' => $assetExpense->id,
                         'asset_expense_item_id' => $item['asset_expense_item_id'],
                         'annual_consumtion_rate' => $item['annual_consumtion_rate'],
+                        'consumption_type'=>$item['consumption_type'],
+                        'age_years'=>$item['age_years'],
+                        'age_months'=>$item['age_months'],
+                        'consumption_period'=>$item['consumption_period'],
                     ] );
                 }
             }

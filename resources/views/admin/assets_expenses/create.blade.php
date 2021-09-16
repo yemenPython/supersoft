@@ -209,5 +209,23 @@
                 $('.asset_age_'+index).val( asset_age.toFixed(2));
             }
         }
+
+        function checkType(index,value) {
+            var consumption_type = $('.group_consumption_type'+index).val();
+            var consumption_for = $('.group_consumption_for'+index).val();
+            console.log(value,consumption_type,consumption_for);
+            if (consumption_type =='manual' && value =='automatic' && consumption_for =='asset'){
+                    swal({text: '{{__('sorry,Can no make Consumption Type automatic for this asset expense')}}', icon: "warning"});
+                    $('#radio_status_sale_'+index).prop('checked', true);
+                    return false;
+            }
+            if (value == 'manual') {
+                $('.type_automatic'+index).hide();
+                $('.type_manual'+index).show();
+            } else if (value == 'automatic') {
+                $('.type_manual'+index).hide();
+                $('.type_automatic'+index).show();
+            }
+        }
     </script>
 @endsection

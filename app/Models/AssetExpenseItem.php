@@ -21,7 +21,11 @@ class AssetExpenseItem extends Model
         'asset_id',
         'asset_expense_id',
         'asset_expense_item_id',
-        'annual_consumtion_rate'
+        'annual_consumtion_rate',
+        'consumption_type',
+        'age_years',
+        'age_months',
+        'consumption_period',
     ];
 
     public function assetExpenseItem(): BelongsTo
@@ -36,5 +40,9 @@ class AssetExpenseItem extends Model
     public function assetExpense()
     {
         return $this->belongsTo(AssetExpense::class,'asset_expense_id');
+    }
+    public function expenseConsumptions()
+    {
+        return $this->hasMany(ConsumptionAssetItemExpense::class,'expense_id');
     }
 }
