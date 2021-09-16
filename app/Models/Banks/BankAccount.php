@@ -3,10 +3,11 @@
 namespace App\Models\Banks;
 
 use App\Models\Branch;
+use App\Models\Currency;
 use App\Scopes\BranchScope;
-use App\Traits\ColumnTranslation;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class BankAccount extends Model
 {
@@ -48,6 +49,7 @@ class BankAccount extends Model
         'status',
         'check_books',
         'overdraft',
+        'library_path',
     ];
 
     protected $casts = [
@@ -66,6 +68,7 @@ class BankAccount extends Model
         'branch_id' => 'branch_id',
         'type_bank_account' => 'type_bank_account',
         'bank_name' => 'bank_name',
+        'balance' => 'balance',
         'created_at' => 'created_at',
         'updated_at' => 'updated_at',
         'action' => 'action',
@@ -108,4 +111,20 @@ class BankAccount extends Model
     {
         return $this->belongsTo(Branch::class, 'branch_id');
     }
+
+    public function product(): BelongsTo
+    {
+        return $this->belongsTo(BranchProduct::class, 'branch_product_id');
+    }
+
+    public function currency(): BelongsTo
+    {
+        return $this->belongsTo(Currency::class, 'currency_id');
+    }
+
+    public function files(): HasMany
+    {
+        return $this->hasMany(BankAccountLibrary::class, 'bank_account_id');
+    }
+
 }

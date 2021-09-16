@@ -47,15 +47,28 @@
                 </h4>
 
                 <div class="box-content">
-                    <form method="post" action="{{route('admin:sale-supply-orders.update', $saleSupplyOrder->id)}}" class="form"
-                          enctype="multipart/form-data">
+                    <form  action="{{route('admin:sale-supply-orders.update', $saleSupplyOrder->id)}}" method="post"
+                          class="form" id="sale_supply_form">
                         @csrf
-                        @method('PATCH')
+                        @method('post')
 
                         @include('admin.sale_supply_orders.form')
 
                         <div class="form-group col-sm-12">
-                            @include('admin.buttons._save_buttons')
+                            <button  type="button" class="btn hvr-rectangle-in saveAdd-wg-btn" onclick="checkStockQuantity()">
+                                <i class="ico ico-left fa fa-save"></i>
+                                {{__('Save')}}
+                            </button>
+
+                            <button id="reset"  type="button" class="btn hvr-rectangle-in resetAdd-wg-btn">
+                                <i class="ico ico-left fa fa-trash"></i>
+                                {{__('Reset')}}
+                            </button>
+
+                            <button id="back" type="button" class="btn hvr-rectangle-in closeAdd-wg-btn">
+                                <i class="ico ico-left fa fa-close"></i>
+                                {{__('Back')}}
+                            </button>
                         </div>
 
                     </form>
@@ -90,45 +103,6 @@
 
                         <div class="col-md-12 margin-bottom-20" id="sale_quotation_data">
 
-{{--                            <table id="sale_quotations_table" class="table table-bordered" style="width:100%">--}}
-{{--                                <thead>--}}
-{{--                                <tr>--}}
-{{--                                    <th scope="col">{!! __('Check') !!}</th>--}}
-{{--                                    <th scope="col">{!! __('Sale Quotation num.') !!}</th>--}}
-{{--                                    <th scope="col">{!! __('Customer name') !!}</th>--}}
-{{--                                </tr>--}}
-{{--                                </thead>--}}
-
-{{--                                <form id="sale_quotation_form" method="post">--}}
-{{--                                    @csrf--}}
-
-{{--                                    <tbody id="sale_quotation_data">--}}
-
-{{--                                    @foreach( $data['saleQuotations'] as $saleQuotation)--}}
-
-{{--                                        <tr>--}}
-{{--                                            <td>--}}
-{{--                                                <input type="checkbox" name="sale_quotations[]"--}}
-{{--                                                       value="{{$saleQuotation->id}}"--}}
-{{--                                                       onclick="selectSaleQuotation('{{$saleQuotation->id}}')"--}}
-{{--                                                       class="sale_quotation_box_{{$saleQuotation->id}}"--}}
-{{--                                                       {{isset($saleSupplyOrder) && in_array($saleQuotation->id, $saleSupplyOrder->saleQuotations->pluck('id')->toArray()) ? 'checked':'' }}--}}
-{{--                                                >--}}
-{{--                                            </td>--}}
-{{--                                            <td>--}}
-{{--                                                <span>{{$saleQuotation->number}}</span>--}}
-{{--                                            </td>--}}
-{{--                                            <td>--}}
-{{--                                                <span>{{$saleQuotation->customer ? $saleQuotation->customer->name : '---'}}</span>--}}
-{{--                                            </td>--}}
-{{--                                        </tr>--}}
-
-{{--                                    @endforeach--}}
-
-{{--                                    </tbody>--}}
-
-{{--                                </form>--}}
-{{--                            </table>--}}
                         </div>
 
                     </div>
@@ -563,6 +537,30 @@
                 }
             });
 
+        }
+
+        function checkStockQuantity () {
+
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+
+                type: 'post',
+
+                url: '{{route('admin:sale.supply.orders.check.stock')}}',
+
+                data: $('#sale_supply_form').serialize() + '&_token=' + CSRF_TOKEN,
+
+                success: function (data) {
+
+                    $( "#sale_supply_form" )[0].submit();
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
         }
 
     </script>

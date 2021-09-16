@@ -49,7 +49,7 @@
                 </h4>
 
                 <div class="box-content">
-                    <form method="post" action="{{route('admin:sale-supply-orders.store')}}" class="form"
+                    <form method="post" action="{{route('admin:sale-supply-orders.store')}}" class="form" id="sale_supply_form"
                           enctype="multipart/form-data">
                         @csrf
                         @method('post')
@@ -57,7 +57,20 @@
                         @include('admin.sale_supply_orders.form')
 
                         <div class="form-group col-sm-12">
-                            @include('admin.buttons._save_buttons')
+                            <button  type="button" class="btn hvr-rectangle-in saveAdd-wg-btn" onclick="checkStockQuantity()">
+                                <i class="ico ico-left fa fa-save"></i>
+                                {{__('Save')}}
+                            </button>
+
+                            <button id="reset"  type="button" class="btn hvr-rectangle-in resetAdd-wg-btn">
+                                <i class="ico ico-left fa fa-trash"></i>
+                                {{__('Reset')}}
+                            </button>
+
+                            <button id="back" type="button" class="btn hvr-rectangle-in closeAdd-wg-btn">
+                                <i class="ico ico-left fa fa-close"></i>
+                                {{__('Back')}}
+                            </button>
                         </div>
 
                     </form>
@@ -513,7 +526,6 @@
             $('#part_image').attr('src', image_path);
         }
 
-
         function getSaleQuotations() {
 
             if (!checkBranchValidation()) {
@@ -565,6 +577,29 @@
                 }
             });
 
+        }
+
+        function checkStockQuantity () {
+
+            let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+            $.ajax({
+
+                type: 'post',
+
+                url: '{{route('admin:sale.supply.orders.check.stock')}}',
+
+                data: $('#sale_supply_form').serialize() + '&_token=' + CSRF_TOKEN,
+
+                success: function (data) {
+                    $("#sale_supply_form").submit();
+                },
+
+                error: function (jqXhr, json, errorThrown) {
+                    var errors = jqXhr.responseJSON;
+                    swal({text: errors, icon: "error"})
+                }
+            });
         }
 
     </script>

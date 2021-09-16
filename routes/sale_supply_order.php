@@ -3,6 +3,8 @@ Route::post('sale-supply-orders-deleteSelected', 'SaleSupplyOrderController@dele
 
 Route::resource('sale-supply-orders', 'SaleSupplyOrderController');
 
+Route::post('sale-supply-orders/{saleSupplyOrder}/update', 'SaleSupplyOrderController@update')->name('sale-supply-orders.update');
+
 //purchase quotations
 Route::post('/sale-supply-orders/add-sale-quotations', 'SaleSupplyOrderController@addSaleQuotations')->name('sale.supply.orders.add.sale.quotations');
 
@@ -23,3 +25,5 @@ Route::post('sale-supply/library/file-delete', 'SaleSupplyLibraryController@dest
 
 
 Route::post('sale-supply-orders-get-sale-quotations', 'SaleSupplyOrderController@getSaleQuotations')->name('sale.supply.orders.get.sale.quotation');
+
+Route::post('sale-supply-orders-check-stock', 'SaleSupplyOrderController@checkStock')->name('sale.supply.orders.check.stock');

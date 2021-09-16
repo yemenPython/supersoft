@@ -2,10 +2,13 @@
 
 namespace App\ModelsMoneyPermissions;
 
+use App\Models\Banks\BankAccountLibrary;
 use App\Models\Branch;
 use App\Models\EmployeeData;
+use App\Models\LockerRecieverLibrary;
 use Illuminate\Database\Eloquent\Model;
 use App\AccountingModule\Models\CostCenter;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class LockerReceivePermission extends Model
 {
@@ -65,5 +68,10 @@ class LockerReceivePermission extends Model
     public static function getJsDataTablesColumns(): array
     {
         return self::$dataTableColumns;
+    }
+
+    public function files(): HasMany
+    {
+        return $this->hasMany(LockerRecieverLibrary::class, 'locker_receive_id');
     }
 }

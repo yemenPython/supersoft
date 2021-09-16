@@ -1,4 +1,3 @@
-
 @if (isset($withBranch))
     '<span class="text-danger">{{ optional($item->branch)->name}}</span>
 @endif
@@ -126,13 +125,30 @@
                 </a>
             </li>
 
+            <li>
+                @if(!$item->supplyOrders->count() && $item->purchaseRequest
+                       && $item->purchaseRequest->status == 'accept_approval')
+
+                    <a href="{{route('admin:supply-orders.create', ['quotation' => $item->id, 'p_request' => $item->purchase_request_id, 'branch_id'=> $item->branch_id, ])}}"
+                       class="btn btn-approval-wg text-white hvr-radial-out">
+                        <i class="fafa-eye"></i>
+                        {{__('relay to Purchase Quotation')}}
+                    </a>
+
+                @else
+                    <a class="btn btn-approval-wg text-white hvr-radial-out">
+                        {{__('item not valid')}}
+                    </a>
+                @endif
+            </li>
 
             <li>
                 @include('admin.partial.execution_period', ['id'=> $item->id])
             </li>
 
             <li>
-                @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])                                            </li>
+                @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])
+            </li>
 
         </ul>
     </div>

@@ -232,11 +232,11 @@ class SaleSupplyOrderController extends Controller
     public function update(UpdateRequest $request, SaleSupplyOrder $saleSupplyOrder)
     {
         if ($saleSupplyOrder->status == 'finished') {
-            return redirect()->back()->with(['message' => 'sorry, this supply order finished', 'alert-type' => 'error']);
+            return redirect(route('admin:sale-supply-orders.index'))->with(['message' => 'sorry, this supply order finished', 'alert-type' => 'error']);
         }
 
         if (!$request->has('items')) {
-            return redirect()->back()->with(['message' => 'sorry, please select items', 'alert-type' => 'error']);
+            return redirect(route('admin:sale-supply-orders.index'))->with(['message' => 'sorry, please select items', 'alert-type' => 'error']);
         }
 
         try {
@@ -272,10 +272,11 @@ class SaleSupplyOrderController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
 
-            return redirect()->back()->with(['message' => 'sorry, please try later', 'alert-type' => 'error']);
+            return redirect(route('admin:sale-supply-orders.index'))->with(['message' => 'sorry, please try later', 'alert-type' => 'error']);
         }
 
-        return redirect(route('admin:sale-supply-orders.index'))->with(['message' => __('supply.orders.created.successfully'), 'alert-type' => 'success']);
+        return redirect(route('admin:sale-supply-orders.index'))
+            ->with(['message' => __('supply.orders.created.successfully'), 'alert-type' => 'success']);
     }
 
     public function destroy(SaleSupplyOrder $saleSupplyOrder)
@@ -465,6 +466,33 @@ class SaleSupplyOrderController extends Controller
             ->get();
 
         return view('admin.sale_supply_orders.info.show', compact('saleSupplyOrder', 'data'));
+    }
+
+    public function checkStock(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'items' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors()->first(), 400);
+        }
+
+        try {
+
+            $invalidItems = $this->saleSupplyOrderServices->checkMaxQuantityOfItem($request['items']);
+
+            if (!empty($invalidItems)) {
+
+                $message = __('quantity not available for this items ') ."\n          ". '('.implode(' ,', $invalidItems).')';
+                return response()->json($message, 400);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json(['sorry, please try later'], 400);
+        }
+
+        return response()->json(['message' => __('quantity available')], 200);
     }
 
     /**

@@ -105,13 +105,12 @@
                     <tfoot>
                     <tr>
                         <th scope="col">{!! __('#') !!}</th>
-                        @if(authIsSuperAdmin())
-                            <th scope="col">{!! __('Branch') !!}</th>
-                        @endif
-                        <th scope="col">{!! __('Store Name') !!}</th>
-                        <th scope="col">{!! __('employees count') !!}</th>
-                        <th scope="col">{!! __('Created At') !!}</th>
-                        <th scope="col">{!! __('Updated At') !!}</th>
+                        <th scope="col">{!! __('Locker From') !!}</th>
+                        <th scope="col">{!! __('Locker To') !!}</th>
+                        <th scope="col">{!! __('the Amount') !!}</th>
+                        <th scope="col">{!! __('Created By') !!}</th>
+                        <th scope="col">{!! __('created at') !!}</th>
+                        <th scope="col">{!! __('Updated at') !!}</th>
                         <th scope="col">{!! __('Options') !!}</th>
                     </tr>
                     </tfoot>

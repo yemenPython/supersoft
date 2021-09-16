@@ -6,6 +6,7 @@ use App\ModelsMoneyPermissions\LockerTransferPivot;
 use App\Scopes\BranchScope;
 use App\Traits\ColumnTranslation;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -36,7 +37,7 @@ class LockerTransfer extends Model
         return "This model has been {$eventName}";
     }
 
-    protected $fillable = ['branch_id', 'locker_from_id', 'locker_to_id', 'created_by', 'date', 'amount', 'description'];
+    protected $fillable = ['branch_id', 'locker_from_id', 'locker_to_id', 'created_by', 'date', 'amount', 'description', 'library_path'];
 
     protected $table = 'locker_transfers';
 
@@ -80,5 +81,10 @@ class LockerTransfer extends Model
     public static function getJsDataTablesColumns(): array
     {
         return self::$dataTableColumns;
+    }
+
+    public function files(): HasMany
+    {
+        return $this->hasMany(LockerTransferLibrary::class, 'locker_transfer_id');
     }
 }

@@ -534,7 +534,7 @@
                 data: $('#settlement_form').serialize() + '&_token=' + CSRF_TOKEN,
 
                 success: function (data) {
-                    // $("#settlement_form").submit();
+                    $("#settlement_form").submit();
                 },
 
                 error: function (jqXhr, json, errorThrown) {

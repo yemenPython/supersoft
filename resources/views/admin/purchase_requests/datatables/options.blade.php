@@ -117,7 +117,23 @@
                     <i class="fafa-eye"></i>
                     {{__('Show')}}
                 </a>
+            </li>
 
+            <li>
+
+                @if($item->status == 'accept_approval')
+
+                    <a href="{{route('admin:purchase-quotations.create', ['quotation' => $item->id, 'branch_id'=> $item->branch_id])}}"
+                       class="btn btn-approval-wg text-white hvr-radial-out">
+                        <i class="fafa-eye"></i>
+                        {{__('relay to Purchase Quotation')}}
+                    </a>
+
+                @else
+                    <a class="btn btn-approval-wg text-white hvr-radial-out">
+                        {{__('item not finished')}}
+                    </a>
+                @endif
             </li>
 
             <li>
@@ -127,6 +143,7 @@
             <li>
                 @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])
             </li>
+
 
         </ul>
     </div>

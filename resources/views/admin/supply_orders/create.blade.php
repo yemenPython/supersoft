@@ -152,6 +152,18 @@
 
     <script type="application/javascript">
 
+        @if(request()->query('quotation') && request()->query('p_request'))
+
+        var purchase_request_id = '{{request()->query('p_request')}}';
+
+        $("#purchase_request_id").val(purchase_request_id).change();
+
+        getPurchaseQuotations()
+
+        $("#purchase_request_id").find(':selected').attr('disabled', false);
+
+        @endif
+
         function changeBranch() {
             let branch_id = $('#branch_id').find(":selected").val();
             window.location.href = "{{route('admin:supply-orders.create')}}" + "?branch_id=" + branch_id;
@@ -376,13 +388,33 @@
                     $('.js-example-basic-single').select2();
 
                     invoke_datatable_quotations($('#purchase_quotations_table'));
-                },
 
-                error: function (jqXhr, json, errorThrown) {
-                    var errors = jqXhr.responseJSON;
-                    swal({text: errors, icon: "error"})
-                }
-            });
+                    @if(request()->query('quotation') && request()->query('p_request'))
+
+                         $(".quotations_boxes").prop('checked', false)
+
+                         $(".quotations_boxes").prop('disabled', true)
+
+                        var quotation_id = '{{request()->query('quotation')}}';
+
+                        $("#real_purchase_quotation_box_" + quotation_id).prop('checked', true);
+                        $("#real_purchase_quotation_box_" + quotation_id).prop('disabled', false);
+
+                        $(".purchase_quotation_box_" + quotation_id).prop('checked', true);
+                        $(".purchase_quotation_box_" + quotation_id).prop('disabled', false);
+
+                        addSelectedPurchaseQuotations()
+
+                         $("#purchase_quotations").modal('hide');
+
+                     @endif
+                 },
+
+                 error: function (jqXhr, json, errorThrown) {
+                     var errors = jqXhr.responseJSON;
+                     swal({text: errors, icon: "error"})
+                 }
+             });
         }
 
         function addSelectedPurchaseQuotations() {

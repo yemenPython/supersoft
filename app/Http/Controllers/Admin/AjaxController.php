@@ -12,9 +12,11 @@ use App\Models\AssetMaintenance;
 use App\Models\AssetsItemExpense;
 use App\Models\AssetsTypeExpense;
 use App\Models\BankAccount;
+use App\Models\Banks\BankAccount as BAC;
 use App\Models\Banks\BankCommissioner;
 use App\Models\Banks\BankData;
 use App\Models\Banks\BankOfficial;
+use App\Models\Banks\BranchProduct;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\DamagedStock;
@@ -256,6 +258,12 @@ class AjaxController extends Controller
                     break;
                 case 'BankData':
                     $data = $this->getBankData($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'BranchProduct':
+                    $data = $this->getBranchProduct($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'BAC':
+                    $data = $this->getBankAccount($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
                     break;
                 default:
                     break;
@@ -1672,6 +1680,86 @@ class AjaxController extends Controller
 
         if (!empty($this->bank_data_id)) {
             $items = $items->where('id', $this->bank_data_id);
+        }
+        $items = $items->limit($limit)->get();
+        foreach ($items as $item) {
+            $data[] = [
+                'id' => $item->id,
+                'text' => $this->buildSelectedColumnsAsText($item, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+
+    private function getBranchProduct(array $searchFields, string $searchTerm, string $selectedColumns, int $limit, string $branchId)
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $items = BranchProduct::select(DB::raw($selectedColumns));
+        if (!empty($this->bank_data_id)) {
+            $bankData = BankData::find($this->bank_data_id);
+            $items = $bankData->products;
+        }
+
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $items = $items->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        if (!empty($branchId)) {
+            $items = $items->where('branch_id', $branchId);
+        }
+
+        if (!empty($this->bank_data_id)) {
+            $items = $items->where('id', $this->bank_data_id);
+        }
+        $items = $items->limit($limit)->get();
+        foreach ($items as $item) {
+            $data[] = [
+                'id' => $item->id,
+                'text' => $this->buildSelectedColumnsAsText($item, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+
+    private function getBankAccount(array $searchFields, $searchTerm, $selectedColumns, $limit, $branchId): array
+    {
+
+        $withNoNull = $selectedColumns;
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $items = BAC::select(DB::raw($selectedColumns));
+        if ($withNoNull == 'iban') {
+            $items = $items->where($withNoNull, '!=', null);
+        }
+
+        if ($withNoNull == 'customer_number') {
+            $items = $items->where($withNoNull, '!=', null);
+        }
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $items = $items->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        if (!empty($branchId)) {
+            $items = $items->where('branch_id', $branchId);
+        }
+
+        if (!empty($this->bank_data_id)) {
+            $items = $items->where('bank_data_id', $this->bank_data_id);
         }
         $items = $items->limit($limit)->get();
         foreach ($items as $item) {

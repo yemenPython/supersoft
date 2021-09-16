@@ -4,6 +4,8 @@
 namespace App\Services;
 
 use App\Models\Customer;
+use App\Models\Part;
+use App\Models\PartPrice;
 use App\Models\TaxesFees;
 
 class SaleSupplyOrderService
@@ -179,5 +181,32 @@ class SaleSupplyOrderService
         $customer_discount_type = $type == 'customer' ? $client->group_sales_discount_type : $client->group_discount_type;
 
         return $this->discountValue($customer_discount_type, $customer_discount, $total);
+    }
+
+    public function checkMaxQuantityOfItem ($items) {
+
+        $invalidItems = [];
+
+        foreach ($items as $item) {
+
+            $part = Part::find($item['part_id']);
+
+            if ($part->is_service) {
+                continue;
+            }
+
+//            $store = $part->stores()->where('store_id', $item['store_id'])->first();
+
+            $partPrice = PartPrice::find($item['part_price_id']);
+
+            $requestedQuantity = $partPrice->quantity * $item['quantity'];
+
+            if (!$partPrice || $requestedQuantity > $part->quantity) {
+
+                $invalidItems[] = $part->name;
+            }
+        }
+
+        return $invalidItems;
     }
 }

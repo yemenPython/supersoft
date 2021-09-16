@@ -359,6 +359,7 @@ class SettlementController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'items' => 'required',
+            'type' => 'required|string|in:positive,negative',
         ]);
 
         if ($validator->fails()) {
@@ -366,6 +367,10 @@ class SettlementController extends Controller
         }
 
         try {
+
+            if ($request['type'] == 'positive') {
+                return response()->json(['message' => __('quantity available')], 200);
+            }
 
             $invalidItems = $this->settlementService->checkMaxQuantityOfItem($request['items']);
 
@@ -376,7 +381,7 @@ class SettlementController extends Controller
             }
 
         } catch (\Exception $e) {
-            // dd($e->getMessage());
+
             return response()->json(['sorry, please try later'], 400);
         }
 

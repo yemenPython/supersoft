@@ -34,6 +34,10 @@
                     @endcomponent
                 </li>
             @endif
+
+            <li>
+                @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])
+            </li>
             <li>
                 <a class="btn btn-info"
                    onclick="load_money_permission_model('{{ route('admin:locker-receives.show' ,['id' => $item->id]) }}')">

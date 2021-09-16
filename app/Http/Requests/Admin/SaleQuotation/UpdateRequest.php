@@ -50,6 +50,8 @@ class UpdateRequest extends FormRequest
 
             'taxes.*' => 'nullable|integer|exists:taxes_fees,id',
             'terms.*' => 'nullable|integer|exists:supply_terms,id',
+
+            'salesable_id'=>'required|integer'
         ];
 
         $branch_id = auth()->user()->branch_id;

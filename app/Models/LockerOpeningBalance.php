@@ -72,5 +72,10 @@ class LockerOpeningBalance extends Model
         }
         return self::$dataTableColumns;
     }
+
+    public function files(): HasMany
+    {
+        return $this->hasMany(LockerOpeningBalanceLibrary::class, 'locker_opening_balance_id');
+    }
 }
 
