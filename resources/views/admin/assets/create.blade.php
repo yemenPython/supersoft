@@ -181,7 +181,7 @@
                             </div>
 
 
-                        <div class="col-md-4">
+                        <div class="col-md-4 type_manual">
                             <div class="form-group">
                                 <label> {{ __('asset age') }} </label>
                                 <div class="input-group">

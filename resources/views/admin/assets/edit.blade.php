@@ -171,7 +171,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-2 type_manual" @if($asset->group->consumption_type =='automatic')style="display: none" @endif>
+                            <div class="col-md-2 type_manual" @if($asset->consumption_type =='automatic')style="display: none" @endif>
                                 <div class="form-group">
                                     <label> {{ __('annual consumption rate') }} </label>
                                     <div class="input-group">
@@ -184,7 +184,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-2">
+                                <div class="col-md-2 type_manual" @if($asset->consumption_type =='automatic')style="display: none" @endif>
                                 <div class="form-group">
                                     <label> {{ __('asset age') }} </label>
                                     <div class="input-group">
@@ -336,7 +336,7 @@
                                         <input type="number" name="age_years" step="1" class="type_automatic form-control border3"
                                                id="age_years"
                                                pattern="\d+"
-                                               value="{{$asset->group->age_years}}"
+                                               value="{{$asset->age_years}}"
                                                >
                                         </div>
                                     </div>
@@ -350,7 +350,7 @@
                                         <input type="number" name="age_months" step="1" class="type_automatic form-control border3"
                                                id="age_months"
                                                pattern="\d+"
-                                               value="{{$asset->group->age_months??0}}"
+                                               value="{{$asset->age_months??0}}"
                                                >
                                         </div>
                                     </div>
@@ -363,7 +363,7 @@
                                         <input type="number" name="consumption_period" step="1" class="type_automatic form-control border3"
                                                id="consumption_period"
                                                pattern="\d+"
-                                               value="{{$asset->group->consumption_period}}"
+                                               value="{{$asset->consumption_period}}"
                                                >
                                         </div>
                                     </div>

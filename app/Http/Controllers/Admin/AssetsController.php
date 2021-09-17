@@ -338,6 +338,10 @@ class AssetsController extends Controller
             'date_of_work' => $request->date_of_work,
             'purchase_cost' => $request->purchase_cost,
             'user_id' => Auth::id(),
+            'consumption_type'=>$request->consumption_type,
+            'age_years'=>$request->age_years,
+            'age_months'=>$request->age_months,
+            'consumption_period'=>$request->consumption_period
         ] );
         return redirect()->to( 'admin/assets' )
             ->with( ['message' => __( 'words.asset-created' ), 'alert-type' => 'success'] );
