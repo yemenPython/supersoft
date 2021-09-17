@@ -26,6 +26,9 @@
     @endforeach
 @else
 
-    <span id="no_files" >{{__('No files found')}}</span>
+<div id="no_files" class="col-md-12">
+    <span class="text-from div-if-condition" style="width:100%;"><i class="fa fa-bell"></i>    
+{{__('No files found')}}</span>
+</div>
 @endif
 

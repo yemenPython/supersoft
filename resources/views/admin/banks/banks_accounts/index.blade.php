@@ -28,6 +28,22 @@
                 </h4>
 
                 <div class="card-content js__card_content" style="">
+                    <div class="row">
+                       <div class="col-md-12">
+                            Full width Row
+                       </div>
+                    </div>
+                    <div class="row">
+                       <div class="col-md-4">
+                            One col
+                       </div>
+                       <div class="col-md-4">
+                       One col
+                       </div>
+                       <div class="col-md-4">
+                       One col
+                       </div>
+                    </div>
                     <ul class="list-inline pull-left top-margin-wg">
                         <li class="list-inline-item">
                             @include('admin.buttons.add-new', ['route' => 'admin:banks.banks_accounts.create', 'new' => ''])
