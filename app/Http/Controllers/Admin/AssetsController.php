@@ -537,8 +537,14 @@ class AssetsController extends Controller
         if (is_null( $request->asset_group_id )) {
             return response()->json( __( 'please select valid assets group type' ), 400 );
         }
-        if ($annual_consumtion_rate = AssetGroup::find( $request->asset_group_id )->annual_consumtion_rate) {
-            return ['status' => true, 'annual_consumtion_rate' => $annual_consumtion_rate];
+        if ($group = AssetGroup::find( $request->asset_group_id )) {
+            return ['status' => true,
+                'annual_consumtion_rate' => $group->annual_consumtion_rate,
+                'consumption_type'=>$group->consumption_type,
+                'age_years'=>$group->age_years,
+                'age_months'=>$group->age_months,
+                'consumption_period'=>$group->consumption_period
+            ];
         }
     }
 

@@ -171,7 +171,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-2">
+                            <div class="col-md-2 type_manual" @if($asset->group->consumption_type =='automatic')style="display: none" @endif>
                                 <div class="form-group">
                                     <label> {{ __('annual consumption rate') }} </label>
                                     <div class="input-group">
@@ -304,29 +304,31 @@
                                             <ul class="list-inline">
                                                 <li>
                                                     <div class="radio info">
-                                                        <input type="radio" id="radio_status_sale"
+                                                        <input type="radio" id="radio_manual"
                                                                name="consumption_type"
                                                                value="manual"
-                                                               disabled {{$asset->group->consumption_type =='manual'?'checked':''}} >
-                                                        <label for="radio_status_sale">{{ __('Manual') }}</label>
+                                                                {{$asset->consumption_type =='manual'?'checked':''}}
+                                                               onchange="checkType('manual')" >
+                                                        <label for="radio_manual">{{ __('Manual') }}</label>
                                                     </div>
                                                 </li>
 
                                                 <li>
                                                     <div class="radio info">
-                                                        <input id="radio_status_exclusion" type="radio"
+                                                        <input id="radio_automatic" type="radio"
                                                                name="consumption_type"
                                                                value="automatic"
-                                                               disabled {{$asset->group->consumption_type =='automatic'?'checked':''}} >
+                                                                {{$asset->consumption_type =='automatic'?'checked':''}}
+                                                               onchange="checkType('automatic')">
                                                         <label
-                                                            for="radio_status_exclusion">{{ __('Automatic') }}</label>
+                                                            for="radio_automatic">{{ __('Automatic') }}</label>
                                                     </div>
                                                 </li>
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3" @if($asset->group->consumption_type =='manual')style="display: none" @endif>
+                                <div class="col-md-3 type_automatic" @if($asset->consumption_type =='manual')style="display: none" @endif>
                                     <div class="form-group">
                                         <label> {{__('Asset Age (Years)')}} </label>
                                         <div class="input-group">
@@ -340,7 +342,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-3" @if($asset->group->consumption_type =='manual')style="display: none" @endif>
+                                <div class="col-md-3 type_automatic" @if($asset->consumption_type =='manual')style="display: none" @endif>
                                     <div class="form-group">
                                         <label> {{__('Asset Age (Months)')}} </label>
                                         <div class="input-group">
@@ -353,7 +355,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3" @if($asset->group->consumption_type =='manual')style="display: none" @endif>
+                                <div class="col-md-3 type_automatic" @if($asset->consumption_type =='manual')style="display: none" @endif>
                                     <div class="form-group">
                                         <label> {{__('Consumption Period (Months)')}} </label>
                                         <div class="input-group">
@@ -370,8 +372,6 @@
 
                                 <input type="hidden" class="group_consumption_for"
                                        value="{{$asset->group->consumption_for}}">
-                                <input type="hidden" name="consumption_type"
-                                       value="{{$asset->group->consumption_type}}">
 
                             </div>
                             <div class="col-md-12">
@@ -469,6 +469,11 @@
                 },
                 success: function (data) {
                     $('#annual_consumtion_rate').val(data.annual_consumtion_rate);
+                    checkType(data.consumption_type);
+                    $('#radio_'+data.consumption_type).prop('checked', true);
+                    $('#age_years').val(data.age_years);
+                    $('#age_months').val(data.age_months);
+                    $('#consumption_period').val(data.consumption_period);
                 },
                 error: function (jqXhr, json, errorThrown) {
                     var errors = jqXhr.responseJSON;
@@ -488,5 +493,22 @@
                 $('#asset_age').val(asset_age);
             }
         }
+
+        function checkType(value) {
+            //var value = $("input[name='consumption_type']:checked").val();
+            if (value == 'manual') {
+                $('.type_automatic').hide();
+                $('.type_manual').show();
+            } else if (value == 'automatic') {
+                $('.type_manual').hide();
+                $('.type_automatic').show();
+            }
+        }
+
+        $(function () {
+            $("input[type='radio'][name='consumption_type']").click(function () {
+                checkType();
+            });
+        })
     </script>
 @stop
