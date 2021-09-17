@@ -180,7 +180,8 @@ class Kernel extends ConsoleKernel
                             $total_replacements += $value;
                         }
                     }
-                    $lastNumber = ConsumptionAsset::where( 'branch_id', $consumption->branch_id )->orderBy( 'id', 'desc' )->first();
+                    $branch = $item? $item->consumptionAsset->branch_id:1;
+                    $lastNumber = ConsumptionAsset::where( 'branch_id', $branch )->orderBy( 'id', 'desc' )->first();
                     $number = $lastNumber ? $lastNumber->number + 1 : 1;
                     $consumptionAsset->update( [
                         'date_from' => $from,
@@ -189,7 +190,7 @@ class Kernel extends ConsoleKernel
                         'total_past_consumtion' => $total_past_consumtion,
                         'total_replacement' => $total_replacements,
                         'number' => $number,
-                        'branch_id' => $consumption->branch_id
+                        'branch_id' => $branch
                     ] );
                 }
                 if (!count( $consumptionAsset->items )) {
