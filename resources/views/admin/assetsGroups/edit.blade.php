@@ -89,7 +89,7 @@
                                                 <ul class="list-inline">
                                                     <li>
                                                         <div class="radio info">
-                                                            <input type="radio" id="radio_status_sale" name="consumption_type"
+                                                            <input type="radio" id="radio_manual" name="consumption_type"
                                                                    value="manual" {{  $assetGroup->consumption_type=='manual' ? 'checked' :''}}>
                                                             <label for="radio_status_sale">{{ __('Manual') }}</label>
                                                         </div>
@@ -97,10 +97,10 @@
 
                                                     <li>
                                                         <div class="radio info">
-                                                            <input id="radio_status_exclusion" type="radio" name="consumption_type"
+                                                            <input id="radio_automatic" type="radio" name="consumption_type"
                                                                    value="automatic" {{  $assetGroup->consumption_type=='automatic' ? 'checked' :''}}>
                                                             <label
-                                                                for="radio_status_exclusion">{{ __('Automatic') }}</label>
+                                                                for="radio_automatic">{{ __('Automatic') }}</label>
                                                         </div>
                                                     </li>
                                                 </ul>
