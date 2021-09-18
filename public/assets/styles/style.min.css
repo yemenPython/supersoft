@@ -7111,6 +7111,12 @@ html[dir="ltr"] .div-if-condition i {
     border-radius: 5px 0 0 5px
 }
 
+.new-columns-wg .row-content {
+    border: 1px solid #DDD;
+    padding: 10px;
+    margin-bottom: 20px
+}
+
 
 /* أذونات البرنت */
 
