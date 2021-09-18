@@ -7091,27 +7091,26 @@ html[dir="ltr"] .group-eye-wg-one {
     top: 23px;
 }
 
-
-html[dir="ltr"] .div-if-condition
-{
+html[dir="ltr"] .div-if-condition {
     background: #5A77B0;
-    margin-top:20px;
-    margin-bottom:20px;
-    color:white;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: white;
     display: block;
     width: fit-content;
-    padding-right:10px;
-    border-radius:5px
+    padding-right: 10px;
+    border-radius: 5px;
+    text-align: initial !important
 }
 
-html[dir="ltr"] .div-if-condition i
-{
-    padding:15px;
-    margin-right:10px;
-    background:#2f5296;
+html[dir="ltr"] .div-if-condition i {
+    padding: 15px;
+    margin-right: 10px;
+    background: #2f5296;
     color: white;
-    border-radius:  5px 0 0 5px
+    border-radius: 5px 0 0 5px
 }
+
 
 /* أذونات البرنت */
 

@@ -24,88 +24,251 @@
                             </div>
                         @endif
 
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label> {{ __('Bank Account Type') }} </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                                    <select class="form-control select2" name="main_type_bank_account_id"
+                                            id="main_type_bank_account_id">
+                                        {!! $mainTypes !!}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label> {{ __('Current Account Type') }} </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                                    <select class="form-control select2" name="sub_type_bank_account_id">
+                                        <option value=""> {{ __('Select') }} </option>
+                                        @foreach($subTypes as $index=>$type)
+                                            <option value="{{$type->id}}">
+                                                1. {{$index + 1}} {{ $type->name }} </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-group col-md-3">
                             <label> {{ __('Bank Name') }} </label>
                             {!! drawSelect2ByAjax('bank_data_id','BankData', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('opening-balance.select-one'),request()->bank_commissioner_id) !!}
                         </div>
 
-                            <div class="form-group col-md-3">
-                                <label> {{ __('Branch Code') }} </label>
-                                {!! drawSelect2ByAjax('code','BankData', 'code','code',  __('opening-balance.select-one'),request()->branch_code) !!}
-                            </div>
-
-                            <div class="form-group col-md-3">
-                                <label> {{ __('Swift Code') }} </label>
-                                {!! drawSelect2ByAjax('swift_code','BankData', 'swift_code','branch',  __('opening-balance.select-one'),request()->branch) !!}
-                            </div>
-
-                            <div class="form-group col-md-3">
-                                <label> {{ __('Branch Bank') }} </label>
-                                {!! drawSelect2ByAjax('branch','BankData', 'branch','branch',  __('opening-balance.select-one'),request()->branch) !!}
-                            </div>
-
-                            <div class="form-group col-md-3">
-                                <label> {{ __('Phone') }} </label>
-                                {!! drawSelect2ByAjax('phone','BankData', 'phone','phone',  __('opening-balance.select-one'),request()->phone) !!}
-                            </div>
-
                         <div class="form-group col-md-3">
-                            <label> {{ __('Bank Commissioners') }} </label>
-                            {!! drawSelect2ByAjax('employee_id','EmployeeData', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('opening-balance.select-one'),request()->bank_commissioner_id) !!}
+                            <label> {{ __('Branch Bank') }} </label>
+                            {!! drawSelect2ByAjax('branch','BankData', 'branch','branch',  __('opening-balance.select-one'),request()->branch) !!}
                         </div>
 
                         <div class="form-group col-md-3">
-                            <label> {{ __('Bank Officials') }} </label>
-                            {!! drawSelect2ByAjax('bank_official_id','BankOfficial', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('opening-balance.select-one'),request()->bank_official_id) !!}
+                            <label> {{ __('branch products') }} </label>
+                            {!! drawSelect2ByAjax('branch_product_id','BranchProduct', 'name_ar','name_en',  __('opening-balance.select-one'),request()->branch_product_id) !!}
                         </div>
 
                         <div class="form-group col-md-3">
-                            <label> {{ __('Start Date Dealing From') }} </label>
+                            <label> {{ __('Currency') }} </label>
                             <div class="input-group">
-                                <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                                <input name="start_date_from" id="start_date_from"
-                                       class="form-control date js-example-basic-single" type="date"/>
+                                <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                                <select class="form-control select2" name="currency_id">
+                                    <option value=""> {{ __('Select') }} </option>
+                                    @foreach($currencies as $currency)
+                                        <option value="{{$currency->id}}"> {{ $currency->name }} </option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
-                        <div class="form-group col-md-3">
-                            <label> {{ __('Start Date Dealing To') }} </label>
-                            <div class="input-group">
-                                <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                                <input name="start_date_to" id="start_date_to"
-                                       class="form-control date js-example-basic-single" type="date"/>
-                            </div>
-                        </div>
-
+                        <div id="sectionSelectCertAccounts">
                             <div class="form-group col-md-3">
-                                <label> {{ __('Stop Date Dealing From') }} </label>
+                                <label> {{ __('Type') }}</label>
                                 <div class="input-group">
-                                    <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                                    <input name="stop_date_from" id="stop_date_from"
-                                           class="form-control date js-example-basic-single" type="date"/>
+                                    <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                                    <select class="form-control select2" name="type">
+                                        <option value=""> {{ __('Select') }} </option>
+                                        <option value="deposit_for"> {{ __('deposit for') }} </option>
+                                        <option value="savings_certificate"> {{ __('savings certificate') }} </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label> {{ __('Yield rate type') }} </label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                                    <select class="form-control select2" name="yield_rate_type">
+                                        <option value=""> {{ __('Select') }} </option>
+                                        <option value="fixed"> {{ __('Fixed') }} </option>
+                                        <option value="not_fixed"> {{ __('not Fixed') }} </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="datesForCert">
+                            <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="inputNameAr" class="control-label">{{__('Last renewal date')}}</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">{{__('From')}}</span>
+                                    <input  type="text" name="Last_renewal_date_from"  class="form-control datepicker">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon">{{__('To')}}</span>
+                                    <input  type="text" name="Last_renewal_date_to"  class="form-control datepicker">
+                                </div>
+                            </div>
+                        </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="inputNameAr" class="control-label">{{__('Deposit opening date')}}</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">{{__('From')}}</span>
+                                        <input  type="text" name="deposit_opening_date_from"  class="form-control datepicker">
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">{{__('To')}}</span>
+                                        <input  type="text" name="deposit_opening_date_to"  class="form-control datepicker">
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="form-group col-md-3">
-                                <label> {{ __('Stop Date Dealing To') }} </label>
-                                <div class="input-group">
-                                    <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
-                                    <input name="stop_date_to" id="stop_date_to"
-                                           class="form-control date js-example-basic-single" type="date"/>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="inputNameAr" class="control-label">{{__('Deposit expiry date')}}</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">{{__('From')}}</span>
+                                        <input  type="text" name="deposit_expiry_date_from"  class="form-control datepicker">
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">{{__('To')}}</span>
+                                        <input  type="text" name="deposit_expiry_date_to"  class="form-control datepicker">
+                                    </div>
                                 </div>
                             </div>
 
-
-                        <div class="switch primary col-md-1">
-                            <input type="checkbox" id="switch-slam" name="active">
-                            <label for="switch-slam">{{__('Active')}}</label>
-                        </div>
-                        <div class="switch primary col-md-2">
-                            <input type="checkbox" id="switch-ali" name="inactive">
-                            <label for="switch-ali">{{__('inActive')}}</label>
                         </div>
 
-                    </div>
+                        <div id="">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="inputNameAr" class="control-label">{{__('Account Open Date')}}</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">{{__('From')}}</span>
+                                        <input  type="text" name="account_open_date_from"  class="form-control datepicker">
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">{{__('To')}}</span>
+                                        <input  type="text" name="account_open_date_to"  class="form-control datepicker">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="inputNameAr" class="control-label">{{__('Expiry or due date')}}</label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">{{__('From')}}</span>
+                                        <input  type="text" name="expiry_date_from"  class="form-control datepicker">
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-addon">{{__('To')}}</span>
+                                        <input  type="text" name="expiry_date_to"  class="form-control datepicker">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="inputNameAr" class="control-label">{{__('IBAN')}}</label>
+                                    {!! drawSelect2ByAjax('iban','BAC','iban', 'iban',__('Select Branch'),request()->iban) !!}
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="inputNameAr" class="control-label">{{__('Customer Number')}}</label>
+                                    {!! drawSelect2ByAjax('customer_number','BAC','customer_number', 'customer_number',__('Select Branch'),request()->customer_number) !!}
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12" style="margin-bottom: 15px">
+
+                            <div class="form-group col-md-3">
+                                <label> {{ __('Account Status') }}</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                                    <select class="form-control select2" name="status">
+                                        <option value=""> {{ __('Select') }} </option>
+                                        <option value=""> {{ __('All') }} </option>
+                                        <option value="deposit_for"> {{__('Account Status')}}
+                                            - {{__('Active')}} </option>
+                                        <option value="savings_certificate"> {{__('Account Status')}}
+                                            - {{__('inActive')}} </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                                <div id="sectionSwitchCertAccounts">
+                                    <div class="form-group col-md-3">
+                                        <label> {{ __('auto renewal') }}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                                            <select class="form-control select2" name="auto_renewal">
+                                                <option value=""> {{ __('Select') }} </option>
+                                                <option value="all"> {{ __('All') }} </option>
+                                                <option value="1">{{__('auto renewal')}} <span class="text-danger">({{__('Yes')}}) </span> </option>
+                                                <option value="0">{{__('auto renewal')}} <span class="text-danger">({{__('No')}}) </span></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="sectionSwitchForCurrentAccounts">
+
+                                    <div class="form-group col-md-3">
+                                        <label> {{ __('With Returning') }}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                                            <select class="form-control select2" name="with_returning">
+                                                <option value=""> {{ __('Select') }} </option>
+                                                <option value="all"> {{ __('All') }} </option>
+                                                <option value="1">{{__('With Returning')}} </option>
+                                                <option value="0">{{__('Without Returning')}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group col-md-3">
+                                        <label> {{ __('check books') }}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                                            <select class="form-control select2" name="check_books">
+                                                <option value=""> {{ __('Select') }} </option>
+                                                <option value="all"> {{ __('All') }} </option>
+                                                <option value="1">{{__('check books')}} <span class="text-danger">({{__('Yes')}})</span> </option>
+                                                <option value="0">{{__('check books')}} <span class="text-danger">({{__('No')}})</span></option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group col-md-3">
+                                        <label> {{ __('Overdraft') }}</label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                                            <select class="form-control select2" name="overdraft">
+                                                <option value=""> {{ __('Select') }} </option>
+                                                <option value="all"> {{ __('All') }} </option>
+                                                <option value="1">{{__('Overdraft')}} <span class="text-danger">({{__('Yes')}})</span> </option>
+                                                <option value="0">{{__('Overdraft')}} <span class="text-danger">({{__('No')}})</span></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
 
                     @include('admin.btns.btn_search')
 

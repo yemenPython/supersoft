@@ -2486,32 +2486,26 @@ input[type="time"]
                                 left: auto !important;
                                 top: 0px !important;
                             }
-
-
-
-
-.div-if-condition
-{
-    background: #5A77B0;
-    margin-top:20px;
-    margin-bottom:20px;
-    color:white;
-    display: block;
-    width: fit-content;
-    padding-left:10px;
-    border-radius:5px
-}
-
-.div-if-condition i
-{
-    padding:15px;
-    margin-left:10px;
-    background:#2f5296;
-    color: white;
-    border-radius: 0 5px 5px 0
-}
-
-
+                            
+                            .div-if-condition {
+                                background: #5A77B0;
+                                margin-top: 20px;
+                                margin-bottom: 20px;
+                                color: white;
+                                display: block;
+                                width: fit-content;
+                                padding-left: 10px;
+                                border-radius: 5px;
+                                text-align: initial !important
+                            }
+                            
+                            .div-if-condition i {
+                                padding: 15px;
+                                margin-left: 10px;
+                                background: #2f5296;
+                                color: white;
+                                border-radius: 0 5px 5px 0
+                            }
                             /* أذونات البرنت */
                             
                             .print-border {
@@ -2799,8 +2793,6 @@ input[type="time"]
                                 left: 15px;
                             } */
                             /* أذونات البرنت */
-
-                            
                             /* New Tree View */
                             
                             .tree,
@@ -2901,3 +2893,40 @@ input[type="time"]
                                 margin: 10px 0px !important;
                             }
                             /* New Tree View */
+                            
+                            .new-input-file .filelabel {
+                                width: 100%;
+                                border: 2px dashed grey;
+                                border-radius: 5px;
+                                display: block;
+                                padding: 5px;
+                                transition: border 300ms ease;
+                                cursor: pointer;
+                                text-align: center;
+                                margin: 0;
+                            }
+                            
+                            .new-input-file .filelabel i {
+                                display: block;
+                                font-size: 30px;
+                                padding-bottom: 5px;
+                            }
+                            
+                            .new-input-file .filelabel i,
+                            .new-input-file .filelabel .title {
+                                color: grey;
+                                transition: 200ms color;
+                            }
+                            
+                            .new-input-file .filelabel:hover {
+                                border: 2px solid #1665c4;
+                            }
+                            
+                            .new-input-file .filelabel:hover i,
+                            .new-input-file .filelabel:hover .title {
+                                color: #1665c4;
+                            }
+                            
+                            .new-input-file #FileInput {
+                                display: none;
+                            }

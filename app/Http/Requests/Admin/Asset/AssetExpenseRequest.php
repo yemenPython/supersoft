@@ -32,9 +32,13 @@ class AssetExpenseRequest extends FormRequest
                 'notes' => 'max:300',
                 'total' => 'required',
                 'items' => 'required|array',
-                'items*price' => 'required',
-                'items*annual_consumtion_rate' => 'required',
-                'items*asset_expense_item_id' => 'required|exists:assets_item_expenses,id',
+                'items.*.price' => 'required',
+                'items.*.annual_consumtion_rate' => 'required',
+                'items.*.asset_expense_item_id' => 'required|exists:assets_item_expenses,id',
+                'items.*.consumption_type' => 'required',
+                'items.*.age_years' => 'nullable|required_if:consumption_type,automatic|numeric|min:1',
+                'items.*.consumption_period' => 'nullable|required_if:consumption_type,automatic|numeric|min:1',
+                'items.*.age_months' => 'nullable|numeric|min:0',
             ];
     }
 }

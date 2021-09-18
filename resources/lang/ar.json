@@ -2474,8 +2474,10 @@
     "Add interest in an account" : "إضافة العائد فى حساب",
     "auto renewal" : "تجديد تلقائي",
     "Type Bank Account" : "نوع الحساب البنكى",
-    "dddddddddddd" : "fffffff",
-    "dddddddddddd" : "fffffff",
+    "Yes" : "نعــم",
+    "No" : "لا",
+    "From" : "مــن",
+    "To" : "إلـى",
     "dddddddddddd" : "fffffff"
 
 

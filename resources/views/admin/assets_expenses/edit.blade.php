@@ -201,11 +201,25 @@
             var annual_consumtion_rate = $('.annual_consumtion_rate_'+index).val();
 
             var price = $('.price_'+index).val();
-console.log(price)
             if (annual_consumtion_rate !='' && price !=''){
 
                 var asset_age = ( price / annual_consumtion_rate) / 100;
                 $('.asset_age_'+index).val( asset_age.toFixed(2));
+            }
+        }
+        function checkType(index,value) {
+            var rVal = $('.group_consumption_type'+index).val();
+            if (rVal =='manual' && value =='automatic'){
+                swal({text: '{{__('sorry,Consumption Type of asset group is manual')}}', icon: "warning"});
+                $('#radio_status_sale_'+index).prop('checked', true);
+                return false;
+            }
+            if (value == 'manual') {
+                $('.type_automatic'+index).hide();
+                $('.type_manual'+index).show();
+            } else if (value == 'automatic') {
+                $('.type_manual'+index).hide();
+                $('.type_automatic'+index).show();
             }
         }
     </script>

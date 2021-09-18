@@ -18,18 +18,19 @@ class AssetGroup extends Model
      */
     protected $table = 'assets_groups';
 
-    protected $dates = ['deleted_at'];
+    protected $dates = ['created_at','updated_at','deleted_at'];
 
     protected $fillable = [
-        'id',
         'name_ar',
         'name_en',
         'total_consumtion',
         'annual_consumtion_rate',
         'branch_id',
-        'created_at',
-        'updated_at',
-        'deleted_at',
+        'consumption_type',
+        'age_years',
+        'age_months',
+        'consumption_period',
+        'consumption_for'
     ];
 
     protected static $logAttributes = ['name_ar', 'name_en' ,'total_consumtion', 'annual_consumtion_rate' ];

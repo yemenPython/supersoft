@@ -36,5 +36,12 @@ Route::namespace('Banks')
         Route::get('type_bank_accounts/delete/{id}', 'TypeBankAccountController@delete')->name('type_bank_accounts.delete');
         Route::resource('type_bank_accounts', 'TypeBankAccountController');
         Route::get('banks_accounts/get_credit_current_account_form', 'BankAccountController@getCreditForm')->name('banks_accounts.getCreditForm');
+        Route::post('banks_accounts/deleteSelected', 'BankAccountController@deleteSelected')->name('banks_accounts.deleteSelected');
         Route::resource('banks_accounts', 'BankAccountController');
+
+        // library
+        Route::post('banks_accounts/library/get-files', 'BankAccountLibraryController@getFiles')->name('banks_accounts.library.get.files');
+        Route::post('banks_accounts/upload_library', 'BankAccountLibraryController@uploadLibrary')->name('banks_accounts.upload_library');
+        Route::post('banks_accounts/library/file-delete', 'BankAccountLibraryController@destroyFile')->name('banks_accounts.library.file.delete');
+
     });

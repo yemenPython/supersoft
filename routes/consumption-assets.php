@@ -7,6 +7,7 @@ Route::post('consumption-assets/get_numbers_by_branch_id', 'ConsumptionAssetsCon
 Route::post('/consumption-assets/delete-selected', 'ConsumptionAssetsController@deleteSelected')->name('consumption-assets.deleteSelected');
 
 Route::get('consumption-asset/show','ConsumptionAssetsController@show')->name('consumption-assets.show');
+Route::get('consumption-assets/automatic','ConsumptionAssetsController@automaticConsumption');
 
 Route::resource('consumption-assets','ConsumptionAssetsController')->except('show');
 

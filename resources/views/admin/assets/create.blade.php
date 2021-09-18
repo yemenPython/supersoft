@@ -62,7 +62,7 @@
                                 <input type="hidden" name="branch_id" value="{{ auth()->user()->branch_id }}"/>
                             @endif
 
-                            <div class="col-md-4">
+                            <div class="col-md-4 ">
                                 <div class="form-group">
                                     <label> {{ __('Assets Groups') }} </label>
                                     <div class="input-group">
@@ -168,7 +168,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-4 type_manual">
                                 <div class="form-group">
                                     <label> {{ __('annual consumption rate') }} </label>
                                     <div class="input-group">
@@ -181,7 +181,7 @@
                             </div>
 
 
-                        <div class="col-md-4">
+                        <div class="col-md-4 type_manual">
                             <div class="form-group">
                                 <label> {{ __('asset age') }} </label>
                                 <div class="input-group">
@@ -224,7 +224,118 @@
                                     {{input_error($errors,'date_of_work')}}
                                 </div>
                             </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label> {{ __('Type') }} </label>
+                                        <div class="input-group">
+                                            <ul class="list-inline">
+                                                <li>
+                                                    <div class="radio info">
+                                                        <input type="radio" id="radio_manual" name="consumption_type"
+                                                               value="manual" checked onchange="checkType('manual')">
+                                                        <label for="radio_manual">{{ __('Manual') }}</label>
+                                                    </div>
+                                                </li>
 
+                                                <li>
+                                                    <div class="radio info">
+                                                        <input id="radio_automatic" type="radio" name="consumption_type"
+                                                               value="automatic" onchange="checkType('automatic')">
+                                                        <label
+                                                            for="radio_automatic">{{ __('Automatic') }}</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        {{input_error($errors,'consumption_type')}}
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="col-md-4 type_automatic" style="display: none">
+                                        <div class="form-group has-feedback">
+                                            <label for="age_years" class="control-label">{{__('Asset Age (Years)')}}
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+                                                <input type="number" name="age_years" step="1" class="form-control"
+                                                       pattern="\d+"
+                                                       id="age_years" placeholder="{{__('Asset Age (Years)')}}">
+                                            </div>
+                                            {{input_error($errors,'age_years')}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 type_automatic" style="display: none">
+                                        <div class="form-group has-feedback">
+                                            <label for="age_months" class="control-label">{{__('Asset Age (Months)')}}
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+                                                <input type="number" name="age_months" step="1"  class="form-control"
+                                                       pattern="\d+"
+                                                       id="age_months" placeholder="{{__('Asset Age (Months)')}}">
+                                            </div>
+                                            {{input_error($errors,'age_months')}}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 type_automatic" style="display: none">
+                                        <div class="form-group has-feedback">
+                                            <label for="consumption_period"
+                                                   class="control-label">{{__('Consumption Period (Months)')}}
+                                            </label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-percent"></i></span>
+                                                <input type="number" name="consumption_period" step="1" class="form-control"
+                                                       id="consumption_period"
+                                                       pattern="\d+"
+                                                       placeholder="{{__('Consumption Period (Months)')}}">
+                                            </div>
+                                            {{input_error($errors,'consumption_period')}}
+                                        </div>
+                                    </div>
+{{--                                    <div class="col-md-6 type_automatic" style="display: none">--}}
+{{--                                        <div class="form-group">--}}
+{{--                                            <label> {{ __('Type') }} </label>--}}
+{{--                                            <div class="input-group">--}}
+{{--                                                <ul class="list-inline">--}}
+{{--                                                    <li>--}}
+{{--                                                        <div class="radio info">--}}
+{{--                                                            <input type="radio" id="radio_status_sale" name="consumption_for"--}}
+{{--                                                                   value="asset"--}}
+{{--                                                                   checked--}}
+{{--                                                            >--}}
+{{--                                                            <label for="radio_status_sale">{{ __('Assets') }}</label>--}}
+{{--                                                        </div>--}}
+{{--                                                    </li>--}}
+
+{{--                                                    <li>--}}
+{{--                                                        <div class="radio info">--}}
+{{--                                                            <input id="radio_status_exclusion" type="radio" name="consumption_for"--}}
+{{--                                                                   value="expenses"--}}
+
+{{--                                                            >--}}
+{{--                                                            <label--}}
+{{--                                                                for="radio_status_exclusion">{{ __('Expenses') }}</label>--}}
+{{--                                                        </div>--}}
+{{--                                                    </li>--}}
+{{--                                                    <li>--}}
+{{--                                                        <div class="radio info">--}}
+{{--                                                            <input id="radio_status_all" type="radio" name="consumption_for"--}}
+{{--                                                                   value='both'--}}
+
+{{--                                                            >--}}
+{{--                                                            <label--}}
+{{--                                                                for="radio_status_all">{{ __('Both') }}</label>--}}
+{{--                                                        </div>--}}
+{{--                                                    </li>--}}
+{{--                                                </ul>--}}
+{{--                                            </div>--}}
+{{--                                            {{input_error($errors,'consumption_for')}}--}}
+{{--                                        </div>--}}
+
+{{--                                    </div>--}}
+                                </div>
 
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -278,6 +389,9 @@
                                 {{input_error($errors,'book_value')}}
                             </div>
                         </div> -->
+{{--                                <input type="hidden" name="consumption_type"--}}
+{{--                                       value="manaul">--}}
+
 
                         </div>
 
@@ -361,6 +475,11 @@
                 },
                 success: function (data) {
                     $('#annual_consumtion_rate').val(data.annual_consumtion_rate);
+                    checkType(data.consumption_type);
+                    $('#radio_'+data.consumption_type).prop('checked', true);
+                    $('#age_years').val(data.age_years);
+                    $('#age_months').val(data.age_months);
+                    $('#consumption_period').val(data.consumption_period);
                 },
                 error: function (jqXhr, json, errorThrown) {
                     var errors = jqXhr.responseJSON;
@@ -381,5 +500,21 @@
                 $('#asset_age').val(asset_age);
             }
         }
+        function checkType(value) {
+            //var value = $("input[name='consumption_type']:checked").val();
+            if (value == 'manual') {
+                $('.type_automatic').hide();
+                $('.type_manual').show();
+            } else if (value == 'automatic') {
+                $('.type_manual').hide();
+                $('.type_automatic').show();
+            }
+        }
+
+        $(function () {
+            $("input[type='radio'][name='consumption_type']").click(function () {
+                checkType();
+            });
+        })
     </script>
 @stop

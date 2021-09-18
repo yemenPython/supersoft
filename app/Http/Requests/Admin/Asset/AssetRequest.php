@@ -22,7 +22,7 @@ class AssetRequest extends FormRequest
 
     public function rules()
     {
-        $id = request()->segment(5) ?? request()->segment(4);
+        $id = request()->segment( 5 ) ?? request()->segment( 4 );
         return [
             'name_ar' => 'required|string|max:50',
             'name_en' => 'required|string|max:50',
@@ -30,11 +30,15 @@ class AssetRequest extends FormRequest
             'asset_group_id' => 'required|exists:assets_groups,id',
             'asset_type_id' => 'required|exists:assets_types,id',
             'asset_status' => 'required|numeric|min:1|max:4',
-             'annual_consumtion_rate' => 'required|numeric|min:0|max:100',
+            'annual_consumtion_rate' => 'required|numeric|min:0|max:100',
 //            'asset_details' => 'required',
 //            'purchase_date' => 'required',
-//            'date_of_work' => 'required',
+            'date_of_work' => 'required',
             'purchase_cost' => 'required|numeric',
+            'consumption_type' => 'required',
+            'age_years' => 'nullable|required_if:consumption_type,automatic|numeric|min:1',
+            'consumption_period' => 'nullable|required_if:consumption_type,automatic|numeric|min:1',
+            'age_months' => 'nullable|numeric|min:0',
 
         ];
     }
@@ -42,17 +46,17 @@ class AssetRequest extends FormRequest
     public function attributes()
     {
         return [
-            'name_ar' => __('Name in Arabic'),
-            'annual_consumtion_rate' => __('Annual Consumption Rate'),
-            'name_en' => __('Name in English'),
-            'branch_id' => __('branch id'),
-            'asset_group_id' => __('asset group'),
-            'asset_type_id' => __('asset type'),
-            'asset_status' => __('asset status'),
-            'details' => __('details'),
-            'purchase_date' => __('purchase date'),
-            'date_of_work' => __('date of work'),
-            'purchase_cost' => __('purchase cost'),
+            'name_ar' => __( 'Name in Arabic' ),
+            'annual_consumtion_rate' => __( 'Annual Consumption Rate' ),
+            'name_en' => __( 'Name in English' ),
+            'branch_id' => __( 'branch id' ),
+            'asset_group_id' => __( 'asset group' ),
+            'asset_type_id' => __( 'asset type' ),
+            'asset_status' => __( 'asset status' ),
+            'details' => __( 'details' ),
+            'purchase_date' => __( 'purchase date' ),
+            'date_of_work' => __( 'date of work' ),
+            'purchase_cost' => __( 'purchase cost' ),
         ];
     }
 }

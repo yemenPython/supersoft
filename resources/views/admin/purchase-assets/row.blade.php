@@ -31,9 +31,11 @@
     </td>
 
     <td>
-            <input type="date" class="form-control valid date_of_work_{{$index}} form-control" value="{{$asset->date_of_work}}" name="items[{{$index}}][date_of_work]">
-
+            <input type="date" class="form-control  date_of_work_{{$index}} form-control border5"
+                   id="date_of_work{{$index}}"
+                   name="items[{{$index}}][date_of_work]">
     </td>
+
 
     <td>
             <input type="text"  style="width: 100px !important;" class="border4 annual_consumtion_rate_{{$index}} form-control valid" onchange="annual_consumtion_rate_value('{{$index}}')" onkeyup="annual_consumtion_rate_value('{{$index}}')" value="{{isset($update_item)?$update_item->annual_consumtion_rate:$asset->annual_consumtion_rate}}" name="items[{{$index}}][annual_consumtion_rate]">

@@ -15,6 +15,7 @@ class PurchaseAssetRequest extends FormRequest
 
     public function rules(): array
     {
+        //dd(request()->all());
         $branch_id = authIsSuperAdmin() ?  $this->branch_id : auth()->user()->branch_id;
         $rules = [
             'invoice_number' => ['required', 'max:50', 'string',
@@ -28,7 +29,10 @@ class PurchaseAssetRequest extends FormRequest
             'time' => 'required',
             'annual_consumtion_rate' => 'nullable|numeric|min:0|max:100',
             'operation_type' => 'required|in:purchase,opening_balance',
-            'supplier_id' => 'nullable|required_if:operation_type,purchase|exists:suppliers,id',
+            'supplier_id' => 'required|exists:suppliers,id',
+           // 'supplier_id' => 'nullable|required_if:operation_type,purchase|exists:suppliers,id',
+            'items' => 'required|array',
+            'items.*.date_of_work' => 'required|date',
         ];
 
         if (authIsSuperAdmin()) {
@@ -44,6 +48,7 @@ class PurchaseAssetRequest extends FormRequest
             'invoice_number' => __( 'Invoice Number' ),
             'operation_type' => __( 'Operation Type' ),
             'supplier_id' => __( 'Supplier' ),
+            'items' => __('Assets Data')
         ];
     }
 }

@@ -338,6 +338,10 @@ class AssetsController extends Controller
             'date_of_work' => $request->date_of_work,
             'purchase_cost' => $request->purchase_cost,
             'user_id' => Auth::id(),
+            'consumption_type'=>$request->consumption_type,
+            'age_years'=>$request->age_years,
+            'age_months'=>$request->age_months,
+            'consumption_period'=>$request->consumption_period
         ] );
         return redirect()->to( 'admin/assets' )
             ->with( ['message' => __( 'words.asset-created' ), 'alert-type' => 'success'] );
@@ -346,15 +350,14 @@ class AssetsController extends Controller
     public function edit(asset $asset)
     {
         $branches = Branch::select( ['id', 'name_ar', 'name_en'] )->get();
-        $assetsGroups = AssetGroup::select( ['id', 'name_ar', 'name_en'] )->get();
+        $assetsGroups = AssetGroup::select( '*' )->get();
         $assetsTypes = AssetType::select( ['id', 'name_ar', 'name_en'] )->get();
         $total_replacements = $asset->replacements()->sum( 'value_replacement' );
         return view( 'admin.assets.edit', compact( 'asset', "assetsGroups", "branches", "assetsTypes", 'total_replacements' ) );
     }
 
-    public function update(AssetRequest $request, asset $asset)
+    public function update(AssetRequest $request, Asset  $asset)
     {
-        $asset_group = AssetGroup::find( $request->asset_group_id );
         if ($request->purchase_cost > 0 && $request->annual_consumtion_rate > 0 && ($request->purchase_cost / $request->annual_consumtion_rate) > 0) {
             $asset_age = ($request->purchase_cost / $request->annual_consumtion_rate) / 100;
         } else {
@@ -377,7 +380,11 @@ class AssetsController extends Controller
             'purchase_cost' => $request->purchase_cost,
             'total_replacements' => $request->total_replacements,
             'user_id' => auth()->id(),
-            'book_value' => $book_value
+            'book_value' => $book_value,
+            'consumption_type'=>$request->consumption_type,
+            'age_years'=>$request->age_years,
+            'age_months'=>$request->age_months,
+            'consumption_period'=>$request->consumption_period
         ] );
         return redirect()->to( 'admin/assets' )
             ->with( ['message' => __( 'words.asset-updated' ), 'alert-type' => 'success'] );
@@ -534,8 +541,14 @@ class AssetsController extends Controller
         if (is_null( $request->asset_group_id )) {
             return response()->json( __( 'please select valid assets group type' ), 400 );
         }
-        if ($annual_consumtion_rate = AssetGroup::find( $request->asset_group_id )->annual_consumtion_rate) {
-            return ['status' => true, 'annual_consumtion_rate' => $annual_consumtion_rate];
+        if ($group = AssetGroup::find( $request->asset_group_id )) {
+            return ['status' => true,
+                'annual_consumtion_rate' => $group->annual_consumtion_rate,
+                'consumption_type'=>$group->consumption_type,
+                'age_years'=>$group->age_years,
+                'age_months'=>$group->age_months,
+                'consumption_period'=>$group->consumption_period
+            ];
         }
     }
 

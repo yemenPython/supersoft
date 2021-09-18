@@ -39,6 +39,9 @@
             <li>
                 @component('admin.buttons._edit_button',['id' => $item->id, 'route'=>'admin:lockers_opening_balance.edit'])@endcomponent
             </li>
+            <li>
+                @include('admin.partial.upload_library.btn_upload', ['id'=> $item->id])
+            </li>
 
             <li class="btn-style-drop">
                 @component('admin.buttons._delete_button',[

@@ -53,3 +53,16 @@ Route::post('lockers_opening_balance/get_numbers_by_branch_id', 'LockerOpeningBa
 Route::post('lockers_opening_balance/delete-selected', 'LockerOpeningBalanceController@deleteSelected')->name('lockers_opening_balance.deleteSelected');
 Route::get('lockers_opening_balance/getItemsByAssetId', 'LockerOpeningBalanceController@getLockers')->name('lockers_opening_balance.getLockers');
 Route::resource('lockers_opening_balance', 'LockerOpeningBalanceController');
+
+
+
+// library
+Route::post('lockers_opening_balance/library/get-files', 'LockerOpeningBalanceLibrary@getFiles')->name('lockers_opening_balance.library.get.files');
+Route::post('lockers_opening_balance/upload_library', 'LockerOpeningBalanceLibrary@uploadLibrary')->name('lockers_opening_balance.upload_library');
+Route::post('lockers_opening_balance/library/file-delete', 'LockerOpeningBalanceLibrary@destroyFile')->name('lockers_opening_balance.library.file.delete');
+
+
+// library
+Route::post('lockers-transfer/library/get-files', 'LockerTransferLibraryController@getFiles')->name('lockers-transfer.library.get.files');
+Route::post('lockers-transfer/upload_library', 'LockerTransferLibraryController@uploadLibrary')->name('lockers-transfer.upload_library');
+Route::post('lockers-transfer/library/file-delete', 'LockerTransferLibraryController@destroyFile')->name('lockers-transfer.library.file.delete');

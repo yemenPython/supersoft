@@ -261,7 +261,7 @@
                         <form action="{{route('admin:egyptian_federation.upload.upload_library')}}" method="post"
                               enctype="multipart/form-data">
                             @csrf
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-6">
                                 <label>{{__('Title_ar')}} {!! required() !!}</label>
                                 <div class="input-group">
                                 <span class="input-group-addon"><li class="fa fa-file-archive-o"></li></span>
@@ -269,7 +269,7 @@
                             </div>
                             </div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-md-6">
                                 <label>{{__('Title_en')}}</label>
                                 <div class="input-group">
                                 <span class="input-group-addon"><li class="fa fa-file-archive-o"></li></span>
@@ -277,7 +277,21 @@
                             </div>
                             </div>
 
-                            <div class="form-group col-md-4">
+                            <div class="form-group new-input-file col-md-12">
+
+                                <!-- Start New input-file -->
+
+                            <label class="filelabel">
+                                <i class="fa fa-paperclip">
+                                </i>
+                                <span class="title">
+                                    Add New File
+                                </span>
+                                <input class="FileUpload1" id="FileInput" name="booking_attachment" type="file"/>
+                            </label>
+
+                                <!-- End New input-file -->
+
                                 <label>{{__('files')}} {!! required() !!}</label>
                                 <input type="file" name="files[]" class="form-control" id="files" multiple>
                                 <input type="hidden" name="supplier_id" value="" id="library_supplier_id">

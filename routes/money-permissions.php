@@ -19,6 +19,11 @@ Route::group(['namespace' => 'MoneyPermissions'] ,function () {
 
         Route::get('/lockers-by-branch' ,'LockerExchangeController@load_branch_lockers')->name('locker-exchanges.lockers-by-branch');
         Route::get('/getLockerExchangeTOReceive/{lockerExchangePermission}' ,'LockerExchangeController@getLockerExchangeTOReceive')->name('locker-exchanges.getLockerExchangeTOReceive');
+        // library
+        Route::post('library/get-files', 'LockerExchangeLibraryController@getFiles')->name('locker-exchanges.library.get.files');
+        Route::post('upload_library', 'LockerExchangeLibraryController@uploadLibrary')->name('locker-exchanges.upload_library');
+        Route::post('library/file-delete', 'LockerExchangeLibraryController@destroyFile')->name('locker-exchanges.library.file.delete');
+
     });
 
     Route::group(['prefix' => 'locker-receives'] ,function () {
@@ -32,6 +37,12 @@ Route::group(['namespace' => 'MoneyPermissions'] ,function () {
         Route::get('/show/{id}' ,'LockerReceiveController@show')->name('locker-receives.show');
         Route::get('/approve/{id}' ,'LockerReceiveController@approve')->name('locker-receives.approve');
         Route::get('/reject/{id}' ,'LockerReceiveController@reject')->name('locker-receives.reject');
+
+        // library
+        Route::post('library/get-files', 'LockerReceiveLibraryController@getFiles')->name('locker-receives.library.get.files');
+        Route::post('upload_library', 'LockerReceiveLibraryController@uploadLibrary')->name('locker-receives.upload_library');
+        Route::post('library/file-delete', 'LockerReceiveLibraryController@destroyFile')->name('locker-receives.library.file.delete');
+
     });
 
     Route::group(['prefix' => 'bank-exchanges'] ,function () {

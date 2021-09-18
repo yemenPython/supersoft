@@ -18,17 +18,19 @@
             <div class=" card box-content-wg-new bordered-all primary">
                 <h4 class="box-title with-control" style="text-align: initial"><i
                         class="fa fa-cubes"></i> {{__('update assets')}}
-                        <span class="controls hidden-sm hidden-xs pull-left">
+                    <span class="controls hidden-sm hidden-xs pull-left">
                       <button class="control text-white"
                               style="background:none;border:none;font-size:14px;font-weight:normal !important;">{{__('Save')}}
                       <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                            src="{{asset('assets/images/f1.png')}}">
                   </button>
-                        <button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;">
+                        <button class="control text-white"
+                                style="background:none;border:none;font-size:14px;font-weight:normal !important;">
                             {{__('Reset')}}
                             <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                                  src="{{asset('assets/images/f2.png')}}"></button>
-							<button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
+							<button class="control text-white"
+                                    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
                                     class="img-fluid"
                                     style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                                     src="{{asset('assets/images/f3.png')}}"></button>
@@ -61,91 +63,91 @@
                                 <input type="hidden" name="branch_id" value="{{ auth()->user()->branch_id }}"/>
                             @endif
 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label> {{ __('Assets Groups') }} </label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
-                                            <select class="form-control select2" id="asset_group_id"
-                                                    name="asset_group_id">
-                                                <option value=""> {{ __('Select Group') }} </option>
-                                                @foreach($assetsGroups as $assetGroup)
-                                                    <option
-                                                        {{ old('assetsGroups_id') == $assetGroup->id ? 'selected' : '' }}
-                                                        value="{{ $assetGroup->id }}"
-                                                        @if($asset->asset_group_id == $assetGroup->id) selected @endif
-                                                        rate="{{ $assetGroup->annual_consumtion_rate }}"> {{ $assetGroup->name_ar }} </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        {{input_error($errors,'asset_group_id')}}
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label> {{ __('Assets Groups') }} </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                                        <select class="form-control select2" id="asset_group_id"
+                                                name="asset_group_id">
+                                            <option value=""> {{ __('Select Group') }} </option>
+                                            @foreach($assetsGroups as $assetGroup)
+                                                <option
+                                                    {{ old('assetsGroups_id') == $assetGroup->id ? 'selected' : '' }}
+                                                    value="{{ $assetGroup->id }}"
+                                                    @if($asset->asset_group_id == $assetGroup->id) selected @endif
+                                                    rate="{{ $assetGroup->annual_consumtion_rate }}"> {{ $assetGroup->name_ar }} </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    {{input_error($errors,'asset_group_id')}}
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label> {{ __('Assets Types') }} </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
+                                        <select class="form-control select2" name="asset_type_id"
+                                                id="asset_type_id">
+                                            <option value=""> {{ __('Select Type') }} </option>
+                                            @foreach($assetsTypes as $assetType)
+                                                <option
+                                                    {{ old('asset_type_id') == $assetType->id ? 'selected' : '' }}
+                                                    value="{{ $assetType->id }}"
+                                                    @if($asset->asset_type_id == $assetType->id) selected @endif
+                                                > {{ $assetType->name_ar }} </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    {{input_error($errors,'asset_type_id')}}
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label> {{ __('Asset Status') }} </label>
+                                    <div class="input-group">
+                                        <ul class="list-inline">
+                                            <li>
+                                                <div class="radio info">
+                                                    <input type="radio" @if($asset->asset_status == 1) checked
+                                                           @endif id="radio_status_1" name="asset_status" value="1">
+                                                    <label for="radio_status_1">{{ __('continues') }}</label>
+                                                </div>
+                                            </li>
+
+                                            <li>
+                                                <div class="radio info">
+                                                    <input disabled id="radio_status_2"
+                                                           @if($asset->asset_status == 2) checked
+                                                           @endif type="radio" name="asset_status" value="2">
+                                                    <label for="radio_status_2">{{ __('sell') }}</label>
+                                                </div>
+                                            </li>
+                                            <input type="hidden" name="asset_status" value="{{$asset->asset_status}}">
+                                            <li>
+                                                <div class="radio info">
+                                                    <input disabled type="radio" id="radio_status_3"
+                                                           @if($asset->asset_status == 3) checked
+                                                           @endif name="asset_status" value="3">
+                                                    <label for="radio_status_3">{{ __('ignore') }}</label>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="radio info">
+                                                    <input type="radio" disabled id="radio_status_4" name="asset_status"
+                                                           @if($asset->asset_status == 4) checked
+                                                           @endif
+                                                           value="4">
+                                                    <label for="radio_status_4">{{ __('stop') }}</label>
+                                                </div>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label> {{ __('Assets Types') }} </label>
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-file-text"></i></span>
-                                            <select class="form-control select2" name="asset_type_id"
-                                                    id="asset_type_id">
-                                                <option value=""> {{ __('Select Type') }} </option>
-                                                @foreach($assetsTypes as $assetType)
-                                                    <option
-                                                        {{ old('asset_type_id') == $assetType->id ? 'selected' : '' }}
-                                                        value="{{ $assetType->id }}"
-                                                        @if($asset->asset_type_id == $assetType->id) selected @endif
-                                                    > {{ $assetType->name_ar }} </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        {{input_error($errors,'asset_type_id')}}
-                                    </div>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label> {{ __('Asset Status') }} </label>
-                                        <div class="input-group">
-                                            <ul class="list-inline">
-                                                <li>
-                                                    <div class="radio info">
-                                                        <input type="radio" @if($asset->asset_status == 1) checked
-                                                               @endif id="radio_status_1" name="asset_status" value="1">
-                                                        <label for="radio_status_1">{{ __('continues') }}</label>
-                                                    </div>
-                                                </li>
-
-                                                <li>
-                                                    <div class="radio info">
-                                                        <input disabled id="radio_status_2"
-                                                               @if($asset->asset_status == 2) checked
-                                                               @endif type="radio" name="asset_status" value="2">
-                                                        <label for="radio_status_2">{{ __('sell') }}</label>
-                                                    </div>
-                                                </li>
-                                                <input type="hidden" name="asset_status" value="{{$asset->asset_status}}">
-                                                <li>
-                                                    <div class="radio info">
-                                                        <input disabled type="radio" id="radio_status_3"
-                                                               @if($asset->asset_status == 3) checked
-                                                               @endif name="asset_status" value="3">
-                                                        <label for="radio_status_3">{{ __('ignore') }}</label>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="radio info">
-                                                        <input type="radio" disabled id="radio_status_4" name="asset_status"
-                                                               @if($asset->asset_status == 4) checked
-                                                               @endif
-                                                               value="4">
-                                                        <label for="radio_status_4">{{ __('stop') }}</label>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
+                            </div>
 
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -169,7 +171,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-2">
+                            <div class="col-md-2 type_manual" @if($asset->consumption_type =='automatic')style="display: none" @endif>
                                 <div class="form-group">
                                     <label> {{ __('annual consumption rate') }} </label>
                                     <div class="input-group">
@@ -182,12 +184,13 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-2">
+                                <div class="col-md-2 type_manual" @if($asset->consumption_type =='automatic')style="display: none" @endif>
                                 <div class="form-group">
                                     <label> {{ __('asset age') }} </label>
                                     <div class="input-group">
                                         <span class="input-group-addon border4"><i class="fa fa-calendar"></i></span>
-                                        <input class="form-control border4" id="asset_age" value="{{ number_format($asset->asset_age,2) }}" readOnly type="text"
+                                        <input class="form-control border4" id="asset_age"
+                                               value="{{ number_format($asset->asset_age,2) }}" readOnly type="text"
                                                name="asset_age"/>
                                     </div>
                                     {{input_error($errors,'asset_age')}}
@@ -223,7 +226,8 @@
                                     <label> {{ __('cost of purchase') }} </label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-money"></i></span>
-                                        <input class="form-control" id="purchase_cost" onchange="annual_consumtion_rate_value();"
+                                        <input class="form-control" id="purchase_cost"
+                                               onchange="annual_consumtion_rate_value();"
                                                value="{{ $asset->purchase_cost }}" type="text"
                                                name="purchase_cost"/>
                                     </div>
@@ -248,7 +252,8 @@
                                     <label> {{ __('current consumption') }} </label>
                                     <div class="input-group">
                                         <span class="input-group-addon border3"><i class="fa fa-money"></i></span>
-                                        <input class="form-control border3" value="{{$asset->current_consumtion}}" disabled
+                                        <input class="form-control border3" value="{{$asset->current_consumtion}}"
+                                               disabled
                                                type="text" name="current_consumtion"/>
                                     </div>
                                     {{input_error($errors,'current_consumtion')}}
@@ -272,24 +277,103 @@
                                     <label> {{ __('book value') }} </label>
                                     <div class="input-group">
                                         <span class="input-group-addon border3"><i class="fa fa-money"></i></span>
-                                        <input class="form-control border3" value="{{$asset->book_value}}" disabled type="text"
+                                        <input class="form-control border3" value="{{$asset->book_value}}" disabled
+                                               type="text"
                                                name="booko_value"/>
                                     </div>
                                     {{input_error($errors,'book_value')}}
                                 </div>
                             </div>
 
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label> {{ __('total replacements') }} </label>
+                                    <div class="input-group">
+                                        <span class="input-group-addon border3"><i class="fa fa-money"></i></span>
+                                        <input class="form-control border3" value="{{$total_replacements}}"
+                                               readonly type="text" name="total_replacements"/>
+                                    </div>
+                                    {{input_error($errors,'total_replacements')}}
+                                </div>
+                            </div>
+                            <div class="col-md-12">
                                 <div class="col-md-3">
                                     <div class="form-group">
-                                        <label> {{ __('total replacements') }} </label>
+                                        <label> {{ __('Consumption Type') }} </label>
                                         <div class="input-group">
-                                            <span class="input-group-addon border3"><i class="fa fa-money"></i></span>
-                                            <input class="form-control border3" value="{{$total_replacements}}"
-                                                   readonly type="text" name="total_replacements"/>
+                                            <ul class="list-inline">
+                                                <li>
+                                                    <div class="radio info">
+                                                        <input type="radio" id="radio_manual"
+                                                               name="consumption_type"
+                                                               value="manual"
+                                                                {{$asset->consumption_type =='manual'?'checked':''}}
+                                                               onchange="checkType('manual')" >
+                                                        <label for="radio_manual">{{ __('Manual') }}</label>
+                                                    </div>
+                                                </li>
+
+                                                <li>
+                                                    <div class="radio info">
+                                                        <input id="radio_automatic" type="radio"
+                                                               name="consumption_type"
+                                                               value="automatic"
+                                                                {{$asset->consumption_type =='automatic'?'checked':''}}
+                                                               onchange="checkType('automatic')">
+                                                        <label
+                                                            for="radio_automatic">{{ __('Automatic') }}</label>
+                                                    </div>
+                                                </li>
+                                            </ul>
                                         </div>
-                                        {{input_error($errors,'total_replacements')}}
                                     </div>
                                 </div>
+                                <div class="col-md-3 type_automatic" @if($asset->consumption_type =='manual')style="display: none" @endif>
+                                    <div class="form-group">
+                                        <label> {{__('Asset Age (Years)')}} </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-cube"></i></span>
+                                        <input type="number" name="age_years" step="1" class="type_automatic form-control border3"
+                                               id="age_years"
+                                               pattern="\d+"
+                                               value="{{$asset->age_years}}"
+                                               >
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 type_automatic" @if($asset->consumption_type =='manual')style="display: none" @endif>
+                                    <div class="form-group">
+                                        <label> {{__('Asset Age (Months)')}} </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-cube"></i></span>
+                                        <input type="number" name="age_months" step="1" class="type_automatic form-control border3"
+                                               id="age_months"
+                                               pattern="\d+"
+                                               value="{{$asset->age_months??0}}"
+                                               >
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 type_automatic" @if($asset->consumption_type =='manual')style="display: none" @endif>
+                                    <div class="form-group">
+                                        <label> {{__('Consumption Period (Months)')}} </label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-cube"></i></span>
+                                        <input type="number" name="consumption_period" step="1" class="type_automatic form-control border3"
+                                               id="consumption_period"
+                                               pattern="\d+"
+                                               value="{{$asset->consumption_period}}"
+                                               >
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <input type="hidden" class="group_consumption_for"
+                                       value="{{$asset->group->consumption_for}}">
+
+                            </div>
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label> {{ __('Notes') }} </label>
@@ -298,7 +382,6 @@
                                 </div>
                                 {{input_error($errors,'asset_details')}}
                             </div>
-
 
 
                             <div class="col-md-12">
@@ -386,6 +469,11 @@
                 },
                 success: function (data) {
                     $('#annual_consumtion_rate').val(data.annual_consumtion_rate);
+                    checkType(data.consumption_type);
+                    $('#radio_'+data.consumption_type).prop('checked', true);
+                    $('#age_years').val(data.age_years);
+                    $('#age_months').val(data.age_months);
+                    $('#consumption_period').val(data.consumption_period);
                 },
                 error: function (jqXhr, json, errorThrown) {
                     var errors = jqXhr.responseJSON;
@@ -399,11 +487,28 @@
 
             var purchase_cost = $('#purchase_cost').val();
 
-            if (annual_consumtion_rate !='' && purchase_cost !=''){
+            if (annual_consumtion_rate != '' && purchase_cost != '') {
 
-                var asset_age = ( purchase_cost / annual_consumtion_rate) / 100;
+                var asset_age = (purchase_cost / annual_consumtion_rate) / 100;
                 $('#asset_age').val(asset_age);
             }
         }
+
+        function checkType(value) {
+            //var value = $("input[name='consumption_type']:checked").val();
+            if (value == 'manual') {
+                $('.type_automatic').hide();
+                $('.type_manual').show();
+            } else if (value == 'automatic') {
+                $('.type_manual').hide();
+                $('.type_automatic').show();
+            }
+        }
+
+        $(function () {
+            $("input[type='radio'][name='consumption_type']").click(function () {
+                checkType();
+            });
+        })
     </script>
 @stop
