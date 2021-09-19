@@ -3,24 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\Admin\Asset\ConsumptionAssetRequest;
-use App\Http\Requests\Admin\Asset\PurchaseAssetRequest;
 use App\Models\Asset;
-use App\Models\AssetEmployee;
 use App\Models\AssetGroup;
 use App\Models\AssetReplacementItem;
-use App\Models\AssetType;
 use App\Models\ConsumptionAsset;
 use App\Models\ConsumptionAssetItem;
 use App\Models\ConsumptionAssetItemExpense;
-use App\Models\EmployeeData;
-use App\Models\PurchaseAsset;
 use App\Models\PurchaseAssetItem;
 use App\Models\SaleAssetItem;
 use App\Models\StopAndActivateAsset;
 use Carbon\Carbon;
 use Exception;
 use App\Models\Branch;
-use App\Models\Supplier;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\App;
 use Illuminate\Http\Request;
@@ -249,9 +243,10 @@ class ConsumptionAssetsController extends Controller
                 $diff_in_days -= $diff;
                 $consumption_amount = 0;
                 if ($request->type != 'expenses') {
-                    $age = ($item['net_purchase_cost'] / $item['annual_consumtion_rate']) / 100;
+                    $age = (($asset->purchase_cost + $asset->total_replacements - $asset->total_current_consumtion) / $item['annual_consumtion_rate']) / 100;
                     $months = $age * 12;
-                    $asd = $item['net_purchase_cost'] / $months;
+
+                    $asd = ($asset->purchase_cost + $asset->total_replacements - $asset->total_current_consumtion) / $months;
                     $value = $asd * ($diff_in_days / 30);
                     $consumption_amount = number_format( $value, 2 );
 
@@ -283,9 +278,10 @@ class ConsumptionAssetsController extends Controller
                         }
                         $diff_in_days = $to->diffInDays( $from );
                         $diff_in_days -= $diff;
-                        $age = ($expens->price / $expens->annual_consumtion_rate) / 100;
+
+                        $age = (($expens->price - $expens->expenseConsumptions->sum( 'consumption_amount' )) / $expens->annual_consumtion_rate) / 100;
                         $months = $age * 12;
-                        $asd = $expens->price / $months;
+                        $asd = ($expens->price - $expens->expenseConsumptions->sum( 'consumption_amount' )) / $months;
                         $value = $asd * ($diff_in_days / 30);
                         $value = number_format( $value, 2 );
                         ConsumptionAssetItemExpense::create( [
@@ -410,9 +406,9 @@ class ConsumptionAssetsController extends Controller
                 $diff_in_days -= $diff;
                 $consumption_amount = 0;
                 if ($consumptionAsset->type != 'expenses') {
-                    $age = ($item['net_purchase_cost'] / $item['annual_consumtion_rate']) / 100;
+                    $age = (($asset->purchase_cost + $asset->total_replacements - $asset->total_current_consumtion) / $item['annual_consumtion_rate']) / 100;
                     $months = $age * 12;
-                    $asd = $item['net_purchase_cost'] / $months;
+                    $asd = ($asset->purchase_cost + $asset->total_replacements - $asset->total_current_consumtion) / $months;
                     $value = $asd * ($diff_in_days / 30);
                     $consumption_amount = number_format( $value, 2 );
 
@@ -448,10 +444,9 @@ class ConsumptionAssetsController extends Controller
                         }
                         $diff_in_days = $to->diffInDays( $from );
                         $diff_in_days -= $diff;
-
-                        $age = ($expens->price / $expens->annual_consumtion_rate) / 100;
+                        $age = (($expens->price - $expens->expenseConsumptions->sum( 'consumption_amount' )) / $expens->annual_consumtion_rate) / 100;
                         $months = $age * 12;
-                        $asd = $expens->price / $months;
+                        $asd = ($expens->price - $expens->expenseConsumptions->sum( 'consumption_amount' )) / $months;
                         $value = $asd * ($diff_in_days / 30);
                         $value = number_format( $value, 2 );
                         ConsumptionAssetItemExpense::create( [
@@ -730,10 +725,9 @@ class ConsumptionAssetsController extends Controller
                 }
                 $diff_in_days = $to->diffInDays( $from );
                 $diff_in_days -= $diff;
-
-                $age = $expens->annual_consumtion_rate ? ($expens->price / $expens->annual_consumtion_rate) / 100 : 0;
+                $age = $expens->annual_consumtion_rate ? (($expens->price - $expens->expenseConsumptions->sum( 'consumption_amount' )) / $expens->annual_consumtion_rate) / 100 : 0;
                 $months = $age * 12;
-                $asd = $months ? $expens->price / $months : 0;
+                $asd = $months ? ($expens->price - $expens->expenseConsumptions->sum( 'consumption_amount' )) / $months : 0;
                 $value = $asd * ($diff_in_days / 30);
                 $expenses_total += number_format( $value, 2 );
             }

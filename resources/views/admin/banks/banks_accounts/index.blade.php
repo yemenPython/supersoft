@@ -27,21 +27,29 @@
                     <span class="text-danger">[{{count($items->get())}}]</span>
                 </h4>
 
-                <div class="card-content js__card_content" style="">
+                <div class="card-content new-columns-wg js__card_content" style="">
                     <div class="row">
                        <div class="col-md-12">
+                            <div class="row-content">
                             Full width Row
+                            </div>
                        </div>
                     </div>
                     <div class="row">
                        <div class="col-md-4">
-                            One col
+                       <div class="row-content">
+                       One col
+                            </div>
                        </div>
                        <div class="col-md-4">
+                       <div class="row-content">
                        One col
+                            </div>
                        </div>
                        <div class="col-md-4">
+                       <div class="row-content">
                        One col
+                            </div>
                        </div>
                     </div>
                     <ul class="list-inline pull-left top-margin-wg">
