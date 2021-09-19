@@ -38,7 +38,7 @@
 @if (isset($withStatus))
     @if($item->status == 'pending' )
         <span class="label label-info wg-label"> {{__('processing')}}</span>
-    @elseif($item->status == 'accept' )
+    @elseif($item->status == 'accepted' )
         <span
             class="label label-success wg-label">  {{__('Accept Approval')}} </span>
     @else
@@ -126,23 +126,6 @@
             </li>
 
             <li>
-                @if(!$item->supplyOrders->count() && $item->purchaseRequest
-                       && $item->purchaseRequest->status == 'accept_approval')
-
-                    <a href="{{route('admin:supply-orders.create', ['quotation' => $item->id, 'p_request' => $item->purchase_request_id, 'branch_id'=> $item->branch_id, ])}}"
-                       class="btn btn-approval-wg text-white hvr-radial-out">
-                        <i class="fafa-eye"></i>
-                        {{__('relay to Purchase Quotation')}}
-                    </a>
-
-                @else
-                    <a class="btn btn-approval-wg text-white hvr-radial-out">
-                        {{__('item not valid')}}
-                    </a>
-                @endif
-            </li>
-
-            <li>
                 @include('admin.partial.execution_period', ['id'=> $item->id])
             </li>
 
@@ -161,3 +144,22 @@
     ])
     @endcomponent
 @endif
+
+
+@if (isset($withRelay))
+
+    <div class="checkbox danger"
+         style="{{!$item->supplyOrders->count() && $item->status == 'accepted' ? '' : 'display:none'}}">
+
+        <input type="checkbox" class="checkbox-relay-quotation"  value="{{$item->id}}" id="relay-{{$item->id}}"
+                data-branch="{{$item->branch_id}}"
+                data-supplier-id="{{$item->supplier_id}}"
+               data-purchase-request="{{$item->purchase_request_id}}">
+
+        <label for="relay-{{$item->id}}"></label>
+    </div>
+
+@endif
+
+
+

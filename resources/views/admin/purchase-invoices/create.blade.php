@@ -35,11 +35,13 @@
                       <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                            src="{{asset('assets/images/f1.png')}}">
                   </button>
-                        <button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;">
+                        <button class="control text-white"
+                                style="background:none;border:none;font-size:14px;font-weight:normal !important;">
                             {{__('Reset')}}
                             <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                                  src="{{asset('assets/images/f2.png')}}"></button>
-							<button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
+							<button class="control text-white"
+                                    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
                                     class="img-fluid"
                                     style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                                     src="{{asset('assets/images/f3.png')}}"></button>
@@ -74,7 +76,7 @@
 
     <div class="modal fade" id="purchase_receipts" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content wg-content">
+            <div class="modal-content wg-content">
                 <div class="modal-header">
 
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -116,7 +118,7 @@
                 <div class="modal-footer">
 
 
-                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
+                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
                             onclick="addSelectedPurchaseReceipts()">
                         {{__('Add Item')}}
                     </button>
@@ -366,7 +368,10 @@
 
                     $("#purchase_receipts_selected").html(data.real_purchase_receipts);
 
+                    selectRelayQuotations()
+                    @if(!request()->query('p_receipts') && !request()->query('s_order'))
                     $("#purchase_receipts").modal('show');
+                    @endif
 
                     $('.js-example-basic-single').select2();
 
@@ -471,16 +476,53 @@
             });
         }
 
-        function defaultUnitQuantity (index) {
+        function defaultUnitQuantity(index) {
 
             let unit_quantity = $('#prices_part_' + index).find(":selected").data('quantity');
             $('#unit_quantity_' + index).text(unit_quantity);
         }
 
-        function getPartImage (index) {
+        function getPartImage(index) {
 
             let image_path = $('#part_img_id_' + index).data('img');
             $('#part_image').attr('src', image_path);
+        }
+
+        @if(request()->query('p_receipts') && request()->query('s_order'))
+
+        var supply_order_id = '{{request()->query('s_order')}}';
+
+        $("#supply_order_id").val(supply_order_id).change();
+
+        getPurchaseReceipts()
+
+        $("#supply_order_id").find(':selected').attr('disabled', false);
+
+        @endif
+
+
+        function selectRelayQuotations() {
+
+            @if(request()->query('p_receipts') && request()->query('s_order'))
+
+            let purchase_receipts_ids = '{{request()->query('p_receipts')}}';
+
+            let purchase_receipts_ids_arr = purchase_receipts_ids.split(',');
+
+            purchase_receipts_ids_arr.forEach(function (receipt_id) {
+
+                $(".real_purchase_quotation_box_" + receipt_id).prop('checked', true);
+                $(".real_purchase_quotation_box_" + receipt_id).prop('disabled', false);
+
+                $(".purchase_quotation_box_" + receipt_id).prop('checked', true);
+                $(".purchase_quotation_box_" + receipt_id).prop('disabled', false);
+            });
+
+            addSelectedPurchaseReceipts()
+
+            $("#purchase_receipts").modal('hide');
+
+            @endif
         }
 
     </script>

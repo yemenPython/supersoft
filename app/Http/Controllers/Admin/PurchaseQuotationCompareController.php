@@ -190,12 +190,13 @@ class PurchaseQuotationCompareController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
 
-            dd($e->getMessage());
-
             return redirect()->back()->with(['message' => __('sorry, please try later'), 'alert-type' => 'error']);
         }
 
-        $url = route('admin:supply-orders.edit', $supplyOrder->id);
+        $quotationIds = $supplyOrder->purchaseQuotations ? implode(',',$supplyOrder->purchaseQuotations->pluck('id')->toArray()) : '';
+
+        $url = route('admin:supply-orders.edit', ['supplyOrder' => $supplyOrder->id,
+            'p_request'=> $supplyOrder->purchase_request_id, 'quotations' => $quotationIds]);
 
         return redirect($url)->with(['message' => __('supply.orders.created.successfully'), 'alert-type' => 'success']);
     }

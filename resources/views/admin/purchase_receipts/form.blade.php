@@ -94,7 +94,7 @@
                                 <option value="">{{__('Select')}}</option>
 
                                 @foreach($data['supply_orders'] as $supply_order)
-                                    <option value="{{$supply_order->id}}"
+                                    <option value="{{$supply_order->id}}" {{request()->query('supply_order') ? 'disabled':''}}
                                         {{isset($purchaseReceipt) && $purchaseReceipt->supply_order_id == $supply_order->id? 'selected':''}}>
                                         {{$supply_order->number}} - {{ optional($supply_order->supplier)->name }}
                                     </option>

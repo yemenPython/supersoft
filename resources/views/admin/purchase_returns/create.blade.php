@@ -35,11 +35,13 @@
                       <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                            src="{{asset('assets/images/f1.png')}}">
                   </button>
-                        <button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;">
+                        <button class="control text-white"
+                                style="background:none;border:none;font-size:14px;font-weight:normal !important;">
                             {{__('Reset')}}
                             <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                                  src="{{asset('assets/images/f2.png')}}"></button>
-							<button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
+							<button class="control text-white"
+                                    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
                                     class="img-fluid"
                                     style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                                     src="{{asset('assets/images/f3.png')}}"></button>
@@ -48,19 +50,19 @@
 
                 <div class="box-content">
                     <form method="post" action="{{route('admin:purchase_returns.store')}}" class="form"
-                          enctype="multipart/form-data" >
+                          enctype="multipart/form-data">
                         @csrf
                         @method('post')
 
                         @include('admin.purchase_returns.form')
 
                         <div class="form-group col-sm-12">
-                            <button  type="submit" class="btn hvr-rectangle-in saveAdd-wg-btn">
+                            <button type="submit" class="btn hvr-rectangle-in saveAdd-wg-btn">
                                 <i class="ico ico-left fa fa-save"></i>
                                 {{__('Save')}}
                             </button>
 
-                            <button id="reset"  type="button" class="btn hvr-rectangle-in resetAdd-wg-btn">
+                            <button id="reset" type="button" class="btn hvr-rectangle-in resetAdd-wg-btn">
                                 <i class="ico ico-left fa fa-trash"></i>
                                 {{__('Reset')}}
                             </button>
@@ -87,7 +89,7 @@
 
     <div class="modal fade" id="purchase_receipts" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content wg-content">
+            <div class="modal-content wg-content">
                 <div class="modal-header">
 
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -128,8 +130,7 @@
 
                 <div class="modal-footer">
 
-
-                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
+                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" id="add_p_receipts"
                             onclick="addSelectedPurchaseReceipts(); selectSupplier('from_supply_order')">
                         {{__('Add Item')}}
                     </button>
@@ -146,7 +147,7 @@
 
     <div class="modal fade" id="part_quantity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content wg-content">
+            <div class="modal-content wg-content">
                 <div class="modal-header">
 
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -169,9 +170,9 @@
                                 </tr>
                                 </thead>
 
-                                    <tbody id="store_quantity">
+                                <tbody id="store_quantity">
 
-                                    </tbody>
+                                </tbody>
 
                             </table>
                         </div>
@@ -207,6 +208,36 @@
     <script src="{{asset('js/purchase_invoice_return/index.js')}}"></script>
 
     <script type="application/javascript">
+
+        @if(request()->query('invoice'))
+
+        var purchase_invoice_id = '{{request()->query('invoice')}}';
+
+        $("#invoice_type").val('normal').change();
+
+        $("#purchase_invoice_id").val(purchase_invoice_id).change();
+
+        $("#purchase_invoice_id").find(':selected').attr('disabled', false);
+
+        @endif
+
+        ///////////////////////////////////////////////////////////////////////////////
+
+        @if(request()->query('p_receipts') && request()->query('s_order'))
+
+        selectSupplyOrders()
+
+        $("#supply_order_ids").find(':selected').attr('disabled', false);
+
+        getPurchaseReceipts()
+
+        // addSelectedPurchaseReceipts()
+
+        // $("#purchase_quotations").modal('hide');
+        //
+
+        @endif
+
 
         function changeBranch() {
             let branch_id = $('#branch_id').find(":selected").val();
@@ -341,13 +372,23 @@
 
                     $("#purchase_receipts_selected").html(data.real_purchase_receipts);
 
+                    @if(!request()->query('p_receipts') && !request()->query('s_order'))
                     $("#purchase_receipts").modal('show');
+                    @endif
 
                     $('.js-example-basic-single').select2();
 
                     invoke_datatable_quotations($('#purchase_quotations_table'));
 
                     executeAllItems()
+
+                    @if(request()->query('p_receipts') && request()->query('s_order'))
+                    selectPurchaseReceipts()
+
+                    $('#add_p_receipts').click()
+
+                    // addSelectedPurchaseReceipts()
+                    @endif
                 },
 
                 error: function (jqXhr, json, errorThrown) {
@@ -391,7 +432,6 @@
                     swal({text: errors, icon: "error"})
                 }
             });
-
         }
 
         function reorderItems() {
@@ -475,34 +515,45 @@
             });
         }
 
-        function getPartImage (index) {
+        function getPartImage(index) {
 
             let image_path = $('#part_img_id_' + index).data('img');
             $('#part_image').attr('src', image_path);
         }
 
-        {{--function checkStockQuantity () {--}}
+        function selectSupplyOrders() {
 
-        {{--    let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');--}}
+            @if(request()->query('p_receipts') && request()->query('s_order'))
 
-        {{--    $.ajax({--}}
+            let supplyOrderIds = '{{request()->query('s_order')}}';
 
-        {{--        type: 'post',--}}
+            let supplyOrderIds_arr = supplyOrderIds.split(',');
 
-        {{--        url: '{{route('admin:purchase.returns.orders.check.stock')}}',--}}
+            supplyOrderIds_arr.forEach(function (supply_id) {
+                $('#supply_order_ids option[value=' + supply_id + ']').attr('selected', true);
+            });
 
-        {{--        data: $('#purchase_return_form').serialize() + '&_token=' + CSRF_TOKEN,--}}
+            @endif
+        }
 
-        {{--        success: function (data) {--}}
-        {{--            // $("#purchase_return_form").submit();--}}
-        {{--        },--}}
+        function selectPurchaseReceipts() {
 
-        {{--        error: function (jqXhr, json, errorThrown) {--}}
-        {{--            var errors = jqXhr.responseJSON;--}}
-        {{--            swal({text: errors, icon: "error"})--}}
-        {{--        }--}}
-        {{--    });--}}
-        {{--}--}}
+            @if(request()->query('p_receipts') && request()->query('s_order'))
+
+            let receipts_ids = '{{request()->query('p_receipts')}}';
+
+            let receipts_ids_ids_arr = receipts_ids.split(',');
+
+            receipts_ids_ids_arr.forEach(function (receipt_id) {
+
+                $(".real_purchase_quotation_box_" + receipt_id).prop('checked', true);
+                $(".real_purchase_quotation_box_" + receipt_id).prop('disabled', false);
+
+                $(".purchase_quotation_box_" + receipt_id).prop('checked', true);
+                $(".purchase_quotation_box_" + receipt_id).prop('disabled', false);
+            });
+            @endif
+        }
 
     </script>
 

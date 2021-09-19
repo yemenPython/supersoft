@@ -1,7 +1,8 @@
 <div class="row">
     <div class="col-xs-12">
 
-        <div class="row top-data-wg for-error-margin-group" style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
+        <div class="row top-data-wg for-error-margin-group"
+             style="box-shadow: 0 0 7px 1px #DDD;margin:5px 5px 10px;padding-top:20px">
 
             @if(authIsSuperAdmin())
                 <div class="col-md-12">
@@ -110,27 +111,26 @@
                         {{input_error($errors,'status')}}
                     </div>
                 </div>
-<div class="col-md-3">
-<label style="display:block">{{__('Quotation type')}}</label>
-<div class="col-xs-6">
-                    <div class="radio primary ">
+                <div class="col-md-3">
+                    <label style="display:block">{{__('Quotation type')}}</label>
+                    <div class="col-xs-6">
+                        <div class="radio primary ">
+                            <input type="radio" name="type" value="cash" id="cash"
+                                {{ !isset($purchaseReturn) ? 'checked':'' }}
+                                {{isset($purchaseReturn) && $purchaseReturn->type == 'cash' ? 'checked':''}} >
+                            <label for="cash">{{__('Cash')}}</label>
+                        </div>
+                    </div>
 
-                        <input type="radio" name="type" value="cash" id="cash"
-                            {{ !isset($purchaseReturn) ? 'checked':'' }}
-                            {{isset($purchaseReturn) && $purchaseReturn->type == 'cash' ? 'checked':''}} >
-                        <label for="cash">{{__('Cash')}}</label>
+                    <div class="col-xs-6">
+                        <div class="radio primary ">
+
+                            <input type="radio" name="type" id="credit" value="credit"
+                                {{isset($purchaseReturn) && $purchaseReturn->type == 'credit' ? 'checked':''}} >
+                            <label for="credit">{{__('Credit')}}</label>
+                        </div>
                     </div>
                 </div>
-
-                <div class="col-xs-6">
-                    <div class="radio primary ">
-
-                        <input type="radio" name="type" id="credit" value="credit"
-                            {{isset($purchaseReturn) && $purchaseReturn->type == 'credit' ? 'checked':''}} >
-                        <label for="credit">{{__('Credit')}}</label>
-                    </div>
-                </div>
-</div>
 
 
                 {{--  Type  --}}
@@ -146,11 +146,12 @@
                                     onchange="changeType()">
 
                                 <option value="from_supply_order"
+                                    {{request()->query('invoice') ? 'disabled':''}}
                                     {{isset($purchaseReturn) && $purchaseReturn->invoice_type == 'from_supply_order'? 'selected':'' }}>
                                     {{ __('From Supply Order') }}
                                 </option>
 
-                                <option value="normal"
+                                <option value="normal" {{request()->query('p_receipts') ? 'disabled':'' }}
                                     {{isset($purchaseReturn) && $purchaseReturn->invoice_type == 'normal'? 'selected':'' }}>
                                     {{ __('Normal purchase invoice') }}
                                 </option>
@@ -172,11 +173,15 @@
                             <span class="input-group-addon fa fa-file-text-o"></span>
 
                             <select class="form-control js-example-basic-single" name="purchase_invoice_id"
-                                    id="purchase_invoice_id" onchange="changeType(); selectPurchaseInvoice(); selectSupplier('from_invoice')">
-                                <option value="">{{__('Select')}}</option>
+                                    id="purchase_invoice_id"
+                                    onchange="changeType(); selectPurchaseInvoice(); selectSupplier('from_invoice')">
+
+                                <option value="" {{request()->query('invoice') ? 'disabled':''}}>
+                                    {{__('Select')}}
+                                </option>
 
                                 @foreach($data['purchaseInvoices'] as $purchaseInvoice)
-                                    <option value="{{$purchaseInvoice->id}}"
+                                    <option value="{{$purchaseInvoice->id}}" {{request()->query('invoice') ? 'disabled':''}}
                                             data-supplier-discount="{{$purchaseInvoice->supplier ? $purchaseInvoice->supplier->group_discount : 0}}"
                                             data-supplier-discount-type="{{$purchaseInvoice->supplier ? $purchaseInvoice->supplier->group_discount_type : 'amount'}}"
                                         {{isset($purchaseReturn) && $purchaseReturn->purchase_invoice_id == $purchaseInvoice->id? 'selected':''}}>
@@ -201,12 +206,15 @@
 
                             <select class="form-control js-example-basic-single" name="supply_order_ids[]" multiple
                                     id="supply_order_ids" onchange="changeType()">
-                                <option value="">{{__('Select')}}</option>
+                                <option value=""  {{request()->query('p_receipts') ? 'disabled':'' }}>
+                                    {{__('Select')}}
+                                </option>
 
                                 @foreach($data['supplyOrders'] as $supplyOrder)
-                                    <option value="{{$supplyOrder->id}}"
+                                    <option value="{{$supplyOrder->id}}" {{request()->query('p_receipts') ? 'disabled':'' }}
                                         {{isset($purchaseReturn) &&  in_array($supplyOrder->id, $purchaseReturn->supplyOrders->pluck('id')->toArray())? 'selected':''}}>
-                                        {{$supplyOrder->number}} - {{ $supplyOrder->supplier ? $supplyOrder->supplier->name : ''}}
+                                        {{$supplyOrder->number}}
+                                        - {{ $supplyOrder->supplier ? $supplyOrder->supplier->name : ''}}
                                     </option>
                                 @endforeach
 
@@ -218,42 +226,45 @@
 
                 {{-- Buttons --}}
 
-                <div class="col-md-12 from_supply_order" style="{{isset($purchaseReturn) && $purchaseReturn->invoice_type != 'from_supply_order'? 'display:none':''}}">
-            <div class="form-group">
-         
+                <div class="col-md-12 from_supply_order"
+                     style="{{isset($purchaseReturn) && $purchaseReturn->invoice_type != 'from_supply_order'? 'display:none':''}}">
+                    <div class="form-group">
 
-                <div class="input-group">
-                <label style="opacity:0">{{__('select')}}</label>
-                <ul class="list-inline" style="display:flex">
-                <li class="">
-                                           <button type="button" onclick="getPurchaseReceipts(); changeType()"
-                                    class="btn btn-new1 waves-effect waves-light btn-xs">
-                                    <i class="fa fa-file-text-o"></i> 
-                                    {{__('Get Purchase Receipt')}}
-                            </button>
-                </li>
-                <li class="">
-                    <button type="button" class="btn btn-new2 waves-effect waves-light btn-xs"
-                                    data-toggle="modal" data-target="#purchase_receipts" style="margin-right: 10px;">
-                                    <i class="fa fa-file-text-o"></i> 
-                                    {{__('Show selected Receipts')}}
-                            </button>
-                    <li>
-                </ul>    
+
+                        <div class="input-group">
+                            <label style="opacity:0">{{__('select')}}</label>
+                            <ul class="list-inline" style="display:flex">
+                                <li class="">
+                                    <button type="button" onclick="getPurchaseReceipts(); changeType()"
+                                            class="btn btn-new1 waves-effect waves-light btn-xs"
+                                        {{request()->query('p_receipts') ? 'disabled':'' }}>
+                                        <i class="fa fa-file-text-o"></i>
+                                        {{__('Get Purchase Receipt')}}
+                                    </button>
+                                </li>
+
+                                <li class="">
+                                    <button type="button" class="btn btn-new2 waves-effect waves-light btn-xs"
+                                            data-toggle="modal" data-target="#purchase_receipts"
+                                            style="margin-right: 10px;">
+                                        <i class="fa fa-file-text-o"></i>
+                                        {{__('Show selected Receipts')}}
+                                    </button>
+                                <li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
-                </div>
-            </div>
 
 
-                
-                <!-- <div class="col-md-3 from_supply_order" style="{{isset($purchaseReturn) && $purchaseReturn->invoice_type != 'from_supply_order'? 'display:none':''}}">
+            <!-- <div class="col-md-3 from_supply_order" style="{{isset($purchaseReturn) && $purchaseReturn->invoice_type != 'from_supply_order'? 'display:none':''}}">
                     <div class="form-group">
                         <label for="date" class="control-label">{{__('')}}</label>
 
                         <div class="input-group">
-          
 
-                           
+
+
                         </div>
                     </div>
                 </div> -->

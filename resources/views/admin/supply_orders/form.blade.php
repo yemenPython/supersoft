@@ -178,7 +178,7 @@
                                 </option>
 
                                 @foreach($data['purchaseRequests'] as $purchaseRequest)
-                                    <option
+                                    <option {{request()->query('p_request') ? 'disabled':''}}
                                         value="{{$purchaseRequest->id}}" {{request()->query('quotation') ? 'disabled="disabled"':'' }}
                                         {{isset($supplyOrder) && $supplyOrder->purchase_request_id == $purchaseRequest->id? 'selected':''}}>
                                         {{$purchaseRequest->special_number}}
@@ -192,8 +192,7 @@
                 </div>
 
 
-                <div class="col-md-6 purchase_request_type"
-                     style="{{isset($supplyOrder) && $supplyOrder->type != 'from_purchase_request'? 'display:none':''}}">
+                <div class="col-md-6 purchase_request_type" style="{{isset($supplyOrder) && $supplyOrder->type != 'from_purchase_request'? 'display:none':''}}">
                     <div class="form-group">
 
                         <div class="input-group">
@@ -203,6 +202,7 @@
                                 <li class="col-md-6">
                                     <button type="button" onclick="getPurchaseQuotations(); quotationType()"
                                             id="get_purchase_quotation_btn" {{request()->query('quotation') ? 'disabled="disabled"':'' }}
+                                            {{request()->query('quotations') && request()->query('p_request')  ? 'disabled="disabled"':'' }}
                                             class="btn btn-new1 waves-effect waves-light btn-xs">
                                         <i class="fa fa-file-text-o"></i>
                                         {{__('Get Purchase Quotations')}}

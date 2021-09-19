@@ -155,6 +155,30 @@
 
     <script type="application/javascript">
 
+        @if(request()->query('p_request') && request()->query('quotations'))
+
+        $("#purchase_request_id").find(':selected').attr('disabled', false);
+
+        $(".quotations_boxes").prop('checked', false)
+
+        $(".quotations_boxes").prop('disabled', true)
+
+        let quotation_ids = '{{request()->query('quotations')}}';
+
+        let quotation_ids_arr = quotation_ids.split(',');
+
+         quotation_ids_arr.forEach(function (quotation_id) {
+
+             $("#real_purchase_quotation_box_" + quotation_id).prop('checked', true);
+             $("#real_purchase_quotation_box_" + quotation_id).prop('disabled', false);
+
+             $(".purchase_quotation_box_" + quotation_id).prop('checked', true);
+             $(".purchase_quotation_box_" + quotation_id).prop('disabled', false);
+         });
+
+        @endif
+
+
         function changeBranch() {
             let branch_id = $('#branch_id').find(":selected").val();
             window.location.href = "{{route('admin:supply-orders.create')}}" + "?branch_id=" + branch_id;

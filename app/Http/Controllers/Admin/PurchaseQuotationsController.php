@@ -505,10 +505,20 @@ class PurchaseQuotationsController extends Controller
             ->addColumn('action', function ($item) use ($viewPath) {
                 $withActions = true;
                 return view($viewPath, compact('item', 'withActions'))->render();
-            })->addColumn('options', function ($item) use ($viewPath) {
+            })
+
+            ->addColumn('options', function ($item) use ($viewPath) {
                 $withOptions = true;
                 return view($viewPath, compact('item', 'withOptions'))->render();
-            })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
+            })
+
+            ->addColumn('relay', function ($item) use ($viewPath) {
+                $withRelay = true;
+                return view($viewPath, compact('item', 'withRelay'))->render();
+            })
+
+
+            ->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
     }
 
 
