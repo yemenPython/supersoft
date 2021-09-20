@@ -180,7 +180,7 @@ class Kernel extends ConsoleKernel
                             $total_replacements += $value;
                         }
                     }
-                    $branch = $item? $item->consumptionAsset->branch_id:1;
+                    $branch = $asset->branch_id;
                     $lastNumber = ConsumptionAsset::where( 'branch_id', $branch )->orderBy( 'id', 'desc' )->first();
                     $number = $lastNumber ? $lastNumber->number + 1 : 1;
                     $consumptionAsset->update( [

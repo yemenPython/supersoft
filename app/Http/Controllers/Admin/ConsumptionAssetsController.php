@@ -589,6 +589,9 @@ class ConsumptionAssetsController extends Controller
             return response()->json( __( 'please select valid Asset' ), 400 );
         }
         $asset = Asset::with( 'group' )->find( $request->asset_id );
+        if($asset->consumption_type =='automatic'){
+            return response()->json( __( 'can not  consumption asset manual , asset consumption type is automatic' ), 400 );
+        }
         if (SaleAssetItem::where( 'asset_id', $request->asset_id )->count()) {
             return response()->json( __( 'can not  consumption asset after sale' ), 400 );
         }
