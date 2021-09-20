@@ -50,6 +50,7 @@ class BankAccount extends Model
         'check_books',
         'overdraft',
         'library_path',
+        'balance',
     ];
 
     protected $casts = [

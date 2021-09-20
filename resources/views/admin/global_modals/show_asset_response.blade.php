@@ -1,5 +1,5 @@
 <div class="modal-header">
-    <p class="text-center text-danger" style="font-size: 18px">{{__('Asset Details')}}  [ {{ $asset->name }}]</p>
+    <p class="text-center text-danger" style="font-size: 18px">{{__('Asset Details')}}  [ {{ $asset->name ?? '' }}]</p>
 </div>
 <div class="modal-body">
         <div class="col-xs-12">
@@ -9,7 +9,7 @@
                     <th style="width:20% !important">{{__('Asset Group')}}</th>
                     <td> {{optional($asset->group)->name}} </td>
                     <th style="width:20% !important">{{__('Asset Type')}}</th>
-                    <td> {{$assetType->name}} </td>
+                    <td> {{$assetType->name ?? ''}} </td>
                 </tr>
                 <tr>
                     <th style="width:20% !important">{{__('Asset name')}}</th>

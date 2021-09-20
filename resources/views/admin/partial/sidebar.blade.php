@@ -524,6 +524,7 @@ route('admin:maintenance-detections.index'),
 route('admin:financial_management.type_revenue.index'),
 route('admin:financial_management.type_expenses.index'),
 route('admin:banks.banks_accounts.index'),
+route('admin:banks.opening_balance_accounts.index'),
                      ])}}">
                     <a class="parent-item js__control" href="#">
                         <i style="color:#0E73D2 !important" class="menu-icon fa fa-folder-open-o"></i>
@@ -579,6 +580,12 @@ route('admin:banks.banks_accounts.index'),
                         <li class="{{setActivationClass(route('admin:banks.banks_accounts.index'))}}">
                             <a href="{{route('admin:banks.banks_accounts.index')}}">
                                 {{__('Accounts')}}
+                            </a>
+                        </li>
+
+                        <li class="{{setActivationClass(route('admin:banks.opening_balance_accounts.index'))}}">
+                            <a href="{{route('admin:banks.opening_balance_accounts.index')}}">
+                                {{__('Bank Accounts Opening Balance')}}
                             </a>
                         </li>
 

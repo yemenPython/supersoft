@@ -44,4 +44,11 @@ Route::namespace('Banks')
         Route::post('banks_accounts/upload_library', 'BankAccountLibraryController@uploadLibrary')->name('banks_accounts.upload_library');
         Route::post('banks_accounts/library/file-delete', 'BankAccountLibraryController@destroyFile')->name('banks_accounts.library.file.delete');
 
+
+        //opening balance
+        Route::get('opening_balance_accounts/getBankDataById', 'OpeningBalanceAccountController@getBankDataById')->name('opening_balance_accounts.getBankDataById');
+        Route::get('opening_balance_accounts/getBanksAccount', 'OpeningBalanceAccountController@getBanksAccount')->name('opening_balance_accounts.getBanksAccount');
+        Route::post('opening_balance_accounts/deleteSelected', 'OpeningBalanceAccountController@deleteSelected')->name('opening_balance_accounts.deleteSelected');
+        Route::resource('opening_balance_accounts', 'OpeningBalanceAccountController');
+
     });
