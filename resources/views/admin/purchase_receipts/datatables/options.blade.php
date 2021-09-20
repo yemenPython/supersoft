@@ -1,4 +1,3 @@
-
 @if (isset($withBranch))
     '<span class="text-danger">{{ optional($item->branch)->name}}</span>
 @endif
@@ -131,4 +130,38 @@
                                                    'route' => 'admin:purchase-receipts.deleteSelected',
                                                    ])
     @endcomponent
+@endif
+
+
+@if (isset($withRelayToPurchaseInvoice))
+
+    <div class="checkbox danger"
+         style="{{!$item->purchaseInvoices->count() && $item->concession && $item->concession->status == 'accepted' ? '':'display:none;' }}">
+
+        <input type="checkbox" class="checkbox-relay-quotation" value="{{$item->id}}" id="relay-{{$item->id}}"
+               data-branch="{{$item->branch_id}}"
+               data-supply-order="{{$item->supply_order_id}}"
+        >
+
+        <label for="relay-{{$item->id}}"></label>
+    </div>
+
+@endif
+
+@if (isset($withRelayToPurchaseReturn))
+
+    @if($item->concession && $item->concession->status == 'accepted')
+
+        <div class="checkbox danger">
+
+            <input type="checkbox" class="checkbox-relay-return" value="{{$item->id}}" id="relay-return-{{$item->id}}"
+                   data-branch="{{$item->branch_id}}"
+                   data-supply-order="{{$item->supply_order_id}}"
+                   data-supplier-id="{{$item->supplier_id}}"
+            >
+
+            <label for="relay-return-{{$item->id}}"></label>
+        </div>
+    @endif
+
 @endif

@@ -41,6 +41,16 @@
                             @endcomponent
                         </li>
 
+                        <li class="list-inline-item">
+                            <button style="
+    margin-bottom: 12px; border-radius: 5px" type="button" onclick="relayToSupplyOrder()"
+                                    class="btn btn-print-wg btn-icon btn-icon-left  waves-effect waves-light hvr-bounce-to-left"
+                            >
+                                <i class="ico fa fa-floppy-o"></i>
+                                {{__('Relay to Supply Orders')}}
+                            </button>
+                        </li>
+
                     </ul>
 
                     <div class="clearfix"></div>
@@ -70,17 +80,20 @@
                                 <th scope="col">{!! __('Created Date') !!}</th>
                                 <th scope="col">{!! __('Updated Date') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
-
                                 <th scope="col">
                                     <div class="checkbox danger">
                                         <input type="checkbox" id="select-all">
                                         <label for="select-all"></label>
                                     </div>{!! __('Select') !!}
                                 </th>
+                                <th>{{__('Relay')}}</th>
 
                             </tr>
+
                             </thead>
+
                             <tfoot>
+
                             <tr>
                                 <th scope="col">{!! __('#') !!}</th>
                                 <th scope="col">{!! __('Date') !!}</th>
@@ -105,6 +118,7 @@
                                 <th scope="col">{!! __('Updated Date') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">{!! __('Select') !!}</th>
+                                <th>{{__('Relay')}}</th>
                             </tr>
                             </tfoot>
                         </table>
@@ -296,6 +310,55 @@
                 $("#loaderSearch").hide();
             }, 1000)
         }
+
+        function relayToSupplyOrder () {
+
+            var checkbox_list = [];
+            var branch_ids = [];
+            var purchase_request_ids = [];
+            var suppliers_ids = [];
+
+            $(".checkbox-relay-quotation").each(function() {
+                if ($(this).is(":checked")) {
+                    checkbox_list.push($(this).val());
+                    branch_ids.push($(this).data('branch'));
+                    purchase_request_ids.push($(this).data('purchase-request'));
+                    suppliers_ids.push($(this).data('supplier-id'));
+                }
+            });
+
+            let unique_branch_id = [...new Set(branch_ids)];
+            let unique_purchase_request_id = [...new Set(purchase_request_ids)];
+            let unique_suppliers_id = [...new Set(suppliers_ids)];
+
+            if (unique_branch_id.length > 1) {
+
+                swal("{{__('Error')}}", '{{__('sorry, branches is different')}}', "error");
+                return false;
+            }
+
+            if (unique_purchase_request_id.length > 1) {
+
+                swal("{{__('Error')}}", '{{__('sorry, Purchase Requests is different')}}', "error");
+                return false;
+            }
+
+            if (unique_suppliers_id.length > 1) {
+
+                swal("{{__('Error')}}", '{{__('sorry, Suppliers is different')}}', "error");
+                return false;
+            }
+
+            let purchase_request_id = unique_purchase_request_id[0];
+            let branch_id = unique_branch_id[0];
+
+
+            setTimeout(function () {
+                window.location.href = '{{url('/'). '/admin/supply-orders/create?'}}' +
+                    'quotation=' + checkbox_list + '&branch_id=' + branch_id + '&p_request=' + purchase_request_id
+            }, 1000);
+        }
+
     </script>
 
 @endsection

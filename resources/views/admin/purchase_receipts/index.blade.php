@@ -33,6 +33,24 @@
                             @endcomponent
                         </li>
 
+                        <li class="list-inline-item">
+                            <button style=" margin-bottom: 12px; border-radius: 5px" type="button" onclick="relayToPurchaseInvoice()"
+                                    class="btn btn-print-wg btn-icon btn-icon-left  waves-effect waves-light hvr-bounce-to-left"
+                            >
+                                <i class="ico fa fa-floppy-o"></i>
+                                {{__('Relay to Purchase Invoice')}}
+                            </button>
+                        </li>
+
+                        <li class="list-inline-item">
+                            <button style=" margin-bottom: 12px; border-radius: 5px" type="button" onclick="relayToPurchaseReturn()"
+                                    class="btn btn-print-wg btn-icon btn-icon-left  waves-effect waves-light hvr-bounce-to-left"
+                            >
+                                <i class="ico fa fa-floppy-o"></i>
+                                {{__('Relay to Purchase Return')}}
+                            </button>
+                        </li>
+
                     </ul>
 
                     <div class="clearfix"></div>
@@ -65,6 +83,8 @@
                                         <label for="select-all"></label>
                                     </div>{!! __('Select') !!}
                                 </th>
+                                <th scope="col">{!! __('To Purchase Invoice') !!}</th>
+                                <th scope="col">{!! __('To Purchase Return') !!}</th>
 
                             </tr>
                             </thead>
@@ -88,6 +108,8 @@
                                 <th scope="col">{!! __('Updated Date') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">{!! __('Select') !!}</th>
+                                <th scope="col">{!! __('To Purchase Invoice') !!}</th>
+                                <th scope="col">{!! __('To Purchase Return') !!}</th>
                             </tr>
                             </tfoot>
                         </table>
@@ -268,6 +290,7 @@
         }
 
         server_side_datatable('#datatable-with-btns');
+
         function filterFunction($this) {
             $("#loaderSearch").show();
             $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
@@ -277,6 +300,88 @@
                 $("#loaderSearch").hide();
             }, 1000)
         }
+
+        function relayToPurchaseInvoice () {
+
+            var checkbox_list = [];
+            var branch_ids = [];
+            var supply_orders = [];
+
+            $(".checkbox-relay-quotation").each(function() {
+                if ($(this).is(":checked")) {
+                    checkbox_list.push($(this).val());
+                    branch_ids.push($(this).data('branch'));
+                    supply_orders.push($(this).data('supply-order'));
+                }
+            });
+
+            let unique_branch_id = [...new Set(branch_ids)];
+            let unique_supply_order_id = [...new Set(supply_orders)];
+
+            if (unique_branch_id.length > 1) {
+
+                swal("{{__('Error')}}", '{{__('sorry, branches is different')}}', "error");
+                return false;
+            }
+
+            if (unique_supply_order_id.length > 1) {
+
+                swal("{{__('Error')}}", '{{__('sorry, Supply Order is different')}}', "error");
+                return false;
+            }
+
+            let supply_order_id = unique_supply_order_id[0];
+            let branch_id = unique_branch_id[0];
+
+
+            setTimeout(function () {
+                window.location.href = '{{url('/'). '/admin/purchase-invoices/create?'}}' +
+                    'p_receipts=' + checkbox_list + '&branch_id=' + branch_id + '&s_order=' + supply_order_id
+            }, 1000);
+        }
+
+        function relayToPurchaseReturn () {
+
+            var checkbox_list = [];
+            var branch_ids = [];
+            var supply_orders = [];
+            var suppliers = [];
+
+            $(".checkbox-relay-return").each(function() {
+                if ($(this).is(":checked")) {
+                    checkbox_list.push($(this).val());
+                    branch_ids.push($(this).data('branch'));
+                    supply_orders.push($(this).data('supply-order'));
+                    suppliers.push($(this).data('supplier-id'));
+                }
+            });
+
+            let unique_branch_id = [...new Set(branch_ids)];
+            let unique_supply_order_id = [...new Set(supply_orders)];
+            let unique_supplier_ids = [...new Set(suppliers)];
+
+
+            if (unique_branch_id.length > 1) {
+
+                swal("{{__('Error')}}", '{{__('sorry, branches is different')}}', "error");
+                return false;
+            }
+
+            if (unique_supplier_ids.length > 1) {
+
+                swal("{{__('Error')}}", '{{__('sorry, Suppliers is different')}}', "error");
+                return false;
+            }
+
+            let branch_id = unique_branch_id[0];
+
+
+            setTimeout(function () {
+                window.location.href = '{{url('/'). '/admin/purchase-returns/create?'}}' +
+                    'p_receipts=' + checkbox_list + '&branch_id=' + branch_id + '&s_order=' + supply_orders
+            }, 1000);
+        }
+
     </script>
 @endsection
 

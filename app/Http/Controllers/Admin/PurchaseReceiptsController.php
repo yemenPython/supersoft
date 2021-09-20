@@ -323,10 +323,24 @@ class PurchaseReceiptsController extends Controller
             ->addColumn('action', function ($item) use ($viewPath) {
                 $withActions = true;
                 return view($viewPath, compact('item', 'withActions'))->render();
-            })->addColumn('options', function ($item) use ($viewPath) {
+            })
+
+            ->addColumn('options', function ($item) use ($viewPath) {
                 $withOptions = true;
                 return view($viewPath, compact('item', 'withOptions'))->render();
-            })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
+            })
+
+            ->addColumn('relay_to_purchase_invoice', function ($item) use ($viewPath) {
+                $withRelayToPurchaseInvoice = true;
+                return view($viewPath, compact('item', 'withRelayToPurchaseInvoice'))->render();
+            })
+
+            ->addColumn('relay_to_purchase_return', function ($item) use ($viewPath) {
+                $withRelayToPurchaseReturn = true;
+                return view($viewPath, compact('item', 'withRelayToPurchaseReturn'))->render();
+            })
+
+            ->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
     }
 
     private function filter(Request $request, Builder $data)

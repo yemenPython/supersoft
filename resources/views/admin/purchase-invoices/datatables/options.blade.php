@@ -126,6 +126,23 @@
 
             <li>
 
+                @if($item->invoice_type == 'normal' && !$item->invoiceReturn && $item->status == 'accept')
+
+                    <a href="{{route('admin:purchase_returns.create', ['invoice' => $item->id, 'branch_id'=> $item->branch_id])}}"
+                       class="btn btn-approval-wg text-white hvr-radial-out">
+                        <i class="fa fa-eye"></i>
+                        {{__('relay to Purchase Return')}}
+                    </a>
+
+                @else
+
+                    <a class="btn btn-approval-wg text-white hvr-radial-out">
+                        {{__('item not valid')}}
+                    </a>
+                @endif
+            </li>
+
+            <li>
                 @include('admin.partial.execution_period', ['id'=> $item->id])
             </li>
 

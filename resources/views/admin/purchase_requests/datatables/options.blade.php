@@ -130,6 +130,7 @@
                     </a>
 
                 @else
+
                     <a class="btn btn-approval-wg text-white hvr-radial-out">
                         {{__('item not finished')}}
                     </a>

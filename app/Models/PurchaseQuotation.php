@@ -33,7 +33,8 @@ class PurchaseQuotation extends Model
         'created_at' => 'created_at',
         'updated_at' => 'updated_at',
         'action' => 'action',
-        'options' => 'options'
+        'options' => 'options',
+        'relay' => 'relay'
     ];
 
     public function branch()

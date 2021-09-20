@@ -316,6 +316,16 @@
             $('#part_image').attr('src', image_path);
         }
 
+        @if(request()->query('supply_order'))
+
+        var supply_order_id = '{{request()->query('supply_order')}}';
+
+        $("#supply_order_id").val(supply_order_id).change();
+
+        $("#supply_order_id").find(':selected').attr('disabled', false);
+
+        @endif
+
     </script>
 
 @endsection
