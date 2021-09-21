@@ -52,6 +52,7 @@
                                 @endif
                                 <th scope="col">{!! __('Number') !!}</th>
                                 <th scope="col">{!! __('Total') !!}</th>
+                                <th scope="col">{!! __('status') !!}</th>
                                 <th scope="col">{!! __('Created at') !!}</th>
                                 <th scope="col">{!! __('Updated at') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
@@ -70,6 +71,7 @@
                                 @endif
                                 <th scope="col">{!! __('Number') !!}</th>
                                 <th scope="col">{!! __('Total') !!}</th>
+                                <th scope="col">{!! __('status') !!}</th>
                                 <th scope="col">{!! __('Created at') !!}</th>
                                 <th scope="col">{!! __('Updated at') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>

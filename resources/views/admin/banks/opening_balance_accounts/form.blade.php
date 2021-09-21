@@ -10,17 +10,20 @@
                                 <span class="input-group-addon fa fa-file"></span>
                                 <select class="form-control js-example-basic-single" name="branch_id" id="branch_id"
                                         onchange="changeBranch()"
-                                    {{isset($item) ? 'disabled':''}}>
+                                    {{isset($openingBalanceAccount) ? 'disabled':''}}>
                                     <option value="">{{__('Select Branch')}}</option>
                                     @foreach($branches as $branch)
                                         <option
-                                            value="{{$branch->id}}" {{isset($item) && $item->branch_id == $branch->id? 'selected':''}}
+                                            value="{{$branch->id}}" {{isset($openingBalanceAccount) && $openingBalanceAccount->branch_id == $branch->id? 'selected':''}}
                                             {{request()->has('branch_id') && request()->branch_id == $branch->id? 'selected':''}}
                                         >
                                             {{$branch->name}}
                                         </option>
                                     @endforeach
                                 </select>
+                                @if(isset($openingBalanceAccount))
+                                    <input id="branch_id" type="hidden" name="branch_id" value="{{$openingBalanceAccount->branch_id}}">
+                                @endif
                             </div>
                             {{input_error($errors,'branch_id')}}
                         </div>
@@ -30,46 +33,60 @@
             @endif
 
             <div class="col-md-12">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label for="inputNameAr" class="control-label">{{__('Number')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-bars"></li></span>
                             <input type="text" name="number" class="form-control" placeholder="{{__('Number')}}"
                                    disabled
-                                   value="{{old('number', isset($item)? $item->number : $number)}}">
+                                   value="{{old('number', isset($openingBalanceAccount)? $openingBalanceAccount->number : $number)}}">
                             <input type="hidden" name="number"
-                                   value="{{old('number', isset($item)? $item->number : $number)}}">
+                                   value="{{old('number', isset($openingBalanceAccount)? $openingBalanceAccount->number : $number)}}">
                         </div>
                         {{input_error($errors,'number')}}
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label for="date" class="control-label">{{__('Date')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-calendar"></li></span>
                             <input type="text" name="date" class="form-control datepicker" id="date"
-                                   value="{{old('date', isset($item)? $item->date : \Carbon\Carbon::now()->format('Y-m-d'))}}">
+                                   value="{{old('date', isset($openingBalanceAccount)? $openingBalanceAccount->date : \Carbon\Carbon::now()->format('Y-m-d'))}}">
                         </div>
                         {{input_error($errors,'date')}}
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label for="date" class="control-label">{{__('Time')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-clock-o"></li></span>
                             <input type="time" name="time" class="form-control" id="time"
-                                   value="{{old('time', isset($item)? $item->time : \Carbon\Carbon::now()->format('H:i:s'))}}">
+                                   value="{{old('time', isset($openingBalanceAccount)? $openingBalanceAccount->time : \Carbon\Carbon::now()->format('H:i:s'))}}">
                         </div>
                         {{input_error($errors,'time')}}
                     </div>
                 </div>
 
+                <div class="col-md-3">
+                    <div class="form-group has-feedback">
+                        <label for="inputStore" class="control-label text-new1">{{__('Status')}}</label>
+                        <div class="input-group">
+                            <span class="input-group-addon fa fa-check"></span>
+                            <select class="form-control js-example-basic-single" name="status">
+                                <option value="progress" {{isset($openingBalanceAccount) && $openingBalanceAccount->status == 'progress' ? 'selected' : ''}}>{{__('Progress')}}</option>
+                                <option value="accepted" {{isset($openingBalanceAccount) && $openingBalanceAccount->status == 'accepted' ? 'selected' : ''}}>{{__('Accept')}}</option>
+                                <option value="rejected" {{isset($openingBalanceAccount) && $openingBalanceAccount->status == 'rejected' ? 'selected' : ''}}>{{__('Reject')}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
+
 
         </div>
     </div>
@@ -97,7 +114,7 @@
                     <option value=""> {{ __('Select') }} </option>
                     @foreach($subTypes as $index=>$type)
                         <option value="{{$type->id}}" data-subType="{{$type->name}}"
-                            {{isset($item) && $item->sub_type_bank_account_id == $type->id ? 'selected' : ''}}>
+                            {{isset($openingBalanceAccount) && $openingBalanceAccount->sub_type_bank_account_id == $type->id ? 'selected' : ''}}>
                             1. {{$index + 1}} {{ $type->name }} </option>
                     @endforeach
                 </select>
@@ -112,7 +129,7 @@
             <select class="form-control select2" id="bankAccountsData" onchange="getBankAccountById()">
                 <option value=""> {{ __('Select') }} </option>
                 @foreach($bankAccounts as $bankAccount)
-                    <option value="{{$bankAccount->id}}"  {{isset($item) && $item->bank_account_child_id == $bankAccount->id ? 'selected' : ''}}>
+                    <option value="{{$bankAccount->id}}"  {{isset($openingBalanceAccount) && $openingBalanceAccount->bank_account_child_id == $bankAccount->id ? 'selected' : ''}}>
                         {{ optional($bankAccount->mainType)->name }}
                         @if ($bankAccount->subType)
                             <strong class="text-danger">[   {{ optional($bankAccount->subType)->name }}  ]</strong>
@@ -133,7 +150,7 @@
     <div class="form-group">
         <label> {{ __('Notes') }} </label>
         <textarea class="form-control" name="notes" id="note"
-                  placeholder="{{ __('Notes') }}">{{isset($item)? $item->notes : old('notes') }}</textarea>
+                  placeholder="{{ __('Notes') }}">{{isset($openingBalanceAccount)? $openingBalanceAccount->notes : old('notes') }}</textarea>
     </div>
     {{input_error($errors,'note')}}
 </div>

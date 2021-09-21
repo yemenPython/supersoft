@@ -58,7 +58,7 @@
                         <td>
                             <div class="input-group" id="stores">
                                 <button type="button" class="btn btn-sm btn-danger fa fa-trash" onclick="removeItem('{{$index}}')"></button>
-                                <a style="cursor:pointer" onclick="loadDataWithModal('{{route('admin:banks.banks_accounts.show', [optional($item->bankAccount->bankData)->id])}}', '#showBankData', '#showBankDataResponse')"
+                                <a style="cursor:pointer" onclick="loadDataWithModal('{{route('admin:banks.banks_accounts.show', [optional($item->bankAccount)->id])}}', '#showBankData', '#showBankDataResponse')"
                                    class="btn btn-terms-wg text-white hvr-radial-out" title="{{__('Show')}}">
                                     <i class="fa fa-eye"></i> {{__('Show')}}
                                 </a>

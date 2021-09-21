@@ -20,6 +20,7 @@ class OpeningBalanceAccount extends Model
         'date',
         'time',
         'notes',
+        'status',
     ];
 
     protected $with = ['items'];
@@ -32,6 +33,7 @@ class OpeningBalanceAccount extends Model
         'branch_id' => 'branch_id',
         'number' => 'number',
         'total' => 'total',
+        'status' => 'status',
         'created_at' => 'created_at',
         'updated_at' => 'updated_at',
         'action' => 'action',

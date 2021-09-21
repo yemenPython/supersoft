@@ -3,29 +3,29 @@
 namespace App\Http\Controllers\Admin\Banks;
 
 use App\Enum\Status;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\LockerOpeningBalanceRequest;
-use App\Http\Requests\OpeningBalanceAccountRequest;
-use App\Http\Requests\UpdateLockerOpeningBalanceRequest;
 use App\Models\Banks\BankAccount;
-use App\Models\Banks\OpeningBalanceAccount;
-use App\Models\Banks\OpeningBalanceAccountItem;
 use App\Models\Banks\TypeBankAccount;
 use App\Models\Branch;
 use App\Models\Currency;
+use App\Http\Controllers\Controller;
 use App\Models\Locker;
 use App\Models\LockerOpeningBalance;
 use App\Models\LockerOpeningBalanceItem;
 use App\Models\Setting;
 use App\Traits\LoggerError;
 use Exception;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use App\Models\Banks\OpeningBalanceAccount;
+use Illuminate\Database\Eloquent\Builder;
+use App\Models\Banks\OpeningBalanceAccountItem;
+use App\Http\Requests\LockerOpeningBalanceRequest;
+use App\Http\Requests\OpeningBalanceAccountRequest;
+use App\Http\Requests\UpdateLockerOpeningBalanceRequest;
 
 class OpeningBalanceAccountController extends Controller
 {
@@ -80,7 +80,7 @@ class OpeningBalanceAccountController extends Controller
                     ]);
                 }
                 if ($openingBalanceAccountItem && $openingBalanceAccountItem->bankAccount) {
-                    $this->updateBalanceInBankAccount($openingBalanceAccountItem->bankAccount, $openingBalanceAccountItem->total);
+                    $this->updateBalanceInBankAccount($openingBalanceAccountItem, $request->status);
                 }
             }
             return redirect()->to('admin/banks/opening_balance_accounts')
@@ -94,14 +94,18 @@ class OpeningBalanceAccountController extends Controller
     public function edit(Request $request, int $id)
     {
         $openingBalanceAccount = OpeningBalanceAccount::findOrFail($id);
+        if ($openingBalanceAccount->status == Status::Accepted || $openingBalanceAccount->status == Status::Rejected) {
+            return back()->with(['message' => __('words.edit_not_allowed'), 'alert-type' => 'error']);
+        }
         $branch_id = $request->has('branch_id') ? $request['branch_id'] : $openingBalanceAccount->branch_id;
         $lastNumber = OpeningBalanceAccount::where('branch_id', $branch_id)->latest()->first();
         $number = $lastNumber ? $lastNumber->number + 1 : 1;
         $mainTypes = TypeBankAccount::getMainTypes($branch_id);
         $subTypes = TypeBankAccount::where('parent_id', '!=', null)->where('branch_id', $branch_id)->get();
         $bankAccounts = BankAccount::where('branch_id', $branch_id)->get();
+        $branches = Branch::all();
         return view($this->viewPath.'edit',
-            compact('openingBalanceAccount', 'number', 'mainTypes', 'subTypes', 'bankAccounts'));
+            compact('openingBalanceAccount', 'number', 'mainTypes', 'subTypes', 'bankAccounts', 'branches'));
     }
 
     public function show(int $id): JsonResponse
@@ -117,6 +121,9 @@ class OpeningBalanceAccountController extends Controller
     {
         try {
             $openingBalanceAccount = OpeningBalanceAccount::findOrFail($id);
+            if ($openingBalanceAccount->status == Status::Accepted || $openingBalanceAccount->status == Status::Rejected) {
+                return back()->with(['message' => __('words.edit_not_allowed'), 'alert-type' => 'error']);
+            }
             $data = $request->all();
             $data['user_id'] = Auth::id();
             $assetExpenseUpdated = $openingBalanceAccount->update($data);
@@ -133,6 +140,7 @@ class OpeningBalanceAccountController extends Controller
                                 'bank_account_id' => $item['bank_account_id'],
                                 'total' => $item['added_balance'],
                             ]);
+                            $this->updateBalanceInBankAccount($oldLockerOpeningBalance, $request->status);
                         }
                     } else {
                         $openingBalanceAccountItem =OpeningBalanceAccountItem::create([
@@ -140,6 +148,7 @@ class OpeningBalanceAccountController extends Controller
                             'bank_account_id' => $item['bank_account_id'],
                             'total' => $item['added_balance'],
                         ]);
+                        $this->updateBalanceInBankAccount($openingBalanceAccountItem, $request->status);
                     }
                 }
             }
@@ -154,6 +163,10 @@ class OpeningBalanceAccountController extends Controller
     public function destroy(int $id): RedirectResponse
     {
         $item = OpeningBalanceAccount::findOrFail($id);
+        if ($item->status == Status::Accepted) {
+            return redirect()->to('admin/banks/opening_balance_accounts')
+                ->with(['message' => __('words.can_not_delete_this_operation_cause_it_has_been_accepted'), 'alert-type' => 'error']);
+        }
         $item->items()->delete();
         $item->delete();
         return redirect()->to('admin/banks/opening_balance_accounts')
@@ -165,13 +178,17 @@ class OpeningBalanceAccountController extends Controller
         if (isset($request->ids)) {
             $items = OpeningBalanceAccount::whereIn('id', $request->ids)->get();
             foreach ($items as $item) {
+                if ($item->status == Status::Accepted) {
+                    return redirect()->to('admin/banks/opening_balance_accounts')
+                        ->with(['message' => __('words.can_not_delete_this_operation_cause_it_has_been_accepted'), 'alert-type' => 'error']);
+                }
                 $item->items()->delete();
                 $item->delete();
             }
             return redirect()->to('admin/banks/opening_balance_accounts')
                 ->with(['message' => __('words.selected-row-deleted'), 'alert-type' => 'success']);
         }
-        return redirect()->to('admin/lockers_opening_balance')
+        return redirect()->to('admin/banks/opening_balance_accounts')
             ->with(['message' => __('words.select-one-least'), 'alert-type' => 'error']);
     }
 
@@ -215,6 +232,10 @@ class OpeningBalanceAccountController extends Controller
                 $withStatus = true;
                 return view($view, compact('item', 'withStatus'))->render();
             })
+            ->addColumn('status', function ($item) use ($view) {
+                $withStatus = true;
+                return view($view, compact('item', 'withStatus'))->render();
+            })
             ->addColumn('created_at', function ($item) use ($view) {
                 return $item->created_at->format('y-m-d h:i:s A');
             })
@@ -240,9 +261,23 @@ class OpeningBalanceAccountController extends Controller
             $items = $items->where('id', $request->number);
         }
 
-        if ($request->filled('locker_id')) {
+        if ($request->filled('bank_data_id')) {
             $items = $items->whereHas('items', function ($q) use ($request) {
-                $q->where('locker_id', $request->locker_id);
+                $q->whereHas('bankAccount', function ($qq) use ($request) {
+                    $qq->where('bank_data_id', $request->bank_data_id);
+                });
+            }) ;
+        }
+
+        if ($request->filled('customer_number')) {
+            $items = $items->whereHas('items', function ($q) use ($request) {
+                $q->where('bank_account_id', $request->customer_number);
+            }) ;
+        }
+
+        if ($request->filled('iban')) {
+            $items = $items->whereHas('items', function ($q) use ($request) {
+                $q->where('bank_account_id', $request->iban);
             }) ;
         }
 
@@ -274,11 +309,16 @@ class OpeningBalanceAccountController extends Controller
         ]);
     }
 
-    private function updateBalanceInBankAccount(BankAccount $bankAccount, int $addedBalance)
+    private function updateBalanceInBankAccount(OpeningBalanceAccountItem $openingBalanceAccountItem, string $status)
     {
-        $bankAccount->update([
-           'balance' =>  $bankAccount->balance + $addedBalance
-        ]);
+        if ($status == Status::Accepted) {
+            $bankAccount = BankAccount::find($openingBalanceAccountItem->bank_account_id);
+            if ($bankAccount) {
+                $bankAccount->update([
+                    'balance' => $bankAccount->balance +  $openingBalanceAccountItem->total
+                ]);
+            }
+        }
     }
 }
 

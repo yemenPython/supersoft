@@ -8,6 +8,19 @@
     </span>
 @endif
 
+
+@if(isset($withStatus))
+    @if ($item->status == \App\Enum\Status::Progress)
+        <span class="label label-warning wg-label"> {{__('Progress')}} </span>
+    @endif
+    @if ($item->status == \App\Enum\Status::Accepted)
+        <span class="label label-success wg-label">  {{__('Accept')}} </span>
+    @endif
+    @if ($item->status == \App\Enum\Status::Rejected)
+        <span class="label label-danger wg-label">  {{__('Reject')}} </span>
+    @endif
+@endif
+
 @if (isset($withActions))
     <div class="btn-group margin-top-10">
         <button type="button" class="btn btn-options dropdown-toggle"
@@ -41,7 +54,7 @@
 @endif
 
 @if (isset($withOptions))
-    @component('admin.buttons._delete_selected',['id' => $item->id, 'route' => 'admin:lockers_opening_balance.deleteSelected', ])
+    @component('admin.buttons._delete_selected',['id' => $item->id, 'route' => 'admin:banks.opening_balance_accounts.deleteSelected', ])
     @endcomponent
 @endif
 

@@ -17,6 +17,7 @@ use App\Models\Banks\BankCommissioner;
 use App\Models\Banks\BankData;
 use App\Models\Banks\BankOfficial;
 use App\Models\Banks\BranchProduct;
+use App\Models\Banks\OpeningBalanceAccount;
 use App\Models\City;
 use App\Models\Country;
 use App\Models\DamagedStock;
@@ -264,6 +265,9 @@ class AjaxController extends Controller
                     break;
                 case 'BAC':
                     $data = $this->getBankAccount($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'OpeningBalanceAccount':
+                    $data = $this->getOpeningBalanceAccount($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
                     break;
                 default:
                     break;
@@ -1678,9 +1682,6 @@ class AjaxController extends Controller
             $items = $items->where('branch_id', $branchId);
         }
 
-        if (!empty($this->bank_data_id)) {
-            $items = $items->where('id', $this->bank_data_id);
-        }
         $items = $items->limit($limit)->get();
         foreach ($items as $item) {
             $data[] = [
@@ -1771,6 +1772,34 @@ class AjaxController extends Controller
         return $data;
     }
 
+    private function getOpeningBalanceAccount(array $searchFields, $searchTerm, $selectedColumns, $limit, $branchId)
+    {
+        $data = [];
+        $id = ' id ,';
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+        $items = OpeningBalanceAccount::select(DB::raw($selectedColumns));
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $items = $items->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+        if (!empty($branchId)) {
+            $items = $items->where('branch_id', $branchId);
+        }
+
+        $items = $items->limit($limit)->get();
+        foreach ($items as $item) {
+            $data[] = [
+                'id' => $item->id,
+                'text' => $this->buildSelectedColumnsAsText($item, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
     private function buildSelectedColumnsAsText($resource, $selectedColumns = ['name'])
     {
         $text = '';

@@ -23,13 +23,26 @@
                         @endif
 
                         <div class="form-group col-md-4">
-                            <label> {{ __('Locker name') }} </label>
-                            {!! drawSelect2ByAjax('locker_id','Locker','name_'.app()->getLocale(),'name_'.app()->getLocale(),__('Select'), request()->locker_id) !!}
+                            <label> {{ __('Number') }} </label>
+                            {!! drawSelect2ByAjax('number','OpeningBalanceAccount','number','number',__('Select'), request()->number) !!}
                         </div>
 
                         <div class="form-group col-md-4">
-                            <label> {{ __('Number') }} </label>
-                            {!! drawSelect2ByAjax('number','LockerOpeningBalance','number','number',__('Select'), request()->number) !!}
+                            <label> {{ __('Bank Name') }} </label>
+                            {!! drawSelect2ByAjax('bank_data_id','BankData', 'name_'.app()->getLocale(),'name_'.app()->getLocale(),  __('opening-balance.select-one'),request()->bank_commissioner_id) !!}
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="inputNameAr" class="control-label">{{__('IBAN')}}</label>
+                                {!! drawSelect2ByAjax('iban','BAC','iban', 'iban',__('Select Branch'),request()->iban) !!}
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="inputNameAr" class="control-label">{{__('Customer Number')}}</label>
+                                {!! drawSelect2ByAjax('customer_number','BAC','customer_number', 'customer_number',__('Select Branch'),request()->customer_number) !!}
+                            </div>
                         </div>
 
                         <div class="col-md-4">
