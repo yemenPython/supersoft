@@ -49,7 +49,7 @@ class Kernel extends ConsoleKernel
                     'total_past_consumtion' => 0,
                     'total_replacement' => 0,
                     'user_id' => 1,
-                    'type' => ''
+                    'type' => 'automatic'
                 ];
                 $invoice_data['branch_id'] = 1;
 //                 $invoice_data['branch_id'] = auth()->user()->branch_id;
@@ -126,7 +126,7 @@ class Kernel extends ConsoleKernel
                         $months = ($age * 12) + (int)$asset->age_months;
                         $asd = ($asset->purchase_cost + $asset->total_replacements - $asset->total_current_consumtion) / $months;
                         $value = $asd * ($diff_in_days / 30);
-                        $consumption_amount = number_format( $value, 2 );
+                        $consumption_amount =  $value;
 
                         $asset->increment( 'total_current_consumtion', $value );
                         $asset->increment( 'current_consumtion', $value );
@@ -142,7 +142,7 @@ class Kernel extends ConsoleKernel
                         'consumption_asset_id' => $consumptionAsset->id,
                         'asset_id' => $asset->id,
                         'asset_group_id' => $asset->asset_group_id,
-                        'consumption_amount' => $consumption_amount,
+                        'consumption_amount' => number_format( $consumption_amount,2),
                     ] );
 
                     if (in_array( $asset->group->consumption_for, ['expenses', 'both'] )) {

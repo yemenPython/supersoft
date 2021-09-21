@@ -330,6 +330,12 @@ class ConsumptionAssetsController extends Controller
 
     public function edit(ConsumptionAsset $consumptionAsset)
     {
+
+        if ($consumptionAsset->type =='automatic'){
+            return redirect()->to( route( 'admin:consumption-assets.index' ) )
+                ->with( ['message' => __( 'words.can-not-update-this-data-cause-consumption-type-is-automatic' ), 'alert-type' => 'error'] );
+        }
+
         foreach ($consumptionAsset->items as $item) {
             if (SaleAssetItem::where( 'asset_id', $item->asset->id )->exists()
                 || AssetReplacementItem::where( 'asset_id', $item->asset->id )->exists()) {
@@ -761,7 +767,7 @@ class ConsumptionAssetsController extends Controller
                 'total_past_consumtion' => 0,
                 'total_replacement' => 0,
                 'user_id' => auth()->id(),
-                'type' => ''
+                'type' => 'automatic'
             ];
             $invoice_data['branch_id'] = auth()->user()->branch_id;
 
@@ -800,7 +806,7 @@ class ConsumptionAssetsController extends Controller
                     } )->count()) {
                     continue;
                 }
-             
+
 
                 if ($asset->group->consumption_for != 'expenses') {
                     $consumption_asset = ConsumptionAsset::join( 'consumption_asset_items', 'consumption_assets.id', '=', 'consumption_asset_items.consumption_asset_id' )
@@ -844,9 +850,9 @@ class ConsumptionAssetsController extends Controller
                     $months = ($age * 12) + (int)$asset->age_months;
                     $asd = ($asset->purchase_cost + $asset->total_replacements - $asset->total_current_consumtion) / $months;
                     $value = $asd * ($diff_in_days / 30);
-                  
+
                     $consumption_amount = $value;
-                    
+
                     $asset->increment( 'total_current_consumtion', $value );
                     $asset->increment( 'current_consumtion', $value );
                     $book_value = $asset->purchase_cost + $asset->total_replacements - $asset->total_current_consumtion - $asset->past_consumtion;
@@ -854,7 +860,7 @@ class ConsumptionAssetsController extends Controller
                     $assetGroup = AssetGroup::where( 'id', $asset->asset_group_id )->first();
                     $assetGroup->increment( 'total_consumtion', $value );
                 }
-              
+
                 $total_purchase_cost += $asset->purchase_cost;
                 $total_past_consumtion += $asset->past_consumtion;
                 $total_replacements += $consumption_amount;
