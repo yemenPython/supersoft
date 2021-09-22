@@ -59,7 +59,8 @@
                     <div class="form-group has-feedback">
                         <label for="inputStore" class="control-label">{{__('Type')}}</label>
 
-                        <div class="input-group">
+                        <div class="input-group"
+                             style="{{!request()->query('p_receipts') && !request()->query('s_order') ? '':'display:none'}}">
 
                             <span class="input-group-addon fa fa-info"></span>
 
@@ -79,6 +80,13 @@
 
                             </select>
                         </div>
+
+                        <div class="input-group"
+                             style="{{request()->query('p_receipts') && request()->query('s_order') ? '':'display:none'}}">
+                            <input type="text" class="form-control" disabled value=" {{ __('From Supply Order') }}">
+                        </div>
+
+
                         {{input_error($errors,'type')}}
                     </div>
                 </div>
@@ -112,7 +120,8 @@
                      style="{{isset($purchaseInvoice) && $purchaseInvoice->invoice_type != 'from_supply_order'? 'display:none':''}}">
                     <div class="form-group has-feedback">
                         <label for="inputStore" class="control-label">{{__('Supply Orders')}}</label>
-                        <div class="input-group">
+                        <div class="input-group"
+                             style="{{!request()->query('p_receipts') && !request()->query('s_order') ? '':'display:none'}}">
 
                             <span class="input-group-addon fa fa-file-text-o"></span>
 
@@ -134,6 +143,12 @@
 
                             </select>
                         </div>
+
+                        <div class="input-group"
+                             style="{{request()->query('p_receipts') && request()->query('s_order') ? '':'display:none'}}">
+                            <input type="text" class="form-control" disabled id="disabled_supply_order">
+                        </div>
+
                         {{input_error($errors,'supply_order_id')}}
                     </div>
                 </div>
@@ -148,14 +163,15 @@
                             <ul class="list-inline" style="display:flex">
 
 
-                                <li class="col-md-6">
-                                    <button type="button" onclick="getPurchaseReceipts(); changeType()"
-                                            {{request()->query('p_receipts') && request()->query('s_order') ? 'disabled':''}}
-                                            class="btn btn-new1 waves-effect waves-light btn-xs">
-                                        <i class="fa fa-file-text-o"></i>
-                                        {{__('Get Purchase Receipt')}}
-                                    </button>
-                                </li>
+                                @if(!request()->query('p_receipts') && !request()->query('s_order'))
+                                    <li class="col-md-6">
+                                        <button type="button" onclick="getPurchaseReceipts(); changeType()"
+                                                class="btn btn-new1 waves-effect waves-light btn-xs">
+                                            <i class="fa fa-file-text-o"></i>
+                                            {{__('Get Purchase Receipt')}}
+                                        </button>
+                                    </li>
+                                @endif
 
                                 <li class="col-md-6">
                                     <button type="button" class="btn btn-new2 waves-effect waves-light btn-xs"

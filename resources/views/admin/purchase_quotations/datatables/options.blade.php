@@ -138,28 +138,29 @@
 @endif
 
 @if (isset($withOptions))
-    @component('admin.buttons._delete_selected', [
-    'id' => $item->id,
-    'route' => 'admin:purchase-quotations.deleteSelected',
-    ])
-    @endcomponent
+
+    <form action="{{route('admin:purchase-quotations.deleteSelected')}}" method="post" id="deleteSelected">
+        @csrf
+
+        <div class="checkbox danger">
+            <input type="checkbox" name="ids[]" value="{{$item->id}}" class="checkbox-relay-quotation"
+                   id="checkbox-{{$item->id}}"
+                   data-branch="{{$item->branch_id}}"
+                   data-supplier-id="{{$item->supplier_id}}"
+                   data-purchase-request="{{$item->purchase_request_id}}"
+                   data-quotation-number="{{$item->number}}"
+                   data-can-to-relay="{{!$item->supplyOrders->count() && $item->status == 'accepted' ? 1:0}}"
+            >
+
+            <label for="checkbox-{{$item->id}}"></label>
+
+        </div>
+
+    </form>
+
+
 @endif
 
-
-@if (isset($withRelay))
-
-    <div class="checkbox danger"
-         style="{{!$item->supplyOrders->count() && $item->status == 'accepted' ? '' : 'display:none'}}">
-
-        <input type="checkbox" class="checkbox-relay-quotation"  value="{{$item->id}}" id="relay-{{$item->id}}"
-                data-branch="{{$item->branch_id}}"
-                data-supplier-id="{{$item->supplier_id}}"
-               data-purchase-request="{{$item->purchase_request_id}}">
-
-        <label for="relay-{{$item->id}}"></label>
-    </div>
-
-@endif
 
 
 

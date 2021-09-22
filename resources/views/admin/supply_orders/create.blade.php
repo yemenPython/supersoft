@@ -118,10 +118,12 @@
                 <div class="modal-footer">
 
 
-                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
-                            onclick="addSelectedPurchaseQuotations()">
-                        {{__('Add Item')}}
-                    </button>
+                    @if(!request()->query('quotation') && !request()->query('compare_quotations'))
+                        <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
+                                onclick="addSelectedPurchaseQuotations()">
+                            {{__('Add Item')}}
+                        </button>
+                    @endif
 
                     <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"
                             data-dismiss="modal">
@@ -163,6 +165,7 @@
         getPurchaseQuotations()
 
         $("#purchase_request_id").find(':selected').attr('disabled', false);
+        $("#show_purchase_request_number").val($("#purchase_request_id").find(':selected').text());
 
         @endif
 

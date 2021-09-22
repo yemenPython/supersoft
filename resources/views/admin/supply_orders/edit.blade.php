@@ -35,11 +35,13 @@
                       <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                            src="{{asset('assets/images/f1.png')}}">
                   </button>
-                        <button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;">
+                        <button class="control text-white"
+                                style="background:none;border:none;font-size:14px;font-weight:normal !important;">
                             {{__('Reset')}}
                             <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                                  src="{{asset('assets/images/f2.png')}}"></button>
-							<button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
+							<button class="control text-white"
+                                    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
                                     class="img-fluid"
                                     style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                                     src="{{asset('assets/images/f3.png')}}"></button>
@@ -74,7 +76,7 @@
 
     <div class="modal fade" id="purchase_quotations" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-1">
         <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content wg-content">
+            <div class="modal-content wg-content">
                 <div class="modal-header">
 
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -103,10 +105,10 @@
 
                                     <tbody id="purchase_quotation_data">
 
-                                        @if(isset($supplyOrder))
-                                            @include('admin.supply_orders.purchase_quotations', ['purchaseQuotations'=> $data['purchaseQuotations'],
-                                            'supply_order_quotations' => $supplyOrder->purchaseQuotations->pluck('id')->toArray()])
-                                        @endif
+                                    @if(isset($supplyOrder))
+                                        @include('admin.supply_orders.purchase_quotations', ['purchaseQuotations'=> $data['purchaseQuotations'],
+                                        'supply_order_quotations' => $supplyOrder->purchaseQuotations->pluck('id')->toArray()])
+                                    @endif
 
                                     </tbody>
 
@@ -120,10 +122,12 @@
 
                 <div class="modal-footer">
 
-                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
-                            onclick="addSelectedPurchaseQuotations()">
-                        {{__('Add Item')}}
-                    </button>
+                    @if(!request()->query('quotation') && !request()->query('compare_quotations'))
+                        <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
+                                onclick="addSelectedPurchaseQuotations()">
+                            {{__('Add Item')}}
+                        </button>
+                    @endif
 
                     <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"
                             data-dismiss="modal">
@@ -155,26 +159,25 @@
 
     <script type="application/javascript">
 
-        @if(request()->query('p_request') && request()->query('quotations'))
-
-        $("#purchase_request_id").find(':selected').attr('disabled', false);
+        @if(request()->query('p_request_compare') && request()->query('compare_quotations'))
 
         $(".quotations_boxes").prop('checked', false)
 
         $(".quotations_boxes").prop('disabled', true)
 
-        let quotation_ids = '{{request()->query('quotations')}}';
+        let quotation_ids = '{{request()->query('compare_quotations')}}';
 
         let quotation_ids_arr = quotation_ids.split(',');
 
-         quotation_ids_arr.forEach(function (quotation_id) {
+        quotation_ids_arr.forEach(function (quotation_id) {
 
-             $("#real_purchase_quotation_box_" + quotation_id).prop('checked', true);
-             $("#real_purchase_quotation_box_" + quotation_id).prop('disabled', false);
+            $("#real_purchase_quotation_box_" + quotation_id).prop('checked', true);
+            $("#real_purchase_quotation_box_" + quotation_id).prop('disabled', false);
 
-             $(".purchase_quotation_box_" + quotation_id).prop('checked', true);
-             $(".purchase_quotation_box_" + quotation_id).prop('disabled', false);
-         });
+            $(".purchase_quotation_box_" + quotation_id).prop('checked', true);
+        });
+
+        $('#show_purchase_request_number').val($("#purchase_request_id").find(':selected').text());
 
         @endif
 
@@ -412,7 +415,7 @@
 
             var selected = [];
 
-            $('#purchase_quotation_data input:checked').each(function() {
+            $('#purchase_quotation_data input:checked').each(function () {
                 selected.push($(this).attr('value'));
             });
             $.ajax({
@@ -421,7 +424,7 @@
 
                 url: '{{route('admin:supply.orders.add.purchase-quotations')}}',
 
-                data: {_token:CSRF_TOKEN, purchase_quotations:selected} ,
+                data: {_token: CSRF_TOKEN, purchase_quotations: selected},
 
                 success: function (data) {
 
@@ -454,7 +457,7 @@
                 if ($('#price_' + i).length) {
                     $('#item_number_' + i).text(index);
 
-                }else {
+                } else {
                     continue;
                 }
 
@@ -479,7 +482,7 @@
             return false;
         }
 
-        function invoke_datatable_quotations (selector ,load_at_end_selector ,last_child_allowed) {
+        function invoke_datatable_quotations(selector, load_at_end_selector, last_child_allowed) {
             var selector_id = selector.attr("id")
             var page_title = $("title").text()
             $("#" + selector_id).DataTable({
@@ -499,7 +502,7 @@
 
         $('.dropdown-toggle').dropdown();
 
-        function getDate () {
+        function getDate() {
 
             let start_date = $('#date_from').val();
             let end_date = $('#date_to').val();
@@ -508,7 +511,7 @@
             const date2 = new Date(end_date);
 
             const now = new Date();
-            let dateNow = now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate();
+            let dateNow = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
             const date0 = new Date(dateNow);
 
             var diff = date2.getTime() - date1.getTime();
@@ -524,13 +527,13 @@
             $('#remaining_days').val(remainingTimeDays.toFixed(0));
         }
 
-        function defaultUnitQuantity (index) {
+        function defaultUnitQuantity(index) {
 
             let unit_quantity = $('#prices_part_' + index).find(":selected").data('quantity');
             $('#unit_quantity_' + index).text(unit_quantity);
         }
 
-        function getPartImage (index) {
+        function getPartImage(index) {
 
             let image_path = $('#part_img_id_' + index).data('img');
             $('#part_image').attr('src', image_path);

@@ -109,7 +109,6 @@ class SupplyOrderController extends Controller
 
     public function store(CreateRequest $request)
     {
-
         if (!$request->has('items')) {
             return redirect()->back()->with(['message' => 'sorry, please select items', 'alert-type' => 'error']);
         }
@@ -260,7 +259,7 @@ class SupplyOrderController extends Controller
             return redirect()->back()->with(['message' => 'sorry, please try later', 'alert-type' => 'error']);
         }
 
-        return redirect(route('admin:supply-orders.index'))->with(['message' => __('supply.orders.created.successfully'), 'alert-type' => 'success']);
+        return redirect(route('admin:supply-orders.index'))->with(['message' => __('supply.orders.updated.successfully'), 'alert-type' => 'success']);
     }
 
     public function destroy(SupplyOrder $supplyOrder)

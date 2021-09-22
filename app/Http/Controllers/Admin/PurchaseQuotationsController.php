@@ -245,7 +245,7 @@ class PurchaseQuotationsController extends Controller
             return redirect()->back()->with(['message'=>'sorry, please try later', 'alert-type'=>'error']);
         }
 
-        return redirect(route('admin:purchase-quotations.index'))->with(['message'=> __('purchase.quotations.created.successfully'), 'alert-type'=>'success']);
+        return redirect(route('admin:purchase-quotations.index'))->with(['message'=> __('purchase.quotations.updated.successfully'), 'alert-type'=>'success']);
     }
 
     public function destroy (PurchaseQuotation $purchaseQuotation) {
@@ -511,13 +511,6 @@ class PurchaseQuotationsController extends Controller
                 $withOptions = true;
                 return view($viewPath, compact('item', 'withOptions'))->render();
             })
-
-            ->addColumn('relay', function ($item) use ($viewPath) {
-                $withRelay = true;
-                return view($viewPath, compact('item', 'withRelay'))->render();
-            })
-
-
             ->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
     }
 

@@ -56,9 +56,11 @@
 
                 <div class="col-md-3">
                     <div class="form-group has-feedback">
+
                         <label for="inputStore" class="control-label">{{__('Type')}}</label>
 
-                        <div class="input-group">
+                        <div class="input-group"
+                             style="{{request()->query('quotation') || request()->query('compare_quotations')  ? 'display:none':'' }}">
 
                             <span class="input-group-addon fa fa-info"></span>
 
@@ -70,13 +72,18 @@
                                     {{ __('From Purchase Request') }}
                                 </option>
 
-                                <option value="normal" {{request()->query('quotation') ? 'disabled="disabled"':'' }}
+                                <option value="normal"
                                     {{isset($supplyOrder) && $supplyOrder->type == 'normal'? 'selected':'' }}>
                                     {{ __('Normal Purchase Request') }}
                                 </option>
-
                             </select>
+
                         </div>
+
+                        <div class="input-group" style="{{!request()->query('quotation') && !request()->query('compare_quotations')  ? 'display:none':'' }}">
+                            <input type="text" class="form-control" disabled value="{{__('From Purchase Request')}}">
+                        </div>
+
                         {{input_error($errors,'type')}}
                     </div>
                 </div>
@@ -162,24 +169,25 @@
 
             <div class="col-md-12">
 
-                <div class="col-md-6 purchase_request_type"
+                <div class="col-md-3 purchase_request_type"
                      style="{{isset($supplyOrder) && $supplyOrder->type != 'from_purchase_request'? 'display:none':''}}">
+
                     <div class="form-group has-feedback">
+
                         <label for="inputStore" class="control-label">{{__('Purchase Requests')}}</label>
-                        <div class="input-group">
+
+                        <div class="input-group"
+                             style="{{request()->query('quotation') || request()->query('compare_quotations') ? 'display:none':''}}">
 
                             <span class="input-group-addon fa fa-file-text-o"></span>
 
                             <select class="form-control js-example-basic-single" name="purchase_request_id"
                                     id="purchase_request_id" onchange="quotationType()">
 
-                                <option value="" {{request()->query('quotation') ? 'disabled="disabled"':'' }}>
-                                    {{__('Select')}}
-                                </option>
+                                <option value="">{{__('Select')}}</option>
 
                                 @foreach($data['purchaseRequests'] as $purchaseRequest)
-                                    <option {{request()->query('p_request') ? 'disabled':''}}
-                                        value="{{$purchaseRequest->id}}" {{request()->query('quotation') ? 'disabled="disabled"':'' }}
+                                    <option value="{{$purchaseRequest->id}}"
                                         {{isset($supplyOrder) && $supplyOrder->purchase_request_id == $purchaseRequest->id? 'selected':''}}>
                                         {{$purchaseRequest->special_number}}
                                     </option>
@@ -187,27 +195,35 @@
 
                             </select>
                         </div>
+
+                        <div class="input-group"
+                             style="{{!request()->query('quotation') && !request()->query('compare_quotations') ? 'display:none':'' }}">
+                            <input type="text" id="show_purchase_request_number" class="form-control" disabled>
+                        </div>
+
                         {{input_error($errors,'purchase_request_id')}}
                     </div>
                 </div>
 
 
-                <div class="col-md-6 purchase_request_type" style="{{isset($supplyOrder) && $supplyOrder->type != 'from_purchase_request'? 'display:none':''}}">
+                <div class="col-md-6 purchase_request_type"
+                     style="{{isset($supplyOrder) && $supplyOrder->type != 'from_purchase_request'? 'display:none':''}}">
                     <div class="form-group">
 
                         <div class="input-group">
                             <label style="opacity:0">{{__('select')}}</label>
                             <ul class="list-inline" style="display:flex">
 
-                                <li class="col-md-6">
-                                    <button type="button" onclick="getPurchaseQuotations(); quotationType()"
-                                            id="get_purchase_quotation_btn" {{request()->query('quotation') ? 'disabled="disabled"':'' }}
-                                            {{request()->query('quotations') && request()->query('p_request')  ? 'disabled="disabled"':'' }}
-                                            class="btn btn-new1 waves-effect waves-light btn-xs">
-                                        <i class="fa fa-file-text-o"></i>
-                                        {{__('Get Purchase Quotations')}}
-                                    </button>
-                                </li>
+                                @if(!request()->query('quotations') && ! request()->query('compare_quotations') )
+                                    <li class="col-md-6">
+                                        <button type="button" onclick="getPurchaseQuotations(); quotationType()"
+                                                id="get_purchase_quotation_btn"
+                                                class="btn btn-new1 waves-effect waves-light btn-xs">
+                                            <i class="fa fa-file-text-o"></i>
+                                            {{__('Get Purchase Quotations')}}
+                                        </button>
+                                    </li>
+                                @endif
 
                                 <li class="col-md-6">
                                     <button type="button" class="btn btn-new2 waves-effect waves-light btn-xs"
