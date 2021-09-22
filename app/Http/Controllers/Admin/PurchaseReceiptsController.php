@@ -330,16 +330,6 @@ class PurchaseReceiptsController extends Controller
                 return view($viewPath, compact('item', 'withOptions'))->render();
             })
 
-            ->addColumn('relay_to_purchase_invoice', function ($item) use ($viewPath) {
-                $withRelayToPurchaseInvoice = true;
-                return view($viewPath, compact('item', 'withRelayToPurchaseInvoice'))->render();
-            })
-
-            ->addColumn('relay_to_purchase_return', function ($item) use ($viewPath) {
-                $withRelayToPurchaseReturn = true;
-                return view($viewPath, compact('item', 'withRelayToPurchaseReturn'))->render();
-            })
-
             ->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
     }
 

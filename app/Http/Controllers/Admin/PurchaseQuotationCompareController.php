@@ -38,6 +38,7 @@ class PurchaseQuotationCompareController extends Controller
         $this->supplyOrderServices = new SupplyOrderServices();
     }
 
+
     public function index(Request $request)
     {
         $branch_id = $request->has('branch_id') ? $request['branch_id'] : auth()->user()->branch_id;
@@ -196,7 +197,7 @@ class PurchaseQuotationCompareController extends Controller
         $quotationIds = $supplyOrder->purchaseQuotations ? implode(',',$supplyOrder->purchaseQuotations->pluck('id')->toArray()) : '';
 
         $url = route('admin:supply-orders.edit', ['supplyOrder' => $supplyOrder->id,
-            'p_request'=> $supplyOrder->purchase_request_id, 'quotations' => $quotationIds]);
+            'p_request_compare'=> $supplyOrder->purchase_request_id, 'compare_quotations' => $quotationIds]);
 
         return redirect($url)->with(['message' => __('supply.orders.created.successfully'), 'alert-type' => 'success']);
     }

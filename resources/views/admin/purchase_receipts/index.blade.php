@@ -83,8 +83,6 @@
                                         <label for="select-all"></label>
                                     </div>{!! __('Select') !!}
                                 </th>
-                                <th scope="col">{!! __('To Purchase Invoice') !!}</th>
-                                <th scope="col">{!! __('To Purchase Return') !!}</th>
 
                             </tr>
                             </thead>
@@ -108,8 +106,6 @@
                                 <th scope="col">{!! __('Updated Date') !!}</th>
                                 <th scope="col">{!! __('Options') !!}</th>
                                 <th scope="col">{!! __('Select') !!}</th>
-                                <th scope="col">{!! __('To Purchase Invoice') !!}</th>
-                                <th scope="col">{!! __('To Purchase Return') !!}</th>
                             </tr>
                             </tfoot>
                         </table>
@@ -306,14 +302,33 @@
             var checkbox_list = [];
             var branch_ids = [];
             var supply_orders = [];
+            var ids_cant_to_relay = [];
 
             $(".checkbox-relay-quotation").each(function() {
+
                 if ($(this).is(":checked")) {
+
+                    if ($(this).data('can-relay-purchase-invoice') == 0) {
+                        ids_cant_to_relay.push($(this).data('receipt-number'))
+                    }
+
                     checkbox_list.push($(this).val());
                     branch_ids.push($(this).data('branch'));
                     supply_orders.push($(this).data('supply-order'));
                 }
             });
+
+            if (checkbox_list.length == 0) {
+
+                swal("{{__('Error')}}", '{{__('sorry, please select items')}}', "error");
+                return false;
+            }
+
+            if (ids_cant_to_relay.length != 0) {
+
+                swal("{{__('Error')}}", '{{__('sorry, this item not valid : ')}}' + ids_cant_to_relay.toString(), "error");
+                return false;
+            }
 
             let unique_branch_id = [...new Set(branch_ids)];
             let unique_supply_order_id = [...new Set(supply_orders)];
@@ -346,15 +361,33 @@
             var branch_ids = [];
             var supply_orders = [];
             var suppliers = [];
+            var ids_cant_to_relay = [];
 
-            $(".checkbox-relay-return").each(function() {
+            $(".checkbox-relay-quotation").each(function() {
                 if ($(this).is(":checked")) {
+
+                    if ($(this).data('can-relay-purchase-return') == 0) {
+                        ids_cant_to_relay.push($(this).data('receipt-number'))
+                    }
+
                     checkbox_list.push($(this).val());
                     branch_ids.push($(this).data('branch'));
                     supply_orders.push($(this).data('supply-order'));
                     suppliers.push($(this).data('supplier-id'));
                 }
             });
+
+            if (checkbox_list.length == 0) {
+
+                swal("{{__('Error')}}", '{{__('sorry, please select items')}}', "error");
+                return false;
+            }
+
+            if (ids_cant_to_relay.length != 0) {
+
+                swal("{{__('Error')}}", '{{__('sorry, this item not valid : ')}}' + ids_cant_to_relay.toString(), "error");
+                return false;
+            }
 
             let unique_branch_id = [...new Set(branch_ids)];
             let unique_supply_order_id = [...new Set(supply_orders)];

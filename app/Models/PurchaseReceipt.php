@@ -29,8 +29,6 @@ class PurchaseReceipt extends Model
         'updated_at' => 'updated_at',
         'action' => 'action',
         'options' => 'options',
-        'relay_to_purchase_invoice' => 'relay_to_purchase_invoice',
-        'relay_to_purchase_return' => 'relay_to_purchase_return',
     ];
 
     public function branch()

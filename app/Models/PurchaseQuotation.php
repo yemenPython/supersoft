@@ -34,7 +34,6 @@ class PurchaseQuotation extends Model
         'updated_at' => 'updated_at',
         'action' => 'action',
         'options' => 'options',
-        'relay' => 'relay'
     ];
 
     public function branch()

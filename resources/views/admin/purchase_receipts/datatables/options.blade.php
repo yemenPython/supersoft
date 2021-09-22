@@ -125,43 +125,28 @@
 @endif
 
 @if (isset($withOptions))
-    @component('admin.buttons._delete_selected',[
-                                                  'id' => $item->id,
-                                                   'route' => 'admin:purchase-receipts.deleteSelected',
-                                                   ])
-    @endcomponent
-@endif
 
-
-@if (isset($withRelayToPurchaseInvoice))
-
-    <div class="checkbox danger"
-         style="{{!$item->purchaseInvoices->count() && $item->concession && $item->concession->status == 'accepted' ? '':'display:none;' }}">
-
-        <input type="checkbox" class="checkbox-relay-quotation" value="{{$item->id}}" id="relay-{{$item->id}}"
-               data-branch="{{$item->branch_id}}"
-               data-supply-order="{{$item->supply_order_id}}"
-        >
-
-        <label for="relay-{{$item->id}}"></label>
-    </div>
-
-@endif
-
-@if (isset($withRelayToPurchaseReturn))
-
-    @if($item->concession && $item->concession->status == 'accepted')
+    <form action="{{route('admin:purchase-receipts.deleteSelected')}}" method="post" id="deleteSelected">
+        @csrf
 
         <div class="checkbox danger">
-
-            <input type="checkbox" class="checkbox-relay-return" value="{{$item->id}}" id="relay-return-{{$item->id}}"
+            <input type="checkbox" name="ids[]" value="{{$item->id}}" class="checkbox-relay-quotation"
+                   id="checkbox-{{$item->id}}"
                    data-branch="{{$item->branch_id}}"
+                   data-receipt-number="{{$item->number}}"
                    data-supply-order="{{$item->supply_order_id}}"
                    data-supplier-id="{{$item->supplier_id}}"
+                   data-can-relay-purchase-invoice="{{!$item->purchaseInvoices->count() && $item->concession && $item->concession->status == 'accepted' ? 1:0}}"
+                   data-can-relay-purchase-return="{{$item->concession && $item->concession->status == 'accepted' ? 1:0}}"
             >
 
-            <label for="relay-return-{{$item->id}}"></label>
+            <label for="checkbox-{{$item->id}}"></label>
+
         </div>
-    @endif
+
+    </form>
+
 
 @endif
+
+

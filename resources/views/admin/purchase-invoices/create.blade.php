@@ -118,10 +118,12 @@
                 <div class="modal-footer">
 
 
-                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
-                            onclick="addSelectedPurchaseReceipts()">
-                        {{__('Add Item')}}
-                    </button>
+                    @if(!request()->query('p_receipts') && !request()->query('s_order'))
+                        <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
+                                onclick="addSelectedPurchaseReceipts()">
+                            {{__('Add Item')}}
+                        </button>
+                    @endif
 
                     <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"
                             data-dismiss="modal">
@@ -498,10 +500,14 @@
 
         $("#supply_order_id").find(':selected').attr('disabled', false);
 
+        $('#disabled_supply_order').val($("#supply_order_id").find(':selected').text())
+
         @endif
 
 
         function selectRelayQuotations() {
+
+            $(".quotations_boxes").prop('disabled', true)
 
             @if(request()->query('p_receipts') && request()->query('s_order'))
 
@@ -515,7 +521,7 @@
                 $(".real_purchase_quotation_box_" + receipt_id).prop('disabled', false);
 
                 $(".purchase_quotation_box_" + receipt_id).prop('checked', true);
-                $(".purchase_quotation_box_" + receipt_id).prop('disabled', false);
+                // $(".purchase_quotation_box_" + receipt_id).prop('disabled', false);
             });
 
             addSelectedPurchaseReceipts()
