@@ -293,9 +293,10 @@ class OpeningBalanceAccountController extends Controller
 
     public function getBanksAccount(Request $request): JsonResponse
     {
+        $branchId = $request->branch_id == "undefined" ?  auth()->user()->branch_id : $request->branch_id;
         $mainTypeBankId = $request->filled('main_bank_account_type_id') ?  $request->main_bank_account_type_id : null;
         $subTypeBankId = $request->filled('sub_bank_account_type_id') ? $request->sub_bank_account_type_id : null;
-        $bankAccounts = BankAccount::where('branch_id', $request->branch_id);
+        $bankAccounts = BankAccount::where('branch_id', $branchId);
         if ($mainTypeBankId) {
             $bankAccounts = $bankAccounts->where('main_type_bank_account_id', $mainTypeBankId);
         }

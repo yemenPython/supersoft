@@ -10,7 +10,7 @@
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
                 <li class="breadcrumb-item"><a
-                        href="{{route('admin:banks.banks.opening_balance_accounts.index')}}"> {{__('Bank Accounts Opening Balance')}}</a></li>
+                        href="{{route('admin:banks.opening_balance_accounts.index')}}"> {{__('Bank Accounts Opening Balance')}}</a></li>
                 <li class="breadcrumb-item active"> {{__('Create')}}</li>
             </ol>
         </nav>
