@@ -217,7 +217,7 @@
 
         $("#purchase_invoice_id").val(purchase_invoice_id).change();
 
-        $("#purchase_invoice_id").find(':selected').attr('disabled', false);
+        $('#disabled_invoice').val($("#purchase_invoice_id").find(':selected').text())
 
         @endif
 
@@ -227,14 +227,23 @@
 
         selectSupplyOrders()
 
-        $("#supply_order_ids").find(':selected').attr('disabled', false);
+        // $("#supply_order_ids").find(':selected').attr('disabled', false);
+
+        let supplyOrdersText = '';
+
+        $("#supply_order_ids option:selected").each(function () {
+
+            var $this = $(this);
+
+            if ($this.length) {
+
+                supplyOrdersText +=  $this.text().replace(/\s/g,'') + '  ';
+            }
+        });
+
+        $('#disabled_p_receipts').val(supplyOrdersText);
 
         getPurchaseReceipts()
-
-        // addSelectedPurchaseReceipts()
-
-        // $("#purchase_quotations").modal('hide');
-        //
 
         @endif
 
@@ -540,6 +549,8 @@
 
             @if(request()->query('p_receipts') && request()->query('s_order'))
 
+            $('.purchase_receipts_box').prop('disabled', true)
+
             let receipts_ids = '{{request()->query('p_receipts')}}';
 
             let receipts_ids_ids_arr = receipts_ids.split(',');
@@ -550,7 +561,6 @@
                 $(".real_purchase_quotation_box_" + receipt_id).prop('disabled', false);
 
                 $(".purchase_quotation_box_" + receipt_id).prop('checked', true);
-                $(".purchase_quotation_box_" + receipt_id).prop('disabled', false);
             });
             @endif
         }

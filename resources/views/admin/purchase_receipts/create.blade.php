@@ -322,7 +322,7 @@
 
         $("#supply_order_id").val(supply_order_id).change();
 
-        $("#supply_order_id").find(':selected').attr('disabled', false);
+        $('#disabled_supply_order').val($("#supply_order_id").find(':selected').text());
 
         @endif
 

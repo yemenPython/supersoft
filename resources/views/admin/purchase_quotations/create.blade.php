@@ -182,7 +182,9 @@
 
             $("#purchase_request_id").val(purchase_request_id).change();
 
-            $("#purchase_request_id").find(':selected').attr('disabled', false);
+            // $("#purchase_request_id").find(':selected').attr('disabled', false);
+
+            $('#disabled_purchase_request').val($("#purchase_request_id").find(':selected').text());
 
         @endif
 

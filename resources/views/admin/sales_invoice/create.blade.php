@@ -149,10 +149,12 @@
                 <div class="modal-footer">
 
 
+                    @if(!request()->query('quotations') && !request()->query('type') && !request()->query('invoice_type') )
                     <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
                             onclick="addSelectedSaleQuotations()">
                         {{__('Add Item')}}
                     </button>
+                    @endif
 
                     <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"
                             data-dismiss="modal">
@@ -359,6 +361,10 @@
                     }else {
                         $("#supplier_id").val(data.client_id).change();
                     }
+
+                    @if(request()->query('quotations') && request()->query('type') && request()->query('invoice_type'))
+                    getSelectedClientName()
+                    @endif
 
                     executeAllItems();
                 },
@@ -642,13 +648,20 @@
 
                 success: function (data) {
 
+                    @if(!request()->query('quotations') && !request()->query('type') && !request()->query('invoice_type') )
                     $('#purchase_quotations').modal('show');
+                    @endif
 
                     $("#sale_quotation_data").html(data.view);
 
                     $('.js-example-basic-single').select2();
 
-                    invoke_datatable_quotations('sale_quotations_table');
+                    @if(request()->query('quotations') && request()->query('type') && request()->query('invoice_type'))
+                        selectQuotations();
+                        addSelectedSaleQuotations();
+                    @endif
+
+                        invoke_datatable_quotations('sale_quotations_table');
                 },
 
                 error: function (jqXhr, json, errorThrown) {
@@ -743,4 +756,70 @@
         invoke_datatable($('#sale_supply_table'))
     </script>
 
+
+    {{--  relay approach  --}}
+    <script>
+
+        @if(request()->query('quotations') && request()->query('type') && request()->query('invoice_type') )
+        selectRelayQuotations()
+        @endif
+
+        function selectRelayQuotations() {
+
+            let invoice_type = '{{request()->query('invoice_type')}}'
+
+            $('#invoice_type').val(invoice_type).change();
+
+            $('#disabled_invoice_type').val($('#invoice_type').find(':selected').text().replace(/\s/g,''))
+
+            $('#disabled_type_for').val('{{request()->query('type')}}');
+
+
+            @if(request()->query('type') == 'supplier')
+
+            $('#supplier_radio').prop('checked', true);
+            $('#customer_radio').prop('checked', false);
+
+            @else
+
+            $('#supplier_radio').prop('checked', false);
+            $('#customer_radio').prop('checked', true);
+
+            @endif
+
+            changeTypeFor()
+
+            getSaleQuotations();
+        }
+
+        function getSelectedClientName() {
+
+            @if(request()->query('type') == 'supplier')
+            $('#disabled_supplier_name').val($('#supplier_id').find(':selected').text().replace(/\s/g,''));
+
+            @else
+            $('#disabled_customer_name').val($('#customer_id').find(':selected').text().replace(/\s/g,''));
+            @endif
+        }
+
+        function selectQuotations() {
+
+            $(".quotations_boxes").prop('checked', false)
+            $(".quotations_boxes").prop('disabled', true)
+
+            let quotation_ids = '{{request()->query('quotations')}}';
+
+            let quotation_ids_arr = quotation_ids.split(',');
+
+            quotation_ids_arr.forEach(function (quotation_id) {
+
+                $(".sale_quotation_box_" + quotation_id).prop('checked', true);
+            });
+
+            // $("#purchase_quotations").modal('hide');
+        }
+
+    </script>
+
 @endsection
+

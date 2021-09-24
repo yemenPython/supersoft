@@ -302,6 +302,7 @@
             var checkbox_list = [];
             var branch_ids = [];
             var supply_orders = [];
+            var suppliers = [];
             var ids_cant_to_relay = [];
 
             $(".checkbox-relay-quotation").each(function() {
@@ -315,6 +316,7 @@
                     checkbox_list.push($(this).val());
                     branch_ids.push($(this).data('branch'));
                     supply_orders.push($(this).data('supply-order'));
+                    suppliers.push($(this).data('supplier-id'));
                 }
             });
 
@@ -332,6 +334,7 @@
 
             let unique_branch_id = [...new Set(branch_ids)];
             let unique_supply_order_id = [...new Set(supply_orders)];
+            let unique_supplier_id = [...new Set(suppliers)];
 
             if (unique_branch_id.length > 1) {
 
@@ -345,13 +348,19 @@
                 return false;
             }
 
+            if (unique_supplier_id.length > 1) {
+                swal("{{__('Error')}}", '{{__('sorry, Supplier is different')}}', "error");
+                return false;
+            }
+
             let supply_order_id = unique_supply_order_id[0];
             let branch_id = unique_branch_id[0];
+            let supplier_id = unique_supplier_id[0];
 
 
             setTimeout(function () {
                 window.location.href = '{{url('/'). '/admin/purchase-invoices/create?'}}' +
-                    'p_receipts=' + checkbox_list + '&branch_id=' + branch_id + '&s_order=' + supply_order_id
+                    'p_receipts=' + checkbox_list + '&branch_id=' + branch_id + '&s_order=' + supply_order_id + '&supplier=' + supplier_id
             }, 1000);
         }
 

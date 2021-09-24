@@ -164,7 +164,6 @@
 
         getPurchaseQuotations()
 
-        $("#purchase_request_id").find(':selected').attr('disabled', false);
         $("#show_purchase_request_number").val($("#purchase_request_id").find(':selected').text());
 
         @endif
@@ -435,6 +434,8 @@
                     $('.js-example-basic-single').select2();
 
                     executeAllItems();
+
+                    $("#disabled_supplier_name").val($("#supplier_id").find(':selected').text());
                 },
 
                 error: function (jqXhr, json, errorThrown) {
@@ -556,7 +557,6 @@
                 $("#real_purchase_quotation_box_" + quotation_id).prop('disabled', false);
 
                 $(".purchase_quotation_box_" + quotation_id).prop('checked', true);
-                $(".purchase_quotation_box_" + quotation_id).prop('disabled', false);
             });
 
             addSelectedPurchaseQuotations()

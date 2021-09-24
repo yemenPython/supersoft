@@ -189,8 +189,12 @@
 
                 <div class="col-md-6">
                     <div class="form-group has-feedback">
+
                         <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
-                        <div class="input-group">
+
+                        <div class="input-group"
+                             style="{{!request()->query('p_receipts') && !request()->query('supplier')  ? '':'display:none'}}">
+
                             <span class="input-group-addon fa fa-user"></span>
 
                             <select class="form-control js-example-basic-single" name="supplier_id" id="supplier_id"
@@ -207,6 +211,10 @@
                                 @endforeach
 
                             </select>
+                        </div>
+
+                        <div class="input-group" style="{{request()->query('p_receipts') && request()->query('supplier')  ? '':'display:none'}}">
+                            <input type="text" class="form-control" disabled id="disabled_supplier_name">
                         </div>
 
                         {{input_error($errors,'supplier_id')}}

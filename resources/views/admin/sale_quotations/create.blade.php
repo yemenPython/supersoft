@@ -46,7 +46,8 @@
 
                 <div class="box-content">
 
-                    <form method="post" action="{{route('admin:sale-quotations.store')}}" class="form" enctype="multipart/form-data"
+                    <form method="post" action="{{route('admin:sale-quotations.store')}}" class="form"
+                          enctype="multipart/form-data"
                           id="quotation_form">
                         @csrf
 
@@ -55,12 +56,13 @@
                         @include('admin.sale_quotations.form')
 
                         <div class="form-group col-sm-12">
-                            <button  type="button" class="btn hvr-rectangle-in saveAdd-wg-btn" onclick="checkStockQuantity()">
+                            <button type="button" class="btn hvr-rectangle-in saveAdd-wg-btn"
+                                    onclick="checkStockQuantity()">
                                 <i class="ico ico-left fa fa-save"></i>
                                 {{__('Save')}}
                             </button>
 
-                            <button id="reset"  type="button" class="btn hvr-rectangle-in resetAdd-wg-btn">
+                            <button id="reset" type="button" class="btn hvr-rectangle-in resetAdd-wg-btn">
                                 <i class="ico ico-left fa fa-trash"></i>
                                 {{__('Reset')}}
                             </button>
@@ -95,7 +97,7 @@
 
 @section('js-validation')
 
-        {!! JsValidator::formRequest('App\Http\Requests\Admin\SaleQuotation\CreateRequest', '.form'); !!}
+    {!! JsValidator::formRequest('App\Http\Requests\Admin\SaleQuotation\CreateRequest', '.form'); !!}
 
     @include('admin.partial.sweet_alert_messages')
 
@@ -106,6 +108,8 @@
     <script src="{{asset('js/sale_quotation/index.js')}}"></script>
 
     <script type="application/javascript">
+
+
 
         function changeBranch() {
 
@@ -330,7 +334,7 @@
 
         $('.dropdown-toggle').dropdown();
 
-        function getDate () {
+        function getDate() {
 
             let start_date = $('#date_from').val();
             let end_date = $('#date_to').val();
@@ -339,7 +343,7 @@
             const date2 = new Date(end_date);
 
             const now = new Date();
-            let dateNow = now.getFullYear()+'-'+(now.getMonth()+1)+'-'+now.getDate();
+            let dateNow = now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate();
             const date0 = new Date(dateNow);
 
             var diff = date2.getTime() - date1.getTime();
@@ -355,19 +359,19 @@
             $('#remaining_days').val(remainingTimeDays.toFixed(0));
         }
 
-        function defaultUnitQuantity (index) {
+        function defaultUnitQuantity(index) {
 
             let unit_quantity = $('#prices_part_' + index).find(":selected").data('quantity');
             $('#unit_quantity_' + index).text(unit_quantity);
         }
 
-        function getPartImage (index) {
+        function getPartImage(index) {
 
             let image_path = $('#part_img_id_' + index).data('img');
             $('#part_image').attr('src', image_path);
         }
 
-        function checkStockQuantity () {
+        function checkStockQuantity() {
 
             let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 

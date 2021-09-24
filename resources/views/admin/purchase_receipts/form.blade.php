@@ -83,8 +83,10 @@
                 <div class="col-md-4 purchase_request_type"
                      style="{{isset($purchaseQuotation) && $purchaseQuotation->type != 'from_purchase_request'? 'display:none':''}}">
                     <div class="form-group has-feedback">
+
                         <label for="inputStore" class="control-label">{{__('Supply Orders')}}</label>
-                        <div class="input-group">
+
+                        <div class="input-group" style="{{request()->query('supply_order')  ? 'display:none':'' }}">
 
                             <span class="input-group-addon fa fa-file-text-o"></span>
 
@@ -94,7 +96,7 @@
                                 <option value="">{{__('Select')}}</option>
 
                                 @foreach($data['supply_orders'] as $supply_order)
-                                    <option value="{{$supply_order->id}}" {{request()->query('supply_order') ? 'disabled':''}}
+                                    <option value="{{$supply_order->id}}"
                                         {{isset($purchaseReceipt) && $purchaseReceipt->supply_order_id == $supply_order->id? 'selected':''}}>
                                         {{$supply_order->number}} - {{ optional($supply_order->supplier)->name }}
                                     </option>
@@ -102,6 +104,13 @@
 
                             </select>
                         </div>
+
+                        <div class="input-group"
+                             style="{{!request()->query('supply_order')  ? 'display:none':'' }}">
+                            <input type="text" id="disabled_supply_order" class="form-control" disabled>
+                        </div>
+
+
                         {{input_error($errors,'supply_order_id')}}
                     </div>
                 </div>

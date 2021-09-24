@@ -4,7 +4,7 @@
         <td>
             <input type="checkbox" name="purchase_quotations[]" value="{{$purchaseQuotation->id}}"
                    onclick="selectPurchaseQuotation('{{$purchaseQuotation->id}}')"
-                   class="purchase_quotation_box_{{$purchaseQuotation->id}}"
+                   class="purchase_quotation_box_{{$purchaseQuotation->id}} quotations_boxes"
                 {{isset($supply_order_quotations) && in_array($purchaseQuotation->id, $supply_order_quotations) ? 'checked':''}}
                 {{!isset($supply_order_quotations) ? 'checked':''}}
             >

@@ -370,7 +370,10 @@
 
                     $("#purchase_receipts_selected").html(data.real_purchase_receipts);
 
+                    @if(request()->query('p_receipts') && request()->query('s_order'))
                     selectRelayQuotations()
+                    @endif
+
                     @if(!request()->query('p_receipts') && !request()->query('s_order'))
                     $("#purchase_receipts").modal('show');
                     @endif
@@ -492,6 +495,12 @@
 
         @if(request()->query('p_receipts') && request()->query('s_order'))
 
+        var supplier_id = '{{request()->query('supplier')}}';
+
+        $("#supplier_id").val(supplier_id).change();
+
+        $('#disabled_supplier_name').val($("#supplier_id").find(':selected').text().replace(/\s/g,''))
+
         var supply_order_id = '{{request()->query('s_order')}}';
 
         $("#supply_order_id").val(supply_order_id).change();
@@ -500,7 +509,7 @@
 
         $("#supply_order_id").find(':selected').attr('disabled', false);
 
-        $('#disabled_supply_order').val($("#supply_order_id").find(':selected').text())
+        $('#disabled_supply_order').val($("#supply_order_id").find(':selected').text().replace(/\s/g,''))
 
         @endif
 

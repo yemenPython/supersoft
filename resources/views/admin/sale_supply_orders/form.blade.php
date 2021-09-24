@@ -46,7 +46,8 @@
                         <label for="inputNameAr" class="control-label">{{__('Number')}}</label>
                         <div class="input-group">
                             <span class="input-group-addon"><li class="fa fa-bars"></li></span>
-                            <input type="text" name="number" class="form-control" placeholder="{{__('Number')}}" disabled
+                            <input type="text" name="number" class="form-control" placeholder="{{__('Number')}}"
+                                   disabled
                                    value="{{old('number', isset($saleSupplyOrder)? $saleSupplyOrder->number : $data['number'])}}">
                         </div>
                         {{input_error($errors,'number')}}
@@ -57,7 +58,7 @@
                     <div class="form-group has-feedback">
                         <label for="inputStore" class="control-label">{{__('Type')}}</label>
 
-                        <div class="input-group">
+                        <div class="input-group" style="{{request()->query('quotations') ? 'display:none':'' }}">
 
                             <span class="input-group-addon fa fa-info"></span>
 
@@ -76,6 +77,12 @@
 
                             </select>
                         </div>
+
+                        <div class="input-group" style="{{!request()->query('quotations') ? 'display:none':'' }}">
+                            <input type="text" id="disabled_sale_supply_type" class="form-control" disabled
+                                   value="{{ __('From Sale Quotation') }}">
+                        </div>
+
                         {{input_error($errors,'type')}}
                     </div>
                 </div>
@@ -169,8 +176,8 @@
 
                                 <li class="col-md-6">
                                     <button type="button" class="btn btn-new2 waves-effect waves-light btn-xs"
-{{--                                            data-toggle="modal" data-target="#purchase_quotations" --}}
-                                            onclick="getSaleQuotations()"
+                                            data-toggle="modal" data-target="#purchase_quotations"
+                                            onclick="{{request()->query('quotations') ? '':'getSaleQuotations()'}}"
                                             style="margin-right: 10px;">
                                         <i class="fa fa-file-text-o"></i>
                                         {{__('Show Sale Quotations')}}
@@ -185,24 +192,34 @@
 
                     <label style="display:block">{{__('Invoice type form')}}</label>
 
-                    <div class="col-md-6" style="padding:0">
+                    <div class="col-md-6" style="padding:0; {{request()->query('quotations') ? 'display:none;':''}}">
 
                         <div class="radio primary ">
 
-                            <input type="radio" name="type_for" value="customer" id="customer_radio" onclick="changeTypeFor()"
+                            <input type="radio" name="type_for" value="customer" id="customer_radio"
+                                   onclick="changeTypeFor()"
                                 {{ !isset($saleSupplyOrder) ? 'checked':'' }}
                                 {{isset($saleSupplyOrder) && $saleSupplyOrder->type_for == 'customer' ? 'checked':''}} >
+
                             <label for="customer_radio">{{__('Customer')}}</label>
                         </div>
                     </div>
 
-                    <div class="col-md-6" style="padding:0">
+                    <div class="col-md-6" style="padding:0; {{request()->query('quotations') ? 'display:none;':''}}">
 
                         <div class="radio primary ">
 
-                            <input type="radio" name="type_for" id="supplier_radio" value="supplier" onclick="changeTypeFor()"
+                            <input type="radio" name="type_for" id="supplier_radio" value="supplier"
+                                   onclick="changeTypeFor()"
                                 {{isset($saleSupplyOrder) && $saleSupplyOrder->type_for == 'supplier' ? 'checked':''}} >
                             <label for="supplier_radio">{{__('Supplier')}}</label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6" style="padding:0; {{!request()->query('quotations') ? 'display:none;':''}}">
+                        <div class="input-group">
+                            <input type="text" id="disabled_sale_supply_type" class="form-control" disabled
+                                   value="{{ __(request()->query('type')) }}">
                         </div>
                     </div>
 
@@ -210,14 +227,19 @@
 
                 <div class="col-md-3" id="suppliers_data"
                      style="{{!isset($saleSupplyOrder) || (isset($saleSupplyOrder) && $saleSupplyOrder->type_for == 'customer')? 'display:none;':'' }}">
+
                     <div class="form-group has-feedback">
+
                         <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
-                        <div class="input-group">
+
+                        <div class="input-group" style="{{request()->query('quotations') ? 'display:none;':''}}">
+
                             <span class="input-group-addon fa fa-user"></span>
 
-                            <select class="form-control js-example-basic-single {{(isset($saleSupplyOrder) && $saleSupplyOrder->type_for == 'supplier' ? 'client_select':'')}}"
-                                    name="salesable_id" id="supplier_id"
-                                    onchange="selectClient(); "
+                            <select
+                                class="form-control js-example-basic-single {{(isset($saleSupplyOrder) && $saleSupplyOrder->type_for == 'supplier' ? 'client_select':'')}}"
+                                name="salesable_id" id="supplier_id"
+                                onchange="selectClient(); "
                                 {{!isset($saleSupplyOrder) || (isset($saleSupplyOrder) && $saleSupplyOrder->type_for == 'customer') ? 'disabled':''}}>
 
                                 <option value="">{{__('Select')}}</option>
@@ -234,21 +256,31 @@
                             </select>
                         </div>
 
+                        <div class="input-group" style="{{!request()->query('quotations') ? 'display:none;':''}}">
+                            <input type="text" id="disabled_supplier_name" class="form-control" disabled>
+                        </div>
+
                         {{input_error($errors,'salesable_id')}}
                     </div>
                 </div>
 
-                <div class="col-md-3" id="customers_data"
-                     style="{{ (isset($saleSupplyOrder) && $saleSupplyOrder->type_for != 'customer')? 'display:none;':'' }}">
+                <div class="col-md-3" id="customers_data" style="{{ (isset($saleSupplyOrder) && $saleSupplyOrder->type_for != 'customer')? 'display:none;':'' }}">
+
                     <div class="form-group has-feedback">
+
                         <label for="inputStore" class="control-label">{{__('Customer name')}}</label>
-                        <div class="input-group">
+
+                        <div class="input-group" style="{{request()->query('quotations') ? 'display:none;':''}}">
+
                             <span class="input-group-addon fa fa-user"></span>
 
-                            <select class="form-control js-example-basic-single {{(isset($saleSupplyOrder) && $saleSupplyOrder->type_for != 'customer' ? '':'client_select')}}"
-                                    name="salesable_id" id="customer_id"
-                                    onchange="selectClient(); "
+                            <select
+                                class="form-control js-example-basic-single {{(isset($saleSupplyOrder) && $saleSupplyOrder->type_for != 'customer' ? '':'client_select')}}"
+                                name="salesable_id" id="customer_id"
+                                onchange="selectClient(); "
+
                                 {{(isset($saleSupplyOrder) && $saleSupplyOrder->type_for != 'customer')? 'disabled':''}}>
+
                                 <option value="">{{__('Select')}}</option>
 
                                 @foreach($data['customers'] as $customer)
@@ -265,38 +297,13 @@
                             </select>
                         </div>
 
+                        <div class="input-group" style="{{!request()->query('quotations') ? 'display:none;':''}}">
+                            <input type="text" id="disabled_customer_name" class="form-control" disabled>
+                        </div>
+
                         {{input_error($errors,'salesable_id')}}
                     </div>
                 </div>
-
-
-{{--                <div class="col-md-6">--}}
-{{--                    <div class="form-group has-feedback">--}}
-{{--                        <label for="inputStore" class="control-label">{{__('Customer name')}}</label>--}}
-{{--                        <div class="input-group">--}}
-{{--                            <span class="input-group-addon fa fa-user"></span>--}}
-
-{{--                            <select class="form-control js-example-basic-single" name="customer_id" id="customer_id"--}}
-{{--                                    onchange="quotationType(); selectSupplier()">--}}
-{{--                                <option value="">{{__('Select')}}</option>--}}
-
-{{--                                @foreach($data['customers'] as $customer)--}}
-{{--                                    <option value="{{$customer->id}}"--}}
-
-{{--                                            data-discount="{{$customer->group_sales_discount}}"--}}
-{{--                                            data-discount-type="{{$customer->group_sales_discount_type}}"--}}
-
-{{--                                        {{isset($saleSupplyOrder) && $saleSupplyOrder->customer_id == $customer->id? 'selected':''}}>--}}
-{{--                                        {{$customer->name}}--}}
-{{--                                    </option>--}}
-{{--                                @endforeach--}}
-
-{{--                            </select>--}}
-{{--                        </div>--}}
-
-{{--                        {{input_error($errors,'customer_id')}}--}}
-{{--                    </div>--}}
-{{--                </div>--}}
 
                 <div class="col-md-3">
                     <div class="form-group has-feedback">
@@ -426,29 +433,29 @@
         @endif
     </div>
 
-{{--    <table style="display: none" >--}}
+    {{--    <table style="display: none" >--}}
 
-{{--        @foreach( $data['saleQuotations'] as $saleQuotation)--}}
+    {{--        @foreach( $data['saleQuotations'] as $saleQuotation)--}}
 
-{{--            <tr>--}}
-{{--                <td>--}}
-{{--                    <input type="checkbox" name="sale_quotations[]" value="{{$saleQuotation->id}}"--}}
-{{--                           onclick="selectSaleQuotation('{{$saleQuotation->id}}')"--}}
-{{--                           class="real_sale_quotation_box_{{$saleQuotation->id}}"--}}
-{{--                        {{isset($saleSupplyOrder) && in_array($saleQuotation->id, $saleSupplyOrder->saleQuotations->pluck('id')->toArray()) ? 'checked':'' }}--}}
-{{--                    >--}}
-{{--                </td>--}}
-{{--                <td>--}}
-{{--                    <span>{{$saleQuotation->number}}</span>--}}
-{{--                </td>--}}
-{{--                <td>--}}
-{{--                    <span>{{optional($saleQuotation->customer)->name}}</span>--}}
-{{--                </td>--}}
-{{--            </tr>--}}
+    {{--            <tr>--}}
+    {{--                <td>--}}
+    {{--                    <input type="checkbox" name="sale_quotations[]" value="{{$saleQuotation->id}}"--}}
+    {{--                           onclick="selectSaleQuotation('{{$saleQuotation->id}}')"--}}
+    {{--                           class="real_sale_quotation_box_{{$saleQuotation->id}}"--}}
+    {{--                        {{isset($saleSupplyOrder) && in_array($saleQuotation->id, $saleSupplyOrder->saleQuotations->pluck('id')->toArray()) ? 'checked':'' }}--}}
+    {{--                    >--}}
+    {{--                </td>--}}
+    {{--                <td>--}}
+    {{--                    <span>{{$saleQuotation->number}}</span>--}}
+    {{--                </td>--}}
+    {{--                <td>--}}
+    {{--                    <span>{{optional($saleQuotation->customer)->name}}</span>--}}
+    {{--                </td>--}}
+    {{--            </tr>--}}
 
-{{--        @endforeach--}}
+    {{--        @endforeach--}}
 
 
-{{--    </table>--}}
+    {{--    </table>--}}
 
 </div>

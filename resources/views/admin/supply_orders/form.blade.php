@@ -214,7 +214,7 @@
                             <label style="opacity:0">{{__('select')}}</label>
                             <ul class="list-inline" style="display:flex">
 
-                                @if(!request()->query('quotations') && ! request()->query('compare_quotations') )
+                                @if(!request()->query('quotation') && ! request()->query('compare_quotations') )
                                     <li class="col-md-6">
                                         <button type="button" onclick="getPurchaseQuotations(); quotationType()"
                                                 id="get_purchase_quotation_btn"
@@ -247,7 +247,11 @@
                 <div class="col-md-8">
                     <div class="form-group has-feedback">
                         <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
-                        <div class="input-group">
+
+
+                        <div class="input-group"
+                             style="{{!request()->query('quotation') && !request()->query('compare_quotations') ? '':'display:none' }}">
+
                             <span class="input-group-addon fa fa-user"></span>
 
                             <select class="form-control js-example-basic-single" name="supplier_id" id="supplier_id"
@@ -264,6 +268,11 @@
                                 @endforeach
 
                             </select>
+                        </div>
+
+                        <div class="input-group"
+                             style="{{!request()->query('quotation') && !request()->query('compare_quotations') ? 'display:none':'' }}">
+                            <input type="text" id="disabled_supplier_name" class="form-control" disabled>
                         </div>
 
                         {{input_error($errors,'supplier_id')}}

@@ -59,7 +59,8 @@
                     <div class="form-group has-feedback">
                         <label for="inputStore" class="control-label">{{__('Type')}}</label>
 
-                        <div class="input-group">
+                        <div class="input-group"
+                             style="{{!request()->query('quotations') && !request()->query('type') && !request()->query('invoice_type') ? '':'display:none'}}">
 
                             <span class="input-group-addon fa fa-info"></span>
 
@@ -95,6 +96,12 @@
 
                             </select>
                         </div>
+
+                        <div class="input-group"
+                             style="{{request()->query('quotations') && request()->query('type') && request()->query('invoice_type') ? '':'display:none'}}">
+                            <input type="text" id="disabled_invoice_type" class="form-control" disabled>
+                        </div>
+
                         {{input_error($errors,'invoice_type')}}
                     </div>
                 </div>
@@ -123,7 +130,9 @@
                     </div>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-3"
+                     style="{{!request()->query('quotations') && !request()->query('type') && !request()->query('invoice_type') ? '':'display:none'}}">
+
                     <label style="display:block">{{__('Invoice type form')}}</label>
 
                     <div class="col-md-6" style="padding:0">
@@ -150,11 +159,26 @@
                     </div>
                 </div>
 
+                <div class="col-md-3"
+                     style="{{request()->query('quotations') && request()->query('type') && request()->query('invoice_type') ? '':'display:none'}}">
+
+                    <label style="display:block">{{__('Invoice type form')}}</label>
+
+                    <div class="input-group">
+                        <input type="text" id="disabled_type_for" class="form-control" disabled>
+                    </div>
+                </div>
+
+
                 <div class="col-md-3" id="suppliers_data"
                      style="{{!isset($salesInvoice) || (isset($salesInvoice) && $salesInvoice->type_for == 'customer')? 'display:none;':'' }}">
                     <div class="form-group has-feedback">
+
                         <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
-                        <div class="input-group">
+
+                        <div class="input-group"
+                             style="{{!request()->query('quotations') && !request()->query('type') && !request()->query('invoice_type') ? '':'display:none'}}">
+
                             <span class="input-group-addon fa fa-user"></span>
 
                             <select
@@ -176,14 +200,23 @@
                             </select>
                         </div>
 
+                        <div class="input-group"
+                             style="{{request()->query('quotations') && request()->query('type') && request()->query('invoice_type') ? '':'display:none'}}">
+                            <input type="text" id="disabled_supplier_name" class="form-control" disabled>
+                        </div>
+
                         {{input_error($errors,'salesable_id')}}
                     </div>
                 </div>
 
                 <div class="col-md-3" id="customers_data" style="{{ (isset($salesInvoice) && $salesInvoice->type_for != 'customer')? 'display:none;':'' }}">
                     <div class="form-group has-feedback">
+
                         <label for="inputStore" class="control-label">{{__('Customer name')}}</label>
-                        <div class="input-group">
+
+                        <div class="input-group"
+                             style="{{!request()->query('quotations') && !request()->query('type') && !request()->query('invoice_type') ? '':'display:none'}}">
+
                             <span class="input-group-addon fa fa-user"></span>
 
                             <select
@@ -204,6 +237,12 @@
                                 @endforeach
 
                             </select>
+                        </div>
+
+
+                        <div class="input-group"
+                             style="{{request()->query('quotations') && request()->query('type') && request()->query('invoice_type') ? '':'display:none'}}">
+                            <input type="text" id="disabled_customer_name" class="form-control" disabled>
                         </div>
 
                         {{input_error($errors,'salesable_id')}}
@@ -276,7 +315,10 @@
 
                                 <li class="col-md-6">
                                     <button type="button" class="btn btn-new2 waves-effect waves-light btn-xs"
-                                            onclick="getSaleQuotations()" style="margin-right: 10px;">
+                                            data-toggle="modal"
+                                            data-target="#purchase_quotations"
+                                            onclick="{{request()->query('quotations') && request()->query('invoice_type') ? '':'getSaleQuotations()' }}"
+                                            style="margin-right: 10px;">
                                         <i class="fa fa-file-text-o"></i>
                                         {{__('Show Sale Quotations')}}
                                     </button>

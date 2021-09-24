@@ -60,7 +60,7 @@
                     <div class="form-group has-feedback">
                         <label for="inputStore" class="control-label">{{__('Type')}}</label>
 
-                        <div class="input-group">
+                        <div class="input-group" style="{{request()->query('quotation') ? 'display:none':'' }}">
 
                             <span class="input-group-addon fa fa-info"></span>
 
@@ -72,13 +72,20 @@
                                     {{ __('From Purchase Request') }}
                                 </option>
 
-                                <option value="out_purchase_request" {{request()->query('quotation') ? 'disabled="disabled"':'' }}
+                                <option value="out_purchase_request"
                                     {{isset($purchaseQuotation) && $purchaseQuotation->type == 'out_purchase_request'? 'selected':'' }}>
                                     {{ __('Out Purchase Request') }}
                                 </option>
 
                             </select>
                         </div>
+
+                        <div class="input-group"
+                             style="{{request()->query('quotation') ? '':'display:none'}}">
+                            <input type="text" class="form-control" disabled value="{{ __('From Purchase Request') }}">
+                        </div>
+
+
                         {{input_error($errors,'type')}}
                     </div>
                 </div>
@@ -86,20 +93,22 @@
                 <div class="col-md-3 purchase_request_type"
                      style="{{isset($purchaseQuotation) && $purchaseQuotation->type != 'from_purchase_request'? 'display:none':''}}">
                     <div class="form-group has-feedback">
+
                         <label for="inputStore" class="control-label">{{__('Purchase Requests')}}</label>
-                        <div class="input-group">
+
+                        <div class="input-group" style="{{request()->query('quotation') ? 'display:none':'' }}">
 
                             <span class="input-group-addon fa fa-file-text-o"></span>
 
                             <select class="form-control js-example-basic-single" name="purchase_request_id"
                                     id="purchase_request_id" onchange="selectPurchaseRequest()">
 
-                                <option value="" {{request()->query('quotation') ? 'disabled="disabled"':'' }}>
+                                <option value="" >
                                     {{__('Select')}}
                                 </option>
 
                                 @foreach($purchaseRequests as $purchaseRequest)
-                                    <option value="{{$purchaseRequest->id}}" {{request()->query('quotation') ? 'disabled="disabled"':'' }}
+                                    <option value="{{$purchaseRequest->id}}"
                                         {{isset($purchaseQuotation) && $purchaseQuotation->purchase_request_id == $purchaseRequest->id? 'selected':''}}>
                                         {{$purchaseRequest->special_number}}
                                     </option>
@@ -107,6 +116,13 @@
 
                             </select>
                         </div>
+
+
+                        <div class="input-group"
+                             style="{{request()->query('quotation') ? '':'display:none'}}">
+                            <input type="text" class="form-control" disabled id="disabled_purchase_request">
+                        </div>
+
                         {{input_error($errors,'purchase_request_id')}}
                     </div>
                 </div>

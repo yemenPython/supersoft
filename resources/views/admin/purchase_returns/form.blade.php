@@ -138,7 +138,8 @@
                     <div class="form-group has-feedback">
                         <label for="inputStore" class="control-label">{{__('Type')}}</label>
 
-                        <div class="input-group">
+                        <div class="input-group"
+                             style="{{!request()->query('invoice') && !request()->query('p_receipts') ? '':'display:none'}}">
 
                             <span class="input-group-addon fa fa-info"></span>
 
@@ -158,6 +159,17 @@
 
                             </select>
                         </div>
+
+                        <div class="input-group" style="{{request()->query('invoice') ? '':'display:none'}}">
+                            <input type="text" class="form-control" disabled id="disabled_invoice_type"
+                                   value="{{ __('Normal purchase invoice') }}">
+                        </div>
+
+                        <div class="input-group" style="{{request()->query('p_receipts') ? '':'display:none'}}">
+                            <input type="text" class="form-control" disabled id="disabled_purchase_receipt_type"
+                                   value="{{ __('From Supply Order') }}">
+                        </div>
+
                         {{input_error($errors,'type')}}
                     </div>
                 </div>
@@ -167,8 +179,10 @@
                      style="{{isset($purchaseReturn) && $purchaseReturn->invoice_type != 'from_supply_order'? '':'display:none'}}
                      {{!isset($purchaseReturn) ? 'display:none':''}}">
                     <div class="form-group has-feedback">
+
                         <label for="inputStore" class="control-label">{{__('Purchase Invoices')}}</label>
-                        <div class="input-group">
+
+                        <div class="input-group" style="{{!request()->query('invoice') ? '':'display:none'}}">
 
                             <span class="input-group-addon fa fa-file-text-o"></span>
 
@@ -176,12 +190,10 @@
                                     id="purchase_invoice_id"
                                     onchange="changeType(); selectPurchaseInvoice(); selectSupplier('from_invoice')">
 
-                                <option value="" {{request()->query('invoice') ? 'disabled':''}}>
-                                    {{__('Select')}}
-                                </option>
+                                <option value="">{{__('Select')}}</option>
 
                                 @foreach($data['purchaseInvoices'] as $purchaseInvoice)
-                                    <option value="{{$purchaseInvoice->id}}" {{request()->query('invoice') ? 'disabled':''}}
+                                    <option value="{{$purchaseInvoice->id}}"
                                             data-supplier-discount="{{$purchaseInvoice->supplier ? $purchaseInvoice->supplier->group_discount : 0}}"
                                             data-supplier-discount-type="{{$purchaseInvoice->supplier ? $purchaseInvoice->supplier->group_discount_type : 'amount'}}"
                                         {{isset($purchaseReturn) && $purchaseReturn->purchase_invoice_id == $purchaseInvoice->id? 'selected':''}}>
@@ -191,6 +203,11 @@
 
                             </select>
                         </div>
+
+                        <div class="input-group" style="{{request()->query('invoice') ? '':'display:none'}}">
+                            <input type="text" class="form-control" disabled id="disabled_invoice">
+                        </div>
+
                         {{input_error($errors,'purchase_invoice_id')}}
                     </div>
                 </div>
@@ -199,19 +216,25 @@
                 <div class="col-md-6 from_supply_order"
                      style="{{isset($purchaseReturn) && $purchaseReturn->invoice_type != 'from_supply_order'? 'display:none':''}}">
                     <div class="form-group has-feedback">
+
                         <label for="inputStore" class="control-label">{{__('Supply Orders')}}</label>
-                        <div class="input-group">
+
+                        <div class="input-group"
+                             style="{{!request()->query('p_receipts') ? '':'display:none'}}"
+                        >
 
                             <span class="input-group-addon fa fa-file-text-o"></span>
 
                             <select class="form-control js-example-basic-single" name="supply_order_ids[]" multiple
                                     id="supply_order_ids" onchange="changeType()">
-                                <option value=""  {{request()->query('p_receipts') ? 'disabled':'' }}>
+
+                                <option value="" {{request()->query('p_receipts') ? 'disabled':'' }}>
                                     {{__('Select')}}
                                 </option>
 
                                 @foreach($data['supplyOrders'] as $supplyOrder)
-                                    <option value="{{$supplyOrder->id}}" {{request()->query('p_receipts') ? 'disabled':'' }}
+                                    <option
+                                        value="{{$supplyOrder->id}}"
                                         {{isset($purchaseReturn) &&  in_array($supplyOrder->id, $purchaseReturn->supplyOrders->pluck('id')->toArray())? 'selected':''}}>
                                         {{$supplyOrder->number}}
                                         - {{ $supplyOrder->supplier ? $supplyOrder->supplier->name : ''}}
@@ -220,6 +243,11 @@
 
                             </select>
                         </div>
+
+                        <div class="input-group" style="{{request()->query('p_receipts') ? '':'display:none'}}">
+                            <input type="text" class="form-control" disabled id="disabled_p_receipts">
+                        </div>
+
                         {{input_error($errors,'supply_order_ids')}}
                     </div>
                 </div>
@@ -234,14 +262,17 @@
                         <div class="input-group">
                             <label style="opacity:0">{{__('select')}}</label>
                             <ul class="list-inline" style="display:flex">
-                                <li class="">
-                                    <button type="button" onclick="getPurchaseReceipts(); changeType()"
-                                            class="btn btn-new1 waves-effect waves-light btn-xs"
-                                        {{request()->query('p_receipts') ? 'disabled':'' }}>
-                                        <i class="fa fa-file-text-o"></i>
-                                        {{__('Get Purchase Receipt')}}
-                                    </button>
-                                </li>
+
+                                @if(!request()->query('p_receipts'))
+                                    <li class="">
+                                        <button type="button" onclick="getPurchaseReceipts(); changeType()"
+                                                class="btn btn-new1 waves-effect waves-light btn-xs"
+                                            {{request()->query('p_receipts') ? 'disabled':'' }}>
+                                            <i class="fa fa-file-text-o"></i>
+                                            {{__('Get Purchase Receipt')}}
+                                        </button>
+                                    </li>
+                                @endif
 
                                 <li class="">
                                     <button type="button" class="btn btn-new2 waves-effect waves-light btn-xs"

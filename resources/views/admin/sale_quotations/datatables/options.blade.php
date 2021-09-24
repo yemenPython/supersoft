@@ -36,13 +36,18 @@
 @endif
 
 @if (isset($withStatus))
-    @if($item->status == 'pending' )
-        <span class="label label-info wg-label"> {{__('processing')}}</span>
-    @elseif($item->status == 'accept' )
-        <span
-            class="label label-success wg-label"> {{__('Accept Approval')}} </span>
+
+    @if($item->status == 'pending')
+        <span class="label label-info wg-label"> {{__('Pending')}}</span>
+
+    @elseif($item->status == 'processing' )
+        <span class="label label-warning wg-label"> {{__('Processing')}} </span>
+
+    @elseif($item->status == 'finished' )
+        <span class="label label-success wg-label"> {{__('Finished')}} </span>
+
     @else
-        <span class="label label-danger wg-label"> {{__('Reject Approval')}} </span>
+        <span class="label label-danger wg-label"> {{__('Finished')}} </span>
     @endif
 @endif
 
@@ -132,8 +137,29 @@
     </div>
 @endif
 
+
 @if (isset($withOptions))
-    @component('admin.buttons._delete_selected',
-                                         ['id' => $item->id,'route' => 'admin:sale-quotations.deleteSelected',])
-    @endcomponent
+
+    <form action="{{route('admin:sale-quotations.deleteSelected')}}" method="post" id="deleteSelected">
+        @csrf
+
+        <div class="checkbox danger">
+            <input type="checkbox" name="ids[]" value="{{$item->id}}" class="checkbox-relay-quotation"
+                   id="checkbox-{{$item->id}}"
+
+                   data-branch="{{$item->branch_id}}"
+                   data-quotation-number="{{$item->number}}"
+                   data-type-for="{{$item->type_for}}"
+                   data-salesable-id="{{$item->salesable_id}}"
+
+                   data-can-relay-sale-supply-order="{{$item->status == 'finished' ? 1:0}}"
+                   data-can-relay-to-sales-nvoice="{{ !$item->salesInvoices->count() && $item->status == 'finished' ? 1:0}}"
+            >
+
+            <label for="checkbox-{{$item->id}}"></label>
+
+        </div>
+
+    </form>
+
 @endif

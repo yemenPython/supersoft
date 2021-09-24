@@ -32,6 +32,33 @@
                             @endcomponent
                         </li>
 
+                        <li class="list-inline-item">
+                            <button style=" margin-bottom: 12px; border-radius: 5px" type="button" onclick="relayToSaleSupplyOrder()"
+                                    class="btn btn-print-wg btn-icon btn-icon-left  waves-effect waves-light hvr-bounce-to-left"
+                            >
+                                <i class="ico fa fa-floppy-o"></i>
+                                {{__('Relay to Sale Supply Order')}}
+                            </button>
+                        </li>
+
+                        <li class="list-inline-item">
+                            <button style=" margin-bottom: 12px; border-radius: 5px" type="button" onclick="relayToSalesInvoice('from_sale_quotations')"
+                                    class="btn btn-print-wg btn-icon btn-icon-left  waves-effect waves-light hvr-bounce-to-left"
+                            >
+                                <i class="ico fa fa-floppy-o"></i>
+                                {{__('Relay to Sales Invoice')}}
+                            </button>
+                        </li>
+
+                        <li class="list-inline-item">
+                            <button style=" margin-bottom: 12px; border-radius: 5px" type="button" onclick="relayToSalesInvoice('direct_sale_quotations')"
+                                    class="btn btn-print-wg btn-icon btn-icon-left  waves-effect waves-light hvr-bounce-to-left"
+                            >
+                                <i class="ico fa fa-floppy-o"></i>
+                                {{__('Relay to direct sales invoice')}}
+                            </button>
+                        </li>
+
                     </ul>
 
                     <div class="clearfix"></div>
@@ -137,8 +164,7 @@
                                         @if($item->status == 'pending' )
                                         <span class="label label-info wg-label"> {{__('processing')}}</span>
                                         @elseif($item->status == 'accept' )
-                                        <span
-        class="label label-success wg-label"> {{__('Accept Approval')}} </span>
+                                        <span class="label label-success wg-label"> {{__('Accept Approval')}} </span>
                                         @else
                                         <span class="label label-danger wg-label"> {{__('Reject Approval')}} </span>
                                         @endif
@@ -421,6 +447,7 @@
 @endsection
 
 @section('js')
+
     <script type="application/javascript">
 
         server_side_datatable('#datatable-with-btns');
@@ -436,4 +463,144 @@
         }
 
     </script>
+
+
+    <script type="application/javascript">
+
+        function relayToSaleSupplyOrder () {
+
+            var checkbox_list = [];
+            var branch_ids = [];
+            var types = [];
+            var salesableIds = [];
+            var ids_cant_to_relay = [];
+
+            $(".checkbox-relay-quotation").each(function() {
+
+                if ($(this).is(":checked")) {
+
+                    if ($(this).data('can-relay-sale-supply-order') == 0) {
+                        ids_cant_to_relay.push($(this).data('quotation-number'))
+                    }
+
+                    checkbox_list.push($(this).val());
+                    branch_ids.push($(this).data('branch'));
+                    types.push($(this).data('type-for'));
+                    salesableIds.push($(this).data('salesable-id'));
+                }
+            });
+
+            if (checkbox_list.length == 0) {
+
+                swal("{{__('Error')}}", '{{__('sorry, please select items')}}', "error");
+                return false;
+            }
+
+            if (ids_cant_to_relay.length != 0) {
+
+                swal("{{__('Error')}}", '{{__('sorry, this item not valid : ')}}' + ids_cant_to_relay.toString(), "error");
+                return false;
+            }
+
+            let unique_branch_id = [...new Set(branch_ids)];
+            let unique_client_type_id = [...new Set(types)];
+            let unique_clients_ids = [...new Set(salesableIds)];
+
+
+            if (unique_branch_id.length > 1) {
+
+                swal("{{__('Error')}}", '{{__('sorry, branches is different')}}', "error");
+                return false;
+            }
+
+            if (unique_clients_ids.length > 1) {
+
+                swal("{{__('Error')}}", '{{__('sorry, Clients is different')}}', "error");
+                return false;
+            }
+
+            if (unique_client_type_id.length > 1) {
+
+                swal("{{__('Error')}}", '{{__('sorry, Clients type is different')}}', "error");
+                return false;
+            }
+
+            let branch_id = unique_branch_id[0];
+            let type = unique_client_type_id[0];
+
+            setTimeout(function () {
+                window.location.href = '{{url('/'). '/admin/sale-supply-orders/create?'}}' +
+                    'quotations=' + checkbox_list + '&branch_id=' + branch_id + '&type=' + type
+            }, 1000);
+        }
+
+        function relayToSalesInvoice (invoice_type) {
+
+            var checkbox_list = [];
+            var branch_ids = [];
+            var types = [];
+            var salesableIds = [];
+            var ids_cant_to_relay = [];
+
+            $(".checkbox-relay-quotation").each(function() {
+
+                if ($(this).is(":checked")) {
+
+                    if ($(this).data('can-relay-to-sales-nvoice') == 0) {
+                        ids_cant_to_relay.push($(this).data('quotation-number'))
+                    }
+
+                    checkbox_list.push($(this).val());
+                    branch_ids.push($(this).data('branch'));
+                    types.push($(this).data('type-for'));
+                    salesableIds.push($(this).data('salesable-id'));
+                }
+            });
+
+            if (checkbox_list.length == 0) {
+
+                swal("{{__('Error')}}", '{{__('sorry, please select items')}}', "error");
+                return false;
+            }
+
+            if (ids_cant_to_relay.length != 0) {
+
+                swal("{{__('Error')}}", '{{__('sorry, this item not valid : ')}}' + ids_cant_to_relay.toString(), "error");
+                return false;
+            }
+
+            let unique_branch_id = [...new Set(branch_ids)];
+            let unique_client_type_id = [...new Set(types)];
+            let unique_clients_ids = [...new Set(salesableIds)];
+
+
+            if (unique_branch_id.length > 1) {
+
+                swal("{{__('Error')}}", '{{__('sorry, branches is different')}}', "error");
+                return false;
+            }
+
+            if (unique_clients_ids.length > 1) {
+
+                swal("{{__('Error')}}", '{{__('sorry, Clients is different')}}', "error");
+                return false;
+            }
+
+            if (unique_client_type_id.length > 1) {
+
+                swal("{{__('Error')}}", '{{__('sorry, Clients type is different')}}', "error");
+                return false;
+            }
+
+            let branch_id = unique_branch_id[0];
+            let type = unique_client_type_id[0];
+
+            setTimeout(function () {
+                window.location.href = '{{url('/'). '/admin/sales-invoices/create?'}}' +
+                    'quotations=' + checkbox_list + '&branch_id=' + branch_id + '&type=' + type + '&invoice_type=' + invoice_type
+            }, 1000);
+        }
+
+    </script>
+
 @endsection

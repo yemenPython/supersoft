@@ -4,7 +4,7 @@
         <td>
             <input type="checkbox" name="purchase_receipts[]" value="{{$purchaseReceipt->id}}"
                    onclick="selectPurchaseReceipt('{{$purchaseReceipt->id}}')"
-                   class="purchase_quotation_box_{{$purchaseReceipt->id}}"
+                   class="purchase_quotation_box_{{$purchaseReceipt->id}} purchase_receipts_box"
                 {{isset($purchase_invoice_receipts) && in_array($purchaseReceipt->id, $purchase_invoice_receipts) ? 'checked':''}}
             >
         </td>

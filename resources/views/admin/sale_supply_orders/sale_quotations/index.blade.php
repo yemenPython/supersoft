@@ -19,7 +19,7 @@
                 <td>
                     <input type="checkbox" name="sale_quotations[]" value="{{$saleQuotation->id}}"
                            {{$saleSupplyOrder && in_array($saleQuotation->id, $saleSupplyOrder->saleQuotations->pluck('id')->toArray()) ? 'checked':''}}
-                           class="sale_quotation_box_{{$saleQuotation->id}}"
+                           class="sale_quotation_box_{{$saleQuotation->id}} quotations_boxes"
                     >
                 </td>
                 <td>

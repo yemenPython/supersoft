@@ -179,6 +179,8 @@
 
         $('#show_purchase_request_number').val($("#purchase_request_id").find(':selected').text());
 
+        $("#disabled_supplier_name").val($("#supplier_id").find(':selected').text());
+
         @endif
 
 
