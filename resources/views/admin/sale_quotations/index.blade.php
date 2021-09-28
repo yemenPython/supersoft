@@ -12,7 +12,7 @@
             </ol>
         </nav>
 
-        {{--        @include('admin.damaged_stock.search_form')--}}
+        @include('admin.sale_quotations.search_form')
 
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
@@ -453,13 +453,36 @@
         server_side_datatable('#datatable-with-btns');
 
         function filterFunction($this) {
+
             $("#loaderSearch").show();
+
             $url = '{{url()->full()}}?&isDataTable=true&' + $this.serialize();
+
             $datatable.ajax.url($url).load();
+
             $(".js__card_minus").trigger("click");
+
             setTimeout( function () {
                 $("#loaderSearch").hide();
             }, 1000)
+        }
+
+        function changeType () {
+
+            if ($('#customer_radio').is(':checked')) {
+
+                $('#supplier_select').hide();
+                $('#customer_select').show();
+
+                $('supplier_id').val('').change();
+
+            }else {
+
+                $('#supplier_select').show();
+                $('#customer_select').hide();
+
+                $('customer_id').val('').change();
+            }
         }
 
     </script>

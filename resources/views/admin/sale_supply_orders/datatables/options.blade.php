@@ -24,9 +24,9 @@
     @if($item->status == 'pending' )
         <span class="label label-info wg-label"> {{__('pending')}}</span>
     @elseif($item->status == 'processing' )
-        <span class="label label-success wg-label"> {{__('processing')}} </span>
-    @else
-        <span class="label label-danger wg-label"> {{__('finished')}} </span>
+        <span class="label label-warning wg-label"> {{__('processing')}} </span>
+    @elseif ($item->status == 'finished' )
+        <span class="label label-success wg-label"> {{__('finished')}} </span>
     @endif
 @endif
 
@@ -114,9 +114,27 @@
 @endif
 
 @if (isset($withOptions))
-    @component('admin.buttons._delete_selected',[
-                                                'id' => $item->id,
-                                                 'route' => 'admin:sale.supply.orders.deleteSelected',
-                                                 ])
-    @endcomponent
+
+    <form action="{{route('admin:sale.supply.orders.deleteSelected')}}" method="post" id="deleteSelected">
+        @csrf
+
+        <div class="checkbox danger">
+            <input type="checkbox" name="ids[]" value="{{$item->id}}" class="checkbox-relay-quotation"
+                   id="checkbox-{{$item->id}}"
+
+                   data-branch="{{$item->branch_id}}"
+                   data-order-number="{{$item->number}}"
+                   data-type-for="{{$item->type_for}}"
+                   data-salesable-id="{{$item->salesable_id}}"
+
+                   data-can-relay-to-sales-invoice="{{ !$item->salesInvoices->count() && $item->status == 'finished' ? 1:0}}"
+            >
+
+            <label for="checkbox-{{$item->id}}"></label>
+
+        </div>
+
+    </form>
+
+
 @endif

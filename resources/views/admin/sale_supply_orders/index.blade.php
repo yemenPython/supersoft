@@ -33,6 +33,15 @@
                             @endcomponent
                         </li>
 
+                        <li class="list-inline-item">
+                            <button style=" margin-bottom: 12px; border-radius: 5px" type="button" onclick="relayToSalesInvoice()"
+                                    class="btn btn-print-wg btn-icon btn-icon-left  waves-effect waves-light hvr-bounce-to-left"
+                            >
+                                <i class="ico fa fa-floppy-o"></i>
+                                {{__('Relay to sales invoice')}}
+                            </button>
+                        </li>
+
                     </ul>
 
                     <div class="clearfix"></div>
@@ -285,4 +294,76 @@
 
 
     </script>
+
+    <script type="application/javascript">
+
+        function relayToSalesInvoice () {
+
+            var checkbox_list = [];
+            var branch_ids = [];
+            var types = [];
+            var salesableIds = [];
+            var ids_cant_to_relay = [];
+
+            $(".checkbox-relay-quotation").each(function() {
+
+                if ($(this).is(":checked")) {
+
+                    if ($(this).data('can-relay-to-sales-invoice') == 0) {
+                        ids_cant_to_relay.push($(this).data('order-number'))
+                    }
+
+                    checkbox_list.push($(this).val());
+                    branch_ids.push($(this).data('branch'));
+                    types.push($(this).data('type-for'));
+                    salesableIds.push($(this).data('salesable-id'));
+                }
+            });
+
+            if (checkbox_list.length == 0) {
+
+                swal("{{__('Error')}}", '{{__('sorry, please select items')}}', "error");
+                return false;
+            }
+
+            if (ids_cant_to_relay.length != 0) {
+
+                swal("{{__('Error')}}", '{{__('sorry, this item not valid : ')}}' + ids_cant_to_relay.toString(), "error");
+                return false;
+            }
+
+            let unique_branch_id = [...new Set(branch_ids)];
+            let unique_client_type_id = [...new Set(types)];
+            let unique_clients_ids = [...new Set(salesableIds)];
+
+
+            if (unique_branch_id.length > 1) {
+
+                swal("{{__('Error')}}", '{{__('sorry, branches is different')}}', "error");
+                return false;
+            }
+
+            if (unique_clients_ids.length > 1) {
+
+                swal("{{__('Error')}}", '{{__('sorry, Clients is different')}}', "error");
+                return false;
+            }
+
+            if (unique_client_type_id.length > 1) {
+
+                swal("{{__('Error')}}", '{{__('sorry, Clients type is different')}}', "error");
+                return false;
+            }
+
+            let branch_id = unique_branch_id[0];
+            let type = unique_client_type_id[0];
+
+            setTimeout(function () {
+                window.location.href = '{{url('/'). '/admin/sales-invoices/create?'}}' +
+                    'orders=' + checkbox_list + '&branch_id=' + branch_id + '&type=' + type + '&invoice_type=from_sale_supply_order'
+            }, 1000);
+        }
+
+    </script>
+
 @endsection

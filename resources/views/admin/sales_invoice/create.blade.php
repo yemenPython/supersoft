@@ -35,11 +35,13 @@
                       <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                            src="{{asset('assets/images/f1.png')}}">
                   </button>
-                        <button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;">
+                        <button class="control text-white"
+                                style="background:none;border:none;font-size:14px;font-weight:normal !important;">
                             {{__('Reset')}}
                             <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                                  src="{{asset('assets/images/f2.png')}}"></button>
-							<button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
+							<button class="control text-white"
+                                    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
                                     class="img-fluid"
                                     style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                                     src="{{asset('assets/images/f3.png')}}"></button>
@@ -47,7 +49,8 @@
                 </h4>
 
                 <div class="box-content">
-                    <form method="post" action="{{route('admin:sales.invoices.store')}}" class="form" id="sales_invoice_form"
+                    <form method="post" action="{{route('admin:sales.invoices.store')}}" class="form"
+                          id="sales_invoice_form"
                           enctype="multipart/form-data">
                         @csrf
                         @method('post')
@@ -55,12 +58,13 @@
                         @include('admin.sales_invoice.form')
 
                         <div class="form-group col-sm-12">
-                            <button id="btnsave" type="button" class="btn hvr-rectangle-in saveAdd-wg-btn" onclick="checkStockQuantity()">
+                            <button id="btnsave" type="button" class="btn hvr-rectangle-in saveAdd-wg-btn"
+                                    onclick="checkStockQuantity()">
                                 <i class="ico ico-left fa fa-save"></i>
                                 {{__('Save')}}
                             </button>
 
-                            <button id="reset"  type="button" class="btn hvr-rectangle-in resetAdd-wg-btn">
+                            <button id="reset" type="button" class="btn hvr-rectangle-in resetAdd-wg-btn">
                                 <i class="ico ico-left fa fa-trash"></i>
                                 {{__('Reset')}}
                             </button>
@@ -116,25 +120,25 @@
 
                                     <tbody id="sale_quotation_data">
 
-{{--                                    @foreach( $data['saleQuotations'] as $saleQuotation)--}}
+                                    {{--                                    @foreach( $data['saleQuotations'] as $saleQuotation)--}}
 
-{{--                                        <tr>--}}
-{{--                                            <td>--}}
-{{--                                                <input type="checkbox" name="sale_quotations[]"--}}
-{{--                                                       value="{{$saleQuotation->id}}"--}}
-{{--                                                       onclick="selectSaleQuotation('{{$saleQuotation->id}}')"--}}
-{{--                                                       class="sale_quotation_box_{{$saleQuotation->id}}"--}}
-{{--                                                >--}}
-{{--                                            </td>--}}
-{{--                                            <td>--}}
-{{--                                                <span>{{$saleQuotation->number}}</span>--}}
-{{--                                            </td>--}}
-{{--                                            <td>--}}
-{{--                                                <span>{{optional($saleQuotation->salesable)->name}}</span>--}}
-{{--                                            </td>--}}
-{{--                                        </tr>--}}
+                                    {{--                                        <tr>--}}
+                                    {{--                                            <td>--}}
+                                    {{--                                                <input type="checkbox" name="sale_quotations[]"--}}
+                                    {{--                                                       value="{{$saleQuotation->id}}"--}}
+                                    {{--                                                       onclick="selectSaleQuotation('{{$saleQuotation->id}}')"--}}
+                                    {{--                                                       class="sale_quotation_box_{{$saleQuotation->id}}"--}}
+                                    {{--                                                >--}}
+                                    {{--                                            </td>--}}
+                                    {{--                                            <td>--}}
+                                    {{--                                                <span>{{$saleQuotation->number}}</span>--}}
+                                    {{--                                            </td>--}}
+                                    {{--                                            <td>--}}
+                                    {{--                                                <span>{{optional($saleQuotation->salesable)->name}}</span>--}}
+                                    {{--                                            </td>--}}
+                                    {{--                                        </tr>--}}
 
-{{--                                    @endforeach--}}
+                                    {{--                                    @endforeach--}}
 
                                     </tbody>
 
@@ -150,10 +154,10 @@
 
 
                     @if(!request()->query('quotations') && !request()->query('type') && !request()->query('invoice_type') )
-                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
-                            onclick="addSelectedSaleQuotations()">
-                        {{__('Add Item')}}
-                    </button>
+                        <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
+                                onclick="addSelectedSaleQuotations()">
+                            {{__('Add Item')}}
+                        </button>
                     @endif
 
                     <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"
@@ -209,10 +213,12 @@
 
                 <div class="modal-footer">
 
-                    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
-                            onclick="addSelectedSaleSupply()">
-                        {{__('Add Item')}}
-                    </button>
+                    @if(!request()->query('orders') && !request()->query('type') && !request()->query('invoice_type') )
+                        <button type="button" class="btn btn-primary btn-sm waves-effect waves-light"
+                                onclick="addSelectedSaleSupply()">
+                            {{__('Add Item')}}
+                        </button>
+                    @endif
 
                     <button type="button" class="btn btn-danger btn-sm waves-effect waves-light"
                             data-dismiss="modal">
@@ -327,8 +333,8 @@
 
             $('#sale_quotation_ids').empty();
 
-            for(var i = 0; i< selected.length; i++) {
-                $('#sale_quotation_ids').append(' <input type="hidden" name="sale_quotation_ids[]" value="'+selected[i]+'">');
+            for (var i = 0; i < selected.length; i++) {
+                $('#sale_quotation_ids').append(' <input type="hidden" name="sale_quotation_ids[]" value="' + selected[i] + '">');
             }
 
             let type_for = 'customer';
@@ -336,7 +342,7 @@
             if ($('#supplier_radio').is(':checked')) {
 
                 type_for = 'supplier';
-            }else {
+            } else {
                 type_for = 'customer';
             }
 
@@ -346,7 +352,7 @@
 
                 url: '{{route('admin:sales.invoices.add.sale.quotations')}}',
 
-                data: {_token: CSRF_TOKEN, sale_quotations: selected, type_for:type_for},
+                data: {_token: CSRF_TOKEN, sale_quotations: selected, type_for: type_for},
 
                 success: function (data) {
 
@@ -358,7 +364,7 @@
 
                     if (data.type_for == 'customer') {
                         $("#customer_id").val(data.client_id).change();
-                    }else {
+                    } else {
                         $("#supplier_id").val(data.client_id).change();
                     }
 
@@ -390,8 +396,8 @@
 
             $('#sale_supply_orders_ids').empty();
 
-            for(var i = 0; i< selected.length; i++) {
-                $('#sale_supply_orders_ids').append(' <input type="hidden" name="sale_supply_orders[]" value="'+selected[i]+'">');
+            for (var i = 0; i < selected.length; i++) {
+                $('#sale_supply_orders_ids').append(' <input type="hidden" name="sale_supply_orders[]" value="' + selected[i] + '">');
             }
 
             let type_for = 'customer';
@@ -399,7 +405,7 @@
             if ($('#supplier_radio').is(':checked')) {
 
                 type_for = 'supplier';
-            }else {
+            } else {
                 type_for = 'customer';
             }
 
@@ -409,7 +415,7 @@
 
                 url: '{{route('admin:sales.invoices.add.sale.supply.order')}}',
 
-                data: {_token: CSRF_TOKEN, sale_supply_orders: selected, type_for:type_for},
+                data: {_token: CSRF_TOKEN, sale_supply_orders: selected, type_for: type_for},
 
                 success: function (data) {
 
@@ -421,9 +427,13 @@
 
                     if (data.type_for == 'customer') {
                         $("#customer_id").val(data.client_id).change();
-                    }else {
+                    } else {
                         $("#supplier_id").val(data.client_id).change();
                     }
+
+                    @if(request()->query('orders') && request()->query('type') && request()->query('invoice_type'))
+                    getSelectedClientName()
+                    @endif
 
                     executeAllItems();
                 },
@@ -601,13 +611,13 @@
             });
         }
 
-        function defaultUnitQuantity (index) {
+        function defaultUnitQuantity(index) {
 
             let unit_quantity = $('#prices_part_' + index).find(":selected").data('quantity');
             $('#unit_quantity_' + index).text(unit_quantity);
         }
 
-        function getPartImage (index) {
+        function getPartImage(index) {
 
             let image_path = $('#part_img_id_' + index).data('img');
             $('#part_image').attr('src', image_path);
@@ -633,7 +643,7 @@
                 type_for = 'supplier';
                 salesable_id = $("#supplier_id").val();
 
-            }else {
+            } else {
                 type_for = 'customer';
                 salesable_id = $("#customer_id").val();
             }
@@ -644,7 +654,7 @@
 
                 url: '{{route('admin:sales.invoices.get.sale.quotations')}}',
 
-                data: {_token: CSRF_TOKEN, branch_id:branch_id, salesable_id:salesable_id,type_for:type_for },
+                data: {_token: CSRF_TOKEN, branch_id: branch_id, salesable_id: salesable_id, type_for: type_for},
 
                 success: function (data) {
 
@@ -657,11 +667,11 @@
                     $('.js-example-basic-single').select2();
 
                     @if(request()->query('quotations') && request()->query('type') && request()->query('invoice_type'))
-                        selectQuotations();
-                        addSelectedSaleQuotations();
+                    selectQuotations();
+                    addSelectedSaleQuotations();
                     @endif
 
-                        invoke_datatable_quotations('sale_quotations_table');
+                    invoke_datatable_quotations('sale_quotations_table');
                 },
 
                 error: function (jqXhr, json, errorThrown) {
@@ -693,7 +703,7 @@
                 type_for = 'supplier';
                 salesable_id = $("#supplier_id").val();
 
-            }else {
+            } else {
                 type_for = 'customer';
                 salesable_id = $("#customer_id").val();
             }
@@ -704,13 +714,20 @@
 
                 url: '{{route('admin:sales.invoices.get.sale.supply.order')}}',
 
-                data: {_token: CSRF_TOKEN, branch_id:branch_id, salesable_id:salesable_id, type_for:type_for },
+                data: {_token: CSRF_TOKEN, branch_id: branch_id, salesable_id: salesable_id, type_for: type_for},
 
                 success: function (data) {
 
+                    @if(!request()->query('orders') && !request()->query('type') && !request()->query('invoice_type') )
                     $('#sale_supply_order').modal('show');
+                    @endif
 
                     $("#sale_supply_data").html(data.view);
+
+                    @if(request()->query('orders') && request()->query('type') && request()->query('invoice_type'))
+                    selectOrders()
+                    addSelectedSaleSupply()
+                    @endif
 
                     $('.js-example-basic-single').select2();
 
@@ -726,7 +743,7 @@
 
         }
 
-        function checkStockQuantity () {
+        function checkStockQuantity() {
 
             let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
@@ -749,6 +766,7 @@
             });
         }
 
+
     </script>
 
     <script type="application/javascript">
@@ -757,8 +775,18 @@
     </script>
 
 
-    {{--  relay approach  --}}
+    {{-- RELAY SALE QUOTATION TO SALES INVOICE --}}
     <script>
+
+        function getSelectedClientName() {
+
+            @if(request()->query('type') == 'supplier')
+            $('#disabled_supplier_name').val($('#supplier_id').find(':selected').text().replace(/\s/g, ''));
+
+            @else
+            $('#disabled_customer_name').val($('#customer_id').find(':selected').text().replace(/\s/g, ''));
+            @endif
+        }
 
         @if(request()->query('quotations') && request()->query('type') && request()->query('invoice_type') )
         selectRelayQuotations()
@@ -770,7 +798,7 @@
 
             $('#invoice_type').val(invoice_type).change();
 
-            $('#disabled_invoice_type').val($('#invoice_type').find(':selected').text().replace(/\s/g,''))
+            $('#disabled_invoice_type').val($('#invoice_type').find(':selected').text().replace(/\s/g, ''))
 
             $('#disabled_type_for').val('{{request()->query('type')}}');
 
@@ -792,16 +820,6 @@
             getSaleQuotations();
         }
 
-        function getSelectedClientName() {
-
-            @if(request()->query('type') == 'supplier')
-            $('#disabled_supplier_name').val($('#supplier_id').find(':selected').text().replace(/\s/g,''));
-
-            @else
-            $('#disabled_customer_name').val($('#customer_id').find(':selected').text().replace(/\s/g,''));
-            @endif
-        }
-
         function selectQuotations() {
 
             $(".quotations_boxes").prop('checked', false)
@@ -814,6 +832,59 @@
             quotation_ids_arr.forEach(function (quotation_id) {
 
                 $(".sale_quotation_box_" + quotation_id).prop('checked', true);
+            });
+
+            // $("#purchase_quotations").modal('hide');
+        }
+
+    </script>
+
+    {{-- RELAY SUPPLY ORDER TO SALES INVOICE --}}
+    <script>
+
+        @if(request()->query('orders') && request()->query('type') && request()->query('invoice_type') )
+        selectRelayOrders()
+        @endif
+
+        function selectRelayOrders() {
+
+            let invoice_type = '{{request()->query('invoice_type')}}'
+
+            $('#invoice_type').val(invoice_type).change();
+
+            $('#disabled_invoice_type').val($('#invoice_type').find(':selected').text().replace(/\s/g, ''))
+
+            $('#disabled_type_for').val('{{request()->query('type')}}');
+
+
+            @if(request()->query('type') == 'supplier')
+
+            $('#supplier_radio').prop('checked', true);
+            $('#customer_radio').prop('checked', false);
+
+            @else
+
+            $('#supplier_radio').prop('checked', false);
+            $('#customer_radio').prop('checked', true);
+
+            @endif
+
+            changeTypeFor()
+
+            getSaleSupply();
+        }
+
+        function selectOrders() {
+
+            $(".orders_boxes").prop('checked', false)
+            $(".orders_boxes").prop('disabled', true)
+
+            let orders_ids = '{{request()->query('orders')}}';
+
+            let orders_ids_arr = orders_ids.split(',');
+
+            orders_ids_arr.forEach(function (order_id) {
+                $(".sale_quotation_box_" + order_id).prop('checked', true);
             });
 
             // $("#purchase_quotations").modal('hide');

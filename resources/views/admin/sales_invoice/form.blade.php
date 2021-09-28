@@ -60,7 +60,7 @@
                         <label for="inputStore" class="control-label">{{__('Type')}}</label>
 
                         <div class="input-group"
-                             style="{{!request()->query('quotations') && !request()->query('type') && !request()->query('invoice_type') ? '':'display:none'}}">
+                             style="{{!request()->query('quotations') && !request()->query('type') && !request()->query('invoice_type')  && !request()->query('orders')  ? '':'display:none'}}">
 
                             <span class="input-group-addon fa fa-info"></span>
 
@@ -98,7 +98,7 @@
                         </div>
 
                         <div class="input-group"
-                             style="{{request()->query('quotations') && request()->query('type') && request()->query('invoice_type') ? '':'display:none'}}">
+                             style="{{request()->query('quotations') || request()->query('orders')  && (request()->query('type') && request()->query('invoice_type')) ? '':'display:none'}}">
                             <input type="text" id="disabled_invoice_type" class="form-control" disabled>
                         </div>
 
@@ -131,7 +131,7 @@
                 </div>
 
                 <div class="col-md-3"
-                     style="{{!request()->query('quotations') && !request()->query('type') && !request()->query('invoice_type') ? '':'display:none'}}">
+                     style="{{!request()->query('quotations') && !request()->query('type') && !request()->query('invoice_type') && !request()->query('orders') ? '':'display:none'}}">
 
                     <label style="display:block">{{__('Invoice type form')}}</label>
 
@@ -160,7 +160,7 @@
                 </div>
 
                 <div class="col-md-3"
-                     style="{{request()->query('quotations') && request()->query('type') && request()->query('invoice_type') ? '':'display:none'}}">
+                     style="{{request()->query('quotations') || request()->query('orders') && (request()->query('type') && request()->query('invoice_type')) ? '':'display:none'}}">
 
                     <label style="display:block">{{__('Invoice type form')}}</label>
 
@@ -177,7 +177,7 @@
                         <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
 
                         <div class="input-group"
-                             style="{{!request()->query('quotations') && !request()->query('type') && !request()->query('invoice_type') ? '':'display:none'}}">
+                             style="{{!request()->query('quotations') && !request()->query('type') && !request()->query('invoice_type') && !request()->query('orders') ? '':'display:none'}}">
 
                             <span class="input-group-addon fa fa-user"></span>
 
@@ -201,7 +201,7 @@
                         </div>
 
                         <div class="input-group"
-                             style="{{request()->query('quotations') && request()->query('type') && request()->query('invoice_type') ? '':'display:none'}}">
+                             style="{{request()->query('quotations') || request()->query('orders') &&  (request()->query('type') && request()->query('invoice_type')) ? '':'display:none'}}">
                             <input type="text" id="disabled_supplier_name" class="form-control" disabled>
                         </div>
 
@@ -239,9 +239,8 @@
                             </select>
                         </div>
 
-
                         <div class="input-group"
-                             style="{{request()->query('quotations') && request()->query('type') && request()->query('invoice_type') ? '':'display:none'}}">
+                             style="{{request()->query('quotations') || request()->query('orders') && (request()->query('type') && request()->query('invoice_type')) ? '':'display:none'}}">
                             <input type="text" id="disabled_customer_name" class="form-control" disabled>
                         </div>
 
@@ -337,7 +336,9 @@
 
                                 <li class="col-md-6">
                                     <button type="button" class="btn btn-new2 waves-effect waves-light btn-xs"
-                                            onclick="getSaleSupply()" style="margin-right: 10px;">
+                                            data-toggle="modal"
+                                            data-target="#sale_supply_order"
+                                            onclick="{{request()->query('orders') && request()->query('invoice_type') ? '':'getSaleSupply()'}}" style="margin-right: 10px;">
                                         <i class="fa fa-file-text-o"></i>
                                         {{__('Show Sale Supply Order')}}
                                     </button>

@@ -4,7 +4,7 @@
         <td>
             <input type="checkbox" name="sale_quotations[]" value="{{$saleSupply->id}}"
                    {{$salesInvoice && in_array($saleSupply->id, $salesInvoice->saleSupplyOrders->pluck('id')->toArray()) ? 'checked':''}}
-                   class="sale_quotation_box_{{$saleSupply->id}}"
+                   class="sale_quotation_box_{{$saleSupply->id}} orders_boxes"
             >
         </td>
 

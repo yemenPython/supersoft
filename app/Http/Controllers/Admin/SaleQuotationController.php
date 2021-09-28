@@ -37,9 +37,14 @@ class SaleQuotationController extends Controller
         $this->saleQuotationServices = new SaleQuotationServices();
     }
 
-    public function index (Request $request) {
+    public function index(Request $request)
+    {
 
         $data = SaleQuotation::query()->latest();
+
+        if ($request->filled('filter')) {
+            $data = $this->filter($request, $data);
+        }
 
         $paymentTerms = SupplyTerm::where('sale_quotation', 1)->where('status', 1)->where('type', 'payment')
             ->select('id', 'term_' . $this->lang)->get();
@@ -59,7 +64,8 @@ class SaleQuotationController extends Controller
         }
     }
 
-    public function create (Request $request) {
+    public function create(Request $request)
+    {
 
         $branch_id = $request->has('branch_id') ? $request['branch_id'] : auth()->user()->branch_id;
 
@@ -81,13 +87,13 @@ class SaleQuotationController extends Controller
         $taxes = TaxesFees::where('active_offers', 1)
             ->where('branch_id', $branch_id)
             ->where('type', 'tax')
-            ->select('id','value', 'tax_type','execution_time', 'name_' . $this->lang)
+            ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
             ->get();
 
         $additionalPayments = TaxesFees::where('active_offers', 1)
             ->where('branch_id', $branch_id)
             ->where('type', 'additional_payments')
-            ->select('id','value', 'tax_type','execution_time', 'name_' . $this->lang)
+            ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
             ->get();
 
         $suppliers = Supplier::where('status', 1)
@@ -107,15 +113,16 @@ class SaleQuotationController extends Controller
         $number = $lastNumber ? $lastNumber->number + 1 : 1;
 
         return view('admin.sale_quotations.create',
-            compact('branches', 'mainTypes', 'subTypes','additionalPayments', 'parts', 'taxes',
+            compact('branches', 'mainTypes', 'subTypes', 'additionalPayments', 'parts', 'taxes',
                 'customers', 'suppliers', 'number'));
     }
 
-    public function store(CreateRequest $request) {
+    public function store(CreateRequest $request)
+    {
 
 
         if (!$request->has('items')) {
-            return redirect()->back()->with(['message'=>'sorry, please select items', 'alert-type'=>'error']);
+            return redirect()->back()->with(['message' => 'sorry, please select items', 'alert-type' => 'error']);
         }
 
         try {
@@ -124,10 +131,10 @@ class SaleQuotationController extends Controller
 
             $data = $request->all();
 
-            $saleQuotationData =  $this->saleQuotationServices->saleQuotationData($data);
+            $saleQuotationData = $this->saleQuotationServices->saleQuotationData($data);
 
             $saleQuotationData['user_id'] = auth()->id();
-            $saleQuotationData['branch_id'] = authIsSuperAdmin() ? $data['branch_id']  : auth()->user()->branch_id;
+            $saleQuotationData['branch_id'] = authIsSuperAdmin() ? $data['branch_id'] : auth()->user()->branch_id;
 
             $lastNumber = SaleQuotation::where('branch_id', $saleQuotationData['branch_id'])
                 ->orderBy('id', 'desc')
@@ -151,17 +158,18 @@ class SaleQuotationController extends Controller
             }
 
             DB::commit();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
 
             dd($e->getMessage());
-            return redirect()->back()->with(['message'=>'sorry, please try later', 'alert-type'=>'error']);
+            return redirect()->back()->with(['message' => 'sorry, please try later', 'alert-type' => 'error']);
         }
 
-        return redirect(route('admin:sale-quotations.index'))->with(['message'=> __('sale.quotations.created.successfully'), 'alert-type'=>'success']);
+        return redirect(route('admin:sale-quotations.index'))->with(['message' => __('sale.quotations.created.successfully'), 'alert-type' => 'success']);
     }
 
-    public function edit (SaleQuotation $saleQuotation) {
+    public function edit(SaleQuotation $saleQuotation)
+    {
 
         $branch_id = $saleQuotation->branch_id;
 
@@ -183,13 +191,13 @@ class SaleQuotationController extends Controller
         $taxes = TaxesFees::where('active_offers', 1)
             ->where('branch_id', $branch_id)
             ->where('type', 'tax')
-            ->select('id','value', 'tax_type', 'execution_time', 'name_' . $this->lang)
+            ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
             ->get();
 
         $additionalPayments = TaxesFees::where('active_offers', 1)
             ->where('branch_id', $branch_id)
             ->where('type', 'additional_payments')
-            ->select('id','value', 'tax_type','execution_time', 'name_' . $this->lang)
+            ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
             ->get();
 
         $suppliers = Supplier::where('status', 1)
@@ -207,10 +215,11 @@ class SaleQuotationController extends Controller
                 'additionalPayments', 'customers', 'suppliers'));
     }
 
-    public function update (UpdateRequest $request, SaleQuotation $saleQuotation) {
+    public function update(UpdateRequest $request, SaleQuotation $saleQuotation)
+    {
 
         if (!$request->has('items')) {
-            return redirect()->back()->with(['message'=>'sorry, please select items', 'alert-type'=>'error']);
+            return redirect()->back()->with(['message' => 'sorry, please select items', 'alert-type' => 'error']);
         }
 
         try {
@@ -221,7 +230,7 @@ class SaleQuotationController extends Controller
 
             $data = $request->all();
 
-            $saleQuotationData =  $this->saleQuotationServices->saleQuotationData($data);
+            $saleQuotationData = $this->saleQuotationServices->saleQuotationData($data);
 
             $saleQuotation->update($saleQuotationData);
 
@@ -239,26 +248,27 @@ class SaleQuotationController extends Controller
             }
 
             DB::commit();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             DB::rollBack();
 
-            return redirect()->back()->with(['message'=>'sorry, please try later', 'alert-type'=>'error']);
+            return redirect()->back()->with(['message' => 'sorry, please try later', 'alert-type' => 'error']);
         }
 
-        return redirect(route('admin:sale-quotations.index'))->with(['message'=> __('sale.quotations.created.successfully'), 'alert-type'=>'success']);
+        return redirect(route('admin:sale-quotations.index'))->with(['message' => __('sale.quotations.created.successfully'), 'alert-type' => 'success']);
     }
 
-    public function destroy (SaleQuotation $saleQuotation) {
+    public function destroy(SaleQuotation $saleQuotation)
+    {
 
         try {
 
             $saleQuotation->delete();
 
-        }catch (\Exception $e) {
-            return redirect()->back()->with(['message'=>'sorry, please try later', 'alert-type'=>'error']);
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['message' => 'sorry, please try later', 'alert-type' => 'error']);
         }
 
-        return redirect()->back()->with(['message'=> __('sale.quotations.deleted.successfully'), 'alert-type'=>'success']);
+        return redirect()->back()->with(['message' => __('sale.quotations.deleted.successfully'), 'alert-type' => 'success']);
     }
 
     public function deleteSelected(Request $request)
@@ -286,8 +296,8 @@ class SaleQuotationController extends Controller
     public function selectPartRaw(Request $request)
     {
         $rules = [
-            'part_id'=>'required|integer|exists:parts,id',
-            'index'=>'required|integer'
+            'part_id' => 'required|integer|exists:parts,id',
+            'index' => 'required|integer'
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -304,9 +314,9 @@ class SaleQuotationController extends Controller
 
             $view = view('admin.sale_quotations.part_raw', compact('part', 'index'))->render();
 
-            return response()->json(['parts'=> $view, 'index'=> $index], 200);
+            return response()->json(['parts' => $view, 'index' => $index], 200);
 
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
 
             return response()->json('sorry, please try later', 400);
         }
@@ -321,12 +331,13 @@ class SaleQuotationController extends Controller
         return response()->json(['view' => $view]);
     }
 
-    public function terms (Request $request) {
+    public function terms(Request $request)
+    {
 
         $this->validate($request, [
-            'sale_quotation_id'=>'required|integer|exists:sale_quotations,id',
-            'terms'=>'required',
-            'terms.*'=>'required|integer|exists:supply_terms,id',
+            'sale_quotation_id' => 'required|integer|exists:sale_quotations,id',
+            'terms' => 'required',
+            'terms.*' => 'required|integer|exists:supply_terms,id',
         ]);
 
         try {
@@ -335,18 +346,18 @@ class SaleQuotationController extends Controller
 
             $saleQuotation->terms()->sync($request['terms']);
 
-        }catch (\Exception $e) {
-            return redirect()->back()->with(['message'=>'sorry, please try later', 'alert-type'=>'error']);
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['message' => 'sorry, please try later', 'alert-type' => 'error']);
         }
 
-        return redirect(route('admin:sale-quotations.index'))->with(['message'=> __('sale.quotations.terms.successfully'), 'alert-type'=>'success']);
+        return redirect(route('admin:sale-quotations.index'))->with(['message' => __('sale.quotations.terms.successfully'), 'alert-type' => 'success']);
     }
 
     public function priceSegments(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'price_id'=>'required|integer|exists:part_prices,id',
-            'index'=>'required|integer'
+            'price_id' => 'required|integer|exists:part_prices,id',
+            'index' => 'required|integer'
         ]);
 
         if ($validator->fails()) {
@@ -361,27 +372,28 @@ class SaleQuotationController extends Controller
 
             $view = view('admin.sale_quotations.ajax_price_segments', compact('priceSegments', 'index'))->render();
 
-            return response()->json(['view'=> $view], 200);
+            return response()->json(['view' => $view], 200);
 
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json('sorry, please try later', 400);
         }
     }
 
-    public function show (SaleQuotation $saleQuotation) {
+    public function show(SaleQuotation $saleQuotation)
+    {
 
         $branch_id = $saleQuotation->branch_id;
 
         $taxes = TaxesFees::where('active_offers', 1)
             ->where('branch_id', $branch_id)
             ->where('type', 'tax')
-            ->select('id','value', 'tax_type','execution_time', 'name_' . $this->lang)
+            ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
             ->get();
 
         $additionalPayments = TaxesFees::where('active_offers', 1)
             ->where('branch_id', $branch_id)
             ->where('type', 'additional_payments')
-            ->select('id','value', 'tax_type','execution_time', 'name_' . $this->lang)
+            ->select('id', 'value', 'tax_type', 'execution_time', 'name_' . $this->lang)
             ->get();
 
         return view('admin.sale_quotations.info.show', compact('saleQuotation', 'taxes', 'additionalPayments'));
@@ -403,7 +415,7 @@ class SaleQuotationController extends Controller
 
             if (!empty($invalidItems)) {
 
-                $message = __('quantity not available for this items ') ."\n          ". '('.implode(' ,', $invalidItems).')';
+                $message = __('quantity not available for this items ') . "\n          " . '(' . implode(' ,', $invalidItems) . ')';
                 return response()->json($message, 400);
             }
 
@@ -433,19 +445,15 @@ class SaleQuotationController extends Controller
                 $withBranch = true;
                 return view($viewPath, compact('item', 'withBranch'))->render();
             })
-
             ->addColumn('number', function ($item) {
                 return $item->number;
             })
-
             ->addColumn('type_for', function ($item) {
-                return $item->type_for ? $item->type_for : '---' ;
+                return $item->type_for ? $item->type_for : '---';
             })
-
             ->addColumn('salesable_id', function ($item) {
-                return $item->salesable ? $item->salesable->name : '---' ;
+                return $item->salesable ? $item->salesable->name : '---';
             })
-
             ->addColumn('type', function ($item) use ($viewPath) {
                 $type = true;
                 return view($viewPath, compact('item', 'type'))->render();
@@ -487,5 +495,61 @@ class SaleQuotationController extends Controller
                 $withOptions = true;
                 return view($viewPath, compact('item', 'withOptions'))->render();
             })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
+    }
+
+    private function filter(Request $request, Builder $data): Builder
+    {
+
+        return $data->where(function ($query) use ($request) {
+
+            if ($request->filled('branchId')) {
+                $query->where('branch_id', $request->branchId);
+            }
+
+            if ($request->filled('number')) {
+                $query->where('id', $request->number);
+            }
+
+            if ($request->filled('quotation_type')) {
+                $query->where('type', $request->quotation_type);
+            }
+
+            if ($request->filled('date_add_from')) {
+                $query->whereDate('date', '>=', $request->date_add_from);
+            }
+
+            if ($request->filled('date_add_to')) {
+                $query->whereDate('date', '<=', $request->date_add_to);
+            }
+
+            if ($request->filled('supply_date_from')) {
+                $query->whereDate('supply_date_from', '>=', $request->supply_date_from);
+            }
+
+            if ($request->filled('supply_date_to')) {
+                $query->whereDate('supply_date_to', '<=', $request->supply_date_to);
+            }
+
+            if ($request->filled('date_from')) {
+                $query->whereDate('date_from', '>=', $request->date_from);
+            }
+
+            if ($request->filled('date_to')) {
+                $query->whereDate('date_to', '<=', $request->date_to);
+            }
+
+            if ($request->filled('type_for')) {
+                $query->where('type_for', $request->type_for);
+            }
+
+            if ($request->filled('type_for') && $request['type_for'] == 'customer' && $request->filled('customer_id')) {
+                $query->where('salesable_id', $request['customer_id']);
+            }
+
+            if ($request->filled('type_for') && $request['type_for'] == 'supplier' && $request->filled('supplier_id')) {
+                $query->where('salesable_id', $request['supplier_id']);
+            }
+
+        });
     }
 }
