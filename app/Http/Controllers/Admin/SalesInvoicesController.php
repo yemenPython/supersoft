@@ -253,7 +253,7 @@ class SalesInvoicesController extends Controller
 
     public function store(CreateSalesInvoiceRequest $request)
     {
-    
+
         if (!$request->has('items')) {
             return redirect()->back()->with(['message' => __('sorry,  items required'), 'alert-type' => 'error']);
         }
