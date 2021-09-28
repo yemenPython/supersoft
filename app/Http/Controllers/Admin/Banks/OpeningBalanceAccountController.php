@@ -78,8 +78,6 @@ class OpeningBalanceAccountController extends Controller
                         'bank_account_id' => $item['bank_account_id'],
                         'total' => $item['added_balance'],
                     ]);
-                }
-                if ($openingBalanceAccountItem && $openingBalanceAccountItem->bankAccount) {
                     $this->updateBalanceInBankAccount($openingBalanceAccountItem, $request->status);
                 }
             }
@@ -110,8 +108,8 @@ class OpeningBalanceAccountController extends Controller
 
     public function show(int $id): JsonResponse
     {
-        $item = LockerOpeningBalance::findOrFail($id);
-        $view = view('admin.locker_opening_balance.show', compact('item'))->render();
+        $item = OpeningBalanceAccount::findOrFail($id);
+        $view = view('admin.banks.opening_balance_accounts.show', compact('item'))->render();
         return response()->json([
             'view' => $view
         ]);
@@ -313,8 +311,14 @@ class OpeningBalanceAccountController extends Controller
     private function updateBalanceInBankAccount(OpeningBalanceAccountItem $openingBalanceAccountItem, string $status)
     {
         if ($status == Status::Accepted) {
+            logger('>>>>>>>>>>>>>>>', [
+                '$status' => $status
+            ]);
             $bankAccount = BankAccount::find($openingBalanceAccountItem->bank_account_id);
             if ($bankAccount) {
+                logger('>>>>>>>>>>>>>>>', [
+                    'balance' => $openingBalanceAccountItem->total
+                ]);
                 $bankAccount->update([
                     'balance' => $bankAccount->balance +  $openingBalanceAccountItem->total
                 ]);

@@ -9,14 +9,8 @@
                                 <h5>{{optional($branchToPrint)->name_ar}}</h5>
                             </li>
                             <li>
-                                <img
-                                    src="{{isset($branchToPrint->logo) ? asset('storage/images/branches/'.$branchToPrint->logo) : env('DEFAULT_IMAGE_PRINT')}}"
-                                    style="width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    position: absolute;
-    top: 2px;
-    left: 21px;">
+                                <img src="{{isset($branchToPrint->logo) ? asset('storage/images/branches/'.$branchToPrint->logo) : env('DEFAULT_IMAGE_PRINT')}}"
+                                    style="width: 50px; height: 50px;border-radius: 50%; position: absolute; top: 2px;left: 21px;">
                             </li>
                         </ul>
                     </div>
@@ -24,12 +18,13 @@
 
             </div>
 
-            <div class="row row-right-data" @if( !$loop->first)style="visibility: hidden !important;" @else style="margin-bottom: -40px;" @endif>
+            <div class="row row-right-data" @if( !$loop->first)style="visibility: hidden !important;"
+                 @else style="margin-bottom: -40px;" @endif>
                 <div class="col-xs-6"></div>
                 <div class="col-xs-6 right-top-detail" @if( !$loop->first)style="visibility: hidden !important;" @endif>
                     <h3>
                         @if( $loop->first)
-                            <span> {{__('Locker Opening Balance')}} </span>
+                            <span> {{__('Bank Accounts Opening Balance')}} </span>
                         @endif
                     </h3>
 
@@ -38,11 +33,11 @@
 
             @if( $loop->first)
                 <div class="middle-data-h-print">
-
-                    <div class="invoice-to print-padding-top" @if($item->items->count() <= 18) style="margin-bottom: -70px;" @endif>
+                    <div class="invoice-to print-padding-top"
+                         @if($item->items->count() <= 18) style="margin-bottom: -70px;" @endif>
                         <div class="row">
                             <div class="col-xs-6">
-                                <h5>{{__('Locker Opening Balance')}}</h5>
+                                <h5>{{__('Bank Accounts Opening Balance')}}</h5>
                             </div>
                             <div class="col-xs-6" style="padding-right: 50px;">
                                 <div class="row">
@@ -67,7 +62,8 @@
                     </div>
                 </div>
 
-                <div class="col-xs-12 table-responsive" @if($item->items->count() <= 18) style="margin-bottom: -10px;" @endif>
+                <div class="col-xs-12 table-responsive"
+                     @if($item->items->count() <= 18) style="margin-bottom: -10px;" @endif>
 
                     <table class="table static-table-wg">
                         <tbody>
@@ -90,39 +86,30 @@
                            @if(!$loop->first) style="margin-top: 20px;" @endif>
                         <thead>
                         <tr class="spacer" style="border-radius: 30px;">
-                            <th> # </th>
-                            <th> {{ __('Locker name') }} </th>
-                            <th> {{ __('Currency') }} </th>
-                            <th> {{ __('Current balance') }} </th>
-                            <th> {{ __('Added balance') }} </th>
+                            <th> #</th>
+                            <th> {{ __('Bank Account') }} </th>
                             <th> {{ __('Total') }} </th>
                         </tr>
 
                         </thead>
                         <tbody>
-                        @foreach ($one as $index => $lockerItem)
+                        @foreach ($one as $index => $account)
                             <tr class="spacer">
                                 <td>
                                     {{$index+1}}
                                 </td>
                                 <td>
-                                    {{optional($lockerItem->locker)->name}}
+                                    {{ optional($account->bankAccount->mainType)->name }}
+                                    @if ($account->bankAccount->subType)
+                                        <strong class="text-danger">[   {{ optional($account->bankAccount->subType)->name }}  ]</strong>
+                                    @endif
+                                    @if ($account->bankAccount)
+                                        <strong class="text-danger">[   {{ optional($account->bankAccount->bankData)->name }}  ]</strong>
+                                    @endif
                                 </td>
 
                                 <td>
-                                    {{optional($lockerItem->currency)->name}}
-                                </td>
-
-                                <td>
-                                    {{$lockerItem->current_balance}}
-                                </td>
-
-                                <td>
-                                    {{$lockerItem->added_balance}}
-                                </td>
-
-                                <td>
-                                    {{$lockerItem->total}}
+                                    {{$account->total}}
                                 </td>
                             </tr>
 
@@ -135,76 +122,10 @@
                 </div>
             </div>
 
-            @if( $loop->last)
-                <div class="row right-peice-wg" style="padding:0 30px 50px 30px;margin-bottom:30px">
-
-
-                    <div class="col-xs-12" style="padding:0 !important">
-                        <div class="col-xs-12 text-center">
-                            <div class="row last-total" style="background-color:#ddd !important">
-                                <div class="col-xs-7">
-                                    <h6>{{__('Total Current Balance')}}</h6>
-                                </div>
-                                <div class="col-xs-5">
-                                    <h6> {{isset($item) ? $item->current_total  : 0}} </h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xs-12" style="padding:0 !important">
-                        <div class="col-xs-12 text-center">
-                            <div class="row last-total" style="background-color:#ddd !important">
-                                <div class="col-xs-7">
-                                    <h6>{{__('Total Added Balance')}}</h6>
-                                </div>
-                                <div class="col-xs-5">
-                                    <h6> {{isset($item) ? $item->added_total  : 0}} </h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xs-12" style="padding:0 !important">
-                        <div class="col-xs-12 text-center">
-                            <div class="row last-total" style="background-color:#ddd !important">
-                                <div class="col-xs-7">
-                                    <h6>{{__('Total')}}</h6>
-                                </div>
-                                <div class="col-xs-5">
-                                    <h6> {{isset($item) ? $item->total  : 0}} </h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-xs-12" style="padding:0 !important">
-                        <div class="col-xs-12 text-center">
-                            <div class="row last-total" style="background-color:#ddd !important">
-                                <div class="col-xs-12">
-                                    <h6 data-id="data-totalInLetters" id="totalInLetters">  {{isset($item) ? $item->total : 0}} </h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-xs-12">
-                        <h6 class="title">{{__('Notes')}}</h6>
-                                <p style="font-size:12px">
-
-                                    {!! $item->notes !!}
-
-                                </p>
-                    </div>
-                </div>
-
-            @endif
 
 
             <div class="print-foot-wg position-relative ml-0">
-                <div class="row for-reverse-en" style="display: flex;
-    align-items: flex-end;">
+                <div class="row for-reverse-en" style="display: flex;align-items: flex-end;">
                     <div class="col-xs-7">
                         <div class="row">
                             <div class="col-xs-12">
