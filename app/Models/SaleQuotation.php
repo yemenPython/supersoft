@@ -142,4 +142,10 @@ class SaleQuotation extends Model
 
         return true;
     }
+
+    public function saleSupplyOrders()
+    {
+        return $this->belongsToMany(SaleSupplyOrder::class, 'sale_quotation_sale_supply_orders',
+            'sale_quotation_id', 'supply_order_id');
+    }
 }

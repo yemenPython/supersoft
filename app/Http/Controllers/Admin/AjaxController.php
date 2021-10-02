@@ -35,6 +35,8 @@ use App\Models\PurchaseQuotation;
 use App\Models\PurchaseReceipt;
 use App\Models\PurchaseRequest;
 use App\Models\SaleQuotation;
+use App\Models\SalesInvoice;
+use App\Models\SaleSupplyOrder;
 use App\Models\Settlement;
 use App\Models\Store;
 use App\Models\Supplier;
@@ -65,9 +67,14 @@ class AjaxController extends Controller
     protected $bank_data_id;
     protected $country_id;
     protected $city_id;
+    protected $supply_number;
+    protected $sales_invoice_number;
 
     public function AutoComplete(Request $request)
     {
+
+//        dd($request->all());
+
         $limit = 10;
         $data = [];
 
@@ -86,8 +93,10 @@ class AjaxController extends Controller
             $searchTerm = ($request->has('searchTerm') && !empty($request->searchTerm)) ? $request->searchTerm : '';
 
             $branchId = ($request->has('branch_id') && !empty($request->branch_id)) ? $request->branch_id : '';
+
             $this->storeId = ($request->has('store_id') && !empty($request->store_id)
                 && $request->store_id != __('words.select-one')) ? $request->store_id : '';
+
             $this->partId = ($request->has('part_name') && !empty($request->part_name)
                 && $request->part_name != __('words.select-one')) ? $request->part_name : '';
             $this->serialNumber = ($request->has('serial_number') && !empty($request->serial_number)
@@ -122,8 +131,12 @@ class AjaxController extends Controller
                 && $request->asset_id_select_2 != __('words.select-one')) ? $request->asset_id_select_2 : '';
             $this->bank_data_id = ($request->has('bank_data_id') && !empty($request->bank_data_id)
                 && $request->bank_data_id != __('words.select-one')) ? $request->bank_data_id : '';
+
             $this->country_id = ($request->has('country_id') && !empty($request->country_id)
                 && $request->country_id != __('words.select-one')) ? $request->country_id : '';
+
+            $this->supply_number = ($request->has('supply_number') && $request->supply_number !=  null) ? $request->supply_number : '';
+            $this->sales_invoice_number = ($request->has('sales_invoice_number') && $request->sales_invoice_number !=  null) ? $request->sales_invoice_number : '';
 
             $this->city_id = ($request->has('city_id') && !empty($request->city_id) && $request->city_id != __('words.select-one')) ? $request->city_id : '';
 
@@ -278,6 +291,12 @@ class AjaxController extends Controller
                     break;
                 case 'Customer':
                     $data = $this->getCustomers($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'SaleSupplyOrder':
+                    $data = $this->getSaleSupplyOrders($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'SalesInvoice':
+                    $data = $this->getSaleInvoices($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
                     break;
                 default:
                     break;
@@ -1837,6 +1856,20 @@ class AjaxController extends Controller
             $items = $items->where('type', $this->type_of_purchase_quotation);
         }
 
+
+        if (!empty($this->supply_number)) {
+            $items = $items->whereHas('saleSupplyOrders', function ($q) {
+                $q->where('supply_order_id', $this->supply_number);
+            });
+        }
+
+        if (!empty($this->sales_invoice_number)) {
+
+            $items = $items->whereHas('salesInvoices', function ($q) {
+                $q->where('sales_invoice_id', $this->sales_invoice_number);
+            });
+        }
+
         if (!empty($this->quotation_type)) {
             if ($this->quotation_type == 'cash_credit') {
                 $items = $items->whereIn('type', ['credit', 'cash']);
@@ -1879,6 +1912,92 @@ class AjaxController extends Controller
 
         if (!empty($branchId)) {
             $items = $items->where('branch_id', $branchId);
+        }
+
+        $items = $items->limit($limit)->get();
+
+        foreach ($items as $item) {
+            $data[] = [
+                'id' => $item->id,
+                'text' => $this->buildSelectedColumnsAsText($item, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+    private function getSaleSupplyOrders(array $searchFields, $searchTerm, $selectedColumns, $limit, $branchId)
+    {
+        $data = [];
+
+        $id = ' id ,';
+
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+
+        $items = SaleSupplyOrder::select(DB::raw($selectedColumns));
+
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $items = $items->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+
+        if (!empty($branchId)) {
+            $items = $items->where('branch_id', $branchId);
+        }
+
+        if (!empty($this->sales_invoice_number)) {
+
+            $items = $items->whereHas('salesInvoices', function ($q) {
+                $q->where('sales_invoice_id', $this->sales_invoice_number);
+            });
+        }
+
+        $items = $items->limit($limit)->get();
+
+        foreach ($items as $item) {
+            $data[] = [
+                'id' => $item->id,
+                'text' => $this->buildSelectedColumnsAsText($item, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+    private function getSaleInvoices(array $searchFields, $searchTerm, $selectedColumns, $limit, $branchId)
+    {
+        $data = [];
+
+        $id = ' id ,';
+
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+
+        $items = SalesInvoice::select(DB::raw($selectedColumns));
+
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $items = $items->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+
+        if (!empty($branchId)) {
+            $items = $items->where('branch_id', $branchId);
+        }
+
+        if (!empty($this->quotation_type)) {
+            if ($this->quotation_type == 'cash_credit') {
+                $items = $items->whereIn('type', ['credit', 'cash']);
+            } else {
+                $items = $items->where('type', $this->quotation_type);
+            }
+
         }
 
         $items = $items->limit($limit)->get();

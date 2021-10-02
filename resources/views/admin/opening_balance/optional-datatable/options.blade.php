@@ -62,6 +62,29 @@
                 </a>
             </li>
 
+            <li>
+
+                @if(!$openingBalances->concession)
+
+                    <a href="{{route('admin:concessions.create',
+                        ['opening' => $openingBalances->id, 'branch_id'=> $openingBalances->branch_id,
+                         'concession_type' => $openingBalances->concession_type, 'type'=>'add' ])}}"
+
+                       class="btn btn-approval-wg text-white hvr-radial-out" >
+                        <i class="fafa-eye"></i>
+                        {{__('relay to concession')}}
+                    </a>
+
+                @else
+
+                    <a class="btn btn-approval-wg text-white hvr-radial-out">
+                        {{__('Has concession')}}
+                    </a>
+                @endif
+            </li>
+
+
+
             <li class="btn-style-drop">
                 @component('admin.buttons._delete_button',[
                'id'=> $openingBalances->id,

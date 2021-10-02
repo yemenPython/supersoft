@@ -56,6 +56,11 @@ class SaleSupplyOrderController extends Controller
         $data['supplyTerms'] = SupplyTerm::where('sale_supply_order', 1)->where('status', 1)->where('type', 'supply')
             ->select('id', 'term_' . $this->lang)->get();
 
+
+        if ($request->filled('filter')) {
+            $data = $this->filter($request, $sale_supply_orders);
+        }
+
         if ($request->isDataTable) {
             return $this->dataTableColumns($sale_supply_orders);
         } else {
@@ -556,6 +561,61 @@ class SaleSupplyOrderController extends Controller
                 $withOptions = true;
                 return view($viewPath, compact('item', 'withOptions'))->render();
             })->rawColumns(['action'])->rawColumns(['actions'])->escapeColumns([])->make(true);
+    }
+
+    private function filter(Request $request, Builder $data): Builder
+    {
+
+        return $data->where(function ($query) use ($request) {
+
+            if ($request->filled('branchId')) {
+                $query->where('branch_id', $request->branchId);
+            }
+
+            if ($request->filled('supply_number')) {
+                $query->where('id', $request->supply_number);
+            }
+
+            if ($request->filled('type')) {
+                $query->where('type', $request->type);
+            }
+
+            if ($request->filled('number_quotation')) {
+
+                $query->whereHas('saleQuotations', function ($q) use($request) {
+                    $q->where('sale_quotation_id', $request->number_quotation);
+                });
+            }
+
+            if ($request->filled('date_add_from')) {
+                $query->whereDate('date', '>=', $request->date_add_from);
+            }
+
+            if ($request->filled('date_add_to')) {
+                $query->whereDate('date', '<=', $request->date_add_to);
+            }
+
+            if ($request->filled('supply_date_from')) {
+                $query->whereDate('supply_date_from', '>=', $request->supply_date_from);
+            }
+
+            if ($request->filled('supply_date_to')) {
+                $query->whereDate('supply_date_to', '<=', $request->supply_date_to);
+            }
+
+            if ($request->filled('type_for')) {
+                $query->where('type_for', $request->type_for);
+            }
+
+            if ($request->filled('type_for') && $request['type_for'] == 'customer' && $request->filled('customer_id')) {
+                $query->where('salesable_id', $request['customer_id']);
+            }
+
+            if ($request->filled('type_for') && $request['type_for'] == 'supplier' && $request->filled('supplier_id')) {
+                $query->where('salesable_id', $request['supplier_id']);
+            }
+
+        });
     }
 
     public function getSaleQuotations (Request $request) {

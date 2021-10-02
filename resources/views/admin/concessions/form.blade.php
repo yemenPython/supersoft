@@ -76,7 +76,6 @@
                     </div>
                 </div>
 
-
                 <div class="col-md-3">
                     <div class="form-group ">
                         <label for="inputStore" class="control-label">{{__('Status')}}</label>
@@ -104,24 +103,41 @@
 
                 </div>
 
-                <div class="radio primary col-md-3" style="margin-top: 37px;">
+                <div class="radio primary col-md-3" style="margin-top: 37px;
+                      {{ request()->query('opening') && request()->query('concession_type') ? 'display:none;':'' }}"
+                >
                     <input type="radio" name="type" value="add" id="add" onclick="showSelectedTypes('add')"
                         {{ !isset($concession) ? 'checked':'' }}
+                        {{ request()->query('opening') && request()->query('type') == 'add' ? 'checked':'' }}
                         {{isset($concession) && $concession->type == 'add' ? 'checked':''}} >
                     <label for="add">{{__('Add Concession')}}</label>
                 </div>
 
-                <div class="radio primary col-md-3" style="margin-top: 37px;">
+                @if(request()->query('opening') && request()->query('concession_type') && request()->query('type') == 'add')
+                    <div class="primary col-md-6">
+                        <label class="control-label">{{__('Add Concession')}}</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" disabled value="{{__('Add Concession')}}">
+                        </div>
+                    </div>
+                @endif
+
+                <div class="radio primary col-md-3"
+                     style="margin-top: 37px; {{ request()->query('opening') && request()->query('concession_type') ? 'display:none;':'' }}">
                     <input type="radio" name="type" id="withdrawal" value="withdrawal"
                            onclick="showSelectedTypes('withdrawal')"
+                        {{ \request()->query('opening') && \request()->query('type') == 'withdrawal' ? 'checked':'' }}
                         {{isset($concession) && $concession->type == 'withdrawal' ? 'checked':''}} >
                     <label for="withdrawal">{{__('Withdrawal Concession')}}</label>
                 </div>
 
                 <div class="col-md-3">
                     <div class="form-group has-feedback">
+
                         <label for="inputStore" class="control-label text-new1">{{__('Concession Type')}}</label>
-                        <div class="input-group" id="concession_types">
+
+                        <div class="input-group" id="concession_types"
+                             style="{{request()->query('opening') && request()->query('concession_type') ? 'display:none;':''}}">
 
                             <span class="input-group-addon fa fa-file-text-o"></span>
 
@@ -139,14 +155,26 @@
                             </select>
                         </div>
 
+                        @if(request()->query('opening') && request()->query('concession_type'))
+                            <div class="input-group" >
+                                <div class="input-group">
+                                    <input type="text" class="form-control" disabled id="disabled_concession_type">
+                                </div>
+                            </div>
+                        @endif
+
+
                         {{input_error($errors,'concession_type_id')}}
                     </div>
                 </div>
 
                 <div class="col-md-3">
                     <div class="form-group has-feedback">
+
                         <label for="inputStore" class="control-label text-new1">{{__('Doc. number')}}</label>
-                        <div class="input-group" id="concession_items">
+
+                        <div class="input-group" id="concession_items"
+                             style="{{request()->query('opening') && request()->query('concession_type') ? 'display:none;':''}}">
 
                             <span class="input-group-addon fa fa-bars"></span>
 
@@ -163,6 +191,14 @@
                                 @endif
                             </select>
                         </div>
+
+                        @if(request()->query('opening') && request()->query('concession_type'))
+                            <div class="input-group">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" disabled id="disabled_concession_item">
+                                </div>
+                            </div>
+                        @endif
 
                         {{input_error($errors,'item_id')}}
                     </div>
@@ -192,7 +228,8 @@
         <th style="width:30%;background:rgba(234, 84, 85, 0.15) !important;color:black !important">{{__('Total quantity')}}</th>
         <td style="background:rgba(234, 84, 85, 0.15)">
             <input type="text" disabled id="item_quantity"
-                   style="background:rgba(234, 84, 85, 0); border:none;text-align:center !important;" class="form-control"
+                   style="background:rgba(234, 84, 85, 0); border:none;text-align:center !important;"
+                   class="form-control"
                    value="{{isset($concession->total_quantity) ? $concession->total_quantity : 0}}">
         </td>
         </tbody>

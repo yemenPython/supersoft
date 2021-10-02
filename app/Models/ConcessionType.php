@@ -24,7 +24,6 @@ class ConcessionType extends Model
 
     public function getNameAttribute()
     {
-
         return App::getLocale() == 'ar' ? $this->name_ar : $this->name_en;
     }
 

@@ -12,7 +12,7 @@
             </ol>
         </nav>
 
-        {{--        @include('admin.damaged_stock.search_form')--}}
+                @include('admin.sales_invoice.search_form')
 
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
@@ -153,6 +153,53 @@
             }, 1000)
         }
 
+        function changeType () {
+
+            $('.hide_clients').hide()
+
+            if ($('#customer_radio').is(':checked')) {
+
+                $('#supplier_select').hide();
+                $('#customer_select').show();
+
+                $('supplier_id').val('').change();
+            }
+
+            if ($('#supplier_radio').is(':checked')) {
+
+                $('#supplier_select').show();
+                $('#customer_select').hide();
+
+                $('customer_id').val('').change();
+            }
+
+            if ($('#supplier_customer').is(':checked')) {
+
+                $('#supplier_select').show();
+                $('#customer_select').show();
+            }
+        }
+
+        function changeInvoiceType () {
+
+            $('.hide_all').hide();
+
+            let invoice_type = $('#invoice_type').find(':selected').val();
+
+            if (invoice_type == 'direct_sale_quotations' || invoice_type == 'from_sale_quotations') {
+
+                $('#quotations_number').show();
+            }
+
+            if (invoice_type == 'from_sale_supply_order' ) {
+
+                $('#supply_number_div').show();
+            }
+
+            $('supply_number').val('').change();
+            $('number_quotation').val('').change();
+        }
+
     </script>
 @endsection
 
@@ -287,7 +334,6 @@
                 },
             });
         }
-
 
         invoke_datatable($('#cities'))
     </script>

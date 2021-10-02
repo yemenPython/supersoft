@@ -13,6 +13,7 @@
             <div class="card-content js__card_content" style="padding:30px">
                 <form onsubmit="filterFunction($(this));return false;">
                     <input type="hidden" name="filter" value="1">
+
                     <div class="list-inline margin-bottom-0 row">
 
                         @if(authIsSuperAdmin())
@@ -26,10 +27,10 @@
                         @endif
 
                         <div class="form-group col-md-3">
-                            <label> {{ __('Sale supply Number') }} </label>
+                            <label> {{ __('Invoice Number') }} </label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-file"></span>
-                                {!! drawSelect2ByAjax('supply_number','SaleSupplyOrder', 'number', 'number', __('Select'), request()->supply_number) !!}
+                                {!! drawSelect2ByAjax('sales_invoice_number','SalesInvoice', 'number', 'number', __('Select'), request()->sales_invoice_number) !!}
                             </div>
                         </div>
 
@@ -37,29 +38,56 @@
                             <label> {{ __('Type') }} </label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-file"></span>
-                                <select name="type" id="supply_type" onchange="changeSupplyType()">
+                                <select name="invoice_type" id="invoice_type" onchange="changeInvoiceType()">
 
-                                    <option value=""> {{__('Select')}}</option>
+                                    <option value=""> {{__('All')}}</option>
 
-                                    <option value="from_sale_quotation">
-                                        {{ __('From Sale Quotation') }}
+                                    {{-- with concession --}}
+                                    <option value="normal"
+                                        {{isset($salesInvoice) && $salesInvoice->invoice_type == 'normal'? 'selected':'' }}>
+                                        {{ __('Normal sale invoice') }}
                                     </option>
 
-                                    <option value="normal">
-                                        {{ __('Normal Sale Supply Order') }}
+                                    {{-- without concession --}}
+                                    <option value="direct_invoice"
+                                        {{isset($salesInvoice) && $salesInvoice->invoice_type == 'direct_invoice'? 'selected':'' }}>
+                                        {{ __('Direct Invoice') }}
                                     </option>
+
+                                    <option value="direct_sale_quotations"
+                                        {{isset($salesInvoice) && $salesInvoice->invoice_type == 'direct_sale_quotations'? 'selected':'' }}>
+                                        {{ __('Direct Sale Quotations') }}
+                                    </option>
+
+                                    <option value="from_sale_quotations"
+                                        {{isset($salesInvoice) && $salesInvoice->invoice_type == 'from_sale_quotations'? 'selected':'' }}>
+                                        {{ __('From Sale Quotations') }}
+                                    </option>
+
+                                    <option value="from_sale_supply_order"
+                                        {{isset($salesInvoice) && $salesInvoice->invoice_type == 'from_sale_supply_order'? 'selected':'' }}>
+                                        {{ __('From Sale Supply Order') }}
+                                    </option>
+
                                 </select>
                             </div>
                         </div>
 
-                        <div class="form-group col-md-3" id="quotations_number" style="display: none;">
+                        <div class="form-group col-md-3 hide_all" id="supply_number_div" style="display: none;">
+                            <label> {{ __('Sale supply Number') }} </label>
+                            <div class="input-group">
+                                <span class="input-group-addon fa fa-file"></span>
+                                {!! drawSelect2ByAjax('supply_number','SaleSupplyOrder', 'number', 'number', __('Select'), request()->supply_number) !!}
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-3 hide_all" id="quotations_number" style="display: none;">
                             <label> {{ __('Quotation Number') }} </label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-file"></span>
                                 {!! drawSelect2ByAjax('number_quotation','SaleQuotation','number', 'number',__('Select'), request()->number) !!}
                             </div>
                         </div>
-
 
                         <div class="form-group col-md-3">
                             <label> {{ __('Date Add From') }}</label>
@@ -88,28 +116,20 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-md-3">
-                            <label> {{ __('Supply Date To') }}</label>
-                            <div class="input-group">
 
-                                <span class="input-group-addon fa fa-calendar"></span>
-                                <input type="text" class="form-control datepicker" name="supply_date_to">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
+                        <div class=" form-group col-md-3">
                             <label for="date" class="control-label">{{__('Invoice type form')}}</label>
                             <div class="form-group">
 
-                                <div class="col-xs-6">
+                                <div class="col-xs-4">
                                     <div class="radio primary ">
-                                        <input type="radio" name="type_for" value="customer" id="customer_radio" checked
+                                        <input type="radio" name="type_for" value="customer" id="customer_radio"
                                                onclick="changeType()">
                                         <label for="customer_radio">{{__('Customer')}}</label>
                                     </div>
                                 </div>
 
-                                <div class="col-xs-6">
+                                <div class="col-xs-4">
                                     <div class="radio primary ">
                                         <input type="radio" name="type_for" value="supplier" id="supplier_radio"
                                                onclick="changeType()">
@@ -117,10 +137,19 @@
                                     </div>
                                 </div>
 
+                                <div class="col-xs-4">
+                                    <div class="radio primary ">
+                                        <input type="radio" name="type_for" value="supplier_customer" checked
+                                               id="supplier_customer"
+                                               onclick="changeType()">
+
+                                        <label for="supplier_customer">{{__('Together')}}</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="col-md-12" style="display: none;" id="supplier_select">
+                        <div class="form-group col-md-3 hide_clients" id="supplier_select">
                             <div class="form-group has-feedback">
                                 <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
                                 <div class="input-group">
@@ -130,7 +159,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-12" id="customer_select">
+                        <div class="form-group col-md-3 hide_clients" id="customer_select">
                             <div class="form-group has-feedback">
                                 <label for="inputStore" class="control-label">{{__('Customers')}}</label>
                                 <div class="input-group">
@@ -139,6 +168,34 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="form-group col-md-6">
+                            <label for="date" class="control-label">{{__('Invoice Type')}}</label>
+                            <div class="form-group">
+                                <div class="col-xs-4">
+                                    <div class="radio primary ">
+                                        <input type="radio" name="type" value="cash" id="cash">
+                                        <label for="cash">{{__('Cash')}}</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-4">
+                                    <div class="radio primary ">
+                                        <input type="radio" name="type" value="credit" id="credit">
+                                        <label for="credit">{{__('Credit')}}</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-4">
+                                    <div class="radio primary ">
+                                        <input type="radio" name="type" value="cash_credit" id="cash_credit" checked>
+                                        <label for="cash_credit">{{__('Together')}}</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
 
                     </div>
                     @include('admin.btns.btn_search')

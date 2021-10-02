@@ -124,6 +124,8 @@
                     searchData.bank_data_id = $("#bank_data_id").val();
                     searchData.country_id = $("#country_id").val();
                     searchData.city_id = $("#city_id").val();
+                    searchData.supply_number = $("#supply_number").val();
+                    searchData.sales_invoice_number = $("#sales_invoice_number").val();
                     return searchData;
                 },
                 processResults: function (response) {

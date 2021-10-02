@@ -10,7 +10,8 @@
         <nav>
             <ol class="breadcrumb" style="font-size: 37px; margin-bottom: 0px !important;padding:0px">
                 <li class="breadcrumb-item"><a href="{{route('admin:home')}}"> {{__('Dashboard')}}</a></li>
-                <li class="breadcrumb-item active"><a href="{{route('admin:concessions.index')}}"> {{__('Concessions')}}</a></li>
+                <li class="breadcrumb-item active"><a
+                        href="{{route('admin:concessions.index')}}"> {{__('Concessions')}}</a></li>
                 <li class="breadcrumb-item active"> {{__('Create Concessions')}}</li>
             </ol>
         </nav>
@@ -21,7 +22,7 @@
 
             <div class=" card box-content-wg-new bordered-all primary">
 
-            <h4 class="box-title with-control" style="text-align: initial"><i class="fa fa-gear"></i>
+                <h4 class="box-title with-control" style="text-align: initial"><i class="fa fa-gear"></i>
                     {{__('Create Concessions')}}
                     <span class="controls hidden-sm hidden-xs pull-left">
                       <button class="control text-white"
@@ -29,11 +30,13 @@
                       <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                            src="{{asset('assets/images/f1.png')}}">
                   </button>
-                        <button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;">
+                        <button class="control text-white"
+                                style="background:none;border:none;font-size:14px;font-weight:normal !important;">
                             {{__('Reset')}}
                             <img class="img-fluid" style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                                  src="{{asset('assets/images/f2.png')}}"></button>
-							<button class="control text-white"    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
+							<button class="control text-white"
+                                    style="background:none;border:none;font-size:14px;font-weight:normal !important;"> {{__('Back')}} <img
                                     class="img-fluid"
                                     style="width:40px;height:40px;margin-top:-15px;margin-bottom:-13px"
                                     src="{{asset('assets/images/f3.png')}}"></button>
@@ -42,7 +45,7 @@
 
                 <div class="box-content">
                     <form method="post" action="{{route('admin:concessions.store')}}" id="concession_form"
-                          class="form" enctype="multipart/form-data" >
+                          class="form" enctype="multipart/form-data">
                         @csrf
                         @method('post')
 
@@ -50,12 +53,13 @@
 
                         <div class="form-group col-sm-12">
 
-                            <button id="btnsave" type="button" class="btn hvr-rectangle-in saveAdd-wg-btn" onclick="store()">
+                            <button id="btnsave" type="button" class="btn hvr-rectangle-in saveAdd-wg-btn"
+                                    onclick="store()">
                                 <i class="ico ico-left fa fa-save"></i>
                                 {{__('Save')}}
                             </button>
 
-                            <button id="reset"  type="button" class="btn hvr-rectangle-in resetAdd-wg-btn">
+                            <button id="reset" type="button" class="btn hvr-rectangle-in resetAdd-wg-btn">
                                 <i class="ico ico-left fa fa-trash"></i>
                                 {{__('Reset')}}
                             </button>
@@ -88,8 +92,8 @@
                     </button>
 
                     <h4 class="modal-title" id="myModalLabel-1">
-                    <i class="fa fa-cubes"></i>
-                    {{__('Part Quantity')}}</h4>
+                        <i class="fa fa-cubes"></i>
+                        {{__('Part Quantity')}}</h4>
                 </div>
 
                 <div class="modal-body">
@@ -121,8 +125,6 @@
 
 @section('js-validation')
 
-{{--    {!! JsValidator::formRequest('App\Http\Requests\Admin\Concession\CreateRequest', '.form'); !!}--}}
-
     @include('admin.partial.sweet_alert_messages')
 
     <script type="application/javascript">
@@ -132,7 +134,7 @@
             window.location.href = "{{route('admin:concessions.create')}}" + "?branch_id=" + branch_id;
         }
 
-        function showSelectedTypes (type) {
+        function showSelectedTypes(type) {
 
             let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
@@ -148,14 +150,21 @@
 
                 data: {
                     _token: CSRF_TOKEN,
-                    type:type,
-                    branch_id:branch_id
+                    type: type,
+                    branch_id: branch_id
                 },
 
                 success: function (data) {
 
                     $("#concession_types").html(data.view);
                     $('.js-example-basic-single').select2();
+
+
+                    @if(request()->query('opening') && request()->query('concession_type'))
+                    let concessionType = '{{request()->query('concession_type')}}'
+                    $('#concession_type_id').val(concessionType).change();
+                    $('#disabled_concession_type').val($('#concession_type_id').find(':selected').text().replace(/\s/g, ''));
+                    @endif
                 },
 
                 error: function (jqXhr, json, errorThrown) {
@@ -166,11 +175,12 @@
             });
         }
 
-        function getDataByBranch () {
+        function getDataByBranch() {
 
             let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
-            let branch_id = $('#branch_id').find(":selected").val();;
+            let branch_id = $('#branch_id').find(":selected").val();
+            ;
 
             $('.remove_items').remove();
 
@@ -180,7 +190,7 @@
 
                 type = 'add';
 
-            }else {
+            } else {
 
                 type = 'withdrawal';
             }
@@ -193,8 +203,8 @@
 
                 data: {
                     _token: CSRF_TOKEN,
-                    branch_id:branch_id,
-                    type:type
+                    branch_id: branch_id,
+                    type: type
                 },
 
                 success: function (data) {
@@ -211,7 +221,7 @@
             });
         }
 
-        function getConcessionItems () {
+        function getConcessionItems() {
 
             let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
@@ -226,8 +236,8 @@
 
                 data: {
                     _token: CSRF_TOKEN,
-                    branch_id:branch_id,
-                    concession_type_id:concession_type_id
+                    branch_id: branch_id,
+                    concession_type_id: concession_type_id
                 },
 
                 success: function (data) {
@@ -236,6 +246,14 @@
 
                     $("#concession_items").html(data.view);
                     $('.js-example-basic-single').select2();
+
+                    @if(request()->query('opening') && request()->query('concession_type'))
+                    let concessionItem = '{{request()->query('opening')}}'
+                    $('#concession_item_id').val(concessionItem).change();
+
+                    $('#disabled_concession_item').val($('#concession_item_id').find(':selected').text().replace(/\s/g, ''));
+
+                    @endif
                 },
 
                 error: function (jqXhr, json, errorThrown) {
@@ -245,7 +263,7 @@
             });
         }
 
-        function getConcessionPartsData () {
+        function getConcessionPartsData() {
 
             let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
             let concession_item_id = $("#concession_item_id").val();
@@ -260,9 +278,9 @@
 
                 data: {
                     _token: CSRF_TOKEN,
-                    concession_item_id:concession_item_id,
-                    model:model,
-                    concession_type_id:concession_type_id
+                    concession_item_id: concession_item_id,
+                    model: model,
+                    concession_type_id: concession_type_id
                 },
 
                 success: function (data) {
@@ -283,13 +301,13 @@
             });
         }
 
-        function getPartImage (index) {
+        function getPartImage(index) {
 
             let image_path = $('#part_img_id_' + index).data('img');
             $('#part_image').attr('src', image_path);
         }
 
-        function showPartQuantity (part_id) {
+        function showPartQuantity(part_id) {
 
             let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
@@ -300,7 +318,7 @@
                 url: '{{route('admin:concessions.part.stores.quantity')}}',
 
                 data: {
-                    _token: CSRF_TOKEN, part_id:part_id
+                    _token: CSRF_TOKEN, part_id: part_id
                 },
 
                 success: function (data) {
@@ -335,7 +353,7 @@
             });
         }
 
-        function store () {
+        function store() {
 
             let CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
@@ -351,7 +369,7 @@
 
                     swal({text: data.message, icon: "success"});
 
-                    setTimeout(function(){
+                    setTimeout(function () {
                         window.location.href = data.link;
                     }, 2000);
                 },
@@ -363,6 +381,16 @@
             });
         }
 
+    </script>
+
+    {{-- Relay approach --}}
+    <script>
+
+        @if(request()->query('opening') && request()->query('concession_type'))
+
+        $('#add').click();
+
+        @endif
     </script>
 
 @endsection

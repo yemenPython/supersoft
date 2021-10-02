@@ -671,18 +671,65 @@ class SalesInvoicesController extends Controller
 
     private function filter(Request $request, Builder $data): Builder
     {
+
         return $data->where(function ($query) use ($request) {
 
-            if ($request->filled('branch_id')) {
-                $query->where('branch_id', $request->branch_id);
+            if ($request->filled('branchId')) {
+                $query->where('branch_id', $request->branchId);
             }
 
-            if ($request->filled('number')) {
-                $query->where('number', $request->number);
+            if ($request->filled('sales_invoice_number')) {
+                $query->where('id', $request->sales_invoice_number);
             }
 
-            if ($request->filled('type')) {
+            if ($request->filled('type') && $request->type != 'cash_credit') {
                 $query->where('type', $request->type);
+            }
+
+            if ($request->filled('invoice_type')) {
+                $query->where('invoice_type', $request->invoice_type);
+            }
+
+            if ($request->filled('supply_number')) {
+
+                $query->whereHas('saleSupplyOrders', function ($q) use($request) {
+                    $q->where('sale_supply_order_id', $request->supply_number);
+                });
+            }
+
+            if ($request->filled('number_quotation')) {
+
+                $query->whereHas('saleQuotations', function ($q) use($request) {
+                    $q->where('sale_quotation_id', $request->number_quotation);
+                });
+            }
+
+            if ($request->filled('date_add_from')) {
+                $query->whereDate('date', '>=', $request->date_add_from);
+            }
+
+            if ($request->filled('date_add_to')) {
+                $query->whereDate('date', '<=', $request->date_add_to);
+            }
+
+            if ($request->filled('supply_date_from')) {
+                $query->whereDate('supply_date_from', '>=', $request->supply_date_from);
+            }
+
+            if ($request->filled('supply_date_to')) {
+                $query->whereDate('supply_date_to', '<=', $request->supply_date_to);
+            }
+
+            if ($request->filled('type_for') &&  $request->type_for != 'supplier_customer' ) {
+                $query->where('type_for', $request->type_for);
+            }
+
+            if ($request->filled('type_for') && $request['type_for'] == 'customer' && $request->filled('customer_id')) {
+                $query->where('salesable_id', $request['customer_id']);
+            }
+
+            if ($request->filled('type_for') && $request['type_for'] == 'supplier' && $request->filled('supplier_id')) {
+                $query->where('salesable_id', $request['supplier_id']);
             }
 
         });

@@ -14,6 +14,7 @@
             </ol>
         </nav>
 
+        @include('admin.sale_supply_orders.search_form')
 
         <div class="col-xs-12">
             <div class="box-content card bordered-all js__card">
@@ -161,9 +162,6 @@
             }, 1000)
         }
 
-
-
-
         function getLibraryFiles(id) {
 
             $("#library_item_id").val(id);
@@ -292,6 +290,37 @@
             });
         }
 
+        function changeType () {
+
+            if ($('#customer_radio').is(':checked')) {
+
+                $('#supplier_select').hide();
+                $('#customer_select').show();
+
+                $('supplier_id').val('').change();
+
+            }else {
+
+                $('#supplier_select').show();
+                $('#customer_select').hide();
+
+                $('customer_id').val('').change();
+            }
+        }
+
+        function changeSupplyType () {
+
+            let supplyType = $('#supply_type').find(':selected').val();
+
+            if (supplyType == 'from_sale_quotation') {
+
+                $('#quotations_number').show();
+
+            }else {
+
+                $('#quotations_number').hide();
+            }
+        }
 
     </script>
 

@@ -91,4 +91,22 @@ class OpeningBalance extends Model
         }
         return self::$dataTableColumns;
     }
+
+    public function getConcessionTypeAttribute() {
+
+        $concessionTypeItem = ConcessionTypeItem::where('model', 'OpeningBalance')->first();
+
+        if (!$concessionTypeItem) {
+            return 0;
+        }
+
+        $firstType = $concessionTypeItem->concessionTypes->first();
+
+        if (!$firstType) {
+
+            return 0;
+        }
+
+        return $firstType->id;
+    }
 }
