@@ -128,6 +128,8 @@
                    data-salesable-id="{{$item->salesable_id}}"
 
                    data-can-relay-to-sales-invoice="{{ !$item->salesInvoices->count() && $item->status == 'finished' ? 1:0}}"
+
+                   data-reason-sales-invoice="{{ $item->reasonsPreventRelaying('toSalesInvoice') }}"
             >
 
             <label for="checkbox-{{$item->id}}"></label>

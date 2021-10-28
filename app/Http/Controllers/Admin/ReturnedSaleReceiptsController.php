@@ -479,6 +479,10 @@ class ReturnedSaleReceiptsController extends Controller
                 $query->where('id', $request->number);
             }
 
+            if ($request->filled('type')) {
+                $query->where('type', $request->type);
+            }
+
             if ($request->filled('supplier_id')) {
                 $query->where('supplier_id', $request->supplier_id);
             }

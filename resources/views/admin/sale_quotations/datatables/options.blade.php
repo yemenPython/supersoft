@@ -154,6 +154,9 @@
 
                    data-can-relay-sale-supply-order="{{$item->status == 'finished' ? 1:0}}"
                    data-can-relay-to-sales-nvoice="{{ !$item->salesInvoices->count() && $item->status == 'finished' ? 1:0}}"
+
+                   data-reasons-sale-supply-order="{{ $item->reasonsPreventRelaying('toSaleSupplyOrder') }}"
+                   data-reasons-sales-invoice="{{ $item->reasonsPreventRelaying('toSalesInvoice') }}"
             >
 
             <label for="checkbox-{{$item->id}}"></label>

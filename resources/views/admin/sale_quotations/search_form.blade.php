@@ -37,39 +37,49 @@
                             <label for="date" class="control-label">{{__('Invoice type form')}}</label>
                             <div class="form-group">
 
-                                <div class="col-xs-6">
+                                <div class="col-xs-4">
                                     <div class="radio primary ">
                                         <input type="radio" name="type_for" value="customer" id="customer_radio" checked onclick="changeType()">
                                         <label for="customer_radio">{{__('Customer')}}</label>
                                     </div>
                                 </div>
 
-                                <div class="col-xs-6">
+                                <div class="col-xs-4">
                                     <div class="radio primary ">
                                         <input type="radio" name="type_for" value="supplier" id="supplier_radio" onclick="changeType()">
                                         <label for="supplier_radio">{{__('Supplier')}}</label>
                                     </div>
                                 </div>
 
+                                <div class="col-xs-4">
+                                    <div class="radio primary ">
+                                        <input type="radio" name="type_for" value="supplier_customer" checked
+                                               id="supplier_customer"
+                                               onclick="changeType()">
+
+                                        <label for="supplier_customer">{{__('Together')}}</label>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
-                        <div class="col-md-5" style="display: none;" id="supplier_select">
+                        <div class="col-md-2" id="supplier_select">
                             <div class="form-group has-feedback">
                                 <label for="inputStore" class="control-label">{{__('Suppliers')}}</label>
                                 <div class="input-group">
                                     <span class="input-group-addon fa fa-user"></span>
-                                    {!! drawSelect2ByAjax('supplier_id','Supplier','name_'.app()->getLocale(),'name_'.app()->getLocale(),__('Select'),request()->supplier_id) !!}
+                                    {!! drawSelect2ByAjax('supplier_id','Supplier','name_'.app()->getLocale() . ',phone_1' ,'name_'.app()->getLocale().',phone_1',__('Select'),request()->supplier_id) !!}
                                 </div>
                             </div>
                         </div>
 
-                        <div class="col-md-5" id="customer_select">
+                        <div class="col-md-2" id="customer_select">
                             <div class="form-group has-feedback">
                                 <label for="inputStore" class="control-label">{{__('Customers')}}</label>
                                 <div class="input-group">
                                     <span class="input-group-addon fa fa-user"></span>
-                                    {!! drawSelect2ByAjax('customer_id','Customer','name_'.app()->getLocale(),'name_'.app()->getLocale(),__('Select'),request()->customer_id) !!}
+                                    {!! drawSelect2ByAjax('customer_id','Customer','name_'.app()->getLocale().',phone1','name_'.app()->getLocale().',phone1',__('Select'),request()->customer_id) !!}
                                 </div>
                             </div>
                         </div>

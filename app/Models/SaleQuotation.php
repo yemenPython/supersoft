@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Scopes\BranchScope;
+use App\Services\Relaying\RelayingPurchaseQuotation;
+use App\Services\Relaying\RelayingSaleQuotation;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -147,5 +149,12 @@ class SaleQuotation extends Model
     {
         return $this->belongsToMany(SaleSupplyOrder::class, 'sale_quotation_sale_supply_orders',
             'sale_quotation_id', 'supply_order_id');
+    }
+
+    public function reasonsPreventRelaying ($to) {
+
+        $obj = new RelayingSaleQuotation();
+
+        return $obj->$to($this);
     }
 }

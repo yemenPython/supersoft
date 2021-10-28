@@ -310,7 +310,10 @@
                 if ($(this).is(":checked")) {
 
                     if ($(this).data('can-relay-purchase-invoice') == 0) {
-                        ids_cant_to_relay.push($(this).data('receipt-number'))
+                        // ids_cant_to_relay.push($(this).data('receipt-number'))
+
+                        let number = $(this).data('receipt-number');
+                        ids_cant_to_relay[number] = ($(this).data('reason-purchase-invoice'))
                     }
 
                     checkbox_list.push($(this).val());
@@ -328,7 +331,9 @@
 
             if (ids_cant_to_relay.length != 0) {
 
-                swal("{{__('Error')}}", '{{__('sorry, this item not valid : ')}}' + ids_cant_to_relay.toString(), "error");
+                let  stringReasons = reasonsPreventRelaying(ids_cant_to_relay);
+
+                swal("{{__('Error')}}", '{{ __('sorry, this item not valid')}}' +'\n' + stringReasons, "error");
                 return false;
             }
 
@@ -376,7 +381,10 @@
                 if ($(this).is(":checked")) {
 
                     if ($(this).data('can-relay-purchase-return') == 0) {
-                        ids_cant_to_relay.push($(this).data('receipt-number'))
+                        // ids_cant_to_relay.push($(this).data('receipt-number'))
+
+                        let number = $(this).data('receipt-number');
+                        ids_cant_to_relay[number] = ($(this).data('reason-purchase-return'))
                     }
 
                     checkbox_list.push($(this).val());
@@ -394,7 +402,9 @@
 
             if (ids_cant_to_relay.length != 0) {
 
-                swal("{{__('Error')}}", '{{__('sorry, this item not valid : ')}}' + ids_cant_to_relay.toString(), "error");
+                let  stringReasons = reasonsPreventRelaying(ids_cant_to_relay);
+
+                swal("{{__('Error')}}", '{{ __('sorry, this item not valid')}}' +'\n' + stringReasons, "error");
                 return false;
             }
 
@@ -422,6 +432,23 @@
                 window.location.href = '{{url('/'). '/admin/purchase-returns/create?'}}' +
                     'p_receipts=' + checkbox_list + '&branch_id=' + branch_id + '&s_order=' + supply_orders
             }, 1000);
+        }
+
+        function reasonsPreventRelaying (ids_cant_to_relay) {
+
+            let stringReasons = '';
+
+            for (const property in ids_cant_to_relay) {
+
+                stringReasons += `-----------------------${property}----------------------` + `\n`
+
+                for (const i in ids_cant_to_relay[property]) {
+
+                    stringReasons += `${ids_cant_to_relay[property][i]}` + '\n'
+                }
+            }
+
+            return stringReasons;
         }
 
     </script>

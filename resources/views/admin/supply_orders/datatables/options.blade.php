@@ -118,7 +118,7 @@
 
                 @else
                     <a class="btn btn-approval-wg text-white hvr-radial-out">
-                        {{__('item not valid')}}
+                        {{__('item status not accept')}}
                     </a>
                 @endif
             </li>

@@ -12,7 +12,7 @@
             </ol>
         </nav>
 
-        @include('admin.purchase_receipts.search_form')
+        @include('admin.returned_sale_receipt.search_form')
 
 
         <div class="col-xs-12">

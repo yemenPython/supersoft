@@ -413,3 +413,4 @@ function required()
 {
     return '<span class="text-danger">*</span>';
 }
+

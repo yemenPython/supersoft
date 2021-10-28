@@ -29,7 +29,7 @@
                             <label> {{ __('Number') }} </label>
                             <div class="input-group">
                                 <span class="input-group-addon fa fa-file"></span>
-                                {!! drawSelect2ByAjax('number','PurchaseReceipt','number', 'number',__('Select'),request()->number) !!}
+                                {!! drawSelect2ByAjax('number','ReturnedSaleReceipt','number', 'number',__('Select'),request()->number) !!}
                             </div>
                         </div>
 
@@ -51,6 +51,18 @@
                             </div>
                         </div>
 
+                        <div class="form-group col-md-4">
+                            <label> {{ __('Type') }} </label>
+                            <div class="input-group">
+                                <span class="input-group-addon fa fa-file"></span>
+                                <select name="type" id="">
+                                    <option value=""> {{__('Select')}}</option>
+                                    <option value="from_invoice"> {{__('From Invoice')}}</option>
+                                    <option value="from_sale_quotation">{{__('From Sale Quotation')}}</option>
+                                    <option value="from_sale_supply_order">{{__('From Sale Supply Order')}}</option>
+                                </select>
+                            </div>
+                        </div>
 
                         <div class="form-group col-md-4">
                             <label> {{ __('Date Add From') }}</label>

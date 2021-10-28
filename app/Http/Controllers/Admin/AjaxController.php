@@ -34,6 +34,7 @@ use App\Models\PurchaseInvoice;
 use App\Models\PurchaseQuotation;
 use App\Models\PurchaseReceipt;
 use App\Models\PurchaseRequest;
+use App\Models\ReturnedSaleReceipt;
 use App\Models\SaleQuotation;
 use App\Models\SalesInvoice;
 use App\Models\SaleSupplyOrder;
@@ -297,6 +298,9 @@ class AjaxController extends Controller
                     break;
                 case 'SalesInvoice':
                     $data = $this->getSaleInvoices($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
+                    break;
+                case 'ReturnedSaleReceipt':
+                    $data = $this->getReturnedSaleReceipt($searchFields, $searchTerm, $selectedColumns, $limit, $branchId);
                     break;
                 default:
                     break;
@@ -868,12 +872,18 @@ class AjaxController extends Controller
         $suppliers = Supplier::select(DB::raw($selectedColumns));
 
         if (!empty($searchFields)) {
-            foreach ($searchFields as $searchField) {
-                if (!empty($searchTerm) && $searchTerm != '') {
-                    $suppliers = $suppliers->where($searchField, 'like', '%' . $searchTerm . '%');
+
+            $suppliers->where(function ($q) use($searchFields, $searchTerm) {
+
+                foreach ($searchFields as $searchField) {
+                    if (!empty($searchTerm) && $searchTerm != '') {
+                        $q->orWhere($searchField, 'like', '%' . $searchTerm . '%');
+                    }
                 }
-            }
+
+            });
         }
+
         if (!empty($branchId)) {
             $suppliers = $suppliers->where('branch_id', $branchId);
         }
@@ -1903,11 +1913,16 @@ class AjaxController extends Controller
         $items = Customer::select(DB::raw($selectedColumns));
 
         if (!empty($searchFields)) {
-            foreach ($searchFields as $searchField) {
-                if (!empty($searchTerm) && $searchTerm != '') {
-                    $items = $items->where($searchField, 'like', '%' . $searchTerm . '%');
+
+            $items->where(function ($q) use($searchFields, $searchTerm)  {
+
+                foreach ($searchFields as $searchField) {
+                    if (!empty($searchTerm) && $searchTerm != '') {
+
+                        $q->orWhere($searchField, 'like', '%' .$searchTerm.'%');
+                    }
                 }
-            }
+            });
         }
 
         if (!empty($branchId)) {
@@ -1998,6 +2013,41 @@ class AjaxController extends Controller
                 $items = $items->where('type', $this->quotation_type);
             }
 
+        }
+
+        $items = $items->limit($limit)->get();
+
+        foreach ($items as $item) {
+            $data[] = [
+                'id' => $item->id,
+                'text' => $this->buildSelectedColumnsAsText($item, $selectedColumns)
+            ];
+        }
+        return $data;
+    }
+
+    private function getReturnedSaleReceipt(array $searchFields, $searchTerm, $selectedColumns, $limit, $branchId)
+    {
+        $data = [];
+
+        $id = ' id ,';
+
+        if ($selectedColumns != '' && $selectedColumns != '*') {
+            $selectedColumns = $id . ' ' . $selectedColumns;
+        }
+
+        $items = ReturnedSaleReceipt::select(DB::raw($selectedColumns));
+
+        if (!empty($searchFields)) {
+            foreach ($searchFields as $searchField) {
+                if (!empty($searchTerm) && $searchTerm != '') {
+                    $items = $items->where($searchField, 'like', '%' . $searchTerm . '%');
+                }
+            }
+        }
+
+        if (!empty($branchId)) {
+            $items = $items->where('branch_id', $branchId);
         }
 
         $items = $items->limit($limit)->get();

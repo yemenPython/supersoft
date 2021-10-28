@@ -150,6 +150,7 @@
                    data-purchase-request="{{$item->purchase_request_id}}"
                    data-quotation-number="{{$item->number}}"
                    data-can-to-relay="{{!$item->supplyOrders->count() && $item->status == 'accepted' ? 1:0}}"
+                   data-reasons="{{ $item->reasonsPreventRelaying('toSupplyOrders') }}"
             >
 
             <label for="checkbox-{{$item->id}}"></label>

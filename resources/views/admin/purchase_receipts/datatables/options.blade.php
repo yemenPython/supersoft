@@ -138,6 +138,9 @@
                    data-supplier-id="{{$item->supplier_id}}"
                    data-can-relay-purchase-invoice="{{!$item->purchaseInvoices->count() && $item->concession && $item->concession->status == 'accepted' ? 1:0}}"
                    data-can-relay-purchase-return="{{$item->concession && $item->concession->status == 'accepted' ? 1:0}}"
+
+                   data-reason-purchase-invoice="{{ $item->reasonsPreventRelaying('toPurchaseInvoice') }}"
+                   data-reason-purchase-return="{{$item->reasonsPreventRelaying('toPurchaseReturn')}}"
             >
 
             <label for="checkbox-{{$item->id}}"></label>

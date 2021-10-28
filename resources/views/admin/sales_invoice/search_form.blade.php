@@ -107,15 +107,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group col-md-3">
-                            <label> {{ __('Supply Date From') }}</label>
-                            <div class="input-group">
-
-                                <span class="input-group-addon fa fa-calendar"></span>
-                                <input type="text" class="form-control datepicker" name="supply_date_from">
-                            </div>
-                        </div>
-
 
                         <div class=" form-group col-md-3">
                             <label for="date" class="control-label">{{__('Invoice type form')}}</label>

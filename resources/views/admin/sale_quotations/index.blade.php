@@ -476,12 +476,20 @@
 
                 $('supplier_id').val('').change();
 
-            }else {
+            }
+
+            if ($('#supplier_radio').is(':checked')) {
 
                 $('#supplier_select').show();
                 $('#customer_select').hide();
 
                 $('customer_id').val('').change();
+            }
+
+            if ($('#supplier_customer').is(':checked')) {
+
+                $('#supplier_select').show();
+                $('#customer_select').show();
             }
         }
 
@@ -503,7 +511,10 @@
                 if ($(this).is(":checked")) {
 
                     if ($(this).data('can-relay-sale-supply-order') == 0) {
-                        ids_cant_to_relay.push($(this).data('quotation-number'))
+                        // ids_cant_to_relay.push($(this).data('quotation-number'))
+
+                        let number = $(this).data('quotation-number');
+                        ids_cant_to_relay[number] = ($(this).data('reasons-sale-supply-order'))
                     }
 
                     checkbox_list.push($(this).val());
@@ -521,7 +532,8 @@
 
             if (ids_cant_to_relay.length != 0) {
 
-                swal("{{__('Error')}}", '{{__('sorry, this item not valid : ')}}' + ids_cant_to_relay.toString(), "error");
+                let  stringReasons = reasonsPreventRelaying(ids_cant_to_relay);
+                swal("{{__('Error')}}", '{{ __('sorry, this item not valid')}}' +'\n' + stringReasons, "error");
                 return false;
             }
 
@@ -570,7 +582,10 @@
                 if ($(this).is(":checked")) {
 
                     if ($(this).data('can-relay-to-sales-nvoice') == 0) {
-                        ids_cant_to_relay.push($(this).data('quotation-number'))
+                        // ids_cant_to_relay.push($(this).data('quotation-number'))
+
+                        let number = $(this).data('quotation-number');
+                        ids_cant_to_relay[number] = ($(this).data('reasons-sales-invoice'))
                     }
 
                     checkbox_list.push($(this).val());
@@ -588,7 +603,8 @@
 
             if (ids_cant_to_relay.length != 0) {
 
-                swal("{{__('Error')}}", '{{__('sorry, this item not valid : ')}}' + ids_cant_to_relay.toString(), "error");
+                let  stringReasons = reasonsPreventRelaying(ids_cant_to_relay);
+                swal("{{__('Error')}}", '{{ __('sorry, this item not valid')}}' +'\n' + stringReasons, "error");
                 return false;
             }
 
@@ -622,6 +638,23 @@
                 window.location.href = '{{url('/'). '/admin/sales-invoices/create?'}}' +
                     'quotations=' + checkbox_list + '&branch_id=' + branch_id + '&type=' + type + '&invoice_type=' + invoice_type
             }, 1000);
+        }
+
+        function reasonsPreventRelaying (ids_cant_to_relay) {
+
+            let stringReasons = '';
+
+            for (const property in ids_cant_to_relay) {
+
+                stringReasons += `-----------------------${property}----------------------` + `\n`
+
+                for (const i in ids_cant_to_relay[property]) {
+
+                    stringReasons += `${ids_cant_to_relay[property][i]}` + '\n'
+                }
+            }
+
+            return stringReasons;
         }
 
     </script>

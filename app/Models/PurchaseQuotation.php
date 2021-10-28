@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Scopes\BranchScope;
+use App\Services\Relaying\RelayingPurchaseQuotation;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -125,5 +126,12 @@ class PurchaseQuotation extends Model
             unset(self::$dataTableColumns['branch_id']);
         }
         return self::$dataTableColumns;
+    }
+
+    public function reasonsPreventRelaying ($to) {
+
+        $obj = new RelayingPurchaseQuotation();
+
+        return $obj->$to($this);
     }
 }

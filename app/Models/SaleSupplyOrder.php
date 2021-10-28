@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Services\Relaying\RelayingPurchaseQuotation;
+use App\Services\Relaying\RelayingSaleSupplyOrder;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -136,5 +138,12 @@ class SaleSupplyOrder extends Model
         }
 
         return true;
+    }
+
+    public function reasonsPreventRelaying ($to) {
+
+        $obj = new RelayingSaleSupplyOrder();
+
+        return $obj->$to($this);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\Relaying\RelayingPurchaseReceipts;
 use Illuminate\Database\Eloquent\Model;
 
 class PurchaseReceipt extends Model
@@ -86,5 +87,12 @@ class PurchaseReceipt extends Model
             unset(self::$dataTableColumns['branch_id']);
         }
         return self::$dataTableColumns;
+    }
+
+    public function reasonsPreventRelaying ($to) {
+
+        $obj = new RelayingPurchaseReceipts();
+
+        return $obj->$to($this);
     }
 }
